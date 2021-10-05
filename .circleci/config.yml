@@ -1,7 +1,8 @@
 version: 2.1
 orbs:
-    hello: circleci/hello-build@0.0.5
+  cypress: cypress-io/cypress@1
 workflows:
-    "Hello Load Test":
-        jobs:
-          - hello/hello-build
+  build:
+    jobs:
+      - cypress/run:
+
