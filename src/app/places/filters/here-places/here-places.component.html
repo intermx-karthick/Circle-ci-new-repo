@@ -1,0 +1,44 @@
+<div class="audit-map-here-places" *ngIf="isCollapseHerePlace" title="Expand the places list">
+  <mat-icon (click)="collapseHerePlace()">filter_list</mat-icon>
+</div> 
+<div class="here-places-card" *ngIf="!isCollapseHerePlace">
+  <div class="heading">
+    <mat-icon class="close-here-places" (click)="collapseHerePlace()" title="Collapse the places list">keyboard_arrow_left</mat-icon>
+    <h4>Places List</h4>
+    <span fxFlex="1 1 auto"></span>
+    <mat-icon class="close-here-places" (click)="closePlases()">close</mat-icon>
+  </div>
+  <div class="here-places-body" [ngStyle]="{'height.px': contentHeight}" (window:resize)="onResize()">
+    <div *ngIf="isLoadingPlaceData" fxLayout="row" fxLayoutAlign="center center">
+      <h5>Searching places...</h5>
+    </div>
+    <div *ngIf="!isLoadingPlaceData && searchedPlaces.length<1" fxLayout="row" fxLayoutAlign="center center">
+      <h5>No data found</h5>
+    </div>
+    <mat-card class="mat-elevation-z0" *ngIf="!isLoadingPlaceData && searchedPlaces.length >= 1">
+      <mat-card-title class="place_count">We found ({{searchedPlaces.length}}) matches for this place</mat-card-title>
+    </mat-card>
+    <mat-card  class="mat-elevation-z0" *ngFor="let place of searchedPlaces">
+      <mat-card-header fxLayout="row" class="width100">
+        <mat-card-title fxFlex="70">{{place.location_name}}</mat-card-title>
+        <mat-card-title fxFlex="30" class="safegraph_id" title="{{place.ids['safegraph_place_id']}}">{{place.ids['safegraph_place_id']}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{place.address.street_address && place.address.street_address }} ,
+          {{place.address.city && place.address.city}} , {{place.address.state && place.address.state}},
+          {{place.address.zip_code && place.address.zip_code}}</p>
+        <p>{{place.top_category}}</p>
+      </mat-card-content>
+      <mat-card-actions class="acction-check">
+        <div>
+          <!-- <p>98% Match</p> -->
+        </div>
+        <span fxFlex="1 1 auto"></span>
+        <div>
+            <button mat-raised-button color="primary" (click)=onSelectPlace(place)>CONFIRM</button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+
+  </div>
+</div>

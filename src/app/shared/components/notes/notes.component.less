@@ -1,0 +1,46 @@
+.note-form-main{
+  width:100%;
+}
+
+::ng-deep{
+  app-notes{
+    .cke_toolbox {
+      .cke_button__numberedlist::after {
+          border: unset !important;
+      }
+      .cke_toolbar_last {
+          float: right !important;
+      }
+    }
+    
+    .note-link{
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0.15px;
+    }
+    .note-actions-main{
+      min-height:3rem;
+    }
+  }
+  .editorLabel {
+    .mat-form-field-label {
+      top: 0px !important;
+    }
+  }
+  .add-note-position {
+    align-items: start !important;
+    .add-note-btn {
+      margin-top: 1rem;
+    }
+  }
+  .notesTextAreaLabel {
+    .mat-form-field-label-wrapper {
+      top: unset !important;
+    }
+    textarea {
+      resize: none !important;
+    }
+  }
+}

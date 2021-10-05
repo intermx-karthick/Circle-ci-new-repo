@@ -1,0 +1,60 @@
+@import "../../../../assets/css/variables.less";
+::ng-deep{
+  app-load-save-view{
+    h5{
+      margin: 5px 0px 10px;
+    }
+    mat-form-field{
+      width: 100%;
+    }
+    .retrieve-view-title {
+      color: var(--medium-emphasis);
+      letter-spacing: 0.2px;
+      font-size: 12px;
+      font-weight: 300;
+    }
+    mat-list{
+      max-width: 100%;
+      max-height: calc(100vh - 442px);
+      overflow: auto;
+      .mat-radio-label-content{
+        font-size: 13px;
+        font-weight: 300;
+        letter-spacing: 0.17px;
+        line-height: 19px;
+      }
+      mat-list-item:hover {
+        box-shadow: none;
+      }
+      .mat-list-item-content{
+        .mat-radio-button{
+          line-height: 48px;
+        }
+      }
+      label{
+        width: 100%;
+      }
+      .action-icon{
+        cursor: pointer;
+        margin-right: 10px;
+        mat-icon{
+          font-size: 18px;
+          height: 18px;
+          color: var(--medium-emphasis);      
+        }
+      }
+
+    }
+    .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+      border-color: var(--button-bg-color);
+    }
+    .mat-radio-button.mat-accent .mat-radio-inner-circle {
+      background-color: var(--button-bg-color);
+    }
+    @media @all-devices-under-768 {
+      mat-list{
+        max-height: 100px;
+      }
+    } 
+  }
+}

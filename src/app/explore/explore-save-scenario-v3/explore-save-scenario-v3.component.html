@@ -1,0 +1,90 @@
+<form method="post" class="noAnimation imx-project-form" [formGroup]="scenarioForm" novalidate autocomplete="off"
+  (submit)="onSubmit(scenarioForm)">
+  <h4 mat-dialog-title>Save as New {{workFlowLabels.scenario[0]}}</h4>
+  <button mat-icon-button mat-dialog-close class="mat-dialog-close">
+    <mat-icon>highlight_off</mat-icon>
+  </button>
+  <mat-dialog-content>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+      <mat-form-field class="imx-input" floatLabel="always" fxFlex="110px">
+        <mat-label>{{workFlowLabels.scenario[0]}} Type</mat-label>
+        <mat-select formControlName="type">
+          <mat-option value="MP">Market Plan</mat-option>
+          <mat-option value="IP">Inventory Plan</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="imx-input" floatLabel="always" fxFlex="310px">
+        <mat-label>{{workFlowLabels.scenario[0]}} Name (Optional)</mat-label>
+        <input matInput formControlName="name" />
+        <mat-error *ngIf="scenarioForm?.controls?.name?.errors?.name_exists">
+          <span>{{workFlowLabels.scenario[0]}} name already exists in this project.</span>
+        </mat-error>
+        <mat-error *ngIf="!scenarioForm.controls.name?.errors?.required && scenarioForm?.controls?.name?.errors?.whitespace">
+          <span>Invalid {{workFlowLabels.scenario[0]}} name.</span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <!-- <mat-form-field class="imx-input" floatLabel="always">
+      <mat-label>{{workFlowLabels.scenario[0]}} Description (Optional)</mat-label>
+      <input matInput formControlName="description" />
+    </mat-form-field> -->
+
+    <mat-form-field floatLabel="always" class="project-list-text">
+      <mat-label>{{workFlowLabels.project[0]}} (Optional)</mat-label>
+      <input
+        type="text"
+        #projectInputRef
+        matInput
+        placeholder="{{workFlowLabels.project[0]}}"
+        [matAutocomplete]="projectList"
+        formControlName="project"
+        class="imx-input-no-border"
+      />
+      <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+      <mat-autocomplete #projectList="matAutocomplete" (opened)="updateContainer()" class="project-list-autocomplete"
+        infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+        [infiniteScrollDisabled]="disableProjectPagination" (scrolled)="loadMoreWithSearch()" [scrollWindow]="false"
+        [infiniteScrollContainer]="panelContainer" [fromRoot]="true" [displayWith]="displayTitle">
+        <mat-option class="special-button" (click)="createNewProject();">
+          <mat-icon>add</mat-icon>New {{workFlowLabels.project[0]}}
+        </mat-option>
+        <span *ngFor="
+                  let project of filteredProjects;let i = index;
+                  trackBy: projectTrackByFn
+                ">
+          <mat-option [ngClass]="{sandboxHighlight: i===0}" [value]="project" tooltip="{{project.name}}"
+            placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+            <span [innerHTML]="
+                    project.name | imx_highlight: projectInputRef.value
+                    "></span>
+          </mat-option>
+          <mat-divider class="marginLftRit" *ngIf="i===0"></mat-divider>
+        </span>
+        <mat-option disabled *ngIf="projectListLoading">
+          <div fxLayout="row" fxLayoutAlign="space-around center">
+            <mat-spinner diameter="35"></mat-spinner>
+          </div>
+        </mat-option>
+        <mat-option disabled *ngIf="!projectListLoading && filteredProjects.length <= 0">
+          No {{workFlowLabels.project[0]}} found.
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error
+        *ngIf="scenarioForm.controls.project.invalid && ((scenarioForm.controls.project?.errors?.type || '') !== 'projectNotSelcted')">
+        <span>{{nameValidError}}</span>
+      </mat-error>
+      <mat-error *ngIf="((scenarioForm.controls.project?.errors?.type || '') === 'projectNotSelcted')">
+        <span>{{scenarioForm.controls?.project?.errors?.message}}</span>
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions  fxLayout="row" fxLayoutAlign="space-between center">
+    <!-- <button mat-button mat-dialog-close class="imx-button-basic">Cancel</button> -->
+    <button type="submit" mat-raised-button class="imx-button-stroked"  [disabled] = "generatingBtn">
+      {{ (generatingBtn && !isForGotoScenario) ? 'Generating' : 'SAVE & EXPLORE'}}
+    </button>
+    <button type="button"  mat-raised-button class="imx-button-primary" (click)="saveAndGoToScenario()"  [disabled] = "generatingBtn">
+      {{ (generatingBtn && isForGotoScenario) ? 'Generating' : ('SAVE & GO TO ' + workFlowLabels.scenario[0] | uppercase)}} </button>
+
+  </mat-dialog-actions>
+</form>

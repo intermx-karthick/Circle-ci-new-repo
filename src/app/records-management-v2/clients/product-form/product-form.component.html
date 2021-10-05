@@ -1,0 +1,259 @@
+<form [formGroup]="productForm" #productFormRef="ngForm">
+  <div class="c-product-form">
+    <section fxLayout="row wrap" fxLayoutGap="1rem" fxLayoutAlign="start center">
+      <mat-form-field fxFlex="7rem" class="imx-input">
+        <mat-label>Product Code</mat-label>
+        <input formControlName="productCode" matInput autocomplete="off" required maxlength="5"/>
+        <mat-error *ngIf="productForm.controls['productCode']?.errors?.required">
+          Product Code is required.
+        </mat-error>
+        <mat-error *ngIf="!productForm.controls['productCode']?.errors?.required && productForm.controls['productCode']?.errors?.whitespace">
+          <span>Invalid Product Code.</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="14.063rem" class="imx-input">
+        <mat-label>Product Name</mat-label>
+        <input formControlName="productName" matInput autocomplete="off" required/>
+        <mat-error *ngIf="productForm.controls['productName']?.errors?.required">Product Name is required.
+        </mat-error>
+        <mat-error
+          *ngIf="!productForm.controls['productName']?.errors?.required && productForm.controls['productName']?.errors?.whitespace">
+          <span>Invalid Product name.</span>
+        </mat-error>
+      </mat-form-field>
+
+      <div class="client-form__field" fxFlex="20" fxLayoutAlign="start center">
+        <mat-checkbox class="imx-checkbok" formControlName="oiProduct"> OI Product</mat-checkbox>
+      </div>
+    </section>
+
+    <section class="product-form__billing-block" fxLayout="row wrap" fxLayoutAlign="start start" >
+      <div fxFlex="50">
+        <mat-label class="label-heading">Billing</mat-label>
+        <section formGroupName="billing" fxLayout="row wrap" fxLayoutGap="1rem">
+          <div class="client-form__field">
+            <mat-form-field class="imx-input imx-dropdown" fxFlex="7.18rem">
+              <mat-label>Fee Basis</mat-label>
+              <mat-select
+                formControlName="feeBasis"
+                [panelClass]="'imx-select'"
+                [class.placeholder-default]="productForm['controls']['billing']['controls'].feeBasis.value==''" backdropClass="outside-scroll-hide">
+                <mat-option *ngIf="billingFeeBasis.length" [value]="null">Select Fee Basis</mat-option>
+                <mat-option *ngFor="let basis of billingFeeBasis" [value]="basis?._id">{{basis.name}}</mat-option>
+                <mat-option disabled *ngIf="billingFeeBasis?.length <= 0">
+                  No Records Found.
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="client-form__field">
+            <mat-form-field fxFlex="3.938rem" class="imx-input error-field-width"  [ngClass] = "{'error-relative-width' : ((productForm['controls']['billing']['controls']?.media?.errors?.min || productForm['controls']['billing']['controls']?.media?.errors?.max) && productForm['controls']['billing']['controls'].commissionBasis?.invalid)}">
+              <mat-label>Media %</mat-label>
+              <input
+                matInput
+                appNumberOnly
+                autocomplete="off"
+                formControlName="media"
+              />
+              <mat-error *ngIf="!!productForm['controls']['billing']['controls']?.media?.errors?.min">Media % must be a number greater than or equal to 1
+              </mat-error>
+              <mat-error
+                *ngIf="!productForm['controls']['billing']['controls']?.media?.errors?.min && !!productForm['controls']['billing']['controls']?.media?.errors?.max">
+                Media % must be in between 1 and 100
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="client-form__field">
+            <mat-form-field class="imx-input imx-dropdown" fxFlex="8.938rem">
+              <mat-label>Commission Basis</mat-label>
+              <mat-select
+                formControlName="commissionBasis"
+                [panelClass]="'imx-select'"
+                [class.placeholder-default]="productForm['controls']['billing']['controls'].commissionBasis.value==''"
+              >
+              <mat-option *ngIf="billingCommissionBasis.length" [value]="null">Select Commission Basis</mat-option>
+                <mat-option *ngFor="let basis of billingCommissionBasis"
+                            [value]="basis?._id">{{basis.name}}</mat-option>
+                <mat-option disabled *ngIf="billingCommissionBasis?.length <= 0">
+                  No Records Found.
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="productForm['controls']['billing']['controls'].commissionBasis?.invalid">Commission basis is required</mat-error>
+            </mat-form-field>
+          </div>
+        </section>
+      </div>
+
+      <div fxFlex="50">
+        <mat-label class="label-heading">OOH REVENUE</mat-label>
+        <section formGroupName="oohRevenue" fxLayout="row wrap" fxLayoutGap="1rem">
+          <div class="client-form__field">
+            <mat-form-field class="imx-input imx-dropdown" fxFlex="7.18rem">
+              <mat-label>Fee Basis</mat-label>
+              <mat-select
+                formControlName="feeBasis"
+                [panelClass]="'imx-select'"
+                [class.placeholder-default]="productForm['controls']['oohRevenue']['controls'].feeBasis.value==''"
+              >
+                <mat-option *ngIf="billingFeeBasis.length" [value]="null">Select Fee Basis</mat-option>
+                <mat-option *ngFor="let basis of billingFeeBasis" [value]="basis?._id">{{basis.name}}</mat-option>
+                <mat-option disabled *ngIf="billingFeeBasis?.length <= 0">
+                  No Records Found.
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="client-form__field">
+            <mat-form-field fxFlex="3.938rem" class="imx-input error-field-width"  [ngClass] = "{'error-relative-width' : ((productForm['controls']['oohRevenue']['controls']?.media?.errors?.min || productForm['controls']['oohRevenue']['controls']?.media?.errors?.max) && productForm['controls']['oohRevenue']['controls'].commissionBasis?.invalid)}">
+              <mat-label>Media %</mat-label>
+              <input
+                matInput
+                appNumberOnly
+                autocomplete="off"
+                formControlName="media"
+              />
+              <mat-error *ngIf="!!productForm['controls']['oohRevenue']['controls']?.media?.errors?.min">Media % must be a number greater than or equal to 1
+              </mat-error>
+              <mat-error
+                *ngIf="!productForm['controls']['oohRevenue']['controls']?.media?.errors?.min && !!productForm['controls']['oohRevenue']['controls']?.media?.errors?.max">
+                Media % must be in between 1 and 100
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="client-form__field">
+            <mat-form-field class="imx-input imx-dropdown" fxFlex="8.938rem">
+              <mat-label>Commission Basis</mat-label>
+              <mat-select
+                formControlName="commissionBasis"
+                [panelClass]="'imx-select'"
+                [class.placeholder-default]="productForm['controls']['oohRevenue']['controls'].commissionBasis.value==''"
+              >
+                <mat-option *ngIf="billingCommissionBasis.length" [value]="null">Select Commission Basis</mat-option>
+                <mat-option *ngFor="let basis of billingCommissionBasis"
+                            [value]="basis?._id">{{basis.name}}</mat-option>
+                <mat-option disabled *ngIf="billingCommissionBasis?.length <= 0">
+                  No Records Found.
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="productForm['controls']['oohRevenue']['controls'].commissionBasis?.invalid">Commission basis is required</mat-error>
+            </mat-form-field>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section fxLayoutGap="1rem" fxLayout="row wrap" fxLayoutAlign="start center">
+
+      <mat-form-field *ngIf="productForm['controls'].billingCompany as billingCompanyField" class="imx-dropdown imx-input details-mat-form-field" fxFlex="8.398rem" tooltip="{{productForm['controls'].billingCompany.value?.name ?.length>10 ? productForm['controls'].billingCompany.value?.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+        <mat-label>Billing Company</mat-label>
+        <input
+          type="text"
+          #companyInputRef
+          matInput
+          (click)="companyAutoCompleteTrigger.openPanel()"
+          [matAutocomplete]="companiesList"
+          formControlName="billingCompany"
+          class="imx-input-no-border"
+        />
+        <mat-icon svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon"
+                  [class.disabled]="!productForm.controls.billingCompany.value?._id"
+                  (click)="$event.stopPropagation();tabLinkHandler(billingCompanyField.value?.organizationType, billingCompanyField.value?.organizationTypeId)" matSuffix></mat-icon>
+        <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+        <mat-autocomplete
+          #companiesList="matAutocomplete"
+          (opened)="updateCompanyContainer()"
+          class="autocomplete-scroll imx-autocomplete-dropdown"
+          panelWidth="230px"
+          [displayWith]="companyDisplayWithFn"
+          (optionSelected)="onCompanySelection($event)"
+        >
+          <div class="billing-company-list-autocomplete"
+            infiniteScroll
+            [infiniteScrollDistance]="1"
+            [infiniteScrollThrottle]="0"
+            [infiniteScrollDisabled]="billingCompanyAutoComplete.data?.length >= billingCompanyAutoComplete?.pagination?.total"
+            (scrolled)="billingCompanyAutoComplete.loadMoreData(null, null)"
+            [scrollWindow]="false"
+            [infiniteScrollContainer]="panelCompanyContainer"
+            [fromRoot]="true"
+            [immediateCheck]="false"
+            [alwaysCallback]="false"
+          >
+            <mat-option [value]="null" class="hide-selected-tick">Select Billing Company</mat-option>
+            <mat-option *ngFor="let company of billingCompanyAutoComplete.data;trackBy: companyTrackByFn"
+                        [class.mat-selected]="selectedBillingCompany?._id == company._id"
+                        [value]="company"
+                        tooltip="{{company.name?.length >10 ? company.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+              <span [innerHTML]="company.name | imx_highlight: companyInputRef.value"></span>
+            </mat-option>
+
+            <mat-option disabled *ngIf="billingCompanyAutoComplete.isLoading ">
+              <div fxLayout="row" fxLayoutAlign="space-around center">
+                <mat-spinner diameter="20"></mat-spinner>
+              </div>
+            </mat-option>
+
+            <mat-option disabled
+                        *ngIf="!billingCompanyAutoComplete.isLoading  && billingCompanyAutoComplete.data?.length <= 0">
+              Invalid Entry.
+            </mat-option>
+          </div>
+        </mat-autocomplete>
+        <mat-error class="small-font" *ngIf="productForm['controls'].billingCompany.hasError('invalid')">
+          Please select from the drop down list.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="productForm['controls'].billingContact as billingContactField" class="imx-input imx-dropdown client-form__select details-mat-form-field" fxFlex="9.398rem">
+        <mat-label>Billing Contact</mat-label>
+        <mat-icon svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon for-mat-select"
+                  [class.disabled]="(!productForm.controls.billingCompany.value?._id || !productForm.controls.billingContact.value)"
+                  (click)="$event.stopPropagation();tabLinkHandler('Contact', billingContactField.value)" matSuffix></mat-icon>
+
+        <mat-select #billingContactRef (selectionChange)="getBillingContactText()" [panelClass]="contactPanelClass" formControlName="billingContact"
+                    [class.placeholder-default]="productForm['controls'].billingContact.value==''"
+                    tooltip="{{isBillingCompanySelected && billingContactTooltipText?.length > 10 ? billingContactTooltipText : ''}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                    >
+          <div class="mat-select-panel__wrapper" infiniteScroll
+               (scrolled)="billingContactsProvider.loadMoreData(null,null)"
+               [scrollWindow]="false"
+               [infiniteScrollDistance]="1"
+               [infiniteScrollThrottle]="0"
+               [fromRoot]="true">
+          <mat-option *ngIf="isBillingCompanySelected" (click)="createContact();billingContactRef.close()" class="divider-option" disabled > <mat-icon>add</mat-icon> Create Contact</mat-option>
+          <mat-option *ngIf="!billingContactsProvider.isLoading && billingContactsProvider?.data?.length" [value]="null">Select Billing Contact</mat-option>
+          <mat-option *ngFor="let contact of billingContactsProvider.data"
+                      [value]="contact?._id"
+                      (onSelectionChange)="selectBillingContact($event, contact)"
+                      tooltip="{{contact['firstName']}} {{contact['lastName']}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+            {{contact['firstName']}} {{contact['lastName']}}
+          </mat-option>
+          <mat-option disabled *ngIf="billingContactsProvider.isLoading">
+            <div fxLayout="row" fxLayoutAlign="space-around center">
+              <mat-spinner diameter="20"></mat-spinner>
+            </div>
+          </mat-option>
+          <mat-option disabled
+                      *ngIf="!billingContactsProvider.isLoading && billingContactsProvider.data?.length <=0 && !isBillingCompanySelected" class="primary-color">
+            Please select Billing Company first
+          </mat-option>
+          <mat-option disabled
+                      *ngIf="!billingContactsProvider.isLoading && billingContactsProvider.data?.length <=0 && isBillingCompanySelected">
+            No Records Found.
+          </mat-option>
+          </div>
+        </mat-select>
+      </mat-form-field>
+    </section>
+
+    <section>
+    <app-organiazation-view [company]="selectedBillingContact" [style.visibility]="selectedBillingContact?'visible':'hidden'"></app-organiazation-view>
+    </section>
+  </div>
+</form>
+

@@ -1,0 +1,12 @@
+
+<div class="top-container">
+    <!-- <app-header></app-header> -->
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav  mode="side" [fixedInViewport]="true" [fixedTopGap]="headerHeight" opened class="mobile-view-mat-sidenav left-nav" [disableClose]="true">
+      <app-left-nav-bar></app-left-nav-bar>
+      </mat-sidenav>
+      <mat-sidenav-content class="main-sidenav-content">
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

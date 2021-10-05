@@ -1,0 +1,39 @@
+@import "../../../assets//css/variables.less";
+.map-popup {
+  width: 325px;
+  height: 150px;
+  .popup-header {
+    position: relative;
+    top: 0;
+    h4 {
+      position: relative;
+      left: 10px;
+      margin-block-end: unset;
+    }
+  }
+  .popup-content {
+    .label {
+      font-size: 15px;
+      font-weight: 600;
+    }
+  }
+  .popup-footer {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    .btn-primary-color {
+      background: var(--button-bg-color) !important;
+      border-radius: 4px !important;
+      color: #ffffff;
+      height: 27px;
+      line-height: 27px;
+    }
+    .btn-primary-disabled {
+      background: var(--primary-bg-300) !important;
+      border-radius: 4px !important;
+      color: #ffffff;
+      height: 27px;
+      line-height: 27px;
+    }
+  }
+}

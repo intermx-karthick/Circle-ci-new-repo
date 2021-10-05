@@ -1,0 +1,76 @@
+<div *ngIf="!isOnlyOperatorFilter">
+  <mat-accordion [displayMode]="'flat'" class="imx-expansion-panel enableHeaderBorder">
+  <!-- Media & Placement -->
+  <mat-expansion-panel class="mat-elevation-z0 " hideToggle="true" #MediaPlacement (click)="onExpandMediaPlacement(MediaPlacement, MediaPlacement)" [expanded]="MediaPlacementPanelOpen" (opened)="MediaPlacementPanelOpen = true">
+    <mat-expansion-panel-header expandedHeight="48px">
+      <mat-panel-title>
+        <mat-icon>{{ MediaPlacement.expanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+        Media & Placement
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="media-expanded-padding">
+      <app-media-types-filter-builder-w3 [moduleName]="'project'" [mediaTypeFilters]="mediaTypeFilters$"  [mediaTypesDataForEdit]="mediaTypesDataForEdit"
+        (dialogPopupState)="setMediaTypeData($event)" [includeType] = "includeType"></app-media-types-filter-builder-w3>
+    </div>
+  </mat-expansion-panel>
+
+  <!-- Media Attributes -->
+  <mat-expansion-panel class="mat-elevation-z0" hideToggle="true" hideToggle="true" #mediaAttribute (click)="onExpandMediaPlacement(MediaPlacement, mediaAttribute)" [expanded]="mediaAttributePanelOpen" (opened)="mediaAttributePanelOpen = true">
+    <mat-expansion-panel-header expandedHeight="48px">
+      <mat-panel-title>
+        <mat-icon>{{ mediaAttribute.expanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+        Media Attributes
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div>
+      <app-media-attribute-dialog [moduleName]="'project'" [appliedMediaAttributes] ="mediaAttributes$" (applyMediaAttribute)="applyMediaAttribute($event)" class="project-media-attribute"></app-media-attribute-dialog>
+    </div>
+  </mat-expansion-panel>
+
+  <!-- TODO - have to remove it once approved the new separate section for operator -->
+  <!-- Operators -->
+  <!-- <mat-expansion-panel class="mat-elevation-z0" hideToggle="true" hideToggle="true" #operator (click)="onExpandMediaPlacement(MediaPlacement)" *ngIf="operatorModulePermission && !hideOperatorFilter" >
+    <mat-expansion-panel-header expandedHeight="48px">
+      <mat-panel-title>
+        <mat-icon>{{ operator.expanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+        Operators
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div>
+      <app-operator-widget-dialog-w3 [moduleName]="'project'" [operatorsData]="operatorsData" (applyOperators)="applyOperators($event)"  [includeType] = "includeType"></app-operator-widget-dialog-w3>
+    </div>
+  </mat-expansion-panel> -->
+
+  <!-- Location -->
+  <mat-expansion-panel class="mat-elevation-z0" hideToggle="true" hideToggle="true" *ngIf="showInventoryFilters" #location (click)="onExpandMediaPlacement(MediaPlacement, location)" [expanded]="locationPanelOpen" (opened)="locationPanelOpen = true">
+    <mat-expansion-panel-header expandedHeight="48px">
+      <mat-panel-title>
+        <mat-icon>{{ location.expanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+        Locations
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div>
+      <app-location-selection-w3 [moduleName]="'project'" [locationData]="locationData" (applyLocation)="applyLocation($event)" (removeLocation)="removeLocation($event)"></app-location-selection-w3>
+    </div>
+  </mat-expansion-panel>
+
+  <!-- Thresholds -->
+  <mat-expansion-panel class="mat-elevation-z0" hideToggle="true" hideToggle="true" #threshold (click)="onExpandMediaPlacement(MediaPlacement, threshold)" [expanded]="thresholdPanelOpen" (opened)="thresholdPanelOpen = true">
+    <mat-expansion-panel-header expandedHeight="48px">
+      <mat-panel-title>
+        <mat-icon>{{ threshold.expanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+        Thresholds
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div>
+      <app-threshold-widget [moduleName]="'project'" [thresholdsData]="measureRangeFilters$" (selecetdThresholdValue)="applyThresholds($event)"></app-threshold-widget>
+    </div>
+  </mat-expansion-panel>
+
+</mat-accordion>
+</div>
+
+<div *ngIf="isOnlyOperatorFilter">
+  <app-operator-widget-dialog-w3 [moduleName]="'project'" [operatorsData]="operatorsData" (applyOperators)="applyOperators($event)"  [includeType] = "includeType"></app-operator-widget-dialog-w3>
+</div>
+

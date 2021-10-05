@@ -1,0 +1,245 @@
+@import '../../../assets/css/variables.less';
+
+::ng-deep {
+  app-project-view-v3 {
+    .mat-column-action{
+      width: 3rem !important;
+    }
+    .mat-table{
+      min-width: 1420px !important;
+    }
+    .primary-color-text{
+      color: var(--primary-bg-800);
+    }
+    .plan-header-action{
+      background: #ffffff;
+      padding: 15px;
+      // border-bottom: 1px solid;
+      // border-color: var(--grays-bg-400);
+      .total-record{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 18px;
+        color: var(--grays-bg-700);
+      }
+    }
+
+    .mat-column-type{
+      white-space: nowrap;
+    }
+    .market-background{
+      padding: 0.313rem;
+      position: relative;
+      width: fit-content;
+      white-space: nowrap;
+      .market-background-child{
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background: var(--primary-bg-800);
+        opacity: 0.16;
+        border-radius: 10px;
+      }
+    }
+    & .caption.back-to-project {
+      color: var(--primary-bg);
+      & > mat-icon {
+        font-size: 20px;
+        vertical-align: middle;
+        line-height: 20px;
+      }
+    }
+    .title mat-icon, .actions > button {
+      margin-left: 1rem;
+      cursor: pointer;
+    }
+    .text-tooltip {
+      cursor: pointer;
+    }
+    .project-title-edit {
+      form {
+        width: 100%;
+        .mat-form-field {
+          width: 100%;
+        }
+        .imx-input-description {
+          &.mat-form-field-appearance-legacy {
+            .mat-form-field-wrapper {
+              height: 100% !important;
+            }
+            .mat-form-field-flex, .mat-form-field-infix {
+              height: 100% !important;
+              textarea {
+                //height: 100% !important;
+              }
+            }
+          }
+
+        }
+        .project-tags {
+          // min-height: 100px;
+          > mat-label {
+            text-transform: uppercase;
+            font-size: 0.625rem;
+            color: var(--grays-bg-600);
+          }
+          &.active {
+            > mat-label {
+              color: var(--primary-bg);
+            }
+          }
+          .mat-chip-list-wrapper {
+            .chip-input  {
+              .mat-form-field-label {
+                margin-top: 7px;
+              }
+            }
+          }
+          .chipListBlock {
+            min-height: 50px;
+            overflow: auto;
+          }
+          .mat-chip-list-wrapper {
+            margin:0px !important;
+          }
+          .mat-form-field-infix {
+            padding: 0px !important;
+            input.mat-input-element {
+              width: 100% !important;
+              font-style: normal;
+              font-weight: normal;
+              font-size: 0.813rem;
+              color: var(--grays-bg-800);
+            }
+          }
+        }
+
+      }
+    }
+    .mat-paginator {
+      .mat-paginator-range-actions{
+        .mat-paginator-range-label{
+          display: none;
+        }
+      }
+    }
+    .title mat-icon {
+      cursor: pointer;
+      margin-top : 5px;
+    }
+    .imx-project-list {
+      margin:  30px 0px;
+      padding: 0;
+      max-height: calc(~"100vh - 270px");
+      overflow: hidden;
+      position: relative;
+      .imx-table-container {
+        overflow: auto;
+        max-height: calc(~"100vh - 390px");
+        display: block !important;
+        & .imx-table td:not(.action-cell) {
+          cursor: pointer;
+        }
+      }
+      // .action-cell > button {
+      //   display: none;
+      // }
+      .imx-mat-progress {
+        position: absolute;
+        bottom: 10px;
+        right: 284px;
+      }
+    }
+
+    .mr-3{
+      margin-right: 8px;
+    }
+
+    .header-search__input{
+      border: 0;
+      height: auto;
+    }
+
+    // .mat-header-row .mat-header-cell:first-child .mat-sort-header-arrow{
+    //   margin-left: 19px !important;
+    // }
+
+
+    .mat-sort-header-sorted{
+      .mat-form-field-appearance-legacy .mat-form-field-underline {
+        background-color: var(--primary-bg-800) !important;
+      }
+    }
+
+    .mat-sort-header-content{
+      border-bottom: 0 !important;
+
+    }
+  }
+  td.status-cell {
+    padding-left: 15px !important;
+  }
+  .status {
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+    min-width: 25px;
+    & .unread {
+      height: 8px;
+      width: 8px;
+    }
+    & svg > circle {
+      fill: var(--primary-bg);
+    }
+  }
+  .close-action-btn{
+    display:none !important;
+  }
+  .audience-overlay-position,.plan-overlay-position{
+    // margin-left:15px;
+    margin-left: 0px !important;
+    .mat-list-item-content{
+      padding: 0 0.5rem !important;
+    }
+  }
+  .plan-overlay-position{
+    mat-form-field{
+      height:36px;
+    }
+  }
+  .audience-filter-overlay-div{
+    .audience-header{
+      text-align: left;
+      padding: 1rem 0.5rem 0.8rem 0.5rem;
+      width: 100%;
+      margin-bottom: 0;
+    }
+    .full-width{
+      width:100%;
+    }
+    mat-form-field{
+      height: 36px;
+    }
+    .mat-form-field-underline{
+      background-image: unset !important;
+    }
+    .mat-selection-list{
+      margin-top: 10px;
+    }
+    .imx-button-basic_icon{
+      align-items: center;
+      display: flex;
+      place-content: center;
+      width: 100%;
+    }
+    .mat-list-option{
+      max-width: 18.75rem;
+      height: auto !important;
+      min-height: auto !important;
+      padding: 5px 0px;
+    }
+  }
+}

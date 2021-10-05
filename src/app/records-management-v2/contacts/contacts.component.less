@@ -1,0 +1,53 @@
+::ng-deep {
+  .c-contacts {
+    padding: 20px 33px 16px 33px;
+    overflow-y: auto;
+    height: 100%;
+
+    &__header {
+      padding-bottom: 8px;
+    }
+
+    input {
+      height: auto;
+      border-bottom: unset;
+    }
+
+    &__actions{
+      margin-bottom: 10px;
+    }
+
+    .add-new{
+      border: 1px solid !important;
+      box-shadow: none !important;
+      border-radius: 5px !important;
+    }
+    .imx-input-no-border{
+      height:auto;
+      border: none;
+    }
+  }
+  .error-field-extra-width {
+    &.mat-form-field-invalid {
+      .mat-form-field-subscript-wrapper {
+        width: 238px;
+      }
+    }
+  }
+  .autocomplete-scroll {
+    .company-list-autocomplete{
+      max-height: 14.375rem;
+      overflow-y: auto;
+    }
+
+    &.mat-autocomplete-panel{
+      overflow-y: hidden !important;
+      padding-right: 0 !important;
+    }
+  }
+  .search-by-name:not(.mat-form-field-should-float) {
+    .mat-form-field-label {
+      text-transform: none !important;
+    }
+  }
+}

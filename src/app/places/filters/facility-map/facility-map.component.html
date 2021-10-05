@@ -1,0 +1,39 @@
+<div class="audit-map-collapse" (click)="collapseDrawMap()" [style.display]="isCollapseDrawMap?'block':'none'" title="Expand the map" >
+  <mat-icon >filter_list</mat-icon>
+</div>
+<div class="facility-map-block" [style.display]="!isCollapseDrawMap?'block':'none'">
+  <div class="facility-map-control-close facility-map-control-expand" title="Collapse the map">
+    <mat-icon (click)="collapseDrawMap()">keyboard_arrow_left</mat-icon>
+  </div>
+  <div class="facility-map-area">
+    You are currently viewing/editing <b>{{facilityAreaType === 'building' ? 'Building Area' : 'Property Area'}}</b>
+  </div>
+  <div class="facility-map-control-close">
+    <mat-icon (click)="closeFacilityEdit()">close</mat-icon>
+  </div>
+  <div class="facility-map-control">
+    <div class="map-reset" fxHide.sm fxHide.xs>
+      <button title="RESET" (click)="setMapData()">
+        <span><i class="material-icons">refresh</i></span>
+      </button>
+    </div>
+    <div class="map-save" fxHide.sm fxHide.xs>
+      <button title="SAVE" (click)="saveMapData()">
+        <span><i class="material-icons">save_alt</i></span>
+      </button>
+    </div>
+  </div>
+  <div class="map-zoom-out">
+    <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+      <button (click)="zoomOutMap()" title="ZOOM OUT MAP">
+        <span><i class="material-icons">zoom_out_map</i></span>
+      </button>
+    </div>
+  </div>
+  <div class="area-key-legend-map-control">
+    <app-map-legends module="facilityMap" *ngIf="showPlaceMapLegends && !createNewPlace"
+     (toggleAreaLayers)="toggleAreaLayers($event)"></app-map-legends>
+  </div>
+  <div id="facilityMap"></div>
+
+</div>

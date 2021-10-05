@@ -1,0 +1,235 @@
+<div class="inventory-plan"  [ngClass]="{'IMX-fullscreen':isFullScreen}">
+  <div fxLayout="row" class="plan-header-action">
+    <div fxFlex="20" class="total-record" fxLayoutAlign="start center" *ngIf="!searchFilterApplied">
+      Total : {{formattedPlans?.length}}
+    </div>
+    <div fxFlex="20" class="total-record" fxLayoutAlign="start center" *ngIf="searchFilterApplied">
+      Found : {{dataSource?.data?.length}} / {{formattedPlans?.length}}
+    </div>
+
+    <div fxFlex="80" fxLayoutAlign="end" fxLayoutGap="18px">
+      <ng-container *ngIf="!isDialogOpened">
+        <div>
+          <mat-icon class="tune-icon" *ngIf="projectOwnerEmail === userEmail" (click)="openFilter()"  tooltip="Parameters" placement="left" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">tune</mat-icon>
+        </div>
+
+        <div>
+          <mat-icon svgIcon="IMX-columns" class="svg-primary"  (click)="customizeColumn()" tooltip="Customize Columns" placement="left" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"></mat-icon>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!isDialogOpened; else closeDialog">
+        <mat-icon (click)="openInventorySummaryInDialog()"
+                  tooltip="Expand Table" placement="top" delay="200"
+                  tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          zoom_out_map
+        </mat-icon>
+      </ng-container>
+
+      <ng-template #closeDialog>
+        <mat-icon tooltip="Collapse Table" placement="top" delay="200"
+                  tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" svgIcon="IMX-fullscreen-exit"
+                  class="full-screen-exit-icon" (click)="closeDialogBox()"></mat-icon>
+      </ng-template>
+  </div>
+    <!--<div>
+      <mat-icon>zoom_out_map</mat-icon>
+    </div>-->
+  </div>
+  <div class="inventory-plan-table-main" *ngIf="!loading">
+  <div class="plan-table-list"  id="{{ isDialogOpened ? 'inventory-plan-dialog-fullscreen' : ''}}" [ngClass]="{'outer-plan-main':!dataSource?.data?.length}" >
+  <mat-table #table [dataSource]="dataSource" class="inventory-plan-table imx-table-striped table-header-auto plan-table"  multiTemplateDataRows matSort [matSortActive]="activeSort.id" [matSortDirection]="activeSort.start" [style.width] = "(displayedColumns.length*150-110) + 'px'">
+    <!--   [style.width] = "(displayedColumns.length*140+40) + 'px'"" -->
+    <ng-container *ngFor="let column of columns" [matColumnDef]="column.value" [stickyEnd]="column.value=='action' && expandedRowSets.size > 0">
+
+      <ng-container *ngIf="column.value === 'accordion'" sticky>
+        <mat-header-cell *matHeaderCellDef class="width10per" fxFlex="50px"></mat-header-cell>
+        <mat-cell *matCellDef="let element" class="width10per max5widthper"
+           fxFlex="50px"
+          [ngClass]="{'loader-padding':element['isLoader']}">
+          <mat-icon class="expanted-icon" (click)="toggleExpandAndCollapseRow(element?._id);checkSelectedInventory(element['plan_name']);">
+            {{  isRowExpanded(element?._id) ? 'keyboard_arrow_up':'keyboard_arrow_down' }}
+          </mat-icon>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container *ngIf="column.value === 'planId'" sticky>
+      <mat-header-cell *matHeaderCellDef  mat-sort-header fxFlex="{{tableCellwidth}}" #PlanOverlayOrigin="cdkOverlayOrigin" cdkOverlayOrigin> {{ column.displayname }}
+      <mat-icon class="filter-action text-left" (click)="$event.stopPropagation();plansFilterOverlayOrigin = PlanOverlayOrigin; isPlanFilterOpen = !isPlanFilterOpen; isAudienceFilterOpen = false" >search</mat-icon></mat-header-cell>
+      <mat-cell *matCellDef="let element" fxFlex="{{tableCellwidth}}" class="text-left"><a
+          class="primary-tex-color expanded-name" tooltip="{{ element?.plan_name }}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+          (click)="toggleExpandAndCollapseRow(element?._id)">
+        {{ element?.plan_name }}</a>
+      </mat-cell>
+      </ng-container>
+
+
+      <!-- Audience name -->
+      <ng-container *ngIf="column.value === 'aud_name'">
+        <mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="{{tableCellwidth}}" class="text-left" #CdkOverlayOrigin="cdkOverlayOrigin" cdkOverlayOrigin> Audience <mat-icon class="filter-action" svgIcon="IMX-filter" (click)="$event.stopPropagation();audienceOverlayOrigin = CdkOverlayOrigin; isAudienceFilterOpen = !isAudienceFilterOpen; isPlanFilterOpen = false" ></mat-icon> </mat-header-cell>
+        <!-- <mat-cell *matCellDef="let element" fxFlex="{{tableCellwidth}}" class="text-left"> <span tooltip="({{element?.measures_release}}) {{ element?.aud_name }}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">({{element?.measures_release}})<br>{{element?.aud_name | truncate:'middle':5:6}}</span> </mat-cell> -->
+        <mat-cell *matCellDef="let element" fxFlex="{{tableCellwidth}}" class="text-left text-wrap-column"> <span>({{element?.measures_release}})<br>{{element?.aud_name}}</span> </mat-cell>
+      </ng-container>
+
+
+      <ng-container *ngIf="column.value === 'market_name'">
+        <mat-header-cell *matHeaderCellDef  mat-sort-header fxFlex="{{tableCellwidth}}"  class="text-left"> Market </mat-header-cell>
+        <!-- <mat-cell *matCellDef="let element" fxFlex="{{tableCellwidth}}"  class="text-left"> <span tooltip="{{element?.market_name }}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">{{element?.market_name | truncate:'middle':30:6}}</span> </mat-cell> -->
+        <mat-cell *matCellDef="let element" fxFlex="{{tableCellwidth}}"  class="text-left text-wrap-column"> 
+          <app-imx-market-table-section [value] = "element.markets" [length] = "5"></app-imx-market-table-section>
+          <!-- <span>{{element?.market_name}}</span> -->
+        </mat-cell>
+      </ng-container>
+
+      <ng-container
+        *ngIf="column.value !== 'isLoader' && column.value !== 'accordion' && column.value !== 'market_name' && column.value !== 'action'">
+        <mat-header-cell *matHeaderCellDef class="text-left"
+          [ngClass]="{'sort-enable':!(column.value | disableSort)}" mat-sort-header fxFlex="{{tableCellwidth}}">
+          {{ column.displayname }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="zeroPadding text-left" fxFlex="{{tableCellwidth}}">
+          <ng-template
+            [ngIf]="(column['value'] == 'audience_id' || column['value'] == 'market_id' || column['value'] == 'markets_group')">
+            {{ (element[column['value']] !== 'undefined' && element[column['value']] != null ? (element[column['value']]) : 'N/A')}}
+          </ng-template>
+          <ng-container
+            *ngIf="element as summary; else noSummary;">
+            <ng-template [ngIf]="column['value'] == 'spots'">
+              {{summary?.isInventoryDeleted ? '-' :  summary?.spots}}
+            </ng-template>
+
+            <ng-template
+              [ngIf]="column['value'] == 'imp'">
+              {{(summary?.total_imp !== 'undefined' && summary?.total_imp != null  && summary?.total_imp >= 0 ? ( summary?.total_imp |  convert:'THOUSAND') : summary?.isInventoryDeleted ? '-' : 'N/A') }}
+            </ng-template>
+
+            <ng-template
+              [ngIf]="column['value'] == 'imp_target'">
+              {{(summary?.target_imp !== 'undefined' && summary?.target_imp != null  && summary?.target_imp >= 0 ? ( summary?.target_imp |  convert:'THOUSAND') : summary?.isInventoryDeleted ? '-' : 'N/A') }}
+            </ng-template>
+
+            <ng-template [ngIf]="column['value'] == 'freq_avg'">
+							{{(summary?.freq_avg !== 'undefined' && summary?.freq_avg != null  && summary?.freq_avg >= 0 ? (summary?.freq_avg | convert:'DECIMAL':1) : summary?.isInventoryDeleted ? '-' : 'N/A')}}
+						</ng-template>
+            <ng-template
+              [ngIf]="column['value'] == 'imp_target_inmkt'">
+              {{(summary?.imp_target_inmkt !== 'undefined' && summary?.imp_target_inmkt != null  && summary?.imp_target_inmkt >= 0 ? (summary?.imp_target_inmkt |  convert:'THOUSAND') : summary?.isInventoryDeleted ? '-' : 'N/A') }}
+            </ng-template>
+
+            <ng-template
+              [ngIf]="column['value'] == 'imp_inmkt'">
+              {{(summary?.imp_inmkt !== 'undefined' && summary?.imp_inmkt != null  && summary?.imp_inmkt >= 0 ? ( summary?.imp_inmkt |  convert:'THOUSAND') : summary?.isInventoryDeleted ? '-' : 'N/A') }}
+            </ng-template>
+
+            <ng-template
+              [ngIf]="column['value'] == 'pop_inmkt'">
+              {{(summary?.pop_inmkt !== 'undefined' && summary?.pop_inmkt != null  && summary?.pop_inmkt >= 0 ? ( summary?.pop_inmkt |  convert:'THOUSAND') : summary?.isInventoryDeleted ? '-' : 'N/A') }}
+            </ng-template>
+
+            <ng-template
+              [ngIf]="column['value'] == 'pop_target_inmkt'">
+              {{(summary?.pop_target_inmkt !== 'undefined' && summary?.pop_target_inmkt != null  && summary?.pop_target_inmkt >= 0 ? (summary?.pop_target_inmkt  |  convert:'THOUSAND') : summary?.isInventoryDeleted ? '-' : 'N/A') }}
+            </ng-template>
+
+            <ng-template
+              [ngIf]="column['value'] == 'index_comp_target'">
+              {{(summary?.index_comp_target !== 'undefined' && summary?.index_comp_target != null  && summary?.index_comp_target >= 0 ? ( summary?.index_comp_target |  convert:'THOUSAND') : summary?.isInventoryDeleted ? '-' : 'N/A') }}
+            </ng-template>
+
+            <ng-template [ngIf]="(column['value'] == 'trp')">
+              {{(summary?.trp !== 'undefined' && summary?.trp != null  && summary?.trp >= 0 ? ( summary?.trp | convert:'DECIMAL':2) : summary?.isInventoryDeleted ? '-' : 'N/A')}}
+            </ng-template>
+
+
+            <ng-template
+              [ngIf]="column['value'] == 'pct_comp_imp_target'">
+              {{(summary?.pct_comp_imp_target !== 'undefined' && summary?.pct_comp_imp_target != null  && summary?.pct_comp_imp_target >= 0 ? ( summary?.pct_comp_imp_target | convert:'PERCENT') + '%' : summary?.isInventoryDeleted ? '-' : 'N/A')}}
+            </ng-template>
+
+
+            <ng-template
+              [ngIf]="column['value'] == 'pct_imp_target_inmkt'">
+              {{(summary?.pct_imp_target_inmkt !== 'undefined' && summary?.pct_imp_target_inmkt != null  && summary?.pct_imp_target_inmkt >= 0 ? ( summary?.pct_imp_target_inmkt | convert:'PERCENT') + '%' : summary?.isInventoryDeleted ? '-' : 'N/A')}}
+            </ng-template>
+
+            <ng-template
+              [ngIf]="column['value'] == 'pct_comp_imp_target_inmkt'">
+              {{(summary?.pct_comp_imp_target_inmkt !== 'undefined' && summary?.pct_comp_imp_target_inmkt != null  && summary?.pct_comp_imp_target_inmkt >= 0 ? (summary?.pct_comp_imp_target_inmkt | convert:'PERCENT') + '%' : summary?.isInventoryDeleted ? '-' : 'N/A')}}
+            </ng-template>
+
+            <ng-template
+              [ngIf]="column['value'] == 'pct_imp_inmkt' ">
+              {{(summary?.pct_imp_inmkt !== 'undefined' && summary?.pct_imp_inmkt != null  && summary?.pct_imp_inmkt >= 0 ? ( summary?.pct_imp_inmkt | convert:'PERCENT') + '%' : summary?.isInventoryDeleted ? '-' : 'N/A')}}
+            </ng-template>
+
+            <ng-template [ngIf]="column['value'] == 'reach_pct'">
+              {{(summary?.reach_pct !== 'undefined' && summary?.reach_pct != null  && summary?.reach_pct >= 0 ? (summary?.reach_pct | convert:'DECIMAL') + '%' : summary?.isInventoryDeleted ? '-' : 'N/A')}}
+            </ng-template>
+
+            <ng-template [ngIf]="column['value'] == 'period_days'">
+              {{(summary?.period_days !== 'undefined' && summary?.period_days != null ? (summary?.period_days / 7 | number:'1.0-0' ) : summary?.isInventoryDeleted ? '-' : 'N/A')}}
+            </ng-template>
+            <ng-template [ngIf]="column['value'] == 'reach_net'">
+              {{summary?.reach_net !== 'undefined' && summary?.reach_net != null ? (summary?.reach_net | convert:'THOUSAND')  : summary?.isInventoryDeleted ? '-' : 'N/A'}}
+            </ng-template>
+
+          </ng-container>
+          <ng-template #noSummary>
+            <mat-spinner diameter="30" *ngIf="element.isLoader"></mat-spinner>
+          </ng-template>
+        </mat-cell>
+
+      </ng-container>
+
+      <ng-container *ngIf="column.value === 'action'" >
+        <mat-header-cell *matHeaderCellDef class="width10per inventory-list-action-column" fxFlex="140px" matSortHeader="disabled"></mat-header-cell>
+        <mat-cell *matCellDef="let element" class="width10per max5widthper inventory-list-action-column" fxFlex="140px">
+            <div class="inventory-list-action" fxLayout="row" fxLayoutGap="1rem" *ngIf="isRowExpanded(element?._id)">
+              <a (click)="enableInventoryListAction && openSaveScenario(element['plan_name'])" [ngClass]="{'enable-inventory-set': enableInventoryListAction}" tooltip="Save as inventory set" placement="left" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"><mat-icon svgIcon="IMX-save-inventoryset"></mat-icon></a>
+              <a (click)="enableInventoryListAction && deleteInventory(element['plan_name'])" [ngClass]="{'enable-inventory-set': enableInventoryListAction}" tooltip="Delete Selected Inventory" placement="left" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"><mat-icon>delete_forever</mat-icon></a>
+              <a (click)="enableCalculateMeasuresAction && reGeneratePlans()" [ngClass]="{'enable-inventory-set': enableCalculateMeasuresAction}" tooltip="Re-calculate Measures" placement="left" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"><mat-icon svgIcon="IMX-update"></mat-icon></a>
+            </div>
+        </mat-cell>
+      </ng-container>
+
+		</ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <mat-cell *matCellDef="let element;" class="expandedDetail expandedDetail-table">
+        <ng-container *ngIf='isRowExpanded(element?._id)'>
+        <div [ngClass]="isRowExpanded(element?._id) ? 'expanded' : 'collapsed'"
+          class="element-detail">
+          <ng-container *ngIf="element.spotsData">
+          <app-inventory-list [refresh$]='refreshInventoryList$' [resetSelection$]="resetSelection$" [inventoryPlanIDs]="inventoryPlanIDs" [ngClass]="{ 'module-disable':allowInventory === 'disabled'}" [scenario]="scenario" [totalSpots]="element?.spots" [audienceName]="element['aud_name']" [planName]="element['plan_name']" [spotSchedules]="spotSchedules" *ngIf="allowInventory === 'active'" (selectedSpots)="selectedSpots($event)"></app-inventory-list>
+          </ng-container>
+        </div>
+        </ng-container>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let row; let i = dataIndex; columns: displayedColumns;"  class="element-row"
+       [ngClass]="{ 'bg-collapsed': ((i+1)%2) == 0}"
+      [class.expanded]="isRowExpanded(row?._id)"></mat-row>
+    <mat-row *matRowDef="let row; let i = dataIndex;  columns: ['expandedDetail']" class="detail-row" [ngClass]="{'is-not-expanded': !isRowExpanded(row?._id)}">
+    </mat-row>
+
+  </mat-table>
+  <div fxLayout="row" fxLayoutAlign="center center"  *ngIf="this.formattedPlans.length <=0 && projectOwnerEmail === userEmail" class="plan-generate-link">
+    Please <a (click)="openFilter()"> click here </a> to apply filters to generate plans.
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center"  *ngIf="this.formattedPlans.length > 0 && !dataSource?.data?.length && projectOwnerEmail === userEmail" class="plan-generate-link">
+    No records found.
+  </div>
+  </div>
+</div>
+
+  <imx-overlay-list *ngIf="audienceOverlayOrigin" [CdkOverlayOrigin]="audienceOverlayOrigin"
+    (close)="isAudienceFilterOpen = false" (open)="isAudienceFilterOpen = true" [isOpen]="isAudienceFilterOpen"
+    (onApply)="onApplyAudience($event)" [searchLabel]="'Search Audience'" [items]="audiencesForFilter">
+  </imx-overlay-list>
+  <imx-overlay-list *ngIf="plansFilterOverlayOrigin" [CdkOverlayOrigin]="plansFilterOverlayOrigin"
+    (close)="isPlanFilterOpen = false" (open)="isPlanFilterOpen = true" [isOpen]="isPlanFilterOpen"
+    (onApply)="onApplyPlans($event)" [searchLabel]="'Search Plans'" [items]="overlayPlanList">
+  </imx-overlay-list>
+</div>
+

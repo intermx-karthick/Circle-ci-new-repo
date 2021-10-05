@@ -1,0 +1,479 @@
+<div class='c-container-line-item-list imx-new-theme'>
+  <div fxLayout='row' fxLayoutAlign='start center' class='vlist-header-action' fxLayoutGap='18px'>
+    <div fxFlex="90" class="export-options" fxLayoutAlign="start center" fxLayoutGap='1rem'>
+      <div class="total-record" *ngIf='tablePagination?.total === tablePagination?.found'>Total: {{tablePagination?.total}}</div>
+      <div class="total-record" *ngIf='tablePagination?.total !== tablePagination?.found'>Found : {{tablePagination?.found || 0}}</div>
+      <div class="insertion-orders-list-table-headers__total-record spiner-div" *ngIf="isLoading">
+        <mat-spinner diameter="20"></mat-spinner>
+      </div>
+    </div>
+    <div fxFlex="10" fxLayoutAlign="end center">
+      <div tooltip='Customize Columns' class="custom-column" placement='top' delay='200' tooltipClass='imx-tooltip-v3'
+           customClass='imx-field-tooltip' *ngIf='!data?.fullScreenMode'>
+        <mat-icon svgIcon='IMX-columns' class='svg-primary' (click)='customizeColumn()'></mat-icon>
+      </div>
+      <div *ngIf='!data?.fullScreenMode' tooltip='Expand Table' placement='top' delay='200' tooltipClass='imx-tooltip-v3'
+           customClass='imx-field-tooltip'>
+        <mat-icon (click)='enterFullScreen()'>zoom_out_map</mat-icon>
+      </div>
+      <div *ngIf='data?.fullScreenMode' tooltip="Collapse Table" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+        <mat-icon svgIcon="IMX-fullscreen-exit" class="full-screen-exit-icon"  (click)='exitFullScreen()'></mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="vlist-table-parent" [class.fullScreen] = "data?.fullScreenMode">
+      <mat-table class='table-header-auto imx-table-striped' mat-table matSort matSortDisableClear
+                 (matSortChange)='onSorting($event)'
+                 matSortActive='{{sort?.active}}'
+                 matSortDirection='{{sort?.direction}}'
+                 [dataSource]='dataSource'
+                 [matSortDisabled]="!tableData?.length">
+
+        <ng-container matColumnDef='lineItemId' [sticky]="true">
+          <mat-header-cell style='padding-left: 1.2rem !important;' [ngStyle]="{'left.px': 1 }" fxFlex='14rem' mat-sort-header class='job-id-td first-column border-right--none' *matHeaderCellDef>
+            Line Item #
+          </mat-header-cell>
+          <mat-cell style='padding-right: 0rem !important' id='first-column' fxFlex='14rem' mat-cell *matCellDef='let element' class='first-column' [ngStyle]="{'left.px': 1}">
+            <a (click)='openJobDetails(element)' href='javascript:void(0)'
+               class='table-link'>{{element.lineItemId}}</a></mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='clientName'>
+          <mat-header-cell fxFlex='14rem' *matHeaderCellDef> Client Name</mat-header-cell>
+          <mat-cell fxFlex='14rem' mat-cell *matCellDef='let element'> {{element?.jobs?.client?.clientName}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='name'>
+          <mat-header-cell fxFlex='17.75rem' *matHeaderCellDef>Job Name</mat-header-cell>
+          <mat-cell fxFlex='17.75rem' mat-cell *matCellDef='let element'> {{element?.jobs?.name}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='createdAt'>
+          <mat-header-cell fxFlex='7.25rem' mat-sort-header *matHeaderCellDef> Date Created</mat-header-cell>
+          <mat-cell fxFlex='7.25rem' mat-cell *matCellDef='let element'>
+            <span [innerHTML]="(element.createdAt | dateAgo :'new') | lowercase"></span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='startMonth'>
+          <mat-header-cell fxFlex='7rem'  mat-sort-header *matHeaderCellDef> Start Month</mat-header-cell>
+          <mat-cell fxFlex='7rem' mat-cell *matCellDef='let element' class='jobs-checkpoints'>
+            <span [innerHTML]="(element.jobs?.startDate | date: 'MM')"></span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='startYear'>
+          <mat-header-cell fxFlex='7rem'  mat-sort-header  *matHeaderCellDef> Start Year</mat-header-cell>
+          <mat-cell fxFlex='7rem' mat-cell *matCellDef='let element' class='jobs-checkpoints'>
+            <span [innerHTML]="(element.jobs?.startDate | date: 'yyyy')"></span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='pONumber'>
+          <mat-header-cell fxFlex='9.375rem' *matHeaderCellDef> PO Number</mat-header-cell>
+          <mat-cell fxFlex='9.375rem' mat-cell *matCellDef='let element'>
+           {{element.jobs?.poNumber}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='aXJob'>
+          <mat-header-cell fxFlex='7.56rem'  *matHeaderCellDef> AX Job #</mat-header-cell>
+          <mat-cell fxFlex='7.56rem' mat-cell *matCellDef='let element'>
+            {{element.jobs?.acctgJobId}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='aXInvoice'>
+          <mat-header-cell fxFlex='7.56rem'  *matHeaderCellDef>AX Invoice #</mat-header-cell>
+          <mat-cell fxFlex='7.56rem' mat-cell *matCellDef='let element'>
+            {{element.jobs?.invoiceId}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='aXInvoiceDate'>
+          <mat-header-cell fxFlex='8.25rem' *matHeaderCellDef>AX Invoice Date</mat-header-cell>
+          <mat-cell fxFlex='8.25rem' mat-cell *matCellDef='let element' class='jobs-checkpoints'>
+            {{element.jobs?.invoiceDate}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='billMonth'>
+          <mat-header-cell fxFlex='5.685rem' *matHeaderCellDef>Bill Month</mat-header-cell>
+          <mat-cell fxFlex='5.685rem' mat-cell *matCellDef='let element' class='jobs-checkpoints'>
+            <span [innerHTML]="(element.jobs?.invoiceDate | date: 'MM')"></span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='billYear'>
+          <mat-header-cell fxFlex='5.685rem' *matHeaderCellDef>Bill Year</mat-header-cell>
+          <mat-cell fxFlex='5.685rem' mat-cell *matCellDef='let element' class='jobs-checkpoints'>
+            <span [innerHTML]="(element.jobs?.invoiceDate | date: 'yyyy')"></span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='materials'>
+          <mat-header-cell fxFlex='9.5rem' mat-sort-header *matHeaderCellDef>Net Materials Total</mat-header-cell>
+          <mat-cell fxFlex='9.5rem' mat-cell *matCellDef='let element'>
+            $ {{(element.materials || '0') | convert:'NUMERICALFORMAT':2:true:'0,0.00'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='shippingTotal'>
+          <mat-header-cell fxFlex='7.62rem' *matHeaderCellDef>Shipping Total</mat-header-cell>
+          <mat-cell fxFlex='7.62rem' mat-cell *matCellDef='let element'>
+            $ {{(element.shippingCost || '0') | convert:'NUMERICALFORMAT':2:true:'0,0.00'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='installTotal'>
+          <mat-header-cell fxFlex='7.62rem' *matHeaderCellDef>Install Total</mat-header-cell>
+          <mat-cell fxFlex='7.62rem' mat-cell *matCellDef='let element'>
+            $ {{(element.installCost || '0') | convert:'NUMERICALFORMAT':2:true:'0,0.00'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='taxesTotal'>
+          <mat-header-cell fxFlex='7.62rem' *matHeaderCellDef>Taxes Total</mat-header-cell>
+          <mat-cell fxFlex='7.62rem' mat-cell *matCellDef='let element'>
+            $ {{(element.salesTax || '0') | convert:'NUMERICALFORMAT':2:true:'0,0.00'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='oIFeesTotal'>
+          <mat-header-cell fxFlex='7.62rem' *matHeaderCellDef>OIFees Total</mat-header-cell>
+          <mat-cell fxFlex='7.62rem' mat-cell *matCellDef='let element'>
+            $ {{(element.oiCommissionAmt || '0') | convert:'NUMERICALFORMAT':2:true:'0,0.00'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='oIComm%'>
+          <mat-header-cell fxFlex='6.25rem' *matHeaderCellDef>OIComm%</mat-header-cell>
+          <mat-cell fxFlex='6.25rem' mat-cell *matCellDef='let element' class='jobs-checkpoints' >
+            {{ (element?.oiCommissionPercentage) | convert:'PERCENT':4:true }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='jobTotal'>
+          <mat-header-cell fxFlex='8.37rem' *matHeaderCellDef> Total Job Cost</mat-header-cell>
+          <mat-cell fxFlex='8.37rem' mat-cell *matCellDef='let element'>
+            $ {{(element.printerNetTotal || '0') | convert:'NUMERICALFORMAT':2:true:'0,0.00'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='printer'>
+          <mat-header-cell fxFlex='13.25rem' *matHeaderCellDef>Printer</mat-header-cell>
+          <mat-cell fxFlex='13.25rem' mat-cell *matCellDef='let element'>
+            {{element.vendor?.name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='mediaType'>
+          <mat-header-cell fxFlex='6.625rem' mat-sort-header  *matHeaderCellDef>MediaType</mat-header-cell>
+          <mat-cell fxFlex='6.625rem' mat-cell *matCellDef='let element'>
+            {{element?.mediaType?.name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='market'>
+          <mat-header-cell fxFlex='7.56rem' mat-sort-header *matHeaderCellDef>Market</mat-header-cell>
+          <mat-cell fxFlex='7.56rem' mat-cell *matCellDef='let element'>
+            {{element?.dma?.name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='unitQty'>
+          <mat-header-cell fxFlex='6.312rem' *matHeaderCellDef>Unit Qty</mat-header-cell>
+          <mat-cell fxFlex='6.312rem' mat-cell *matCellDef='let element'  class='jobs-checkpoints'>
+            {{element.unitQty}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='designQty'>
+          <mat-header-cell fxFlex='6.312rem' *matHeaderCellDef>Design Qty</mat-header-cell>
+          <mat-cell fxFlex='6.312rem' mat-cell *matCellDef='let element' class='jobs-checkpoints'>
+            {{element.designQty}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='unitSize'>
+          <mat-header-cell fxFlex='5.312rem' *matHeaderCellDef>Unit Size</mat-header-cell>
+          <mat-cell fxFlex='5.312rem' mat-cell *matCellDef='let element'  class='jobs-checkpoints'>
+           <ng-container *ngIf='element.unitWidth || element.unitHeight'>
+             {{element.unitWidth }}' x {{element.unitHeight}}'
+           </ng-container>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='substrate'>
+          <mat-header-cell fxFlex='7.56rem' *matHeaderCellDef>Substrate</mat-header-cell>
+          <mat-cell fxFlex='7.56rem' mat-cell *matCellDef='let element'>
+            {{element.substrateType?.name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='approved'>
+          <mat-header-cell fxFlex='5.8125rem' *matHeaderCellDef>Approved</mat-header-cell>
+          <mat-cell fxFlex='5.8125rem' class='jobs-checkpoints' mat-cell *matCellDef='let element'>
+            <mat-icon class='jobs--approved' *ngIf='element?.jobs?.clientApproved' svgIcon='IMX-tick'></mat-icon>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='poSentToVendor'>
+          <mat-header-cell fxFlex='10.93rem' *matHeaderCellDef>PO Sent to Vendor</mat-header-cell>
+          <mat-cell fxFlex='10.93rem' class='jobs-checkpoints' mat-cell *matCellDef='let element'>
+            <mat-icon class='jobs--billed' *ngIf='element?.jobs?.poSentToVendor' svgIcon='IMX-tick'></mat-icon>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='jobBilled'>
+          <mat-header-cell fxFlex='5.93rem' *matHeaderCellDef>Job Billed</mat-header-cell>
+          <mat-cell fxFlex='5.93rem' class='jobs-checkpoints' mat-cell *matCellDef='let element'>
+            <mat-icon class='jobs--billed' *ngIf='element?.jobs?.jobBilled' svgIcon='IMX-tick'></mat-icon>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='cancelled'>
+          <mat-header-cell fxFlex='5.93rem' *matHeaderCellDef> Cancelled</mat-header-cell>
+          <mat-cell fxFlex='5.93rem' class='jobs-checkpoints' mat-cell *matCellDef='let element'>
+            <mat-icon class='jobs--cancelled' *ngIf='element?.jobs?.cancelled' svgIcon='IMX-tick'></mat-icon>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='vendor'>
+          <mat-header-cell fxFlex='7.93rem' *matHeaderCellDef> Ship To Vendor</mat-header-cell>
+          <mat-cell fxFlex='7.93rem' class='jobs-checkpoints' mat-cell *matCellDef='let element'>
+            {{element?.vendor.name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='jobClientNotes'>
+          <mat-header-cell fxFlex='10.56rem' *matHeaderCellDef>Job Client Notes</mat-header-cell>
+          <mat-cell fxFlex='10.56rem' mat-cell *matCellDef='let element'>
+            {{element.jobs?.billingNote}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='jobInternalNotes'>
+          <mat-header-cell fxFlex='10.56rem' *matHeaderCellDef>Internal Notes</mat-header-cell>
+          <mat-cell fxFlex='10.56rem' mat-cell *matCellDef='let element'>
+            {{element.jobs?.jobNote}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='clientNotes'>
+          <mat-header-cell fxFlex='10.56rem' *matHeaderCellDef>Client Notes (LI)</mat-header-cell>
+          <mat-cell fxFlex='10.56rem' mat-cell *matCellDef='let element'>
+            {{element.clientNotes}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='productionNotes'>
+          <mat-header-cell fxFlex='10.56rem' *matHeaderCellDef>Production Notes (LI)</mat-header-cell>
+          <mat-cell fxFlex='10.56rem' mat-cell *matCellDef='let element'>
+            {{element.productionNotes}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='internalNotes'>
+          <mat-header-cell fxFlex='10.56rem' *matHeaderCellDef>Internal Notes (LI)</mat-header-cell>
+          <mat-cell fxFlex='10.56rem' mat-cell *matCellDef='let element'>
+            {{element.internalNotes}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='vendorNotes'>
+          <mat-header-cell fxFlex='12.56rem' *matHeaderCellDef>Vendor Notes (PO ONLY)</mat-header-cell>
+          <mat-cell fxFlex='12.56rem' mat-cell *matCellDef='let element'>
+            {{element.vendorNotes}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='materialDeliveryDate'>
+          <mat-header-cell fxFlex='10.56rem' *matHeaderCellDef> JobDates: Delivery</mat-header-cell>
+          <mat-cell fxFlex='10.56rem' mat-cell *matCellDef='let element'  class='jobs-checkpoints'>
+            {{element.materialDeliveryDate}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='filesDate'>
+          <mat-header-cell fxFlex='12.56rem' *matHeaderCellDef> JobDates: Files@Printer</mat-header-cell>
+          <mat-cell fxFlex='12.56rem' mat-cell *matCellDef='let element' class='jobs-checkpoints'>
+            {{element.filesDate}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='proofsDate'>
+          <mat-header-cell fxFlex='12.56rem' *matHeaderCellDef> JobDates: Proofs@Client</mat-header-cell>
+          <mat-cell fxFlex='12.56rem' mat-cell *matCellDef='let element' class='jobs-checkpoints'>
+            {{element.proofsDate}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='proofsApprovedDate'>
+          <mat-header-cell fxFlex='12.56rem' *matHeaderCellDef> JobDates: ProofsApproval</mat-header-cell>
+          <mat-cell fxFlex='12.56rem' mat-cell *matCellDef='let element' class='jobs-checkpoints'>
+            {{element.proofsApprovedDate}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='materialShippingDate'>
+          <mat-header-cell fxFlex='12.56rem' *matHeaderCellDef> JobDates: MaterialsShip</mat-header-cell>
+          <mat-cell fxFlex='12.56rem' mat-cell *matCellDef='let element' class='jobs-checkpoints'>
+            {{element.materialShippingDate}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='noPeriods'>
+          <mat-header-cell fxFlex='12.56rem' *matHeaderCellDef>JobDates: No.Periods</mat-header-cell>
+          <mat-cell fxFlex='12.56rem' mat-cell *matCellDef='let element'  class='jobs-checkpoints'>
+            {{element.noOfPeriods}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='periodLength'>
+          <mat-header-cell fxFlex='12.56rem' *matHeaderCellDef>Terms of Periods</mat-header-cell>
+          <mat-cell fxFlex='12.56rem' mat-cell *matCellDef='let element'  class='jobs-checkpoints'>
+            {{element.periodLength?.label}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='oIProducer'>
+          <mat-header-cell fxFlex='7.56rem' *matHeaderCellDef>OI Producer</mat-header-cell>
+          <mat-cell fxFlex='7.56rem' mat-cell *matCellDef='let element'>
+            {{element?.jobs?.producer?.name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='oOHMediaDivision'>
+          <mat-header-cell fxFlex='10.56rem' mat-sort-header *matHeaderCellDef>OOH Media Division</mat-header-cell>
+          <mat-cell fxFlex='10.56rem' mat-cell *matCellDef='let element'>
+            {{element.jobs?.client?.division?.name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='oOHMediaOffice'>
+          <mat-header-cell fxFlex='10.56rem' mat-sort-header *matHeaderCellDef>OOH Media Office</mat-header-cell>
+          <mat-cell fxFlex='10.56rem' mat-cell *matCellDef='let element'>
+            {{element.jobs?.client?.office?.name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='oOHMediaContact'>
+          <mat-header-cell fxFlex='10.56rem' *matHeaderCellDef>OOH Media Contact</mat-header-cell>
+          <mat-cell fxFlex='10.56rem' mat-cell *matCellDef='let element'>
+            {{element.jobs?.oohMediaContact['given-name']}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='clientContact'>
+          <mat-header-cell fxFlex='10.56rem' *matHeaderCellDef>Client Contact</mat-header-cell>
+          <mat-cell fxFlex='10.56rem' mat-cell *matCellDef='let element'>
+            {{element.jobs?.clientContact?.firstName}} {{element.jobs?.clientContact?.lastName}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='agency'>
+          <mat-header-cell fxFlex='10.56rem' *matHeaderCellDef>Agency</mat-header-cell>
+          <mat-cell fxFlex='10.56rem' mat-cell *matCellDef='let element'>
+            {{element?.jobs?.agency?.name}}
+          </mat-cell>
+        </ng-container>
+
+<!--        <ng-container matColumnDef='agencyContact'>-->
+<!--          <mat-header-cell fxFlex='7.56rem' mat-sort-header *matHeaderCellDef>Agency Contact</mat-header-cell>-->
+<!--          <mat-cell fxFlex='7.56rem' mat-cell *matCellDef='let element'>-->
+<!--            todo-->
+<!--          </mat-cell>-->
+<!--        </ng-container>-->
+
+        <ng-container matColumnDef='creativeAgency'>
+          <mat-header-cell fxFlex='10.56rem' *matHeaderCellDef>Creative Agency</mat-header-cell>
+          <mat-cell fxFlex='10.56rem' mat-cell *matCellDef='let element'>
+            {{element?.jobs?.creativeAgency?.name}}
+          </mat-cell>
+        </ng-container>
+
+<!--        <ng-container matColumnDef='creativeContact'>-->
+<!--          <mat-header-cell fxFlex='7.56rem' mat-sort-header *matHeaderCellDef>Creative Contact</mat-header-cell>-->
+<!--          <mat-cell fxFlex='7.56rem' mat-cell *matCellDef='let element'>-->
+<!--            todo-->
+<!--          </mat-cell>-->
+<!--        </ng-container>-->
+
+        <ng-container matColumnDef='billingCompany'>
+          <mat-header-cell fxFlex='10.56rem' *matHeaderCellDef>Billing Company</mat-header-cell>
+          <mat-cell fxFlex='10.56rem' mat-cell *matCellDef='let element'>
+            {{element?.jobs?.billingCompany?.name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='billingContact'>
+          <mat-header-cell fxFlex='10.56rem' *matHeaderCellDef>Billing Contact</mat-header-cell>
+          <mat-cell fxFlex='10.56rem' mat-cell *matCellDef='let element'>
+            {{element?.jobs?.billingContact?.firstName}} {{element?.jobs?.billingContact?.lastName}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='billingEmail'>
+          <mat-header-cell fxFlex='10.56rem' *matHeaderCellDef>Billing Email</mat-header-cell>
+          <mat-cell fxFlex='10.56rem' mat-cell *matCellDef='let element'>
+            {{element?.jobs?.billingContact?.email}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='billingPhone'>
+          <mat-header-cell fxFlex='10.56rem' *matHeaderCellDef>Billing Phone</mat-header-cell>
+          <mat-cell fxFlex='10.56rem' mat-cell *matCellDef='let element'>
+            {{element?.jobs?.billingContact?.mobile | phoneFormat}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='startDate'>
+          <mat-header-cell fxFlex='6.1rem' mat-sort-header *matHeaderCellDef> Start Date</mat-header-cell>
+          <mat-cell fxFlex='6.1rem' mat-cell *matCellDef='let element' class='jobs-checkpoints'>
+            <span [innerHTML]="(element.jobs?.startDate | date: 'MM/dd/yyyy')"></span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef='updatedAt'>
+          <mat-header-cell fxFlex='9.625rem' mat-sort-header *matHeaderCellDef> Last Modified</mat-header-cell>
+          <mat-cell fxFlex='9.625rem' mat-cell *matCellDef='let element'>
+            <span [innerHTML]="(element.updatedAt | dateAgo :'new') | lowercase"></span>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef='customizeColumnService.displayedColumns;sticky: true'></mat-header-row>
+        <mat-row *matRowDef='let row; let i = index; columns: customizeColumnService.displayedColumns;'></mat-row>
+
+      </mat-table>
+      <div fxLayout='row' fxLayoutAlign='center center' fxFill *ngIf='!tableData?.length && !isLoading' class='noDataFound'>
+        <div>
+          <p [innerHTML]="'No Items found with that Criteria. <br /> Try searching for something else.'"></p>
+          <img src='../../../../assets/images/cuate.svg' alt=''>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="vlist-pagination" [class.no-top-border]="!dataSource?.data?.length && isLoading" >
+      <!-- <div class="spiner-div" *ngIf="isLoading">
+        <mat-spinner diameter="30" ></mat-spinner>
+      </div> -->
+      <div>
+        <mat-paginator
+          [disabled]='!tableData?.length'
+          (page)='getPageEvent($event)'
+          [length]='tablePagination?.found || 0'
+          [pageIndex]='(tablePagination?.page || 1) - 1'
+          [pageSize]='tablePagination?.perPage'
+          [pageSizeOptions]='paginationSizes'
+          [showFirstLastButtons]='true'
+        >
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

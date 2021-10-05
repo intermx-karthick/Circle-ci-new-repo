@@ -1,0 +1,86 @@
+@import "../../../../assets/css/variables.less";
+.here-places-card{
+  min-width: 475px;
+  max-width: 475px;
+  .width100{
+    width:100%
+  }
+
+  .heading{
+    background: var(--primary-bg-900);
+    align-items: center;
+    h4{
+      margin-left: 10px;      
+      color: var(--text-whites);
+      margin: 0;
+      padding: 15px;
+    }
+    .close-here-places{
+      color: var(--text-whites);
+      margin-right:10px;
+      cursor: pointer;
+    }
+  }
+  .place_count {
+    font-size: 18px !important;
+  }
+  .here-places-body{
+    overflow: auto;
+    .mat-card:not(:last-child){
+      border-bottom: solid 1px var(--grays-bg-600);
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      border-radius: 0;
+    }
+    .mat-card-header{
+      .mat-card-title{
+        font-weight: bold;
+      }
+      .safegraph_id {
+        text-overflow: ellipsis;
+        font-weight: normal;
+        font-size: 14px;
+        overflow: hidden;
+        padding-top: 10px;
+      }
+    }
+    .mat-card-content{
+      margin-bottom: 5px;
+    }
+    .acction-check{
+      display: flex;
+      place-content: flex-end;
+      padding: 10px;
+      font-weight: bold;
+      align-items: center;
+      p{
+        margin-bottom: 0px;
+      }
+      button{
+        font-weight: bold;
+      }
+    }
+  }
+}
+.audit-map-here-places {
+  cursor: pointer;
+  display: flex;
+  height: 100%;
+  width: 24px;
+  background: var(--grays-bg-200);
+  mat-icon{
+    margin-top: 5px;
+    cursor: pointer;
+  }
+}
+::ng-deep{
+  app-here-places{
+    .mat-card-header-text{
+      margin: 0px;
+      width: 100%;
+    }
+    .mat-fab.mat-primary, .mat-flat-button.mat-primary, .mat-mini-fab.mat-primary, .mat-raised-button.mat-primary {
+      background-color: var(--primary-bg);
+    }
+  }
+}

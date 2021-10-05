@@ -1,0 +1,40 @@
+<div class="inventory-set-container">
+    <mat-form-field floatLabel="never" fxFlexFill class="search-field"  >
+      <input class="inventory-search-field" [formControl]="search" type="text"  matInput placeholder="Search Saved Inventory Set">
+      <mat-icon *ngIf="search.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">close</mat-icon>
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <ng-container *ngIf="inventories$ | async as inventories;">
+      <ng-container *ngIf="searchedPackages.length > 0;">
+        <mat-selection-list class="inventory-sets" #selectInventoryList [(ngModel)]="selectedInventoryOptions"
+          infiniteScroll [infiniteScrollDistance]="10" [infiniteScrollThrottle]="500" (scrolled)="loadMoreInventorySet()"
+          [scrollWindow]="false"
+          [infiniteScrollDisabled]="packagesLoading || (currentInventorySetPage > totalInventorySetPages)">
+          <mat-list-option *ngFor="let Package of searchedPackages; trackBy: trackById" [value]="Package"
+            checkboxPosition="before" title="{{Package.name}}">
+            <span fxHide.xs [innerHTML]="Package.name | truncate:'middle':45:6 | imx_highlight: searchQuery"></span>
+            <span fxShow.xs fxHide [innerHTML]="Package.name | truncate:'middle':8:6 | imx_highlight: searchQuery"></span>
+            <mat-icon matListIcon (click)="$event.stopPropagation();onEditInventorySet(Package)"
+              [ngClass]="{ 'module-disable':allowInventory === 'disabled'}" class="test-inv-edit-icon">edit</mat-icon>
+            <mat-icon matListIcon (click)="$event.stopPropagation();onDeleteInventorySet(Package)"
+              [ngClass]="{ 'module-disable':allowInventory === 'disabled'}">delete</mat-icon>
+          </mat-list-option>
+        </mat-selection-list>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="searchedPackages.length == 0 && !packagesLoading">
+      <p *ngIf="!search.value" class="text-center">You have no inventory sets saved, would you like to
+        <a class="imx-primary-link" href="javascript:void(0)" (click)="createNew()">create one?</a>
+      </p>
+      <p *ngIf="search.value" class="text-center">No Inventory set matches your search criteria</p>
+    </ng-container>
+    <!-- content loader -->
+    <ng-container *ngIf="packagesLoading">
+      <app-cl-inventory-sets></app-cl-inventory-sets>
+    </ng-container>
+    <!-- end content loader -->
+    <div class="action-container" [ngClass]="{ 'module-disable':allowInventory === 'disabled'}">
+      <button mat-raised-button class="btn-clear" type="button" (click)='onClearInventorySet()'  [ngClass]="{ 'module-disable':(allowInventory === 'disabled' || allowScenarios === 'disabled')}">CLEAR</button>
+      <button mat-raised-button class="btn-primary-color" type="button" (click)='onApply()'  [ngClass]="{ 'module-disable':(allowInventory === 'disabled' || allowScenarios === 'disabled')}">APPLY</button>
+    </div>
+</div>

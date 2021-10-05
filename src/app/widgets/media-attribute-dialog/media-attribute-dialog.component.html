@@ -1,0 +1,153 @@
+<mat-card class="imx-widget-card">
+  <form method="post" [formGroup]="mediaAttributeForm" novalidate autocomplete="off" (ngSubmit)='onSubmit(mediaAttributeForm)' >
+  <mat-card-header>
+    <mat-card-title *ngIf="moduleName !== 'project'">Add Media Attributes</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-accordion class="media-attribute-block" *ngIf="mediaAttributes.length>0">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span class="rotateLabel"> Digital Attributes</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="attributes-panel-body digital-attributes-class">
+          <label>Audio Enabled</label>
+          <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center" >
+            <mat-radio-group formControlName="spotAudio"  class="imx-radio-group">
+              <mat-radio-button [value]="true">Yes</mat-radio-button>
+              <mat-radio-button [value]="false">No</mat-radio-button>
+              <mat-radio-button [value]="'all'">All</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <label>Full Video/Full Motion</label>
+          <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center" >
+            <mat-radio-group formControlName="spotFullMotion" class="imx-radio-group">
+              <mat-radio-button [value]="true">Yes</mat-radio-button>
+              <mat-radio-button [value]="false">No</mat-radio-button>
+              <mat-radio-button [value]="'all'">All</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <label>Partial Motion</label>
+          <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center" >
+            <mat-radio-group formControlName="spotPartialMotion" class="imx-radio-group">
+              <mat-radio-button [value]="true">Yes</mat-radio-button>
+              <mat-radio-button [value]="false">No</mat-radio-button>
+              <mat-radio-button [value]="'all'">All</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <label>Interactive</label>
+          <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center" >
+            <mat-radio-group formControlName="spotInteractive" class="imx-radio-group">
+              <mat-radio-button [value]="true">Yes</mat-radio-button>
+              <mat-radio-button [value]="false">No</mat-radio-button>
+              <mat-radio-button [value]="'all'">All</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      <div *ngFor="let attribute of mediaAttributes" class="attribute-loop-div">
+        <mat-expansion-panel *ngIf="attribute['key'] && attribute['key']==='orientationList'">
+          <mat-expansion-panel-header>
+            <mat-panel-title  tooltipv2="The Cardinal and Primary InterCardinal directions of a spot where available." placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">{{attribute['label'] }}</mat-panel-title>      
+          </mat-expansion-panel-header>
+          <div class="attributes-panel-body">
+            <mat-radio-group formControlName="orientationList" #orientationList (change)="onSelectionOrientationChange()" class="imx-radio-group">
+              <div class="left-side-list">
+                <mat-radio-button *ngFor="let option of attribute['options'] | slice:0:4" [value]="option">{{option}}</mat-radio-button>
+              </div>
+              <div class="right-side-list">
+                <mat-radio-button *ngFor="let option of attribute['options'] | slice:4:8 " [value]="option">{{option}}</mat-radio-button>
+              </div>
+              <div class="left-side-list">
+                <mat-radio-button *ngFor="let option of attribute['options'] | slice:8:9" [value]="option">{{option}}</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </mat-expansion-panel>
+    
+        <mat-expansion-panel *ngIf="attribute['key'] && attribute['key']==='panelSizeRange'">
+          <mat-expansion-panel-header>
+            <mat-panel-title tooltipv2="The dimensions of the Frame." placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">{{attribute['label']}}</mat-panel-title>      
+          </mat-expansion-panel-header>
+          <div class="attributes-panel-body" >
+            <div *ngFor="let option of attribute['options']" fxLayout="column" class="input-section" [formGroupName]="option['key']">
+              <p class="body-3">{{option['title']}}</p>
+              <div fxLayout="row wrap" fxLayoutGap="20px">
+                <mat-form-field fxFlex.sm="47" *ngFor="let range of option['range']" >
+                  <input matInput placeholder="{{range}}" [formControlName]="range" appNumberOnly>
+                </mat-form-field>
+              </div>
+              <mat-error *ngIf="mediaAttributeForm['controls']['panelSizeWidthRange']['errors'] !== null && option['key'] === 'panelSizeWidthRange'" > {{ mediaAttributeForm['controls']['panelSizeWidthRange']['errors']['errors'] }}</mat-error>
+              <mat-error *ngIf="mediaAttributeForm['controls']['panelSizeHeightRange']['errors'] !== null && option['key'] === 'panelSizeHeightRange'" > {{ mediaAttributeForm['controls']['panelSizeHeightRange']['errors']['errors'] }}</mat-error>
+            </div>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="attribute['key'] && attribute['key']==='spotLength'">
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{attribute['label']}}</mat-panel-title>      
+          </mat-expansion-panel-header>
+          <div class="attributes-panel-body" >
+            <div *ngFor="let option of attribute['options']; trackBy:option" fxLayout="column" class="input-section" [formGroupName]="option['key']">
+              <p class="body-3">{{option['title']}}</p>
+              <div fxLayout="row wrap" fxLayoutGap="20px">
+                <mat-form-field fxFlex.sm="47" *ngFor="let range of option['range']; trackBy:range" >
+                    <input matInput placeholder="{{range}}" [formControlName]="range" appNumberOnly>
+                </mat-form-field>
+              </div>
+              <mat-error *ngIf="mediaAttributeForm.controls?.spotLength?.errors && mediaAttributeForm['controls']['spotLength']['errors'] !== null && option['key'] === 'spotLength'" > {{ mediaAttributeForm['controls']['spotLength']['errors']['errors'] }}</mat-error>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </div>
+      <!-- illuminationHoursRange start-->
+      <mat-expansion-panel >
+        <mat-expansion-panel-header>
+          <mat-panel-title tooltipv2="Illumination Timing is defined by how many hours of the day a frame can be lit." placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">Illuminated Hours</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="attributes-panel-body illumination-range-dody">
+          <ngx-slider [(value)]="illuminationRangeValue[0]" [(highValue)]="illuminationRangeValue[1]" [options]="illuminationOption"
+          [manualRefresh]="manualRefresh" (valueChange)="illuminationChange($event)" (highValueChange)="illuminationChange($event)"> </ngx-slider>
+          Illuminated Hours : {{illuminationRangeValue[0]}} {{ formatTimeLable(illuminationRangeValue[0]) }} - {{illuminationRangeValue[1]}} {{ formatTimeLable(illuminationRangeValue[1]) }}
+        </div>
+      </mat-expansion-panel>
+      <!-- illuminationHoursRange end-->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title tooltipv2="Digital ads on a loop, scrolling or trivision displays would be considered rotating." placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+            <span class="rotateLabel" > Rotating</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="attributes-panel-body  movermeny-panel-body">
+          <mat-radio-group formControlName="movementList" (change)="onMovementChange($event)" class="imx-radio-group">
+            <div class="left-side-list">
+              <mat-radio-button [value]="true">Yes</mat-radio-button>
+              <mat-radio-button [value]="false">No</mat-radio-button>
+              <mat-radio-button [value]="'all'">All</mat-radio-button>
+            </div>
+          </mat-radio-group>
+        </div>
+      </mat-expansion-panel>
+      <!-- Audit status start -->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header tooltipv2="{{'Geopath\'s core function is auditing inventory. Status allows a user to filter on any of the audit statuses reported by '+siteName+' as well as anything that may be unaudited.'}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          <mat-panel-title><span class="rotateLabel" > Audit Status</span></mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="attributes-panel-body audit-panel-body">
+          <mat-selection-list #statuses formControlName="auditStatusList" [compareWith]="compare">
+            <mat-list-option *ngFor="let status of auditStatuses" [value]="status" checkboxPosition="before" >
+              {{status.displayName}}
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+      </mat-expansion-panel>
+      <!-- Audit status filter end -->      
+    </mat-accordion>
+  </mat-card-content>
+  <mat-card-actions *ngIf="moduleName !== 'project'">
+    <div class="footer-action" >
+      <button type="submit" mat-raised-button class="btn-primary-color">Add selected</button>
+  </div>
+  </mat-card-actions>
+</form>
+</mat-card>

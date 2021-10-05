@@ -1,0 +1,361 @@
+
+.job-core-details {
+
+    &__body-content {
+        margin-top: 1rem;
+    }
+
+    &__info-label {
+        font-size: 0.688rem;
+        font-weight: 300;
+        letter-spacing: 0.47px;
+        color: rgba(0,0,0,.54);
+        margin-bottom: 1rem;
+    }
+
+    &__readonly-content {
+        height: 3.125rem;
+        padding-top: 0.25rem;
+    }
+
+    &__readonly-field-custom {
+        margin-top: -1.58em;
+        .job-core-details__readonly-content--label {
+            margin-bottom: 1px;
+        }
+    }
+
+    &__readonly-content--label {
+        font-size: 0.625rem;
+        text-transform: uppercase;
+        font-weight: 300;
+        letter-spacing: 0.47px;
+        color: rgba(0,0,0,.54);
+    }
+
+    &__readonly-content--value {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 0.813rem;
+        line-height: 1rem;
+        letter-spacing: 0.031rem;
+    }
+
+    &__hint-label {
+        font-size: 10px;
+        line-height: 13px;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        color: var(--grays-bg-700);
+    }
+
+    &__mat-prefix-symbol{
+        position: relative;
+        top: 5px;
+        font-size: 14px;
+    }
+
+    &__currency-amount {
+        position: relative;
+        top: 6px;
+        height: 17px !important;
+        font-size: 14px !important;
+    }
+
+    .pad-top {
+        padding-top: 0.5rem;
+    }
+
+    .imx-input-no-border {
+        height:auto;
+        border: none;
+    }
+
+
+    &__body-content--cost {
+        padding-top: 2rem;
+    }
+
+    &__costs-summary {
+        margin: 0;
+        font-size: 13px;
+        width: fit-content;
+    }
+
+    &__cost-summary-table {
+        border-collapse: collapse;
+
+        th {
+          padding: 0.5rem 1rem;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 13px;
+          line-height: 16px;
+
+          text-align: center;
+          letter-spacing: 0.5px;
+
+          width: fit-content;
+          color: var(--grays-bg-800);
+        }
+
+        td {
+          width: fit-content;
+          border-right: 1px solid;
+          border-color: var(--grays-bg-600);
+          text-align: center;
+          padding: 0rem 1rem;
+
+          .bordered {
+            white-space: nowrap;
+            padding: 0.15rem .5rem;
+            border: 1px solid;
+            border-radius: 5px;
+            border-color: var(--grays-bg-600);
+            width: fit-content;
+
+            font-style: normal;
+            font-weight: normal;
+            font-size: 13px;
+            line-height: 16px;
+            letter-spacing: 0.5px;
+            color: var(--grays-bg-700);
+          }
+        }
+
+        tr:last-child {
+          td:last-child {
+            border-right: none;
+          }
+        }
+    }
+
+    &__body-content--billing {
+        padding-top: 2.5rem;
+    }
+
+    &__billing-column {
+        min-width: fit-content;
+    }
+
+    &__mat-error {
+        margin-bottom: 1.2rem;
+    }
+
+    &__body-content--lineItem {
+        padding-top: 0.5rem;
+    }
+
+}
+
+::ng-deep {
+    .refesh-icon{
+        right: 0;
+        position: fixed;
+        font-size: 20px;
+        color: var(--primary-bg-800) !important;
+        cursor: pointer !important;
+    }
+    .creativeAgency-list-autocomplete, .primaryAgency-list-autocomplete{
+        overflow-y: auto !important;
+        padding-right: 0 !important;
+    }
+    .notesTextAreaLabel {
+        .mat-form-field-label-wrapper {
+          top: unset !important;
+        }
+        textarea {
+          resize: none !important;
+        }
+    }
+    .editorLabel{
+        .mat-form-field-underline {
+            display: none;
+        }
+    }
+
+    .notes-heading{
+        font-size: 0.688rem;
+        font-weight: 300;
+        letter-spacing: 0.47px;
+        color: rgba(0, 0, 0, 0.54);
+        margin-bottom: 0.5rem;
+    }
+
+    app-job-core-details {
+
+            .mat-form-field-infix {
+                border-top : inherit;
+            }
+
+            .mat-radio-label-content{
+                font-style: normal;
+                font-weight: normal;
+                font-size: 0.813rem;
+                line-height: 1rem;
+                letter-spacing: 0.031rem;
+                text-transform: capitalize;
+                color: var(--grays-bg-800);
+                position: relative;
+                bottom: 0.125rem;
+                padding-left: 0.25rem;
+            }
+
+            .mat-radio-button.mat-accent .mat-radio-inner-circle {
+                background-color: var(--primary-bg-800) !important;
+                width: 1rem;
+                height: 1rem;
+            }
+
+            .mat-radio-outer-circle {
+                width: 1rem !important;
+                height: 1rem !important;
+            }
+
+            .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+                border-color: var(--primary-bg-800) !important;
+                width: 1rem;
+                height: 1rem;
+            }
+
+            .mat-radio-checked {
+                .mat-radio-label-content {
+                  color: var(--primary-bg-800) !important;
+                }
+            }
+
+            .total-auth-amt {
+                .mat-form-field-prefix {
+                  margin-right: 0.25rem ;
+                }
+            }
+
+            .hint-lable-right {
+                .mat-form-field-hint-wrapper {
+                    float: right;
+                    display: inline;
+                }
+            }
+
+            .notes-label{
+                .mat-form-field-label {
+                top: 0 !important;
+                }
+                .mat-form-field-underline {
+                //   display: none;
+                }
+                width: 100%;
+            }
+            .job-core-details-jobnotes {
+                .mat-form-field-label-wrapper .mat-form-field-label {
+                text-transform: initial !important;
+                }
+            }
+            .job-print-link {
+                font-size: 14px;
+                line-height: 18px;
+                letter-spacing: 1.55px;
+                text-transform: uppercase;
+                color: var(--primary-bg-800);
+            }
+            
+        .jobNoteText {
+            border-bottom: 1px solid var(--grays-bg-800);
+            padding-bottom: 5px;
+            p {
+                font-style: normal;
+                font-weight: normal;
+                font-size: 13px !important;
+                line-height: 20px;
+                letter-spacing: 0.15px;
+                margin-bottom: 0.8rem;
+                color: var(--grays-bg-800);
+                word-break: break-all;
+                &:last-child{
+                    margin-bottom:0px !important;
+                }
+            }
+            // font-size: 13px;
+            // font-style: normal;
+            // font-weight: 400;
+            // line-height: 16px;
+            // letter-spacing: 0.5px;
+            // border-bottom: 1px solid var(--grays-bg-800);
+            // padding-bottom: 5px;
+            // p {
+            //     font-size: 13px;
+            //     font-style: normal;
+            //     font-weight: 400;
+            //     line-height: 16px;
+            //     letter-spacing: 0.5px;
+            //     border-bottom: 1px solid var(--grays-bg-800);
+            //     padding-bottom: 5px;
+            //     font-size: inherit;
+            //     margin: 0px;
+            // }
+        }
+        .billingNotesWidth {
+            width: 310px;
+        }
+    }
+    .drop-maxwidth {
+        max-width: inherit !important;
+    }
+    .notesTextAreaLabel {
+        .mat-form-field-label-wrapper {
+          top: unset !important;
+        }
+        textarea {
+          resize: none !important;
+        }
+    }
+    .editorLabel{
+        .mat-form-field-underline {
+            display: none;
+        }
+    }
+    .notes-text-area{
+        line-height: 10px !important;
+    }
+
+    .create-link-autocomplete {
+        mat-option {
+        &:first-child {
+            color: var(--primary-bg-800) !important;
+            cursor: pointer;
+            mat-icon {
+            font-size: 1rem;
+            height: 1rem;
+            width: 1rem;
+            margin-right: 5px;
+            }
+    
+            &:after {
+            content: none !important;
+            }
+        }
+        }
+    }
+
+    .mat-link-icon{
+        height: 16px !important;
+        width: 16px !important;
+        color: var(--primary-bg) !important;
+    }
+
+    .billingCompany-list-autocomplete {
+        min-width: 160px !important;
+        max-height: 240px;
+        overflow-y: auto !important;
+    }
+   
+}
+
+::ng-deep .totalauth-amount-field {
+    .mat-form-field-can-float .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label, .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+        margin-left: -13px;
+    }
+    .mat-form-field-label-wrapper {
+        overflow: initial;
+    }
+}

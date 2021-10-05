@@ -1,0 +1,25 @@
+<mat-card class="imx-widget-card">
+  <mat-card-header>
+    <mat-card-title>Audience {{ selectedAudiences.length !== 0 ? "(" + selectedAudiences.length + ")"  : '' }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list >
+      <mat-list-item class="test-measure-item" *ngFor="let audience of selectedAudiences; let i=index" title="{{audience.name}}" > 
+        <span matLine>{{ audience.name | truncate:'middle':18:6 }}</span> 
+        <div class="left-select">
+        <ng-container *ngIf = "editFlag">
+          <button class="select test-forward-button" mat-icon-button (click)="removeAudience(audience)" *ngIf="( i === 0 && audience.id === defaultAudience.audienceKey && (selectedAudiences.length > 1));else notdeault"><mat-icon matListIcon>clear</mat-icon></button>
+          <ng-template #notdeault>
+            <button class="select test-forward-button" mat-icon-button (click)="removeAudience(audience)" *ngIf="audience.id !== defaultAudience.audienceKey">
+              <mat-icon matListIcon>clear</mat-icon>
+            </button>
+          </ng-template>
+        </ng-container>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+  <mat-card-actions *ngIf = "editFlag">
+    <button mat-button type="button" class="add-link" disableRipple (click)="openAudienceDialog()"><mat-icon>add</mat-icon> Audience</button>
+  </mat-card-actions>
+</mat-card>

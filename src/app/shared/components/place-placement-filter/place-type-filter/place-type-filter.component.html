@@ -1,0 +1,30 @@
+<mat-form-field floatLabel="never" fxFlexFill class="search-field">
+  <input matInput type="text" [(ngModel)]="searchPlaceQuery" placeholder="Search" name="search"
+         class="ta-search-text placementType-search" appSearch key="name" filterName="PlaceType"
+         [sourceData]="placeTypes" (filter)="filterplaceTypes($event)" #placeTypeSearch autocomplete="off">
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
+
+<!-- Place type content loader --->
+<ng-container *ngIf="isInitiated && !isInitialLoadCompleted">
+  <app-cl-list-with-left-check-box></app-cl-list-with-left-check-box>
+</ng-container>
+<!-- End Place type content loader --->
+
+<mat-selection-list fxFill class="format-group  media-list  placeTypes" [compareWith]="compare">
+  <mat-list-option checkboxPosition="before" *ngFor="let placeType of filteredPlaceTypes;"
+                   [value]="placeType" (click)="onSelectPlaceType(placeType)" disableRipple #placeTypeoption
+                   [matTooltipClass]="'inventory-filter-tooltip'" matTooltipPosition="above"
+                   [matTooltip]='placeType.description' [selected]="onCheckedPlace(placeType)">
+    <div class="width100 classificationTypesLabel">
+      <span fxHide.xs [innerHTML]="placeType.name | truncate:'middle':45:6 | imx_highlight: searchPlaceQuery"></span>
+      <span fxShow.xs fxHide
+            [innerHTML]="placeType.name | truncate:'middle':8:6 | imx_highlight: searchPlaceQuery"></span>
+    </div>
+  </mat-list-option>
+</mat-selection-list>
+
+<div fxLayout="row" fxLayoutAlign="center center"
+*ngIf="filteredPlaceTypes && filteredPlaceTypes.length <= 0 && isInitiated && isInitialLoadCompleted">
+  No data found
+</div>

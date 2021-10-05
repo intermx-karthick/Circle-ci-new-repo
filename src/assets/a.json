@@ -1,0 +1,500 @@
+{
+  "audienceList": [
+    {
+      "options": [
+        {
+          "options": [
+            {
+              "options": [
+                {
+                  "audience": "mbike",
+                  "label": "Bike to Work"
+                },
+                {
+                  "audience": "mbus",
+                  "label": "Bus to Work"
+                },
+                {
+                  "audience": "mdrive",
+                  "label": "Drive to Work"
+                },
+                {
+                  "audience": "mferry",
+                  "label": "Ferry to Work"
+                },
+                {
+                  "audience": "mhvrail",
+                  "label": "Heavy rail to Work"
+                },
+                {
+                  "audience": "mltrail",
+                  "label": "Light rail to Work"
+                },
+                {
+                  "audience": "mpool",
+                  "label": "Carpool to Work"
+                },
+                {
+                  "audience": "msub",
+                  "label": "Subway to Work"
+                },
+                {
+                  "audience": "mwalk",
+                  "label": "Walk to Work"
+                },
+                {
+                  "audience": "mzother",
+                  "label": "Other mode to Work"
+                }
+              ],
+              "label": "Commute"
+            },
+            {
+              "options": [
+                {
+                  "audience": "away",
+                  "label": "Work Outside the Home"
+                },
+                {
+                  "audience": "home",
+                  "label": "Work from Home"
+                }
+              ],
+              "label": "Employment"
+            },
+            {
+              "options": [
+                {
+                  "audience": "saenglish",
+                  "label": "Speak only English at home"
+                },
+                {
+                  "audience": "safrench",
+                  "label": "Speak Spanish at home"
+                },
+                {
+                  "audience": "sagermanic",
+                  "label": "Speak French at home"
+                },
+                {
+                  "audience": "saslavic",
+                  "label": "Speak Germanic language at home"
+                },
+                {
+                  "audience": "saspanish",
+                  "label": "Speak Slavic language at home"
+                },
+                {
+                  "audience": "sazother",
+                  "label": "Speak other language at home"
+                },
+                {
+                  "audience": "sb",
+                  "label": "Speak Asian language at home"
+                },
+                {
+                  "audience": "sbchinese",
+                  "label": "Speak Chinese at home"
+                },
+                {
+                  "audience": "sbkorean",
+                  "label": "Speak Korean at home"
+                },
+                {
+                  "audience": "sbvietnamese",
+                  "label": "Speak Vietnamese at home"
+                }
+              ],
+              "label": "Language"
+            }
+          ],
+          "label": "Behaviors"
+        },
+        {
+          "options": [
+            {
+              "options": [
+                {
+                  "audience": "a16p",
+                  "label": "Persons 16+ yrs"
+                },
+                {
+                  "audience": "a05p",
+                  "label": "Persons 5+ yrs"
+                },
+                {
+                  "audience": "a18t34",
+                  "label": "Persons 18-34 yrs"
+                },
+                {
+                  "audience": "a18t49",
+                  "label": "Persons 18-49 yrs"
+                },
+                {
+                  "audience": "a25t54",
+                  "label": "Persons 25-54 yrs"
+                },
+                {
+                  "audience": "a55p",
+                  "label": "Persons 55+ yrs"
+                },
+                {
+                  "audience": "a18p",
+                  "label": "Persons 18+ yrs"
+                },
+                {
+                  "audience": "a21p",
+                  "label": "Persons 21+ yrs"
+                }
+              ],
+              "label": "Age"
+            },
+            {
+              "options": [
+                {
+                  "audience": "hisp",
+                  "label": "Hispanic"
+                }
+              ],
+              "label": "Ethnicity"
+            },
+            {
+              "options": [
+                {
+                  "audience": "female",
+                  "label": "Female"
+                },
+                {
+                  "audience": "male",
+                  "label": "Male"
+                }
+              ],
+              "label": "Gender"
+            },
+            {
+              "options": [
+                {
+                  "audience": "asian",
+                  "label": "Asian"
+                },
+                {
+                  "audience": "black",
+                  "label": "Black"
+                },
+                {
+                  "audience": "native",
+                  "label": "American Indian/Alaskan Native"
+                },
+                {
+                  "audience": "notHisp",
+                  "label": "Not Hispanic"
+                },
+                {
+                  "audience": "pacific",
+                  "label": "Native Hawaiian/Pacific Islander"
+                },
+                {
+                  "audience": "white",
+                  "label": "White"
+                },
+                {
+                  "audience": "ztomr",
+                  "label": "2 or More Races"
+                }
+              ],
+              "label": "Race"
+            }
+          ],
+          "label": "Demographics"
+        },
+        {
+          "options": [
+            {
+              "options": [
+                {
+                  "audience": "nppla00t18",
+                  "label": "No Children (<18yrs) in the Household"
+                },
+                {
+                  "audience": "ppla00t18",
+                  "label": "Children (<18yrs) in the Household"
+                }
+              ],
+              "label": "Children"
+            },
+            {
+              "options": [
+                {
+                  "audience": "val0000t0024",
+                  "label": "Home Value $0-$25,000"
+                },
+                {
+                  "audience": "val0025t0049",
+                  "label": "Home Value $25,000-$49,999"
+                },
+                {
+                  "audience": "val0050t0099",
+                  "label": "Home Value $50,000-$99,999"
+                },
+                {
+                  "audience": "val0100p",
+                  "label": "Home Value $100,000-$199,999"
+                },
+                {
+                  "audience": "val0100t0199",
+                  "label": "Home Value $100,000+"
+                },
+                {
+                  "audience": "val0200t0299",
+                  "label": "Home Value $200,000-$299,999"
+                },
+                {
+                  "audience": "val0300t0399",
+                  "label": "Home Value $300,000-$399,999"
+                },
+                {
+                  "audience": "val0400t0499",
+                  "label": "Home Value $400,000-$499,999"
+                },
+                {
+                  "audience": "val0500p",
+                  "label": "Home Value $500,000-$999,999"
+                },
+                {
+                  "audience": "val0500t0999",
+                  "label": "Home Value $500,000+"
+                },
+                {
+                  "audience": "val1000p",
+                  "label": "Home Value $1M-$2M"
+                },
+                {
+                  "audience": "val1000t1999",
+                  "label": "Home Value $1M+"
+                },
+                {
+                  "audience": "val2000p",
+                  "label": "Home Value $2M+"
+                },
+                {
+                  "audience": "oo",
+                  "label": "Owner-Occupied Household"
+                }
+              ],
+              "label": "Own"
+            },
+            {
+              "options": [
+                {
+                  "audience": "fhhlder",
+                  "label": "Female Householder"
+                },
+                {
+                  "audience": "mhhlder",
+                  "label": "Male Householder"
+                }
+              ],
+              "label": "Householder"
+            },
+            {
+              "options": [
+                {
+                  "audience": "hhinc000t010",
+                  "label": "<$10,000 Household Income"
+                },
+                {
+                  "audience": "hhinc000t025",
+                  "label": "<$25,000 Household Income"
+                },
+                {
+                  "audience": "hhinc000t050",
+                  "label": "<$50,000 Household Income"
+                },
+                {
+                  "audience": "hhinc050t075",
+                  "label": "$50,000-74,999 Household Income"
+                },
+                {
+                  "audience": "hhinc050t100",
+                  "label": "$50,000-99,999 Household Income"
+                },
+                {
+                  "audience": "hhinc075t100",
+                  "label": "$75,000-99,999 Household Income"
+                },
+                {
+                  "audience": "hhinc100p",
+                  "label": "$75,000+ Household Income"
+                },
+                {
+                  "audience": "hhinc150p",
+                  "label": "$100,000+ Household Income"
+                },
+                {
+                  "audience": "hhinc75p",
+                  "label": "$150,000+ Household Income"
+                }
+              ],
+              "label": "Income"
+            },
+            {
+              "options": [
+                {
+                  "audience": "01mor",
+                  "label": "Home has 1st Mortgage Only"
+                },
+                {
+                  "audience": "01morp",
+                  "label": "Home with 2nd Mortgage or HE Loan"
+                },
+                {
+                  "audience": "nomor",
+                  "label": "Home with no Mortgage"
+                }
+              ],
+              "label": "Mortgage"
+            },
+            {
+              "options": [
+                {
+                  "audience": "rent000t049",
+                  "label": "Rent $0-$499 per month"
+                },
+                {
+                  "audience": "rent050p",
+                  "label": "Rent $500-$749 per month"
+                },
+                {
+                  "audience": "rent050t074",
+                  "label": "Rent $500+ per month"
+                },
+                {
+                  "audience": "rent075t099",
+                  "label": "Rent $750-$999 per month"
+                },
+                {
+                  "audience": "rent100p",
+                  "label": "Rent $1,000-$1,499 per month"
+                },
+                {
+                  "audience": "rent100t149",
+                  "label": "Rent $1,000+ per month"
+                },
+                {
+                  "audience": "rent150t199",
+                  "label": "Rent $1,500-$1,999 per month"
+                },
+                {
+                  "audience": "rent200p",
+                  "label": "Rent $2,000-$2,499 per month"
+                },
+                {
+                  "audience": "rent200t249",
+                  "label": "Rent $2,000+ per month"
+                },
+                {
+                  "audience": "rent250t299",
+                  "label": "Rent $2,500-$2,999 per month"
+                },
+                {
+                  "audience": "rent300p",
+                  "label": "Rent $3,000+ per month"
+                },
+                {
+                  "audience": "ro",
+                  "label": "Renter-Occupied Household"
+                }
+              ],
+              "label": "Rent"
+            },
+            {
+              "options": [
+                {
+                  "audience": "veh0",
+                  "label": "No Vehicles in the Household"
+                },
+                {
+                  "audience": "veh1",
+                  "label": "1 Vehicle in the Household"
+                },
+                {
+                  "audience": "veh2",
+                  "label": "2 Vehicles in the Household"
+                },
+                {
+                  "audience": "veh3p",
+                  "label": "3+ Vehicles in the Household"
+                }
+              ],
+              "label": "Vehicles"
+            },
+            {
+              "options": [
+                {
+                  "audience": "marcoup",
+                  "label": "Married Couple Household"
+                },
+                {
+                  "audience": "unmarparthh",
+                  "label": "Unmarried-Partner Household"
+                }
+              ],
+              "label": "Marital Status"
+            }
+          ],
+          "label": "Household Profile"
+        }
+      ],
+      "label": "Population"
+    },
+    {
+      "options": [
+        {
+          "label": "Commute",
+          "options": [
+            {
+              "description": "Bike to Work"
+            },
+            {
+              "description": "Bus to Work"
+            },
+            {
+              "description": "Drive to Work"
+            }
+          ]
+          
+        },
+        {
+          "label": "Employment",
+          "options": [
+            {
+              "description": "Work Outside the Home"
+            },
+            {
+              "description": "Work from Home"
+            }
+          ]
+        },
+        {
+          "label": "Language",
+          "options": [
+            {
+              "description": "Speak only English at home"
+            },
+            {
+              "description": "Speak Spanish at home"
+            },
+            {
+              "description": "Speak French at home"
+            }
+          ]
+        }
+      ],
+      "label": "Consumer"
+    }
+  ],
+  "audienceFilter": [],
+  "targetAudience": {
+    "audienceKey": ""
+  }
+}

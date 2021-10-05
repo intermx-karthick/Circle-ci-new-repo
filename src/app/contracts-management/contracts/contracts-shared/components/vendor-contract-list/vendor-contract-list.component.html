@@ -1,0 +1,184 @@
+<div class="vendor-list-main" fxLayout="column" fxLayoutAlign="start start">
+
+  <div class="vlist-body" fxLayout="column" fxLayoutAlign="start start" fxFill>
+    <div fxLayout="row" class="vlist-header-action">
+      <div fxFlex="20" class="total-record" fxLayoutAlign="start center" *ngIf="!searchFilterApplied">
+        Total : {{vendorContractsPagination?.found || 0}}
+      </div>
+      <div fxFlex="20" class="total-record" fxLayoutAlign="start center" *ngIf="searchFilterApplied">
+        Found : {{vendorContractsPagination?.found || 0}}
+      </div>
+      <div fxFlex="80" fxLayoutAlign="end" fxLayoutGap="1.2rem">
+        <div *ngIf="!elasticSearch.isSearchValid" tooltip="Refresh" placement="top" delay="200"
+          tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          <mat-icon class="close-icon" svgIcon="IMX-refresh" (click)="refreshVendorContracts()"></mat-icon>
+        </div>
+        <div class="action-group-by" fxLayoutAlign="start center" *ngIf="!isDialogOpenend" #CdkOverlayOrigin="cdkOverlayOrigin" cdkOverlayOrigin>
+          <span (click)="$event.stopPropagation();groupOverlayOrigin = CdkOverlayOrigin; isGroupByOverlay = !isGroupByOverlay;">GROUP BY VENDOR</span>
+        </div>
+        <div tooltip="Customize Columns" placement="top" delay="200" tooltipClass="imx-tooltip-v3"
+          customClass="imx-field-tooltip" *ngIf="!isDialogOpenend" fxLayoutAlign="start center">
+          <mat-icon svgIcon="IMX-columns" class="svg-primary" (click)="customizeColumn()"></mat-icon>
+        </div>
+        <div *ngIf="!isDialogOpenend; else closeDialog" tooltip="Expand Table" placement="top" delay="200"
+          tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" fxLayoutAlign="start center">
+          <mat-icon (click)="openVendorDialog()">zoom_out_map</mat-icon>
+        </div>
+        <ng-template #closeDialog>
+          <mat-icon tooltip="Collapse Table" placement="top" delay="200" tooltipClass="imx-tooltip-v3"
+            customClass="imx-field-tooltip" svgIcon="IMX-fullscreen-exit" class="full-screen-exit-icon"
+            (click)="closeDialogBox()"></mat-icon>
+        </ng-template>
+      </div>
+
+    </div>
+    <div class="vtable-container" fxFill>
+      <div class="vlist-table-parent" [ngStyle]="{'max-height.px':scrollContent, 'min-height.px': scrollContent}"
+        id="{{ isDialogOpenend ? 'vendor-fullscreen-scroll' : 'vendor-table-scroll'}}" #tableScrollRef>
+        <mat-table #scrollBar [dataSource]="dataSource" matSort (matSortChange)="onSorting($event)"
+          matSortActive="{{selectedSort?.active}}" matSortDirection="{{selectedSort?.direction}}" matSortDisableClear
+          class="margin-top-20 imx-table-striped table-header-auto" (window:resize)="reSize()"
+          [matSortDisabled]="!vendorContracts?.length" [ngClass]="{'enable-table-scroll': hasHorizontalScrollbar}">
+          <ng-container matColumnDef="contractId" [sticky]="true">
+            <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="12rem">Vendor Contract ID</mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="12rem" class="imx-link-cursor"
+             [class.vcontract_disable_link]="!userPermission?.view">
+              <a  (click)="!!userPermission?.view && openVendorPreview(element)"  class="primary-color-text font-weight-normal vendor-name-td imx-name-wrap" [class.vcontract_disable_link]="!userPermission?.view">
+                {{element?.contract?.contractId}}
+              </a>
+            </mat-cell>
+          </ng-container>
+
+
+          <ng-container matColumnDef="vendor">
+            <mat-header-cell *matHeaderCellDef class="" fxFlex="13.75rem" mat-sort-header> Vendor Name </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="13.75rem"> <span *ngIf="element?.vendor?.length > 0">
+              {{element?.displayVendor}}
+            </span></mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="vendorRepName" >
+            <mat-header-cell *matHeaderCellDef fxFlex="13.75rem" mat-sort-header> Vendor Rep </mat-header-cell>
+            <mat-cell  *matCellDef="let element" fxFlex="13.75rem"> {{element.displayVendorName}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="vendorEmail">
+            <mat-header-cell *matHeaderCellDef class="" fxFlex="14.25rem" mat-sort-header>Vendor Rep Email(s)</mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="14.25rem"> <span *ngIf="element?.vendor?.length > 0"> {{
+              element?.vendorRepEmails }} </span></mat-cell>
+          </ng-container>
+
+
+          <ng-container matColumnDef="startDate">
+            <mat-header-cell *matHeaderCellDef class="" fxFlex="6rem" mat-sort-header> Start Date </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="6rem"> {{element.startDate | date:'MM/dd/yyyy'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="endDate">
+            <mat-header-cell *matHeaderCellDef fxFlex="6rem" mat-sort-header> End Date </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="6rem"> {{element.endDate | date:'MM/dd/yyyy'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="signed">
+            <mat-header-cell *matHeaderCellDef fxFlex="6rem" class="remove-left-padding" mat-sort-header> Signed </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="6rem" class="signed-img remove-left-padding">
+              <mat-icon class="imx-signed" svgIcon="IMX-signed" (click)="uploadContract(element)" [isAccessDenied]="!attchmentPerms?.create" module="attachment" visiblityType="create" appUserAccessPermission></mat-icon>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="issueDate">
+            <mat-header-cell *matHeaderCellDef fxFlex="6rem" mat-sort-header> Issue Date </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="6rem"> {{element.issueDate | date:'MM/dd/yyyy'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="updatedAt">
+            <mat-header-cell *matHeaderCellDef fxFlex="10rem" mat-sort-header> Last Modified Date </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="10rem">
+              <span [innerHTML]="(element.updatedDate | dateAgo :'new') | lowercase"></span>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="action" [sticky]="true">
+            <mat-header-cell *matHeaderCellDef fxFlex="2.5rem" class="action-menu-column">
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element;let i = index" fxFlex="2.5rem" class="action-menu-column">
+              <mat-icon [matMenuTriggerFor]="actionMenu" class="action-icon" [isAccessDenied]="(!userPermission?.edit && !userPermission?.export && !attchmentPerms?.create)" module="contract" visiblityType="menu"  appUserAccessPermission>more_vert</mat-icon>
+              <mat-menu #actionMenu="matMenu" xPosition="before"
+                class="action-dropdown-imx minimun-height action-menu-position  action-dropdown-width table-action-position">
+                <button mat-menu-item (click)="editContract(element)" [isAccessDenied]="!userPermission?.edit" module="contract" visiblityType="edit" appUserAccessPermission>Edit</button>
+                <button mat-menu-item (click)="uploadContract(element)" [isAccessDenied]="!attchmentPerms?.create" module="attachment" visiblityType="create" appUserAccessPermission>Upload</button>
+                <button mat-menu-item (click)="copyContract(element)" [isAccessDenied]="!userPermission?.export" module="contract" visiblityType="export" appUserAccessPermission>Copy URL</button>
+              </mat-menu>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="customizeColumnService.displayedColumns;sticky: true"></mat-header-row>
+          <mat-row *matRowDef="let row; let i = index; columns: customizeColumnService.displayedColumns;"></mat-row>
+        </mat-table>
+
+        <app-filter-overlay *ngIf="groupOverlayOrigin" [CdkOverlayOrigin]="groupOverlayOrigin"  cdkClassName="plan-overlay-position" (close)="isGroupByOverlay = false"
+        (open)="isGroupByOverlay = true" [isOpen]="isGroupByOverlay" [cdkPosition] = "_positions">
+
+          <div fxFlexFill fxLayout="column" fxLayoutAlign="start start"  class="audience-filter-overlay-div">
+            <mat-form-field class="imx-input search-vendor">
+              <mat-label>Search Vendors</mat-label>
+              <input type="text" [formControl]="searchVendorsCtrl" matInput autocomplete="off">
+              <mat-spinner matSuffix diameter="15" *ngIf="vendorsLoading"></mat-spinner>
+              <mat-icon matSuffix class="close-icon" (click)="clearSearch()">close</mat-icon>
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+              <mat-selection-list [formControl]="selectedGroupCtrl" [compareWith]="compareFilters"
+                [ngClass]="{'no-data-available':!vendorList?.length}" infiniteScroll [infiniteScrollDistance]="1"
+                [infiniteScrollThrottle]="0" [scrollWindow]="false" [fromRoot]="true" [immediateCheck]="false"
+                [alwaysCallback]="false" [infiniteScrollDisabled]="vendorList?.length >= vendorListPagination?.found"
+                (scrolled)="loadMoreVendorForGroupBy()"
+                (selectionChange)="onSelectChangeOfGrpVendors($event)">
+                <mat-list-option checkboxPosition="before" *ngFor="let type of vendorList;" [value]="type" role="listitem">
+                  <span [innerHTML]="type.name" [tooltip]="type.name?.length >21 ? type.name : ''" placement="top" delay="200"
+                    tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"></span>
+                </mat-list-option>
+              </mat-selection-list>
+              <ng-container *ngIf="!vendorList?.length">
+                <div  fxLayout="row" fxLayoutAlign="center" class="noDataFound">
+                  No Vendor Group found.
+                </div>
+              </ng-container>
+              <div fxLayout="row" fxLayoutAlign="space-between center"  class="overlay-action-btn" fxLayoutGap="1rem" *ngIf="vendorList?.length">
+                <button mat-button (click)="selectAllVendor()" class="imx-button-basic_icon">
+                  {{isAllVendorSelected ? 'DESELECT ALL' : 'SELECT ALL'}}
+                </button>
+                <button mat-button (click)="applyGroupBy()" class="button-secondary-bordered apply-btn">APPLY</button>
+              </div>
+
+          </div>
+
+        </app-filter-overlay>
+
+        <div fxLayout="row" fxLayoutAlign="center center" fxFill
+          *ngIf="vendorContracts?.length === 0 && !isVendorContractsLoading" class="noDataFound">
+          <div>
+            <p>No Vendor Contracts found with that Criteria.</p>
+            <div [ngStyle]="{'height.px':scrollContent -190}">
+              <img src="../../../assets/images/cuate.svg" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="vlist-pagination" [class.no-top-border]="!vendorContracts?.length && isVendorContractsLoading">
+        <div class="spiner-div" *ngIf="isVendorContractsLoading">
+          <mat-spinner diameter="30"></mat-spinner>
+        </div>
+        <div>
+          <mat-paginator [disabled]="!vendorContracts?.length" (page)="getPageEvent($event)"
+            [length]="vendorContractsPagination?.found || 0" [pageIndex]="(vendorContractsPagination?.page || 1) - 1"
+            [pageSize]="vendorContractsPagination?.perPage" [pageSizeOptions]="paginationSizes"
+            [showFirstLastButtons]="true">
+          </mat-paginator>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

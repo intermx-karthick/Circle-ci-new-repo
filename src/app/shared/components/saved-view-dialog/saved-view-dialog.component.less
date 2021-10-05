@@ -1,0 +1,67 @@
+@import url(../../../../assets/css/variables.less);
+::ng-deep{
+  app-saved-view-dialog{
+    mat-form-field{
+      width: 100%;
+    }
+    mat-list{
+      max-width: 100%;
+      max-height: 170px;
+      overflow: auto;
+      mat-list-item:hover {
+        box-shadow: none;
+      }
+      .mat-list-item-content{
+        .mat-radio-button{
+          line-height: 48px;
+        }
+      }
+      label{
+        width: 100%;
+      }
+    }
+    .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+      border-color: var(--button-bg-color);
+    }
+    .mat-radio-button.mat-accent .mat-radio-inner-circle {
+      background-color: var(--button-bg-color);
+    }
+    .mat-dialog-actions{
+      place-content: flex-end;
+    }
+    .save-caption{
+      margin-bottom: 20px;
+    }
+    .font-bold {
+      font-weight: bold;
+    }
+    .save-view-title{
+      font-size: 26px;
+      font-weight: 300 !important;
+    }
+    .saved-view-password{
+      .mat-form-field-infix{
+        padding-bottom: 0px;
+      }
+      input[type=password]{
+        border-bottom: none !important;
+      }
+    }
+   
+    .close-btn{
+      background-color: #FAFAFA;
+      color: var(--medium-emphasis);
+      font-weight: bold;
+    }
+    button{
+      font-weight: bold !important;
+    }
+  }
+  .save-layer-dialog{
+    .mat-dialog-container{
+      padding: 24px !important;
+    }
+  }
+}
+
+

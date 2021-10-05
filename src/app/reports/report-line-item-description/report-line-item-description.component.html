@@ -1,0 +1,40 @@
+<div class="c-line-item-description">
+  <section class="c-line-item-description__header" fxLayout='row' fxLayoutAlign='space-between center'>
+    <div>Line item ID (Type) :
+      <ng-container>{{lineItem?.id}}</ng-container>
+    </div>
+    <div>Contract Period
+      <ng-container>{{lineItem?.contract_period}}</ng-container>
+    </div>
+  </section>
+
+  <section class="c-line-item-description__body">
+    <table class="c-line-item-table">
+      <thead class="c-line-item-description__body c-line-item-description__body_title">
+      <th class="c-line-item-table__market">Market</th>
+      <th class="c-line-item-table__vendor">Vendor</th>
+      <th class="c-line-item-table__media-type">Media type</th>
+      <th class="c-line-item-table__sales-tax">Sales TAX</th>
+      <th class="c-line-item-table__unit-size">unit size</th>
+      <th class="c-line-item-table__unit-period">unit/period</th>
+      <th class="c-line-item-table__term-period">Term of period</th>
+      <th class="c-line-item-table__unit-id">unit id</th>
+      <th class="c-line-item-table__media-location">media/location description</th>
+      </thead>
+
+      <tbody>
+       <tr>
+         <td class="c-line-item-table__market">{{lineItem?.market}}</td>
+         <td class="c-line-item-table__vendor">{{lineItem?.vendor}}</td>
+         <td class="c-line-item-table__media-type">{{lineItem?.media_type}}</td>
+         <td class="c-line-item-table__sales-tax">{{lineItem?.sales_tax}}</td>
+         <td class="c-line-item-table__unit-size">{{lineItem?.unit_size}}</td>
+         <td class="c-line-item-table__unit-period">{{lineItem?.unit_period}}</td>
+         <td class="c-line-item-table__term-period">{{lineItem?.term_of_period}}</td>
+         <td class="c-line-item-table__unit-id">{{lineItem?.unit_id}}</td>
+         <td class="c-line-item-table__media-location">{{lineItem?.media_location_description}}</td>
+       </tr>
+      </tbody>
+    </table>
+  </section>
+</div>

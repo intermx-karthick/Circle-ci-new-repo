@@ -1,0 +1,76 @@
+::ng-deep {
+  app-place-results {
+    .result-summary-block {
+      height: calc(~"100vh - 120px")
+    }
+    .result-header {
+      background: var(--primary-bg-900);
+      color: var(--text-whites);
+      margin: 0;
+      padding: 15px;
+    }
+    .result-summary {
+      background: var(--primary-bg);
+      color: var(--text-whites);
+      padding: 15px 5px 0 5px;
+      & .result-subhead {
+        font-size: 12px;
+        font-weight: bold;
+        margin-left: 20px;
+      }
+      & > .result-highlights {
+        max-width:330px;
+        padding-left: 20px;
+        h3 {
+          color: var(--text-whites);
+          margin: unset;
+        }
+        p {
+          font-size: 10px;
+          color: var(--medium-emphasis-white);
+          font-weight: bold;
+        }
+      }
+    }
+    .results-back {
+      padding: 5px 10px;
+      position: absolute;
+      margin-top: 1px;
+      &.details-grid{
+        position: relative;
+      }
+      & > button {
+        background: var(--primary-bg);
+        color: var(--text-whites);
+        font-size: 12px;
+        & mat-icon {
+          font-size: 18px;
+          height: 20px;
+        }
+      }
+    }
+    .result-total {
+      padding-left: 20px;
+      font-weight: bold;
+      font-size: 12px;
+    }
+    .result-actions {
+      background: var(--primary-bg);
+      color: var(--text-whites);
+      height: 50px;
+      z-index: 2;
+      & a {
+        color: var(--text-whites);
+      }
+    }
+    // .resize-table {
+    //   .places-tabular-body {
+    //     // height: calc(100vh - 410px) !important;
+    //   }
+    // }
+    .filterMoreDiv {
+      // height: 100%;
+      width: 700px;
+    }
+  }
+}

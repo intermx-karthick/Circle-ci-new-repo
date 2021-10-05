@@ -1,0 +1,23 @@
+<div *ngIf="!notifyMessage; else showMessage" mat-dialog-content class="confirmation-dialog">
+  <div fxLayout="row" fxLayoutAlign="start">
+      <h3 class="modal-title">{{title}}</h3>
+      <span fxFlex="1 1 auto"></span>
+      <mat-icon *ngIf="headerCloseIcon" (click)="onCloseDialog()" class="mat-icon-close">close</mat-icon>
+  </div>
+  <div class="confirm-desc" fxLayout="column" fxLayoutAlign="start">
+    <span class="modal-description" [innerHTML]="description"></span>
+  </div>
+</div>
+<ng-template #showMessage>
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <span class="notify-message" [innerHTML]="messageText"></span>
+  </div>
+  <div>
+      <button mat-button class="ok-btn" (click)="onSuccess()">{{confirmText && confirmText || 'OK'}}</button>
+  </div>
+</ng-template>
+<div *ngIf="!notifyMessage" class="dialog-footer" [ngClass]="{'secondary-cancel': secondayCancelBtnText}">
+  <button *ngIf="secondayCancelBtnText" mat-button class="cancel-btn" (click)="onSecondaryCancel()">{{secondayCancelBtnText}}</button>
+  <button mat-button mat-dialog-close class="cancel-btn" [disabled]="cancelBtnDisabled">{{cancelText}}</button>
+  <button mat-button class="continue-btn" (click)="onActionResult()">{{confirmText}}</button>
+</div>

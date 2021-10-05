@@ -1,0 +1,289 @@
+<form #estimateFormRef="ngForm" [formGroup]="estimateForm" class="c-estimate-form">
+  <div>
+    <section fxLayout="row wrap" fxLayoutGap="1rem" fxLayoutAlign="start center">
+      <mat-form-field *ngIf="estimateForm['controls'].product as productField" class="imx-input imx-dropdown details-mat-form-field extend-error-msg-space client-form__select" fxFlex="8.938rem">
+        <mat-label>Select Product</mat-label>
+
+        <mat-icon svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon for-mat-select"
+                  [class.disabled]="disableProductTabLink"
+                  (click)="$event.stopPropagation();tabLinkHandler('product', productField.value)" matSuffix></mat-icon>
+
+        <mat-select #productRef (selectionChange)="getProductTooltipText()" [panelClass]="'imx-select'" formControlName="product"
+                    tooltip="{{productTooltipText?.length > 10 ? productTooltipText : ''}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                    [class.placeholder-default]="estimateForm['controls'].product.value==''" infiniteScroll
+                    [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                    (scrolled)="productsAutoComplete.loadMoreData(null,null)" [scrollWindow]="false" required>
+
+          <mat-option *ngIf="!productsAutoComplete.isLoading && productsAutoComplete?.data?.length" [value]="null">Select Product</mat-option>
+          <mat-option *ngFor="let product of productsAutoComplete.data" (click)="selectProduct(product)"
+                      [value]="product?._id">{{product?.productName}}</mat-option>
+
+          <mat-option disabled *ngIf="productsAutoComplete.isLoading">
+            <div fxLayout="row" fxLayoutAlign="space-around center">
+              <mat-spinner diameter="20"></mat-spinner>
+            </div>
+          </mat-option>
+
+          <mat-option disabled *ngIf="!productsAutoComplete.isLoading && productsAutoComplete.data?.length <=0">
+            No Records Found.
+          </mat-option>
+        </mat-select>
+        <mat-error>Product is required.</mat-error>
+      </mat-form-field>
+
+      <div fxFlex="7rem"  class="c-estimate-form__product-code">
+        <span *ngIf="!productCodeValue">Product Code</span>
+        <p *ngIf="productCodeValue" tooltip="{{productCodeValue?.length > 10 ? productCodeValue : ''}}"
+           placement="right"
+           delay="200"
+           tooltipClass="imx-tooltip-v3"
+           customClass="imx-field-tooltip">
+          {{productCodeValue}}
+        </p>
+      </div>
+
+    </section>
+
+    <section fxLayout="row wrap" fxLayoutGap="1rem" fxLayoutAlign="start center">
+      <mat-form-field fxFlex="16.968rem" class="imx-input extend-error-msg-space">
+        <mat-label>Estimate Name</mat-label>
+        <input formControlName="estimateName" matInput autocomplete="off" required/>
+        <mat-error *ngIf="estimateForm.controls['estimateName']?.errors?.required">Estimate Name is required.
+        </mat-error>
+        <mat-error
+          *ngIf="!estimateForm.controls['estimateName']?.errors?.required && estimateForm.controls['estimateName']?.errors?.whitespace">
+          <span>Invalid Estimate name.</span>
+        </mat-error>
+      </mat-form-field>
+    </section>
+
+    <section class="c-estimate-form__estimate-date-block" [fxLayout]="'row wrap'" fxLayoutGap=".5rem" [fxLayoutAlign]="estimationsCount > 1? 'start flex-end': 'start center'" >
+      <div formArrayName="estimate" class="estimate-date-block">
+        <div *ngFor="let item of estimateForm.controls['estimate']['controls'] as estimationForms let i = index;"
+             [formGroupName]="i"
+             fxLayout="row wrap"
+             fxLayoutAlign="start center"
+             fxLayoutGap="1rem">
+          <mat-form-field fxFlex="4.5rem" class="imx-input">
+            <mat-label>Estimate#</mat-label>
+            <input appNumberOnly [length]="5" formControlName="etimateId" matInput autocomplete="off"/>
+            <mat-error *ngIf="item.controls['etimateId']?.errors?.required">Estimate# is required.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="imx-input" fxFlex="6.5rem">
+            <mat-label>Start Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="start_date_picker"
+              [min]="minDate"
+              [max]="maxDate"
+              appDateFormat
+              #startDate
+              [matDatepickerFilter]="estimateDateFilter(i)"
+              formControlName="startDate"
+            />
+            <mat-datepicker-toggle [for]="start_date_picker" matSuffix>
+              <mat-icon
+                matDatepickerToggleIcon
+                class="date-picker-icon date-picker-icon_input"
+                svgIcon="IMX-range"
+              ></mat-icon>
+            </mat-datepicker-toggle>
+
+            <mat-error *ngIf="isDateHasParseError(i, 'startDate') || IsStartDateHasError(i) || IsStartDateHasMaxDateError(i)">Invalid Date</mat-error>
+            <mat-error *ngIf="!isDateHasParseError(i, 'startDate') && !IsStartDateHasError(i) && !IsStartDateHasMaxDateError(i) && isDateOverlapIssue(i, 'startDate')">Try another range</mat-error>
+            <mat-error *ngIf="item.controls['startDate']?.errors?.required && !(isDateHasParseError(i, 'startDate') || IsStartDateHasError(i) || IsStartDateHasMaxDateError(i))">Start Date is required.
+            </mat-error>
+            <mat-datepicker
+              #start_date_picker="matDatepicker"
+              [panelClass]="'imx-calander'"
+            ></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="imx-input error-field-width" fxFlex="6.5rem">
+            <mat-label>End Date</mat-label>
+            <input
+              matInput
+              [min]="getMinDateForEndDate(startDate.value)"
+              [max]="getMaxDateOfEndDate(startDate.value)"
+              [matDatepicker]="end_date_picker"
+              appDateFormat
+              [matDatepickerFilter]="estimateDateFilter(i, true)"
+              formControlName="endDate"
+            />
+            <mat-datepicker-toggle [for]="end_date_picker" matSuffix>
+              <mat-icon
+                matDatepickerToggleIcon
+                matSuffix
+                class="date-picker-icon date-picker-icon_input"
+                svgIcon="IMX-range"
+              ></mat-icon>
+            </mat-datepicker-toggle>
+            <mat-error *ngIf="isDateHasParseError(i, 'endDate')">Invalid Date</mat-error>
+            <mat-error *ngIf="!isDateHasParseError(i, 'endDate') && IsEndDateHasError(i)">
+              {{ startDate.value ? "End Date should be greater than or equal to the Start Date": "Invalid Date" }}
+            </mat-error>
+            <mat-error *ngIf="!isDateHasParseError(i, 'endDate') && !IsEndDateHasError(i) && IsEndDateHasMaxDateError(i)">
+              {{ startDate.value ? "End Date should not be more than 12 months long From Start Date": "Invalid Date" }}
+            </mat-error>
+            <mat-error *ngIf="!isDateHasParseError(i, 'endDate') && !IsEndDateHasError(i) && !IsEndDateHasMaxDateError(i) && isDateOverlapIssue(i, 'endDate')">
+              Try another range
+            </mat-error>
+            <mat-error *ngIf="item.controls['endDate']?.errors?.required && !(isDateHasParseError(i, 'endDate'))">End Date is required.
+            </mat-error>
+            <mat-datepicker
+              #end_date_picker="matDatepicker"
+              [panelClass]="'imx-calander'"
+            ></mat-datepicker>
+          </mat-form-field>
+
+          <div>
+            <mat-checkbox class="imx-checkbok" [disabled]='isUserHasClientAcEditRole'  formControlName="tbd">TBD</mat-checkbox>
+          </div>
+
+          <mat-form-field fxFlex="10.6rem" class="imx-input c-estimate-form__estimate-date-block_client-requirement-code">
+            <mat-label>Client Required Reference</mat-label>
+            <input formControlName="clientRequirementCode" matInput autocomplete="off"/>
+          </mat-form-field>
+
+          <mat-icon *ngIf="estimationsCount > 1" class="estimation-form__delete-icon" (click)="deleteEstimation(i)" module="client_estimate" visiblityType="delete" appUserAccessPermission>delete_forever
+          </mat-icon>
+          <mat-icon class="estimation-form__duplicate-icon" svgIcon='IMX-duplicate' (click)="addMoreEstimate()" module="client_estimate" visiblityType="create" appUserAccessPermission></mat-icon>
+        </div>
+
+        <div class='m-t-10' *ngIf="(estimateFormRef.submitted || estimateForm.controls['estimate'].dirty) && estimateForm.controls['estimate'].errors && estimateForm.controls['estimate'].errors.atleastOneEstimate">
+          <mat-error>
+            Atleast one set of estimates is required.
+          </mat-error>
+        </div>
+      </div>
+
+      <div>
+        <button (click)="addMoreEstimate()" type="button" mat-button class="imx-button-basic" module="client_estimate" visiblityType="create" appUserAccessPermission>ADD MORE ESTIMATE#
+        </button>
+      </div>
+    </section>
+
+    <section fxLayout="row wrap" fxLayoutAlign="start start" class="bottom-space">
+      <div fxFlex="24.938rem" >
+        <mat-label class="label-heading">Billing</mat-label>
+
+        <section formGroupName="billing" fxLayout="row wrap" fxLayoutGap="1rem">
+          <div class="client-form__field">
+            <mat-form-field class="imx-input imx-dropdown" fxFlex="7.18rem">
+              <mat-label>Fee Basis</mat-label>
+              <mat-select
+                formControlName="feeBasis"
+                [panelClass]="'imx-select'"
+                [class.placeholder-default]="estimateForm['controls']['billing']['controls'].feeBasis.value==''"
+              >
+               <mat-option *ngIf="billingFeeBasis.length" [value]="null">Select Fee Basis</mat-option>
+                <mat-option *ngFor="let basis of billingFeeBasis" [value]="basis?._id">{{basis.name}}</mat-option>
+                <mat-option disabled *ngIf="billingFeeBasis?.length <= 0">
+                  No Records Found.
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="client-form__field">
+            <mat-form-field fxFlex="3.938rem" class="imx-input error-field-width" [ngClass] = "{'error-relative-width' : ((estimateForm['controls']['billing']['controls']?.media?.errors?.min || estimateForm['controls']['billing']['controls']?.media?.errors?.max) && estimateForm['controls']['billing']['controls'].commissionBasis?.invalid)}">
+              <mat-label>Media %</mat-label>
+              <input
+                matInput
+                appNumberOnly
+                autocomplete="off"
+                formControlName="media"
+              />
+              <mat-error *ngIf="!!estimateForm['controls']['billing']['controls']?.media?.errors?.min">Media % must be a number greater than or equal to 1
+              </mat-error>
+              <mat-error
+                *ngIf="!estimateForm['controls']['billing']['controls']?.media?.errors?.min && !!estimateForm['controls']['billing']['controls']?.media?.errors?.max">
+                Media % must be in between 1 and 100
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="client-form__field">
+            <mat-form-field class="imx-input imx-dropdown" fxFlex="8.938rem">
+              <mat-label>Commission Basis</mat-label>
+              <mat-select
+                formControlName="commissionBasis"
+                [panelClass]="'imx-select'"
+                [class.placeholder-default]="estimateForm['controls']['billing']['controls'].commissionBasis.value==''"
+              >
+              <mat-option *ngIf="billingCommissionBasis.length" [value]="null">Select Commission Basis</mat-option>
+                <mat-option *ngFor="let basis of billingCommissionBasis"
+                            [value]="basis?._id">{{basis.name}}</mat-option>
+                <mat-option disabled *ngIf="billingCommissionBasis?.length <= 0">
+                  No Records Found.
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="estimateForm['controls']['billing']['controls'].commissionBasis?.invalid">Commission basis is required</mat-error>
+            </mat-form-field>
+          </div>
+        </section>
+      </div>
+
+      <div fxFlex="50" >
+        <mat-label class="label-heading">OOH REVENUE</mat-label>
+        <section formGroupName="oohRevenue" fxLayout="row wrap" fxLayoutGap="1rem">
+          <div class="client-form__field">
+            <mat-form-field class="imx-input imx-dropdown" fxFlex="7.18rem">
+              <mat-label>Fee Basis</mat-label>
+              <mat-select
+                formControlName="feeBasis"
+                [panelClass]="'imx-select'"
+                [class.placeholder-default]="estimateForm['controls']['oohRevenue']['controls'].feeBasis.value==''"
+              >
+              <mat-option *ngIf="billingFeeBasis.length" [value]="null">Select Fee Basis</mat-option>
+                <mat-option *ngFor="let basis of billingFeeBasis" [value]="basis?._id">{{basis.name}}</mat-option>
+                <mat-option disabled *ngIf="billingFeeBasis?.length <= 0">
+                  No Records Found.
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="client-form__field">
+            <mat-form-field fxFlex="3.938rem" class="imx-input error-field-width" [ngClass] = "{'error-relative-width' : ((estimateForm['controls']['oohRevenue']['controls']?.media?.errors?.min || estimateForm['controls']['oohRevenue']['controls']?.media?.errors?.max) && estimateForm['controls']['oohRevenue']['controls'].commissionBasis?.invalid)}">
+              <mat-label>Media %</mat-label>
+              <input
+                matInput
+                appNumberOnly
+                autocomplete="off"
+                formControlName="media"
+              />
+              <mat-error *ngIf="!!estimateForm['controls']['oohRevenue']['controls']?.media?.errors?.min">Media % must be a number greater than or equal to 1
+              </mat-error>
+              <mat-error
+                *ngIf="!estimateForm['controls']['oohRevenue']['controls']?.media?.errors?.min && !!estimateForm['controls']['oohRevenue']['controls']?.media?.errors?.max">
+                Media % must be in between 1 and 100
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="client-form__field">
+            <mat-form-field class="imx-input imx-dropdown" fxFlex="8.938rem">
+              <mat-label>Commission Basis</mat-label>
+              <mat-select
+                formControlName="commissionBasis"
+                [panelClass]="'imx-select'"
+                [class.placeholder-default]="estimateForm['controls']['oohRevenue']['controls'].commissionBasis.value==''"
+              >
+                <mat-option *ngIf="billingCommissionBasis.length" [value]="null">Select Commission Basis</mat-option>
+                <mat-option *ngFor="let basis of billingCommissionBasis"
+                            [value]="basis?._id">{{basis.name}}</mat-option>
+                <mat-option disabled *ngIf="billingCommissionBasis?.length <= 0">
+                  No Records Found.
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="estimateForm['controls']['oohRevenue']['controls'].commissionBasis?.invalid">Commission basis is required</mat-error>
+            </mat-form-field>
+          </div>
+        </section>
+      </div>
+    </section>
+  </div>
+</form>

@@ -1,0 +1,39 @@
+<mat-sidenav class="side-user-setting-nav-filter" mode="over" [opened]="userSetting" position="end" *ngIf="!isPublicSite">
+  <div fxLayout="row" fxLayoutAlign="end start" fxFill>
+    <div></div>
+    <div fxFlex="500px" fxFill><app-imx-user-application-settings (onSettingClose) = "onSettingClose()"></app-imx-user-application-settings></div>
+  </div>
+</mat-sidenav>
+
+<div class="new-header" #headerLayout fxLayout="column">
+  <mat-toolbar class="header-toolbar" fxLayoutAlign="start center" fxLayoutGap="20px">
+    <div class="logo-div">
+      <img src="{{themeSettings['logo']['mini_logo']}}" class="logo-img" onError="this.src='./assets/images/logo-placeholder-mini.png'">
+    </div>
+    <h4 class="example-app-name" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <ng-content select=".projected-title"></ng-content>
+    </h4>
+    <span class="header-space"></span>
+    <user-navigation *ngIf="!isPublicSite"></user-navigation>
+    <user-navigation *ngIf="isPublicSite && userData.email!=''"></user-navigation>
+    <div *ngIf="isPublicSite">
+     <span class="public-site-links" *ngIf="isPublicSite && userData.email==''">
+       <a (click)="openSigninUp('signup')"></a>
+       <a (click)="openSigninUp('signin')">Sign in</a></span>
+    </div>
+    <div
+      class="notification-icon intermx-theme-new" *ngIf="isNotificationsEnabled"
+      [ngClass]="{'in-progress': iconState?.isInProgress, 'complete': iconState?.isCompleted}"
+      (click)="toggleNotifications()"
+    >
+      <mat-icon>{{(iconState?.isEmpty && !iconState?.isInProgress && !iconState?.isCompleted) ? 'notifications_none' : 'notifications'}}</mat-icon>
+      <span *ngIf="notificationCount > 0">{{notificationCount}}</span>
+      <mat-spinner color="secondary" *ngIf="iconState?.isInProgress" class="notification-spinner" diameter="32"></mat-spinner>
+    </div>
+  </mat-toolbar>
+  <ng-content select=".project-banner"></ng-content>
+  <ng-content select=".projected-secondary"></ng-content>
+  <div class="notifications" [@slide-up-down]="!showNotifications? 'top': 'down'" *ngIf="isNotificationsEnabled">
+    <app-notifications-container-v1 (close)="toggleNotifications()" (iconStateChange)="onIconStateChange($event)"></app-notifications-container-v1>
+  </div>
+</div>

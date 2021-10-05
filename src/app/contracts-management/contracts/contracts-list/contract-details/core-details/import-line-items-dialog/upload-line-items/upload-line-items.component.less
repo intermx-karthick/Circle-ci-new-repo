@@ -1,0 +1,67 @@
+::ng-deep {
+    app-upload-line-items {
+    .row-container {
+        .close-button {
+            width: 22px;
+            height: 22px;
+            line-height: inherit;
+            mat-icon{
+                color: var(--primary-bg-800);
+            }
+        }
+        app-file-upload{
+            width: 13.563rem;
+        }
+        .upload-btn{
+            margin-right: 1rem;
+            margin-top: 3.4375rem;
+        }
+        .file-error-text{
+            p{
+                color: var(--error);
+            }
+        }
+        .files-list {
+            .delete-file{
+                margin-left: 2px;
+            }
+        }
+
+        .upload-section {
+            min-width: 220px !important;
+        }
+
+        .text-link {
+            color: var(--primary-bg-800);
+            font-size: 14px;
+            line-height: 18px;
+            cursor: pointer;
+        }
+
+        .imx-button-primary {
+            background: var(--primary-bg-800);
+            box-shadow: none;
+            color: #FFFFFF;
+        }
+        .sample-download-button{
+            .mat-button-wrapper{
+                display: flex;
+                align-items: center;
+                mat-spinner{
+                    margin-left:1rem;
+                }
+            }
+        }
+    }
+    .download-link-sec{
+        margin-bottom: 1.5rem;
+    }
+    .no-file-error{
+        position: relative;
+        .mat-error{
+            position: relative;
+            top: -20px;
+        }
+    }
+}
+}

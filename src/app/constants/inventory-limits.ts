@@ -1,0 +1,1 @@
+export const INVENTORY_SAVING_LIMIT = 15000;

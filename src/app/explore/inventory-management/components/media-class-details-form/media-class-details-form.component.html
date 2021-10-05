@@ -1,0 +1,197 @@
+<!-- Place -->
+<form *ngIf="isForPlaceForm; else roadSideFormRef" [formGroup]="placeForm" class="inventory-form__form media-class">
+
+<!--  <section fxLayout fxLayoutGap="24px">
+    <div class="inventory-form__field" fxFlex="100">
+      <mat-form-field>
+        <mat-label>"Location Description" auto populate from 1st screen</mat-label>
+        <input formControlName="location_description" type="text" matInput autocomplete="off">
+      </mat-form-field>
+    </div>
+  </section>-->
+
+  <section fxLayout fxLayoutGap="24px">
+<!--    <div class="inventory-form__field" fxFlex="30">
+      <mat-form-field>
+        <mat-label>Placement Name</mat-label>
+        <input formControlName="place_name" type="text" matInput autocomplete="off" required>
+      </mat-form-field>
+    </div>-->
+
+    <div class="inventory-form__field" fxFlex="30">
+      <mat-form-field>
+        <input type="text" #placementInputRef matInput formControlName="placement_type" placeholder="Placement Type"
+          [matAutocomplete]="placementTypeAuto" required>
+
+        <mat-autocomplete #placementTypeAuto="matAutocomplete" [displayWith]="placementTypeDisplayWithFn">
+          <mat-option *ngFor="let placement of filteredPlacementTypes | async;trackBy: trackById" [value]="placement">
+            <span [innerHTML]="(placement.name)| imx_highlight: placementInputRef.value"></span>
+          </mat-option>
+        </mat-autocomplete>
+
+        <mat-label *ngIf="isLoadingPlaementType; else PlacementTypeLabelRef">
+          <div fxLayout fxLayoutAlign="space-between start">
+            <span>Loading...</span>
+            <mat-spinner class="spinner" diameter="20"></mat-spinner>
+          </div>
+        </mat-label>
+
+        <ng-template #PlacementTypeLabelRef>
+          <mat-label>Placement Type</mat-label>
+        </ng-template>
+
+        <mat-error class="small-font" *ngIf="placeForm['controls'].placement_type.hasError('invalid')">
+          You should not enter values manually, Please select from suggested list only.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </section>
+
+<!--  <section fxLayout fxLayoutGap="24px">
+    <div class="inventory-form__field" fxFlex="30">
+      <mat-form-field>
+        <mat-label>Floor Place</mat-label>
+        <input type="text" formControlName="floor_of_place" matInput autocomplete="off" appNumberOnly>
+        <mat-hint>Where the unit is?</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field" fxFlex="30">
+      <mat-form-field>
+        <mat-label>Floor can see Unit</mat-label>
+        <input type="text" formControlName="floors_can_see_unit" matInput autocomplete="off" appNumberOnly>
+      </mat-form-field>
+    </div>
+  </section>-->
+
+  <section style="margin-top: 24px" fxLayout fxLayoutGap="24px">
+    <div class="inventory-form__field" fxFlex="50">
+      <mat-form-field >
+        <mat-label>Unit Elevation</mat-label>
+        <input type="text" formControlName="unit_elevation" matInput autocomplete="off" appNumberOnly>
+        <mat-icon matSuffix matTooltip="Height of the center point of the frame from the ground (in)" [matTooltipPosition]="'above'" [matTooltipClass]="'new-inventory-tooltip'">info</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-label>Operational Status</mat-label>
+        <mat-select formControlName="operational_status">
+          <mat-option *ngFor="let option of statusTypes$ | async; trackBy:trackById" [value]="option">
+            {{option.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-label>Construction</mat-label>
+        <input matInput formControlName="construction" [matDatepicker]="construction">
+        <mat-hint>Where the unit is?</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="construction"></mat-datepicker-toggle>
+        <mat-datepicker #construction color="primary"></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </section>
+
+</form>
+<!-- End Place -->
+
+<ng-template #roadSideFormRef>
+  <form [formGroup]="roadSideForm" class="inventory-form__form media-class">
+
+<!--    <section fxLayout fxLayoutGap="24px">
+      <div class="inventory-form__field" fxFlex="100">
+        <mat-form-field>
+          <mat-label>"Location Description" auto populate from 1st screen</mat-label>
+          <input type="text" formControlName="location_description" matInput autocomplete="off" required>
+        </mat-form-field>
+      </div>
+    </section>
+
+    <section fxLayout fxLayoutGap="24px">
+      <div class="inventory-form__field" fxFlex="20">
+        <mat-form-field>
+          <mat-label>Primary Street</mat-label>
+          <input type="text" formControlName="primary_street" matInput autocomplete="off">
+        </mat-form-field>
+      </div>
+      <div class="inventory-form__field" fxFlex="20">
+        <mat-form-field>
+          <mat-label>Cross Street</mat-label>
+          <input type="text" formControlName="cross_street" matInput autocomplete="off">
+        </mat-form-field>
+      </div>
+
+      <div class="inventory-form__field" fxFlex="20">
+        <mat-form-field>
+          <mat-label>Street Side</mat-label>
+          <input type="text" formControlName="street_side" matInput autocomplete="off">
+        </mat-form-field>
+      </div>
+
+      <div class="inventory-form__field" fxFlex="20">
+        <mat-form-field>
+          <mat-label>Distance & Direction</mat-label>
+          <input type="text" formControlName="distance_and_direction" matInput autocomplete="off">
+        </mat-form-field>
+      </div>
+    </section>-->
+
+    <section fxLayout fxLayoutGap="24px">
+<!--      <div class="inventory-form__field" fxFlex="10">
+        <mat-form-field>
+          <mat-label>Read</mat-label>
+          <mat-select formControlName="read">
+            <mat-option *ngFor="let option of ['Measured', 'under review']" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="inventory-form__field" fxFlex="10">
+        <mat-form-field>
+          <mat-label>Facing</mat-label>
+          <mat-select formControlName="facing">
+            <mat-option *ngFor="let option of ['Measured', 'under review']" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-select>
+          <mat-hint>Orientation</mat-hint>
+        </mat-form-field>
+      </div>-->
+
+      <div class="inventory-form__field" fxFlex="20">
+        <mat-form-field >
+          <mat-label>Unit Elevation</mat-label>
+          <input type="text" formControlName="unit_elevation" matInput autocomplete="off" appNumberOnly>
+          <mat-icon matSuffix matTooltip="Height of the center point of the frame from the ground (in)" [matTooltipPosition]="'above'" [matTooltipClass]="'new-inventory-tooltip'">info</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="inventory-form__field" fxFlex="20">
+        <mat-form-field>
+          <mat-label>Operational Status</mat-label>
+          <mat-select formControlName="operational_status">
+            <mat-option *ngFor="let option of statusTypes$ | async; trackBy:trackById" [value]="option">
+              {{option.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="inventory-form__field" fxFlex="25">
+        <mat-form-field>
+          <mat-label>Construction</mat-label>
+          <input matInput formControlName="construction" [matDatepicker]="construction">
+          <mat-hint>Active Date</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="construction"></mat-datepicker-toggle>
+          <mat-datepicker #construction color="primary"></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </section>
+
+  </form>
+</ng-template>

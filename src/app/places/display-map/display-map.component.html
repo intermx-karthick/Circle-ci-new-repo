@@ -1,0 +1,7 @@
+<img *ngIf="!isMapNeeded && isImage" [src]="image" (error)="imageError()" [alt]="alt">
+<div id="displayMap" [hidden]="!isMapNeeded"></div>
+<div *ngIf="!isImage" class="error-msg">
+    <h5>
+    Image is not generated because lattitude and longitude are not available, Please add building area to see the place image.
+    </h5>
+</div>

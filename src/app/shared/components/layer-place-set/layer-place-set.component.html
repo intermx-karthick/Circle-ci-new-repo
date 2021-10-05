@@ -1,0 +1,32 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header expandedHeight="48px">
+      <mat-panel-title class="test-place-sets">Place Sets</mat-panel-title>
+      <mat-panel-description fxLayoutAlign="end center">
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="expansion-panel-body">
+      <mat-form-field floatLabel="never" fxFlexFill class="search-field"  >
+        <input matInput type="text" [formControl]="searchFromCtl" placeholder="Search" name="search"  class="ta-search-text place-set-search" autocomplete="off">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <div *ngIf="isSearching" class="place-loader">
+        <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+      </div>
+      <mat-list>
+        <mat-list-item class="test-place-set-item" *ngFor="let place of filteredPlacePacks; let i = index;" title="{{place.name}}">
+          <span matLine>{{place.name | truncate:'middle':18:6}} </span>
+          <div class="left-select">
+          <button class="select test-forward-button" mat-icon-button *ngIf="!place.selected; else notSelected" (click)="moveLayer(place, type, i)">
+              <mat-icon matListIcon>arrow_forward</mat-icon>
+          </button>
+          <ng-template #notSelected><span class="selected "><mat-icon>check</mat-icon></span>
+          </ng-template>
+          </div>
+        </mat-list-item>
+      </mat-list>
+      <div *ngIf="isLoading" class="place-loader">
+        <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+      </div>
+      <p class="placeholder-color text-center" *ngIf="!isLoading && filteredPlacePacks.length <= 0">No place sets found.</p>
+    </div>
+</mat-expansion-panel>

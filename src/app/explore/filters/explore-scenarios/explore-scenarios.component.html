@@ -1,0 +1,52 @@
+<div class="saved-scenarios-section">
+  <div class="search-container" fxLayout="row" fxLayoutGap="10px" fxLayout.xs="column" fxLayoutAlign="start center">
+    <div fxFlex="30%">
+      <mat-form-field class="select-width" floatLabel="always">
+        <mat-select [(value)]="selectedProject" (selectionChange)="loadScenarioByID($event.value);">
+          <mat-option [value]="project._id" *ngFor="let project of projects" class="category-select">
+            {{project['name']}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="70%">
+      <mat-form-field floatLabel="never" fxFlexFill class="search-field scenario-search">
+        <input matInput [(ngModel)]="searchQuery" class="ta-search-text operator-search scenario-search-field" type="text" appSearch key="displayName" filterName="scenario" [sourceData]="scenarios" (filter)="filterScenarios($event)" [keyboardEventsManager]="keyboardEventsManager" [listItems]="listItems" #scenarioSearch placeholder="Search Saved {{this.workFlowLabels?.scenario[1]}}" >
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+      
+      <div class="radio-group-section">
+
+        <!-- content loader -->
+        <ng-container *ngIf="isInitLoading">
+          <app-cl-inventory-sets></app-cl-inventory-sets>
+        </ng-container>
+        <!-- content loader -->
+
+        <mat-radio-group>
+          <app-arrow-navigation *ngFor="let scenario of filteredScenarios; let i=index" [option]="scenario" [selectedOption]="selectedScenario" (setSelectedOption)="setSelectedScenario($event)" (submit)="submit($event)" fxLayout="column">
+            <div fxLayout="row" fxFlexFill class="scenario-set cursor-link" >
+                <div  fxLayoutAlign="space-between center"  fxFlex="100%" >
+                  <mat-radio-button  (change)="onRadioBtnChange(scenario);" [checked] = "scenario['_id'] == (selectedScenario && selectedScenario['_id'])" value="{{scenario['_id']}}" disableRipple>
+                    <div class="font-normal" fxHide.xs  title="{{scenario.name}}" [innerHTML]="scenario.name | truncate:'middle':60:6 | imx_highlight:searchQuery"></div>
+                    <div class="font-normal" fxShow.xs fxHide title="{{scenario.name}}" [innerHTML]="scenario.name | truncate:'middle':16:6 | imx_highlight:searchQuery"></div>
+                  </mat-radio-button>
+                    <div>
+                      <mat-icon (click)="$event.stopPropagation();editScenario(scenario)" [ngClass]="{ 'module-disable':(allowInventory === 'disabled' || allowScenarios === 'disabled')}">edit</mat-icon>
+                      <mat-icon (click)="$event.stopPropagation();deleteScenario(scenario)" [ngClass]="{ 'module-disable':(allowInventory === 'disabled' || allowScenarios === 'disabled')}">delete</mat-icon>
+                    </div>
+                </div>
+            </div>
+          </app-arrow-navigation>
+        </mat-radio-group>
+      </div>
+
+      <p *ngIf="filteredScenarios.length <= 0 && isInitiated && isInitialLoadCompleted" class="text-center">No {{this.workFlowLabels.scenario[0]}} Found</p>
+
+      <div class="action-container" [ngClass]="{ 'module-disable':(allowInventory === 'disabled' || allowScenarios === 'disabled')}">
+          <button mat-raised-button class="btn-clear" type="button" (click)="clearFilter()">CLEAR</button>
+          <button mat-raised-button class="btn-primary-color" type="button"  (click)= "onApply()">APPLY</button>
+      </div>
+    </div>

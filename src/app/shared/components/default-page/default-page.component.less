@@ -1,0 +1,89 @@
+@import url(../../../../assets/css/variables.less);
+
+input {
+  border: none !important;
+}
+
+.label {
+  font-size: 11px;
+}
+
+.forget-password {
+  color : rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+}
+
+.login-main {
+  height: 100%;
+}
+
+.logo {
+  img {
+    height: 75px;
+  }
+}
+
+.login-section {
+  width: 50%;
+}
+
+.sign-btn {
+  width           : 150px;
+  border-radius   : 30px;
+  font-weight     : bold;
+}
+
+.divider-40 {
+  margin-bottom: 40px;
+}
+
+.divider-20 {
+  margin-bottom: 20px;
+}
+
+mat-form-field {
+  margin-bottom: 10px;
+}
+
+.email-field {
+  line-height: 26px;
+}
+
+::ng-deep {
+  app-default-page {
+    .mat-form-field-infix {
+      border-top: 0px;
+    }
+
+    .mat-form-field-appearance-outline .mat-form-field-flex {
+      height: 48px;
+    }
+
+    .mat-form-field-appearance-outline .mat-form-field-outline {
+      color     : #4492ce !important;
+      // opacity: 1!important;
+    }
+
+    .mat-form-field-outline {
+      opacity: 0.2;
+    }
+  }
+}
+
+@media @all-devide-start-0 {
+  @media @all-devices-under-768 {
+    .login-section {
+      width: 80%;
+    }
+
+    h1 {
+      font-size: 32px;
+    }
+  }
+}
+
+@media @not-mobile {
+  .login-section {
+    max-width: 500px !important;
+  }
+}

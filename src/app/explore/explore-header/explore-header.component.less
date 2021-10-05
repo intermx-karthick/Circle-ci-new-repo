@@ -1,0 +1,158 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "../../../assets/css/variables.less";
+::ng-deep {
+	app-explore-header
+	{
+		.explore-header {
+			margin-left: 20px;
+			margin-right: 0px;
+			text-transform: none !important;
+			margin-top: 16px;
+			div
+			{
+				min-height: 40px;
+			}
+			.explore-filter-btn
+			{
+				cursor: pointer;
+				font-size: 11px;	
+				font-weight: bold;	
+				letter-spacing: 0.91px;
+				line-height: 12px;	
+				text-align: center;
+				color: var(--medium-emphasis);
+				padding: 0px 10px;
+			}
+			.explore-filter-btn.active
+			{
+				background-color:var(--button-bg-color);
+				color:var(--white-color);
+			}
+			#define-data-version {
+				position: absolute;
+				margin-left: 17px;
+				padding: 0px 7px;
+				.data-menu {
+					display:none;
+					width: 100%;
+				}
+				.data-source-title {
+					color: var(--text-primary);
+				}
+				&.open {
+					border: 1px solid var(--primary-bg);
+					border-radius: 5px;
+					background: white;
+					margin-top: 7px;
+					padding-bottom: 1rem;
+					width: 220px;
+					div {
+						min-height: auto !important;
+					}
+					.data-menu {
+						display: block;
+						.action-item {
+							.tick-icon {
+								font-size: 13px;
+								width: 13px;
+								height: 13px;
+								font-weight: bold;
+								display: none;
+							}
+							&.hover-action {
+								color: var(--text-primary);
+							}
+							&.selected {
+								color: var(--text-primary);
+								.tick-icon {
+									display: inline-block;
+								}
+							}
+						}
+					}
+				}
+				.mat-list-base {
+					padding-bottom: 10px;
+					.mat-list-option {
+						&.mat-list-single-selected-option, &:focus, &:hover {
+							background: none;
+						}
+						.mat-list-item-content-reverse {
+							padding: 0px 5px !important;
+							.mat-list-text {
+								padding-right: 0px !important;
+								font-size: 13px;
+							}
+						}
+					}
+				}
+				button {
+					text-transform: uppercase;
+					.mat-button-wrapper {
+						letter-spacing: 1.55px;
+					}
+					&:focus{
+						.mat-button-focus-overlay{
+							opacity: 0 !important;
+						}
+					}
+				
+					&.imx-button {
+						padding       : 8px 16px;
+						height        : 34px;
+						text-transform: uppercase;
+						line-height   : 18px;
+						font-size     : 0.875rem;
+						border-radius : 5px;
+						// imx-button-primary
+						
+						&-primary {
+							/* Primary/800 */
+							background: var(--primary-bg-800);
+							/* Button/Default */
+							box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.16);
+							color     : #FFFFFF;
+						
+							/* button click color */
+							&:active {
+								background: var(--primary-bg-900);
+							}
+						
+							&[disabled] {
+								background: var(--grays-bg-600);
+								color     : #FFFFFF;
+							}  
+							&:hover {
+								box-shadow: 0px 2px 6px rgba(186, 104, 200, 0.48);
+							}
+						}
+					}
+				}
+			}
+			.explore-filter-btn:nth-child(2) {
+				margin-left: 165px;
+			}
+      .population_intelligence_container {
+        margin-left: auto;
+        margin-right: 131px;
+        // On smaller screens, the right margin will reduce based on screen size, big screens have fixed margin
+        @media screen and (max-width: 1600px) {
+          margin-right: 9%;
+        }
+        @media screen and @all-devices-under-1200{
+          margin-right: unset;
+        }
+      }
+      .explore-filter-btn:last-child {
+        &.open {
+          opacity: 0.25;
+        }
+        & > h5 {
+          color: var(--grays-bg-800);
+          font-weight: 700;
+          margin: auto;
+        }
+      }
+		}
+	}
+}

@@ -1,0 +1,148 @@
+::ng-deep{
+  * {
+    box-sizing: border-box;
+  }
+  mat-sidenav-container{
+    background: #fff !important;;
+  }
+  mat-sidenav-content.main-sidenav-content{
+    margin-left: 0px !important;
+    z-index: auto ;
+    .body-content{
+      padding-left: 40px !important;
+    }
+  }
+  .top-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  // app-header{
+  //   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16);
+  //   z-index: 2;
+  // }
+
+  .example-is-mobile .header-toolbar {
+    position: fixed;
+    /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+    z-index: 2;
+  }
+  
+  h1.example-app-name {
+    margin-left: 8px;
+  }
+  
+  .sidenav-container {
+    /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+       causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+    flex: 1;
+    mat-sidenav{
+      background-color: #212121;
+    }
+  }
+  
+  .example-is-mobile .sidenav-container {
+    /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+       `<body>` to be our scrolling element for mobile layouts. */
+    flex: 1 0 auto;
+  }
+  body{
+    &.isMobile{
+      .mobile-hide{
+        display: none;
+      }
+      .body-content{
+        padding-left: 0px !important;
+        .map-div-block{
+          flex-direction: column !important;
+        }
+        mat-sidenav{
+          &.right-sidebar{
+            max-width: 100%;
+            min-width: 0px;
+            background: #fff !important;
+            top:0px !important;
+            .inventory-panels{
+              padding: 0px 0px;
+              overflow-x: hidden;
+            }
+           &:not(.open-side-bar){
+            height: 80px;
+           }
+           &.open-side-bar{
+            &.landscape-view{
+              min-height: 210px;
+            }
+            &:not(.landscape-view){
+              min-height: 325px;
+            }
+           }
+           .mobile-card-100{
+             width: 100%;
+           }
+          }
+        }
+      }
+      mat-sidenav-container{
+        flex-direction: column-reverse;
+        display: flex;
+        mat-sidenav.mat-drawer{
+          position: relative;
+          display: flex;
+          mat-nav-list{
+            flex-direction: row;
+            display: flex;
+          }
+        }
+        .mat-sidenav-content{
+          display: flex;
+          margin-left: 0px !important;
+        }
+      }
+      app-left-nav-bar{
+        width: 100%;
+      }
+      .new-header{
+        min-height: 0px;
+        min-width: 100%;
+        max-width: 100%;
+      }
+      .header-toolbar{
+        padding-top: 0px !important;
+      }
+      .explore-filter.content-breadcrumb{
+        z-index: -1;
+        position: absolute;
+        width: 100%;
+        min-height: 56px;
+      }
+    }
+    &:not(.isMobile){
+      .mat-drawer-content {
+        overflow: hidden;
+      }
+    }
+  }
+  app-header{
+    z-index: 2;
+  }
+  .mapboxgl-ctrl-top-left{
+    z-index: 0;
+  }
+  .new-header{
+    >div{
+      padding-left: 20px;
+    }
+  }
+  .header-section{
+    z-index: 4;
+  }
+  .left-nav{
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
+    border-right: 0px;
+  }
+}

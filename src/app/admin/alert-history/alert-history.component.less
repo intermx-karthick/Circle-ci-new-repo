@@ -1,0 +1,78 @@
+.alert-list, .filters{
+  width: 100%;
+  mat-form-field{
+    margin-left: 20px;
+    width: 30%;
+    &:first-child{
+      margin-left: 0px;
+    }
+  }
+  .alert-history-table {
+    max-height: calc(100vh - 140px);
+    overflow: auto;
+  }
+}
+
+.inner-list-alert{
+  width: 100%;
+  table{
+    width: 100%;
+    th.mat-header-cell{
+      padding-left: 0px !important;
+    }
+    .alert-action-link{
+      a{
+        color: var(--medium-emphasis);
+        margin-left: 10px;
+        :first-child{
+          margin-left: 10px;
+        }
+        &:hover {
+          color: var(--primary-bg);
+        }
+      }
+    }
+    .alertType {
+      line-height: 18px;
+      & mat-icon {
+        font-size: 20px;
+      }
+    }
+  }
+}
+::ng-deep{
+  app-alert-history{
+    .mat-form-field-should-float .mat-form-field-label {
+      -webkit-transform: translateY(-1.28125em) scale(1) perspective(100px) translateZ(.001px);
+      transform: translateY(-1.28125em) scale(1) perspective(100px) translateZ(.001px);
+      -ms-transform: translateY(-1.28125em) scale(1);
+    }
+    .main-create-new-alert{
+      width: 100%;
+    }
+    .alert-form{
+      // max-width: 300px !important;
+      .alert-action-button{
+        button{
+          font-size: 9px;
+        }
+      }
+    }
+  }
+  .admin-link, .admin-link:visited, .adm
+  {
+    color: rgb(0, 0, 238);
+  }
+}
+a[disabled] {
+  cursor: not-allowed;
+}
+mat-spinner {
+  margin:10px auto;
+}
+
+.messageCell {
+  max-width: 200px;
+  table-layout: fixed;
+  overflow-wrap: break-word;
+}

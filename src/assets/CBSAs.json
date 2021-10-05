@@ -1,0 +1,6617 @@
+[
+   {
+     "slno": 1,
+     "id": "CBSA35620",
+     "name": "New York-Newark-Jersey City, NY-NJ-PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 20251724
+   },
+   {
+     "slno": 2,
+     "id": "CBSA31080",
+     "name": "Los Angeles-Long Beach-Anaheim, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 13436808
+   },
+   {
+     "slno": 3,
+     "id": "CBSA16980",
+     "name": "Chicago-Naperville-Elgin, IL-IN-WI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 9504209
+   },
+   {
+     "slno": 4,
+     "id": "CBSA19100",
+     "name": "Dallas-Fort Worth-Arlington, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 7420656
+   },
+   {
+     "slno": 5,
+     "id": "CBSA26420",
+     "name": "Houston-The Woodlands-Sugar Land, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 6980780
+   },
+   {
+     "slno": 6,
+     "id": "CBSA47900",
+     "name": "Washington-Arlington-Alexandria, DC-VA-MD-WV Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 6224774
+   },
+   {
+     "slno": 7,
+     "id": "CBSA33100",
+     "name": "Miami-Fort Lauderdale-West Palm Beach, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 6190793
+   },
+   {
+     "slno": 8,
+     "id": "CBSA37980",
+     "name": "Philadelphia-Camden-Wilmington, PA-NJ-DE-MD Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 6088787
+   },
+   {
+     "slno": 9,
+     "id": "CBSA12060",
+     "name": "Atlanta-Sandy Springs-Roswell, GA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 5919767
+   },
+   {
+     "slno": 10,
+     "id": "CBSA14460",
+     "name": "Boston-Cambridge-Newton, MA-NH Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 4843018
+   },
+   {
+     "slno": 11,
+     "id": "CBSA38060",
+     "name": "Phoenix-Mesa-Scottsdale, AZ Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 4788250
+   },
+   {
+     "slno": 12,
+     "id": "CBSA41860",
+     "name": "San Francisco-Oakland-Hayward, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 4745089
+   },
+   {
+     "slno": 13,
+     "id": "CBSA40140",
+     "name": "Riverside-San Bernardino-Ontario, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 4585688
+   },
+   {
+     "slno": 14,
+     "id": "CBSA19820",
+     "name": "Detroit-Warren-Dearborn, MI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 4298293
+   },
+   {
+     "slno": 15,
+     "id": "CBSA42660",
+     "name": "Seattle-Tacoma-Bellevue, WA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 3887823
+   },
+   {
+     "slno": 16,
+     "id": "CBSA33460",
+     "name": "Minneapolis-St. Paul-Bloomington, MN-WI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 3598391
+   },
+   {
+     "slno": 17,
+     "id": "CBSA41740",
+     "name": "San Diego-Carlsbad, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 3355793
+   },
+   {
+     "slno": 18,
+     "id": "CBSA45300",
+     "name": "Tampa-St. Petersburg-Clearwater, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 3112599
+   },
+   {
+     "slno": 19,
+     "id": "CBSA19740",
+     "name": "Denver-Aurora-Lakewood, CO Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 2933089
+   },
+   {
+     "slno": 20,
+     "id": "CBSA12580",
+     "name": "Baltimore-Columbia-Towson, MD Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 2813526
+   },
+   {
+     "slno": 21,
+     "id": "CBSA41180",
+     "name": "St. Louis, MO-IL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 2809463
+   },
+   {
+     "slno": 22,
+     "id": "CBSA16740",
+     "name": "Charlotte-Concord-Gastonia, NC-SC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 2539680
+   },
+   {
+     "slno": 23,
+     "id": "CBSA36740",
+     "name": "Orlando-Kissimmee-Sanford, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 2518915
+   },
+   {
+     "slno": 24,
+     "id": "CBSA41700",
+     "name": "San Antonio-New Braunfels, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 2499295
+   },
+   {
+     "slno": 25,
+     "id": "CBSA38900",
+     "name": "Portland-Vancouver-Hillsboro, OR-WA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 2480649
+   },
+   {
+     "slno": 26,
+     "id": "CBSA38300",
+     "name": "Pittsburgh, PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 2333753
+   },
+   {
+     "slno": 27,
+     "id": "CBSA40900",
+     "name": "Sacramento--Roseville--Arden-Arcade, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 2325849
+   },
+   {
+     "slno": 28,
+     "id": "CBSA29820",
+     "name": "Las Vegas-Henderson-Paradise, NV Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 2217031
+   },
+   {
+     "slno": 29,
+     "id": "CBSA17140",
+     "name": "Cincinnati, OH-KY-IN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 2178604
+   },
+   {
+     "slno": 30,
+     "id": "CBSA12420",
+     "name": "Austin-Round Rock, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 2130664
+   },
+   {
+     "slno": 31,
+     "id": "CBSA28140",
+     "name": "Kansas City, MO-KS Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 2129928
+   },
+   {
+     "slno": 32,
+     "id": "CBSA18140",
+     "name": "Columbus, OH Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 2075642
+   },
+   {
+     "slno": 33,
+     "id": "CBSA17460",
+     "name": "Cleveland-Elyria, OH Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 2050633
+   },
+   {
+     "slno": 34,
+     "id": "CBSA26900",
+     "name": "Indianapolis-Carmel-Anderson, IN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 2031027
+   },
+   {
+     "slno": 35,
+     "id": "CBSA41940",
+     "name": "San Jose-Sunnyvale-Santa Clara, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 2005089
+   },
+   {
+     "slno": 36,
+     "id": "CBSA34980",
+     "name": "Nashville-Davidson--Murfreesboro--Franklin, TN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1917017
+   },
+   {
+     "slno": 37,
+     "id": "CBSA47260",
+     "name": "Virginia Beach-Norfolk-Newport News, VA-NC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1741902
+   },
+   {
+     "slno": 38,
+     "id": "CBSA39300",
+     "name": "Providence-Warwick, RI-MA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1618466
+   },
+   {
+     "slno": 39,
+     "id": "CBSA33340",
+     "name": "Milwaukee-Waukesha-West Allis, WI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1573535
+   },
+   {
+     "slno": 40,
+     "id": "CBSA27260",
+     "name": "Jacksonville, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1519940
+   },
+   {
+     "slno": 41,
+     "id": "CBSA36420",
+     "name": "Oklahoma City, OK Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1400480
+   },
+   {
+     "slno": 42,
+     "id": "CBSA32820",
+     "name": "Memphis, TN-MS-AR Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1344814
+   },
+   {
+     "slno": 43,
+     "id": "CBSA39580",
+     "name": "Raleigh, NC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1339856
+   },
+   {
+     "slno": 44,
+     "id": "CBSA31140",
+     "name": "Louisville/Jefferson County, KY-IN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1293873
+   },
+   {
+     "slno": 45,
+     "id": "CBSA40060",
+     "name": "Richmond, VA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1293241
+   },
+   {
+     "slno": 46,
+     "id": "CBSA35380",
+     "name": "New Orleans-Metairie, LA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1283174
+   },
+   {
+     "slno": 47,
+     "id": "CBSA41620",
+     "name": "Salt Lake City, UT Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1210384
+   },
+   {
+     "slno": 48,
+     "id": "CBSA25540",
+     "name": "Hartford-West Hartford-East Hartford, CT Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1203451
+   },
+   {
+     "slno": 49,
+     "id": "CBSA13820",
+     "name": "Birmingham-Hoover, AL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1151899
+   },
+   {
+     "slno": 50,
+     "id": "CBSA15380",
+     "name": "Buffalo-Cheektowaga-Niagara Falls, NY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1130821
+   },
+   {
+     "slno": 51,
+     "id": "CBSA40380",
+     "name": "Rochester, NY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1076734
+   },
+   {
+     "slno": 52,
+     "id": "CBSA24340",
+     "name": "Grand Rapids-Wyoming, MI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1061152
+   },
+   {
+     "slno": 53,
+     "id": "CBSA46060",
+     "name": "Tucson, AZ Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 1025762
+   },
+   {
+     "slno": 54,
+     "id": "CBSA46140",
+     "name": "Tulsa, OK Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 999254
+   },
+   {
+     "slno": 55,
+     "id": "CBSA23420",
+     "name": "Fresno, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 994364
+   },
+   {
+     "slno": 56,
+     "id": "CBSA14860",
+     "name": "Bridgeport-Stamford-Norwalk, CT Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 946784
+   },
+   {
+     "slno": 57,
+     "id": "CBSA49340",
+     "name": "Worcester, MA-CT Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 939515
+   },
+   {
+     "slno": 58,
+     "id": "CBSA36540",
+     "name": "Omaha-Council Bluffs, NE-IA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 938497
+   },
+   {
+     "slno": 59,
+     "id": "CBSA10740",
+     "name": "Albuquerque, NM Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 914476
+   },
+   {
+     "slno": 60,
+     "id": "CBSA24860",
+     "name": "Greenville-Anderson-Mauldin, SC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 901549
+   },
+   {
+     "slno": 61,
+     "id": "CBSA12540",
+     "name": "Bakersfield, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 895505
+   },
+   {
+     "slno": 62,
+     "id": "CBSA10580",
+     "name": "Albany-Schenectady-Troy, NY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 883870
+   },
+   {
+     "slno": 63,
+     "id": "CBSA28940",
+     "name": "Knoxville, TN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 877102
+   },
+   {
+     "slno": 64,
+     "id": "CBSA32580",
+     "name": "McAllen-Edinburg-Mission, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 867870
+   },
+   {
+     "slno": 65,
+     "id": "CBSA37100",
+     "name": "Oxnard-Thousand Oaks-Ventura, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 856209
+   },
+   {
+     "slno": 66,
+     "id": "CBSA35300",
+     "name": "New Haven-Milford, CT Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 854178
+   },
+   {
+     "slno": 67,
+     "id": "CBSA21340",
+     "name": "El Paso, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 850645
+   },
+   {
+     "slno": 68,
+     "id": "CBSA12940",
+     "name": "Baton Rouge, LA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 843038
+   },
+   {
+     "slno": 69,
+     "id": "CBSA10900",
+     "name": "Allentown-Bethlehem-Easton, PA-NJ Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 839238
+   },
+   {
+     "slno": 70,
+     "id": "CBSA17900",
+     "name": "Columbia, SC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 829889
+   },
+   {
+     "slno": 71,
+     "id": "CBSA35840",
+     "name": "North Port-Sarasota-Bradenton, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 808091
+   },
+   {
+     "slno": 72,
+     "id": "CBSA19380",
+     "name": "Dayton, OH Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 800749
+   },
+   {
+     "slno": 73,
+     "id": "CBSA16700",
+     "name": "Charleston-North Charleston, SC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 785518
+   },
+   {
+     "slno": 74,
+     "id": "CBSA24660",
+     "name": "Greensboro-High Point, NC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 764361
+   },
+   {
+     "slno": 75,
+     "id": "CBSA44700",
+     "name": "Stockton-Lodi, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 748641
+   },
+   {
+     "slno": 76,
+     "id": "CBSA30780",
+     "name": "Little Rock-North Little Rock-Conway, AR Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 741513
+   },
+   {
+     "slno": 77,
+     "id": "CBSA15980",
+     "name": "Cape Coral-Fort Myers, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 740553
+   },
+   {
+     "slno": 78,
+     "id": "CBSA17820",
+     "name": "Colorado Springs, CO Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 729498
+   },
+   {
+     "slno": 79,
+     "id": "CBSA14260",
+     "name": "Boise City, ID Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 711772
+   },
+   {
+     "slno": 80,
+     "id": "CBSA10420",
+     "name": "Akron, OH Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 701427
+   },
+   {
+     "slno": 81,
+     "id": "CBSA29460",
+     "name": "Lakeland-Winter Haven, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 683670
+   },
+   {
+     "slno": 82,
+     "id": "CBSA36260",
+     "name": "Ogden-Clearfield, UT Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 670189
+   },
+   {
+     "slno": 83,
+     "id": "CBSA49180",
+     "name": "Winston-Salem, NC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 669953
+   },
+   {
+     "slno": 84,
+     "id": "CBSA31540",
+     "name": "Madison, WI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 659919
+   },
+   {
+     "slno": 85,
+     "id": "CBSA45060",
+     "name": "Syracuse, NY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 653503
+   },
+   {
+     "slno": 86,
+     "id": "CBSA19660",
+     "name": "Deltona-Daytona Beach-Ormond Beach, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 652116
+   },
+   {
+     "slno": 87,
+     "id": "CBSA19780",
+     "name": "Des Moines-West Des Moines, IA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 651599
+   },
+   {
+     "slno": 88,
+     "id": "CBSA48620",
+     "name": "Wichita, KS Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 647749
+   },
+   {
+     "slno": 89,
+     "id": "CBSA44140",
+     "name": "Springfield, MA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 631238
+   },
+   {
+     "slno": 90,
+     "id": "CBSA39340",
+     "name": "Provo-Orem, UT Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 628703
+   },
+   {
+     "slno": 91,
+     "id": "CBSA45780",
+     "name": "Toledo, OH Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 604146
+   },
+   {
+     "slno": 92,
+     "id": "CBSA12260",
+     "name": "Augusta-Richmond County, GA-SC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 602338
+   },
+   {
+     "slno": 93,
+     "id": "CBSA37340",
+     "name": "Palm Bay-Melbourne-Titusville, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 592373
+   },
+   {
+     "slno": 94,
+     "id": "CBSA27140",
+     "name": "Jackson, MS Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 580462
+   },
+   {
+     "slno": 95,
+     "id": "CBSA20500",
+     "name": "Durham-Chapel Hill, NC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 578821
+   },
+   {
+     "slno": 96,
+     "id": "CBSA25420",
+     "name": "Harrisburg-Carlisle, PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 572822
+   },
+   {
+     "slno": 97,
+     "id": "CBSA44060",
+     "name": "Spokane-Spokane Valley, WA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 566744
+   },
+   {
+     "slno": 98,
+     "id": "CBSA16860",
+     "name": "Chattanooga, TN-GA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 557247
+   },
+   {
+     "slno": 99,
+     "id": "CBSA42540",
+     "name": "Scranton--Wilkes-Barre--Hazleton, PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 552049
+   },
+   {
+     "slno": 100,
+     "id": "CBSA33700",
+     "name": "Modesto, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 549645
+   },
+   {
+     "slno": 101,
+     "id": "CBSA29540",
+     "name": "Lancaster, PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 542543
+   },
+   {
+     "slno": 102,
+     "id": "CBSA22220",
+     "name": "Fayetteville-Springdale-Rogers, AR-MO Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 540917
+   },
+   {
+     "slno": 103,
+     "id": "CBSA49660",
+     "name": "Youngstown-Warren-Boardman, OH-PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 538931
+   },
+   {
+     "slno": 104,
+     "id": "CBSA30460",
+     "name": "Lexington-Fayette, KY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 515421
+   },
+   {
+     "slno": 105,
+     "id": "CBSA42220",
+     "name": "Santa Rosa, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 506996
+   },
+   {
+     "slno": 106,
+     "id": "CBSA37860",
+     "name": "Pensacola-Ferry Pass-Brent, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 497717
+   },
+   {
+     "slno": 107,
+     "id": "CBSA29180",
+     "name": "Lafayette, LA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 496851
+   },
+   {
+     "slno": 108,
+     "id": "CBSA29620",
+     "name": "Lansing-East Lansing, MI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 478537
+   },
+   {
+     "slno": 109,
+     "id": "CBSA38940",
+     "name": "Port St. Lucie, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 473166
+   },
+   {
+     "slno": 110,
+     "id": "CBSA34820",
+     "name": "Myrtle Beach-Conway-North Myrtle Beach, SC-NC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 470010
+   },
+   {
+     "slno": 111,
+     "id": "CBSA39900",
+     "name": "Reno, NV Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 467599
+   },
+   {
+     "slno": 112,
+     "id": "CBSA47300",
+     "name": "Visalia-Porterville, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 466894
+   },
+   {
+     "slno": 113,
+     "id": "CBSA44180",
+     "name": "Springfield, MO Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 463959
+   },
+   {
+     "slno": 114,
+     "id": "CBSA18580",
+     "name": "Corpus Christi, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 460669
+   },
+   {
+     "slno": 115,
+     "id": "CBSA11700",
+     "name": "Asheville, NC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 460430
+   },
+   {
+     "slno": 116,
+     "id": "CBSA26620",
+     "name": "Huntsville, AL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 456936
+   },
+   {
+     "slno": 117,
+     "id": "CBSA42200",
+     "name": "Santa Maria-Santa Barbara, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 451560
+   },
+   {
+     "slno": 118,
+     "id": "CBSA49620",
+     "name": "York-Hanover, PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 446036
+   },
+   {
+     "slno": 119,
+     "id": "CBSA46700",
+     "name": "Vallejo-Fairfield, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 444393
+   },
+   {
+     "slno": 120,
+     "id": "CBSA28660",
+     "name": "Killeen-Temple, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 443509
+   },
+   {
+     "slno": 121,
+     "id": "CBSA41500",
+     "name": "Salinas, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 441397
+   },
+   {
+     "slno": 122,
+     "id": "CBSA43340",
+     "name": "Shreveport-Bossier City, LA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 439839
+   },
+   {
+     "slno": 123,
+     "id": "CBSA23060",
+     "name": "Fort Wayne, IN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 435505
+   },
+   {
+     "slno": 124,
+     "id": "CBSA41420",
+     "name": "Salem, OR Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 427938
+   },
+   {
+     "slno": 125,
+     "id": "CBSA15180",
+     "name": "Brownsville-Harlingen, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 427229
+   },
+   {
+     "slno": 126,
+     "id": "CBSA39740",
+     "name": "Reading, PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 415367
+   },
+   {
+     "slno": 127,
+     "id": "CBSA33660",
+     "name": "Mobile, AL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 415226
+   },
+   {
+     "slno": 128,
+     "id": "CBSA13140",
+     "name": "Beaumont-Port Arthur, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 410809
+   },
+   {
+     "slno": 129,
+     "id": "CBSA31700",
+     "name": "Manchester-Nashua, NH Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 408868
+   },
+   {
+     "slno": 130,
+     "id": "CBSA41540",
+     "name": "Salisbury, MD-DE Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 407558
+   },
+   {
+     "slno": 131,
+     "id": "CBSA22420",
+     "name": "Flint, MI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 405124
+   },
+   {
+     "slno": 132,
+     "id": "CBSA15940",
+     "name": "Canton-Massillon, OH Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 400102
+   },
+   {
+     "slno": 133,
+     "id": "CBSA25060",
+     "name": "Gulfport-Biloxi-Pascagoula, MS Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 395684
+   },
+   {
+     "slno": 134,
+     "id": "CBSA42340",
+     "name": "Savannah, GA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 392546
+   },
+   {
+     "slno": 135,
+     "id": "CBSA45220",
+     "name": "Tallahassee, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 387810
+   },
+   {
+     "slno": 136,
+     "id": "CBSA22180",
+     "name": "Fayetteville, NC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 384360
+   },
+   {
+     "slno": 137,
+     "id": "CBSA19340",
+     "name": "Davenport-Moline-Rock Island, IA-IL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 381723
+   },
+   {
+     "slno": 138,
+     "id": "CBSA25860",
+     "name": "Hickory-Lenoir-Morganton, NC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 376634
+   },
+   {
+     "slno": 139,
+     "id": "CBSA21660",
+     "name": "Eugene, OR Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 375244
+   },
+   {
+     "slno": 140,
+     "id": "CBSA37900",
+     "name": "Peoria, IL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 374342
+   },
+   {
+     "slno": 141,
+     "id": "CBSA34940",
+     "name": "Naples-Immokalee-Marco Island, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 374242
+   },
+   {
+     "slno": 142,
+     "id": "CBSA33860",
+     "name": "Montgomery, AL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 373881
+   },
+   {
+     "slno": 143,
+     "id": "CBSA45940",
+     "name": "Trenton, NJ Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 371183
+   },
+   {
+     "slno": 144,
+     "id": "CBSA11460",
+     "name": "Ann Arbor, MI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 369627
+   },
+   {
+     "slno": 145,
+     "id": "CBSA26580",
+     "name": "Huntington-Ashland, WV-KY-OH Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 357521
+   },
+   {
+     "slno": 146,
+     "id": "CBSA36100",
+     "name": "Ocala, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 356798
+   },
+   {
+     "slno": 147,
+     "id": "CBSA22660",
+     "name": "Fort Collins, CO Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 350005
+   },
+   {
+     "slno": 148,
+     "id": "CBSA28020",
+     "name": "Kalamazoo-Portage, MI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 339262
+   },
+   {
+     "slno": 149,
+     "id": "CBSA40420",
+     "name": "Rockford, IL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 337006
+   },
+   {
+     "slno": 150,
+     "id": "CBSA43900",
+     "name": "Spartanburg, SC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 334144
+   },
+   {
+     "slno": 151,
+     "id": "CBSA30700",
+     "name": "Lincoln, NE Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 332949
+   },
+   {
+     "slno": 152,
+     "id": "CBSA14500",
+     "name": "Boulder, CO Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 329524
+   },
+   {
+     "slno": 153,
+     "id": "CBSA43780",
+     "name": "South Bend-Mishawaka, IN-MI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 321546
+   },
+   {
+     "slno": 154,
+     "id": "CBSA24580",
+     "name": "Green Bay, WI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 321018
+   },
+   {
+     "slno": 155,
+     "id": "CBSA31180",
+     "name": "Lubbock, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 320692
+   },
+   {
+     "slno": 156,
+     "id": "CBSA21780",
+     "name": "Evansville, IN-KY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 316685
+   },
+   {
+     "slno": 157,
+     "id": "CBSA40220",
+     "name": "Roanoke, VA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 314472
+   },
+   {
+     "slno": 158,
+     "id": "CBSA17980",
+     "name": "Columbus, GA-AL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 307481
+   },
+   {
+     "slno": 159,
+     "id": "CBSA28700",
+     "name": "Kingsport-Bristol-Bristol, TN-VA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 305912
+   },
+   {
+     "slno": 160,
+     "id": "CBSA24540",
+     "name": "Greeley, CO Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 304882
+   },
+   {
+     "slno": 161,
+     "id": "CBSA46540",
+     "name": "Utica-Rome, NY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 293179
+   },
+   {
+     "slno": 162,
+     "id": "CBSA28420",
+     "name": "Kennewick-Richland, WA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 290714
+   },
+   {
+     "slno": 163,
+     "id": "CBSA48900",
+     "name": "Wilmington, NC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 289339
+   },
+   {
+     "slno": 164,
+     "id": "CBSA17300",
+     "name": "Clarksville, TN-KY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 286220
+   },
+   {
+     "slno": 165,
+     "id": "CBSA23540",
+     "name": "Gainesville, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 285471
+   },
+   {
+     "slno": 166,
+     "id": "CBSA42020",
+     "name": "San Luis Obispo-Paso Robles-Arroyo Grande, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 284157
+   },
+   {
+     "slno": 167,
+     "id": "CBSA36500",
+     "name": "Olympia-Tumwater, WA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 282330
+   },
+   {
+     "slno": 168,
+     "id": "CBSA22900",
+     "name": "Fort Smith, AR-OK Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 281724
+   },
+   {
+     "slno": 169,
+     "id": "CBSA20260",
+     "name": "Duluth, MN-WI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 278992
+   },
+   {
+     "slno": 170,
+     "id": "CBSA29700",
+     "name": "Laredo, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 277900
+   },
+   {
+     "slno": 171,
+     "id": "CBSA42100",
+     "name": "Santa Cruz-Watsonville, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 277740
+   },
+   {
+     "slno": 172,
+     "id": "CBSA21500",
+     "name": "Erie, PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 274235
+   },
+   {
+     "slno": 173,
+     "id": "CBSA32900",
+     "name": "Merced, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 272734
+   },
+   {
+     "slno": 174,
+     "id": "CBSA18880",
+     "name": "Crestview-Fort Walton Beach-Destin, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 272656
+   },
+   {
+     "slno": 175,
+     "id": "CBSA47380",
+     "name": "Waco, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 272022
+   },
+   {
+     "slno": 176,
+     "id": "CBSA35980",
+     "name": "Norwich-New London, CT Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 271868
+   },
+   {
+     "slno": 177,
+     "id": "CBSA16300",
+     "name": "Cedar Rapids, IA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 270363
+   },
+   {
+     "slno": 178,
+     "id": "CBSA14740",
+     "name": "Bremerton-Silverdale, WA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 270215
+   },
+   {
+     "slno": 179,
+     "id": "CBSA12100",
+     "name": "Atlantic City-Hammonton, NJ Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 268965
+   },
+   {
+     "slno": 180,
+     "id": "CBSA25180",
+     "name": "Hagerstown-Martinsburg, MD-WV Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 266917
+   },
+   {
+     "slno": 181,
+     "id": "CBSA11100",
+     "name": "Amarillo, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 266772
+   },
+   {
+     "slno": 182,
+     "id": "CBSA17780",
+     "name": "College Station-Bryan, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 263260
+   },
+   {
+     "slno": 183,
+     "id": "CBSA43620",
+     "name": "Sioux Falls, SD Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 262064
+   },
+   {
+     "slno": 184,
+     "id": "CBSA49420",
+     "name": "Yakima, WA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 255992
+   },
+   {
+     "slno": 185,
+     "id": "CBSA31340",
+     "name": "Lynchburg, VA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 255512
+   },
+   {
+     "slno": 186,
+     "id": "CBSA22020",
+     "name": "Fargo, ND-MN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 244904
+   },
+   {
+     "slno": 187,
+     "id": "CBSA46220",
+     "name": "Tuscaloosa, AL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 244017
+   },
+   {
+     "slno": 188,
+     "id": "CBSA13780",
+     "name": "Binghamton, NY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 241904
+   },
+   {
+     "slno": 189,
+     "id": "CBSA16580",
+     "name": "Champaign-Urbana, IL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 239969
+   },
+   {
+     "slno": 190,
+     "id": "CBSA16820",
+     "name": "Charlottesville, VA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 237697
+   },
+   {
+     "slno": 191,
+     "id": "CBSA11540",
+     "name": "Appleton, WI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 235990
+   },
+   {
+     "slno": 192,
+     "id": "CBSA45820",
+     "name": "Topeka, KS Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 232559
+   },
+   {
+     "slno": 193,
+     "id": "CBSA39140",
+     "name": "Prescott, AZ Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 230452
+   },
+   {
+     "slno": 194,
+     "id": "CBSA46340",
+     "name": "Tyler, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 228556
+   },
+   {
+     "slno": 195,
+     "id": "CBSA31420",
+     "name": "Macon-Bibb County, GA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 228088
+   },
+   {
+     "slno": 196,
+     "id": "CBSA17020",
+     "name": "Chico, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 227939
+   },
+   {
+     "slno": 197,
+     "id": "CBSA13380",
+     "name": "Bellingham, WA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 221204
+   },
+   {
+     "slno": 198,
+     "id": "CBSA30980",
+     "name": "Longview, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 220904
+   },
+   {
+     "slno": 199,
+     "id": "CBSA29200",
+     "name": "Lafayette-West Lafayette, IN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 220164
+   },
+   {
+     "slno": 200,
+     "id": "CBSA32780",
+     "name": "Medford, OR Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 219843
+   },
+   {
+     "slno": 201,
+     "id": "CBSA40340",
+     "name": "Rochester, MN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 218310
+   },
+   {
+     "slno": 202,
+     "id": "CBSA25940",
+     "name": "Hilton Head Island-Bluffton-Beaufort, SC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 218176
+   },
+   {
+     "slno": 203,
+     "id": "CBSA17200",
+     "name": "Claremont-Lebanon, NH-VT Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 217672
+   },
+   {
+     "slno": 204,
+     "id": "CBSA19300",
+     "name": "Daphne-Fairhope-Foley, AL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 215273
+   },
+   {
+     "slno": 205,
+     "id": "CBSA16620",
+     "name": "Charleston, WV Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 214869
+   },
+   {
+     "slno": 206,
+     "id": "CBSA29740",
+     "name": "Las Cruces, NM Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 214739
+   },
+   {
+     "slno": 207,
+     "id": "CBSA26380",
+     "name": "Houma-Thibodaux, LA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 211949
+   },
+   {
+     "slno": 208,
+     "id": "CBSA29340",
+     "name": "Lake Charles, LA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 209968
+   },
+   {
+     "slno": 209,
+     "id": "CBSA44100",
+     "name": "Springfield, IL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 209245
+   },
+   {
+     "slno": 210,
+     "id": "CBSA12020",
+     "name": "Athens-Clarke County, GA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 208934
+   },
+   {
+     "slno": 211,
+     "id": "CBSA49740",
+     "name": "Yuma, AZ Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 207503
+   },
+   {
+     "slno": 212,
+     "id": "CBSA29420",
+     "name": "Lake Havasu City-Kingman, AZ Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 206482
+   },
+   {
+     "slno": 213,
+     "id": "CBSA22500",
+     "name": "Florence, SC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 205789
+   },
+   {
+     "slno": 214,
+     "id": "CBSA21140",
+     "name": "Elkhart-Goshen, IN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 205260
+   },
+   {
+     "slno": 215,
+     "id": "CBSA37460",
+     "name": "Panama City, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 202898
+   },
+   {
+     "slno": 216,
+     "id": "CBSA27740",
+     "name": "Johnson City, TN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 202484
+   },
+   {
+     "slno": 217,
+     "id": "CBSA23580",
+     "name": "Gainesville, GA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 201146
+   },
+   {
+     "slno": 218,
+     "id": "CBSA41060",
+     "name": "St. Cloud, MN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 197399
+   },
+   {
+     "slno": 219,
+     "id": "CBSA39540",
+     "name": "Racine, WI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 195279
+   },
+   {
+     "slno": 220,
+     "id": "CBSA27340",
+     "name": "Jacksonville, NC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 194363
+   },
+   {
+     "slno": 221,
+     "id": "CBSA47580",
+     "name": "Warner Robins, GA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 192168
+   },
+   {
+     "slno": 222,
+     "id": "CBSA40980",
+     "name": "Saginaw, MI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 190317
+   },
+   {
+     "slno": 223,
+     "id": "CBSA14010",
+     "name": "Bloomington, IL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 188311
+   },
+   {
+     "slno": 224,
+     "id": "CBSA13460",
+     "name": "Bend-Redmond, OR Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 186676
+   },
+   {
+     "slno": 225,
+     "id": "CBSA13980",
+     "name": "Blacksburg-Christiansburg-Radford, VA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 185289
+   },
+   {
+     "slno": 226,
+     "id": "CBSA20940",
+     "name": "El Centro, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 184701
+   },
+   {
+     "slno": 227,
+     "id": "CBSA39460",
+     "name": "Punta Gorda, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 182677
+   },
+   {
+     "slno": 228,
+     "id": "CBSA45860",
+     "name": "Torrington, CT Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 180677
+   },
+   {
+     "slno": 229,
+     "id": "CBSA33740",
+     "name": "Monroe, LA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 179930
+   },
+   {
+     "slno": 230,
+     "id": "CBSA17860",
+     "name": "Columbia, MO Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 179598
+   },
+   {
+     "slno": 231,
+     "id": "CBSA39820",
+     "name": "Redding, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 179413
+   },
+   {
+     "slno": 232,
+     "id": "CBSA24780",
+     "name": "Greenville, NC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 178986
+   },
+   {
+     "slno": 233,
+     "id": "CBSA27900",
+     "name": "Joplin, MO Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 178789
+   },
+   {
+     "slno": 234,
+     "id": "CBSA28740",
+     "name": "Kingston, NY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 178278
+   },
+   {
+     "slno": 235,
+     "id": "CBSA20100",
+     "name": "Dover, DE Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 177382
+   },
+   {
+     "slno": 236,
+     "id": "CBSA49700",
+     "name": "Yuba City, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 175979
+   },
+   {
+     "slno": 237,
+     "id": "CBSA33260",
+     "name": "Midland, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 174942
+   },
+   {
+     "slno": 238,
+     "id": "CBSA14540",
+     "name": "Bowling Green, KY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 174552
+   },
+   {
+     "slno": 239,
+     "id": "CBSA34740",
+     "name": "Muskegon, MI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 174239
+   },
+   {
+     "slno": 240,
+     "id": "CBSA26980",
+     "name": "Iowa City, IA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 172413
+   },
+   {
+     "slno": 241,
+     "id": "CBSA10180",
+     "name": "Abilene, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 172241
+   },
+   {
+     "slno": 242,
+     "id": "CBSA13740",
+     "name": "Billings, MT Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 172169
+   },
+   {
+     "slno": 243,
+     "id": "CBSA36780",
+     "name": "Oshkosh-Neenah, WI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 170316
+   },
+   {
+     "slno": 244,
+     "id": "CBSA45460",
+     "name": "Terre Haute, IN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 170208
+   },
+   {
+     "slno": 245,
+     "id": "CBSA47940",
+     "name": "Waterloo-Cedar Falls, IA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 170094
+   },
+   {
+     "slno": 246,
+     "id": "CBSA43580",
+     "name": "Sioux City, IA-NE-SD Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 169414
+   },
+   {
+     "slno": 247,
+     "id": "CBSA14020",
+     "name": "Bloomington, IN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 168777
+   },
+   {
+     "slno": 248,
+     "id": "CBSA20740",
+     "name": "Eau Claire, WI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 167734
+   },
+   {
+     "slno": 249,
+     "id": "CBSA15500",
+     "name": "Burlington, NC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 167501
+   },
+   {
+     "slno": 250,
+     "id": "CBSA39380",
+     "name": "Pueblo, CO Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 166969
+   },
+   {
+     "slno": 251,
+     "id": "CBSA41100",
+     "name": "St. George, UT Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 166334
+   },
+   {
+     "slno": 252,
+     "id": "CBSA20700",
+     "name": "East Stroudsburg, PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 165260
+   },
+   {
+     "slno": 253,
+     "id": "CBSA36220",
+     "name": "Odessa, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 163169
+   },
+   {
+     "slno": 254,
+     "id": "CBSA44300",
+     "name": "State College, PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 163153
+   },
+   {
+     "slno": 255,
+     "id": "CBSA12220",
+     "name": "Auburn-Opelika, AL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 162921
+   },
+   {
+     "slno": 256,
+     "id": "CBSA27500",
+     "name": "Janesville-Beloit, WI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 162053
+   },
+   {
+     "slno": 257,
+     "id": "CBSA17660",
+     "name": "Coeur d'Alene, ID Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 159054
+   },
+   {
+     "slno": 258,
+     "id": "CBSA27100",
+     "name": "Jackson, MI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 157708
+   },
+   {
+     "slno": 259,
+     "id": "CBSA31460",
+     "name": "Madera, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 155859
+   },
+   {
+     "slno": 260,
+     "id": "CBSA42680",
+     "name": "Sebastian-Vero Beach, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 155025
+   },
+   {
+     "slno": 261,
+     "id": "CBSA10780",
+     "name": "Alexandria, LA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 154863
+   },
+   {
+     "slno": 262,
+     "id": "CBSA16540",
+     "name": "Chambersburg-Waynesboro, PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 154720
+   },
+   {
+     "slno": 263,
+     "id": "CBSA35660",
+     "name": "Niles-Benton Harbor, MI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 153188
+   },
+   {
+     "slno": 264,
+     "id": "CBSA47220",
+     "name": "Vineland-Bridgeton, NJ Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 152424
+   },
+   {
+     "slno": 265,
+     "id": "CBSA45500",
+     "name": "Texarkana, TX-AR Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 152032
+   },
+   {
+     "slno": 266,
+     "id": "CBSA27620",
+     "name": "Jefferson City, MO Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 151794
+   },
+   {
+     "slno": 267,
+     "id": "CBSA19460",
+     "name": "Decatur, AL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 151751
+   },
+   {
+     "slno": 268,
+     "id": "CBSA24300",
+     "name": "Grand Junction, CO Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 151482
+   },
+   {
+     "slno": 269,
+     "id": "CBSA48660",
+     "name": "Wichita Falls, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 151053
+   },
+   {
+     "slno": 270,
+     "id": "CBSA10500",
+     "name": "Albany, GA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 150396
+   },
+   {
+     "slno": 271,
+     "id": "CBSA25620",
+     "name": "Hattiesburg, MS Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 150082
+   },
+   {
+     "slno": 272,
+     "id": "CBSA45900",
+     "name": "Traverse City, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 149773
+   },
+   {
+     "slno": 273,
+     "id": "CBSA42140",
+     "name": "Santa Fe, NM Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 149690
+   },
+   {
+     "slno": 274,
+     "id": "CBSA21060",
+     "name": "Elizabethtown-Fort Knox, KY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 149191
+   },
+   {
+     "slno": 275,
+     "id": "CBSA25260",
+     "name": "Hanford-Corcoran, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 149076
+   },
+   {
+     "slno": 276,
+     "id": "CBSA18180",
+     "name": "Concord, NH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 149072
+   },
+   {
+     "slno": 277,
+     "id": "CBSA33780",
+     "name": "Monroe, MI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 148623
+   },
+   {
+     "slno": 278,
+     "id": "CBSA19140",
+     "name": "Dalton, GA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 148565
+   },
+   {
+     "slno": 279,
+     "id": "CBSA36860",
+     "name": "Ottawa-Peru, IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 148244
+   },
+   {
+     "slno": 280,
+     "id": "CBSA39660",
+     "name": "Rapid City, SD Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 148065
+   },
+   {
+     "slno": 281,
+     "id": "CBSA20020",
+     "name": "Dothan, AL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 147899
+   },
+   {
+     "slno": 282,
+     "id": "CBSA26820",
+     "name": "Idaho Falls, ID Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 146830
+   },
+   {
+     "slno": 283,
+     "id": "CBSA40580",
+     "name": "Rocky Mount, NC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 146649
+   },
+   {
+     "slno": 284,
+     "id": "CBSA26140",
+     "name": "Homosassa Springs, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 146491
+   },
+   {
+     "slno": 285,
+     "id": "CBSA22520",
+     "name": "Florence-Muscle Shoals, AL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 146213
+   },
+   {
+     "slno": 286,
+     "id": "CBSA46660",
+     "name": "Valdosta, GA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 145483
+   },
+   {
+     "slno": 287,
+     "id": "CBSA22380",
+     "name": "Flagstaff, AZ Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 144917
+   },
+   {
+     "slno": 288,
+     "id": "CBSA34900",
+     "name": "Napa, CA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 143177
+   },
+   {
+     "slno": 289,
+     "id": "CBSA39060",
+     "name": "Pottsville, PA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 142241
+   },
+   {
+     "slno": 290,
+     "id": "CBSA48540",
+     "name": "Wheeling, WV-OH Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 141641
+   },
+   {
+     "slno": 291,
+     "id": "CBSA46180",
+     "name": "Tupelo, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 141220
+   },
+   {
+     "slno": 292,
+     "id": "CBSA30140",
+     "name": "Lebanon, PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 140300
+   },
+   {
+     "slno": 293,
+     "id": "CBSA34060",
+     "name": "Morgantown, WV Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 139849
+   },
+   {
+     "slno": 294,
+     "id": "CBSA30860",
+     "name": "Logan, UT-ID Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 139376
+   },
+   {
+     "slno": 295,
+     "id": "CBSA29100",
+     "name": "La Crosse-Onalaska, WI-MN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 137463
+   },
+   {
+     "slno": 296,
+     "id": "CBSA21700",
+     "name": "Eureka-Arcata-Fortuna, CA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 137185
+   },
+   {
+     "slno": 297,
+     "id": "CBSA49020",
+     "name": "Winchester, VA-WV Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 136595
+   },
+   {
+     "slno": 298,
+     "id": "CBSA48140",
+     "name": "Wausau, WI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 135767
+   },
+   {
+     "slno": 299,
+     "id": "CBSA25500",
+     "name": "Harrisonburg, VA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 135004
+   },
+   {
+     "slno": 300,
+     "id": "CBSA31300",
+     "name": "Lumberton, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 134862
+   },
+   {
+     "slno": 301,
+     "id": "CBSA12980",
+     "name": "Battle Creek, MI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 134120
+   },
+   {
+     "slno": 302,
+     "id": "CBSA20380",
+     "name": "Dunn, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 133747
+   },
+   {
+     "slno": 303,
+     "id": "CBSA44220",
+     "name": "Springfield, OH Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 133724
+   },
+   {
+     "slno": 304,
+     "id": "CBSA25220",
+     "name": "Hammond, LA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 133321
+   },
+   {
+     "slno": 305,
+     "id": "CBSA27780",
+     "name": "Johnstown, PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 132498
+   },
+   {
+     "slno": 306,
+     "id": "CBSA27860",
+     "name": "Jonesboro, AR Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 131999
+   },
+   {
+     "slno": 307,
+     "id": "CBSA45540",
+     "name": "The Villages, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 130535
+   },
+   {
+     "slno": 308,
+     "id": "CBSA24140",
+     "name": "Goldsboro, NC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 129981
+   },
+   {
+     "slno": 309,
+     "id": "CBSA43300",
+     "name": "Sherman-Denison, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 129797
+   },
+   {
+     "slno": 310,
+     "id": "CBSA27180",
+     "name": "Jackson, TN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 129257
+   },
+   {
+     "slno": 311,
+     "id": "CBSA30940",
+     "name": "London, KY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 128398
+   },
+   {
+     "slno": 312,
+     "id": "CBSA27460",
+     "name": "Jamestown-Dunkirk-Fredonia, NY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 127863
+   },
+   {
+     "slno": 313,
+     "id": "CBSA30020",
+     "name": "Lawton, OK Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 126327
+   },
+   {
+     "slno": 314,
+     "id": "CBSA35100",
+     "name": "New Bern, NC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 126316
+   },
+   {
+     "slno": 315,
+     "id": "CBSA16060",
+     "name": "Carbondale-Marion, IL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 126263
+   },
+   {
+     "slno": 316,
+     "id": "CBSA41140",
+     "name": "St. Joseph, MO-KS Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 126151
+   },
+   {
+     "slno": 317,
+     "id": "CBSA34580",
+     "name": "Mount Vernon-Anacortes, WA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 126007
+   },
+   {
+     "slno": 318,
+     "id": "CBSA38340",
+     "name": "Pittsfield, MA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 125732
+   },
+   {
+     "slno": 319,
+     "id": "CBSA24020",
+     "name": "Glens Falls, NY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 125648
+   },
+   {
+     "slno": 320,
+     "id": "CBSA10540",
+     "name": "Albany, OR Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 125002
+   },
+   {
+     "slno": 321,
+     "id": "CBSA43420",
+     "name": "Sierra Vista-Douglas, AZ Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 124136
+   },
+   {
+     "slno": 322,
+     "id": "CBSA11020",
+     "name": "Altoona, PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 123740
+   },
+   {
+     "slno": 323,
+     "id": "CBSA41660",
+     "name": "San Angelo, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 122589
+   },
+   {
+     "slno": 324,
+     "id": "CBSA17420",
+     "name": "Cleveland, TN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 122522
+   },
+   {
+     "slno": 325,
+     "id": "CBSA44420",
+     "name": "Staunton-Waynesboro, VA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 121992
+   },
+   {
+     "slno": 326,
+     "id": "CBSA29940",
+     "name": "Lawrence, KS Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 121667
+   },
+   {
+     "slno": 327,
+     "id": "CBSA48300",
+     "name": "Wenatchee, WA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 121343
+   },
+   {
+     "slno": 328,
+     "id": "CBSA31900",
+     "name": "Mansfield, OH Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 120460
+   },
+   {
+     "slno": 329,
+     "id": "CBSA13220",
+     "name": "Beckley, WV Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 119339
+   },
+   {
+     "slno": 330,
+     "id": "CBSA36980",
+     "name": "Owensboro, KY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 118726
+   },
+   {
+     "slno": 331,
+     "id": "CBSA33540",
+     "name": "Missoula, MT Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 118355
+   },
+   {
+     "slno": 332,
+     "id": "CBSA34100",
+     "name": "Morristown, TN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 118221
+   },
+   {
+     "slno": 333,
+     "id": "CBSA15260",
+     "name": "Brunswick, GA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 118039
+   },
+   {
+     "slno": 334,
+     "id": "CBSA48260",
+     "name": "Weirton-Steubenville, WV-OH Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 117865
+   },
+   {
+     "slno": 335,
+     "id": "CBSA49300",
+     "name": "Wooster, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 116994
+   },
+   {
+     "slno": 336,
+     "id": "CBSA26090",
+     "name": "Holland, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 116842
+   },
+   {
+     "slno": 337,
+     "id": "CBSA43100",
+     "name": "Sheboygan, WI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 115458
+   },
+   {
+     "slno": 338,
+     "id": "CBSA34620",
+     "name": "Muncie, IN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 114969
+   },
+   {
+     "slno": 339,
+     "id": "CBSA48700",
+     "name": "Williamsport, PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 114596
+   },
+   {
+     "slno": 340,
+     "id": "CBSA15680",
+     "name": "California-Lexington Park, MD Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 114094
+   },
+   {
+     "slno": 341,
+     "id": "CBSA11500",
+     "name": "Anniston-Oxford-Jacksonville, AL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 113649
+   },
+   {
+     "slno": 342,
+     "id": "CBSA48060",
+     "name": "Watertown-Fort Drum, NY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 111453
+   },
+   {
+     "slno": 343,
+     "id": "CBSA43320",
+     "name": "Show Low, AZ Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 111300
+   },
+   {
+     "slno": 344,
+     "id": "CBSA18260",
+     "name": "Cookeville, TN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 110514
+   },
+   {
+     "slno": 345,
+     "id": "CBSA40700",
+     "name": "Roseburg, OR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 110224
+   },
+   {
+     "slno": 346,
+     "id": "CBSA22140",
+     "name": "Farmington, NM Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 110169
+   },
+   {
+     "slno": 347,
+     "id": "CBSA33140",
+     "name": "Michigan City-La Porte, IN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 109315
+   },
+   {
+     "slno": 348,
+     "id": "CBSA14580",
+     "name": "Bozeman, MT Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 109153
+   },
+   {
+     "slno": 349,
+     "id": "CBSA36300",
+     "name": "Ogdensburg-Massena, NY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 109045
+   },
+   {
+     "slno": 350,
+     "id": "CBSA28100",
+     "name": "Kankakee, IL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 108944
+   },
+   {
+     "slno": 351,
+     "id": "CBSA46300",
+     "name": "Twin Falls, ID Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 108553
+   },
+   {
+     "slno": 352,
+     "id": "CBSA40080",
+     "name": "Richmond-Berea, KY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 107994
+   },
+   {
+     "slno": 353,
+     "id": "CBSA44940",
+     "name": "Sumter, SC Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 107268
+   },
+   {
+     "slno": 354,
+     "id": "CBSA31020",
+     "name": "Longview, WA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 107037
+   },
+   {
+     "slno": 355,
+     "id": "CBSA19500",
+     "name": "Decatur, IL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 105249
+   },
+   {
+     "slno": 356,
+     "id": "CBSA42700",
+     "name": "Sebring, FL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 104014
+   },
+   {
+     "slno": 357,
+     "id": "CBSA13020",
+     "name": "Bay City, MI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 103769
+   },
+   {
+     "slno": 358,
+     "id": "CBSA24220",
+     "name": "Grand Forks, ND-MN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 103591
+   },
+   {
+     "slno": 359,
+     "id": "CBSA46100",
+     "name": "Tullahoma-Manchester, TN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 103554
+   },
+   {
+     "slno": 360,
+     "id": "CBSA19260",
+     "name": "Danville, VA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 103266
+   },
+   {
+     "slno": 361,
+     "id": "CBSA30620",
+     "name": "Lima, OH Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 103047
+   },
+   {
+     "slno": 362,
+     "id": "CBSA48580",
+     "name": "Whitewater-Elkhorn, WI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 102998
+   },
+   {
+     "slno": 363,
+     "id": "CBSA41400",
+     "name": "Salem, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 102507
+   },
+   {
+     "slno": 364,
+     "id": "CBSA23900",
+     "name": "Gettysburg, PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 102435
+   },
+   {
+     "slno": 365,
+     "id": "CBSA14140",
+     "name": "Bluefield, WV-VA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 102405
+   },
+   {
+     "slno": 366,
+     "id": "CBSA22540",
+     "name": "Fond du Lac, WI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 102283
+   },
+   {
+     "slno": 367,
+     "id": "CBSA32940",
+     "name": "Meridian, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 102159
+   },
+   {
+     "slno": 368,
+     "id": "CBSA23460",
+     "name": "Gadsden, AL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 102016
+   },
+   {
+     "slno": 369,
+     "id": "CBSA47020",
+     "name": "Victoria, TX Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 101596
+   },
+   {
+     "slno": 370,
+     "id": "CBSA28060",
+     "name": "Kalispell, MT Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 101291
+   },
+   {
+     "slno": 371,
+     "id": "CBSA31860",
+     "name": "Mankato-North Mankato, MN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 100960
+   },
+   {
+     "slno": 372,
+     "id": "CBSA16940",
+     "name": "Cheyenne, WY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 99521
+   },
+   {
+     "slno": 373,
+     "id": "CBSA46020",
+     "name": "Truckee-Grass Valley, CA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 99056
+   },
+   {
+     "slno": 374,
+     "id": "CBSA11180",
+     "name": "Ames, IA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 98722
+   },
+   {
+     "slno": 375,
+     "id": "CBSA19060",
+     "name": "Cumberland, MD-WV Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 98694
+   },
+   {
+     "slno": 376,
+     "id": "CBSA10300",
+     "name": "Adrian, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 98353
+   },
+   {
+     "slno": 377,
+     "id": "CBSA42940",
+     "name": "Sevierville, TN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 98274
+   },
+   {
+     "slno": 378,
+     "id": "CBSA26300",
+     "name": "Hot Springs, AR Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 97771
+   },
+   {
+     "slno": 379,
+     "id": "CBSA16020",
+     "name": "Cape Girardeau, MO-IL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 97603
+   },
+   {
+     "slno": 380,
+     "id": "CBSA38240",
+     "name": "Pinehurst-Southern Pines, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 97602
+   },
+   {
+     "slno": 381,
+     "id": "CBSA11780",
+     "name": "Ashtabula, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 97513
+   },
+   {
+     "slno": 382,
+     "id": "CBSA20220",
+     "name": "Dubuque, IA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 97494
+   },
+   {
+     "slno": 383,
+     "id": "CBSA43140",
+     "name": "Shelby, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 97466
+   },
+   {
+     "slno": 384,
+     "id": "CBSA40660",
+     "name": "Rome, GA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 96784
+   },
+   {
+     "slno": 385,
+     "id": "CBSA37140",
+     "name": "Paducah, KY-IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 96714
+   },
+   {
+     "slno": 386,
+     "id": "CBSA31740",
+     "name": "Manhattan, KS Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 96620
+   },
+   {
+     "slno": 387,
+     "id": "CBSA18500",
+     "name": "Corning, NY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 96123
+   },
+   {
+     "slno": 388,
+     "id": "CBSA10700",
+     "name": "Albertville, AL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 95656
+   },
+   {
+     "slno": 389,
+     "id": "CBSA34180",
+     "name": "Moses Lake, WA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 95524
+   },
+   {
+     "slno": 390,
+     "id": "CBSA24940",
+     "name": "Greenwood, SC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 95114
+   },
+   {
+     "slno": 391,
+     "id": "CBSA36140",
+     "name": "Ocean City, NJ Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 93734
+   },
+   {
+     "slno": 392,
+     "id": "CBSA14660",
+     "name": "Brainerd, MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 93654
+   },
+   {
+     "slno": 393,
+     "id": "CBSA17220",
+     "name": "Clarksburg, WV Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 93396
+   },
+   {
+     "slno": 394,
+     "id": "CBSA35420",
+     "name": "New Philadelphia-Dover, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 92284
+   },
+   {
+     "slno": 395,
+     "id": "CBSA44980",
+     "name": "Sunbury, PA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 91815
+   },
+   {
+     "slno": 396,
+     "id": "CBSA18700",
+     "name": "Corvallis, OR Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 91662
+   },
+   {
+     "slno": 397,
+     "id": "CBSA37620",
+     "name": "Parkersburg-Vienna, WV Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 90955
+   },
+   {
+     "slno": 398,
+     "id": "CBSA38220",
+     "name": "Pine Bluff, AR Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 89790
+   },
+   {
+     "slno": 399,
+     "id": "CBSA45180",
+     "name": "Talladega-Sylacauga, AL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 89771
+   },
+   {
+     "slno": 400,
+     "id": "CBSA25840",
+     "name": "Hermiston-Pendleton, OR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 89717
+   },
+   {
+     "slno": 401,
+     "id": "CBSA31260",
+     "name": "Lufkin, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 89264
+   },
+   {
+     "slno": 402,
+     "id": "CBSA13180",
+     "name": "Beaver Dam, WI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 88490
+   },
+   {
+     "slno": 403,
+     "id": "CBSA46380",
+     "name": "Ukiah, CA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 88222
+   },
+   {
+     "slno": 404,
+     "id": "CBSA26660",
+     "name": "Huntsville, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 87297
+   },
+   {
+     "slno": 405,
+     "id": "CBSA24420",
+     "name": "Grants Pass, OR Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 86838
+   },
+   {
+     "slno": 406,
+     "id": "CBSA36700",
+     "name": "Orangeburg, SC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 86591
+   },
+   {
+     "slno": 407,
+     "id": "CBSA35260",
+     "name": "New Castle, PA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 86351
+   },
+   {
+     "slno": 408,
+     "id": "CBSA14700",
+     "name": "Branson, MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 86320
+   },
+   {
+     "slno": 409,
+     "id": "CBSA49780",
+     "name": "Zanesville, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 86048
+   },
+   {
+     "slno": 410,
+     "id": "CBSA24260",
+     "name": "Grand Island, NE Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 85766
+   },
+   {
+     "slno": 411,
+     "id": "CBSA32740",
+     "name": "Meadville, PA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 85671
+   },
+   {
+     "slno": 412,
+     "id": "CBSA40780",
+     "name": "Russellville, AR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 85668
+   },
+   {
+     "slno": 413,
+     "id": "CBSA26860",
+     "name": "Indiana, PA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 85563
+   },
+   {
+     "slno": 414,
+     "id": "CBSA21300",
+     "name": "Elmira, NY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 85371
+   },
+   {
+     "slno": 415,
+     "id": "CBSA36020",
+     "name": "Oak Harbor, WA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 84841
+   },
+   {
+     "slno": 416,
+     "id": "CBSA38540",
+     "name": "Pocatello, ID Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 84810
+   },
+   {
+     "slno": 417,
+     "id": "CBSA48020",
+     "name": "Watertown-Fort Atkinson, WI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 84732
+   },
+   {
+     "slno": 418,
+     "id": "CBSA14100",
+     "name": "Bloomsburg-Berwick, PA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 84481
+   },
+   {
+     "slno": 419,
+     "id": "CBSA29860",
+     "name": "Laurel, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 84334
+   },
+   {
+     "slno": 420,
+     "id": "CBSA36660",
+     "name": "Opelousas, LA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 84002
+   },
+   {
+     "slno": 421,
+     "id": "CBSA33220",
+     "name": "Midland, MI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 83376
+   },
+   {
+     "slno": 422,
+     "id": "CBSA18980",
+     "name": "Cullman, AL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 83246
+   },
+   {
+     "slno": 423,
+     "id": "CBSA48980",
+     "name": "Wilson, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 82719
+   },
+   {
+     "slno": 424,
+     "id": "CBSA29020",
+     "name": "Kokomo, IN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 82477
+   },
+   {
+     "slno": 425,
+     "id": "CBSA18020",
+     "name": "Columbus, IN Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 82337
+   },
+   {
+     "slno": 426,
+     "id": "CBSA44660",
+     "name": "Stillwater, OK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 81996
+   },
+   {
+     "slno": 427,
+     "id": "CBSA24500",
+     "name": "Great Falls, MT Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 81564
+   },
+   {
+     "slno": 428,
+     "id": "CBSA16220",
+     "name": "Casper, WY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 81301
+   },
+   {
+     "slno": 429,
+     "id": "CBSA25980",
+     "name": "Hinesville, GA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 81154
+   },
+   {
+     "slno": 430,
+     "id": "CBSA11980",
+     "name": "Athens, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 80977
+   },
+   {
+     "slno": 431,
+     "id": "CBSA38460",
+     "name": "Plattsburgh, NY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 80791
+   },
+   {
+     "slno": 432,
+     "id": "CBSA25740",
+     "name": "Helena, MT Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 80291
+   },
+   {
+     "slno": 433,
+     "id": "CBSA20180",
+     "name": "DuBois, PA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 80202
+   },
+   {
+     "slno": 434,
+     "id": "CBSA28580",
+     "name": "Key West, FL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 80009
+   },
+   {
+     "slno": 435,
+     "id": "CBSA42620",
+     "name": "Searcy, AR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 79647
+   },
+   {
+     "slno": 436,
+     "id": "CBSA47700",
+     "name": "Warsaw, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 79544
+   },
+   {
+     "slno": 437,
+     "id": "CBSA31820",
+     "name": "Manitowoc, WI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 79081
+   },
+   {
+     "slno": 438,
+     "id": "CBSA34340",
+     "name": "Mount Airy, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 78639
+   },
+   {
+     "slno": 439,
+     "id": "CBSA16500",
+     "name": "Centralia, WA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 78307
+   },
+   {
+     "slno": 440,
+     "id": "CBSA24060",
+     "name": "Glenwood Springs, CO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 77708
+   },
+   {
+     "slno": 441,
+     "id": "CBSA12180",
+     "name": "Auburn, NY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 77211
+   },
+   {
+     "slno": 442,
+     "id": "CBSA36460",
+     "name": "Olean, NY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 77076
+   },
+   {
+     "slno": 443,
+     "id": "CBSA42860",
+     "name": "Seneca, SC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 77061
+   },
+   {
+     "slno": 444,
+     "id": "CBSA19180",
+     "name": "Danville, IL Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 77022
+   },
+   {
+     "slno": 445,
+     "id": "CBSA23700",
+     "name": "Gallup, NM Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 76943
+   },
+   {
+     "slno": 446,
+     "id": "CBSA17060",
+     "name": "Chillicothe, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 76824
+   },
+   {
+     "slno": 447,
+     "id": "CBSA39500",
+     "name": "Quincy, IL-MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 76411
+   },
+   {
+     "slno": 448,
+     "id": "CBSA28300",
+     "name": "Keene, NH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 76141
+   },
+   {
+     "slno": 449,
+     "id": "CBSA22300",
+     "name": "Findlay, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 76078
+   },
+   {
+     "slno": 450,
+     "id": "CBSA44340",
+     "name": "Statesboro, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 75963
+   },
+   {
+     "slno": 451,
+     "id": "CBSA38820",
+     "name": "Port Angeles, WA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 75620
+   },
+   {
+     "slno": 452,
+     "id": "CBSA39020",
+     "name": "Portsmouth, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 75151
+   },
+   {
+     "slno": 453,
+     "id": "CBSA41780",
+     "name": "Sandusky, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 74595
+   },
+   {
+     "slno": 454,
+     "id": "CBSA43740",
+     "name": "Somerset, PA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 74252
+   },
+   {
+     "slno": 455,
+     "id": "CBSA35900",
+     "name": "North Wilkesboro, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 74249
+   },
+   {
+     "slno": 456,
+     "id": "CBSA23180",
+     "name": "Frankfort, KY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 73338
+   },
+   {
+     "slno": 457,
+     "id": "CBSA37260",
+     "name": "Palatka, FL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 73101
+   },
+   {
+     "slno": 458,
+     "id": "CBSA43060",
+     "name": "Shawnee, OK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 72878
+   },
+   {
+     "slno": 459,
+     "id": "CBSA49220",
+     "name": "Wisconsin Rapids-Marshfield, WI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 72731
+   },
+   {
+     "slno": 460,
+     "id": "CBSA10140",
+     "name": "Aberdeen, WA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 72686
+   },
+   {
+     "slno": 461,
+     "id": "CBSA40260",
+     "name": "Roanoke Rapids, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 72251
+   },
+   {
+     "slno": 462,
+     "id": "CBSA34380",
+     "name": "Mount Pleasant, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 71783
+   },
+   {
+     "slno": 463,
+     "id": "CBSA22840",
+     "name": "Fort Payne, AL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 70830
+   },
+   {
+     "slno": 464,
+     "id": "CBSA29300",
+     "name": "LaGrange, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 70557
+   },
+   {
+     "slno": 465,
+     "id": "CBSA44620",
+     "name": "Stevens Point, WI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 70412
+   },
+   {
+     "slno": 466,
+     "id": "CBSA29380",
+     "name": "Lake City, FL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 70403
+   },
+   {
+     "slno": 467,
+     "id": "CBSA26020",
+     "name": "Hobbs, NM Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 70262
+   },
+   {
+     "slno": 468,
+     "id": "CBSA24640",
+     "name": "Greenfield Town, MA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 70027
+   },
+   {
+     "slno": 469,
+     "id": "CBSA33980",
+     "name": "Morehead City, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 69932
+   },
+   {
+     "slno": 470,
+     "id": "CBSA22060",
+     "name": "Faribault-Northfield, MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 69146
+   },
+   {
+     "slno": 471,
+     "id": "CBSA34780",
+     "name": "Muskogee, OK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 69142
+   },
+   {
+     "slno": 472,
+     "id": "CBSA24620",
+     "name": "Greeneville, TN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 68653
+   },
+   {
+     "slno": 473,
+     "id": "CBSA37020",
+     "name": "Owosso, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 68299
+   },
+   {
+     "slno": 474,
+     "id": "CBSA32220",
+     "name": "Marshall, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 67629
+   },
+   {
+     "slno": 475,
+     "id": "CBSA28900",
+     "name": "Klamath Falls, OR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 67341
+   },
+   {
+     "slno": 476,
+     "id": "CBSA22100",
+     "name": "Farmington, MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 66932
+   },
+   {
+     "slno": 477,
+     "id": "CBSA11900",
+     "name": "Athens, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 66866
+   },
+   {
+     "slno": 478,
+     "id": "CBSA22580",
+     "name": "Forest City, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 66722
+   },
+   {
+     "slno": 479,
+     "id": "CBSA27600",
+     "name": "Jefferson, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 66315
+   },
+   {
+     "slno": 480,
+     "id": "CBSA34860",
+     "name": "Nacogdoches, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 66102
+   },
+   {
+     "slno": 481,
+     "id": "CBSA31980",
+     "name": "Marion, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 65974
+   },
+   {
+     "slno": 482,
+     "id": "CBSA39980",
+     "name": "Richmond, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 65940
+   },
+   {
+     "slno": 483,
+     "id": "CBSA32100",
+     "name": "Marquette, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 65775
+   },
+   {
+     "slno": 484,
+     "id": "CBSA10460",
+     "name": "Alamogordo, NM Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 65694
+   },
+   {
+     "slno": 485,
+     "id": "CBSA47460",
+     "name": "Walla Walla, WA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 65275
+   },
+   {
+     "slno": 486,
+     "id": "CBSA40740",
+     "name": "Roswell, NM Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 65056
+   },
+   {
+     "slno": 487,
+     "id": "CBSA32020",
+     "name": "Marion, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 64727
+   },
+   {
+     "slno": 488,
+     "id": "CBSA30300",
+     "name": "Lewiston, ID-WA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 64681
+   },
+   {
+     "slno": 489,
+     "id": "CBSA32300",
+     "name": "Martinsville, VA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 64660
+   },
+   {
+     "slno": 490,
+     "id": "CBSA40100",
+     "name": "Rio Grande City, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 64628
+   },
+   {
+     "slno": 491,
+     "id": "CBSA17340",
+     "name": "Clearlake, CA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 64415
+   },
+   {
+     "slno": 492,
+     "id": "CBSA12660",
+     "name": "Baraboo, WI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 64410
+   },
+   {
+     "slno": 493,
+     "id": "CBSA26960",
+     "name": "Ionia, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 64307
+   },
+   {
+     "slno": 494,
+     "id": "CBSA18300",
+     "name": "Coos Bay, OR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 64234
+   },
+   {
+     "slno": 495,
+     "id": "CBSA43700",
+     "name": "Somerset, KY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 64110
+   },
+   {
+     "slno": 496,
+     "id": "CBSA39780",
+     "name": "Red Bluff, CA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 63672
+   },
+   {
+     "slno": 497,
+     "id": "CBSA21020",
+     "name": "Elizabeth City, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 63639
+   },
+   {
+     "slno": 498,
+     "id": "CBSA43220",
+     "name": "Shelton, WA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 63362
+   },
+   {
+     "slno": 499,
+     "id": "CBSA31940",
+     "name": "Marinette, WI-MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 63133
+   },
+   {
+     "slno": 500,
+     "id": "CBSA16660",
+     "name": "Charleston-Mattoon, IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 62823
+   },
+   {
+     "slno": 501,
+     "id": "CBSA21420",
+     "name": "Enid, OK Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 62662
+   },
+   {
+     "slno": 502,
+     "id": "CBSA23860",
+     "name": "Georgetown, SC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 61787
+   },
+   {
+     "slno": 503,
+     "id": "CBSA28820",
+     "name": "Kinston, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 61239
+   },
+   {
+     "slno": 504,
+     "id": "CBSA10620",
+     "name": "Albemarle, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 61183
+   },
+   {
+     "slno": 505,
+     "id": "CBSA29060",
+     "name": "Laconia, NH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 60952
+   },
+   {
+     "slno": 506,
+     "id": "CBSA44780",
+     "name": "Sturgis, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 60787
+   },
+   {
+     "slno": 507,
+     "id": "CBSA34540",
+     "name": "Mount Vernon, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 60724
+   },
+   {
+     "slno": 508,
+     "id": "CBSA41460",
+     "name": "Salina, KS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 60722
+   },
+   {
+     "slno": 509,
+     "id": "CBSA26460",
+     "name": "Hudson, NY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 60363
+   },
+   {
+     "slno": 510,
+     "id": "CBSA31930",
+     "name": "Marietta, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 60205
+   },
+   {
+     "slno": 511,
+     "id": "CBSA37300",
+     "name": "Palestine, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 60101
+   },
+   {
+     "slno": 512,
+     "id": "CBSA42380",
+     "name": "Sayre, PA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 60053
+   },
+   {
+     "slno": 513,
+     "id": "CBSA41820",
+     "name": "Sanford, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 59710
+   },
+   {
+     "slno": 514,
+     "id": "CBSA18060",
+     "name": "Columbus, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 59478
+   },
+   {
+     "slno": 515,
+     "id": "CBSA37080",
+     "name": "Oxford, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 59402
+   },
+   {
+     "slno": 516,
+     "id": "CBSA18900",
+     "name": "Crossville, TN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 59231
+   },
+   {
+     "slno": 517,
+     "id": "CBSA22800",
+     "name": "Fort Madison-Keokuk, IA-IL-MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 59223
+   },
+   {
+     "slno": 518,
+     "id": "CBSA23380",
+     "name": "Fremont, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 58944
+   },
+   {
+     "slno": 519,
+     "id": "CBSA20580",
+     "name": "Eagle Pass, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 58483
+   },
+   {
+     "slno": 520,
+     "id": "CBSA16100",
+     "name": "Carlsbad-Artesia, NM Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 58444
+   },
+   {
+     "slno": 521,
+     "id": "CBSA22260",
+     "name": "Fergus Falls, MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 58365
+   },
+   {
+     "slno": 522,
+     "id": "CBSA35940",
+     "name": "Norwalk, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 58250
+   },
+   {
+     "slno": 523,
+     "id": "CBSA12860",
+     "name": "Batavia, NY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 58065
+   },
+   {
+     "slno": 524,
+     "id": "CBSA15660",
+     "name": "Calhoun, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 57500
+   },
+   {
+     "slno": 525,
+     "id": "CBSA13720",
+     "name": "Big Stone Gap, VA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 57376
+   },
+   {
+     "slno": 526,
+     "id": "CBSA23500",
+     "name": "Gaffney, SC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 56914
+   },
+   {
+     "slno": 527,
+     "id": "CBSA28260",
+     "name": "Kearney, NE Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 56721
+   },
+   {
+     "slno": 528,
+     "id": "CBSA20140",
+     "name": "Dublin, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 56662
+   },
+   {
+     "slno": 529,
+     "id": "CBSA21900",
+     "name": "Fairmont, WV Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 56423
+   },
+   {
+     "slno": 530,
+     "id": "CBSA38580",
+     "name": "Point Pleasant, WV-OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 56419
+   },
+   {
+     "slno": 531,
+     "id": "CBSA44580",
+     "name": "Sterling, IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 56048
+   },
+   {
+     "slno": 532,
+     "id": "CBSA46980",
+     "name": "Vicksburg, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 55706
+   },
+   {
+     "slno": 533,
+     "id": "CBSA22280",
+     "name": "Fernley, NV Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 55474
+   },
+   {
+     "slno": 534,
+     "id": "CBSA38100",
+     "name": "Picayune, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 55361
+   },
+   {
+     "slno": 535,
+     "id": "CBSA37060",
+     "name": "Oxford, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 55117
+   },
+   {
+     "slno": 536,
+     "id": "CBSA48180",
+     "name": "Waycross, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 55054
+   },
+   {
+     "slno": 537,
+     "id": "CBSA45660",
+     "name": "Tiffin, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 55052
+   },
+   {
+     "slno": 538,
+     "id": "CBSA27540",
+     "name": "Jasper, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 55047
+   },
+   {
+     "slno": 539,
+     "id": "CBSA16180",
+     "name": "Carson City, NV Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 54923
+   },
+   {
+     "slno": 540,
+     "id": "CBSA14380",
+     "name": "Boone, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 54874
+   },
+   {
+     "slno": 541,
+     "id": "CBSA20780",
+     "name": "Edwards, CO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 54684
+   },
+   {
+     "slno": 542,
+     "id": "CBSA19220",
+     "name": "Danville, KY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 54630
+   },
+   {
+     "slno": 543,
+     "id": "CBSA23980",
+     "name": "Glasgow, KY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 54543
+   },
+   {
+     "slno": 544,
+     "id": "CBSA21220",
+     "name": "Elko, NV Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 54373
+   },
+   {
+     "slno": 545,
+     "id": "CBSA36620",
+     "name": "Ontario, OR-ID Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 54193
+   },
+   {
+     "slno": 546,
+     "id": "CBSA47660",
+     "name": "Warrensburg, MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 53900
+   },
+   {
+     "slno": 547,
+     "id": "CBSA11740",
+     "name": "Ashland, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 53870
+   },
+   {
+     "slno": 548,
+     "id": "CBSA43760",
+     "name": "Sonora, CA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 53813
+   },
+   {
+     "slno": 549,
+     "id": "CBSA37740",
+     "name": "Payson, AZ Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 53789
+   },
+   {
+     "slno": 550,
+     "id": "CBSA41220",
+     "name": "St. Marys, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 53707
+   },
+   {
+     "slno": 551,
+     "id": "CBSA24100",
+     "name": "Gloversville, NY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 53481
+   },
+   {
+     "slno": 552,
+     "id": "CBSA33300",
+     "name": "Milledgeville, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 53338
+   },
+   {
+     "slno": 553,
+     "id": "CBSA11940",
+     "name": "Athens, TN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 53027
+   },
+   {
+     "slno": 554,
+     "id": "CBSA39940",
+     "name": "Rexburg, ID Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 52690
+   },
+   {
+     "slno": 555,
+     "id": "CBSA38420",
+     "name": "Platteville, WI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 52481
+   },
+   {
+     "slno": 556,
+     "id": "CBSA22780",
+     "name": "Fort Leonard Wood, MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 52259
+   },
+   {
+     "slno": 557,
+     "id": "CBSA12780",
+     "name": "Bartlesville, OK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 52231
+   },
+   {
+     "slno": 558,
+     "id": "CBSA28500",
+     "name": "Kerrville, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 52215
+   },
+   {
+     "slno": 559,
+     "id": "CBSA27380",
+     "name": "Jacksonville, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 52211
+   },
+   {
+     "slno": 560,
+     "id": "CBSA36340",
+     "name": "Oil City, PA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 51922
+   },
+   {
+     "slno": 561,
+     "id": "CBSA42460",
+     "name": "Scottsboro, AL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 51813
+   },
+   {
+     "slno": 562,
+     "id": "CBSA32620",
+     "name": "McComb, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 51716
+   },
+   {
+     "slno": 563,
+     "id": "CBSA16260",
+     "name": "Cedar City, UT Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 51483
+   },
+   {
+     "slno": 564,
+     "id": "CBSA24820",
+     "name": "Greenville, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 51462
+   },
+   {
+     "slno": 565,
+     "id": "CBSA21460",
+     "name": "Enterprise, AL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 51458
+   },
+   {
+     "slno": 566,
+     "id": "CBSA34020",
+     "name": "Morgan City, LA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 51343
+   },
+   {
+     "slno": 567,
+     "id": "CBSA49100",
+     "name": "Winona, MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 50832
+   },
+   {
+     "slno": 568,
+     "id": "CBSA40300",
+     "name": "Rochelle, IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 50703
+   },
+   {
+     "slno": 569,
+     "id": "CBSA39420",
+     "name": "Pullman, WA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 50562
+   },
+   {
+     "slno": 570,
+     "id": "CBSA35020",
+     "name": "Natchez, MS-LA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 50550
+   },
+   {
+     "slno": 571,
+     "id": "CBSA32380",
+     "name": "Mason City, IA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 50481
+   },
+   {
+     "slno": 572,
+     "id": "CBSA37580",
+     "name": "Paris, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 50459
+   },
+   {
+     "slno": 573,
+     "id": "CBSA23660",
+     "name": "Galesburg, IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 50336
+   },
+   {
+     "slno": 574,
+     "id": "CBSA17580",
+     "name": "Clovis, NM Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 50264
+   },
+   {
+     "slno": 575,
+     "id": "CBSA44260",
+     "name": "Starkville, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 50208
+   },
+   {
+     "slno": 576,
+     "id": "CBSA31660",
+     "name": "Malone, NY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 50037
+   },
+   {
+     "slno": 577,
+     "id": "CBSA22860",
+     "name": "Fort Polk South, LA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 49760
+   },
+   {
+     "slno": 578,
+     "id": "CBSA18620",
+     "name": "Corsicana, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 49204
+   },
+   {
+     "slno": 579,
+     "id": "CBSA23940",
+     "name": "Gillette, WY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 49070
+   },
+   {
+     "slno": 580,
+     "id": "CBSA45140",
+     "name": "Tahlequah, OK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 49051
+   },
+   {
+     "slno": 581,
+     "id": "CBSA37120",
+     "name": "Ozark, AL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 48974
+   },
+   {
+     "slno": 582,
+     "id": "CBSA11220",
+     "name": "Amsterdam, NY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 48969
+   },
+   {
+     "slno": 583,
+     "id": "CBSA19620",
+     "name": "Del Rio, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 48658
+   },
+   {
+     "slno": 584,
+     "id": "CBSA35440",
+     "name": "Newport, OR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 48633
+   },
+   {
+     "slno": 585,
+     "id": "CBSA11620",
+     "name": "Ardmore, OK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 48585
+   },
+   {
+     "slno": 586,
+     "id": "CBSA15620",
+     "name": "Cadillac, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 48555
+   },
+   {
+     "slno": 587,
+     "id": "CBSA23820",
+     "name": "Gardnerville Ranchos, NV Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 48420
+   },
+   {
+     "slno": 588,
+     "id": "CBSA43380",
+     "name": "Sidney, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 48368
+   },
+   {
+     "slno": 589,
+     "id": "CBSA43180",
+     "name": "Shelbyville, TN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 48267
+   },
+   {
+     "slno": 590,
+     "id": "CBSA35220",
+     "name": "New Castle, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 48194
+   },
+   {
+     "slno": 591,
+     "id": "CBSA35740",
+     "name": "Norfolk, NE Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 47988
+   },
+   {
+     "slno": 592,
+     "id": "CBSA40820",
+     "name": "Ruston, LA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 47933
+   },
+   {
+     "slno": 593,
+     "id": "CBSA47820",
+     "name": "Washington, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 47671
+   },
+   {
+     "slno": 594,
+     "id": "CBSA18660",
+     "name": "Cortland, NY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 47609
+   },
+   {
+     "slno": 595,
+     "id": "CBSA15860",
+     "name": "Cañon City, CO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 47533
+   },
+   {
+     "slno": 596,
+     "id": "CBSA20460",
+     "name": "Durant, OK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 47366
+   },
+   {
+     "slno": 597,
+     "id": "CBSA34460",
+     "name": "Mount Sterling, KY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 46981
+   },
+   {
+     "slno": 598,
+     "id": "CBSA39860",
+     "name": "Red Wing, MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 46855
+   },
+   {
+     "slno": 599,
+     "id": "CBSA17540",
+     "name": "Clinton, IA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 46822
+   },
+   {
+     "slno": 600,
+     "id": "CBSA13420",
+     "name": "Bemidji, MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 46487
+   },
+   {
+     "slno": 601,
+     "id": "CBSA38500",
+     "name": "Plymouth, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 46359
+   },
+   {
+     "slno": 602,
+     "id": "CBSA15460",
+     "name": "Burlington, IA-IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 46267
+   },
+   {
+     "slno": 603,
+     "id": "CBSA14220",
+     "name": "Bogalusa, LA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 46216
+   },
+   {
+     "slno": 604,
+     "id": "CBSA30380",
+     "name": "Lewistown, PA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 46184
+   },
+   {
+     "slno": 605,
+     "id": "CBSA24740",
+     "name": "Greenville, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 46094
+   },
+   {
+     "slno": 606,
+     "id": "CBSA12680",
+     "name": "Bardstown, KY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 46084
+   },
+   {
+     "slno": 607,
+     "id": "CBSA21260",
+     "name": "Ellensburg, WA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 46030
+   },
+   {
+     "slno": 608,
+     "id": "CBSA47540",
+     "name": "Wapakoneta, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 45914
+   },
+   {
+     "slno": 609,
+     "id": "CBSA30260",
+     "name": "Lewisburg, PA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 45802
+   },
+   {
+     "slno": 610,
+     "id": "CBSA35700",
+     "name": "Nogales, AZ Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 45596
+   },
+   {
+     "slno": 611,
+     "id": "CBSA34220",
+     "name": "Moultrie, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 45572
+   },
+   {
+     "slno": 612,
+     "id": "CBSA25880",
+     "name": "Hillsdale, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 45561
+   },
+   {
+     "slno": 613,
+     "id": "CBSA31580",
+     "name": "Madisonville, KY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 45560
+   },
+   {
+     "slno": 614,
+     "id": "CBSA26500",
+     "name": "Huntingdon, PA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 45484
+   },
+   {
+     "slno": 615,
+     "id": "CBSA45620",
+     "name": "Thomasville, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 45440
+   },
+   {
+     "slno": 616,
+     "id": "CBSA43020",
+     "name": "Shawano, WI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 45412
+   },
+   {
+     "slno": 617,
+     "id": "CBSA13260",
+     "name": "Bedford, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 45402
+   },
+   {
+     "slno": 618,
+     "id": "CBSA32000",
+     "name": "Marion, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 45306
+   },
+   {
+     "slno": 619,
+     "id": "CBSA25460",
+     "name": "Harrison, AR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 45242
+   },
+   {
+     "slno": 620,
+     "id": "CBSA37500",
+     "name": "Paragould, AR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 45225
+   },
+   {
+     "slno": 621,
+     "id": "CBSA24330",
+     "name": "Grand Rapids, MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 45170
+   },
+   {
+     "slno": 622,
+     "id": "CBSA13940",
+     "name": "Blackfoot, ID Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 45167
+   },
+   {
+     "slno": 623,
+     "id": "CBSA23300",
+     "name": "Freeport, IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 45147
+   },
+   {
+     "slno": 624,
+     "id": "CBSA13340",
+     "name": "Bellefontaine, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 44981
+   },
+   {
+     "slno": 625,
+     "id": "CBSA32860",
+     "name": "Menomonie, WI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 44954
+   },
+   {
+     "slno": 626,
+     "id": "CBSA18460",
+     "name": "Cornelia, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 44626
+   },
+   {
+     "slno": 627,
+     "id": "CBSA40460",
+     "name": "Rockingham, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 44581
+   },
+   {
+     "slno": 628,
+     "id": "CBSA38620",
+     "name": "Ponca City, OK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 44572
+   },
+   {
+     "slno": 629,
+     "id": "CBSA40620",
+     "name": "Rolla, MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 44462
+   },
+   {
+     "slno": 630,
+     "id": "CBSA25780",
+     "name": "Henderson, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 44387
+   },
+   {
+     "slno": 631,
+     "id": "CBSA15420",
+     "name": "Burley, ID Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 44385
+   },
+   {
+     "slno": 632,
+     "id": "CBSA42980",
+     "name": "Seymour, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 44291
+   },
+   {
+     "slno": 633,
+     "id": "CBSA40540",
+     "name": "Rock Springs, WY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 43812
+   },
+   {
+     "slno": 634,
+     "id": "CBSA32540",
+     "name": "McAlester, OK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 43776
+   },
+   {
+     "slno": 635,
+     "id": "CBSA36900",
+     "name": "Ottumwa, IA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 43697
+   },
+   {
+     "slno": 636,
+     "id": "CBSA20340",
+     "name": "Duncan, OK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 43677
+   },
+   {
+     "slno": 637,
+     "id": "CBSA10100",
+     "name": "Aberdeen, SD Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 43607
+   },
+   {
+     "slno": 638,
+     "id": "CBSA29980",
+     "name": "Lawrenceburg, TN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 43564
+   },
+   {
+     "slno": 639,
+     "id": "CBSA37220",
+     "name": "Pahrump, NV Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 43546
+   },
+   {
+     "slno": 640,
+     "id": "CBSA41760",
+     "name": "Sandpoint, ID Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 43289
+   },
+   {
+     "slno": 641,
+     "id": "CBSA13660",
+     "name": "Big Rapids, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 43243
+   },
+   {
+     "slno": 642,
+     "id": "CBSA17740",
+     "name": "Coldwater, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 43222
+   },
+   {
+     "slno": 643,
+     "id": "CBSA20060",
+     "name": "Douglas, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 43021
+   },
+   {
+     "slno": 644,
+     "id": "CBSA34700",
+     "name": "Muscatine, IA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 42937
+   },
+   {
+     "slno": 645,
+     "id": "CBSA12140",
+     "name": "Auburn, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 42920
+   },
+   {
+     "slno": 646,
+     "id": "CBSA19000",
+     "name": "Cullowhee, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 42767
+   },
+   {
+     "slno": 647,
+     "id": "CBSA38740",
+     "name": "Poplar Bluff, MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 42642
+   },
+   {
+     "slno": 648,
+     "id": "CBSA48820",
+     "name": "Willmar, MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 42493
+   },
+   {
+     "slno": 649,
+     "id": "CBSA44500",
+     "name": "Stephenville, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 42284
+   },
+   {
+     "slno": 650,
+     "id": "CBSA42740",
+     "name": "Sedalia, MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 42236
+   },
+   {
+     "slno": 651,
+     "id": "CBSA16340",
+     "name": "Cedartown, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 42108
+   },
+   {
+     "slno": 652,
+     "id": "CBSA48940",
+     "name": "Wilmington, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 41925
+   },
+   {
+     "slno": 653,
+     "id": "CBSA14180",
+     "name": "Blytheville, AR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 41815
+   },
+   {
+     "slno": 654,
+     "id": "CBSA20900",
+     "name": "El Campo, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 41749
+   },
+   {
+     "slno": 655,
+     "id": "CBSA15340",
+     "name": "Bucyrus, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 41743
+   },
+   {
+     "slno": 656,
+     "id": "CBSA33940",
+     "name": "Montrose, CO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 41621
+   },
+   {
+     "slno": 657,
+     "id": "CBSA36380",
+     "name": "Okeechobee, FL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 41368
+   },
+   {
+     "slno": 658,
+     "id": "CBSA14620",
+     "name": "Bradford, PA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 41357
+   },
+   {
+     "slno": 659,
+     "id": "CBSA44920",
+     "name": "Summit Park, UT Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 41290
+   },
+   {
+     "slno": 660,
+     "id": "CBSA34260",
+     "name": "Mountain Home, AR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 41069
+   },
+   {
+     "slno": 661,
+     "id": "CBSA45700",
+     "name": "Tifton, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 40923
+   },
+   {
+     "slno": 662,
+     "id": "CBSA16380",
+     "name": "Celina, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 40919
+   },
+   {
+     "slno": 663,
+     "id": "CBSA10940",
+     "name": "Alma, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 40856
+   },
+   {
+     "slno": 664,
+     "id": "CBSA28620",
+     "name": "Kill Devil Hills, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 40808
+   },
+   {
+     "slno": 665,
+     "id": "CBSA32660",
+     "name": "McMinnville, TN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 40783
+   },
+   {
+     "slno": 666,
+     "id": "CBSA10860",
+     "name": "Alice, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 40606
+   },
+   {
+     "slno": 667,
+     "id": "CBSA42780",
+     "name": "Selinsgrove, PA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 40601
+   },
+   {
+     "slno": 668,
+     "id": "CBSA10760",
+     "name": "Alexander City, AL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 40551
+   },
+   {
+     "slno": 669,
+     "id": "CBSA23780",
+     "name": "Garden City, KS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 40435
+   },
+   {
+     "slno": 670,
+     "id": "CBSA38840",
+     "name": "Port Clinton, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 40377
+   },
+   {
+     "slno": 671,
+     "id": "CBSA48460",
+     "name": "West Plains, MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 40180
+   },
+   {
+     "slno": 672,
+     "id": "CBSA21580",
+     "name": "Española, NM Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 40167
+   },
+   {
+     "slno": 673,
+     "id": "CBSA32260",
+     "name": "Marshalltown, IA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 40048
+   },
+   {
+     "slno": 674,
+     "id": "CBSA40180",
+     "name": "Riverton, WY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 40020
+   },
+   {
+     "slno": 675,
+     "id": "CBSA34140",
+     "name": "Moscow, ID Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 39670
+   },
+   {
+     "slno": 676,
+     "id": "CBSA17500",
+     "name": "Clewiston, FL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 39654
+   },
+   {
+     "slno": 677,
+     "id": "CBSA23620",
+     "name": "Gainesville, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 39650
+   },
+   {
+     "slno": 678,
+     "id": "CBSA47620",
+     "name": "Warren, PA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 39563
+   },
+   {
+     "slno": 679,
+     "id": "CBSA20980",
+     "name": "El Dorado, AR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 39517
+   },
+   {
+     "slno": 680,
+     "id": "CBSA24900",
+     "name": "Greenwood, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 39500
+   },
+   {
+     "slno": 681,
+     "id": "CBSA11820",
+     "name": "Astoria, OR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 39204
+   },
+   {
+     "slno": 682,
+     "id": "CBSA25300",
+     "name": "Hannibal, MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 39150
+   },
+   {
+     "slno": 683,
+     "id": "CBSA12380",
+     "name": "Austin, MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 39115
+   },
+   {
+     "slno": 684,
+     "id": "CBSA38260",
+     "name": "Pittsburg, KS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 39099
+   },
+   {
+     "slno": 685,
+     "id": "CBSA35060",
+     "name": "Natchitoches, LA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 39094
+   },
+   {
+     "slno": 686,
+     "id": "CBSA30820",
+     "name": "Lock Haven, PA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 39070
+   },
+   {
+     "slno": 687,
+     "id": "CBSA42820",
+     "name": "Selma, AL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 38947
+   },
+   {
+     "slno": 688,
+     "id": "CBSA27300",
+     "name": "Jacksonville, IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 38867
+   },
+   {
+     "slno": 689,
+     "id": "CBSA15220",
+     "name": "Brownwood, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 38826
+   },
+   {
+     "slno": 690,
+     "id": "CBSA26340",
+     "name": "Houghton, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 38779
+   },
+   {
+     "slno": 691,
+     "id": "CBSA15740",
+     "name": "Cambridge, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 38768
+   },
+   {
+     "slno": 692,
+     "id": "CBSA29660",
+     "name": "Laramie, WY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 38606
+   },
+   {
+     "slno": 693,
+     "id": "CBSA34660",
+     "name": "Murray, KY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 38577
+   },
+   {
+     "slno": 694,
+     "id": "CBSA43460",
+     "name": "Sikeston, MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 38567
+   },
+   {
+     "slno": 695,
+     "id": "CBSA13700",
+     "name": "Big Spring, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 38564
+   },
+   {
+     "slno": 696,
+     "id": "CBSA10220",
+     "name": "Ada, OK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 38445
+   },
+   {
+     "slno": 697,
+     "id": "CBSA46500",
+     "name": "Urbana, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 38418
+   },
+   {
+     "slno": 698,
+     "id": "CBSA34500",
+     "name": "Mount Vernon, IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 38418
+   },
+   {
+     "slno": 699,
+     "id": "CBSA42420",
+     "name": "Scottsbluff, NE Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 38353
+   },
+   {
+     "slno": 700,
+     "id": "CBSA35140",
+     "name": "Newberry, SC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 38300
+   },
+   {
+     "slno": 701,
+     "id": "CBSA18820",
+     "name": "Crawfordsville, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 38033
+   },
+   {
+     "slno": 702,
+     "id": "CBSA19580",
+     "name": "Defiance, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 37908
+   },
+   {
+     "slno": 703,
+     "id": "CBSA10820",
+     "name": "Alexandria, MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 37894
+   },
+   {
+     "slno": 704,
+     "id": "CBSA16460",
+     "name": "Centralia, IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 37854
+   },
+   {
+     "slno": 705,
+     "id": "CBSA30900",
+     "name": "Logansport, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 37680
+   },
+   {
+     "slno": 706,
+     "id": "CBSA40940",
+     "name": "Safford, AZ Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 37623
+   },
+   {
+     "slno": 707,
+     "id": "CBSA12120",
+     "name": "Atmore, AL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 37602
+   },
+   {
+     "slno": 708,
+     "id": "CBSA47180",
+     "name": "Vincennes, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 37562
+   },
+   {
+     "slno": 709,
+     "id": "CBSA20540",
+     "name": "Dyersburg, TN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 37526
+   },
+   {
+     "slno": 710,
+     "id": "CBSA42300",
+     "name": "Sault Ste. Marie, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 37335
+   },
+   {
+     "slno": 711,
+     "id": "CBSA19760",
+     "name": "DeRidder, LA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 37316
+   },
+   {
+     "slno": 712,
+     "id": "CBSA18420",
+     "name": "Corinth, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 37304
+   },
+   {
+     "slno": 713,
+     "id": "CBSA12900",
+     "name": "Batesville, AR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 37271
+   },
+   {
+     "slno": 714,
+     "id": "CBSA13060",
+     "name": "Bay City, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 37231
+   },
+   {
+     "slno": 715,
+     "id": "CBSA32460",
+     "name": "Mayfield, KY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 37061
+   },
+   {
+     "slno": 716,
+     "id": "CBSA20660",
+     "name": "Easton, MD Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 37023
+   },
+   {
+     "slno": 717,
+     "id": "CBSA36940",
+     "name": "Owatonna, MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 36954
+   },
+   {
+     "slno": 718,
+     "id": "CBSA44860",
+     "name": "Sulphur Springs, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 36886
+   },
+   {
+     "slno": 719,
+     "id": "CBSA23340",
+     "name": "Fremont, NE Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 36793
+   },
+   {
+     "slno": 720,
+     "id": "CBSA35500",
+     "name": "Newton, IA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 36692
+   },
+   {
+     "slno": 721,
+     "id": "CBSA35820",
+     "name": "North Platte, NE Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 36650
+   },
+   {
+     "slno": 722,
+     "id": "CBSA18740",
+     "name": "Coshocton, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 36555
+   },
+   {
+     "slno": 723,
+     "id": "CBSA22700",
+     "name": "Fort Dodge, IA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 36516
+   },
+   {
+     "slno": 724,
+     "id": "CBSA46860",
+     "name": "Vernal, UT Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 36461
+   },
+   {
+     "slno": 725,
+     "id": "CBSA46460",
+     "name": "Union City, TN-KY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 36392
+   },
+   {
+     "slno": 726,
+     "id": "CBSA47080",
+     "name": "Vidalia, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 36308
+   },
+   {
+     "slno": 727,
+     "id": "CBSA11580",
+     "name": "Arcadia, FL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 36273
+   },
+   {
+     "slno": 728,
+     "id": "CBSA26540",
+     "name": "Huntington, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 36176
+   },
+   {
+     "slno": 729,
+     "id": "CBSA38700",
+     "name": "Pontiac, IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 35980
+   },
+   {
+     "slno": 730,
+     "id": "CBSA21540",
+     "name": "Escanaba, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 35937
+   },
+   {
+     "slno": 731,
+     "id": "CBSA27920",
+     "name": "Junction City, KS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 35852
+   },
+   {
+     "slno": 732,
+     "id": "CBSA26780",
+     "name": "Hutchinson, MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 35731
+   },
+   {
+     "slno": 733,
+     "id": "CBSA37940",
+     "name": "Peru, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 35724
+   },
+   {
+     "slno": 734,
+     "id": "CBSA11680",
+     "name": "Arkansas City-Winfield, KS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 35609
+   },
+   {
+     "slno": 735,
+     "id": "CBSA19540",
+     "name": "Decatur, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 35528
+   },
+   {
+     "slno": 736,
+     "id": "CBSA30060",
+     "name": "Lebanon, MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 35474
+   },
+   {
+     "slno": 737,
+     "id": "CBSA14780",
+     "name": "Brenham, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 35466
+   },
+   {
+     "slno": 738,
+     "id": "CBSA29900",
+     "name": "Laurinburg, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 35218
+   },
+   {
+     "slno": 739,
+     "id": "CBSA35460",
+     "name": "Newport, TN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 35203
+   },
+   {
+     "slno": 740,
+     "id": "CBSA15900",
+     "name": "Canton, IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 35159
+   },
+   {
+     "slno": 741,
+     "id": "CBSA11140",
+     "name": "Americus, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 34947
+   },
+   {
+     "slno": 742,
+     "id": "CBSA27220",
+     "name": "Jackson, WY-ID Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 34916
+   },
+   {
+     "slno": 743,
+     "id": "CBSA15100",
+     "name": "Brookings, SD Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 34658
+   },
+   {
+     "slno": 744,
+     "id": "CBSA42900",
+     "name": "Seneca Falls, NY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 34618
+   },
+   {
+     "slno": 745,
+     "id": "CBSA15580",
+     "name": "Butte-Silver Bow, MT Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 34560
+   },
+   {
+     "slno": 746,
+     "id": "CBSA15020",
+     "name": "Brookhaven, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 34406
+   },
+   {
+     "slno": 747,
+     "id": "CBSA20820",
+     "name": "Effingham, IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 34405
+   },
+   {
+     "slno": 748,
+     "id": "CBSA38380",
+     "name": "Plainview, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 34386
+   },
+   {
+     "slno": 749,
+     "id": "CBSA14300",
+     "name": "Bonham, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 34261
+   },
+   {
+     "slno": 750,
+     "id": "CBSA11420",
+     "name": "Angola, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 33998
+   },
+   {
+     "slno": 751,
+     "id": "CBSA19940",
+     "name": "Dixon, IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 33885
+   },
+   {
+     "slno": 752,
+     "id": "CBSA14820",
+     "name": "Brevard, NC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 33882
+   },
+   {
+     "slno": 753,
+     "id": "CBSA46740",
+     "name": "Valley, AL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 33713
+   },
+   {
+     "slno": 754,
+     "id": "CBSA19980",
+     "name": "Dodge City, KS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 33674
+   },
+   {
+     "slno": 755,
+     "id": "CBSA21380",
+     "name": "Emporia, KS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 33592
+   },
+   {
+     "slno": 756,
+     "id": "CBSA31680",
+     "name": "Malvern, AR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 33354
+   },
+   {
+     "slno": 757,
+     "id": "CBSA34420",
+     "name": "Mount Pleasant, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 33331
+   },
+   {
+     "slno": 758,
+     "id": "CBSA45980",
+     "name": "Troy, AL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 33311
+   },
+   {
+     "slno": 759,
+     "id": "CBSA47780",
+     "name": "Washington, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 33248
+   },
+   {
+     "slno": 760,
+     "id": "CBSA37800",
+     "name": "Pella, lA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 33179
+   },
+   {
+     "slno": 761,
+     "id": "CBSA32280",
+     "name": "Martin, TN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 33105
+   },
+   {
+     "slno": 762,
+     "id": "CBSA18100",
+     "name": "Columbus, NE Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 32981
+   },
+   {
+     "slno": 763,
+     "id": "CBSA45380",
+     "name": "Taylorville, IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 32897
+   },
+   {
+     "slno": 764,
+     "id": "CBSA13300",
+     "name": "Beeville, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 32888
+   },
+   {
+     "slno": 765,
+     "id": "CBSA30880",
+     "name": "Logan, WV Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 32684
+   },
+   {
+     "slno": 766,
+     "id": "CBSA19420",
+     "name": "Dayton, TN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 32477
+   },
+   {
+     "slno": 767,
+     "id": "CBSA25720",
+     "name": "Heber, UT Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 32443
+   },
+   {
+     "slno": 768,
+     "id": "CBSA31500",
+     "name": "Madison, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 32384
+   },
+   {
+     "slno": 769,
+     "id": "CBSA27160",
+     "name": "Jackson, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 32343
+   },
+   {
+     "slno": 770,
+     "id": "CBSA30280",
+     "name": "Lewisburg, TN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 32332
+   },
+   {
+     "slno": 771,
+     "id": "CBSA37540",
+     "name": "Paris, TN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 32331
+   },
+   {
+     "slno": 772,
+     "id": "CBSA23140",
+     "name": "Frankfort, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 32285
+   },
+   {
+     "slno": 773,
+     "id": "CBSA17380",
+     "name": "Cleveland, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 32137
+   },
+   {
+     "slno": 774,
+     "id": "CBSA15700",
+     "name": "Cambridge, MD Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 32109
+   },
+   {
+     "slno": 775,
+     "id": "CBSA17700",
+     "name": "Coffeyville, KS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 32000
+   },
+   {
+     "slno": 776,
+     "id": "CBSA25580",
+     "name": "Hastings, NE Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 31799
+   },
+   {
+     "slno": 777,
+     "id": "CBSA28780",
+     "name": "Kingsville, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 31561
+   },
+   {
+     "slno": 778,
+     "id": "CBSA33060",
+     "name": "Miami, OK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 31488
+   },
+   {
+     "slno": 779,
+     "id": "CBSA47340",
+     "name": "Wabash, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 31442
+   },
+   {
+     "slno": 780,
+     "id": "CBSA27660",
+     "name": "Jennings, LA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 31401
+   },
+   {
+     "slno": 781,
+     "id": "CBSA16420",
+     "name": "Central City, KY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 30884
+   },
+   {
+     "slno": 782,
+     "id": "CBSA28380",
+     "name": "Kennett, MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 30812
+   },
+   {
+     "slno": 783,
+     "id": "CBSA31380",
+     "name": "Macomb, IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 30501
+   },
+   {
+     "slno": 784,
+     "id": "CBSA43260",
+     "name": "Sheridan, WY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 30419
+   },
+   {
+     "slno": 785,
+     "id": "CBSA27700",
+     "name": "Jesup, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 30238
+   },
+   {
+     "slno": 786,
+     "id": "CBSA10660",
+     "name": "Albert Lea, MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 30230
+   },
+   {
+     "slno": 787,
+     "id": "CBSA41260",
+     "name": "St. Marys, PA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 30023
+   },
+   {
+     "slno": 788,
+     "id": "CBSA26260",
+     "name": "Hope, AR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 30010
+   },
+   {
+     "slno": 789,
+     "id": "CBSA45000",
+     "name": "Susanville, CA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 29978
+   },
+   {
+     "slno": 790,
+     "id": "CBSA27020",
+     "name": "Iron Mountain, MI-WI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 29744
+   },
+   {
+     "slno": 791,
+     "id": "CBSA28860",
+     "name": "Kirksville, MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 29628
+   },
+   {
+     "slno": 792,
+     "id": "CBSA48220",
+     "name": "Weatherford, OK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 29385
+   },
+   {
+     "slno": 793,
+     "id": "CBSA30660",
+     "name": "Lincoln, IL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 29339
+   },
+   {
+     "slno": 794,
+     "id": "CBSA31220",
+     "name": "Ludington, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 28955
+   },
+   {
+     "slno": 795,
+     "id": "CBSA25700",
+     "name": "Hays, KS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 28839
+   },
+   {
+     "slno": 796,
+     "id": "CBSA21180",
+     "name": "Elkins, WV Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 28819
+   },
+   {
+     "slno": 797,
+     "id": "CBSA24380",
+     "name": "Grants, NM Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 28765
+   },
+   {
+     "slno": 798,
+     "id": "CBSA15780",
+     "name": "Camden, AR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 28717
+   },
+   {
+     "slno": 799,
+     "id": "CBSA47920",
+     "name": "Washington Court House, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 28641
+   },
+   {
+     "slno": 800,
+     "id": "CBSA32700",
+     "name": "McPherson, KS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 28592
+   },
+   {
+     "slno": 801,
+     "id": "CBSA10980",
+     "name": "Alpena, MI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 28526
+   },
+   {
+     "slno": 802,
+     "id": "CBSA25200",
+     "name": "Hailey, ID Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 28377
+   },
+   {
+     "slno": 803,
+     "id": "CBSA22820",
+     "name": "Fort Morgan, CO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 28351
+   },
+   {
+     "slno": 804,
+     "id": "CBSA33420",
+     "name": "Mineral Wells, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 28267
+   },
+   {
+     "slno": 805,
+     "id": "CBSA46780",
+     "name": "Van Wert, OH Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 28250
+   },
+   {
+     "slno": 806,
+     "id": "CBSA47980",
+     "name": "Watertown, SD Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 28219
+   },
+   {
+     "slno": 807,
+     "id": "CBSA43500",
+     "name": "Silver City, NM Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 27868
+   },
+   {
+     "slno": 808,
+     "id": "CBSA46620",
+     "name": "Uvalde, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 27768
+   },
+   {
+     "slno": 809,
+     "id": "CBSA48100",
+     "name": "Wauchula, FL Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 27743
+   },
+   {
+     "slno": 810,
+     "id": "CBSA32980",
+     "name": "Merrill, WI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 27719
+   },
+   {
+     "slno": 811,
+     "id": "CBSA35860",
+     "name": "North Vernon, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 27567
+   },
+   {
+     "slno": 812,
+     "id": "CBSA29780",
+     "name": "Las Vegas, NM Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 27336
+   },
+   {
+     "slno": 813,
+     "id": "CBSA18860",
+     "name": "Crescent City, CA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 27231
+   },
+   {
+     "slno": 814,
+     "id": "CBSA23240",
+     "name": "Fredericksburg, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 26982
+   },
+   {
+     "slno": 815,
+     "id": "CBSA24700",
+     "name": "Greensburg, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 26805
+   },
+   {
+     "slno": 816,
+     "id": "CBSA33180",
+     "name": "Middlesborough, KY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 26714
+   },
+   {
+     "slno": 817,
+     "id": "CBSA14340",
+     "name": "Boone, IA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 26592
+   },
+   {
+     "slno": 818,
+     "id": "CBSA12460",
+     "name": "Bainbridge, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 26497
+   },
+   {
+     "slno": 819,
+     "id": "CBSA24460",
+     "name": "Great Bend, KS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 26451
+   },
+   {
+     "slno": 820,
+     "id": "CBSA13500",
+     "name": "Bennettsville, SC Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 26356
+   },
+   {
+     "slno": 821,
+     "id": "CBSA45580",
+     "name": "Thomaston, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 26263
+   },
+   {
+     "slno": 822,
+     "id": "CBSA33020",
+     "name": "Mexico, MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 26106
+   },
+   {
+     "slno": 823,
+     "id": "CBSA34300",
+     "name": "Mountain Home, ID Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 25966
+   },
+   {
+     "slno": 824,
+     "id": "CBSA45740",
+     "name": "Toccoa, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 25858
+   },
+   {
+     "slno": 825,
+     "id": "CBSA32140",
+     "name": "Marshall, MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 25702
+   },
+   {
+     "slno": 826,
+     "id": "CBSA26940",
+     "name": "Indianola, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 25672
+   },
+   {
+     "slno": 827,
+     "id": "CBSA44460",
+     "name": "Steamboat Springs, CO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 25653
+   },
+   {
+     "slno": 828,
+     "id": "CBSA43940",
+     "name": "Spearfish, SD Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 25619
+   },
+   {
+     "slno": 829,
+     "id": "CBSA22620",
+     "name": "Forrest City, AR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 25615
+   },
+   {
+     "slno": 830,
+     "id": "CBSA12820",
+     "name": "Bastrop, LA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 25586
+   },
+   {
+     "slno": 831,
+     "id": "CBSA36840",
+     "name": "Ottawa, KS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 25487
+   },
+   {
+     "slno": 832,
+     "id": "CBSA15820",
+     "name": "Campbellsville, KY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 25450
+   },
+   {
+     "slno": 833,
+     "id": "CBSA30420",
+     "name": "Lexington, NE Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 25391
+   },
+   {
+     "slno": 834,
+     "id": "CBSA35580",
+     "name": "New Ulm, MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 25296
+   },
+   {
+     "slno": 835,
+     "id": "CBSA11060",
+     "name": "Altus, OK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 25258
+   },
+   {
+     "slno": 836,
+     "id": "CBSA33620",
+     "name": "Moberly, MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 24909
+   },
+   {
+     "slno": 837,
+     "id": "CBSA44900",
+     "name": "Summerville, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 24645
+   },
+   {
+     "slno": 838,
+     "id": "CBSA19700",
+     "name": "Deming, NM Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 24316
+   },
+   {
+     "slno": 839,
+     "id": "CBSA21980",
+     "name": "Fallon, NV Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 24189
+   },
+   {
+     "slno": 840,
+     "id": "CBSA31620",
+     "name": "Magnolia, AR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 23688
+   },
+   {
+     "slno": 841,
+     "id": "CBSA30220",
+     "name": "Levelland, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 23436
+   },
+   {
+     "slno": 842,
+     "id": "CBSA33580",
+     "name": "Mitchell, SD Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 23351
+   },
+   {
+     "slno": 843,
+     "id": "CBSA18220",
+     "name": "Connersville, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 23125
+   },
+   {
+     "slno": 844,
+     "id": "CBSA17260",
+     "name": "Clarksdale, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 23077
+   },
+   {
+     "slno": 845,
+     "id": "CBSA15060",
+     "name": "Brookings, OR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 22946
+   },
+   {
+     "slno": 846,
+     "id": "CBSA37420",
+     "name": "Pampa, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 22866
+   },
+   {
+     "slno": 847,
+     "id": "CBSA32180",
+     "name": "Marshall, MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 22825
+   },
+   {
+     "slno": 848,
+     "id": "CBSA11660",
+     "name": "Arkadelphia, AR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 22622
+   },
+   {
+     "slno": 849,
+     "id": "CBSA49460",
+     "name": "Yankton, SD Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 22600
+   },
+   {
+     "slno": 850,
+     "id": "CBSA47420",
+     "name": "Wahpeton, ND-MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 22596
+   },
+   {
+     "slno": 851,
+     "id": "CBSA18380",
+     "name": "Cordele, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 22485
+   },
+   {
+     "slno": 852,
+     "id": "CBSA20300",
+     "name": "Dumas, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 22476
+   },
+   {
+     "slno": 853,
+     "id": "CBSA32340",
+     "name": "Maryville, MO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 22434
+   },
+   {
+     "slno": 854,
+     "id": "CBSA30580",
+     "name": "Liberal, KS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 22390
+   },
+   {
+     "slno": 855,
+     "id": "CBSA38180",
+     "name": "Pierre, SD Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 22118
+   },
+   {
+     "slno": 856,
+     "id": "CBSA21120",
+     "name": "Elk City, OK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 22090
+   },
+   {
+     "slno": 857,
+     "id": "CBSA36820",
+     "name": "Oskaloosa, IA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 22076
+   },
+   {
+     "slno": 858,
+     "id": "CBSA49380",
+     "name": "Worthington, MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 21957
+   },
+   {
+     "slno": 859,
+     "id": "CBSA44540",
+     "name": "Sterling, CO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 21946
+   },
+   {
+     "slno": 860,
+     "id": "CBSA38920",
+     "name": "Port Lavaca, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 21879
+   },
+   {
+     "slno": 861,
+     "id": "CBSA13100",
+     "name": "Beatrice, NE Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 21774
+   },
+   {
+     "slno": 862,
+     "id": "CBSA39700",
+     "name": "Raymondville, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 21673
+   },
+   {
+     "slno": 863,
+     "id": "CBSA14420",
+     "name": "Borger, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 21268
+   },
+   {
+     "slno": 864,
+     "id": "CBSA24980",
+     "name": "Grenada, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 21084
+   },
+   {
+     "slno": 865,
+     "id": "CBSA25100",
+     "name": "Guymon, OK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 20883
+   },
+   {
+     "slno": 866,
+     "id": "CBSA21740",
+     "name": "Evanston, WY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 20694
+   },
+   {
+     "slno": 867,
+     "id": "CBSA49260",
+     "name": "Woodward, OK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 20611
+   },
+   {
+     "slno": 868,
+     "id": "CBSA16140",
+     "name": "Carroll, lA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 20339
+   },
+   {
+     "slno": 869,
+     "id": "CBSA44740",
+     "name": "Storm Lake, IA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 20297
+   },
+   {
+     "slno": 870,
+     "id": "CBSA39220",
+     "name": "Price, UT Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 20175
+   },
+   {
+     "slno": 871,
+     "id": "CBSA37660",
+     "name": "Parsons, KS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 20134
+   },
+   {
+     "slno": 872,
+     "id": "CBSA48500",
+     "name": "West Point, MS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 19631
+   },
+   {
+     "slno": 873,
+     "id": "CBSA36830",
+     "name": "Othello, WA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 19598
+   },
+   {
+     "slno": 874,
+     "id": "CBSA21860",
+     "name": "Fairmont, MN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 19561
+   },
+   {
+     "slno": 875,
+     "id": "CBSA40760",
+     "name": "Ruidoso, NM Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 19227
+   },
+   {
+     "slno": 876,
+     "id": "CBSA25820",
+     "name": "Hereford, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 19091
+   },
+   {
+     "slno": 877,
+     "id": "CBSA11380",
+     "name": "Andrews, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 18511
+   },
+   {
+     "slno": 878,
+     "id": "CBSA21840",
+     "name": "Fairfield, IA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 18406
+   },
+   {
+     "slno": 879,
+     "id": "CBSA25760",
+     "name": "Helena-West Helena, AR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 18246
+   },
+   {
+     "slno": 880,
+     "id": "CBSA26700",
+     "name": "Huron, SD Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 18102
+   },
+   {
+     "slno": 881,
+     "id": "CBSA15140",
+     "name": "Brownsville, TN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 17629
+   },
+   {
+     "slno": 882,
+     "id": "CBSA43660",
+     "name": "Snyder, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 17500
+   },
+   {
+     "slno": 883,
+     "id": "CBSA44020",
+     "name": "Spirit Lake, IA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 17391
+   },
+   {
+     "slno": 884,
+     "id": "CBSA32500",
+     "name": "Maysville, KY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 17170
+   },
+   {
+     "slno": 885,
+     "id": "CBSA22340",
+     "name": "Fitzgerald, GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 17122
+   },
+   {
+     "slno": 886,
+     "id": "CBSA49080",
+     "name": "Winnemucca, NV Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 16721
+   },
+   {
+     "slno": 887,
+     "id": "CBSA11860",
+     "name": "Atchison, KS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 16259
+   },
+   {
+     "slno": 888,
+     "id": "CBSA43980",
+     "name": "Spencer, IA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 16219
+   },
+   {
+     "slno": 889,
+     "id": "CBSA37780",
+     "name": "Pecos, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 15224
+   },
+   {
+     "slno": 890,
+     "id": "CBSA45020",
+     "name": "Sweetwater, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 14822
+   },
+   {
+     "slno": 891,
+     "id": "CBSA49820",
+     "name": "Zapata, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 14372
+   },
+   {
+     "slno": 892,
+     "id": "CBSA46820",
+     "name": "Vermillion, SD Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 14146
+   },
+   {
+     "slno": 893,
+     "id": "CBSA29500",
+     "name": "Lamesa, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 13316
+   },
+   {
+     "slno": 894,
+     "id": "CBSA18780",
+     "name": "Craig, CO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 12984
+   },
+   {
+     "slno": 895,
+     "id": "CBSA46900",
+     "name": "Vernon, TX Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 12595
+   },
+   {
+     "slno": 896,
+     "id": "CBSA13620",
+     "name": "Berlin, NH-VT Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 897,
+     "id": "CBSA01762",
+     "name": "Coamo, PR",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 898,
+     "id": "CBSA01764",
+     "name": "Coco, PR",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 899,
+     "id": "CBSA46520",
+     "name": "Urban Honolulu, HI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 900,
+     "id": "CBSA45340",
+     "name": "Taos, NM Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 901,
+     "id": "CBSA27060",
+     "name": "Ithaca, NY Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 902,
+     "id": "CBSA01026",
+     "name": "Adjuntas, PR",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 903,
+     "id": "CBSA01038",
+     "name": "Aguadilla-Isabela, PR",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 904,
+     "id": "CBSA01164",
+     "name": "Arecibo, PR",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 905,
+     "id": "CBSA47240",
+     "name": "Vineyard Haven, MA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 906,
+     "id": "CBSA27420",
+     "name": "Jamestown, ND Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 907,
+     "id": "CBSA27940",
+     "name": "Juneau, AK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 908,
+     "id": "CBSA12300",
+     "name": "Augusta-Waterville, ME Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 909,
+     "id": "CBSA45520",
+     "name": "The Dalles, OR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 910,
+     "id": "CBSA20420",
+     "name": "Durango, CO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 911,
+     "id": "CBSA26740",
+     "name": "Hutchinson, KS Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 912,
+     "id": "CBSA48780",
+     "name": "Williston, ND Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 913,
+     "id": "CBSA28340",
+     "name": "Kendallville, IN Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 914,
+     "id": "CBSA27980",
+     "name": "Kahului-Wailuku-Lahaina, HI Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 915,
+     "id": "CBSA21820",
+     "name": "Fairbanks, AK Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 916,
+     "id": "CBSA38860",
+     "name": "Portland-South Portland, ME Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 917,
+     "id": "CBSA14720",
+     "name": "Breckenridge, CO Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 918,
+     "id": "CBSA36580",
+     "name": "Oneonta, NY Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 919,
+     "id": "CBSA13540",
+     "name": "Bennington, VT Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 920,
+     "id": "CBSA26220",
+     "name": "Hood River, OR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 921,
+     "id": "CBSA11260",
+     "name": "Anchorage, AK Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 922,
+     "id": "CBSA38780",
+     "name": "Portales, NM Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 923,
+     "id": "CBSA33500",
+     "name": "Minot, ND Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 924,
+     "id": "CBSA40860",
+     "name": "Rutland, VT Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 925,
+     "id": "CBSA15540",
+     "name": "Burlington-South Burlington, VT Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 926,
+     "id": "CBSA30340",
+     "name": "Lewiston-Auburn, ME Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 927,
+     "id": "CBSA12700",
+     "name": "Barnstable Town, MA Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 928,
+     "id": "CBSA25900",
+     "name": "Hilo, HI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 929,
+     "id": "CBSA13900",
+     "name": "Bismarck, ND Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 930,
+     "id": "CBSA03866",
+     "name": "Ponce, PR",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 931,
+     "id": "CBSA39260",
+     "name": "Prineville, OR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 932,
+     "id": "CBSA12740",
+     "name": "Barre, VT Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 933,
+     "id": "CBSA04190",
+     "name": "San German, PR",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 934,
+     "id": "CBSA04198",
+     "name": "San Juan-Caguas-Guaynabo, PR",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 935,
+     "id": "CBSA04218",
+     "name": "Santa Isabel, PR",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 936,
+     "id": "CBSA28180",
+     "name": "Kapaa, HI Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 937,
+     "id": "CBSA29260",
+     "name": "La Grande, OR Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 938,
+     "id": "CBSA31060",
+     "name": "Los Alamos, NM Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 939,
+     "id": "CBSA02502",
+     "name": "Guayama, PR",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 940,
+     "id": "CBSA28540",
+     "name": "Ketchikan, AK Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 941,
+     "id": "CBSA19860",
+     "name": "Dickinson, ND Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 942,
+     "id": "CBSA02758",
+     "name": "Jayuya, PR",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 943,
+     "id": "CBSA12620",
+     "name": "Bangor, ME Metropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 944,
+     "id": "CBSA03242",
+     "name": "Mayagüez, PR",
+     "type": "CBSA",
+     "population": 0
+   },
+   {
+     "slno": 945,
+     "id": "CBSA21640",
+     "name": "Eufaula, AL-GA Micropolitan Statistical Area",
+     "type": "CBSA",
+     "population": 0
+   }
+ ]

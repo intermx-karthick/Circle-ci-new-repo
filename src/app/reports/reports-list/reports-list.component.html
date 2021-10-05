@@ -1,0 +1,193 @@
+<div class="imx-report-list" #titleContent>
+  <div fxLayout="row" class="plan-header-action">
+    <div fxFlex="20" class="total-record" fxLayoutAlign="start center">
+      <ng-container  *ngIf="tablePagination?.total !== tablePagination?.found;else totalRecordFound">
+        Found : {{tablePagination?.found || 0}}
+      </ng-container>
+      <ng-template #totalRecordFound>
+        Total : {{tablePagination?.total}}
+      </ng-template>
+      <div class="report-list__total-record spiner-div" fxLayoutAlign="start center" *ngIf="isLoading">
+        <mat-spinner diameter="20"></mat-spinner>
+      </div>
+    </div>
+    <div fxFlex="80" fxLayoutAlign="end center" fxLayoutGap="1.2rem">
+      <div class="timeline-action">
+        <button mat-button class="imx-button-stroked_icon_action" [matMenuTriggerFor]="viewByActionMenu">{{selectedSelection}}<mat-icon>keyboard_arrow_down</mat-icon></button>
+        <mat-menu #viewByActionMenu="matMenu" class="action-dropdown-imx minimun-height">
+          <div class="timeline-heading">Viewing By</div>
+          <button mat-menu-item *ngFor="let selection of selectionOptions" (click) = "viewAllAndMine(selection)" [class.timeline-selected]="selectedSelection === selection">{{selection}}
+          </button>
+        </mat-menu>
+      </div>
+
+      <div class="timeline-action">
+        <button mat-button class="imx-button-stroked_icon_action timeline-btn-width" [matMenuTriggerFor]="timelineActionMenu">{{selectedTimeline ? selectedTimeline?.title : 'Select Timeline'}}<mat-icon>keyboard_arrow_down</mat-icon></button>
+        <mat-menu #timelineActionMenu="matMenu" class="action-dropdown-imx minimun-height timeline-overlay">
+          <button  mat-menu-item class="timeline-heading" (click) = "clearTimelineSelection()">Select Timeline</button>
+          <button mat-menu-item *ngFor="let timeline of timelineOptions" (click) = "timelineSelection(timeline)" [class.timeline-selected]="timeline?.days === selectedTimeline?.days">{{timeline.title}}
+          </button>
+        </mat-menu>
+      </div>
+
+      <div tooltip="Customize Columns" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" *ngIf="!isDialogOpenend">
+        <mat-icon svgIcon="IMX-columns" class="svg-primary" (click)="customizeColumn()"></mat-icon>
+      </div>
+      <div *ngIf="!isDialogOpenend; else closeDialog" tooltip="Expand Table" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+        <mat-icon (click)="openReportDialog()">zoom_out_map</mat-icon>
+      </div>
+      <ng-template #closeDialog>
+        <mat-icon tooltip="Collapse Table" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" svgIcon="IMX-fullscreen-exit" class="full-screen-exit-icon" (click)="closeDialogBox()"></mat-icon>
+      </ng-template>
+    </div>
+  </div>
+
+    <section class="imx-table-container" fxFill>
+      <div fxFill [ngClass]="{
+                  'report-list-dialog-fullscreen-table': isDialogOpenend,
+                  'report-list-table': !isDialogOpenend }"
+        [ngStyle]="{'max-height.px':scrollContent, 'min-height.px': scrollContent}"
+        id="{{ isDialogOpenend ? 'io-fullscreen-scroll' : 'io-table-scroll'}}" #tableScrollRef>
+    
+        <mat-table [dataSource]="sortedReports" matSort (matSortChange)="sortChange($event)" matSortDisableClear
+          [matSortDisabled]="!sortedReports?.data?.length" matSortActive="{{sort?.active}}"
+          matSortDirection="{{sort?.direction}}" class="imx-table-striped table-header-auto" (window:resize)="reSize()"
+          [ngClass]="{'enable-table-scroll': hasHorizontalScrollbar}" [trackBy]="scenariosTractByFn">
+    
+          <ng-container matColumnDef="name" [sticky]="true">
+            <mat-header-cell *matHeaderCellDef fxFlex="23rem" mat-sort-header>
+              <div class="header-search__label" fxLayout fxLayoutAlign="center center" *ngIf="!isSearchBarActive; else reportSearch">
+                <span> Report Name</span>
+                <mat-icon class="mouse-pointer" (click)="$event.stopPropagation();enableSearch($event)"  matRipple>search</mat-icon>
+              </div>
+              <ng-template #reportSearch>
+                <div class="header-search__block">
+                  <mat-form-field floatLabel="never" (click)="$event.stopPropagation()" fxFlex="7rem">
+                    <mat-label>Search Report</mat-label>
+                    <input [formControl]="reportNameFC" (click)="$event.stopPropagation()" (focus)="onFocusSearchBox()"
+                      (blur)="onBlurSearchBox()" class="header-search__input" matInput type="text">
+                    <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="disableSearch($event)">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </div>
+              </ng-template>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="23rem" class="imx-link-cursor"
+              (click)="handleOpenReport(element)">
+              <a class="primary-color-text font-weight-normal line-item-td imx-name-wrap" placement="right" delay="200"
+                customClass="imx-field-tooltip">
+                {{element?.metadata?.displayName}}
+              </a>
+            </mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="category">
+            <mat-header-cell *matHeaderCellDef fxFlex="12rem" mat-sort-header>
+              <div class="header-search__label mouse-pointer" fxLayout fxLayoutAlign="center center"
+                #CdkOverlayOrigin="cdkOverlayOrigin" cdkOverlayOrigin>
+                <span>Category</span>
+                <mat-icon class="filter-action" svgIcon="IMX-filter"
+                  (click)="$event.stopPropagation();categoryOverlayOrigin = CdkOverlayOrigin; isCategoryFilterOpen = !isCategoryFilterOpen; isTypeFilterOpen = false; closeSearchFilter();">
+                </mat-icon>
+              </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="12rem" class="imx-name-wrap">
+              {{element?.metadata?.categoryData?.name }}
+            </mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="type">
+            <mat-header-cell *matHeaderCellDef fxFlex="12rem" mat-sort-header>
+              <div class="header-search__label mouse-pointer" fxLayout fxLayoutAlign="center center"
+                #CdkOverlayOrigin="cdkOverlayOrigin" cdkOverlayOrigin>
+                <span> Report Type</span>
+                <mat-icon class="filter-action" svgIcon="IMX-filter"
+                  (click)="$event.stopPropagation();typeOverlayOrigin = CdkOverlayOrigin; isTypeFilterOpen = !isTypeFilterOpen; isCategoryFilterOpen = false; closeSearchFilter()">
+                </mat-icon>
+              </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="12rem" class="imx-name-wrap">
+              {{element?.metadata?.typeData?.name}}
+            </mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="costType">
+            <mat-header-cell *matHeaderCellDef fxFlex="8rem" mat-sort-header>Cost Type</mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="8rem" class="imx-name-wrap">
+              {{element?.metadata?.costTypeData?.name}}
+            </mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="startDate">
+            <mat-header-cell *matHeaderCellDef fxFlex="7rem" mat-sort-header>Start Date</mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="7rem" class="imx-name-wrap">
+              {{element?.metadata?.startDate | date : 'MM/dd/yyyy'}}
+            </mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="endDate">
+            <mat-header-cell *matHeaderCellDef fxFlex="7rem" mat-sort-header>End Date</mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="7rem" class="imx-name-wrap">
+              {{element?.metadata?.endDate | date : 'MM/dd/yyyy'}}
+            </mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="createdAt">
+            <mat-header-cell *matHeaderCellDef fxFlex="7rem" mat-sort-header>Created Date</mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="7rem" class="imx-name-wrap">
+              <span [innerHTML]="(element.createdAt | dateAgo :'new') | lowercase"></span>
+            </mat-cell>
+          </ng-container>
+    
+          <ng-container matColumnDef="action" [sticky]="true">
+            <mat-header-cell *matHeaderCellDef class="action-menu-column" fxFlex="2.5rem"></mat-header-cell>
+            <mat-cell *matCellDef="let element;let i = index" class="action-menu-column" fxFlex="2.5rem">
+              <mat-icon [matMenuTriggerFor]="actionMenu" class="action-icon">more_vert</mat-icon>
+              <mat-menu #actionMenu="matMenu" xPosition="before"
+                class="action-dropdown-imx minimun-height action-menu-position action-dropdown-width table-action-position">
+                <button mat-menu-item (click)="downloadReport(element, true)">Download</button>
+                <button mat-menu-item (click)="downloadReport(element)">Save as PDF</button>
+                <button mat-menu-item (click)="handleDuplicateReport(element)">Duplicate Report</button>
+                <button id="regenerate-with-latest-data" class='regenerate' mat-menu-item
+                  (click)="handleOpenReport(element)">Regenerate with latest data</button>
+                <button mat-menu-item (click)="deleteReport(element)">Delete</button>
+              </mat-menu>
+            </mat-cell>
+          </ng-container>
+    
+          <mat-header-row *matHeaderRowDef="customizeColumnService.displayedColumns;sticky: true"></mat-header-row>
+          <mat-row *matRowDef="let row; let i = index; columns: customizeColumnService.displayedColumns;" class="clist-row">
+          </mat-row>
+        </mat-table>
+    
+        <section *ngIf="sortedReports?.data?.length === 0 && !isLoading" class="empty-result" fxLayout="row"
+          fxLayoutAlign="center center" fxFill>
+          <div>
+            <p>No records found.</p>
+            <img src="../../../assets/images/cuate.svg" alt="">
+          </div>
+        </section>
+      </div>
+    
+      <section class="pagination">
+        <mat-paginator [disabled]="!reports?.length || isLoading" [length]="tablePagination?.found || 0"
+          [pageIndex]="(tablePagination?.page || 1) - 1" [pageSize]="tablePagination?.perPage || 10"
+          [pageSizeOptions]="paginationSizes" [showFirstLastButtons]="true" (page)="getPageEvent($event)">
+        </mat-paginator>
+      </section>
+    
+    </section>
+    
+    <imx-overlay-list *ngIf="categoryOverlayOrigin" [CdkOverlayOrigin]="categoryOverlayOrigin"
+      (close)="sCategoryFilterOpen = false" (onApply)="onApplyCategory($event)" (open)="isCategoryFilterOpen = true"
+      [isOpen]="isCategoryFilterOpen" [searchLabel]="'Search Category'" [items]="overlayCategoryList">
+    </imx-overlay-list>
+
+    <imx-overlay-list *ngIf="typeOverlayOrigin" [CdkOverlayOrigin]="typeOverlayOrigin" (close)="isTypeFilterOpen = false"
+      (onApply)="onApplyType($event)" (open)="isTypeFilterOpen = true" [isOpen]="isTypeFilterOpen"
+      [searchLabel]="'Search Type'" [items]="overlayTypeList">
+    </imx-overlay-list>
+    <!-- <div fxLayout="row" fxLayoutAlign="center center" *ngIf="sortedReports && sortedReports?.data?.length === 0" [ngClass]="injectedData?.dialogOpenened ? 'noDataFoundFullScreen' : 'noDataFound'">No records found.</div> -->
+
+</div>

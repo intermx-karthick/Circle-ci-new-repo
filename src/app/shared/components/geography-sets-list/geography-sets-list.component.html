@@ -1,0 +1,83 @@
+<div class="geo-sets-container" [class.geo-sets-container-lg]="showLargeBtns"
+     [style.margin]="isForLayers?'0 0 0 10px': ''">
+
+  <mat-form-field floatLabel="never" fxFlexFill class="search-field">
+    <input matInput type="text" [formControl]="searchCtrl" placeholder="Search" name="geo sets search"
+           class="ta-search-text geo-sets-search" autocomplete="off">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <section *ngIf="!this.isForLayers; else layersSection">
+
+    <mat-radio-group [formControl]="selectedGeoSetCtrl" infiniteScroll [infiniteScrollDistance]="1"
+                     [infiniteScrollThrottle]="0" (scrolled)="loadMoreSets()" [scrollWindow]="false"
+                     [infiniteScrollDisabled]="this.geoSets.length >= this.totalSets">
+
+      <div *ngIf="enableLoader" class="search-loader">
+        <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+      </div>
+
+      <ng-container *ngIf="isInitiated && !isInitialLoadCompleted">
+        <app-cl-list-left-radio-btn></app-cl-list-left-radio-btn>
+      </ng-container>
+
+      <mat-radio-button *ngFor="let set of geoSets" [value]="set['_id']">
+        {{set['name']}}
+      </mat-radio-button>
+      <p *ngIf="geoSets.length <= 0 && !enableLoader && (isInitiated && isInitialLoadCompleted)" class="text-center">No
+        Sets found</p>
+    </mat-radio-group>
+
+    <div class="action-container">
+      <button mat-raised-button class="btn-clear" type="button" (click)="clearSets()">CLEAR</button>
+      <button mat-raised-button class="btn-primary-color" type="button"
+              (click)="applySets()">{{showLargeBtns ? 'Apply' : 'APPLY' }}</button>
+    </div>
+
+  </section>
+
+  <!-- UI layers and display section -->
+  <ng-template #layersSection>
+
+    <div class="wrapper">
+      <mat-list infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                (scrolled)="loadMoreSets()" [scrollWindow]="false"
+                [infiniteScrollDisabled]="this.geoSets.length >= this.totalSets">
+
+        <div *ngIf="enableLoader" class="search-loader">
+          <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+        </div>
+
+        <div *ngIf="isInitiated && !isInitialLoadCompleted" class="geo-sets-content-loader">
+          <app-cl-list-right-checkbox></app-cl-list-right-checkbox>
+        </div>
+
+        <mat-list-item class="geo-list__item" *ngFor="let set of geoSets; let idx=index">
+          {{ set['name'] | truncate:'middle':18:6 }}
+          <span fxFlex="1 1 auto"> </span>
+          <div>
+
+           <span *ngIf="selectedGeoSetIds.indexOf(set._id) > -1; else nonSelected" class="selected">
+             <mat-icon>check</mat-icon>
+           </span>
+
+            <ng-template #nonSelected>
+              <button class="select" mat-icon-button
+                      (click)="moveLayer(set, idx)">
+                <mat-icon matListIcon>arrow_forward</mat-icon>
+              </button>
+            </ng-template>
+
+          </div>
+        </mat-list-item>
+
+        <p class="placeholder-color text-center" *ngIf="geoSets.length == 0 && (isInitiated && isInitialLoadCompleted)">
+          No data found.
+        </p>
+      </mat-list>
+    </div>
+
+  </ng-template>
+
+</div>
+

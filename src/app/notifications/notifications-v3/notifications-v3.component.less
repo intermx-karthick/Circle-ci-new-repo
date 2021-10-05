@@ -1,0 +1,96 @@
+::ng-deep {
+  .notifications-v3 {
+
+    .notifications-list {
+      max-height: 80vh;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      padding: 0;
+    }
+    .notification-icon {
+      margin-right: 14px;
+      font-size: 20px;
+      &.in-progress {
+        & svg > circle {
+          fill: var(--primary-bg);
+        }
+      }
+    }
+    .notification-item {
+      margin: 15px 6px 15px 0;
+    }
+
+    .notification-item-content {
+      max-width: 270px;
+      overflow-wrap: break-word;
+      & h6 {
+        color: var(--high-emphasis);
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 19px;
+        margin: 0 0 5px 0;
+        white-space: pre-line;
+      }
+      & a {
+        color: var(--text-secondary);
+        font-size: 12px;
+        font-weight: 300;
+        text-transform: uppercase;
+      }
+    }
+    .notification-action {
+      mat-icon {
+        cursor: pointer;
+        font-size: 17px;
+        width: 17px;
+        height: 17px;
+        color: var(--primary-bg);
+      }
+    }
+
+    &__plan-title{
+      font-style: normal;
+      font-weight: normal;
+      font-size: 0.875rem;
+      line-height: 1.125rem;
+      color: var(--grays-bg-800);
+      margin: 0 0;
+    }
+
+    &__plan-message{
+      font-style: normal;
+      font-weight: normal;
+      font-size: 0.625rem !important;
+      line-height: 0.813rem;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--grays-bg-600) !important;
+      .mat-icon{
+        font-size: 17px;
+        width: 17px;
+        height: 17px;
+        color: var(--warning-base);
+      }
+      .normal-link , .normal-link span{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 0.625rem !important;
+        line-height: 0.813rem;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        color: var(--grays-bg-600) !important;
+      }
+    }
+
+    &__retry-btn{
+      margin-right: .14rem;
+    }
+
+    &__modify-btn{
+      margin-right: .5rem;
+    }
+  }
+  .cursor-pointer{
+    cursor: pointer;
+  }
+}

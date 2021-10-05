@@ -1,0 +1,151 @@
+/** Typography styles*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-style : normal;
+  font-weight: normal;
+  /* Grays/800 */
+  color      : var(--grays-bg-800);
+  margin     : 0px;
+}
+
+h1 {
+  font-size     : 5.938rem;
+  line-height   : 100%;
+  /* identical to box height, or 95px */
+  letter-spacing: -1.5px;
+}
+
+h2 {
+  font-size     : 3.688rem;
+  line-height   : 75px;
+  /* identical to box height */
+  letter-spacing: -0.5px;
+}
+
+h3 {
+  font-size  : 3rem;
+  line-height: 61px;
+  /* identical to box height */
+}
+
+h4 {
+  font-size     : 2.125rem;
+  line-height   : 43px;
+  /* identical to box height */
+  letter-spacing: 0.25px;
+}
+
+h5 {
+  font-size  : 1.5rem;
+  line-height: 30px;
+}
+
+h6 {
+  font-size     : 1.25rem;
+  line-height   : 25px;
+  letter-spacing: 0.15px;
+}
+
+.subtitle-1 {
+  font-style    : normal;
+  font-weight   : normal;
+  font-size     : 1rem;
+  line-height   : 20px;
+  letter-spacing: 0.15px;
+  /* Grays/800 */
+  color         : var(--grays-bg-800);
+}
+
+.subtitle-2 {
+  font-style    : normal;
+  font-weight   : normal;
+  font-size     : 0.875rem;
+  line-height   : 18px;
+  /* identical to box height */
+  letter-spacing: 1px;
+  /* Grays/800 */
+  color         : var(--grays-bg-800);
+}
+
+.body-1 {
+  font-style    : normal;
+  font-weight   : normal;
+  font-size     : 1rem;
+  line-height   : 20px;
+  letter-spacing: 0.5px;
+  /* Grays/800 */
+  color         : var(--grays-bg-800);
+}
+
+.body-2 {
+  font-style : normal;
+  font-weight: normal;
+  font-size  : 0.875rem;
+  line-height: 18px;
+  /* identical to box height, or 129% */
+  /* Grays/800 */
+  color      : var(--grays-bg-800);
+}
+
+.caption {
+  font-style    : normal;
+  font-weight   : normal;
+  font-size     : 0.75rem;
+  line-height   : 15px;
+  letter-spacing: 0.4px;
+  /* Grays/800 */
+  color         : var(--grays-bg-800);
+}
+
+.overline {
+  font-style    : normal;
+  font-weight   : normal;
+  font-size     : 0.625rem;
+  line-height   : 13px;
+  /* identical to box height */
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  /* Grays/800 */
+  color         : var(--grays-bg-800);
+}
+
+a{
+  &.link_icon{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 0.75rem;
+    line-height: 15px;
+    letter-spacing: 0.4px;
+    /* Primary/BG */
+    color:var(--primary-bg-800);
+    display: flex;
+    align-items: center;
+    mat-icon{
+      font-size: 0.75rem;
+      width: 10px;
+      height: 10px;
+      margin-right: 8px;
+    }
+  }
+}
+
+.primary-text-color{
+  color:var(--primary-bg);
+}
+.primary-bg-color{
+  background:var(--primary-bg);
+}
+.lowercase{
+  text-transform: lowercase;
+}
+.capitalize{
+  text-transform: capitalize;
+}
+.pointer-cursor{
+  cursor:pointer;
+}

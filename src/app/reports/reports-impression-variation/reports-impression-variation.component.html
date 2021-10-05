@@ -1,0 +1,159 @@
+<div class="report-body">
+  <div fxLayout="column" fxLayoutAlign="start stretch" fxFill fxLayoutGap="10px">
+    <div fxFlex="50px" fxFill class="title-div">
+      <h4>Weekly Impression Variation by CBSA/Media Type</h4>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-around start" fxLayoutGap="10px" fxFlex="350px" class="row-one"
+      *ngIf="toggleChartTableFlag">
+      <div fxFlex="50" fxFill class="map-div-block">
+        <div class="map-div primary" id="map-div">
+          <div id="reportMap" [ngStyle]="{ 'height.px': mapHeight}"></div>
+          <div class="map-selection-tools" fxHide.sm fxHide.xs>
+            <div class="mapboxgl-ctrl mapboxgl-ctrl-group action-btn">
+              <button title="More Tools" (click)="openMoreTools()">
+                <span><i class="material-icons">arrow_right</i></span>
+              </button>
+            </div>
+            <div class="selection-controls" *ngIf="moreTools">
+              <div fxLayout="row" class="mapboxgl-ctrl mapboxgl-ctrl-group">
+                <button title="Rectangle" (click)="swicthTools('rectangle')">
+                  <span><i class="material-icons">highlight_alt</i></span>
+                </button>
+                <button title="Lesso" (click)="swicthTools('lesso')">
+                  <span><i class="material-icons">gesture</i></span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="map-zoom-out" fxHide.sm fxHide.xs>
+            <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+              <button (click)="zoomOutMap()" title="ZOOM OUT MAP">
+                <span><i class="material-icons">zoom_out_map</i></span>
+              </button>
+            </div>
+          </div> -->
+
+          <div fxLayout="column" fxLayoutAlign="center center" class="map-legends">
+            <div>March 2-8</div>
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <div>{{mapMinVal}}%</div>
+              <div fxLayout="row" fxLayoutAlign="center center" class="color-block">
+                <div *ngFor="let legend of mapLegends;" class="color"
+                  [ngStyle]="{'background-color' : legend['color']}"></div>
+              </div>
+              <div>{{mapMaxVal}}%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxFlex="50" fxFill class="charts-div" id="charts-div">
+        <app-imp-variation-line-chart [data]="hourlyImpressionLineData" [options]='chartLineConfig'
+          [manualRefresh]='manualRefresh'></app-imp-variation-line-chart>
+      </div>
+
+    </div>
+    <div fxLayout="row" fxFlex="100px">
+      <div fxLayout="row" fxLayoutAlign="space-around center" fxFill class="filterBlock">
+        <!-- <mat-form-field floatLabel="always">
+          <mat-label>CBSA</mat-label>
+          <mat-select multiple [formControl]='cbsa'>
+            <mat-option [value]="21220">Elko, NV</mat-option>
+            <mat-option [value]="49080">Winnemucca, NV</mat-option>
+          </mat-select>
+        </mat-form-field> -->
+        <div fxFlex="40">
+          <div fxLayout="column" fxFill class="dateRangeFilter">
+            <div>Week Start</div>
+            <div fxLayout="row" fxLayoutAlign="space-around center" class="dateRangeFilterSilder">
+              <div fxFlex="100px">{{minValue | date:'MM/dd//yyyy'}}</div>
+              <div fxFlex="100">
+                <ngx-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options"
+                  (userChangeEnd)="onUserChangeEnd($event)"></ngx-slider>
+              </div>
+              <div fxFlex="100px">{{maxValue | date:'MM/dd/yyyy'}}</div>
+            </div>
+          </div>
+        </div>
+        <div fxFlex="20">
+          <mat-form-field floatLabel="always">
+            <mat-label>Construction Type</mat-label>
+            <mat-select multiple [formControl]='construction_type'>
+              <mat-option value="All">All</mat-option> 
+              <!--  (click) = 'selectAllToggle()' -->
+              <mat-option *ngFor = "let construction of constructions;" [value]="construction" selected>{{construction}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxFlex="20">
+          <mat-form-field floatLabel="always">
+            <mat-label>Media Type</mat-label>
+            <mat-select multiple [formControl]='media_type'>
+              <mat-option value="All">All</mat-option>
+              <mat-option *ngFor = "let media of mediaTypes;" [value]="media" selected>{{media}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxFlex="20">
+          <button mat-raised-button class="button-primary chartTableToggleBtn" (click)="chartTableToggle()">
+            <ng-template [ngIf]='toggleChartTableFlag'>
+              View Full US Data with Confidence Intervals
+            </ng-template>
+            <ng-template [ngIf]='!toggleChartTableFlag'>
+              Return to Map and Chart View
+            </ng-template>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row">
+      <ng-container *ngIf="!toggleChartTableFlag">
+        <table mat-table [dataSource]="dataSource" class="variation-mat-table" matSort>
+          <ng-container *ngFor="let column of topHeaderColumns">
+            <ng-container *ngIf="!column.value.includes('week_')">
+              <ng-container [matColumnDef]="column.value">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header [attr.rowspan]="2">
+                  {{ column.displayname }}
+                </th>
+                <td mat-cell *matCellDef="let element"
+                  [attr.rowspan]="element['rowspan'][element[column['value']]] ? element['rowspan'][element[column['value']]] : 1"
+                  [style.display]="element[column['value']] !== '' ? '' : 'none'">{{element[column['value']]}}</td>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="column.value.includes('week_')">
+              <ng-container [matColumnDef]="column.value">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="align-center" [attr.colspan]="2">
+                  {{ column.displayname }}
+                </th>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngFor="let column of subHeaderColumns">
+            <ng-container [matColumnDef]="column.value">
+              <th mat-header-cell *matHeaderCellDef>{{column.displayname}}</th>
+              <td mat-cell *matCellDef="let element">{{element[column['value']]}}</td>
+            </ng-container>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="topHeaderDisplayColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="subHeaderDisplayColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </ng-container>
+      <ng-container *ngIf="toggleChartTableFlag">
+        <table mat-table [dataSource]="dataSource" class="variation-mat-table" matSort>
+          <ng-container *ngFor="let column of topHeaderColumns">
+            <ng-container [matColumnDef]="column.value">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ column.displayname }}
+              </th>
+              <td mat-cell *matCellDef="let element"
+                [attr.rowspan]="element['rowspan'][element[column['value']]] ? element['rowspan'][element[column['value']]] : 1"
+                [style.display]="element[column['value']] !== '' ? '' : 'none'">{{element[column['value']]}}</td>
+            </ng-container>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="topHeaderDisplayColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: topHeaderDisplayColumns"></tr>
+        </table>
+      </ng-container>
+    </div>
+  </div>
+</div>

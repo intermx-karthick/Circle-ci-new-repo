@@ -1,0 +1,33 @@
+.audience-dialog {
+  width: 100% !important;
+  padding: 20px !important;
+  position: relative;
+  .gray-800 {
+    color: var(--grays-bg-800);
+  }
+  .gray-600 {
+    color: var(--grays-bg-600);
+  }
+  .audience-heading {
+    margin-bottom: 16px;
+    p {
+      margin: 0px;
+    }
+  }
+  .mat-icon {
+    height: 18px;
+    width: 18px;
+  }
+}
+::ng-deep {
+  app-audience-filter-dialog {
+    app-audience-filter {
+      #define-data-version {
+        position: absolute ;
+        top: 24px;
+        left: 200px;
+      }
+    }
+  }
+  
+}

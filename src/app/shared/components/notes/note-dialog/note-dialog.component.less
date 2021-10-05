@@ -1,0 +1,54 @@
+
+::ng-deep{
+  app-note-dialog{
+    .cke_toolbox {
+      .cke_button__numberedlist::after {
+          border: unset !important;
+      }
+      .cke_toolbar_last {
+          float: right !important;
+      }
+    }
+    
+    .header{
+      padding: 1rem 1rem 0rem 1rem !important;
+      p{
+        margin-bottom:0px;
+      }
+      .title{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 20px;
+        letter-spacing: 0.15px;
+        color: var(--grays-bg-800);
+      }
+    }
+    .note-details{
+      min-width:26rem;
+      max-width:26rem;
+    }
+    .note-list-body{
+      margin-bottom:1rem;
+    }
+    .note-dialog-list-main{
+      max-height:462px;
+      overflow: auto;
+      padding: 0.5rem 1rem 1rem 1.5rem !important;
+    }
+    .edit-note-input{
+      width:100% !important;
+    }
+  }
+  .note-dialog-main{
+    mat-dialog-container{
+      padding: 0 !important;
+    }
+    section{
+      padding: 1rem;
+      &first-child{
+        padding-bottom:1rem !important;
+      }
+    }
+  }
+}

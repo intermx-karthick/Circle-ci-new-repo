@@ -1,0 +1,19 @@
+<app-timepicker
+  (hourSelected)="hourSelected($event);"
+  (minuteSelected)="minuteSelected($event)"
+  (periodSelected)="periodSelected($event)"
+  (actionClicked)="action($event)"
+  [timePeriod]="selectedPeriod"
+  [actionButtons]="actionButtons"
+  [errorsTemplate]="errorTemplate"
+>
+</app-timepicker>
+<ng-template #errorTemplate>
+  <mat-hint class="error-message" *ngIf="validationError">{{validationError}}</mat-hint>
+</ng-template>
+<ng-template #actionButtons>
+  <button mat-raised-button class="btn-clear" type="button" (click)="action('close')">CLOSE</button>
+  <button mat-raised-button class="btn-primary-color" type="button" (click)="action('apply')">APPLY</button>
+  <button mat-raised-button class="btn-primary-color" type="button" (click)="action('applyWeekDays')">APPLY TO WEEKDAYS</button>
+  <button mat-raised-button class="btn-primary-color" type="button" (click)="action('applyAll')">APPLY TO ALL</button>
+</ng-template>

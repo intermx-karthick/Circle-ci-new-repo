@@ -1,0 +1,31 @@
+<mat-selection-list fxFill class="format-group  media-list  constructionTypes">
+  <ng-container *ngIf="isInitLoading">
+    <app-cl-list-with-left-check-box-right-ctnt></app-cl-list-with-left-check-box-right-ctnt>
+  </ng-container>
+
+  <mat-list-option
+    checkboxPosition="before"
+    [selected]="construction.selected"
+    [value]="construction"
+    (click)="onSelectOption(construction)"
+    disableRipple
+    *ngFor="let construction of dataSource"
+    [class.disabled]="construction.disabled"
+  >
+    <div class="width100 classificationTypesLabel">
+      {{ construction.name }}
+      <span fxFlex="1 1 auto"></span>
+      <span class="count">({{ construction.count }})</span>
+    </div>
+  </mat-list-option>
+
+</mat-selection-list>
+
+<div fxLayout="row" fxLayoutAlign="center center"
+     *ngIf="dataSource.length <= 0 && isInitiated && isInitialLoadCompleted">
+  No data found
+</div>
+
+<div fxFill class="discoveringMedia" *ngIf="!isLoadedData && moduleName === 'project'">
+  Discovering Structure Types...
+</div>

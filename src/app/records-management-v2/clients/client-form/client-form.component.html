@@ -1,0 +1,954 @@
+
+<form [formGroup]="clientForm" #clientFormRef="ngForm">
+  <div class="form-body client-body">
+    <div fxLayout="row wrap">
+      <div class="width-65p">
+      <section fxLayout="row wrap" fxLayoutGap="1rem">
+
+        <div class="client-form__field" fxFlex="16rem">
+          <mat-form-field fxFlex="100" class="imx-input">
+            <mat-label>Client Name</mat-label>
+            <input formControlName="clientName" matInput autocomplete="off" required>
+            <mat-error *ngIf="clientForm.controls['clientName']?.errors?.required">Client Name is required.</mat-error>
+            <mat-error *ngIf="clientForm.controls['clientName']?.errors?.maxlength">Client Name can be max 64 characters long.</mat-error>
+            <mat-error *ngIf="!clientForm.controls['clientName']?.errors?.required && clientForm.controls['clientName']?.errors?.whitespace">
+              <span>Invalid Client name.</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="client-form__field" >
+
+          <mat-form-field class="imx-dropdown imx-input details-mat-form-field" fxFlex="10rem" tooltip="{{clientForm['controls'].parentClient.value?.clientName ?.length>10 ? clientForm['controls'].parentClient.value?.clientName : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+            <mat-label>Parent Client</mat-label>
+            <input
+              type="text"
+              #parentClientsInputRef
+              matInput
+              (click)="parentClientsAutoCompleteTrigger.openPanel()"
+              [matAutocomplete]="parentClientsList"
+              formControlName="parentClient"
+              class="imx-input-no-border"
+            />
+            <mat-icon svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon"
+                      [class.disabled]="!clientForm.controls.parentClient.value?._id"
+                      (click)="$event.stopPropagation();tabLinkHandler('parentClient')" matSuffix></mat-icon>
+            <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+            <mat-autocomplete
+              #parentClientsList="matAutocomplete"
+              (opened)="updateContainer()"
+              class="autocomplete-scroll imx-autocomplete-dropdown"
+              [displayWith]="parentClientDisplayWithFn"
+              (optionSelected)="onParentClientSelection($event)"
+            >
+              <div  class="client-list-autocomplete"
+                    infiniteScroll
+                    [infiniteScrollDistance]="1"
+                    [infiniteScrollThrottle]="0"
+                    [scrollWindow]="false"
+                    [fromRoot]="true"
+                    [immediateCheck]="false"
+                    [alwaysCallback]="false"
+                    [infiniteScrollDisabled]="parentClients?.length >= parentClientPagination?.total"
+                    [infiniteScrollContainer]="panelContainer"
+                    (scrolled)="loadMoreClients()">
+                <mat-option [value]="null" class="hide-selected-tick">Select Parent Client</mat-option>
+                <mat-option
+                *ngFor="
+                  let parentClient of parentClients;
+                  trackBy: parentClientTrackByFn
+                "
+                [class.mat-selected]="clientForm && clientForm['controls']['parentClient'].value?._id == parentClient?._id"
+                [value]="parentClient"
+                tooltip="{{parentClient.clientName?.length >10 ? parentClient.clientName : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+              >
+                <span
+                  [innerHTML]="
+                    parentClient.clientName | imx_highlight: parentClientsInputRef.value
+                  "
+                ></span>
+              </mat-option>
+              <mat-option disabled *ngIf="isParentClientsLoading ">
+                <div fxLayout="row" fxLayoutAlign="space-around center" >
+                  <mat-spinner diameter="20"></mat-spinner>
+                </div>
+              </mat-option>
+              <mat-option disabled *ngIf="!isParentClientsLoading  && parentClients?.length <= 0 && parentClientsInputRef.value">
+                Invalid Entry.
+              </mat-option>
+              <mat-option disabled *ngIf="!isParentClientsLoading  && parentClients?.length <= 0 && !parentClientsInputRef.value">
+                No Records Found.
+              </mat-option>
+              </div>
+            </mat-autocomplete>
+            <mat-error class="small-font" *ngIf="clientForm['controls'].parentClient.hasError('invalid')">
+              Please select from the drop down list.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="client-form__field" fxFlex="20" fxLayoutAlign="start center">
+          <mat-checkbox class="imx-checkbok is-parent-client circle-flag-main" formControlName="isParent" (change)="onSetParent($event)"> is<span class="circle-flag">P</span>arent</mat-checkbox>
+        </div>
+      </section>
+      <section fxLayout="row wrap" fxLayoutGap="1rem">
+        <div class="client-form__field" >
+          <mat-form-field class="imx-input imx-dropdown client-form__select" fxFlex="7.25rem" tooltip="{{clientTypeTooltipText?.length >6 ? clientTypeTooltipText : ''}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+            <mat-label>Client Type</mat-label>
+            <mat-select #clientTypeRef (selectionChange)="getClientTypetext($event)" [panelClass]="'imx-select'" formControlName="clientType" [class.placeholder-default]="clientForm['controls'].clientType.value==''" required>
+              <mat-option *ngIf="clientTypes?.length" [value]="null">Select Client Type</mat-option>
+              <mat-option *ngFor="let clientType of clientTypes" [value]="clientType?._id">{{clientType.name}}</mat-option>
+              <mat-option disabled *ngIf="clientTypes?.length <= 0">
+                No Records Found.
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="clientForm.controls['clientType']?.errors?.required">Client Type is required.</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="client-form__field" >
+          <mat-form-field class="imx-input imx-dropdown client-form__select" fxFlex="7.25rem" tooltip="{{divisionTooltipText?.length >10 ? divisionTooltipText : ''}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+            <mat-label>Division</mat-label>
+            <mat-select #divisionRef (selectionChange)="getDivisionsToolTiptext($event)" [panelClass]="'imx-select'" formControlName="division" [class.placeholder-default]="clientForm['controls'].division.value==''" required>
+              <mat-option *ngIf="divisions?.length" [value]="null">Select Division</mat-option>
+              <mat-option *ngFor="let division of divisions" [value]="division?._id">{{division.name}}</mat-option>
+              <mat-option disabled *ngIf="divisions?.length <= 0">
+                No Records Found.
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="clientForm.controls['division']?.errors?.required">Division is required.</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="client-form__field" >
+          <mat-form-field  class="imx-input imx-dropdown" fxFlex="10rem">
+            <mat-label>Office</mat-label>
+            <mat-select formControlName="office" [panelClass]="'imx-select'" [class.placeholder-default]="clientForm['controls'].office.value==''" required>
+              <mat-option *ngIf="offices?.length" [value]="null">Select Office</mat-option>
+              <mat-option *ngFor="let office of offices; trackBy: officeTrackByFn" [value]="office?._id">{{office.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="clientForm.controls['office']?.errors?.required">Office is required.</mat-error>
+          </mat-form-field>
+        </div>
+      </section>
+      </div>
+      <div fxFlex="1 1 auto" class="bory-right-content"></div>
+      <div  fxLayout="column" fxLayoutAlign="center start">
+        <div class="client-form__field" fxFlex="20" fxLayoutAlign="start start">
+            <mat-checkbox class="imx-checkbok" formControlName="isOpsApproved" [disabled]="!isMangerPermission">Ops Approved</mat-checkbox>
+        </div>
+        <div class="client-form__field" fxFlex="20" fxLayoutAlign="start start">
+            <mat-checkbox formControlName="isCurrent" class="imx-checkbok circle-flag-main iscurrentFlag" ><div class="circle-flag client-form--circle-flag">C</div>urrent</mat-checkbox>
+        </div>
+      </div>
+    </div>
+
+    <section fxLayout="row wrap" fxLayoutGap="1rem">
+      <div class="client-form__field" >
+        <mat-form-field class="imx-dropdown details-mat-form-field imx-input" fxFlex="11.25rem" tooltip="{{clientForm['controls'].mediaAgency.value?.name ?.length>10 ? clientForm['controls'].mediaAgency.value?.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          <mat-label>Primary / Media Agency</mat-label>
+          <input
+            type="text"
+            #primaryAgencyInputRef
+            matInput
+            (click)="primaryAgencyAutoCompleteTrigger.openPanel()"
+            [matAutocomplete]="primaryAgencyList"
+            formControlName="mediaAgency"
+            class="imx-input-no-border"
+          />
+          <mat-icon svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon"
+                    [class.disabled]="!clientForm.controls.mediaAgency.value?._id"
+                    (click)="$event.stopPropagation();tabLinkHandler('mediaAgency')" matSuffix></mat-icon>
+          <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+          <mat-autocomplete
+            #primaryAgencyList="matAutocomplete"
+            (opened)="updatePrimaryAgenciesContainer()"
+            class="autocomplete-scroll imx-autocomplete-dropdown"
+            [displayWith]="creativeAgenciesDisplayWithFn"
+            (optionSelected)="onPrimaryAgencySelection($event)"
+          >
+            <div  class="primary-agencies-list-autocomplete"
+                  infiniteScroll
+                  [infiniteScrollDistance]="1"
+                  [infiniteScrollThrottle]="0"
+                  [scrollWindow]="false"
+                  [fromRoot]="true"
+                  [immediateCheck]="false"
+                  [alwaysCallback]="false"
+                  [infiniteScrollDisabled]="primaryAgenciesAutoComplete.data?.length >= primaryAgenciesAutoComplete.pagination?.total"
+                  [infiniteScrollContainer]="primaryAgencyPanelContainer"
+                  (scrolled)="loadMorePrimaryAgencies()">
+            <mat-option [value]="null" class="hide-selected-tick" tooltip="Select Primary / Media Agency" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">Select Primary / Media Agency</mat-option>
+            <mat-option
+              *ngFor="
+                let agency of primaryAgenciesAutoComplete.data;
+                trackBy: creativeAgenciesTrackByFn
+              "
+              [class.mat-selected]="clientForm['controls'].mediaAgency.value?._id  == agency._id"
+              [value]="agency"
+              tooltip="{{agency.name?.length >10 ? agency.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+            >
+              <span
+                [innerHTML]="
+                agency.name | imx_highlight: primaryAgencyInputRef.value
+                "
+              ></span>
+            </mat-option>
+            <mat-option disabled *ngIf="primaryAgenciesAutoComplete.isLoading">
+              <div fxLayout="row" fxLayoutAlign="space-around center" >
+                <mat-spinner diameter="20"></mat-spinner>
+              </div>
+            </mat-option>
+            <mat-option disabled *ngIf="!primaryAgenciesAutoComplete.isLoading  && primaryAgenciesAutoComplete.data?.length <= 0 && primaryAgencyInputRef.value">
+              Invalid Entry.
+            </mat-option>
+            <mat-option disabled *ngIf="!primaryAgenciesAutoComplete.isLoading  && primaryAgenciesAutoComplete.data?.length <= 0 && !primaryAgencyInputRef.value">
+              No Records Found.
+            </mat-option>
+            </div>
+          </mat-autocomplete>
+          <mat-error class="small-font" *ngIf="clientForm['controls'].mediaAgency.hasError('invalid')">
+            Please select from the drop down list.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="client-form__field" >
+        <mat-form-field class="imx-input imx-dropdown details-mat-form-field client-form__select" fxFlex="8.7rem">
+          <mat-label>Agency Contact</mat-label>
+          <mat-icon svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon for-mat-select"
+                    [class.disabled]="!clientForm.controls.agencyContact.value"
+                    (click)="$event.stopPropagation();tabLinkHandler('agencyContact')" matSuffix></mat-icon>
+
+          <mat-select #primaryAgencyContactRef (selectionChange)="getPrimaryAgencyContactText($event)"
+                      tooltip="{{isPrimaryAgencySelected && primaryAgencyContactTooltipText?.length > 10 ? primaryAgencyContactTooltipText : ''}}"
+                      placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" [panelClass]="contactPanelClass" formControlName="agencyContact"
+                      [class.placeholder-default]="clientForm['controls'].agencyContact.value==''"
+          >
+            <div class="mat-select-panel__wrapper" infiniteScroll
+                 (scrolled)="loadMorePrimaryAgencyContacts()"
+                 [scrollWindow]="false"
+                 [infiniteScrollDistance]="1"
+                 [infiniteScrollThrottle]="0"
+                 [fromRoot]="true">
+            <mat-option *ngIf="isPrimaryAgencySelected" (click)="createContact();primaryAgencyContactRef.close()" class="divider-option" disabled> <mat-icon>add</mat-icon> Create Contact </mat-option>
+            
+            <mat-option *ngIf="isPrimaryAgencySelected && !isPrimaryAgenciesContactsLoading" [value]="null">Select Agency Contact</mat-option>
+            <mat-option *ngFor="let contact of primaryAgencyContacts" [value]="contact?._id"
+            tooltip="{{contact['firstName']}} {{contact['lastName']}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">{{contact['firstName']}} {{contact['lastName']}}</mat-option>
+            <mat-option disabled *ngIf="isPrimaryAgenciesContactsLoading">
+              <div fxLayout="row" fxLayoutAlign="space-around center" >
+                <mat-spinner diameter="20"></mat-spinner>
+              </div>
+            </mat-option>
+            <mat-option disabled *ngIf="!isPrimaryAgenciesContactsLoading && primaryAgencyContacts?.length <=0 && !isPrimaryAgencySelected" class="primary-color">
+              Please select Primary / Media Agency first
+            </mat-option>
+
+            <mat-option disabled *ngIf="!isPrimaryAgenciesContactsLoading && primaryAgencyContacts?.length <=0 && isPrimaryAgencySelected">
+              No Records Found.
+            </mat-option>
+            </div>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="client-form__field" >
+        <mat-form-field class="imx-dropdown details-mat-form-field imx-input" fxFlex="8.7rem" tooltip="{{clientForm['controls'].creativeAgency.value?.name ?.length>10 ? clientForm['controls'].creativeAgency.value?.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          <mat-label>Creative Agency</mat-label>
+          <input
+            type="text"
+            #creativeAgencyInputRef
+            matInput
+            (click)="creativeAgencyAutoCompleteTrigger.openPanel()"
+            [matAutocomplete]="creativeAgencyList"
+            formControlName="creativeAgency"
+            class="imx-input-no-border"
+          />
+          <mat-icon svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon"
+                    [class.disabled]="!clientForm.controls.creativeAgency.value?._id"
+                    (click)="$event.stopPropagation();tabLinkHandler('creativeAgency')" matSuffix></mat-icon>
+          <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+          <mat-autocomplete
+            #creativeAgencyList="matAutocomplete"
+            (opened)="updateCreativeAgenciesContainer()"
+            class="autocomplete-scroll imx-autocomplete-dropdown"
+            [displayWith]="creativeAgenciesDisplayWithFn"
+            (optionSelected)="onCreativeAgencySelection($event)"
+          >
+            <div  class="creative-agencies-list-autocomplete"
+                  infiniteScroll
+                  [infiniteScrollDistance]="1"
+                  [infiniteScrollThrottle]="0"
+                  [scrollWindow]="false"
+                  [fromRoot]="true"
+                  [immediateCheck]="false"
+                  [alwaysCallback]="false"
+                  [infiniteScrollDisabled]="creativeAgenciesAutoComplete.data?.length >= creativeAgenciesAutoComplete.pagination?.total"
+                  [infiniteScrollContainer]="creativeAgencyPanelContainer"
+                  (scrolled)="loadMoreCreativeAgencies()">
+            <mat-option [value]="null" class="hide-selected-tick" tooltip="Select Creative Agency" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">Select Creative Agency</mat-option>
+            <mat-option
+              *ngFor="
+                let agency of creativeAgenciesAutoComplete.data;
+                trackBy: creativeAgenciesTrackByFn
+              "
+              [class.mat-selected]="clientForm['controls'].creativeAgency.value?._id == agency._id"
+              [value]="agency"
+              tooltip="{{agency.name?.length >10 ? agency.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+            >
+              <span
+                [innerHTML]="
+                agency.name | imx_highlight: creativeAgencyInputRef.value
+                "
+              ></span>
+            </mat-option>
+            <mat-option disabled *ngIf="creativeAgenciesAutoComplete.isLoading">
+              <div fxLayout="row" fxLayoutAlign="space-around center" >
+                <mat-spinner diameter="20"></mat-spinner>
+              </div>
+            </mat-option>
+            <mat-option disabled *ngIf="!creativeAgenciesAutoComplete.isLoading  && creativeAgenciesAutoComplete.data?.length <= 0 && creativeAgencyInputRef.value">
+              Invalid Entry.
+            </mat-option>
+            <mat-option disabled *ngIf="!creativeAgenciesAutoComplete.isLoading  && creativeAgenciesAutoComplete.data?.length <= 0 && !creativeAgencyInputRef.value">
+              No Records Found.
+            </mat-option>
+            </div>
+          </mat-autocomplete>
+          <mat-error class="small-font" *ngIf="clientForm['controls'].creativeAgency.hasError('invalid')">
+            Please select from the drop down list.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="client-form__field" >
+        <mat-form-field class="imx-input imx-dropdown details-mat-form-field client-form__select" fxFlex="11.8rem">
+          <mat-label>Creative Agency Contact</mat-label>
+          <mat-icon svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon for-mat-select"
+                    [class.disabled]="!clientForm.controls.creativeAgencyContact.value"
+                    (click)="$event.stopPropagation();tabLinkHandler('creativeAgencyContact')" matSuffix></mat-icon>
+
+          <mat-select #creativeAgencyContactRef
+                      (selectionChange)="getCreativeAgencyContactText($event)"
+                      tooltip="{{isCreativeAgencySelected && creativeAgencyContactTooltipText?.length > 10 ? creativeAgencyContactTooltipText : ''}}"
+                      placement="right" delay="200" tooltipClass="imx-tooltip-v3"
+                      customClass="imx-field-tooltip"
+                      [panelClass]="contactPanelClass"
+                      formControlName="creativeAgencyContact"
+                      [class.placeholder-default]="clientForm['controls'].creativeAgencyContact.value==''"
+          >
+            <div class="mat-select-panel__wrapper" infiniteScroll
+                 (scrolled)="loadMoreCreativeAgencyContacts()"
+                 [scrollWindow]="false"
+                 [infiniteScrollDistance]="1"
+                 [infiniteScrollThrottle]="0"
+                 [fromRoot]="true">
+          <mat-option *ngIf="isCreativeAgencySelected" (click)="createContact('creativeAgencyContact');creativeAgencyContactRef.close()" class="divider-option" disabled> <mat-icon>add</mat-icon> Create Contact </mat-option>
+
+          <mat-option *ngIf="isCreativeAgencySelected && !isCreativeAgenciesContactsLoading" [value]="null">Select Creative Agency Contact</mat-option>
+            <mat-option *ngFor="let contact of creativeAgencyContacts" [value]="contact?._id"
+            tooltip="{{contact['firstName']}} {{contact['lastName']}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">{{contact['firstName']}} {{contact['lastName']}}</mat-option>
+            <mat-option disabled *ngIf="isCreativeAgenciesContactsLoading">
+              <div fxLayout="row" fxLayoutAlign="space-around center" >
+                <mat-spinner diameter="20"></mat-spinner>
+              </div>
+            </mat-option>
+            <mat-option disabled *ngIf="!isCreativeAgenciesContactsLoading && creativeAgencyContacts?.length <=0 && !isCreativeAgencySelected" class="primary-color">
+              Please select Creative Agency first
+            </mat-option>
+            <mat-option disabled *ngIf="!isCreativeAgenciesContactsLoading && creativeAgencyContacts?.length <=0 && isCreativeAgencySelected">
+              No Records Found
+            </mat-option>
+            </div>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </section>
+    <section fxLayout="row wrap" fxLayoutGap="1rem">
+      <div class="client-form__field">
+        <mat-form-field class="imx-input" fxFlex="7.8rem">
+          <mat-label>Phone</mat-label>
+          <app-telephone-input formControlName="phone"></app-telephone-input>
+          <mat-error>Invalid Phone number.</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="client-form__field">
+        <mat-form-field class="imx-input" fxFlex="7.8rem">
+          <mat-label>FAX</mat-label>
+          <app-telephone-input formControlName="fax"></app-telephone-input>
+          <mat-error>Invalid FAX number.</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="client-form__field">
+        <mat-form-field class="imx-input" fxFlex="12.5rem">
+          <mat-label>Company Email</mat-label>
+          <input formControlName="companyEmail" matInput autocomplete="off">
+          <mat-error>Invalid Company Email</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="client-form__field">
+        <mat-form-field class="imx-input" fxFlex="10rem">
+          <mat-label>Website</mat-label>
+          <input formControlName="website" matInput autocomplete="off">
+          <mat-error>Invalid Website.</mat-error>
+        </mat-form-field>
+      </div>
+    </section>
+    <app-address-card>
+      <app-us-address formControlName="address" [scrollingContainer]="scrollingContainer" [disableEdit]="disableEdit"></app-us-address>
+    </app-address-card>
+    <section fxLayout="row wrap" fxLayoutGap="1rem">
+      <div class="client-form__field">
+        <mat-form-field class="imx-dropdown imx-input error-field-width" fxFlex="10rem" tooltip="{{clientForm['controls'].managedBy.value?.name ?.length>10 ? clientForm['controls'].managedBy.value?.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          <mat-label>Managed By</mat-label>
+          <input
+            type="text"
+            #managerInputRef
+            matInput
+            (click)="managerAutoCompleteTrigger.openPanel()"
+            [matAutocomplete]="usersList"
+            formControlName="managedBy"
+            class="imx-input-no-border"
+            required
+          />
+          <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+          <mat-autocomplete
+            #usersList="matAutocomplete"
+            (opened)="updateMangedByContainer()"
+            class="autocomplete-scroll imx-autocomplete-dropdown"
+            [displayWith]="mangedByUserDisplayWithFn"
+            [panelWidth]="'10rem'"
+          >
+            <div  class="users-list-autocomplete"
+                  infiniteScroll
+                  [infiniteScrollDistance]="1"
+                  [infiniteScrollThrottle]="0"
+                  [scrollWindow]="false"
+                  [fromRoot]="true"
+                  [immediateCheck]="false"
+                  [alwaysCallback]="false"
+                  [infiniteScrollDisabled]="managedByAutoComplete.data?.length >= managedByAutoComplete.pagination?.found"
+                  [infiniteScrollContainer]="managedByPanelContainer"
+                  (scrolled)="loadMoreManagementUsers()">
+            <mat-option [value]="null" class="hide-selected-tick">Select Managed By</mat-option>
+            <mat-option
+              *ngFor="
+                let user of managedByAutoComplete.data;
+                trackBy: mangedByUserTrackByFn
+              "
+              [class.mat-selected]="clientForm && clientForm['controls']['managedBy'].value?.id == user?.id"
+              [value]="user"
+              tooltip="{{user.name?.length >10 ? user.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+            >
+              <span
+                [innerHTML]="
+                  user.name | imx_highlight: managerInputRef.value
+                "
+              ></span>
+            </mat-option>
+            <mat-option disabled *ngIf="managedByAutoComplete.isLoading">
+              <div fxLayout="row" fxLayoutAlign="space-around center" >
+                <mat-spinner diameter="20"></mat-spinner>
+              </div>
+            </mat-option>
+            <mat-option disabled *ngIf="!managedByAutoComplete.isLoading  && managedByAutoComplete.data?.length <= 0 && managerInputRef.value">
+              Invalid Entry.
+            </mat-option>
+            <mat-option disabled *ngIf="!managedByAutoComplete.isLoading  && managedByAutoComplete.data?.length <= 0 && !managerInputRef.value">
+              No Records Found.
+            </mat-option>
+            </div>
+          </mat-autocomplete>
+          <mat-error *ngIf="clientForm.controls['managedBy']?.errors?.required">Managed By is required.</mat-error>
+          <mat-error class="small-font" *ngIf="!clientForm.controls['managedBy']?.errors?.required && clientForm['controls'].managedBy.hasError('invalid')">
+            Please select from the drop down list.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="client-form__field">
+        <mat-form-field class="imx-dropdown imx-input" fxFlex="9.438rem" tooltip="{{clientForm['controls'].operationsContact.value?.name ?.length>10 ? clientForm['controls'].operationsContact.value?.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          <mat-label>Operations Contact</mat-label>
+          <input
+            type="text"
+            #operationContactsInputRef
+            (click)="operationContactsAutoCompleteTrigger.openPanel()"
+            matInput
+            [matAutocomplete]="operationContactsList"
+            formControlName="operationsContact"
+            class="imx-input-no-border"
+          />
+          <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+          <mat-autocomplete
+            #operationContactsList="matAutocomplete"
+            (opened)="updateOperationsContactContainer()"
+            class="autocomplete-scroll imx-autocomplete-dropdown"
+            infiniteScroll
+            [infiniteScrollDistance]="1"
+            [infiniteScrollThrottle]="0"
+            [infiniteScrollDisabled]="operationContactsAutoComplete.data?.length >= operationContactsAutoComplete.pagination?.found"
+            (scrolled)="loadMoreOperationContacts()"
+            [scrollWindow]="false"
+            [infiniteScrollContainer]="operationContactPanelContainer"
+            [fromRoot]="true"
+            [displayWith]="operationContactsDisplayWithFn"
+          >
+            <div  class="operation-contacts-list-autocomplete"
+                  infiniteScroll
+                  [infiniteScrollDistance]="1"
+                  [infiniteScrollThrottle]="0"
+                  [scrollWindow]="false"
+                  [fromRoot]="true"
+                  [immediateCheck]="false"
+                  [alwaysCallback]="false"
+                  [infiniteScrollDisabled]="operationContactsAutoComplete.data?.length >= operationContactsAutoComplete.pagination?.found"
+                  [infiniteScrollContainer]="operationContactPanelContainer"
+                  (scrolled)="loadMoreOperationContacts()">
+            <mat-option [value]="null" class="hide-selected-tick" tooltip="Select Operations Contact"
+            placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">Select Operations Contact</mat-option>
+            <mat-option
+              *ngFor="
+                let contact of operationContactsAutoComplete.data;
+                trackBy: operationContactsTrackByFn
+              "
+              [class.mat-selected]="clientForm && clientForm['controls']['operationsContact'].value?.id == contact?.id"
+              [value]="contact"
+              tooltip="{{contact.name?.length >10 ? contact.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+            >
+              <span
+                [innerHTML]="
+                contact.name | imx_highlight: operationContactsInputRef.value
+                "
+              ></span>
+            </mat-option>
+            <mat-option disabled *ngIf="operationContactsAutoComplete.isLoading">
+              <div fxLayout="row" fxLayoutAlign="space-around center" >
+                <mat-spinner diameter="20"></mat-spinner>
+              </div>
+            </mat-option>
+            <mat-option disabled *ngIf="!operationContactsAutoComplete.isLoading  && operationContactsAutoComplete.data?.length <= 0 && operationContactsInputRef.value">
+              Invalid Entry.
+            </mat-option>
+            <mat-option disabled *ngIf="!operationContactsAutoComplete.isLoading  && operationContactsAutoComplete.data?.length <= 0 && !operationContactsInputRef.value">
+              No Records Found.
+            </mat-option>
+            </div>
+          </mat-autocomplete>
+          <mat-error class="small-font" *ngIf="clientForm['controls'].operationsContact.hasError('invalid')">
+            Please select from the drop down list.
+          </mat-error>
+        </mat-form-field>
+        <!-- <mat-form-field class="imx-input client-form__select" fxFlex="151px">
+          <mat-label>Operations Contact</mat-label>
+          <mat-select [panelClass]="'imx-select'" formControlName="operationsContact" [class.placeholder-default]="clientForm['controls'].operationsContact.value==''">
+            <mat-option value="">Select contact</mat-option>
+          </mat-select>
+        </mat-form-field> -->
+      </div>
+    </section>
+    <section fxLayout fxLayoutGap="1rem" [ngClass]="{'error-space': !clientForm.controls['managedBy']?.errors?.required && clientForm['controls'].managedBy.hasError('invalid')}">
+      <div class="client-form__field" *ngIf="!isClientDetailView">
+        <mat-form-field fxFlex="21.25rem" class="imx-input" [ngClass]=" showEditor ?'editorLabel':'notesTextAreaLabel'">
+          <mat-label>{{ showEditor ? 'Entering Notes' : 'Please enter Notes here' }}</mat-label>
+          <ckeditor  *ngIf="showEditor" class="imx-input" formControlName="notes"
+          [config]="editorConfig"
+          [data]="clientForm.controls['note']?.value">
+          </ckeditor>
+          <textarea formControlName="notes" matInput autocomplete="off" [hidden]="showEditor" (focus)="showEditorFunc()"></textarea>
+          <mat-error *ngIf="clientForm.controls['notes'].errors?.minlength">Notes must be atleast 1 character long.</mat-error>
+          <mat-error *ngIf="clientForm.controls['notes'].errors?.maxlength">Notes can be max 2000 characters long.</mat-error>
+          <mat-error *ngIf="clientForm.controls['notes']?.errors?.whitespace">
+            <span>Invalid Notes.</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isClientDetailView">
+        <app-notes moduleName="client" [noteParentId$]="clientNoteId$" [disableEdit]="disableEdit" [visiblityModule]="'client_general'"></app-notes>
+      </div>
+    </section>
+    <div class="billing-details" [ngClass]="{'oi-rev-error': clientForm['controls'].oiRev?.errors}">
+      <div class="billing-details--bg"></div>
+      <section fxLayout="row wrap" fxLayoutGap="1rem">
+        <div class="client-form__field">
+          <mat-form-field class="imx-input error-msg__expander" fxFlex="7.75rem">
+            <mat-label>Media Client Code</mat-label>
+            <input formControlName="mediaClientCode" matInput autocomplete="off">
+            <mat-error *ngIf="clientForm.controls['mediaClientCode'].errors?.minlength">Media Client Code must be at least 3 characters long.</mat-error>
+            <mat-error *ngIf="clientForm.controls['mediaClientCode'].errors?.maxlength">Media Client Code can be max 5 characters long.</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="client-form__field" fxLayout="row" fxLayoutAlign="center center">
+          <mat-checkbox class="imx-checkbok" formControlName="interCompanyRcv">Intercompany Rcv</mat-checkbox>
+        </div>
+        <div class="client-form__field" >
+          <mat-form-field class="imx-input error-msg__expander" fxFlex="7.75rem">
+            <mat-label>Income Acct Code</mat-label>
+            <input formControlName="incomeAcctCode" matInput autocomplete="off">
+            <mat-error *ngIf="clientForm.controls['incomeAcctCode'].errors?.minlength">Income Acct Code must be at least 3 characters long.</mat-error>
+            <mat-error *ngIf="clientForm.controls['incomeAcctCode'].errors?.maxlength">Income Acct Code can be max 5 characters long.</mat-error>
+          </mat-form-field>
+        </div>
+      </section>
+      <section fxLayout="row wrap" fxLayoutGap="1rem">
+        <div class="client-form__field">
+          <mat-form-field class="imx-input imx-dropdown" fxFlex="7.25rem">
+            <mat-label>PRD Scheme</mat-label>
+            <mat-select
+              formControlName="prdScheme"
+              [panelClass]="'imx-select'"
+              [class.placeholder-default]="clientForm['controls'].prdScheme.value==''"
+            >
+              <mat-option *ngIf="prodScheme?.length" [value]="null">Select PRD Scheme</mat-option>
+              <mat-option *ngFor="let scheme of prodScheme" [value]="scheme?._id">{{scheme.name}}</mat-option>
+              <mat-option disabled *ngIf="prodScheme?.length <= 0">
+                No Records Found.
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="client-form__field">
+          <mat-form-field class="imx-input imx-dropdown" fxFlex="7.25rem">
+            <mat-label>EST Scheme</mat-label>
+            <mat-select
+              formControlName="estScheme"
+              [panelClass]="'imx-select'"
+              [class.placeholder-default]="clientForm['controls'].estScheme.value==''"
+            >
+            <mat-option *ngIf="estScheme?.length" [value]="null">Select EST Scheme</mat-option>
+            <mat-option *ngFor="let scheme of estScheme" [value]="scheme?._id">{{scheme.name}}</mat-option>
+            <mat-option disabled *ngIf="estScheme?.length <= 0">
+              No Records Found.
+            </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="client-form__field">
+          <mat-form-field class="imx-input imx-dropdown" fxFlex="7.25rem" tooltip="{{estTimingTooltipText?.length > 10 ? estTimingTooltipText : ''}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+            <mat-label>EST Timing</mat-label>
+            <mat-select
+              formControlName="estTiming"
+              [panelClass]="'imx-select'"
+              [class.placeholder-default]="clientForm['controls'].estTiming.value==''"
+              #estTimingRef (selectionChange)="getEstTimingText($event)"
+            >
+            <mat-option *ngIf="estTimings?.length" [value]="null">Select EST Timing</mat-option>
+              <mat-option *ngFor="let timing of estTimings" [value]="timing?._id">{{timing.name}}</mat-option>
+              <mat-option disabled *ngIf="estTimings?.length <= 0">
+                No Records Found.
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </section>
+      <mat-label class="label-heading">Billing</mat-label>
+
+      <section formGroupName="billing" fxLayout="row wrap" fxLayoutGap="1rem">
+        <div class="client-form__field">
+          <mat-form-field class="imx-input imx-dropdown" fxFlex="7.25rem">
+            <mat-label>Fee Basis</mat-label>
+            <mat-select
+              formControlName="feeBasis"
+              [panelClass]="'imx-select'"
+              [class.placeholder-default]="clientForm['controls']['billing']['controls'].feeBasis.value==''"
+            >
+            <mat-option *ngIf="billingFeeBasis?.length" [value]="null">Select Fee Basis</mat-option>
+              <mat-option *ngFor="let basis of billingFeeBasis" [value]="basis?._id">{{basis.name}}</mat-option>
+              <mat-option disabled *ngIf="billingFeeBasis?.length <= 0">
+                No Records Found.
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="client-form__field" >
+          <mat-form-field fxFlex="5rem" class="imx-input error-field-width" [ngClass] = "{'error-relative-width' : ((clientForm['controls']['billing']['controls']?.media?.errors?.min || clientForm['controls']['billing']['controls']?.media?.errors?.max) && clientForm['controls']['billing']['controls'].commissionBasis?.invalid)}">
+            <mat-label>Media %</mat-label>
+            <input
+              matInput
+              appNumberOnly
+              autocomplete="off"
+              formControlName="media"
+            />
+            <mat-error *ngIf="clientForm['controls']['billing']['controls']?.media?.errors?.min">Media % must be a number greater than or equal to 1</mat-error>
+            <mat-error *ngIf="clientForm['controls']['billing']['controls']?.media?.errors?.max">Media % must be in between 1 and 100</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="client-form__field">
+          <mat-form-field class="imx-input imx-dropdown" fxFlex="9.125rem">
+            <mat-label>Commission Basis</mat-label>
+            <mat-select
+              formControlName="commissionBasis"
+              [panelClass]="'imx-select'"
+              [class.placeholder-default]="clientForm['controls']['billing']['controls'].commissionBasis.value==''"
+            >
+              <mat-option *ngIf="billingCommissionBasis?.length" [value]="null">Select Commission Basis</mat-option>
+              <mat-option *ngFor="let basis of billingCommissionBasis" [value]="basis?._id">{{basis.name}}</mat-option>
+              <mat-option disabled *ngIf="billingCommissionBasis?.length <= 0">
+                No Records Found.
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="clientForm['controls']['billing']['controls']?.commissionBasis?.invalid">Commission basis is required</mat-error>
+          </mat-form-field>
+        </div>
+      </section>
+      <mat-label class="label-heading">OOH Revenue</mat-label>
+
+      <section
+        formGroupName="oohRevenue"
+        fxLayout="row wrap"
+        fxLayoutGap="1rem"
+      >
+        <div class="client-form__field">
+          <mat-form-field class="imx-input imx-dropdown" fxFlex="7.25rem">
+            <mat-label>Fee Basis</mat-label>
+            <mat-select
+              formControlName="feeBasis"
+              [panelClass]="'imx-select'"
+              [class.placeholder-default]="clientForm['controls']['oohRevenue']['controls'].feeBasis.value==''"
+            >
+            <mat-option *ngIf="ohhRevenueFeeBasis?.length" [value]="null">Select Fee Basis</mat-option>
+              <mat-option *ngFor="let basis of ohhRevenueFeeBasis" [value]="basis?._id">{{basis.name}}</mat-option>
+              <mat-option disabled *ngIf="ohhRevenueFeeBasis?.length <= 0">
+                No Records Found.
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="client-form__field" fxFlex="5rem">
+          <mat-form-field fxFlex="100" class="imx-input error-field-width" [ngClass] = "{'error-relative-width' : ((clientForm['controls']['oohRevenue']['controls']?.media?.errors?.min || clientForm['controls']['oohRevenue']['controls']?.media?.errors?.max) && clientForm['controls']['oohRevenue']['controls'].commissionBasis?.invalid)}">
+            <mat-label>Media %</mat-label>
+            <input
+              appNumberOnly
+              formControlName="media"
+              matInput
+              autocomplete="off"
+            />
+            <mat-error *ngIf="clientForm['controls']['oohRevenue']['controls']?.media?.errors?.min">Media % must be a number greater than or equal to 1</mat-error>
+            <mat-error *ngIf="clientForm['controls']['oohRevenue']['controls']?.media?.errors?.max">Media % must be in between 1 and 100</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="client-form__field">
+          <mat-form-field class="imx-input imx-dropdown" fxFlex="8.938rem">
+            <mat-label>Commission Basis</mat-label>
+            <mat-select
+              formControlName="commissionBasis"
+              [panelClass]="'imx-select'"
+              [class.placeholder-default]="clientForm['controls']['oohRevenue']['controls'].commissionBasis.value==''"
+            >
+              <mat-option *ngIf="ohhRevenueCommissionBasis?.length" [value]="null">Select Commission Basis</mat-option>
+              <mat-option *ngFor="let basis of ohhRevenueCommissionBasis" [value]="basis?._id">{{basis.name}}</mat-option>
+              <mat-option disabled *ngIf="ohhRevenueCommissionBasis?.length <= 0">
+                No Records Found.
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="clientForm['controls']['oohRevenue']['controls'].commissionBasis?.invalid">Commission basis is required</mat-error>
+          </mat-form-field>
+        </div>
+        <div
+          class="client-form__field sameAsBilling"
+          fxFlex="20"
+          fxLayoutAlign="start start"
+        >
+          <mat-checkbox formControlName="isSameAsBilling" class="imx-checkbok">Same as Billing</mat-checkbox
+          >
+        </div>
+      </section>
+
+      <section fxLayout="row wrap" fxLayoutGap="1rem">
+        <div class="client-form__field" >
+          <mat-form-field fxFlex="6.5rem" class="imx-input prod-install-error-field-width">
+            <mat-label>Prod/Install %</mat-label>
+            <input
+              appNumberOnly
+              matInput
+              autocomplete="off"
+              formControlName="install"
+            />
+            <mat-error *ngIf="clientForm['controls'].install?.errors?.min">Prod/Install % must be a number greater than or equal to 1</mat-error>
+            <mat-error *ngIf="clientForm['controls'].install?.errors?.max">Prod/Install % must be in between 1 and 100</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="client-form__field">
+          <mat-form-field class="imx-input imx-dropdown" fxFlex="8.5rem">
+            <mat-label>Prod/Install Basis</mat-label>
+            <mat-select
+              formControlName="installBasis"
+              [panelClass]="'imx-select'"
+              [class.placeholder-default]="clientForm['controls'].installBasis.value==''"
+            >
+              <mat-option *ngIf="prodInstallBasis?.length" [value]="null">Select Prod/Install Basis</mat-option>
+              <mat-option *ngFor="let basis of prodInstallBasis" [value]="basis?._id">{{basis.name}}</mat-option>
+              <mat-option disabled *ngIf="prodInstallBasis?.length <= 0">
+                No Records Found.
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </section>
+
+      <section fxLayout="row wrap" fxLayoutGap="1rem">
+        <div class="client-form__field" >
+          <mat-form-field fxFlex="5rem" class="imx-input oi-error-field-width">
+            <mat-label>OI Rev %</mat-label>
+            <input
+              appNumberOnly
+              matInput
+              autocomplete="off"
+              formControlName="oiRev"
+            />
+            <mat-error *ngIf="clientForm['controls'].oiRev?.errors?.min">OI Rev % must be a number greater than or equal to 1</mat-error>
+            <mat-error *ngIf="clientForm['controls'].oiRev?.errors?.max">OI Rev % must be in between 1 and 100</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="client-form__field" >
+          <mat-form-field fxFlex="6.5rem" class="imx-input error-msg__expander">
+            <mat-label>OI Client Code</mat-label>
+            <input matInput autocomplete="off" formControlName="oiClientCode" />
+            <mat-error *ngIf="clientForm.controls['oiClientCode'].errors?.minlength">OI Client Code must be at least 3 characters long.</mat-error>
+            <mat-error *ngIf="clientForm.controls['oiClientCode'].errors?.maxlength">OI Client Code can be max 5 characters long.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div
+          class="client-form__field"
+          fxFlex="7.813rem"
+          fxLayoutAlign="start center"
+        >
+          <mat-checkbox formControlName="oiClientApproved" class="imx-checkbok"
+            >OI Client Approved</mat-checkbox
+          >
+        </div>
+      </section>
+    </div>
+    <section fxLayout fxLayoutGap="1rem">
+      <div class="client-form__field">
+        <mat-form-field class="imx-input imx-dropdown client-form__select" fxFlex="9rem" tooltip="{{businessCategoryTooltipText?.length > 10 ? businessCategoryTooltipText : ''}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          <mat-label>Business Category</mat-label>
+          <mat-select #businessCategoryRef (selectionChange)="getBusinessCategoryToolTiptext($event)" [panelClass]="'imx-select client-form__drop-down'" formControlName="businessCategory" [class.placeholder-default]="clientForm['controls'].businessCategory.value==''" multiple>
+            <mat-option *ngFor="let category of businessCategories" [value]="category?._id">{{category.name}}</mat-option>
+            <mat-option disabled *ngIf="businessCategories?.length <= 0">
+              No Records Found.
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="client-form__field">
+        <mat-form-field class="imx-input imx-dropdown contact-form__select" fxFlex="10.3rem" tooltip="{{diversityTooltipText?.length > 10 ? diversityTooltipText : ''}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          <mat-label>Diversity Ownership</mat-label>
+          <mat-select #diversityRef (selectionChange)="getDiversityOwnershiptext($event)" [panelClass]="'imx-select'" formControlName="diversityOwnership" [class.placeholder-default]="clientForm['controls'].diversityOwnership.value==''" [ngStyle]="{'max-height.px': 250}"
+                      infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                      (scrolled)="loadMoreDiversityOwnerships()" [scrollWindow]="false" multiple>
+
+            <mat-option *ngFor="let diversityOwnership of diversityOwnerShips" [value]="diversityOwnership._id">
+              {{diversityOwnership.name}}
+            </mat-option>
+
+            <div *ngIf="isDiversityOwnershipsLoading" class="create-client">
+              <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+            </div>
+            <mat-option disabled *ngIf="diversityOwnerShips?.length <= 0">
+              No Records Found.
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </section>
+    <section fxLayout fxLayoutGap="1rem">
+      <div class="client-form__field">
+        <mat-form-field class="imx-input" fxFlex="9rem">
+          <mat-label>Credit Rating</mat-label>
+          <input formControlName="creditRating" matInput autocomplete="off">
+        </mat-form-field>
+      </div>
+      <div class="client-form__field" >
+        <mat-form-field class="imx-input imx-dropdown client-form__select" fxFlex="10.3rem" tooltip="{{cancellationPrivilegeTooltipText?.length > 10 ? cancellationPrivilegeTooltipText : ''}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          <mat-label>Cancellation Privilege</mat-label>
+          <mat-select #cancellationPrivilegeRef  (selectionChange)="getCancellationPrivilegeText($event)" [panelClass]="'imx-select'" formControlName="cancellationPrivilege" [class.placeholder-default]="clientForm['controls'].cancellationPrivilege.value==''">
+            <mat-option *ngIf="cancellationPrivileges?.length" [value]="null">Select Cancellation Privilege</mat-option>
+            <mat-option *ngFor="let privilege of cancellationPrivileges" [value]="privilege?._id">{{privilege.name}}</mat-option>
+            <mat-option disabled *ngIf="cancellationPrivileges?.length <= 0">
+              No Records Found.
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="client-form__field" >
+        <mat-form-field class="imx-input imx-dropdown client-form__select" fxFlex="9.875rem">
+          <mat-label>Contract Terms Type</mat-label>
+          <mat-select [panelClass]="'imx-select'" formControlName="contractTermsType" [class.placeholder-default]="clientForm['controls'].contractTermsType.value==''">
+            <mat-option *ngIf="contractTermTypes?.length" [value]="null">Select Contract Terms Type</mat-option>
+            <mat-option *ngFor="let termType of contractTermTypes" [value]="termType?._id">{{termType.name}}</mat-option>
+            <mat-option disabled *ngIf="contractTermTypes?.length <= 0">
+              No Records Found.
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </section>
+    <section fxLayout fxLayoutGap="1rem">
+      <div class="client-form__field" fxFlex="120px" fxLayoutAlign="start center">
+        <mat-checkbox class="imx-checkbok" formControlName="doNotUse">Do Not Use</mat-checkbox>
+      </div>
+      <div class="vendor-form__field">
+        <mat-form-field class="imx-input error-field-width" fxFlex="8rem">
+          <mat-label>Retirement Date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="retirement_date_picker"
+            matTooltip="Select Retirement Date"
+            formControlName="retirementDate"
+          />
+          <mat-error>Retirement Date should be valid(MM/DD/YYYY).</mat-error>
+          <mat-icon
+            (click)="retirement_date_picker.open()"
+            matSuffix
+            class="date-picker-icon date-picker-icon_input"
+            svgIcon="IMX-calender"
+          ></mat-icon>
+          <mat-datepicker
+            #retirement_date_picker="matDatepicker"
+            [panelClass]="'imx-calander'"
+          ></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </section>
+    <div fxLayout="column" fxLayoutGap="2rem">
+    <mat-label class="label-heading">cost types for plans & authorizations</mat-label>
+    </div>
+
+    <div  fxLayout="column" fxLayoutGap="2rem">
+      <section fxLayout="row wrap" fxLayoutGap="1rem">
+        <div class="client-form__field" fxFlex="5.625rem">
+          <mat-checkbox class="imx-checkbok" formControlName="net">Net</mat-checkbox>
+        </div>
+        <div class="client-form__field" fxFlex="5.625rem">
+          <mat-checkbox class="imx-checkbok" formControlName="gross">Gross</mat-checkbox>
+        </div>
+        <div class="client-form__field" fxFlex="5.625rem">
+          <mat-checkbox class="imx-checkbok" formControlName="acPercentage">AC%</mat-checkbox>
+        </div>
+      </section>
+      <section fxLayout="row wrap" fxLayoutGap="1rem">
+        <div class="client-form__field" fxFlex="5.625rem">
+          <mat-checkbox class="imx-checkbok" formControlName="clientNet">ClientNet</mat-checkbox>
+        </div>
+        <div class="client-form__field" fxFlex="5.625rem">
+          <mat-checkbox class="imx-checkbok" formControlName="clientGross">ClientGross</mat-checkbox>
+        </div>
+        <div class="client-form__field" fxFlex="5.625rem">
+          <mat-checkbox class="imx-checkbok" formControlName="commissionPercentage">Comm. %</mat-checkbox>
+        </div>
+      </section>
+      <section fxLayout="row wrap" fxLayoutGap="1rem">
+        <div class="client-form__field" fxFlex="5.625rem">
+          <mat-checkbox class="imx-checkbok" formControlName="feeAmount">Fee Amt</mat-checkbox>
+        </div>
+        <div class="client-form__field" fxFlex="5.625rem">
+          <mat-checkbox class="imx-checkbok" formControlName="taxAmount">Tax Amt</mat-checkbox>
+        </div>
+        <div class="client-form__field" fxFlex="5.625rem">
+          <mat-checkbox class="imx-checkbok" formControlName="taxPercentage">Tax %</mat-checkbox>
+        </div>
+      </section>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,160 @@
+::ng-deep {
+  .mat-dialog-container {
+    color: white;
+  }
+  .mat-dialog-title {
+    position: relative;
+  }
+  .mat-dialog-actions {
+    position: absolute;
+    padding: 0;
+    z-index: 101;
+    right: -20px;
+    top: -20px;
+    & > button {
+      position: relative;
+      background: var(--white-color) !important;
+      & .mat-icon {
+        color: var(--g-color);
+      }
+    }
+  }
+}
+.popup-dialog {
+  .popup-header
+  {
+    padding: 25px 15px;
+    border-bottom: 1px solid var(--lg-color);
+    background-color: #1BADA8 !important;
+    h3
+    {
+      font-weight: bold !important;
+    }
+  }
+  .popup-body {
+    background: none !important;
+    max-height: 70vh;
+    padding: 20px;
+    overflow-y: auto !important;
+    color:  var(--black-color) !important;
+    .indicators
+    {
+      margin-top:15px;
+      .carousel-indicators
+      {
+        position: relative !important;
+      }
+      .active
+      {
+        margin: 1px !important;
+      }
+      ol
+      {
+        li
+        {
+          background-color: #D8D8D8;
+          width: 16px !important;
+          height: 16px !important;
+          max-width: none !important;
+        }
+        .active
+        {
+          background-color: #FCBD32 !important;
+        }
+      }
+    }
+    h2 {
+      font-size: 25px;
+      font-weight: bold;
+      line-height: 30px;
+      padding-bottom: 20px;
+    }
+    p {
+      font-size: 18px;
+      line-height: 22px;
+    }
+    .popup-screen {
+      /* height: 175px;*/
+      padding: 0px 155px;
+      background: url("../../../assets/images/welcomepopup_screens.svg") no-repeat;
+    }
+    .explore-image-screen {
+      background-position-x: -125px;
+      background-position-y: -130px;
+    }
+    .feedback-image-screen {
+      background-position-x: -70px;
+      background-position-y: -430px;
+      /*height: 177px;*/
+      margin-top: 15px;
+    }
+    .popup-content {
+      margin-bottom: 25px;
+    }
+    .skip-step-btn {
+      float: right;
+      margin-top: 15px;
+      background: none !important;
+      border: none !important;
+      color: var(--g-color);
+      font-size: 16px !important;
+    }
+    .carosusel-ctn-btn {
+      font-size: 18px !important;
+      width: 143px;
+    }
+    .info-text-1 {
+      color: var(--theme-highlight-color);
+    }
+    .info-text-2 {
+      color: var(--red-color);
+    }
+    form {
+      margin-top: 30px;
+      margin-bottom: 30px;
+      & >.form-container {
+        width: 35%;
+      }
+      label
+      {
+        font-size: 16px;
+        color:  var(--g-color) !important;
+      }
+      input{
+        font-size: 16px;
+      }
+      .form-btn {
+        display: flex;
+      }
+    }
+    .carousel-control-group {
+      margin-left: -5px;
+      margin-top: 60px;
+      margin-bottom: 25px;
+      margin-bottom: 30px;
+      display: block;
+      .go-back-btn {
+        color: var(--text-primary) !important;
+        font-size: 18px !important;
+        font-weight: bold !important;
+        background: none !important;
+        border: none !important;
+        margin-right: 20px;
+        width: 120px;
+      }
+    }
+    .explore-help-div {
+      display: inline-flex;
+      margin-bottom: 30px;
+    }
+    .image-side-text {
+      margin-bottom: 24px;
+    }
+    .feedback-image {
+      /* height: 174px;*/
+    }
+    .feedback-div {
+      display: inline-flex;
+    }
+  }
+}

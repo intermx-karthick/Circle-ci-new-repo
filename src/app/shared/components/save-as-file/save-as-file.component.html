@@ -1,0 +1,22 @@
+<form
+  class="noAnimation imx-project-form"
+  [formGroup]="formGroup"
+  novalidate
+  autocomplete="off"
+  (ngSubmit)="onSubmit()"
+>
+  <h4 mat-dialog-title>Save As</h4>
+  <button mat-icon-button mat-dialog-close class="mat-dialog-close">
+    <mat-icon>highlight_off</mat-icon>
+  </button>
+  <mat-dialog-content>
+    <mat-form-field  class="imx-input">
+      <mat-label>File Name</mat-label>
+      <input matInput formControlName="filename" maxlength="140"/>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close class="imx-button-basic">Cancel</button>
+    <button mat-button class="imx-button-primary">Save</button>
+  </mat-dialog-actions>
+</form>

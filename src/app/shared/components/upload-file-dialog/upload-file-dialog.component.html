@@ -1,0 +1,28 @@
+<div class="upload-section">
+  <h3 *ngIf="!dialogTitleDisable">{{dialogTitle}}</h3>
+  <p>For better mapped results you can <a class="imx-primary-link"
+    (click)="downloadSampleCSV()">Download the csv template</a></p>
+  <div class='file-error-text'>
+    <p *ngIf="formateValidationMessage" [innerHTML]="formateValidationMessage"></p>
+    <p *ngIf="sizeValidationMessage" [innerHTML]="sizeValidationMessage"></p>
+  </div>
+  <div class="drop-files" (click)="fileInputDrop.click()" appDragDrop (OnFileDropped)="uploadFile($event)">
+    <input hidden type="file" #fileInputDrop (change)="uploadFile($event)" [multiple]="this.fileUploadConfig?.acceptMulitpleFiles">
+    <h6 class="uploads"><mat-icon >cloud_upload</mat-icon>Drag and Drop or select file to upload</h6>
+    <div class="upload-btn-div">
+      <button mat-button mat-raised-button class="geo-button-primary" >Browse Files</button>
+    </div>
+  </div>
+  <div class="upload-file-list">
+    <div class="files-list" *ngFor="let file of files;let i= index">
+      <p> {{ file }} </p>
+      <button class="delete-file" mat-icon-button title="Remove"  (click)="deleteAttachment(i)">
+        <mat-icon >clear</mat-icon>
+      </button>
+   </div>
+  </div>
+</div>
+<div fxLayoutGap="10px" class="alignbutton" fxLayoutAlign="end" >
+  <button mat-button mat-raised-button class="buttoncancel" (click)="onCancelUpload()">{{closeBtnText}}</button>
+  <button mat-button mat-raised-button class="buttonupload" (click)="onSubmitFile()">{{submitBtnText}}</button>
+</div>

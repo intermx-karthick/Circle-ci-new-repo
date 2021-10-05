@@ -1,0 +1,136 @@
+<div fxLayout="row" fxLayoutAlign="space-between start" class="row-container">
+  <h1 mat-dialog-title>{{data.isUnlink ? 'Unlink Contact Record Details' : 'Link Contact Record Details'}}</h1>
+  <a href="javascript:void(0)" (click)="onNoClick()">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="modal-close-icon">
+      <path d="M10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18ZM10 0C4.47 0 0 4.47 0 10C0 15.53 4.47 20 10 20C15.53 20 20 15.53 20 10C20 4.47 15.53 0 10 0ZM12.59 6L10 8.59L7.41 6L6 7.41L8.59 10L6 12.59L7.41 14L10 11.41L12.59 14L14 12.59L11.41 10L14 7.41L12.59 6Z" fill="#922A95"/>
+    </svg>
+  </a>
+</div>
+<div class="no-users" *ngIf="!data.userContacts.length">No Users Found , you may Add Contact details from here</div>
+<form [formGroup]="contactRecordDetailsForm"  fxLayout="column" fxLayoutAlign="space-between stretch">
+      <div fxLayout="row" fxLayoutAlign="start" class="row-container">
+        <mat-form-field fxFlex="33" class="details-element">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName">
+          <mat-error *ngIf="contactRecordDetailsForm.controls['firstName']?.errors?.required">First Name is required.</mat-error>
+          <mat-error *ngIf="contactRecordDetailsForm.controls['firstName']?.errors?.maxlength">First Name can be max 64 characters long.</mat-error>
+          <mat-error *ngIf="!contactRecordDetailsForm.controls['firstName']?.errors?.required && contactRecordDetailsForm.controls['firstName']?.errors?.whitespace">
+            <span>Invliad first name.</span>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex="33">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName">
+          <mat-error *ngIf="contactRecordDetailsForm.controls['lastName']?.errors?.required">Last Name is required.</mat-error>
+          <mat-error *ngIf="contactRecordDetailsForm.controls['lastName']?.errors?.maxlength">Last Name can be max 64 characters long.</mat-error>
+          <mat-error *ngIf="!contactRecordDetailsForm.controls['lastName']?.errors?.required && contactRecordDetailsForm.controls['lastName']?.errors?.whitespace">
+            <span>Invliad last name.</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center" class="row-container" fxLayoutGap="10px">
+        <mat-form-field class="imx-dropdown imx-input" fxFlex="50" matInput>
+          <mat-label>Company Name</mat-label>
+          <mat-select panelClass="imx-select" matInput (selectionChange)="onOfficeChange($event)" formControlName="companyName">
+            <div class="mat-select-panel__wrapper" infiniteScroll
+                 (scrolled)="getOfficesList(true, true)"
+                 [scrollWindow]="false"
+                 [infiniteScrollDistance]="1"
+                 [infiniteScrollThrottle]="0"
+                 [infiniteScrollDisabled]="isOfficesLoading || isOfficesComplete"
+                 [fromRoot]="true">
+              <mat-option [value]="null">Select Company Name</mat-option>
+              <mat-option *ngFor="let office of offices" [value]="office._id">
+                {{ office.name }}
+              </mat-option>
+              <mat-option disabled *ngIf="isOfficesLoading">
+                <div fxLayout="row" fxLayoutAlign="space-around center" >
+                  <mat-spinner diameter="20"></mat-spinner>
+                </div>
+              </mat-option>
+            </div>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex="30" class='division'>
+          <mat-label>Division</mat-label>
+          <input matInput formControlName="parentCompany">
+        </mat-form-field>
+    <mat-form-field class="imx-input imx-dropdown">
+      <mat-label>Contact Type</mat-label>
+      <mat-select
+        [panelClass]="'imx-select'"
+        formControlName="type"
+        [class.placeholder-default]="contactRecordDetailsForm['controls'].type.value==''"
+        [ngStyle]="{'max-height.px': 250}"
+        infiniteScroll
+        [infiniteScrollDistance]="1"
+        [infiniteScrollThrottle]="0"
+        (scrolled)="loadMoreContactTypes()"
+        [scrollWindow]="false"
+      >
+        <mat-option *ngIf="contactTypes?.length" [value]="null">Select Contact Type</mat-option>
+        <mat-option *ngFor="let contactType of contactTypes" [value]="contactType?._id">
+          {{contactType.name}}
+        </mat-option>
+        <div *ngIf="isContactTypesLoading" class="create-contact">
+          <mat-spinner [strokeWidth]="2" [diameter]="20"></mat-spinner>
+        </div>
+      </mat-select>
+    </mat-form-field>
+  </div>
+      <div fxLayout="row" fxLayoutAlign="start" class="row-container" fxLayoutGap="10px">
+        <mat-form-field fxFlex="33" >
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title">
+        </mat-form-field>
+        <mat-form-field fxFlex="66">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email">
+          <mat-error *ngIf="contactRecordDetailsForm.controls['email']?.errors">Invalid email address.</mat-error>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start" class="row-container" fxLayoutGap="10px">
+        <mat-form-field fxFlex="10rem" class="imx-input error-field-width" >
+          <mat-label>Mobile</mat-label>
+          <app-shared-telephone-input formControlName="mobile"></app-shared-telephone-input>
+          <mat-error> Invalid mobile number.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="10rem" class="imx-input error-field-width" >
+          <mat-label>Office</mat-label>
+          <app-shared-telephone-input formControlName="office"></app-shared-telephone-input>
+          <mat-error> Invalid Office number.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="6">
+          <mat-label>Ext</mat-label>
+          <input matInput appNumberOnly formControlName="ext">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="10rem" class="imx-input error-field-width" >
+          <mat-label>FAX</mat-label>
+          <app-shared-telephone-input formControlName="fax"></app-shared-telephone-input>
+          <mat-error> Invalid fax number.</mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <app-shared-address-card class="contact-form__address-card">
+          <app-shared-us-address [readonly]='false'  #contactFormAddress formControlName="address"></app-shared-us-address>
+        </app-shared-address-card>
+    </div>
+  </form>
+  <div *ngIf="data.userContacts?.length > 1" class="radio-users-container">
+    <div class="radio-users-title">Users found</div>
+    <mat-radio-group (change)="changeSavedView($event)">
+      <mat-list-item *ngFor="let userContact of data.userContacts">
+        <mat-radio-button disableRipple [value]="userContact">
+          <div class="radio-name">{{userContact.firstName}} {{ userContact.lastName }}</div>
+          <div class="radio-email">{{userContact.email[0]}}</div>
+        </mat-radio-button>
+      </mat-list-item>
+    </mat-radio-group>
+    <mat-error *ngIf="showUserSelectedError">Select A User</mat-error>
+  </div>
+<div mat-dialog-actions fxLayoutAlign="center">
+  <button mat-button [disabled]="submitInProcess" type="submit" class="imx-button button-primary" (click)="onSubmit()" cdkFocusInitial>{{ data.isUnlink ? 'UN-LINK CONTACT' : data.userContacts?.length > 0 ? 'LINK CONTACT' : "Add & LInk contact" | uppercase}}</button>
+</div>

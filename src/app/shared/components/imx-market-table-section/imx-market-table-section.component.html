@@ -1,0 +1,4 @@
+<div *ngIf="groupedMarkets['count'] > 0">
+  {{groupedMarkets['count']}} Group(s) - {{groupedMarkets['markets'].length}} Market(s)
+</div>
+{{ displayables | marketName }} <span *ngIf="nonDisplayables.length > 0" tooltipv2="{{nonDisplayables | marketName}}" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" class="cursor-link" [placement]="tooltipPlacement">+{{nonDisplayables.length}}</span>

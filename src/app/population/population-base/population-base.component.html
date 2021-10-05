@@ -1,0 +1,344 @@
+<div fxLayout="column">
+  <!-- Header section -->
+  <section class="header-section">
+    <app-header fxFlexFill>
+      <div class="projected-title">
+        <mat-icon class="mobile-hide">explore</mat-icon>
+        <span class="uppercase">Explore</span>
+      </div>
+      <div class="explore-header content-breadcrumb navbar-default projected-secondary">
+        <div fxLayout="row" fxLayoutAlign="start stretch">
+          <div fxLayout="row">
+            <div class="explore-filter-btn" fxLayoutAlign="center center" [ngClass]="{'active':currentTab == 'target' && isFiltersOpen}" (click)="openFilterSiderbar('target')" id="define-target" >DEFINE POPULATION</div>
+            <div class="explore-filter-btn test-filter-inventory" fxLayoutAlign="center center" [ngClass]="{'active':currentTab == 'filters' && isFiltersOpen}" (click)="openFilterSiderbar('filters')">FILTER SELECTION</div>
+            <div class="explore-filter-btn display-layer" [ngClass]="{'active':currentTab == 'layers'}" fxLayoutAlign="center center" (click)="openFilterSiderbar('layers')" >LAYERS & DISPLAY OPTIONS</div>            
+            <div class="explore-filter-btn actions-hd-tab test-action-menu" fxLayoutAlign="center center" [ngClass]="{'active':currentTab == 'actions'}" (click)="openFilterSiderbar('actions')">ACTIONS</div>
+
+            <!--<div class="explore-filter-btn display-layer" fxLayoutAlign="center center">LAYERS & DISPLAY OPTIONS</div>
+              <div class="explore-filter-btn actions-hd-tab test-action-menu" fxLayoutAlign="center center">ACTIONS</div>
+            </div>-->
+          </div>
+        </div>
+      </div>
+    </app-header>
+  </section>
+</div>
+<mat-sidenav-container class="population-container" [hasBackdrop]="false" [ngClass]="{'filter-open':isFiltersOpen}" autosize id="printContent">
+  <mat-sidenav mode="over"  position="start" [(opened)]="isFiltersOpen" #filterMenu class="mat-elevation-z2 filter-nav">
+    <app-population-filters (onDrawCircle)="drawCircle()"
+                            (onDrawPolygon)="drawPolygon()"
+                            (onRemovePolygon)="removePolygon()" (specificGeographyApply)="specificGeographyApply($event)"
+    ></app-population-filters>
+  </mat-sidenav>
+  
+  <mat-sidenav #sideMenu mode="side" position="end" [(opened)]="isSideMenuOpen" (openedChange)="onMenuStateChange($event)" class="population-side-list-main" [ngClass]="{'enable-details':enableDetailView}">
+    <div class="sidebar-container" fxLayout="row">
+      <!-- Start details view-->
+      <div class="population-details-view common-div" fxLayout="column" *ngIf="enableDetailView">
+        <div fxLayout="row" class="sidebar-top">
+          <p>Selected Geography</p>
+          <span fxFlex="1 1 auto"></span>
+          <mat-icon (click)=" closeDetailsView()" title="Close details">close</mat-icon>
+        </div>
+        <div fxLayout="row" class="geo-name-block" fxLayoutAlign="space-between center">
+          <h3>{{ ( 'New York' | truncate: "middle":15:10 )}}</h3>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="sidebar-info" fxLayoutGap="15px">
+          <p class="value-option">Census Year Population: 35,000,0000</p>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <div fxLayout="column" class="top-prizm-segment" fxFlex="70%">
+            <p>Top 5 Prizm Segments</p>
+            <ol>
+              <li>Upper Crust</li>
+              <li>Connected Bohemian</li>
+              <li>New Homesteaders</li>
+              <li>Family Traditions</li>
+              <li>Empty Nester</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="details-table">
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>2019 Ave Pop Exposure</th>
+                <th>% Change March 1</th>
+                <th>March 8</th>
+                <th>March 15</th>
+                <th>March 22</th>
+              </tr>
+            </thead>
+            <tbody [ngStyle]="{ 'height.px': (listHeight - 130)}">
+            <tr>
+              <td>Bulletins</td>
+              <td>100</td>
+              <td>-10%</td>
+              <td>-11%</td>
+              <td>-11%</td>
+              <td>-14%</td>
+            </tr>
+            <tr>
+              <td>Street Furniture</td>
+              <td>100</td>
+              <td>-10%</td>
+              <td>-11%</td>
+              <td>-11%</td>
+              <td>-14%</td>
+            </tr>
+
+            <tr>
+              <td>Place-based</td>
+              <td>100</td>
+              <td>-10%</td>
+              <td>-11%</td>
+              <td>-11%</td>
+              <td>-14%</td>
+            </tr>
+
+            <tr>
+              <td>Posters</td>
+              <td>100</td>
+              <td>-10%</td>
+              <td>-11%</td>
+              <td>-11%</td>
+              <td>-14%</td>
+            </tr>
+          </tbody>
+          </table>
+
+        </div>
+      </div>
+      <!-- End Details view-->
+      <!-- Right side list-->
+      <div class="common-div">
+      <div fxLayout="column" class="sidebar-top">
+        <p>MAPPED GEOGRAPHY SET</p>
+        <h3>
+          <span>{{ ( 'Geography Set' | truncate: "middle":15:10 )}}</span>
+          <span fxFlex="1 1 auto"></span>
+          <!--<mat-icon aria-label=">edit</mat-icon>-->
+        </h3>
+      </div>
+      <div fxLayout="row" class="sidebar-measures" fxLayoutAlign="space-between center">
+        <div fxLayout="column">
+          <h3>{{summary ? (summary.totalGeographies | convert:'THOUSAND') : 'N/A'}}</h3>
+          <div class="contant">NUMBER OF<br>GEOGRAPHIES</div>
+        </div>
+        <div fxLayout="column">
+          <h3>{{summary ? (summary.targetAudiencePopulation | convert:'ABBREVIATE':0) : 'N/A'}}</h3>
+          <div class="contant">TARGET<br>POPULATION</div>
+        </div>
+        <div fxLayout="column">
+          <h3>{{summary ? (summary.baseAudiencePopulation | convert:'ABBREVIATE':0) :'N/A'}}</h3>
+          <div class="contant">TOTAL<br>POPULATION</div>
+        </div>
+        <div fxLayout="column">
+          <h3>{{summary ? (summary.populationPercentage) + '%' : 'N/A'}}</h3>
+          <div class="contant">% OF TOTAL<br>POPULATION</div>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-evenly space-between" class="sidebar-info" fxLayoutGap="15px">
+        <div fxFlex="40" fxLayout="row" fxLayoutGap="5px" class="audience">
+          <mat-icon>people_alt</mat-icon>
+          <p>{{selectedAudience && selectedAudience.name ? selectedAudience.name : 'N/A'}}</p>
+        </div>
+        <!--<div fxFlex="25">
+          <mat-select [(value)]="selectedYear">
+            <mat-option value="2020">Year: 2020</mat-option>
+            <mat-option value="2019">Year: 2019</mat-option>
+          </mat-select>
+        </div>
+        <div fxFlex="35" fxLayout="row" fxLayoutGap="5px" class="market">
+        </div>-->
+        <div fxFlex="35" fxLayout="row" fxLayoutGap="5px" class="market">
+          <mat-icon>my_location</mat-icon>
+          <!--<mat-select [(value)]="selectedGeo">
+            <mat-option value='dma'>DMA</mat-option>
+            <mat-option value='cbsa'>CBSA</mat-option>
+            <mat-option value='county'>County</mat-option>
+            <mat-option value='state'>State</mat-option>
+            <mat-option value='zipcode'>Zip Code</mat-option>
+          </mat-select>-->
+          <p>{{ (selectedGeo === 'dma' || selectedGeo === 'cbsa') ? (selectedGeo | uppercase) : (selectedGeo | titlecase)}}</p>
+        </div>
+      </div>
+      <div fxLayout="row" class="sidebar-actions" fxLayoutGap="10px">
+        <mat-select [(value)]="selectedSort" fxFlex="50" (valueChange)="onSorting()">
+          <mat-option [value]="sortable" *ngFor="let sortable of sortables">{{sortable.displayName}}</mat-option>
+        </mat-select>
+        <mat-select [(value)]="activeSelection" fxFlex="50" (valueChange)="onBulkSelection()" [compareWith]="compareObjects">
+          <mat-option [value]="selectable" *ngFor="let selectable of selectables">{{selectable.display}}</mat-option>
+        </mat-select>
+      </div>
+      <div class="papulation-items"
+           *ngIf="geographies.length > 0; else noGeographies"
+           [ngStyle]="{ 'height.px': listHeight}"
+           infiniteScroll
+           [infiniteScrollDistance]="1"
+           [infiniteScrollThrottle]="0"
+           (scrolled)="loadMore()"
+           [scrollWindow]="false"
+           [infiniteScrollDisabled]="totalPages < currentPage">
+          <app-grid-item
+            *ngFor="let geography of geographies;"
+            [geoGraphy]="geography"
+            [activeStrokeColor]="activeStrokeColor"
+            [baseStrokeColor]="baseStrokeColor"
+            (mapView)="onMapViewClicked($event)"
+            (selectionChange)="toggleSelection(geography.geoId);">
+          </app-grid-item>
+      </div>
+      <div class="sidebar-bottom-actions" fxlayout="row" fxLayoutAlign="space-evenly center">
+        <a href="javascript:void(0)" (click)="enlargeTable()"  matTooltip="View as a table">
+          <mat-icon>list</mat-icon>
+        </a>
+        <a href="javascript:void(0)" class="disabled" matTooltip="This feature will be available soon">
+          <mat-icon>get_app</mat-icon>
+        </a>
+        <a href="javascript:void(0)" matTooltip="Save a geography set" (click)="saveGeoSet()">
+          <mat-icon>save</mat-icon>
+        </a>
+      </div>
+      <ng-template #noGeographies>
+        <p class="text-center">Define a population to see the geographies</p>
+      </ng-template>
+      </div>
+    </div>
+  </mat-sidenav>
+
+  <div *ngIf="enableSecondaryMap && !isSideMenuOpen">
+    <app-layer-secondary-map [dimensionsDetails]="dimensionsDetails" (secondaryMapWidth)="calculateMapWidth($event)" class="popuaton-secondary-map" [mapIdName]="'population-seconday-map'" [module]="'population'"></app-layer-secondary-map>
+  </div>
+
+  
+
+
+<!--  <div class="toggle-button filter-toggle mat-elevation-z2" (click)="onCloseFilterTab()" *ngIf="isFiltersOpen">-->
+<!--    <mat-icon aria-hidden="false" aria-label="close filters">arrow_left</mat-icon>-->
+  <div class="toggle-button filter-toggle-left mat-elevation-z2" (click)="onCloseFilter();" *ngIf="isFiltersOpen">
+    <mat-icon aria-hidden="false" aria-label="Collapse the filters">arrow_left</mat-icon>
+  </div>
+  <div class="toggle-button filter-toggle-right mat-elevation-z2" *ngIf="!isFiltersOpen" (click)="openFilterNav()">
+    <mat-icon aria-hidden="false" aria-label="Expand the filters">arrow_right</mat-icon>
+  </div>
+
+  <!-- <div class="library-navigation">
+    <app-library-navigation activeRoute="population"></app-library-navigation>
+  </div> -->
+
+  <div id="map-div-block-primary">
+    
+  <div class="map-area" id="map-area" [ngStyle]="enableSecondaryMap?{'height.px': mapHeight, 'width.px': mapWidth} : {'height.px': mapHeight}" #mapDivBlock [ngClass]="{'notShowMapControls':!showMapControls}">
+    <div class="key-legend-map-control test-key-legend-map">
+      <app-map-legends [module]='"population"' [layerType]="'primary'" *ngIf="showMapLegends"></app-map-legends>
+    </div>
+    <div class="custom-logo-layer">
+      <app-custom-logo-layer
+        [zoomLevel]="zoomLevel"
+        [logoStyle]="logoStyle"
+        [activeDraggablePosition]="activeDraggablePosition"
+        [mapWidthHeight]="mapWidthHeight"
+        [layerDisplayOptions]="layerDisplayOptions"
+        [mapDivBlock]="mapDivBlock"
+        [layerType]="layerType"
+        [module]="'population'"
+        (layerChanges)="layerChanges($event)"
+        [mapId]="'map-area'"
+        [applydisplay]="applyLayerObservable"
+        >
+      </app-custom-logo-layer>
+    </div>
+    <div class="custom-text-layer">
+      <app-custom-text-layer
+        [activeDraggableTextPosition]="activeDraggableTextPosition"
+        [mapWidthHeight]="mapWidthHeight"
+        [layerDisplayOptions]="layerDisplayOptions"
+        [customTextStyle]="customTextStyle"
+        [mapDivBlock]="mapDivBlock"
+        [layerType]="layerType"
+        [module]="'population'"
+        (layerChanges)="layerChanges($event)"
+        [mapId]="'map-area'"
+        [applydisplay]="applyLayerObservable"
+      >
+      </app-custom-text-layer>
+    </div>
+    <div class="map-zoom-out" *ngIf="showMapControls" fxHide.sm fxHide.xs>
+      <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+        <button (click)="zoomOutMap()" title="ZOOM OUT MAP">
+          <span><i class="material-icons">zoom_out_map</i></span>
+        </button>
+      </div>
+    </div>
+    <!-- Commented for now as this layer is overlapping with population -->
+    <!-- <div class="single-inventory-key-legend " *ngIf="isLayerKeylegend"
+      [ngClass]="{ 'open-side-bar': isSideMenuOpen }">
+      <p *ngIf="currentSingleInventory['replevel'] == 'dma'">
+        Spot ID {{ currentSingleInventory["fid"] }} - Top Contributing DMAs by Percentage
+      </p>
+      <p *ngIf="currentSingleInventory['replevel'] == 'zip_code'">
+        Spot ID {{ currentSingleInventory["fid"] }} - Top Contributing Zip Code by Percentage
+      </p>
+      <ul>
+        <li *ngFor="let color of keyLegendColors; let i = index">
+          <mat-icon [ngStyle]="{ color: color, 'background-color': color }">stop</mat-icon>
+          <span *ngIf="i == '0'" title="Highest {{ currentSingleInventory['maxValue'] && currentSingleInventory['maxValue'] + '%'}}">Highest {{ currentSingleInventory["maxValue"] && currentSingleInventory["maxValue"] + ' %'}}</span>
+          <span *ngIf="i == '5'" title="Lowest - {{ currentSingleInventory['minValue'] && currentSingleInventory['minValue'] + '%'}}">Lowest {{ currentSingleInventory["minValue"] && currentSingleInventory["minValue"] + ' %'}}</span>
+        </li>
+      </ul>
+    </div> -->
+    <div class="single-inventory-key-legend" *ngIf="isKeylegend">
+      <p>Target Population</p>
+      <ul>
+        <li *ngFor="let color of keyLegendColors; let i = index">
+          <mat-icon [ngStyle]="{ color: color, 'background-color': color }"
+            >stop</mat-icon>
+          <span *ngIf="i == '0'" title="Highest">Highest</span>
+          <span *ngIf="i == '5'" title="Lowest">Lowest</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- Print the date & time in print page -->
+  <app-datetime-print></app-datetime-print>
+  </div>
+  <div class="toggle-button grid-toggle mat-elevation-z2" (click)="sideMenuToggle();">
+    <mat-icon aria-hidden="false" aria-label="close population list" [ngClass]="{'opened': isSideMenuOpen, 'closed': !isSideMenuOpen}">arrow_left</mat-icon>
+  </div>
+
+  <div fxLayout="row wrap" class="population-tabular-toggle-button closed" *ngIf="!enableTabularview && !enableSecondaryMap">
+    <div  class="mapboxgl-ctrl mapboxgl-ctrl-group" title="EXPAND TABLE" [ngClass]="{ 'module-disable': allowInventory === 'disabled'}">
+      <button (click)="enlargeTable()">
+        <i class="material-icons">keyboard_arrow_up</i>
+      </button>
+    </div>
+  </div>
+
+  <div class="population-tabular-view" *ngIf="!isSideMenuOpen && enableTabularview" #tabularHeight>
+    <app-population-tabular
+      [currentPage]="currentPage"
+      [geographies]="geographies"
+      [totalPages]="totalPages"
+      [defaultSort]="selectedSort"
+      [selectedCount]="selectedGeoCount"
+      [selectQuery]="activeSelection"
+      [totalCount]="geoIds.length"
+      (resizeElement)="tabularResize($event)"
+      (collapseTabular)="collapseTabular($event)"
+      (scrolled)="loadMore()"
+      (sortableEmit)="tabularSortable($event)"
+      (toggleSelection)="toggleSelection($event)"
+      (toggleAllSelection)="onToggleAll($event)"
+    ></app-population-tabular>
+  </div>
+
+</mat-sidenav-container>
+<div class="library-navigation" [ngClass]="{'filter-open':isFiltersOpen}">
+  <app-library-navigation activeRoute="population"></app-library-navigation>
+</div>
+

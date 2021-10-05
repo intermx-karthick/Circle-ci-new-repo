@@ -1,0 +1,29 @@
+<div class="app-tags-input-ids-table" *ngIf=" totalCountIDs > 0 && (validIDs.length > 0 || invalidFilterIDs.length > 0 || totalInvalidIds.length > 0)">
+    <div style="margin-top: 10px;">ID Results</div>
+    <div>
+        <table>
+            <thead>
+                <th>Total IDs Entered</th>
+                <th>Valid-in filter</th>
+                <th>Valid but not in filter</th>
+                <th>Invalid IDs</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{totalCountIDs}}</td>
+                    <td>{{validIDs.length}} <br>
+                        <a id="show-in-list" [hidden]="validIDs.length <= 0"
+                        (click)="openDialogForIDs('Valid ID List', 'validIDs')">[Show in List]</a></td>
+                    <td class="invalid-ids">
+                        {{(invalidFilterIDs.length <= 0) ? 0 : invalidFilterIDs.length }} <br>
+                        <a [hidden]="invalidFilterIDs.length <= 0" (click)="removeInvalidIDs('filterIds')">[ Remove | </a>
+                        <a [hidden]="invalidFilterIDs.length <= 0" (click)="openDialogForIDs('Invalid Filter ID List', 'invalidFilterIDs')">Show in List ]</a></td>
+                    <td class="invalid-ids">
+                        {{(totalInvalidIds.length <= 0) ? 0 : totalInvalidIds.length }} <br>          <a [hidden]="totalInvalidIds.length <= 0" (click)="removeInvalidIDs()">[ Remove | </a>
+                        <a [hidden]="totalInvalidIds.length <= 0" (click)="openDialogForIDs('Invalid ID List', 'invalidIDs')">Show in List ]</a>            
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

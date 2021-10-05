@@ -1,0 +1,76 @@
+<div class='c-validate-data-from-imports imx-new-theme modal-container'>
+  <div class='c-validate-data-from-imports__header row-container' fxLayout='row' fxLayoutAlign='space-between center'>
+    <div class='c-validate-data-from-imports__title'>{{title}}</div>
+    <button mat-icon-button class='close-button' (click)='close()'>
+      <mat-icon>highlight_off</mat-icon>
+    </button>
+  </div>
+
+  <div class='c-validate-data-from-imports__table'>
+    <div class='c-validate-data-from-imports__thead row-container' fxLayout='row' fxLayoutAlign='space-between center'>
+      <div class='c-validate-data-from-imports__skip-row c-validate-data-from-imports_delete-header header'>
+        <mat-checkbox *ngIf='type == dialogType.DELETE; else skipHeaderRef'
+                      [indeterminate]='deleteHeaderCheckBoxIntermediate'
+                      (change)='toggleHeaderCheckbox($event)'
+                      [checked]='deleteHeaderCheckBox' class='imx-checkbok' disableRipple>
+        </mat-checkbox>
+        <ng-template #skipHeaderRef>Skip Row</ng-template>
+      </div>
+      <div class='c-validate-data-from-imports__row-number header'>Row Number</div>
+      <div class='c-validate-data-from-imports__field-name header'>Field Name</div>
+      <div class='c-validate-data-from-imports__imported-values header'>Imported Value</div>
+      <div class='c-validate-data-from-imports__change-field header'>Change Field</div>
+    </div>
+
+    <div class='c-validate-data-from-imports__tbody'>
+      <ng-container *ngFor='let validatedRecord of validatedRecords'>
+        <ng-container *ngFor='let item of validatedRecord.fields;let i = index'>
+          <div class='row-container' fxLayout='row' fxLayoutAlign='space-between center'>
+            <mat-checkbox (change)='handleCheckboxChange($event)' [style.visibility]="i > 0? 'hidden': ''" [(ngModel)]='item.isSkipped'
+                          [class.selected]='item.isSkipped'
+                          class='c-validate-data-from-imports__skip-row imx-checkbok content'
+                          disableRipple>
+              {{ type == dialogType.SKIP ? 'Skip' : '' }}
+            </mat-checkbox>
+            <div [style.visibility]="i > 0? 'hidden': ''"
+                 class='c-validate-data-from-imports__row-number content'>{{validatedRecord.rowNumber}}</div>
+            <div class='c-validate-data-from-imports__field-name content'>{{item.title}}</div>
+            <div class='c-validate-data-from-imports__imported-values content'>{{item.value}}</div>
+            <mat-form-field class='c-validate-data-from-imports__change-field imx-input'>
+              <mat-label>{{item?.isDate ? 'MM-DD-YYYY' : 'Enter ' + item.title}}</mat-label>
+              <input [formControl]='item.changedValueFC' matInput>
+              <mat-error *ngIf='item.changedValueFC.errors?.incorrect'>{{item.error}}</mat-error>
+              <mat-error *ngIf='item.changedValueFC.errors?.required'>{{item.error}}</mat-error>
+              <mat-error *ngIf='!item.changedValueFC.errors?.required && item.changedValueFC.errors?.dateFormatError'>
+                DATE FORMAT SHOULD BE <br> MM-dd-yyyy
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class='c-validate-data-from-imports__actions row-container' fxLayout='row' fxLayoutAlign='space-around center'>
+    <div fxflex='40' class='actions'>
+      <div fxLayout='row' fxLayoutAlign='space-around center' fxLayoutGap='25px'>
+        <ng-container *ngIf='type == dialogType.SKIP;else deleteActionBlockRef'>
+          <button mat-button type='submit' class='imx-primary-color'
+                  mat-dialog-close>{{"Cancel Upload" | uppercase}}</button>
+          <button mat-button type='submit' class='imx-button-primary hide-shadow' (click)='save()'
+                  cdkFocusInitial>{{"Save import" | uppercase}}</button>
+        </ng-container>
+
+        <ng-template #deleteActionBlockRef>
+          <button mat-button type='button' class='imx-primary-color'
+                  [disabled]='disableDeleteAllBtn'
+                  (click)='deleteALL()'>{{"delete all" | uppercase}}</button>
+          <button mat-button type='button' class='imx-primary-color'
+                  (click)='delete()'>{{"delete selected" | uppercase}}</button>
+          <button mat-button type='submit' class='imx-button-primary hide-shadow' (click)='save()'
+                  cdkFocusInitial>{{"save" | uppercase}}</button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

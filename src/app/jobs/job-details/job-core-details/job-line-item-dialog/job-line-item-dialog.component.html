@@ -1,0 +1,859 @@
+<div fxLayout="column" class="dialog-header" id="add-line-items-modal">
+    <div fxLayoutAlign="space-between start" class="row-container">
+      <h1 mat-dialog-title>{{ data?.job?.jobId }} > {{isForDuplicate ? 'Duplicating': (showEditActions ? 'Viewing' : 'Adding')}} Line Item</h1>
+      <div fxFlex='42%' fxLayout='row' fxLayoutAlign='space-between center'>
+        <div class="close-dialog" (click)="refreshDropdowns()" fxLayout='row' fxLayoutAlign='start center' mat-ripple>
+          <mat-icon class='close-icon' svgIcon='IMX-refresh'></mat-icon>
+          <span>REFRESH</span>
+          <span class='m-l-10 lowercase' *ngIf='lastRefreshedDate'>({{lastRefreshedDate | lowercase}} before)</span>
+        </div>
+        <div class="close-dialog" (click)="onClose()">Close</div>
+      </div>
+    </div>
+    <div fxLayout="row" class="dialog-header-info">
+      <div fxLayout="column" fxFlex="12.5rem" class="client-and-agency">
+        <div fxFlex="50" fxLayout="column" fxLayoutAlign="start" class="modify-content">
+          <div class="info-row-label right-content">
+              {{ "Client" | uppercase }}
+          </div>
+          <div class="info-row-content client-name-container">
+            <a class="client-name">
+              <span tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+              [tooltip]="(data.job?.client?.clientName?.length > 12) ? data.job.client.clientName : ''" [placement]="'top'" [delay]="'200'" (click)="tabLinkHandler.open(TabLinkType.CLIENT, data.job?.client?._id)">{{ data.job?.client.clientName }}</span>
+            </a>
+            <a routerLink="records-management-v2/clients/{{data.job?.client?._id}}" target="_blank" class='primary-color'>
+              <mat-icon svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon cursor-link client-link"></mat-icon>
+            </a>
+          </div>
+        </div>
+        <div fxFlex="50" fxLayout="column" fxLayoutAlign="start" class="modify-content">
+          <div class="info-row-label right-content">
+              {{ "prim. media agency" | uppercase }}
+          </div>
+          <div class="info-row-content client-name-container">
+            {{data?.job?.client?.mediaAgency?.name}}
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex="8.5rem" class="job-name-and-agency">
+        <div fxFlex="50" fxLayout="column" fxLayoutAlign="start" class="modify-content">
+          <div class="info-row-label right-content">
+              {{ "OI Job name" | uppercase }}
+          </div>
+          <div class="info-row-content client-name-container" >
+            {{data?.job?.name}}
+          </div>
+        </div>
+        <div fxFlex="50" fxLayout="column" fxLayoutAlign="start" class="modify-content">
+          <div class="info-row-label right-content">
+              {{ "sec. creative agency" | uppercase }}
+          </div>
+          <div class="info-row-content client-name-container" >
+            {{data?.job?.client?.creativeAgency?.name}}
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex="7rem" class="client-code-product">
+        <div fxFlex="50" fxLayout="column" fxLayoutAlign="start" class="modify-content">
+          <div class="info-row-label right-content">
+              {{ "ClIENT CODE" | uppercase }}
+          </div>
+          <div class="info-row-content client-name-container" >
+            {{data?.clientCode}}
+          </div>
+        </div>
+        <div fxFlex="50" fxLayout="column" fxLayoutAlign="center">
+            <app-infinite-select
+              label="OI Product"
+              [items]="clientProduts"
+              itemViewField="productName"
+              [total]="clientProdutsTotal"
+              (scroll)="onScrollClientProducts($event)"
+              (tabLink)='openProductNameInNewTab($event)'
+              [isLoading]="isClientProdutsLoading"
+              (selectionChange)="onProductNameChanged($event)"
+              [showTabLink]='false'
+              [selectedValue]="clientProductSelectedValue"
+              [disableEdit]="disableEdit"
+              [createOptionEnable]='true'
+              (createAction)="openNewProductWindow()"
+              createLabel="Create OI Product"
+            >
+            </app-infinite-select>
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex="7rem" class="line-item-id-status">
+        <div fxFlex="50" fxLayout="column" fxLayoutAlign="start" class="modify-content">
+          <div class="info-row-label right-content">
+              {{ "Line Item ID" | uppercase }}
+          </div>
+          <div class="info-row-content client-name-container" >
+            {{data?.lineItemData?.lineItemId}}
+          </div>
+        </div>
+        <div fxFlex="50" fxLayout="column" fxLayoutAlign="center">
+            <app-infinite-select
+              label="Item Status"
+              [items]="itemStatuses"
+              itemViewField="name"
+              [total]="itemStatusesTotal"
+              (scroll)="onScrollClientProducts($event)"
+              (tabLink)='openProductNameInNewTab($event)'
+              [isLoading]="isItemStatusesLoading"
+              (selectionChange)="onItemStatusChange($event)"
+              [showTabLink]='false'
+              [selectedValue]="itemStatusSelectedValue"
+              [disableEdit]="disableEdit"
+            >
+            </app-infinite-select>
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex="5rem" class="created-and-modified">
+        <div fxFlex="50" fxLayout="column" fxLayoutAlign="start" class="justify-created">
+          <div class="info-row-label right-content">
+              {{"Created By" | uppercase}}
+          </div>
+
+          <div class="info-row-content"
+               tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+               [tooltip]="(data.lineItemData?.createdBy?.length > 12 ) ? data.lineItemData.createdBy : ''"
+               [placement]="'top'" [delay]="'200'">
+              {{ data?.lineItemData?.createdBy }}
+          </div>
+        </div>
+        <div fxFlex="50" fxLayout="column" fxLayoutAlign="start" class="modify-content">
+          <div class="info-row-label right-content">
+              {{"Modified By" | uppercase}}
+          </div>
+
+          <div class="info-row-content"
+               tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+               [tooltip]="(data.lineItemData?.updatedBy?.length > 12 ) ? data.lineItemData.updatedBy : ''"
+               [placement]="'top'" [delay]="'200'">
+              {{ data?.lineItemData?.updatedBy }}
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex="6.25rem">
+        <div fxFlex="50" fxLayout="column" fxLayoutAlign="start" class="justify-created">
+          <div class="info-row-label right-content">
+              {{"Created date" | uppercase}}
+          </div>
+
+          <div class="info-row-content">
+              {{ data?.lineItemData?.createdAt | date:'MM/dd/yyyy' }}
+          </div>
+        </div>
+        <div fxFlex="50" fxLayout="column" fxLayoutAlign="start" class="modify-content">
+          <div class="info-row-label right-content">
+              {{"Modified date" | uppercase}}
+          </div>
+          <div class="info-row-content">
+              {{ data?.lineItemData?.updatedAt | date:'MM/dd/yyyy'}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <mat-dialog-content class="line-item-body jobs-line-item-printer">
+      <div [formGroup]="jobLineItemForm">
+
+          <div fxLayout="row" fxLayoutAlign="space-between start" >
+              <div fxFlex="18.875rem">
+                  <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+                      <h2 class="info-row-label col-header vendor-heading">printer data</h2>
+                  </div>
+                  <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" class="view-purchase">
+
+                    <div class="info-row-content client-name-container">
+                      View Purchase Order
+                    </div>
+                    <mat-icon svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon purchase-new-tab cursor-link"
+                                  (click)="$event.stopPropagation();tabLinkHandler.open(TabLinkType.JOBS_PO, data?.job?._id)"
+                                  matSuffix></mat-icon>
+                  </div>
+                  <div fxLayout="row">
+                    <mat-form-field class="imx-dropdown new-tab-link imx-input jobs-item-dialog-customerror" fxFlex="12.6rem"
+                          tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                          [tooltip]="(jobLineItemForm.controls?.printer?.value?.name?.length > 30 ) ? jobLineItemForm.controls.printer.value.name : ''"
+                          [placement]="'top'" [delay]="'200'">
+                      <mat-label>Printer *</mat-label>
+                      <input type="text" #printerInputRef matInput class="imx-input-no-border"
+                          [matAutocomplete]="selectPrinterAuto"
+                          [autocompletePosition]="printerAutoCompleteTrigger"
+                          #triggerPrinter="matAutocompleteTrigger"
+                          autocomplete="off" formControlName="printer"
+                          (click)="printerAutoCompleteTrigger.openPanel()">
+                      <mat-icon svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon"
+                                [class.disabled]="!jobLineItemForm.controls.printer.value?._id"
+                                (click)="$event.stopPropagation();tabLinkHandler.open(TabLinkType.VENDOR, jobLineItemForm.controls.printer.value?._id)"
+                                matSuffix></mat-icon>
+                      <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+
+                    <mat-autocomplete #selectPrinterAuto="matAutocomplete"
+                                      [displayWith]="selectVendorDisplayWithFn"
+                                      (opened)="updateSelectPrinterContainer()"
+                                      class="autocomplete-scroll imx-autocomplete-dropdown autocomplete-no-pad"
+                                      [panelWidth]="'200'"
+                                      (optionSelected)='onVendorSelectChanged($event.option.value)'>
+
+                      <div  class="add-line-items-vendor-select-autocomplete create-link-autocomplete"
+                            infiniteScroll
+                            [infiniteScrollDistance]="1"
+                            [infiniteScrollThrottle]="0"
+                            [scrollWindow]="false"
+                            [fromRoot]="true"
+                            [immediateCheck]="false"
+                            [alwaysCallback]="false"
+                            [infiniteScrollDisabled]="vendorsComplete"
+                            [infiniteScrollContainer]="selectPrinterPanelContainer"
+                            (scrolled)="getVendorsList(vendorsLimit + vendorsOffset, true, vendorsSearchPayload)">
+
+                      <mat-option (click)="openNewVendorWindow();printerAutoCompleteTrigger.closePanel()" disabled> <mat-icon>add</mat-icon> Create Vendor </mat-option>
+                      <mat-divider></mat-divider>
+                      <mat-option [value]="null" class="hide-selected-tick">Select Printer</mat-option>
+                      <mat-option *ngFor="let vendor of vendors ;trackBy: vendorTrackByFn"
+                                  [value]="vendor"
+                                  [class.mat-selected]="jobLineItemForm && jobLineItemForm['controls']['printer'].value?._id === vendor?._id"
+                      >
+                        <span [innerHTML]="(vendor.name)| imx_highlight: printerInputRef.value" tooltip="{{vendor.name?.length >21 ? vendor.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"></span>
+                      </mat-option>
+                      <mat-option disabled *ngIf="isVendorsLoading">
+                        <div fxLayout="row" fxLayoutAlign="space-around center" >
+                          <mat-spinner diameter="20"></mat-spinner>
+                        </div>
+                      </mat-option>
+                        <mat-option disabled *ngIf="!vendors?.length && !isVendorsLoading && printerInputRef.value">
+                          Invalid Entry
+                        </mat-option>
+                      </div>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="jobLineItemForm['controls'].printer.hasError('invalid')">
+                      Please select from the drop down list.
+                     </mat-error>
+                  </mat-form-field>
+                  </div>
+                  <div fxLayout="row">
+                    <mat-form-field class="imx-dropdown new-tab-link imx-input jobs-item-dialog-customerror" fxFlex="12.6rem"
+                                  tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                                  [tooltip]="(
+                                    (jobLineItemForm.controls?.contact?.value?.firstName?.length) + (jobLineItemForm.controls?.contact?.value?.lastName?.length) > 30 ) ?
+                                          jobLineItemForm.controls.contact.value.firstName + ' ' +jobLineItemForm.controls.contact.value.lastName : ''"
+                                  [placement]="'top'" [delay]="'200'" >
+                            <mat-label>Contact</mat-label>
+                            <input type="text" #vendorRep1 matInput class="imx-input-no-border"
+                                [matAutocomplete]="vendorRepAuto" autocomplete="off" formControlName="contact"
+                                [autocompletePosition]="contactAutoCompleteTrigger"
+                                (click)="contactAutoCompleteTrigger.openPanel()" >
+                            <mat-icon svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon"
+                                [class.disabled]="!jobLineItemForm.controls.contact.value?._id"
+                                (click)="$event.stopPropagation();tabLinkHandler.open(TabLinkType.CONTACT, jobLineItemForm.controls.contact.value?._id)"
+                                matSuffix>
+                            </mat-icon>
+                      <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+
+                          <mat-autocomplete #vendorRepAuto="matAutocomplete"
+                                            [displayWith]="vendorRepPrimaryDisplayWithFn"
+                                            (opened)="updateSelectVendorRepPrContainer()"
+                                            class="autocomplete-scroll imx-autocomplete-dropdown autocomplete-no-pad"
+                                            [panelWidth]="'160'">
+
+                            <div  class="add-line-items-vendor-rep-pr-autocomplete create-link-autocomplete"
+                                  infiniteScroll
+                                  [infiniteScrollDistance]="1"
+                                  [infiniteScrollThrottle]="0"
+                                  [scrollWindow]="false"
+                                  [fromRoot]="true"
+                                  [immediateCheck]="false"
+                                  [alwaysCallback]="false"
+                                  [infiniteScrollContainer]="selectVendorRepPrPanelContainer"
+                                  (scrolled)="getVendorsByOrgId(false, primaryVendorsPayload)">
+<ng-container *ngIf="jobLineItemForm && jobLineItemForm['controls']['printer'].value?._id">
+                              <mat-option (click)="openNewContactWindow();contactAutoCompleteTrigger.closePanel()" disabled > <mat-icon>add</mat-icon> Create Contact </mat-option>
+                              <mat-divider></mat-divider>
+                              <mat-option [value]="null" class="hide-selected-tick">Select Contact</mat-option>
+                              <mat-option *ngFor="let vendor of primaryVendorsRep ;trackBy: vendorRepPrTrackByFn"
+                                          [value]="vendor"
+                                          [class.mat-selected]="jobLineItemForm && jobLineItemForm['controls']['contact'].value?._id === vendor?._id">
+                                <span [innerHTML]="(vendor.firstName + ' ' + vendor.lastName)| imx_highlight: vendorRep1.value" tooltip="{{vendor.firstName.length + vendor.lastName.length + 1 >21 ? vendor.firstName + ' ' + vendor.lastName : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"></span>
+                              </mat-option>
+                            </ng-container>
+                            <mat-option disabled *ngIf="isPrimaryVendorsRepLoading">
+                              <div fxLayout="row" fxLayoutAlign="space-around center" >
+                                <mat-spinner diameter="20"></mat-spinner>
+                              </div>
+                            </mat-option>
+                              <mat-option disabled *ngIf="!primaryVendorsRep.length && !isPrimaryVendorsRepLoading && vendorRep1.value">
+                                Invalid Entry
+                              </mat-option>
+                            </div>
+                          </mat-autocomplete>
+                          <mat-error *ngIf="jobLineItemForm['controls'].contact.hasError('invalid')">
+                            Please select from the drop down list.
+                           </mat-error>
+                        </mat-form-field>
+                  </div>
+                  <div fxLayout="row">
+                    <mat-form-field class="imx-dropdown new-tab-link imx-input jobs-item-dialog-customerror" fxFlex="12.6rem"
+                          tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                          [tooltip]="(jobLineItemForm.controls?.vendor?.value?.name?.length > 30 ) ? jobLineItemForm.controls.vendor.value.name : ''"
+                          [placement]="'top'" [delay]="'200'">
+                      <mat-label>Ship to Vendor</mat-label>
+                      <input type="text" #vendorInputRef matInput class="imx-input-no-border"
+                          [matAutocomplete]="selectVendorAuto"
+                          [autocompletePosition]="shipVendorAutoCompleteTrigger"
+                          #triggerShipVendor="matAutocompleteTrigger"
+                           autocomplete="off" formControlName="vendor"
+                           (click)="shipVendorAutoCompleteTrigger.openPanel()">
+                      <mat-icon svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon"
+                                [class.disabled]="!jobLineItemForm.controls.vendor.value?._id"
+                                (click)="$event.stopPropagation();tabLinkHandler.open(TabLinkType.VENDOR, jobLineItemForm.controls.vendor.value?._id)"
+                                matSuffix></mat-icon>
+                      <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+
+                    <mat-autocomplete #selectVendorAuto="matAutocomplete"
+                                      [displayWith]="selectVendorDisplayWithFn"
+                                      (opened)="updateSelectVendorContainer()"
+                                      class="autocomplete-scroll imx-autocomplete-dropdown autocomplete-no-pad"
+                                      [panelWidth]="'200'"
+                                      (optionSelected)="onShippingVendorChanged($event.option.value)">
+
+                      <div  class="add-line-items-vendor-select-autocomplete create-link-autocomplete"
+                            infiniteScroll
+                            [infiniteScrollDistance]="1"
+                            [infiniteScrollThrottle]="0"
+                            [scrollWindow]="false"
+                            [fromRoot]="true"
+                            [immediateCheck]="false"
+                            [alwaysCallback]="false"
+                            [infiniteScrollContainer]="selectVendorPanelContainer"
+                            (scrolled)="getShipVendorsList(shipVendorsLimit + shipVendorsOffset, true, vendorsSearchPayload)">
+                      <mat-option (click)="openNewVendorWindow();shipVendorAutoCompleteTrigger.closePanel()" disabled> <mat-icon>add</mat-icon> Create Vendor </mat-option>
+                      <mat-divider></mat-divider>
+                      <mat-option [value]="null" class="hide-selected-tick">Select Ship To Vendor</mat-option>
+                      <mat-option *ngFor="let vendor of shipVendors ;trackBy: vendorTrackByFn"
+                                  [value]="vendor"
+                                  [class.mat-selected]="jobLineItemForm && jobLineItemForm['controls']['vendor'].value?._id === vendor?._id"
+                      >
+                        <span [innerHTML]="(vendor.name)| imx_highlight: vendorInputRef.value" tooltip="{{vendor.name?.length >21 ? vendor.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"></span>
+                      </mat-option>
+                      <mat-option disabled *ngIf="isShipVendorsLoading">
+                        <div fxLayout="row" fxLayoutAlign="space-around center" >
+                          <mat-spinner diameter="20"></mat-spinner>
+                        </div>
+                      </mat-option>
+                        <mat-option disabled *ngIf="!shipVendors?.length && !isShipVendorsLoading && vendorInputRef.value">
+                          Invalid Entry
+                        </mat-option>
+                      </div>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="jobLineItemForm['controls'].vendor.hasError('invalid')">
+                      Please select from the drop down list.
+                     </mat-error>
+                  </mat-form-field>
+                  </div>
+                  <div fxLayout="row">
+                    <mat-form-field class="imx-dropdown new-tab-link imx-input create-link-autocomplete" fxFlex="12.6rem">
+                      <mat-label>Shipping Designator</mat-label>
+                      <mat-select panelClass="imx-select create-link-autocomplete job-line-item__mat-select-panel"
+                        [compareWith]="compareObjects" formControlName="designator" (selectionChange)="onDesignatorChange($event.value)"
+                        [disabled]="jobLineItemForm && !jobLineItemForm.controls?.vendor?.value?._id" #selectDesignator>
+
+                        <mat-option (click)="openNewDesignator(); selectDesignator.close()" disabled>
+                          <mat-icon>add</mat-icon> Create Designator
+                        </mat-option>
+                        <mat-divider></mat-divider>
+
+                        <mat-option [value]="null">Select Designator</mat-option>
+                        <mat-option *ngFor="let item of designatorItems" [value]="item">
+                          {{item.designator || 'Designator'}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-icon svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon for-mat-select"
+                                [class.disabled]="!jobLineItemForm.controls.designator.value?._id"
+                                (click)="$event.stopPropagation();tabLinkHandler.open(TabLinkType.VENDOR, jobLineItemForm.controls?.vendor?.value?._id)"
+                                matSuffix></mat-icon>
+                    </mat-form-field>
+                  </div>
+                  <div fxLayout="row" class="order-address" *ngIf="selectedDesignator && selectedDesignator.address">
+                    {{selectedDesignator?.address}} {{selectedDesignator?.city}}, {{selectedDesignator?.stateCode}} {{selectedDesignator?.zipcode}}
+                    <!-- 123 Main st New york, ny 110017 Attn: Joe Schimmel -->
+                  </div>
+              </div>
+              <div fxFlex="30.688rem">
+                  <div fxLayout="column" fxLayoutAlign="space-between start">
+                      <h2 class="info-row-label col-header vendor-heading">
+                          OI JOB DATES
+                      </h2>
+                      <div fxLayout="row" fxLayoutGap="1rem">
+                        <mat-form-field fxFlex='9.5rem' class='imx-input'>
+                          <mat-label>Media Start Date</mat-label>
+                          <input matInput formControlName='startDate' appDateFormat [matDatepicker]='start_date_picker' />
+                          <mat-error> Invalid Date.</mat-error>
+                          <mat-icon (click)='start_date_picker.open()' matSuffix class='date-picker-icon date-picker-icon_input'
+                                    svgIcon='IMX-calender'></mat-icon>
+                          <mat-datepicker #start_date_picker='matDatepicker' [panelClass]="'imx-calander'"></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex='9.5rem' class='imx-input'>
+                          <mat-label>Files @Printer</mat-label>
+                          <input matInput formControlName='filesDate' [min]='start_date_picker._selected' appDateFormat [matDatepicker]='files_date_picker' />
+                          <mat-error> Invalid Date.</mat-error>
+                          <mat-icon (click)='files_date_picker.open()' matSuffix class='date-picker-icon date-picker-icon_input'
+                                    svgIcon='IMX-calender'></mat-icon>
+                          <mat-datepicker #files_date_picker='matDatepicker' [panelClass]="'imx-calander'"></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex='9.5rem' class='imx-input'>
+                          <mat-label>Materials Ship</mat-label>
+                          <input matInput formControlName='materialShippingDate' [min]='start_date_picker._selected' appDateFormat [matDatepicker]='material_ship_date_picker' />
+                          <mat-error> Invalid Date.</mat-error>
+                          <mat-icon (click)='material_ship_date_picker.open()' matSuffix class='date-picker-icon date-picker-icon_input'
+                                    svgIcon='IMX-calender'></mat-icon>
+                          <mat-datepicker #material_ship_date_picker='matDatepicker' [panelClass]="'imx-calander'" [xPosition]="'end'"></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                  </div>
+                  <div fxLayout="column" fxLayoutAlign="space-between start">
+                    <div fxLayout="row" fxLayoutGap="1rem">
+                      <mat-form-field fxFlex='9.5rem' class="imx-input" [ngClass]="{'jobs-dialog-noofperiods-err': !!jobLineItemForm.controls.noOfPeriods.errors}">
+                        <mat-label>No. Of Periods</mat-label>
+                        <input matInput appNumeral [regex]="periodPatternRegEx" isDecimal="true" format="0.000" formControlName='noOfPeriods'/>
+                        <mat-error>{{'Period Length Max value is 52' | uppercase}}</mat-error>
+                      </mat-form-field>
+
+                      <mat-form-field fxFlex='9.5rem' class='imx-input'>
+                        <mat-label>Proofs @ Client</mat-label>
+                        <input matInput formControlName='proofsDate' [min]='start_date_picker._selected' appDateFormat [matDatepicker]='proofs_date_picker' />
+                        <mat-error> Invalid Date.</mat-error>
+                        <mat-icon (click)='proofs_date_picker.open()' matSuffix class='date-picker-icon date-picker-icon_input'
+                                  svgIcon='IMX-calender'></mat-icon>
+                        <mat-datepicker #proofs_date_picker='matDatepicker' [panelClass]="'imx-calander'"></mat-datepicker>
+                      </mat-form-field>
+
+                      <mat-form-field fxFlex='9.5rem' class='imx-input'>
+                        <mat-label>Materials Deliver</mat-label>
+                        <input matInput formControlName='materialDeliveryDate' [min]='start_date_picker._selected' appDateFormat [matDatepicker]='material_date_picker' />
+                        <mat-error> Invalid Date.</mat-error>
+                        <mat-icon (click)='material_date_picker.open()' matSuffix class='date-picker-icon date-picker-icon_input'
+                                  svgIcon='IMX-calender'></mat-icon>
+                        <mat-datepicker #material_date_picker='matDatepicker' [panelClass]="'imx-calander'" [xPosition]="'end'"></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                </div>
+                <div fxLayout="column" fxLayoutAlign="center start">
+                  <div fxLayout="row" fxLayoutGap="1rem">
+                    <mat-form-field class="imx-dropdown imx-input" fxFlex="9.5rem">
+                      <mat-label>Terms Of Periods</mat-label>
+                      <mat-select panelClass="imx-select" formControlName="periodLength">
+                        <mat-option [value]="null">Select Period Length</mat-option>
+                        <mat-option *ngFor="let period of periodLengths" [value]="period.id">
+                          {{period.value}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex='9.5rem' class='imx-input'>
+                      <mat-label>Proofs Approved</mat-label>
+                      <input matInput formControlName='proofsApprovedDate' [min]='start_date_picker._selected' appDateFormat [matDatepicker]='proofs_approved_date_picker' />
+                      <mat-error> Invalid Date.</mat-error>
+                      <mat-icon (click)='proofs_approved_date_picker.open()' matSuffix class='date-picker-icon date-picker-icon_input'
+                                svgIcon='IMX-calender'></mat-icon>
+                      <mat-datepicker #proofs_approved_date_picker='matDatepicker' [panelClass]="'imx-calander'"></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+              </div>
+              </div>
+          </div>
+
+          <div class="form-divider form-divider_vendor"></div>
+
+          <div class="row-container" class="media-details" fxLayout="row" fxLayoutGap="6rem">
+            <div fxFlex="24.75rem">
+              <div fxLayoutAlign="start" class="media-details__title">
+                {{ "media job data" | uppercase }}
+              </div>
+              <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign='start center'>
+                <div fxLayout="column" fxFlex="13.75rem">
+                  <mat-form-field class="imx-dropdown imx-input"
+                      tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                      [tooltip]="(jobLineItemForm.controls?.mediaType?.value?.length > 27 ) ? jobLineItemForm.controls.mediaType.value : ''"
+                      [placement]="'top'" [delay]="'200'">
+                  <mat-label>Media Type</mat-label>
+                  <mat-select panelClass="imx-select job-line-item__mat-select-panel" formControlName="mediaType">
+                    <mat-option [value]="null">Select Media Type</mat-option>
+                    <mat-option *ngFor="let mediaType of mediaTypes | appSortBy: false: 'string': true:'name'; let i = index" [(value)]="mediaTypes[i]._id">
+                      {{ mediaType.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                </div>
+                <div fxLayout="column" fxFlex="10rem">
+                  <mat-form-field class='imx-input'>
+                    <mat-label>Unit Quantity</mat-label>
+                    <input matInput appNumeral [regex]="periodPatternRegEx" isDecimal="true" format="0.000" [maxlength]="9" formControlName='unitQty'/>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign='start center'>
+                <div fxLayout="column" fxFlex="13.75rem">
+                  <mat-form-field class="imx-dropdown imx-input"
+                      tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                      [tooltip]="(jobLineItemForm.controls?.venueType?.value?.length > 27 ) ? jobLineItemForm.controls.venueType.value : ''"
+                      [placement]="'top'" [delay]="'200'">
+                  <mat-label>Place Type</mat-label>
+                  <mat-select formControlName="venueType" panelClass="imx-select job-line-item__mat-select-panel">
+                    <mat-option [value]="null">Select Place Type</mat-option>
+                    <mat-option *ngFor="let placeType of placeTypes | appSortBy: false: 'string': true:'name'; let i = index"
+                                [(value)]="placeTypes[i]._id">
+                      {{ placeType.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                </div>
+                <div fxLayout="column" fxFlex="10rem">
+                  <mat-form-field class='imx-input'>
+                    <mat-label>Design Quantity</mat-label>
+                    <input matInput [maxlength]="6" appNumberOnly [canAllowMinus]="false" formControlName='designQty'/>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign='start center'>
+                <div fxLayout="column" fxFlex="13.75rem">
+                  <mat-form-field class="imx-dropdown imx-input"
+                          tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                          [tooltip]="(jobLineItemForm.controls?.dma?.value?.name?.length > 25 ) ? jobLineItemForm.controls.dma.value.name : ''"
+                          [placement]="'top'" [delay]="'200'">
+                      <mat-label>DMA</mat-label>
+                      <input type="text" #dmaInputRef matInput class="imx-input-no-border"
+                          [matAutocomplete]="dmaAuto" autocomplete="off" formControlName="dma">
+                      <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+
+                    <mat-autocomplete #dmaAuto="matAutocomplete"
+                                      [displayWith]="displayWithNameFn"
+                                      (opened)="updateSelectDmaContainer()"
+                                      class="autocomplete-scroll imx-autocomplete-dropdown autocomplete-no-pad"
+                                      [panelWidth]="'160'"
+                    >
+
+                      <div  class="job-media-dma-autocomplete"
+                            infiniteScroll
+                            [infiniteScrollDistance]="1"
+                            [infiniteScrollThrottle]="0"
+                            [scrollWindow]="false"
+                            [fromRoot]="true"
+                            [immediateCheck]="false"
+                            [alwaysCallback]="false"
+                            [infiniteScrollContainer]="selectDmaPanelContainer"
+                            (scrolled)="getDmaList(dmaLimit + dmaOffset, true, dmaSearchPayload)">
+                    <mat-option [value]="null" class="hide-selected-tick">Select DMA</mat-option>
+                    <mat-option *ngFor="let eachDma of staticDMAItems | appFilter: jobLineItemForm?.controls?.dma?.value  : 'name'; trackBy: trackById" [value]="eachDma"
+                            [class.mat-selected]="jobLineItemForm && jobLineItemForm['controls']['dma'].value?.id === eachDma?.id" class="job-dma-optons">
+                            <span [innerHTML]="(eachDma.name)| imx_highlight: dmaInputRef.value" placement="top" delay="200"
+                                tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"></span>
+                            </mat-option>
+                      <mat-divider></mat-divider>
+                      <mat-option *ngFor="let dmaItem of dmaItems | appSortBy: false: 'string': true:'name'; trackBy: trackById"
+                                  [value]="dmaItem"
+                                  [class.mat-selected]="jobLineItemForm && jobLineItemForm['controls']['dma'].value?.id === dmaItem?.id"
+                                  class="job-dma-optons">
+                        <span [innerHTML]="(dmaItem.name)| imx_highlight: dmaInputRef.value" tooltip="{{dmaItem.name?.length >30 ? dmaItem.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"></span>
+                      </mat-option>
+                      <mat-option disabled *ngIf="isDmaLoading">
+                        <div fxLayout="row" fxLayoutAlign="space-around center" >
+                          <mat-spinner diameter="20"></mat-spinner>
+                        </div>
+                      </mat-option>
+                        <mat-option disabled *ngIf="dmaInvalidEntry && dmaInputRef.value || (!isDmaLoading && dmaItems?.length <= 0 && dmaInputRef.value) || !dmaItems && dmaInputRef.value">
+                          Invalid Entry
+                        </mat-option>
+                      </div>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="jobLineItemForm['controls'].dma.hasError('invalid')">
+                      Please select from the drop down list.
+                     </mat-error>
+                  </mat-form-field>
+                </div>
+                <div fxLayout="column" fxFlex="4.5rem">
+                  <mat-form-field class='imx-input'>
+                    <mat-label>Unit Height</mat-label>
+                    <input matInput formControlName='unitHeight'/>
+                  </mat-form-field>
+                </div>
+                <div fxLayout="column" fxFlex="4.5rem">
+                  <mat-form-field class='imx-input'>
+                    <mat-label>Unit Width</mat-label>
+                    <input matInput formControlName='unitWidth'/>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign='start center'>
+                <div fxLayout="column" fxFlex="13.75rem">
+                  <mat-form-field class="imx-dropdown imx-input"
+                          tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                          [tooltip]="(jobLineItemForm.controls?.state?.value?.name?.length > 8 )
+                                  ? jobLineItemForm.controls?.state?.value?.short_name + ' ('+ jobLineItemForm.controls.state.value.name +')' : ''"
+                          [placement]="'top'" [delay]="'200'">
+                      <mat-label>State</mat-label>
+                      <mat-select formControlName="state" panelClass="imx-select job-line-item__mat-select-panel" [compareWith]="compareObjects">
+                        <mat-option [value]="null">Select State</mat-option>
+                        <mat-option *ngFor="let state of states; let i = index" [value]="state" tooltip="{{state.name?.length > 21 ? state.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+                          {{ state.short_name }} ({{state.name}})
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                </div>
+                <div fxLayout="column" fxFlex="10rem">
+                  <mat-form-field class="imx-dropdown imx-input"
+                          tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+
+                          [tooltip]="(jobLineItemForm.controls?.substrateType?.value?.name?.length > 8 )
+                                  ? jobLineItemForm.controls.substrateType.value.name : ''"
+                          [placement]="'top'" [delay]="'200'">
+                      <mat-label>Substrate Type</mat-label>
+                      <mat-select formControlName="substrateType" [compareWith]="compareObjects" panelClass="imx-select">
+                        <mat-option [value]="null">Select Substrate Type</mat-option>
+                        <mat-option *ngFor="let state of subtrateTypes | appSortBy: false: 'string': true:'name'; let i = index" [(value)]="subtrateTypes[i]" tooltip="{{state.name?.length > 21 ? state.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+                          {{state.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                </div>
+              </div>
+
+            </div>
+            <div fxFlex="18rem" class="job-and-fee-section">
+              <div fxLayoutAlign="start" class="media-details__title no-pad">
+                {{ "oi job costs" | uppercase }}
+              </div>
+              <div fxLayout="row" fxLayoutAlign='start center'>
+                <div fxLayout="column" fxFlex="10rem">
+                  <mat-form-field class='imx-input label-prefix'>
+                    <mat-label>Materials</mat-label>
+                    <span matPrefix class="prefix-symbol">$</span>
+                    <input matInput placeholder="" formControlName="materials" appNumeral [regex]="deliveryNumericPatternRegEx" isDecimal="true" format="0,0.00" (focus)="formatNumericValue(jobLineItemForm.controls.materials)" (blur)="calculateTotal();formatBlankInput(jobLineItemForm.controls.materials)" class="input-prefix">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayoutAlign='start center'>
+                <div fxLayout="column" fxFlex="10rem">
+                  <mat-form-field class='imx-input label-prefix'>
+                    <mat-label>Sales Tax</mat-label>
+                    <span matPrefix class="prefix-symbol">$</span>
+                    <input matInput placeholder="" formControlName="salesTax" appNumeral [regex]="deliveryNumericPatternRegEx" isDecimal="true" format="0,0.00" (focus)="formatNumericValue(jobLineItemForm.controls.salesTax)" (blur)="calculateTotal();formatBlankInput(jobLineItemForm.controls.salesTax)" class="input-prefix">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign='start center'>
+                <div fxLayout="column" fxFlex="10rem">
+                  <mat-form-field class='imx-input label-prefix'>
+                    <mat-label>Shipping</mat-label>
+                    <span matPrefix class="prefix-symbol">$</span>
+                    <input matInput placeholder="" formControlName="shippingCost" appNumeral [regex]="deliveryNumericPatternRegEx" isDecimal="true" format="0,0.00" (focus)="formatNumericValue(jobLineItemForm.controls.shippingCost)" (blur)="calculateTotal();formatBlankInput(jobLineItemForm.controls.shippingCost)" class="input-prefix">
+                  </mat-form-field>
+                </div>
+                <div fxLayout="column" fxFlex="8.188rem">
+                  <mat-form-field class='imx-input'>
+                    <mat-label>Shipping Type</mat-label>
+                    <mat-select panelClass="imx-select disabled-view-select" formControlName="shippingType">
+                      <!-- <div fxLayoutAlign='space-between center' class="option-heading">
+                        <span>Select Shipping Type</span>
+                        <mat-icon>keyboard_arrow_up</mat-icon>
+                      </div> -->
+                      <mat-option [value]="null">Select Shipping Type</mat-option>
+                      <mat-option *ngFor="let option of shippingOptions" [value]="option._id">
+                        {{ option.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayoutAlign='start center'>
+                <div fxLayout="column" fxFlex="10rem">
+                  <mat-form-field class='imx-input label-prefix'>
+                    <mat-label>Install/Removal</mat-label>
+                    <span matPrefix class="prefix-symbol">$</span>
+                    <input matInput placeholder="" formControlName="installCost" appNumeral [regex]="deliveryNumericPatternRegEx" isDecimal="true" format="0,0.00" (focus)="formatNumericValue(jobLineItemForm.controls.installCost)" (blur)="calculateTotal(); formatBlankInput(jobLineItemForm.controls.installCost)" class="input-prefix">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayoutAlign='start center' class="fee-font">
+                <div fxLayout="column" fxFlex="10rem">
+                  <div class="total-label">PRINTER NET TOTAL</div>
+                  <div class="total-value">$ {{jobLineItemForm.value?.printerNetTotal | convert:'THOUSAND':2:true}}</div>
+                  <input matInput hidden formControlName='printerNetTotal'/>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayoutAlign='start center' class="no-pad fee-margin">
+                <div fxLayoutAlign="start center">
+                  <div class="oi-fee">OI FEES</div>
+                  <div class="reference-calculation">
+                    <div>({{fixedReferencePercentage}}%=${{referenceCalculatedValue | convert:'THOUSAND':2:true}})</div>
+                    <div>For reference only</div>
+                  </div>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayoutAlign='start center'>
+                <div fxLayout="column" fxFlex="10rem">
+                  <mat-form-field class='imx-input label-prefix'>
+                    <mat-label>OI Comm. Amt</mat-label>
+                    <span matPrefix class="prefix-symbol">$</span>
+                    <input matInput placeholder="" formControlName="oiCommissionAmt" appNumeral [regex]="deliveryNumericPatternRegEx" isDecimal="true" format="0,0.00" (focus)="formatNumericValue(jobLineItemForm.controls.oiCommissionAmt)" (blur)="calculateTotal()" class="input-prefix">
+                    <!-- <mat-error> Invalid Date.</mat-error> -->
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayoutAlign='start center' class="fee-font">
+                <div fxLayout="column" fxFlex="10rem">
+                  <div class="total-label">OI COMMISSION %</div>
+                  <div class="total-value">{{jobLineItemForm.value?.oiCommissionPercentage | convert:'THOUSAND':2:true}} %</div>
+                  <input matInput hidden formControlName='oiCommissionPercentage'/>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayoutAlign='start center' class="fee-margin fee-font">
+                <div fxLayout="column" fxFlex="10rem">
+                  <div class="total-label">CLIENT MATERIAL COST</div>
+                  <div class="total-value">$ {{jobLineItemForm.value?.clientMaterialCost | convert:'THOUSAND':2:true}}</div>
+                  <input matInput hidden formControlName='clientMaterialCost'/>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayoutAlign='start center' class="fee-margin fee-font">
+                <div fxLayout="column" fxFlex="10rem">
+                  <div class="total-label">CLIENT COST TOTAL</div>
+                  <div class="total-value">$ {{jobLineItemForm.value?.clientCostTotal | convert:'THOUSAND':2:true}}</div>
+                  <input matInput hidden formControlName='clientCostTotal'/>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="form-divider"></div>
+
+          <div class="row-container" >
+              <div class="info-row-label">
+                  {{"NOTES" | uppercase}}
+              </div>
+              <div>
+                <div class="row-container" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="2rem">
+                  <mat-form-field class="imx-input notes-label" fxFlex="50" [ngClass]="showClientNotesEditor ?'editorLabel':'notesTextAreaLabel'">
+                    <div class="notes-heading">CLIENT NOTES (PA ONLY)</div>
+                    <ckeditor *ngIf="showClientNotesEditor" class="imx-input" formControlName="clientNotes" tagName="textarea" [config]="editorConfig">
+                    </ckeditor>
+                    <mat-label>{{ showClientNotesEditor ? '' : 'Enter Client notes' }}</mat-label>
+                    <input matInput formControlName="clientNotes" [hidden]="showClientNotesEditor" (focus)="showClientNotesEditorFunc()"/>
+                    <mat-error>Client Notes can be max 2000 characters long.</mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field class="imx-input notes-label" fxFlex="50" [ngClass]="showVendorNotesEditor ?'editorLabel':'notesTextAreaLabel'">
+                    <div class="notes-heading">VENDOR NOTES (PO ONLY)</div>
+                    <ckeditor *ngIf="showVendorNotesEditor" class="imx-input" formControlName="vendorNotes" tagName="textarea" [config]="editorConfig">
+                    </ckeditor>
+                    <mat-label>{{ showVendorNotesEditor ? '' : 'Enter Vendor notes' }}</mat-label>
+                    <input matInput formControlName="vendorNotes" [hidden]="showVendorNotesEditor" (focus)="showVendorNotesEditorFunc()"/>
+                    <mat-error>Vendor Notes can be max 2000 characters long.</mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="row-container" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="2rem">
+                  <mat-form-field class="imx-input notes-label" fxFlex="50" [ngClass]="showProductionNotesEditor ?'editorLabel':'notesTextAreaLabel'">
+                    <div class="notes-heading">PRODUCTION NOTES (FOR CLIENT & PRINTER)</div>
+                    <ckeditor *ngIf="showProductionNotesEditor" class="imx-input" formControlName="productionNotes" tagName="textarea" [config]="editorConfig">
+                    </ckeditor>
+                    <mat-label>{{ showProductionNotesEditor ? '' : 'Enter Production notes' }}</mat-label>
+                    <input matInput formControlName="productionNotes" [hidden]="showProductionNotesEditor" (focus)="showProductionNotesEditorFunc()"/>
+                    <mat-error>Production Notes can be max 2000 characters long.</mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="imx-input notes-label" fxFlex="50" [ngClass]="showInternalNotesEditor ?'editorLabel':'notesTextAreaLabel'">
+                    <div class="notes-heading">INTERNAL NOTES</div>
+                    <ckeditor *ngIf="showInternalNotesEditor" class="imx-input" formControlName="internalNotes" tagName="textarea" [config]="editorConfig">
+                    </ckeditor>
+                    <mat-label>{{ showInternalNotesEditor ? '' : 'Enter Internal notes' }}</mat-label>
+                    <input matInput formControlName="internalNotes" [hidden]="showInternalNotesEditor" (focus)="showInternalNotesEditorFunc()"/>
+                    <mat-error>Internal Notes can be max 2000 characters long.</mat-error>
+                  </mat-form-field>
+                </div>
+            </div>
+          </div>
+      </div>
+  </mat-dialog-content>
+
+  <div class="spacer"></div>
+
+  <mat-dialog-actions>
+    <div *ngIf='showEditActions; else newLineItemActionRef' class='full-width' fxLayout='row' fxLayoutAlign='space-between center'>
+      <div  fxLayout='row' fxLayoutGap='2rem' fxFlex="25">
+        <ng-container *ngIf="!data?.isOutOfContracts">
+          <div (click)='delete()' class='close-dialog' module="print_production" visiblityType="delete" appUserAccessPermission>DELETE</div>
+          <div class="close-dialog" (click)="duplicate()" module="print_production" visiblityType="create" appUserAccessPermission>DUPLICATE</div>
+        </ng-container>
+      </div>
+
+      <div fxLayout='row' fxLayoutAlign="center center" fxLayoutGap='1.5rem' fxFlex="50">
+        <button mat-icon-button
+            matTooltip="First page" class="pagination-btn"
+            (click)="pageChangeEvent(1)"
+            [disabled]="!data?.pagination || data?.pagination?.page === 1"
+        >
+          <mat-icon>first_page</mat-icon>
+        </button>
+        <button mat-icon-button
+            matTooltip="Previous page" class="pagination-btn pagination-nav-icon"
+            (click)="pageChangeEvent(data.pagination?.page - 1)"
+            [disabled]="!data?.pagination || data?.pagination?.page === 1"
+        >
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap='0.5rem'>
+          <div class="page-label">Go to Line Item</div>
+          <div class='page-input-box'>
+            <mat-form-field class="imx-input" fxFlex="70px">
+              <input matInput placeholder="" [(ngModel)]="goTolineItemId" (blur)="lineItemIdSearch()" appNumberOnly length ="5" [regex]="pureNumbers">
+            </mat-form-field>
+          </div>
+        </div>
+        <button mat-icon-button
+            matTooltip="Next page" class="pagination-btn pagination-nav-icon"
+            (click)="pageChangeEvent(data.pagination?.page + 1)"
+            [disabled]="!data?.pagination || data?.pagination?.page === data?.pagination?.found"
+        >
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+        <button mat-icon-button
+            matTooltip="Last page" class="pagination-btn"
+            (click)="pageChangeEvent(data.pagination?.found)"
+            [disabled]="!data?.pagination || data?.pagination?.page === data?.pagination?.found"
+         >
+          <mat-icon>last_page</mat-icon>
+        </button>
+      </div>
+
+      <div class="footer" fxLayout='row' fxLayoutGap='2rem' fxLayoutAlign='end center' fxFlex="30">
+        <div class="fields-err" tooltipClass="imx-tooltip-v3" [tooltip]="getErrorFields.errTemp" [placement]="'top'"
+          [hidden]="!getErrorFields.errMsgs.length">
+          {{getErrorFields.errMsgs.length}} FIELD(S) PENDING
+        </div>
+        <button mat-raised-button class="imx-button-primary search-btn save-line-item"
+              (click)="saveLineItem()" [disabled]="submitBtnDis" module="print_production" visiblityType="edit" appUserAccessPermission>
+              {{"save line item" | uppercase}}
+        </button>
+      </div>
+    </div>
+
+    <ng-template #newLineItemActionRef>
+      <div class="row-container" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap='1rem'>
+        <div fxFlex="40" fxLayoutAlign="end center">
+          <div class="fields-err" tooltipClass="imx-tooltip-v3" [tooltip]="getErrorFields.errTemp"
+            [placement]="'top'" [hidden]="!getErrorFields.errMsgs.length">
+            {{getErrorFields.errMsgs.length}} FIELD(S) PENDING
+          </div>
+        </div>
+        <div fxFlex="50" fxLayoutAlign="start center">
+          <button mat-raised-button class="imx-button-primary search-btn save-line-item"
+              (click)="saveLineItem()" [disabled]="submitBtnDis" module="print_production" visiblityType="create" appUserAccessPermission>
+              {{"save line item" | uppercase}}
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </mat-dialog-actions>

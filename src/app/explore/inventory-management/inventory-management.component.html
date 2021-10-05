@@ -1,0 +1,29 @@
+<section class="invent-mgnt">
+
+  <header class="invent-mgnt-header">
+    <h3 class="invent-mgnt-header__title">Manage Your Inventory</h3>
+
+    <button class="invent-mgnt-header__create-new-btn" (click)="openCreateInventoryForm()">
+      <mat-icon svgIcon="laptop-medical" aria-hidden="false" aria-label="inventory"></mat-icon>
+      <span>Create New</span>
+    </button>
+  </header>
+
+  <mat-tab-group [(selectedIndex)]="selectedTab" class="invent-mgnt-tabs"
+                 mat-align-tabs="start">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>computer</mat-icon>
+        Inventory
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>local_offer</mat-icon>
+        Media Offerings
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+
+</section>

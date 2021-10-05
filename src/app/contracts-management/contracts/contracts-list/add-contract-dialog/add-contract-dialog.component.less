@@ -1,0 +1,61 @@
+.row-container {
+    width: 100%;
+
+    .modal-close-icon path {
+        fill: var(--text-primary);
+      }
+  
+    .model-header {
+        font-size: 1.5rem;
+        line-height: 100%;
+        letter-spacing: 0;
+        font-family: 'LL Circular Pro Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    .close-icon {
+      line-height: 13px;
+      color: var(--low-emphasis);
+  }
+  
+  .imx-button-primary {
+      background: var(--primary-bg-800);
+      color: #FFFFFF;
+  }
+
+
+
+
+}
+
+.field-column {
+    height: 157px;
+}
+
+.text-input {
+    margin-top: 2px;
+}
+
+::ng-deep {
+    .scroll-section-autocomplete {
+        overflow-y: auto !important;
+        max-height: 200px !important;
+        padding: 0 8px 0 0;
+        .mat-option{
+            padding: 0 !important;
+        }
+      }
+      .contract-autocomplete{
+        padding: 0 0 0 8px !important;
+      }
+      .client-selection{
+        input{
+          border-bottom: none !important;
+          height: 1rem !important;
+        }
+      }
+      
+      .drop-maxwidth {
+        max-width: inherit !important;
+      }
+      
+}

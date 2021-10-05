@@ -1,0 +1,95 @@
+<div fxLayout="row wrap" fxLayoutAlign="start start" class="main-alert-history">
+  <div fxLayout="column" class="alert-list" fxLayoutAlign="start start">
+    <!--TODO : Implement filtering for the list-->
+    <!--<div class="filters" fxLayout="row wrap">
+        <mat-form-field>
+          <input matInput placeholder="FILTER BY">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Alert Type">
+            <mat-option value="{{alert.name}}" *ngFor="let alert of alertTpyes"> {{alert.name}} </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Audience" >
+            <mat-option value="{{audience.name}}" *ngFor="let audience of audienceTpyes"> {{audience.name}} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>-->
+      <div class="inner-list-alert">
+        <div class="alert-history-table"
+          infiniteScroll
+          [infiniteScrollDistance]="10"
+          [infiniteScrollThrottle]="500"
+          (scrolled)="loadMore()"
+          [scrollWindow]="false"
+          [infiniteScrollDisabled]="isLoading || (currentPage > totalPages)">
+          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortColumn($event)">
+            <!-- Date Column -->
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header="createdAt"> Date </th>
+              <td mat-cell *matCellDef="let element"> {{element.createdAt | date}} </td>
+            </ng-container>
+            <!-- Alert category -->
+            <ng-container matColumnDef="alertCategory">
+              <th mat-header-cell *matHeaderCellDef> Alert Category </th>
+              <td mat-cell *matCellDef="let element">
+                <div fxLayout="row" class="alertType">
+                  {{element.notificationType.label}}</div>
+              </td>
+            </ng-container>
+            <!-- Alert Type Column -->
+            <ng-container matColumnDef="alertType">
+              <th mat-header-cell *matHeaderCellDef > Alert Type </th>
+              <td mat-cell *matCellDef="let element">
+                <div fxLayout="row" class="alertType">
+                  <span class="color-{{element.alertType.name}}"><mat-icon>{{element.alertType.icon}}</mat-icon> </span>
+                  {{element.alertType.label}}</div>
+              </td>
+            </ng-container>
+            <!-- Message Column -->
+            <ng-container matColumnDef="message">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header="message"> Message </th>
+              <td class="messageCell" mat-cell *matCellDef="let element">{{element.message}} </td>
+            </ng-container>
+            <!-- link Column -->
+            <ng-container matColumnDef="link">
+              <th mat-header-cell *matHeaderCellDef> Link</th>
+              <td class="messageCell" mat-cell *matCellDef="let element">
+                <a *ngIf="element.links.length > 0" class="admin-link" [href]="element.links[0].url" [matTooltip]="element.links[0].url" target="_blank">{{element.links[0].label}}</a>
+              </td>
+            </ng-container>
+            <!-- Target Column -->
+            <ng-container matColumnDef="target">
+              <th mat-header-cell *matHeaderCellDef> Sent to </th>
+              <td mat-cell *matCellDef="let element">
+                <span *ngIf="!element.recipient && !element.siteId">All</span>
+                <span *ngIf="!element.siteId && element.recipient" >
+                  {{element.recipientObj.name | titlecase}}
+                </span>
+                <span *ngIf="!element.recipient">{{element.siteId | titlecase}}</span>
+              </td>
+            </ng-container>
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef> Status </th>
+              <td mat-cell *matCellDef="let element"> {{element.status.label}} </td>
+            </ng-container>
+             <!-- action Column -->
+             <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>  </th>
+              <td mat-cell *matCellDef="let element" class="alert-action-link">
+                <!--<a (click)="onUpdate(element, 'view')">View</a>-->
+                <a matTooltip="Edit Notification" [routerLink]="['/admin/alerts/edit', element._id]"><mat-icon>edit</mat-icon></a>
+                <a matTooltip="Delete Permanently" (click)="deleteNotification(element._id)"><mat-icon>delete_forever</mat-icon></a>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <mat-spinner diameter="30" *ngIf="isLoading"></mat-spinner>
+        </div>
+      </div>
+  </div>
+</div>

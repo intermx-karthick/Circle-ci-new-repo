@@ -1,0 +1,332 @@
+[
+  {
+    "id": "AK",
+    "fips": 2,
+    "name": "Alaska",
+    "type": "STATE"
+  },
+  {
+    "id": "AL",
+    "fips": 1,
+    "name": "Alabama",
+    "type": "STATE"
+  },
+  {
+    "id": "AR",
+    "fips": 5,
+    "name": "Arkansas",
+    "type": "STATE"
+  },
+  {
+    "id": "AS",
+    "fips": 60,
+    "name": "American Samoa",
+    "type": "STATE"
+  },
+  {
+    "id": "AZ",
+    "fips": 4,
+    "name": "Arizona",
+    "type": "STATE"
+  },
+  {
+    "id": "CA",
+    "fips": 6,
+    "name": "California",
+    "type": "STATE"
+  },
+  {
+    "id": "CO",
+    "fips": 8,
+    "name": "Colorado",
+    "type": "STATE"
+  },
+  {
+    "id": "CT",
+    "fips": 9,
+    "name": "Connecticut",
+    "type": "STATE"
+  },
+  {
+    "id": "DC",
+    "fips": 11,
+    "name": "District Of Columbia",
+    "type": "STATE"
+  },
+  {
+    "id": "DE",
+    "fips": 10,
+    "name": "Delaware",
+    "type": "STATE"
+  },
+  {
+    "id": "FL",
+    "fips": 12,
+    "name": "Florida",
+    "type": "STATE"
+  },
+  {
+    "id": "GA",
+    "fips": 13,
+    "name": "Georgia",
+    "type": "STATE"
+  },
+  {
+    "id": "GU",
+    "fips": 66,
+    "name": "Guam",
+    "type": "STATE"
+  },
+  {
+    "id": "HI",
+    "fips": 15,
+    "name": "Hawaii",
+    "type": "STATE"
+  },
+  {
+    "id": "IA",
+    "fips": 19,
+    "name": "Iowa",
+    "type": "STATE"
+  },
+  {
+    "id": "ID",
+    "fips": 16,
+    "name": "Idaho",
+    "type": "STATE"
+  },
+  {
+    "id": "IL",
+    "fips": 17,
+    "name": "Illinois",
+    "type": "STATE"
+  },
+  {
+    "id": "IN",
+    "fips": 18,
+    "name": "Indiana",
+    "type": "STATE"
+  },
+  {
+    "id": "KS",
+    "fips": 20,
+    "name": "Kansas",
+    "type": "STATE"
+  },
+  {
+    "id": "KY",
+    "fips": 21,
+    "name": "Kentucky",
+    "type": "STATE"
+  },
+  {
+    "id": "LA",
+    "fips": 22,
+    "name": "Louisiana",
+    "type": "STATE"
+  },
+  {
+    "id": "MA",
+    "fips": 25,
+    "name": "Massachusetts",
+    "type": "STATE"
+  },
+  {
+    "id": "MD",
+    "fips": 24,
+    "name": "Maryland",
+    "type": "STATE"
+  },
+  {
+    "id": "ME",
+    "fips": 23,
+    "name": "Maine",
+    "type": "STATE"
+  },
+  {
+    "id": "MI",
+    "fips": 26,
+    "name": "Michigan",
+    "type": "STATE"
+  },
+  {
+    "id": "MN",
+    "fips": 27,
+    "name": "Minnesota",
+    "type": "STATE"
+  },
+  {
+    "id": "MO",
+    "fips": 29,
+    "name": "Missouri",
+    "type": "STATE"
+  },
+  {
+    "id": "MS",
+    "fips": 28,
+    "name": "Mississippi",
+    "type": "STATE"
+  },
+  {
+    "id": "MT",
+    "fips": 30,
+    "name": "Montana",
+    "type": "STATE"
+  },
+  {
+    "id": "NC",
+    "fips": 37,
+    "name": "North Carolina",
+    "type": "STATE"
+  },
+  {
+    "id": "ND",
+    "fips": 38,
+    "name": "North Dakota",
+    "type": "STATE"
+  },
+  {
+    "id": "NE",
+    "fips": 31,
+    "name": "Nebraska",
+    "type": "STATE"
+  },
+  {
+    "id": "NH",
+    "fips": 33,
+    "name": "New Hampshire",
+    "type": "STATE"
+  },
+  {
+    "id": "NJ",
+    "fips": 34,
+    "name": "New Jersey",
+    "type": "STATE"
+  },
+  {
+    "id": "NM",
+    "fips": 35,
+    "name": "New Mexico",
+    "type": "STATE"
+  },
+  {
+    "id": "NV",
+    "fips": 32,
+    "name": "Nevada",
+    "type": "STATE"
+  },
+  {
+    "id": "NY",
+    "fips": 36,
+    "name": "New York",
+    "type": "STATE"
+  },
+  {
+    "id": "OH",
+    "fips": 39,
+    "name": "Ohio",
+    "type": "STATE"
+  },
+  {
+    "id": "OK",
+    "fips": 40,
+    "name": "Oklahoma",
+    "type": "STATE"
+  },
+  {
+    "id": "OR",
+    "fips": 41,
+    "name": "Oregon",
+    "type": "STATE"
+  },
+  {
+    "id": "PA",
+    "fips": 42,
+    "name": "Pennsylvania",
+    "type": "STATE"
+  },
+  {
+    "id": "PR",
+    "fips": 72,
+    "name": "Puerto Rico",
+    "type": "STATE"
+  },
+  {
+    "id": "RI",
+    "fips": 44,
+    "name": "Rhode Island",
+    "type": "STATE"
+  },
+  {
+    "id": "SC",
+    "fips": 45,
+    "name": "South Carolina",
+    "type": "STATE"
+  },
+  {
+    "id": "SD",
+    "fips": 46,
+    "name": "South Dakota",
+    "type": "STATE"
+  },
+  {
+    "id": "TN",
+    "fips": 47,
+    "name": "Tennessee",
+    "type": "STATE"
+  },
+  {
+    "id": "TX",
+    "fips": 48,
+    "name": "Texas",
+    "type": "STATE"
+  },
+  {
+    "id": "UT",
+    "fips": 49,
+    "name": "Utah",
+    "type": "STATE"
+  },
+  {
+    "id": "VA",
+    "fips": 51,
+    "name": "Virginia",
+    "type": "STATE"
+  },
+  {
+    "id": "VI",
+    "fips": 78,
+    "name": "Virgin Islands",
+    "type": "STATE"
+  },
+  {
+    "id": "VT",
+    "fips": 50,
+    "name": "Vermont",
+    "type": "STATE"
+  },
+  {
+    "id": "WA",
+    "fips": 53,
+    "name": "Washington",
+    "type": "STATE"
+  },
+  {
+    "id": "WI",
+    "fips": 55,
+    "name": "Wisconsin",
+    "type": "STATE"
+  },
+  {
+    "id": "WV",
+    "fips": 54,
+    "name": "West Virginia",
+    "type": "STATE"
+  },
+  {
+    "id": "WY",
+    "fips": 56,
+    "name": "Wyoming",
+    "type": "STATE"
+  }
+]

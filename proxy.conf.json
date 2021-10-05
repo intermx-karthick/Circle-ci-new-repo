@@ -1,0 +1,27 @@
+
+{
+  "/endpoint": {
+    "target": "http://localhost:3000",
+    "secure": false
+  },
+  "/sites": {
+    "target": "http://localhost:3000",
+    "secure": false
+  },  
+  "/login": {
+    "target": "http://localhost:3000",
+    "secure": false
+  },
+  "/reset": {
+    "target": "http://localhost:3000",
+    "secure": false
+  },
+  "/login/getcode": {
+    "target": "http://localhost:3000",
+    "secure": false
+  },
+  "/login/passwordless": {
+    "target": "http://localhost:3000",
+    "secure": false
+  }
+}

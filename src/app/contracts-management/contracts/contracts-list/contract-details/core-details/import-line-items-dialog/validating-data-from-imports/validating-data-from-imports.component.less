@@ -1,0 +1,188 @@
+@gutter: 1rem;
+
+.c-validate-data-from-imports {
+  width: 41.75rem;
+
+  &__header {
+    padding-left: @gutter;
+    padding-right: .5rem;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+
+    .mat-icon {
+      color: var(--primary-bg);
+    }
+  }
+
+  &__title {
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0.15px;
+    color: var(--grays-bg-700);
+  }
+
+  &__thead {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+    color: var(--grays-bg-700);
+    background: #F9F9F9;
+    padding: 0 .5rem;
+  }
+
+  &__tbody {
+    padding: 0 @gutter;
+    height: 29.813rem;
+    overflow-y: auto;
+    margin-top: .5rem;
+
+    .content {
+      font-size: .8125rem;
+      line-height: 1rem;
+      letter-spacing: 0.5px;
+      color: var(--grays-bg-700);
+      word-break: break-word;
+    }
+  }
+
+  &_delete-header{
+    padding-left: .5rem !important;
+  }
+
+  &__skip-row {
+    width: 4.75rem;
+
+    .selected{
+      color: var(--primary-bg);
+    }
+  }
+
+  &__row-number {
+    width: 7.5rem;
+    &.content{
+      color: #000000 !important;
+    }
+  }
+
+  &__field-name {
+    width: 7.4375rem;
+    padding: 0 4px;
+
+    &.content{
+      color: #000000 !important;
+    }
+  }
+
+  &__imported-values {
+    width: 8.375rem;
+    padding-left: .6rem;
+  }
+
+  &__change-field {
+    width: 12.125rem;
+
+    .mat-error{
+      word-break: break-word;
+    }
+  }
+
+  &__actions {
+    padding-bottom: @gutter;
+  }
+}
+
+::ng-deep {
+  app-validating-data-from-imports {
+    .modal-container {
+      width: 580px;
+
+      .imx-checkbok {
+        .mat-checkbox-inner-container {
+          height: 16px !important;
+          width: 16px !important;
+        }
+
+        .mat-checkbox-label {
+          font-style: normal;
+          font-weight: normal;
+          font-size: 0.813rem;
+          line-height: 16px;
+          /* identical to box height, or 123% */
+          letter-spacing: 0.5px;
+          /* Grays/800 */
+          color: var(--grays-bg-800);
+        }
+
+        &.mat-checkbox-checked {
+          .mat-checkbox-frame {
+            border-color: var(--primary-bg-900);
+            border-width: 1px;
+          }
+
+          .mat-checkbox-label {
+            color: var(--primary-bg-800);
+          }
+        }
+
+        .mat-checkbox-frame {
+          border-color: var(--grays-bg-700);
+          border-width: 1px;
+          border-radius: 4px;
+        }
+
+        .mat-checkbox-persistent-ripple {
+          background: var(--primary-bg-800);
+        }
+
+        .mat-checkbox-background {
+          background: inherit;
+        }
+
+        .mat-checkbox-checkmark {
+          fill: var(--primary-bg-800);
+        }
+
+        .mat-checkbox-checkmark-path {
+          stroke: var(--primary-bg-800) !important;
+        }
+
+        &.gray-tick {
+          .mat-checkbox-checkmark-path {
+            stroke: var(--grays-bg-700) !important;
+          }
+        }
+      }
+
+      .row-container {
+        width: 100%;
+        margin-top: 2rem;
+        .close-icon {
+          line-height: 13px;
+          color: var(--low-emphasis);
+        }
+      }
+
+      .header {
+        padding: .5rem 0;
+      }
+
+      .imx-button-primary {
+        background: var(--primary-bg-800);
+        box-shadow: 0px 2px 6px rgb(0 0 0 / 16%);
+        color: #FFFFFF;
+      }
+
+      .actions {
+        margin-top: 2rem;
+      }
+    }
+  }
+
+  .app-import-line-item-validate-imports {
+    .mat-dialog-container {
+      padding: 0 !important;
+    }
+  }
+}

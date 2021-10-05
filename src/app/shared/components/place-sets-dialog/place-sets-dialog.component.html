@@ -1,0 +1,16 @@
+<div role="dialog" class="plase-sets-dialog" mat-dialog-content>
+  <h4 class="title"> Place sets </h4>
+  <p class="title-caption">Please select from your saved place sets below.</p>
+  <div class="places-set-list">
+    <mat-radio-group [(ngModel)]="selectedPlaceSet" #selectPlaceSet>
+      <mat-radio-button *ngFor="let place of placeSets" [value]="place" (change)="onSelectPlaceSets(place)">
+        {{place.name}}
+      </mat-radio-button>
+      <p class="no-item-found" *ngIf="placeSets.length<=0">No place set found</p>
+    </mat-radio-group>
+  </div>
+  <div class="modal-footer">
+      <button mat-dialog-close mat-button type="button" class="button  popup-left-btn button-primary-link no-radius test-cancel-btn">CANCEL</button>
+      <button type="button" mat-raised-button class="button button-primary uppercase no-radius test-apply-btn" [disabled]="!selectedPlaceSet"(click)="onApply()">Apply</button>
+  </div>
+</div>

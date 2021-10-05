@@ -1,0 +1,27 @@
+<div mat-dialog-content class="confirmation-dialog" id="confirmation-dialog">
+  <div fxLayout="row" fxLayoutAlign="start">
+    <h3 class="d-modal-title">Insertion Records Export details</h3>
+    <span fxFlex="1 1 auto"></span>
+    <mat-icon mat-dialog-close class="mat-icon-close">highlight_off</mat-icon>
+  </div>
+  <div class="export-desc" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1rem">
+    <div>
+      <p class="export-text-record">Total Records</p>
+      <p class="text-value-count">{{data?.totalRecords}} </p>
+    </div>
+    <div>
+      <p class="export-text-record">Total .txt exported</p>
+      <p class="text-value-count">{{data?.totalFiles}}</p>
+    </div>
+    <div>
+      <p class="export-text-record">File count in .zip file</p>
+      <p class="text-value-count">{{data?.fileCountInZip}}</p>
+    </div>
+  </div>
+</div>
+<div class="e-dialog-footer" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
+  <button mat-button class="imx-button-stroked_icon" [disabled]="!!(data.totalRecords <= 0)" (click)="onExport()">
+    {{data?.label || 'Download'}}
+    <mat-icon svgIcon='IMX-zip-download'></mat-icon>
+  </button>
+</div>

@@ -1,0 +1,205 @@
+<mat-accordion displayMode="flat" >
+  <mat-expansion-panel class="mat-elevation-z" (opened)="mediaClassLazyLoader.triggerInitialLoad()" #mediaClass [hideToggle]="moduleName === 'project'">
+    <mat-expansion-panel-header collapsedHeight="48px" expandedHeight="48px"  >
+      <mat-panel-title
+        tooltip="{{siteName + ' generally classifies out of home media into 3 core groupings: Roadside, Place Based & Fleet.'}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+      >
+      <mat-icon *ngIf="moduleName === 'project'">{{ mediaClass.expanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+        <!-- <mat-checkbox
+          disableRipple
+          [(ngModel)]="selection['classification']"
+          (click)="$event.stopPropagation(); changeParentcheckbox('classification', refClassfication)"
+          #refClassfication *ngIf="moduleName === 'project'"></mat-checkbox> -->
+        Media Class
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="attributes-panel-body">
+      <app-media-class-filter-w3 (select)="selectMediaClassOption($event)"
+                              [initiator$]="mediaClassLazyLoader.initiator$"
+                              [moduleName]="moduleName"
+                              [mediaTypesDataForEdit]="mediaTypesDataForEdit"
+                              [preload]="moduleName === 'project'"
+                              >
+      </app-media-class-filter-w3>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel class="mat-elevation-z" (opened)="structureTypeLazyLoader.triggerInitialLoad()" [hideToggle]="moduleName === 'project'" #StructureType>
+    <mat-expansion-panel-header collapsedHeight="48px" expandedHeight="48px" >
+      <mat-panel-title
+        tooltip='Structure Type refers to what the Frame is attached: Bulletins on interstate would typically be "Freestanding" while inventory affixed to bus shelters would be labeled as "Furniture".' placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+      >
+      <mat-icon *ngIf="moduleName === 'project'">{{ StructureType.expanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+        <!-- <mat-checkbox
+          disableRipple
+          [(ngModel)]="selection['construction']"
+          (click)="$event.stopPropagation();changeParentcheckbox('construction', refConstruction)" #refConstruction *ngIf="moduleName === 'project'"></mat-checkbox> -->
+        Structure Type
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="attributes-panel-body">
+       <app-structure-type-filter-w3 (select)="selectStructureTypeOption($event)"
+                                  [moduleName]="moduleName"
+                                  [mediaTypesDataForEdit]="mediaTypesDataForEdit"
+                                  [preload]="moduleName == 'project'"
+                                  [initiator$]="structureTypeLazyLoader.initiator$"
+       ></app-structure-type-filter-w3>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel class="mat-elevation-z" (opened)="mediaTypeLazyLoader.triggerInitialLoad()" [hideToggle]="moduleName === 'project'" #MediaType>
+    <mat-expansion-panel-header collapsedHeight="48px" expandedHeight="48px" >
+      <mat-panel-title
+        tooltip='The general description, size of the frame and industry standards define the Media Type. (Filter on Operator Media Name for more specific references).' placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+      >
+      <mat-icon *ngIf="moduleName === 'project'">{{ MediaType.expanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+        <!-- <mat-checkbox
+          disableRipple
+          [(ngModel)]="selection['mediaTypes']"
+          (click)="$event.stopPropagation();changeParentcheckbox('mediaTypes', refMediaTypes)" #refMediaTypes *ngIf="moduleName === 'project'"></mat-checkbox> -->
+        Media Type
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="attributes-panel-body">
+      <app-media-type-filter-w3 (select)="selectMediaTypeOption($event)"
+                             [initiator$]="mediaTypeLazyLoader.initiator$"
+                             [mediaTypesDataForEdit]="mediaTypesDataForEdit"
+                             [moduleName]="moduleName"
+                             [preload]="moduleName == 'project'"
+                             >
+      </app-media-type-filter-w3>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel class="mat-elevation-z" (opened)="operatorLazyLoader.triggerInitialLoad()" [hideToggle]="moduleName === 'project'" #OperatorMediaName>
+    <mat-expansion-panel-header collapsedHeight="48px" expandedHeight="48px">
+      <mat-panel-title
+        tooltip="Operators may have their own nomenclature for inventory. This gives the opportunity for any operator's unique inventory name to be searched and used as a filter" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+      >
+      <mat-icon *ngIf="moduleName === 'project'">{{ OperatorMediaName.expanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+        <!-- <mat-checkbox
+          disableRipple
+          [(ngModel)]="selection['medias']"
+          (click)="$event.stopPropagation();changeParentcheckbox('medias', refmedias)" #refmedias *ngIf="moduleName === 'project'"></mat-checkbox> -->
+        Operator Media Name
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="attributes-panel-body operater-media-name-main" [ngClass]="{'enable-project': this.moduleName === 'project'}">
+      <app-operator-media-name-filter-w3 (select)="selectOperatorMediaNameOption($event)"
+                                      [initiator$]="operatorLazyLoader.initiator$"
+                                      [mediaTypesDataForEdit]="mediaTypesDataForEdit"
+                                      [moduleName]="moduleName"
+                                      [preload]="moduleName == 'project'">
+      </app-operator-media-name-filter-w3>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel (opened)="materialLazyLoader.triggerInitialLoad()" class="mat-elevation-z" [hideToggle]="moduleName === 'project'" #material>
+    <mat-expansion-panel-header collapsedHeight="48px" expandedHeight="48px">
+      <mat-panel-title
+        tooltip="{{siteName + ' differentiates between digital, printed/mesh and painted.'}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+      >
+      <mat-icon *ngIf="moduleName === 'project'">{{ material.expanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+        <!-- <mat-checkbox
+          disableRipple
+          [(ngModel)]="selection['material']"
+          (click)="$event.stopPropagation()"
+          *ngIf="moduleName === 'project'"></mat-checkbox> -->
+        Material
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="attributes-panel-body">
+      <app-material-filter-w3 (setMaterialMedias)="setMaterialMedias($event)"
+                           (select)="changeMaterial($event)"
+                           [initiator$]="materialLazyLoader.initiator$"
+                           [mediaTypesDataForEdit]="mediaTypesDataForEdit"
+                           [moduleName]="moduleName"
+                           [preload]="moduleName == 'project'"
+      >
+      </app-material-filter-w3>
+    </div>
+  </mat-expansion-panel>
+  <app-place-placement-filter *ngIf="moduleName !== 'project'" (placementTypeOnSelect)="selectedPlacementOption($event)"
+  (placeTypeOnSelect)="selectedPlaceTypeOption($event)"
+  [sPlaceType]="selectedPlaceType"
+  [sPlaceMentType]="selectedPlacementType" [hideToggle]="moduleName === 'project'"></app-place-placement-filter>
+  <mat-expansion-panel class="mat-elevation-z"  *ngIf="moduleName !== 'project'"
+                       (opened)="placeNameLazyLoader.triggerInitialLoad()"  hideToggle="moduleName === 'project'" #placeName>
+    <mat-expansion-panel-header collapsedHeight="48px" expandedHeight="48px">
+      <mat-panel-title
+      >
+      <mat-icon *ngIf="moduleName === 'project'">{{ placeName.expanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+        Place Name
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="attributes-panel-body">
+      <app-place-name-filter [preload]="false"
+                             [initiator$]="placeNameLazyLoader.initiator$"
+                             (updatePlaceNameFilterSelection)="updatePlaceNameFilterSelection($event)">
+      </app-place-name-filter>
+    </div>
+  </mat-expansion-panel>
+  <div
+    class="footer-action"
+    *ngIf="moduleName !== 'project'; else projectAction"
+  >
+    <button
+      mat-raised-button
+      class="btn-clear uppercase"
+      type="button"
+      (click)="clearSelection()"
+    >
+      Clear
+    </button>
+    <button
+      mat-raised-button
+      class="btn-primary-color uppercase"
+      type="button"
+      (click)="applySelection()"
+    >
+      Apply
+    </button>
+  </div>
+  <ng-template #projectAction>
+    <div class="media-selection-action media-type-select">
+    <!-- TODO : Apply seelcetd using Input & Output mathod -->
+    <div
+      class="action-container project"
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+    >
+      <button
+        mat-button
+        class="imx-button-basic_icon media-btn"
+        type="button"
+        (click)="clearSelection('project')"
+      >
+        CLEAR SELECTION
+      </button>
+       <button
+        mat-button
+        class="imx-button-basic_icon media-btn"
+        type="button"
+        title="Add the selected media types to the filters."
+        [disabled]="!isMediaTypeSelected()"
+        (click)="applySelection()"
+      >
+        {{ editMediaTypes ? "Update" : "Add Selected" }}
+        <mat-icon>playlist_add_check</mat-icon>
+      </button>
+    </div>
+   
+    <div fxLayout="column" fxLayoutAlign="start start"  fxFlexAlign="start" fxFill *ngIf="moduleName === 'project' && selectedMediaTypeFilters?.length > 0 && includeType !== 'sideBar'" >
+      <p class="workspace-selected-title">Selected Media Types</p>
+      <div fxFill class="select-media-type-block">
+        <mat-list role="list" fxFill class="workspace-selecetd-items">
+          <mat-list-item role="listitem" *ngFor="let media of selectedMediaTypeFilters; let i = index;">
+            <div fxFill class="listitem">
+              <span>{{media['data']}}</span>
+              <span fxFlex="1 1 auto"></span>
+              <mat-icon (click) = "deleteMediaFilter(i)">delete_forever</mat-icon>
+            </div>
+
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+    </div>
+  </ng-template>
+</mat-accordion>

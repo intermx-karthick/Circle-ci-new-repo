@@ -1,0 +1,46 @@
+<div class="layers-filter-container">
+  <!-- <h4 class="heading">Layers and Display Options</h4> -->
+  <!-- <hr /> -->
+  <div class="layers-filter-body" fxLayout="row">
+    <mat-tab-group class="layers-filter-tab-group" (selectedIndexChange)="tabchange($event)">  
+    <!-- (selectedIndexChange)="tabchange($event)"> -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>layers</mat-icon>
+          <span class="test-layers">Layers</span>
+        </ng-template>
+        <div class="tab-body">
+          <app-customize-layers (changeOfLayers) = "onChangeOfLayer($event)" [layerType] = 'layerType' [layersOptionsList] = "layersOptionsList"></app-customize-layers>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>compare</mat-icon>
+          <span class="test-display-options">Display Options</span>
+        </ng-template>
+        <div class="tab-body">
+          <app-map-display-options (changeOfDisplayOption) = "onChangeOfDisplayOption($event)" [layerType] = 'layerType' [displayOptionsList] = "displayOptionsList"></app-map-display-options>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>exit_to_app</mat-icon>
+          <span class="test-saved-view-tab">Load Saved View</span>
+        </ng-template>
+        <div class="tab-body">
+          <app-load-saved-view></app-load-saved-view>
+          <!-- <app-load-save-view></app-load-save-view>  -->
+        </div>
+      </mat-tab> 
+    </mat-tab-group>  
+  </div>
+  <!-- Have to decide whether do we need this permission or we going to have many permissions -->
+  <!-- <div class="layers-filter-footer" fxLayout="row" fxLayoutAlign="end center" [ngClass]="{ 'module-disable':allowInventory === 'disabled'}"></div> -->
+  <div class="layers-filter-footer" fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button class="button button-secondary uppercase clear-btn test-clear-all-btn" (click)="clearAll()">Clear All</button>
+    <!-- <button mat-raised-button class="button button-secondary uppercase clear-btn test-save-view-btn" *ngIf="tabSelectedIndex !==2" (click)="onSaveView()">Save View</button>
+    <button mat-raised-button class="button button-secondary uppercase clear-btn" *ngIf="tabSelectedIndex !==2 && selectedView" (click)="onUpdateView()">Update View</button> -->
+    <button mat-raised-button class="button button-primary-color uppercase btn-primary-color test-apply-btn" *ngIf="tabSelectedIndex !==2 " (click)="onSaveView()">Save View</button>
+    <button mat-raised-button class="button button-primary-color uppercase btn-primary-color test-apply-btn" (click)="onApply()">Apply View</button>
+  </div>
+</div>

@@ -1,0 +1,332 @@
+@import url(../../../assets/css/variables.less);
+::ng-deep{
+  .inventory-summary-card{
+    padding: 15px 20px;
+    h6{
+      margin: 0px;
+    }
+    a{
+      color: var(--button-bg-color) !important;
+      cursor: pointer;
+    }
+    .measureColumns {
+      height: 65px;
+    }
+    .metric-item-value {
+      color: var(--theme-secondary-color);
+      font-size: 30px;
+      text-align: left;
+      margin: 0;
+    }
+    .margin-bottom-10{
+      margin-top: 10px
+    }
+    .margin-bottom-5{
+      margin-top: 5px
+    }
+    .mat-form-field {
+      width: 100%;
+      height: 25px;
+      margin-top: -25px;
+      .mat-select-value {
+        color: var(--button-bg-color);
+      }
+    }
+    .overline {
+      text-align: center;
+    }
+  }
+  .measure-table{
+    align-items: center;
+    h6{
+      margin: 8px 0px;
+    }
+  }
+  .card-footer{
+    padding-top: 10px;
+    // color: var(--button-bg-color) !important;
+    mat-icon{
+      color: var(--grays-bg-700);
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+      margin-right: 5px;
+    }
+    .target-labels {
+      color: var(--button-bg-color) !important;
+    }
+  }
+  .mat-divider {
+    border-top-color: var(--lg-color);
+  }
+  .inventory-list-count{
+    padding: 10px 24px 0px;;
+  }
+  .metric-process-bar
+  {
+    position: relative;
+    .mat-progress-bar
+    {
+      width: 75px;
+      height: 12px;
+      svg
+      {
+        display: none;
+      }
+      .mat-progress-bar-buffer
+      {
+        background-color: var(--theme-secondary-color);
+        opacity: 0.5;
+      }
+      .mat-progress-bar-fill::after
+      {
+        opacity: 1;
+        background-color: var(--theme-secondary-color);
+      }
+
+    }
+    .metric-process-total, .metric-process-value
+    {
+      color:var(--theme-secondary-color);
+      font-size: 10px;
+      line-height: 13px;
+      font-weight: bold;
+    }
+    .metric-process-value
+    {
+      color:var(--white-color);
+      position: absolute;
+      z-index: 2;
+      text-align: right;
+      padding-right: 6px;
+    }
+    .metric-process-total
+    {
+      position: absolute;
+      display: block;
+      top: 0;
+      left: 78px;
+    }
+
+  }
+  @media @all-devices-under-768{
+    .inventory-summary-card{
+      padding: 0px 5px;
+    }
+    .metric-item-value{
+      font-size: 10px !important;
+      font-weight: 700;
+      text-align: center;
+    }
+    .mobile-left-padding{
+      padding-left: 10px;
+    }
+    .card-footer{
+      padding-bottom: 10px;
+    }
+    .metric-process-bar
+    {
+      display: inline-block;
+      margin-left: 10px;
+    }
+  }
+  
+}
+.tooltipElem{
+  display: list-item;
+  text-align:left;
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+/*
+.inventory-summary {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: center;
+  margin: 20px;
+  margin-top: 15px !important;
+  > div
+  {
+    width: 100%;
+  }
+  & .ruler > hr {
+    position: relative;
+    width: 350px;
+    right: 35px;
+    margin: 10px 0 0 0;
+    box-shadow: 0 1px 0 0 #979797;
+  }
+}
+.sidebar-heading {
+  font-size: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 0px;
+}
+.inventory-summary-list{
+  float: left;
+}
+.view-as-table{
+  cursor: pointer;
+  float: right;
+  position: relative;
+  margin: 0px;
+  right: -5px;
+  color: var(--button-bg-color);
+  line-height: 16px;
+}
+.sidebar-subheading {
+  color: var(--g-color);
+  font-size: 14px;
+  font-weight: bold;
+}
+.metric-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 315px;
+  &.single-row {
+    margin-top: 10px;
+  }
+  .metric-item {
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    height: 60px;
+    margin-right: 8px;
+    .metric-item-value
+    {
+      color: var(--theme-secondary-color);
+      font-size: 30px;
+      text-align: left;
+      margin: 0;
+    }
+    .metric-item-text
+    {
+      text-align: left;
+    }
+  }
+  .metric-item:last-child
+  {
+    margin:0px;
+  }
+}
+.inventory-list-seprator
+{
+  border-top: 1px solid var(--lg-color);
+  margin: 0;
+}
+.inventory-list-pagecount
+{
+  margin: 10px 24px 10px 24px !important;
+}
+
+.audienceMarketBlk {
+  padding: 15px 0px 0px 0px;
+  ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    li {
+      float: left;
+      width: auto;
+      color: var(--button-bg-color);
+      margin-right: 15px;
+      width: 45%;
+      i {
+        font-size: 16px;
+        float: left;
+        margin-top: 2px;
+        margin-right: 5px;
+      }
+      span {
+        float: left;
+        font-weight: normal;
+      }
+    }
+    li:last-child
+    {
+      margin-right: 0px;
+    }
+  }
+}
+
+@media @all-devices-under-768
+{
+  .inventory-summary {
+    margin: 5px 6px !important;
+    & .ruler > hr {
+    }
+    div
+    {
+
+    }
+  }
+  .view-as-table{
+    display: none !important;
+  }
+  .sidebar-heading {
+    color: var(--theme-sidebar-color);
+    font-size: 10px;
+    line-height: 13px;
+    font-weight: normal;
+    width: 100%;
+    text-align: center;
+    text-transform: capitalize;
+    padding-bottom: 3px;
+  }
+  .sidebar-subheading {
+  }
+  .metric-container {
+    margin-left: 10px;
+    display: block;
+    .metric-item
+    {
+      width: 100%;
+      height: auto;
+      .metric-item-value
+      {
+        font-size:10px;
+        color: var(--theme-secondary-color);
+        font-weight: 700;
+      }
+      .metric-item-text
+      {
+        font-size: 10px;
+      }
+    }
+  }
+  .inventory-list-pagecount
+  {
+    margin: 5px 0px 0px 0px !important;
+    width: 100%;
+    text-align: center;
+  }
+  .inventory-summary{
+    >div:first-child{
+      width: 100%;
+    }
+  }
+  .allowInventoryAudienceInventory
+  {
+    > div
+    {
+      width: 100%;
+    }
+    .sidebar-heading
+    {
+      width: 100%;
+      margin: auto;
+      text-align: center;
+      font-size: 15px;
+      padding: 10px 0px;
+    }
+  }
+}
+
+*/

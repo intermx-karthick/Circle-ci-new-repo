@@ -1,0 +1,203 @@
+.imx-widget-card{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  .mat-card-content{
+    margin: 0px -10px 0px -15px;
+    // padding: 0px 15px;
+    overflow: visible !important;
+  }
+  .mat-card-header{
+    background: var(--primary-bg);
+    color: #fff;
+    .mat-card-title{
+      margin: 10px 0px;
+    }
+  }
+  .mat-card-actions{
+    padding: 6px 0;
+    margin: 0;
+    .add-link{
+      color: var(--primary-bg);
+      font-weight: 700;
+    }    
+  }
+  .mat-button{
+    .mat-button-focus-overlay{
+      background: unset !important;
+    }
+  }
+
+}
+
+::ng-deep{
+  .imx-widget-card {
+    // height: 220px !important;
+    // overflow: hidden;
+    &.mat-card{
+      padding: 0;
+    }
+    .mat-list{
+      max-width: 100%;
+    }
+    .mat-button:hover .mat-button-focus-overlay, .mat-stroked-button:hover .mat-button-focus-overlay,.mat-button.cdk-program-focused .mat-button-focus-overlay {
+      opacity: 0;
+    }
+
+    .imx-range-sliders {
+      margin: 0px 15px;
+      margin-bottom: 40px;
+      .black-text {
+        margin-left: 15px;
+      }
+      .caption.black-text{
+        margin-bottom: 20px;
+      }
+      .sliders {
+        width: 100%;
+      }
+      .body-1 {
+        color: var(--medium-emphasis);
+        margin: 14px 0;
+      }
+      .subtitle-1 {
+        color: var(--high-emphasis);
+      }
+      .ngx-slider {
+        margin: 0;
+      }
+      .ngx-slider .ngx-slider-bar-wrapper {
+        margin-top: 0;
+        padding-top: 0;
+        height: 0;
+      }
+      .ngx-slider .ngx-slider-pointer {
+        width: 12px;
+        height: 12px;
+        top: -4px;
+        background-color: var(--button-bg-color);
+      }
+      .ngx-slider .ngx-slider-pointer:after {
+        width: 0px;
+        height: 0px;
+      }
+      .ngx-slider .ngx-slider-selection {
+        background: var(--button-bg-color);
+      }
+      .ngx-slider .ngx-slider-bar {
+        height: 4px;
+      }
+      .ngx-slider .ngx-slider-model-value .label-value {
+        margin-left: -2px;
+      }
+      .ngx-slider .ngx-slider-model-high .label-value {
+        margin-left: -2px;
+      }
+      .ngx-slider .ngx-slider-bar {
+        background: var(--button-bg-color);
+        opacity: 0.38;
+      }
+      .grid-column {
+        position: relative;
+        bottom: -5px;
+        margin-left: 4px;
+        height: 15px;
+        margin-top: 10px;
+      }
+      .btn-primary-color {
+        background: var(--button-bg-color) !important;
+        border-radius: 4px !important;
+        color: #ffffff;
+      }
+      .btn-clear {
+        background-color: #FAFAFA !important;
+      }
+      .action-area {
+        margin-top: 40px;
+      }
+      .sliders {
+        &.disabled {
+          p {
+            color: var(--low-emphasis);
+          }
+          .grid-column {
+            margin-top: 30px;
+            .column-bar {
+              display: none !important;
+            }
+          }
+        }
+      }
+      .ngx-slider[disabled] .ngx-slider-selection, .ngx-slider[disabled] .ngx-slider-pointer {
+        background: #E0E0E0 !important;
+        opacity: 1;
+      }
+    }
+  
+    .ngx-slider-bubble{
+      bottom: -24px !important;
+    }
+    .ngx-slider-model-high{
+      .label-value{
+        display: none;
+      }
+    }
+    .ngx-slider-ceil{
+      visibility: visible !important;
+    }
+    .ngx-slider-floor{
+      visibility: visible !important;
+    }
+    .ngx-slider-model-value{
+      visibility: hidden !important;
+    }
+    .ngx-slider-combined{
+      visibility: hidden !important;
+    }
+    .ngx-slider-model-high{
+      visibility: hidden !important;
+    }
+    .ngx-slider-bubble{
+      color: var(--medium-emphasis) !important;	
+      font-size: 12px !important;	
+      font-weight: 300;
+    }
+    .threshold-legend{
+      margin-top: 25px;
+      color: var(--high-emphasis);	
+      font-size: 13px;	
+      font-weight: bold;	
+      letter-spacing: 1.08px;	
+      line-height: 16px;
+    }
+    .ngx-slider-tick-legend{
+      top: 6px !important;
+      color: var(--medium-emphasis) !important;	
+      font-size: 12px !important;	
+      font-weight: 300;
+    }
+    .ngx-slider .ngx-slider-tick {
+      text-align: center;
+      cursor: pointer;
+      width: 2px;
+      height: 6px;
+      left: 5px !important;
+      background: var(--button-bg-color) !important;
+      border-radius: 50%;
+      position: absolute;
+      top: 0;
+      margin-left: 0px;
+      margin-top: 4px;
+    }
+  }
+  app-threshold-widget {
+    .imx-widget-card {
+      height: 220px !important;
+      overflow: hidden;
+    }
+  }
+}
+.mat-card-header .mat-card-title {
+  font-size: 14px;
+}

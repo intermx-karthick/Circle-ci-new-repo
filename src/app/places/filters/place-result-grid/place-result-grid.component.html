@@ -1,0 +1,38 @@
+<div class="result-details">
+  <mat-form-field class="sort-control" *ngIf="placeResults.length > 0">
+    <mat-select placeholder="SORT BY" (selectionChange)="onSortables($event)" (value)="currentSortKey" class="test-place-select">
+      <mat-option *ngFor="let sortable of sortables" [value]="sortable.key" >{{sortable.field_name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="no-data-found" *ngIf="placeResults.length <= 0">
+      No data found
+  </div>
+  <div [ngClass]="{'empty-list': placeResults.length <= 0 }" class="result-list-container test-result-list-scroll"
+       infiniteScroll
+       [infiniteScrollDistance]="1"
+       [infiniteScrollThrottle]="0"
+       (scrolled)="loadMore()"
+       [scrollWindow]="false" [ngStyle]="{'height.px': contentHeight}" (window:resize)="resizeContainerHeight()">
+    <mat-card class="result-item mat-elevation-z0  e2e-result-grid-items" *ngFor="let place of placeResults">
+      <mat-card-content>
+        <div fxLayoutAlign="space-between center">
+          <mat-checkbox [(ngModel)]="place.selected" (change)="onToggle()" class="test-places-checkbox">
+            <h6 [title]="place.place_name">{{place.place_name | truncate : 'middle' : 9 }}{{' ('+ place.count +')'}}</h6>
+          </mat-checkbox>
+          <a class="result-details-link test-set-active-place-link e2e-result-details-link"
+             href="javascript:void(0)"
+             fxLayout="row"
+             (click)="setActivePlace(place.place_name);">
+            <mat-icon>navigate_next</mat-icon>
+            <p>See All</p>
+          </a>
+        </div>
+        <div class="result-item-details">
+          <p>{{place.industry | truncate : 'middle' : 20}}</p>
+          <p>{{place.place_type | truncate : 'middle' : 20}}</p>
+          <p>Number of Places: {{place.count}}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

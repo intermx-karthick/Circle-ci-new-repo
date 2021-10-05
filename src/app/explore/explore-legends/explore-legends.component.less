@@ -1,0 +1,128 @@
+@import url(../../../assets/css/variables.less);
+
+.map-key-legend {
+  position: relative;
+  z-index: 0;
+  border-radius: 4px;
+  color: var(--g-color);
+  font-size: 12px;
+  button {
+    height: 28px !important;
+    color: var(--g-color);
+  }
+}
+.dot {
+  width: 15px;
+  height: 15px;
+  // background-color: #008da4;
+  border-radius: 50%;
+  text-align: center;
+  display: inline-block;
+  color: #fefefe !important;
+  font-size: 12px !important;
+}
+.key-legends {
+  position: relative;
+  left: 50px;
+  z-index: 0;
+  width: 280px;
+  max-height: 222px;
+  overflow: auto;
+  bottom: 280px;
+  padding: 5px 10px;
+  .icon-mapit{
+    width: 16px;
+    height: 16px;
+    margin-right: 4px !important;
+  }
+  & > .close-legend {
+    color: var(--g-color);
+    float: right;
+  }
+  & > p {
+    text-align: center;
+  }
+  & > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      width: 100%;
+      float: left;
+      margin: 3px 0;
+      img {
+        float: left;
+        width: 15px;
+        height: 15px;
+        margin-right: 3px;
+      }
+      .place-icon{
+        float: left;
+        font-size: 18px;
+      }
+      .place-icon-ml-2{
+        margin-left: 2px;
+      }
+      i.round-icons {
+        float: left;
+        width: 12px;
+        height: 12px;
+        border-radius: 15px;
+        margin-top: 2px;
+        margin-left: 2px;
+      }
+      span {
+        &.icon{
+          font-size: 17px;
+          margin-left: 0px;
+          line-height: 5px;
+          margin-right: 3px;
+          margin-top: 0;
+        }
+        float: left;
+        margin-top: 2px;
+        // margin-left: 7px;
+        text-transform: uppercase;
+        font-size: 10px
+      }
+      .left-7{
+        margin-left: 7px;
+      }
+      .font13{
+        font-size: 13px !important;
+      }
+    }
+  }
+  .layerLegend 
+  {
+    width: 100%;
+    i {
+      float: left;
+      margin-left: -2px;
+      font-size: 18px;
+      width: 18px;
+      &.dot-icon{
+        line-height: 18px;
+        margin-left: 1px;
+        margin-right: 2px;
+      }
+    }
+    span{
+      float: left;
+      margin-left: 0px !important;
+      text-transform: capitalize !important;
+      margin-top: 3px !important;
+      color: rgba(0,0,0,0.6);
+    }
+  }
+  .legend-header{
+    font-size: 14px;	font-weight: bold;
+    margin-top: 5px;
+    i{
+      font-size: 13px;
+      cursor: pointer;
+      color: rgba(33,33,33,0.6);
+    }
+  }
+
+}

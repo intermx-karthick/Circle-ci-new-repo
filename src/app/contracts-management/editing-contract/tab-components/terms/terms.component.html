@@ -1,0 +1,32 @@
+<div class="contract-terms  app-terms" [ngStyle]="{'height.px': dialogHeightRef}">
+
+    <div [formGroup]="termsFormGroup">
+        <div fxLayout="row" fxLayoutAlign="space-between start">
+            <h4 class="contract-terms__front-terms-title">Front Terms</h4>
+        </div>
+
+        <div class="contract-terms__front-terms-body" fxLayout="row" fxLayoutAlign="space-between start">
+            <div class="terms-editor-container">
+                <ckeditor class="imx-input" 
+                    formControlName="frontTerm"
+                    [data]="termsFormGroup?.controls['frontTerm']?.value"
+                    [config]="frontTermsConfig" #myEditor>
+                </ckeditor>
+            </div>
+        </div>
+
+        <div class="contract-terms__back-terms" fxLayout="row" fxLayoutAlign="space-between start">
+            <h4 class="contract-terms__back-terms-title">Back Terms</h4>
+        </div>
+
+        <div class="contract-terms__back-terms-body" fxLayout="row" fxLayoutAlign="space-between start">
+            <div class="terms-editor-container">
+                <ckeditor class="imx-input" 
+                    formControlName="backTerm"
+                    [data]="termsFormGroup?.controls['backTerm']?.value"
+                    [config]="backTermsConfig">
+                </ckeditor>
+            </div>
+        </div>
+    </div>
+</div>

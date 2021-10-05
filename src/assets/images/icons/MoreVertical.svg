@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" data-name="S_MoreVertical_18_N@2x" height="18"  viewBox="0 0 36 36" width="18">
+  <defs>
+    <style>
+      .fill-6 {
+        fill: #707070;
+      }
+
+      
+    </style>
+  </defs>
+  <title>S_MoreVertical_18_N@2x</title>
+  <rect id="ToDelete" fill="#ff13dc" opacity="0" width="36" height="36" /><circle class="fill-6" cx="18" cy="18" r="4.1" />
+  <circle class="fill-6" cx="18" cy="6" r="4.1" />
+  <circle class="fill-6" cx="18" cy="30" r="4.1" />
+  </svg>

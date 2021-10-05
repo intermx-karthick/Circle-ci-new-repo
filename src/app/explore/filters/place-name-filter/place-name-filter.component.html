@@ -1,0 +1,30 @@
+<div class="places-container">
+  <mat-form-field floatLabel="never" fxFlexFill class="search-field"  >
+    <input matInput type="text" [formControl]="searchCtrl" placeholder="Search" name="search"  class="ta-search-text place-search" #placeSearch autocomplete="off">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <div *ngIf="enableLoader && isInitiated && isInitialLoadCompleted" class="place-loader">
+    <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+  </div>
+
+  <!-- content loader -->
+  <ng-container *ngIf="isInitLoading">
+    <app-cl-list-with-left-check-box></app-cl-list-with-left-check-box>
+  </ng-container>
+  <!-- end content loader -->
+
+  <mat-selection-list #placesList  [formControl]="selectedPlacesCtrl" [compareWith]="compare" infiniteScroll [infiniteScrollDistance]="1"
+  [infiniteScrollThrottle]="0" (scrolled)="loadMorePlaces()" [scrollWindow]="false">
+    <mat-list-option *ngFor="let place of places; trackBy: trackPlaces" [value]="place" checkboxPosition="before" (click)="onSelectPlace(placeOption)" #placeOption>
+      <div class="place-name-title" title="{{place.place_name}}" mat-line  [innerHTML]="place.place_name | truncate:'middle':16:6 | imx_highlight : searchCtrl.value"></div>
+      <div mat-line title="{{ place['street_address'] }}"> {{
+        place['street_address'] | truncate: 'middle':20:6 }}
+      {{ place['city'] }}
+      {{ place['state'] | uppercase }}
+      {{ place['zip_code'] }}</div>
+    </mat-list-option>
+    <p *ngIf="!enableLoader && places.length <= 0" class="text-center">No places found</p>
+  </mat-selection-list>
+</div>
+

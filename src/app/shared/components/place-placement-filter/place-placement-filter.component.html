@@ -1,0 +1,35 @@
+<!-- Place Type -->
+<mat-expansion-panel class="mat-elevation-z" (opened)="placeTypeLazyLoader.triggerInitialLoad()">
+  <mat-expansion-panel-header collapsedHeight="48px" expandedHeight="48px">
+    <mat-panel-title tooltip='Place Type refers to the venue or enviroment category where the inventory is located.' placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+      Place Type
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div class="attributes-panel-body selectionList">
+    <app-place-type-filter (placeTypeOnSelect)="placeTypeOnSelect.emit($event)"
+                           [initiator$]="placeTypeLazyLoader.initiator$"
+                           [preload]="false"
+                           [sPlaceType]="sPlaceType">
+    </app-place-type-filter>
+  </div>
+</mat-expansion-panel>
+<!--End Place Type -->
+
+<!-- Placement Type -->
+<mat-expansion-panel class="mat-elevation-z" (opened)="placementTypeLazyLoader.triggerInitialLoad()">
+  <mat-expansion-panel-header collapsedHeight="48px" expandedHeight="48px">
+    <mat-panel-title tooltip='Placement Type describes a location within the Place Type where inventory exists (e.g., Baggage Claim within an Airport; Lobby within a Hotel).' placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+      Placement Type
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div class="attributes-panel-body selectionList">
+    <app-placement-type-filter (placementTypeOnSelect)="placementTypeOnSelect.emit($event)"
+                               [initiator$]="placementTypeLazyLoader.initiator$"
+                               [preload]="false"
+                               [sPlaceMentType]="sPlaceMentType">
+    </app-placement-type-filter>
+  </div>
+</mat-expansion-panel>
+<!-- End Placement Type -->

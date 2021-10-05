@@ -1,0 +1,33 @@
+<div class="c-network-error-404 c-network-error__container intermx-theme-new">
+  <main class="c-network-error__main" fxLayout="row"  fxLayoutAlign="space-between center">
+    <section class="c-network-error__message-block">
+      <div class="c-network-error__title">
+        <h3>Geopath (404)</h3>
+      </div>
+
+      <div class="c-network-error__message">
+        <h6>Wrong URL? Typo errors? Not found?</h6>
+        <h6>If you’ve accessed the page before</h6>
+        <h6>contact us.</h6>
+        <h6 class="link-to-home">
+          <a routerLink="/">Go back to App home</a>
+        </h6>
+      </div>
+
+      <div>
+        <button (click)="openFeedback()" mat-raised-button class="imx-button-stroked">
+          Alert Us With This Issue
+        </button>
+      </div>
+    </section>
+
+    <section class="c-network-error__img-block">
+      <img src="assets/images/page-not-found.svg" width="579" height="438" alt="Page not found"/>
+    </section>
+  </main>
+
+  <footer class="c-network-error__footer" fxLayout="column" fxLayoutAlign="center center">
+    <span>powered by</span>
+    <span>INTERMX</span>
+  </footer>
+</div>

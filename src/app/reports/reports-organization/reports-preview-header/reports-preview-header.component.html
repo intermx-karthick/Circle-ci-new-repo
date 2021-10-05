@@ -1,0 +1,22 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" class="reports-previwe-header">
+  <div class="previewing-title">Previewing Report</div>
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="15px">
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+      <button mat-button class="imx-button-basic_icon action-height-imx" [matMenuTriggerFor]="exportMenu">
+        <span>EXPORT</span>
+        <mat-icon>expand_more</mat-icon>
+      </button>
+      <mat-menu #exportMenu="matMenu" class="mat-elevation-z0 action-menu-less-width custom-mat-menu">
+        <!-- <button mat-menu-item type="button" (click)="onTriggerAction('export', 'excel')">
+          <span>EXCEL</span>
+        </button> -->
+        <button mat-menu-item type="button" (click)="onTriggerAction('export', 'pdf')">
+          <span>PDF</span>
+        </button>
+      </mat-menu>
+      <button mat-button class="imx-button-basic" (click)="onTriggerAction('close')">CLOSE</button>
+      <!-- <button mat-button class="imx-button-basic" (click)="onTriggerAction('save')">SAVE</button> -->
+    </div>
+    <button mat-button class="imx-button-primary" (click)="onTriggerAction('regenerate')">Regenerate</button>
+  </div>
+</div>

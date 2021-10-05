@@ -1,0 +1,433 @@
+@import '../../../../assets/css/variables.less';
+
+::ng-deep {
+  .parent-side-panel {
+    height: 100%;
+  }
+  .side-nav-filter {
+    width: 448px;
+    background: var(--whites-color);
+    box-shadow: 0 2px 4px 2px rgba(31, 115, 183, 0.2) !important;
+
+    .header-block {
+      padding: 8px 16px;
+
+      h5 {
+        font-size: 12px;
+        line-height: 15px;
+        letter-spacing: 0.4px;
+        font-weight: 500;
+      }
+
+      span {
+        font-weight: normal;
+        line-height: 12px;
+        color: rgb(117 117 117); // gray 600
+        font-size: 10px;
+        letter-spacing: 0.2px;
+      }
+    }
+
+    main{
+      padding: 8px 16px;
+
+    }
+
+    .mat-tab-label-content {
+      font-size: 12px !important;
+      line-height: 15px !important;
+      letter-spacing: 0.4px;
+    }
+    .imx-tab-capital.imx-tab-small {
+      > .mat-tab-header .mat-tab-label .mat-tab-label-content {
+        text-transform: capitalize !important;
+        font-size: 0.875rem !important;
+      }
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 10px 16px;
+      z-index: 1;
+      background: #fff;
+
+      &__btn {
+        font-size: 13px;
+      }
+
+      &__btn--primary {
+        color: var(--primary-bg-800);
+        height: 32px;
+        line-height: 32px;
+      }
+
+      &__btn--primary-bg {
+        background: var(--primary-bg-800);
+        color: #fff;
+        letter-spacing: 1.55px;
+        height: 32px;
+        line-height: 32px;
+      }
+    }
+
+    &__search--right{
+      width: 35%;
+    }
+
+    &__panel-title{
+      line-height: .9rem;
+    }
+    .main-tab-group {
+      height: 100%;
+      .mat-tab-body-wrapper{
+        margin-top: 0px;
+        .mat-tab-body {
+          .mat-tab-body-content {
+            height: 100% !important;
+          }
+        }
+        /* .mat-tab-body:first-child {
+          .mat-tab-body-content {
+            height: 92% !important;
+          }
+        } */
+
+      }
+      app-audience-filter {
+        .saved-audiences-content{
+          max-height: calc(100vh - 465px) !important;
+          min-height: 230px !important;
+        }
+        .audience-selector-body{
+          .audience-selection-list{
+            max-height: calc(100vh - 465px) !important;
+            min-height: 170px !important;
+          }
+          &.edit-audience-name{
+            .audience-selection-list{
+              max-height: calc(100vh - 540px) !important;
+              min-height: 120px !important;
+            }
+          }
+        }
+        .single-selection-radio-group{
+          max-height: calc(100vh - 465px) !important;
+          min-height: 170px !important;
+          &.is-title-edit{
+            max-height: calc(100vh - 540px) !important;
+            min-height: 120px !important;
+          }
+        }
+
+        /* .available-audience-selected{
+          .saved-audiences-content{
+            max-height: calc(100vh - 585px) !important;
+            min-height: 110px !important;
+          }
+          .audience-selector-body {
+            .audience-selection-list{
+              max-height: calc(100vh - 590px) !important;
+              min-height: 110px !important;
+              &.noAudienceAvilList {
+                min-height: 80px !important;
+              }
+            }
+            &.edit-audience-name{
+              .audience-selection-list{
+                max-height: calc(100vh - 640px) !important;
+                min-height: 80px !important;
+              }
+            }
+          }
+
+          .single-selection-radio-group{
+            max-height: calc(100vh - 595px) !important;
+            min-height: 75px !important;
+            &.is-title-edit{
+              max-height: calc(100vh - 595px) !important;
+              min-height: 60px !important;
+            }
+          }
+        } */
+
+        .no-audience-available {
+          font-size: 0.75rem !important;
+          text-align: center;
+        }
+
+    }
+
+      .market-dialog-container{
+        min-height: inherit !important;
+        max-height: inherit !important;
+        .market-content-body{
+          mat-selection-list, mat-list{
+            min-height: calc(100vh - 510px) !important;
+            max-height: calc(100vh - 510px) !important;
+            height: inherit !important;
+          }
+        }
+      }
+
+      /* .available-market-selected{
+        .market-dialog-container{
+          min-height: inherit !important;
+          max-height: inherit !important;
+          .market-content-body{
+            mat-selection-list, mat-list{
+              min-height: calc(100vh - 545px) !important;
+              max-height: calc(100vh - 545px) !important;
+              height: inherit !important;
+            }
+          }
+        }
+      }*/
+
+    }
+
+    app-add-inventory{
+      .filter-inventory{
+        /* min-height: calc(100vh - 302px) !important;
+        max-height: calc(100vh - 302px) !important; */
+        max-height: none !important;
+      }
+
+      // .mat-tab-body-content{
+        // min-height: calc(100vh - 240px) !important;
+        // max-height: calc(100vh - 240px) !important;
+      // }
+      .min-height-inventory{
+        min-height: calc(100vh - 160px) !important;
+        max-height: calc(100vh - 160px) !important;
+        overflow: auto;
+      }
+
+      .mat-expansion-panel{
+        background-color: #f9f9f9 !important;
+        border-radius: 4px;
+        &.operator-panel{
+          background-color:unset !important;
+          .mat-expansion-panel-header:hover{
+            background: none !important;
+          }
+        }
+      }
+
+      /* button {
+        height: 32px;
+        line-height: 32px;
+      } */
+      .list-panel{
+        background-color: #f9f9f9 !important;
+        padding: 0px 5px 5px 5px;
+        border-radius: 4px;
+        mat-selection-list{
+          min-height: calc(100vh - 330px) !important;
+          max-height: calc(100vh - 330px) !important;
+        }
+      }
+
+    }
+    app-threshold-widget {
+      .imx-widget-card {
+        background-color: #f9f9f9 !important;
+      }
+    }
+    .errorMessage {
+      app-add-inventory {
+        .media-selection-action {
+          &.media-type-select {
+            bottom: 135px !important;
+          }
+        }
+      }
+      &.two-more-error{
+        app-add-inventory {
+          .media-selection-action {
+            &.media-type-select {
+              bottom: 158px !important;
+            }
+          }
+        }
+      }
+      &.single-error{
+        app-add-inventory {
+          .media-selection-action {
+            &.media-type-select {
+              bottom: 120px !important;
+            }
+          }
+        }
+        &.single-mandatories{
+          app-add-inventory {
+            .media-selection-action {
+              &.media-type-select {
+                bottom: 123px !important;
+              }
+            }
+          }
+        }
+
+      }
+      .market-dialog-container {
+        .market-content-body{
+          mat-selection-list, mat-list{
+            min-height: calc(100vh - 590px) !important;
+            max-height: calc(100vh - 590px) !important;
+            height: inherit !important;
+          }
+        }
+      }
+
+      app-audience-filter {
+        .saved-audiences-content{
+          max-height: calc(100vh - 495px) !important;
+          min-height: calc(100vh - 495px) !important;
+        }
+        .single-selection-radio-group {
+          max-height: calc(100vh - 540px) !important;
+          min-height: calc(100vh - 540px) !important;
+        }
+      }
+      .enable-marketplan-tab {
+        app-add-inventory {
+          .mat-tab-body-content {
+            min-height: calc(100vh - 250px) !important;
+            max-height: calc(100vh - 250px) !important;
+          }
+        }
+      }
+      // app-add-inventory {
+      //   .add-inventory-button-block {
+      //     margin-top: 50px !important;
+      //   }
+      // }
+
+    }
+    app-file-upload{
+      .upload-section{
+        min-width: 100%;
+      }
+    }
+    .disabled-pointer {
+      pointer-events: none;
+    }
+    .enable-marketplan-tab{
+      app-add-inventory{
+        .inventory-filter-main-tab{
+            mat-tab-header{
+              display:none;
+            }
+        }
+        // .mat-tab-body-content{
+          // min-height: calc(100vh - 205px) !important;
+          // max-height: calc(100vh - 205px) !important;
+        // }
+      }
+    }
+
+    .errorMessage {
+      app-add-inventory {
+        //.mat-tab-body-content {
+        //  min-height: calc(100vh - 250px) !important;
+        //  max-height: calc(100vh - 250px) !important;
+        //}
+
+        .min-height-inventory {
+          min-height: calc(100vh - 200px) !important;
+          max-height: calc(100vh - 200px) !important;
+          overflow: auto;
+        }
+        .add-inventory-button-block {
+          margin-top: 50px !important;
+        }
+
+        .operator-selection-action.operator-type-select {
+          bottom: 142px;
+        }
+      }
+    }
+
+    .summary-panel-sidebar {
+      width: 400px;
+      min-width: 400px;
+      padding:2rem 0 2rem 5px;
+      height: 98%;
+      > div {
+        background-color: #f9f9f9 !important;
+        height: 100%;
+        border-radius:5px 0px 0 5px;
+        box-shadow: 0 2px 4px 2px rgba(31, 115, 183, 0.2) !important;
+        padding: 1rem;
+      }
+    }
+    .filter-panel-sidebar {
+      background-color: var(--white-color) !important;
+      box-shadow: 0 2px 4px 2px rgba(31, 115, 183, 0.2) !important;
+      border-radius: 0 0 10px 10px;
+      height: 98%;
+      min-width: 450px;
+      width: 450px;
+      margin-right: 10px;
+      /* margin-left: 10px;
+       */
+      .footer {
+        min-width: 450px;
+        width: 450px;
+        bottom: 15px;
+        border-radius: 0px 0 10px 10px !important;
+      }
+    }
+  }
+  .include-outside-inventory {
+    margin-top: 1rem;
+    .mat-checkbox-label {
+      white-space: normal;
+    }
+  }
+  .define-target-tab {
+    min-height: 160px;
+    overflow: hidden;
+  }
+  :host {
+    height: calc(100vh - 24px);
+    position: relative;
+  }
+
+  .uppercase {
+    text-transform: uppercase;
+  }
+
+  .primary {
+    color: var(--primary-bg) !important;
+  }
+
+  .cursor-pointer{
+    cursor: pointer;
+  }
+
+
+  // only for inventory plan tab error message block
+  .mediaErrorBlock--inventory{
+    bottom: 62px !important;
+  }
+
+  .mediaErrorBlock {
+    border: 1px solid var(--error-base);
+    border-radius: 5px;
+    padding: 15px;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    color: var(--error-base);
+    margin: 15px;
+    position: absolute;
+    bottom: 60px;
+    width: 417px;
+    z-index: 1;
+    background: var(--white-color);
+  }
+
+}

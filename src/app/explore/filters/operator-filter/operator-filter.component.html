@@ -1,0 +1,30 @@
+<div class="operator-container">
+  <mat-form-field floatLabel="never" fxFlexFill class="search-field"  >
+    <input matInput type="text" [(ngModel)]="searchQuery" placeholder="Search" name="search"  class="ta-search-text operator-search" appSearch key="name" filterName="operator" [sourceData]="operators" (filter)="filterOperators($event)"  [listItems]="listItems" arrowNavigation="true" #operatorSearch autocomplete="off">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+  <mat-selection-list class="operator-list" #operatorList> <!-- [(ngModel)]="selectedOperators" [compareWith]="compare" -->
+    <app-arrow-navigation *ngFor="let operator of filteredOperators; let i=index;" [option]="operator" [selectedOption]="selectedOperators" (setSelectedOption)="setSelectedOperator($event)" (submit)="submit($event)" fxLayout="column">
+      <mat-list-option [value]="operator" checkboxPosition="before" (click)="onSelectOperator(operator, optRef)" [selected]="checkIsSelected(operator)" #optRef>
+        <span title="{{operator.name}}" [innerHTML]="operator.name | truncate:'middle':16:6 | imx_highlight : searchQuery"></span>
+        <label class="pull-right label-in-filter  mobile-hide">(<span>{{ operator.count }}</span>)</label>
+      </mat-list-option>
+    </app-arrow-navigation>
+
+    <!--content loader-->
+    <ng-container *ngIf="this.isInitLoading">
+      <app-cl-list-with-left-check-box-right-ctnt></app-cl-list-with-left-check-box-right-ctnt>
+    </ng-container>
+    <!-- end content loader-->
+
+    <p *ngIf="filteredOperators.length <= 0 && !this.isInitLoading" class="text-center">
+      No operator data found
+    </p>
+
+  </mat-selection-list>
+  <div class="action-container" [ngClass]="{ 'module-disable':allowInventory === 'disabled'}">
+    <button mat-raised-button class="btn-clear" type="button" (click)="clearOperator()">CLEAR</button>
+    <button mat-raised-button class="btn-primary-color" type="button"  (click)= "applyForm()">APPLY</button>
+  </div>
+</div>
+

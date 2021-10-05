@@ -1,0 +1,98 @@
+@import url(../../../assets/css/variables.less);
+.login-main-layout{
+  background-color: var(--login-bg-color);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: auto;
+  background-attachment: fixed;
+}
+
+.required-info{
+  color: var(--button-bg-color) !important;
+}
+
+.login-box-body {
+  background: rgba(254,254,254,.95);
+  border-top: 0;
+  color: #595959;
+  width: 575px;
+  padding: 30px;
+  display: flex;
+  place-content: center;
+  & .email-note{
+    font-size: 12px;
+    color: var(--black-color);
+    font-weight: 700;
+  }
+}
+mat-form-field{
+  input{
+    height: 30px;
+    border-bottom: none;
+    font-size: 17px;
+    color: #383838;
+  }
+  input:focus{
+    border-bottom: none;
+    box-shadow: unset;
+  }
+  label{
+    font-weight: normal;
+    font-size: 17px;
+    color: #383838;
+  }
+  &.mat-focused{
+    label{
+      color: var(--button-bg-color);
+    }
+  }
+  mat-error{
+    font-size: 13px;
+  }
+}
+.footer-login-action{
+  margin-top: 20px;
+}
+a.return-link {
+  line-height: 50px;
+  color: var(--button-bg-color);
+  font-size: 14px;
+  font-weight: normal;
+}
+.login-btn{
+  height: 41px !important;
+  font-size: 15px;
+  font-weight: 400;
+  border-radius: 2px !important;
+}
+
+@media @all-devices-under-768 {
+  .login-box-body {
+    padding: 65px 30px;
+    width: 100%;
+  }
+  .login-btn{
+    width: 100%;
+    font-size: 15px;
+  }
+  .footer-login-action{
+    margin-top: 50px;
+    flex-direction: column !important;
+    button{
+      margin-bottom: 20px;
+    }
+    .register-link{
+      order: 2;
+    }
+    .forget-link{
+      order: 3;
+      color: var(--button-bg-color);
+    }
+  }
+  .login-main-block{
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+  }
+}

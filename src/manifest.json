@@ -1,0 +1,15 @@
+{
+  "name": "GEOPATH INSIGHTS SUITE",
+  "short_name": "Geopath",
+  "description": "Geopath",
+  "icons": [{
+      "src": "assets/images/geo_path_mini_logo.png",
+      "sizes": "188x188",
+      "type": "image/png"
+    }],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fefefe",
+  "theme_color": "#922a95",
+  "orientation":"portrait"
+}

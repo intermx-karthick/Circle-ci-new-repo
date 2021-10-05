@@ -1,0 +1,100 @@
+<div class="c-client-view" fxLayout="column">
+  <section fxLayout="row" fxLayoutAlign="start center">
+    <a class="back-to-link" fxLayout="row" fxLayoutAlign="start center" [routerLink]="['/records-management-v2/clients']">
+      <mat-icon>arrow_back</mat-icon>Back to Clients list
+    </a>
+  </section>
+
+  <section fxLayout="row" fxLayoutAlign="space-between start" class="header">
+    <div>
+      <h4> <ng-container *ngIf="clientDetails['clientName']">
+        {{clientDetails['clientName']}} <ng-container *ngIf="clientDetails.mediaClientCode">({{clientDetails.mediaClientCode}})</ng-container> Details
+      </ng-container></h4>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <button mat-button *ngIf="selectedTabLabel == 'general_Tab'" class="imx-button-basic_icon action-overlay-height-imx" [mat-menu-trigger-for]="actionMenu" [isAccessDenied]="(!userPermission?.delete && !userPermission?.create)" visiblityType="menu" module="client_general" appUserAccessPermission>
+        <span>ACTIONS</span>
+        <mat-icon>expand_more</mat-icon>
+      </button>
+
+      <button type="button" mat-button class="imx-button-basic add-contact-btn" *ngIf="selectedTabLabel === 'contacts_tab'" (click)="openNewContact()" module="contacts" visiblityType="create" appUserAccessPermission> ADD CONTACT</button>
+      <button type="button" mat-button class="imx-button-basic add-contact-btn" *ngIf="selectedTabLabel === 'products_tab'" (click)="openNewProduct()" module="client_product" visiblityType="create" appUserAccessPermission> ADD PRODUCT</button>
+      <button type="button" mat-button class="imx-button-basic add-contact-btn" *ngIf="selectedTabLabel === 'estiates_tab'" (click)="openNewEstimate()" module="client_estimate" visiblityType="create" appUserAccessPermission> ADD ESTIMATE</button>
+
+      <mat-menu #actionMenu="matMenu" class="mat-elevation-z0 action-dropdown-imx minimun-height action-menu-less-width">
+        <button mat-menu-item (click)="delete()" type="button" [isAccessDenied]="!userPermission?.delete" module="client_general" visiblityType="delete" appUserAccessPermission>
+          Delete
+        </button>
+        <button mat-menu-item (click)="duplicate()" type="button" [isAccessDenied]="!userPermission?.create" module="client_general" visiblityType="create" appUserAccessPermission>
+          Duplicate
+        </button>
+      </mat-menu>
+    </div>
+  </section>
+
+  <section fxLayout="row" fxLayoutAlign="start center" (window:resize)="reSize()" class="vendor-tabs">
+    <mat-tab-group
+      [(selectedIndex)]="selectedTab"
+      mat-align-tabs="start"
+      class="imx-tab-capital"
+      (selectedTabChange) = "onSelectedTabChange($event)"
+    >
+      <mat-tab label="GENERAL" aria-label="general_Tab" *ngIf="!!generalAccess">
+        <div [ngStyle]="{'height.px':scrollContent}" class="vendor-tabs-scroll" (scroll)="handleScroll('general_Tab')" >
+          <form [formGroup]="generalForm">
+            <app-client-form [containerScrolling$]="scrolling$" formControlName="clientForm" [submitForm$]="submitForm$" scrollingContainer="view-client_SCROLLABLE"></app-client-form>
+          </form>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="ACCOUNTING" aria-label="accounting_tab" *ngIf="!!accountingAccess">
+        <div [ngStyle]="{'height.px':scrollContent}" class="vendor-tabs-scroll" (scroll)="handleScroll('accounting_tab')" id="client_scroll_ACCOUNTING_TAB">
+          <form [formGroup]="accountingForm">
+
+            <app-client-accounting-form [containerScrolling$]="scrolling$" [clientDetails$]="clientDetails$" [preload]="false" [initiator$]="clientAccountingLazyLoader.initiator$" formControlName="clientAccounting" [submitForm$]="submitAccountForm$" [organizationId$]="organizationId$" [accountTabSelectId]="accountTabSelectId">
+            </app-client-accounting-form>
+
+          </form>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="PRODUCTS"  aria-label="products_tab" *ngIf="!!productsAccess">
+        <div [ngStyle]="{'height.px':scrollContent}" class="client-products-table">
+          <app-client-products [clientDetails]="clientDetails" [clientId]='clientId' [preload]="false" [reLoader$]="productsRefresher$"
+                               [initiator$]="clientProductsLazyLoader.initiator$" (productUpdate)="productUpdate($event)" (resetClientProducts)=resetClientProducts()></app-client-products>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="ESTIMATES"  aria-label="estiates_tab" *ngIf="!!estimateAccess">
+        <div [ngStyle]="{'height.px':scrollContent}" class="client-products-table" [ngClass]="{'enable-tabwindow-size': tabWindowSize}">
+          <app-estimate-list #estimateList [clientId]="clientId" [clientDetails]="clientDetails" [reLoader$]="estimateRefresher$"></app-estimate-list>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="LOGOS"  aria-label="logos_tab" *ngIf="!!logosAccess">
+        <div [ngStyle]="{'height.px':scrollContent}" [ngClass]="{'enable-tabwindow-size': tabWindowSize}">
+          <app-logos [fileUploadConfig]="fileUploadConfig" [logos]="agencyLogos" (deleteLogoFunc)="deleteLogo($event)" (createLogoFunc)="createLogo($event)" [uploadInProgress$]="uploadInProgress$" [clearAttachment$]="clearAttachment$" (loadMoreLogos)="loadMoreLogos()" [isLogosLoading$]="isClientLogosLoading$" [ngClass]="{'more-attachments':clientLogoPagination.total>10}" [organizationId$]="organizationId$" [disableEdit]="disableEdit"></app-logos>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="CONTACTS" aria-label="contacts_tab" *ngIf="!!contactsAccess">
+        <div [ngStyle]="{'height.px':scrollContent}" class="vendor-tabs-scroll contact-tab-body" [ngClass]="{'enable-tabwindow-size': tabWindowSize}">
+          <app-contacts-list-v2 [enableCustomizeHeader]="false" moduleName="client" [organizationId$]="organizationId$" [defaultColumns]="defaultColumns" [contactRefresh$]="contactRefresh$" (openContactEmit)="openContactEmit($event)" (openDuplicateContactEmit)="openDuplicateContactEmit($event)" [reLoader$]="contactRefresher$">
+          </app-contacts-list-v2>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </section>
+
+  <section fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="footer-block">
+    <div>
+      <app-time-stamp [timeStampData]="timeStampData"></app-time-stamp>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" *ngIf="selectedTabLabel !== 'contacts_tab' && this.selectedTabLabel !== 'products_tab' && this.selectedTabLabel !== 'estiates_tab' && !disableFormActions">
+      <button mat-button class="imx-button-secondary" [routerLink]="['/records-management-v2/clients']" module="client_general" visiblityType="edit" appUserAccessPermission>Cancel</button>
+      <button (click)="save()" mat-button class="imx-button-primary" module="client_general" visiblityType="create" appUserAccessPermission>Save</button>
+    </div>
+  </section>
+</div>

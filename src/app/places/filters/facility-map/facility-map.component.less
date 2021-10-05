@@ -1,0 +1,157 @@
+@import "../../../../assets/css/variables.less";
+
+.facility-map-block {
+  // 924 PX is menu bar + first two bars in audit + the collapse button in the right corner
+  width: calc(~"100vw - 985px");
+  height: 100vh;
+  position: relative;
+  #facilityMap {
+    height: 100vh;
+    width: 100%;
+  }
+  .map-reset {
+    z-index: 2;
+    i {
+      color: var(--g-color);
+    }
+  }
+  .facility-map-control {
+    position: absolute;
+    top: 150px;
+    z-index: 1;
+    right: 10px;
+    width: 36px;
+    button {
+      height: 33px;
+      background: #fff;
+      border: 0px;
+      border-radius: 4px;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+      margin: 0;
+      width: 36px;
+      display: flex;
+      align-items: center;
+      place-content: center;
+      i {
+        color: var(--g-color);
+        top: 3px;
+        position: relative;
+      }
+    }
+    .map-reset button {
+      border-bottom: none;
+      border-bottom-right-radius: 0px;
+      border-bottom-left-radius: 0px;
+    }
+    .map-save button {
+      border-top-right-radius: 0px;
+      border-top-left-radius: 0px;
+    }
+  }
+}
+
+::ng-deep {
+  app-facility-map {
+    .facility-map-block {
+      .mapboxgl-control-container {
+        .mapboxgl-ctrl-top-right {
+          top: 37px;
+        }
+        .mapbox-gl-draw_polygon {
+          width: 36px;
+          opacity: 0.5;
+        }
+        .mapbox-gl-draw_trash {
+          width: 36px;
+          opacity: 0.5;
+        }
+      }
+      .facility-map-area {
+        position: absolute;
+        z-index: 1;
+        top: 5px;
+        left: 55px;
+        background: #fff;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 0 auto;
+      }
+      .facility-map-control-close {
+        position: absolute;
+        z-index: 1;
+        right: 10px;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+        width: 36px;
+        height: 34px;
+        border-radius: 4px;
+        top: 5px;
+        background: #fff;
+        mat-icon {
+          color: var(--g-color);
+          left: 5px;
+          top: 4px;
+          position: relative;
+          cursor: pointer;
+        }
+      }
+      .facility-map-control-expand {
+        right: auto;
+        left: 10px;
+        height: 36px;
+        mat-icon {
+          top: 5px;
+        }
+      }
+      .map-zoom-out {
+        position: absolute;
+        z-index: 2;
+        top: 220px;
+        left: inherit;
+        right: 10px;
+        width: 36px;
+
+        i {
+          top: 3px;
+          position: relative;
+          left: 3px;
+          color: var(--g-color);
+        }
+      }
+      .area-key-legend-map-control {
+        position: absolute;
+        z-index: 2;
+        top: 255px;
+        left: inherit;
+        right: 10px;
+        .map-key-legend button {
+          width: 36px !important;
+        }
+        span.key-label{
+          padding: 5px !important;
+        }
+        .key-legends {
+          left: 5px !important;
+        }
+      }
+      .place-audit-marker {
+        color: var(--primary-bg);
+        font-size: 42px;
+      }
+    }
+    .audit-map-collapse {
+      cursor: pointer;
+      display: flex;
+      height: 100%;
+      width: 24px;
+      background: var(--grays-bg-200);
+      mat-icon {
+        margin-top: 5px;
+        cursor: pointer;
+      }
+    }
+    .mapboxgl-ctrl-compass{
+      display: block !important;
+      width: 36px;
+    }
+ }
+}

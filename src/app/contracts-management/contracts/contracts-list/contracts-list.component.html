@@ -1,0 +1,244 @@
+<div fxLayout="row" fxLayoutAlign="space-between end" class="search-panel">
+  <div fxFlex="65">
+    <form fxFlex="100" [formGroup]="contractSearchForm" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+      <div fxFlex="25"  >
+        <div fxLayout="column" fxLayoutAlign="space-between stretch" class="search-form-column">
+          <mat-form-field class="imx-input">
+            <mat-label>Search Contract ID #</mat-label>
+            <input matInput formControlName="contractId" class="search-input">
+            <mat-error *ngIf="contractSearchForm.controls['contractId']?.errors?.pattern">Contract ID should be numeric</mat-error>
+          </mat-form-field>
+
+          <div fxLayout="row" fxLayoutAlign="space-between center">
+
+            <mat-form-field fxFlex="48" class="imx-input">
+              <mat-label>Start Date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="startDatePicker"
+                appDateFormat
+                formControlName="start" 
+                [max]="maxDate"
+              />
+              <mat-error>Start Date should be valid(MM/DD/YYYY).</mat-error>
+              <mat-icon
+                (click)="startDatePicker.open()"
+                matSuffix
+                class="date-picker-icon date-picker-icon_input"
+                svgIcon="IMX-calender"
+              ></mat-icon>
+              <mat-datepicker
+                #startDatePicker="matDatepicker"
+                [panelClass]="'imx-calander'"
+              ></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="48" class="imx-input">
+              <mat-label>End Date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="endDatePicker"
+                appDateFormat
+                formControlName="end"
+                [min]="minDateForEndDate"
+                [max]="maxDate"
+              />
+              <mat-error *ngIf="!contractSearchForm.controls?.end?.errors?.matDatepickerMin">End Date should be valid(MM/DD/YYYY).</mat-error>
+              <mat-icon
+                (click)="endDatePicker.open()"
+                matSuffix
+                class="date-picker-icon date-picker-icon_input"
+                svgIcon="IMX-calender"
+              ></mat-icon>
+              <mat-datepicker
+                #endDatePicker="matDatepicker"
+                [panelClass]="'imx-calander'"
+              ></mat-datepicker>
+              <mat-error class="error-font" *ngIf="contractSearchForm.controls?.end?.errors?.matDatepickerMin">
+                End Date must be >= Start Date. </mat-error>
+            </mat-form-field>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div fxFlex="45">
+        <div fxLayout="column" fxLayoutAlign="space-between stretch" class="search-form-column">
+          <mat-form-field class="imx-dropdown imx-input client-selection"
+            [tooltip]="contractSearchForm?.controls?.buyer?.value?.firstName?.length + contractSearchForm?.controls?.buyer?.value?.lastName?.length > 10 
+                              ? contractSearchForm.controls.buyer.value.firstName +' '+ contractSearchForm.controls.buyer.value.lastName : ''" placement="top" delay="200"
+            tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+            <mat-label>{{buyerAutoComplete?.isLoading ? 'Loading...' : 'Buyer'}}</mat-label>
+            <input type="text" #buyerInputRef matInput [matAutocomplete]="buyerMatAuto" formControlName="buyer"
+              class="imx-input-no-border" #triggerBuyer="matAutocompleteTrigger" [autocompletePosition]="triggerBuyer"
+              scrollContainer="report-form-card_SCROLLABLE" (click)="triggerBuyer.openPanel()" />
+            <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+          
+            <mat-autocomplete #buyerMatAuto="matAutocomplete" (opened)="updateBuyerContainer()"
+              class="buyer-list-autocomplete imx-autocomplete-dropdown" [displayWith]="buyerDisplayWithFn" infiniteScroll
+              [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0" [scrollWindow]="false" [fromRoot]="true"
+              [immediateCheck]="false" [alwaysCallback]="false"
+              [infiniteScrollDisabled]="buyerAutoComplete.data?.length >= buyerAutoComplete?.pagination?.found"
+              [infiniteScrollContainer]="panelBuyerContainer" (scrolled)="buyerAutoComplete.loadMoreData(null,null)">
+              <mat-option [value]="null" class="hide-selected-tick">Select Buyer</mat-option>
+              <mat-option *ngFor="let buyer of buyerAutoComplete.data;trackBy: buyerTrackByFn" [value]="buyer"
+                [tooltip]="buyer.firstName?.length + buyer.lastName?.length > 10 ? buyer.firstName +' '+ buyer.lastName : ''"
+                [class.mat-selected]="contractSearchForm && contractSearchForm?.controls?.buyer?.value?._id == buyer?._id"
+                placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" class="drop-maxwidth">
+                <span [innerHTML]="(buyer.firstName +' '+ buyer.lastName) | imx_highlight: buyerInputRef.value"></span>
+              </mat-option>
+          
+              <mat-option disabled *ngIf="buyerAutoComplete.isLoading">
+                <div fxLayout="row" fxLayoutAlign="space-around center">
+                  <mat-spinner diameter="20"></mat-spinner>
+                </div>
+              </mat-option>
+          
+              <mat-option disabled *ngIf="!buyerAutoComplete.isLoading  && !buyerAutoComplete.data?.length && buyerInputRef.value">
+                Invalid Entry.
+              </mat-option>
+              <mat-option disabled *ngIf="!buyerAutoComplete.isLoading && !buyerAutoComplete.data?.length  && !buyerInputRef.value ">
+                No Records.
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="contractSearchForm?.controls?.buyer?.hasError('invalid')" class="error">
+              Please select from the drop down list.
+            </mat-error>
+          </mat-form-field>
+          
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+            <mat-form-field class="imx-dropdown imx-input" fxFlex="7.5rem">
+              <mat-label>
+                Contract Status
+              </mat-label>
+              <mat-select panelClass="imx-select disabled-view-select" formControlName="contactStatus" multiple>
+                <mat-option *ngFor="let contactStatus of contrtactStatusesAutocompleteItems" [value]="contactStatus.id">
+                  {{ contactStatus.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="imx-dropdown imx-input" fxFlex="10.5rem">
+              <mat-label>
+                Contract Checkpoints
+              </mat-label>
+              <mat-select panelClass="imx-select disabled-view-select" formControlName="contractEvents" multiple>
+                <mat-option *ngFor="let checkpoint of contractEvents" [value]="checkpoint?._id">
+                  {{ checkpoint?.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          
+        </div>
+      </div>
+
+      <div fxFlex="20">
+        <div  fxLayout="column" fxLayoutAlign="space-between stretch" class="search-form-column">
+          <mat-form-field class="imx-dropdown imx-input client-selection"
+            [tooltip]="contractSearchForm?.controls?.clientName?.value?.value?.length > 15 ? contractSearchForm?.controls?.clientName?.value?.value : ''"
+            placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+            <mat-label>{{isClientsListLoading ? 'Loading...' : 'Client Name'}}</mat-label>
+            <input type="text" #clientGroupInputRef matInput formControlName="clientName"
+                   [matAutocomplete]="parentClientAuto">
+            <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+            <mat-autocomplete #parentClientAuto="matAutocomplete"
+              [displayWith]="parentClientDisplayWithFn"
+              (opened)="updateContainer()"
+              class="autocomplete-scroll contract-autocomplete">
+              <div class="parent-client-autocomplete scroll-section-autocomplete"
+              infiniteScroll
+              [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+              (scrolled)="getClientsList(clientGroupInputRef?.value, true)" [scrollWindow]="false"
+              [infiniteScrollContainer]="panelContainer" [fromRoot]="true"
+              [immediateCheck]="false"
+              [alwaysCallback]="false"
+              [infiniteScrollDisabled]="clientsAutocompleteItems?.length >= parentClientPagination?.found"
+              >
+                <mat-option [value]="null" class="hide-selected-tick">Select Client Name</mat-option>
+                <mat-option *ngFor="let vGroup of clientsAutocompleteItems;trackBy: parentClientTrackByFn" [value]="vGroup"
+                  [class.mat-selected]="contractSearchForm?.controls?.clientName?.value?.id === vGroup?.id"
+                  tooltip="{{vGroup.value?.length >15 ? vGroup.value : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+                  <span [innerHTML]="(vGroup.value)| imx_highlight: clientGroupInputRef?.value"></span>
+                </mat-option>
+
+                <mat-option disabled *ngIf="isClientsListLoading">
+                  <div fxLayout="row" fxLayoutAlign="space-around center" >
+                    <mat-spinner diameter="20"></mat-spinner>
+                  </div>
+                </mat-option>
+
+                <mat-option disabled *ngIf="!isClientsListLoading && clientsAutocompleteItems?.length <= 0">
+                  No Records Found.
+                </mat-option>
+              </div>
+            </mat-autocomplete>
+            <mat-error class="small-font" *ngIf="contractSearchForm?.controls?.clientName.hasError('required')">
+                Client is required.
+             </mat-error>
+             <mat-error *ngIf="contractSearchForm?.controls?.clientName.hasError('invalid')">
+              Please select from the drop down list.
+             </mat-error>
+          </mat-form-field>
+          <mat-form-field class="imx-dropdown imx-input">
+            <mat-label>
+              Campaign
+            </mat-label>
+            <mat-select panelClass="imx-select disabled-view-select" formControlName="campaign">
+              <mat-option [value]="null">Select Campaign</mat-option>
+              <mat-option *ngFor="let campaign of campaignsAutocompleteItems" [value]="campaign.id">
+                {{ campaign.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div fxFlex="25">
+        <div  fxLayout="column" fxLayoutAlign="space-between stretch" class="search-form-column"  fxLayoutGap="10px">
+          <mat-form-field class="imx-input">
+            <mat-label>Contract Name</mat-label>
+            <input matInput formControlName="contactName" class="search-input">
+          </mat-form-field>
+          <div fxLayout="column" fxLayoutAlign="space-between end">
+            <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="10px">
+              <button type="button" mat-button class="imx-button-basic reset-button" (click)="onReset()">{{"Reset" | uppercase}}</button>
+              <button mat-raised-button class="imx-button-primary search-btn" cdkFocusInitial disabled="{{this.contractSearchForm.invalid}}" (click)="onSearch()">{{"Search" | uppercase}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div fxFlex="35">
+    <div fxLayout="row" fxLayoutAlign="end center"  fxLayoutGap="10px" >
+      <button mat-button type="button" class="imx-button-basic_icon" disableRipple [matMenuTriggerFor]="exportMenu"  [ngClass]="{'disabled' : (!contractsPagination?.found || contractsPagination?.found <= 0)}"  module="contract" visiblityType="export" appUserAccessPermission >
+        <span>EXPORT</span>
+        <mat-icon>expand_more</mat-icon>
+      </button>
+      <mat-menu #exportMenu="matMenu" class="mat-elevation-z0">
+        <!-- <button mat-menu-item type="button" >
+          <span>Excel</span>
+        </button> -->
+        <button mat-menu-item type="button" (click)="exportContractCSV()">
+          <span>CSV</span>
+        </button>
+      </mat-menu>
+        <button module="contract" visiblityType="create" appUserAccessPermission type="button" mat-button class="imx-button-stroked" (click)="openAddContractDialog()" >Add Contract</button>
+    </div>
+  </div>
+</div>
+<app-contracts-list-table class="contracts-table"
+  [isLoadingContracts]="isLoadingContracts"
+  [searchFilterApplied]="searchFilterApplied"
+  [isSearchInValid]='isSearchInValid'
+  [tableData]="contractsTableData" [pagination]="contractsPagination"
+  [sort]='sort'
+  (refresh)='onSearch()'
+  (sortChanged)="onSortChanged($event)" (paginationChanged)="onPaginationChanged($event)"
+  (defaultCustomizedColumn)="onDefaultColumn($event)"
+  (listActionDuplicate)="initListActionDuplicate($event)"
+  (listActionDelete)="listActionDeleteContract($event)"
+  >
+</app-contracts-list-table>

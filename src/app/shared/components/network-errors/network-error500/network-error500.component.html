@@ -1,0 +1,30 @@
+<div class="c-network-error-500 c-network-error__container intermx-theme-new">
+  <main class="c-network-error__main" fxLayout="row"  fxLayoutAlign="space-between center">
+    <section class="c-network-error__message-block">
+      <div class="c-network-error__title">
+        <h3>Internal Server</h3>
+        <h3>Error (500)</h3>
+      </div>
+
+      <div class="c-network-error__message">
+        <h6>We all hate unknown errors.</h6>
+        <h6>Must be that... Try in few minutes</h6>
+      </div>
+
+      <div>
+        <button (click)="openFeedback()" mat-raised-button class="imx-button-stroked">
+          Try Now
+        </button>
+      </div>
+    </section>
+
+    <section class="c-network-error__img-block">
+      <img src="assets/images/error-500.svg" width="579" height="438" alt="Internal server error"/>
+    </section>
+  </main>
+
+  <footer class="c-network-error__footer" fxLayout="column" fxLayoutAlign="center center">
+    <span>powered by</span>
+    <span>INTERMX</span>
+  </footer>
+</div>

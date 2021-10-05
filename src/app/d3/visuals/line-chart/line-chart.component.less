@@ -1,0 +1,88 @@
+@import "../../../../assets/css/variables.less";
+::ng-deep {
+    graph-line-chart {
+        .basicLineChart {
+            position: relative;
+        }
+        .axis {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        text {
+            fill: var(--black-color);
+            stroke: none;
+            font-size: 10px;
+        }
+        
+        .axis {
+            path, line{
+                fill: none;
+                stroke: var(--primary-bg);
+                stroke-width: 0px;
+            }
+        }
+        .grid {
+            path {
+                stroke: none;
+            }
+        }
+        
+        .grid {
+            line {
+                stroke: var(--grays-bg-300);
+            }
+        }
+        
+        .data-line {
+            fill: none;
+            stroke: var(--primary-bg);
+            stroke-width: 1px;
+        }
+        
+        .data-circle {
+            fill: var(--primary-bg); 
+            cursor: pointer;    
+        }
+        
+        .axis-title {
+            text-anchor: end;
+            fill: var(--primary-bg);
+            font-weight: normal;
+        }
+        
+        .axis-tspan {
+            font-size: 12px;
+        }
+        .area-data {
+            fill: var(--primary-bg); 
+            stroke: var(--primary-bg);
+            stroke-width: 1px;
+            fill-opacity: 0.10;
+            stroke-opacity: 0.20;
+        }
+        .d3ChartToolTip
+        {
+            height: 60px;
+            width: 170px;
+            border-radius: 3px;
+            background-color: rgba(0,0,0,0.6);
+            color: var(--white-color);
+            position: absolute;
+            z-index: 1000;
+            padding: 10px;
+            text-align: center;
+            display: none;
+        }
+        .d3ChartToolTip:after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 43%;
+            margin-left: -5px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: rgba(0,0,0,0.6) transparent transparent transparent
+        };
+        
+    }
+}

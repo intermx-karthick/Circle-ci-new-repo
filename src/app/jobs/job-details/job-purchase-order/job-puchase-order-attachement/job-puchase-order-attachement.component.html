@@ -1,0 +1,18 @@
+<div class="job-po-attachment">
+    <section fxLayout="row" fxLayoutAlign="space-between center">
+        <h3 class="job-po-attachment__title">{{title}}</h3>
+        <mat-icon class="job-po-attachment__close" mat-dialog-close>highlight_off</mat-icon>
+    </section>
+
+    <section class="job-po-attachment__upload-section">
+        <app-logos 
+            [organizationId$]="organizationId$" [fileUploadConfig]="fileUploadConfig"
+            [mainTitle]="isUploadSignedJob && 'Upload Signed Job' || 'Upload Related Files'"
+            [logos]=" attachments" (deleteLogoFunc)="deleteAttachment($event)"
+            (createLogoFunc)="createAttachment($event)" [uploadInProgress$]="uploadInProgress$"
+            [clearAttachment$]="clearAttachment$" (loadMoreLogos)="loadMoreAttachments()" [isLogosLoading$]="isLoading$"
+            [updateCaptionAPIFunc]="updateCaptionAPIFunc" [isSticky]="true" [uploadButtonPrimary]="true"
+            [ngClass]="{ 'more-attachments': pagination?.total > 10}">
+        </app-logos>
+    </section>
+</div>

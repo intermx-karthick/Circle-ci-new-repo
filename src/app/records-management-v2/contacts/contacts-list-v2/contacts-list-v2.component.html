@@ -1,0 +1,151 @@
+<div class="clist-body" fxLayout="column" fxLayoutAlign="start start" fxFill  [ngClass]="{'client-contact': moduleName === 'client', 'modular-contacts': moduleName}">
+  <section fxLayout="row" class="clist-header-action" [ngClass]="{'total-count-width':moduleName === 'client'}">
+    <div fxFlex="20" class="total-record" fxLayoutAlign="start center" *ngIf="!searchFilterApplied">
+      Total : {{contactsPagination?.found || 0}}
+    </div>
+    <div fxFlex="20" class="total-record" fxLayoutAlign="start center" *ngIf="searchFilterApplied">
+      Found : {{contactsPagination?.found || 0}}
+    </div>
+    <div fxFlex="80" fxLayoutAlign="end" fxLayoutGap="1.2rem" *ngIf="enableCustomizeHeader">
+      <div *ngIf='!moduleName && isSearchApplied && !elasticSearch.isSearchValid' tooltip='Refresh' placement='top' delay='200'
+           tooltipClass='imx-tooltip-v3' customClass='imx-field-tooltip'>
+        <mat-icon class='close-icon' svgIcon='IMX-refresh' (click)='loadContacts()'></mat-icon>
+      </div>
+      <div tooltip="Customize Columns" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" *ngIf="!isDialogOpenend">
+        <mat-icon svgIcon="IMX-columns" class="svg-primary" (click)="customizeColumn()"></mat-icon>
+      </div>
+      <div *ngIf="!isDialogOpenend; else closeDialog" tooltip="Expand Table" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          <mat-icon (click)="openContactFullscreenDialog()">zoom_out_map</mat-icon>
+      </div>
+      <ng-template #closeDialog>
+        <mat-icon tooltip="Collapse Table" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" svgIcon="IMX-fullscreen-exit" class="full-screen-exit-icon" (click)="closeDialogBox()"></mat-icon>
+      </ng-template>
+    </div>
+  </section>
+
+  <section class="ctable-container" fxFill>
+    <div class="clist-table-parent" [ngStyle]="{'max-height.px':scrollContent, 'min-height.px':scrollContent}" id="{{ isDialogOpenend ? 'contact-fullscreen-scroll' : 'contact-table-scroll'}}" #tableScrollRef>
+      <mat-table [dataSource]="dataSource"
+                matSort (matSortChange)="onSorting($event)"
+                matSortActive="{{sortedField}}"
+                matSortDirection="{{sortDirection}}"
+                matSortDisableClear
+                class="margin-top-20 imx-table-striped table-header-auto"
+                (window:resize)="reSize()"
+                [matSortDisabled]="!contactsList?.length"
+                [ngClass]="{'enable-table-scroll': hasHorizontalScrollbar}">
+        <ng-container matColumnDef="firstName" sticky>
+          <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="21.25rem">First Name</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="21.25rem" (click)="openContactDetails(element)" class="imx-link-cursor">
+            <a class="primary-color-text font-weight-normal contact-name-td imx-name-wrap">
+              {{element.firstName }}
+            </a>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="fullname" sticky>
+          <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="21.25rem">Full Name</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="21.25rem" class="imx-link-cursor" (click)="openContactDetails(element)">
+            <a class="primary-color-text font-weight-normal contact-name-td imx-name-wrap" >
+              {{element.firstName  }} {{element.lastName}}
+            </a>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="lastName" >
+          <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="21.25rem"> Last Name</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="21.25rem" (click)="openContactDetails(element)" class="imx-link-cursor">
+            <a class="primary-color-text font-weight-normal contact-name-td imx-name-wrap"            >
+              {{element.lastName }}
+            </a>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="address" >
+          <mat-header-cell *matHeaderCellDef mat-sort-header class="" fxFlex="12rem">Address</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="12rem">{{element?.address?.line}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="notes" >
+          <mat-header-cell *matHeaderCellDef class="" fxFlex="12rem">Notes</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="imx-name-wrap" fxFlex="12rem">{{element?.note?.notes | toPlainText}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="companyName" >
+          <mat-header-cell *matHeaderCellDef class="" fxFlex="12rem" [mat-sort-header]=" !moduleName ? 'companyName' : null " [disabled]="moduleName">Company Name</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="12rem">{{element?.companyId?.name}}</mat-cell>
+        </ng-container>
+
+
+        <ng-container matColumnDef="companyType" >
+          <mat-header-cell *matHeaderCellDef fxFlex="5rem" mat-sort-header>Type</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="5rem">{{element.companyType}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <mat-header-cell *matHeaderCellDef fxFlex="13rem" mat-sort-header> Email Address</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="13rem">{{element.email}}</mat-cell>
+        </ng-container>
+
+
+        <ng-container matColumnDef="mobile">
+          <mat-header-cell *matHeaderCellDef mat-sort-header [fxFlex]="!moduleName && '6.5rem' || '9.5rem'"> {{ !moduleName && 'Phone' || 'Phone Number'}}</mat-header-cell>
+          <mat-cell *matCellDef="let element" [fxFlex]="!moduleName && '6.5rem' || '9.5rem'">{{element.mobile | phoneFormat}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="state">
+          <mat-header-cell *matHeaderCellDef mat-sort-header [fxFlex]="!moduleName && '4.5rem' || '8rem'"> State</mat-header-cell>
+          <mat-cell *matCellDef="let element" [fxFlex]="!moduleName && '4.5rem' || '8rem'"> {{element?.address?.state?.short_name}} </mat-cell>
+        </ng-container>
+
+
+        <ng-container matColumnDef="city">
+          <mat-header-cell *matHeaderCellDef mat-sort-header [fxFlex]="!moduleName && '7.5rem' || '9.5rem'"> City</mat-header-cell>
+          <mat-cell *matCellDef="let element" [fxFlex]="!moduleName && '7.5rem' || '9.5rem'"> {{element?.address?.city  | truncate:'middle':30}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="updatedAt" >
+          <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10rem">Last Modified</mat-header-cell>
+          <mat-cell *matCellDef="let element; let i = index;" class="last-column" fxFlex="10rem"> <span class="lowercase" [innerHTML]="element.updatedAt | dateAgo :'new'"></span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="action" [sticky]="true">
+          <mat-header-cell *matHeaderCellDef fxFlex="2.5rem" class="action-menu-column left339" [ngStyle]="{'left.px': 339.99}"></mat-header-cell>
+          <mat-cell  *matCellDef="let element;let i = index" fxFlex="2.5rem" class="action-menu-column" [ngStyle]="{'left.px': 339.99}">
+            <mat-icon [matMenuTriggerFor]="actionMenu" [isAccessDenied]="(!userPermission?.delete && !userPermission?.create)" visiblityType="menu" module="contacts" appUserAccessPermission class="action-icon">more_vert</mat-icon>
+            <mat-menu #actionMenu="matMenu" xPosition="before" class="action-dropdown-imx minimun-height action-menu-position action-dropdown-width table-action-position">
+              <button mat-menu-item [isAccessDenied]="!userPermission?.create" module="contacts" visiblityType="create" appUserAccessPermission (click)="duplicateContact(element)">Duplicate</button>
+              <button mat-menu-item [isAccessDenied]="!userPermission?.delete" module="contacts" visiblityType="delete" appUserAccessPermission (click)="deleteContact(element)">Delete</button>
+            </mat-menu>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="customizeColumnService.displayedColumns;sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; let i = index; columns: customizeColumnService.displayedColumns;"  class="clist-row"></mat-row>
+      </mat-table>
+      <div fxLayout="row" fxLayoutAlign="center center" fxFill *ngIf="contactsList.length === 0 && !isLoadingContacts" class="noDataFound" [ngClass]="{'common-module':moduleName}">
+        <div>
+          <p>No Contact found with that Criteria.<br> <span *ngIf="!moduleName">Try searching for something else</span></p>
+          <div [ngStyle]="{'height.px':scrollContent - 190}">
+          <img src="../../../assets/images/cuate.svg" alt="" >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="vlist-pagination" [class.no-top-border]="!contactsList?.length && isLoadingContacts" >
+      <mat-divider></mat-divider>
+      <div class="spiner-div" *ngIf="isLoadingContacts">
+        <mat-spinner diameter="30"></mat-spinner>
+      </div>
+      <mat-paginator
+                     (page)="getPageEvent($event)"
+                     [length]="contactsPagination?.found || 0"
+                     [pageIndex]="(contactsPagination?.page || 1) - 1"
+                     [pageSize]="contactsPagination?.perPage"
+                     [pageSizeOptions]="paginationSizes"
+                     [showFirstLastButtons]="true"
+                     [disabled]="!contactsList?.length">
+      </mat-paginator>
+    </section>
+  </section>
+</div>

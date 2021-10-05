@@ -1,0 +1,55 @@
+<div fxLayout="column" class="outer-gap thresholds-filter">
+  <div fxLayout="row" fxLayoutGap="20px" class="slider-grp-1">
+    <div fxLayout="column" class="sliders">
+      <p class="caption black-text"> {{ isMarketPlan && 'In-Market Target Impressions' || 'Target Audience Impressions'}} </p>
+      <div class="grid-column" fxLayoutGap="3px" fxLayoutAlign="space-between end" fxLayout="row" >
+        <graph-basic-bar [data]="targetImpChartData" [options]='barChartConfig' [manualRefresh]="graphRefresh"></graph-basic-bar>
+      </div>
+      <imx-ngx-slider [sliderRange]="targetAudienceSliderRange" [sliderOptions]="targetAudienceOptions" (sliderRangeHandler)="TargetAudienceSliderRangeHandler($event)"></imx-ngx-slider>
+    </div>
+    <div fxLayout="column" class="sliders" *ngIf="!isMarketPlan">
+      <p class="caption black-text">Target Audience Imp. Comp. %</p>
+      <div class="grid-column" fxLayoutGap="3px" fxLayoutAlign="space-between end" fxLayout="row">
+        <graph-basic-bar [data]="targetCompPerChartData" [options]='barChartConfig' [manualRefresh]="graphRefresh"></graph-basic-bar>
+      </div>
+      <imx-ngx-slider [sliderRange]="targetCompPerSliderRange" [sliderOptions]="percentageSliderOptions" (sliderRangeHandler)="targetCompPerSliderRangeHandler($event)"></imx-ngx-slider>
+    </div>
+    <div fxLayout="column" class="sliders" *ngIf="isMarketPlan">
+      <p class="caption black-text">In-Market Target Comp Index</p>
+      <div class="grid-column" fxLayoutGap="3px" fxLayoutAlign="space-between end" fxLayout="row">
+        <div  [ngClass]="{'hide': !market}">
+          <graph-basic-bar [data]="inMarketCompIndexChartData" [options]='barChartConfig' [manualRefresh]="graphRefresh" ></graph-basic-bar>
+        </div>
+      </div>
+      <imx-ngx-slider [sliderRange]="inMarketCompIndexSliderRange" [sliderOptions]="inMarketCompIndexOptions" (sliderRangeHandler)="inMarketCompIndexSliderRangeHandler($event)"></imx-ngx-slider>
+    </div>
+  </div>
+  <div *ngIf="!market && !isMarketPlan" class="market-selection">
+    Please select a Market in the Define Target menu to enable the filters below.
+  </div>
+  <div fxLayout="row" fxLayoutGap="20px" class="slider-grp-2" *ngIf="!isMarketPlan">
+    <div fxLayout="column" class="sliders" ngClass="{disabled: !market}">
+      <p class="caption black-text">In-Market Target Audience Imp. Comp. Index</p>
+      <div class="grid-column" fxLayoutGap="3px" fxLayoutAlign="space-between end" fxLayout="row">
+        <div  [ngClass]="{'hide': !market}">
+          <graph-basic-bar [data]="inMarketCompIndexChartData" [options]='barChartConfig' [manualRefresh]="graphRefresh" ></graph-basic-bar>
+        </div>
+      </div>
+      <imx-ngx-slider [sliderRange]="inMarketCompIndexSliderRange" [sliderOptions]="inMarketCompIndexOptions" (sliderRangeHandler)="inMarketCompIndexSliderRangeHandler($event)" [disabled]="!market && !isMarketPlan"></imx-ngx-slider>
+    </div>
+    <div fxLayout="column" class="sliders" ngClass="{disabled: !market}" *ngIf="!isMarketPlan">
+      <!--  <p class="caption black-text">In-Market Target Audience Imp. Comp. Index</p>-->
+      <p class="caption black-text">In-Market Target Audience Imp. Comp. %</p>
+      <div class="grid-column" fxLayoutGap="3px" fxLayoutAlign="space-between end" fxLayout="row" >
+          <div  [ngClass]="{'hide': !market}">
+            <graph-basic-bar [data]="inMarketCompPerChartData" [options]='barChartConfig' [manualRefresh]="graphRefresh"></graph-basic-bar>
+          </div>
+      </div>
+      <imx-ngx-slider [sliderRange]="inMarketCompPerSliderRange" [sliderOptions]="percentageSliderOptions" (sliderRangeHandler)="inMarketCompPerSliderRangeHandler($event)" [disabled]="!market && !isMarketPlan"></imx-ngx-slider>
+    </div>
+  </div>
+  <div fxLayout="row" class="action-area action-container" [ngClass]="{ 'module-disable':(allowInventory === 'disabled')}" *ngIf="!isMarketPlan">
+    <button mat-raised-button class="btn-clear" (click)="reset()">CLEAR </button>
+    <button mat-raised-button class="btn-primary-color" (click)="apply()">APPLY</button>
+  </div>
+</div>

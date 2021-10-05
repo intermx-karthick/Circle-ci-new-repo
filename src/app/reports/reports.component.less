@@ -1,0 +1,82 @@
+@import "../../assets/css/variables.less";
+@import "../../assets/css/intermx-new.theme.less";
+::ng-deep {
+  app-reports {
+    .body-content {
+      height: 100%;
+      .left-nav, .body-inner-content {
+        height: calc(100vh - 120px);
+      }
+      .left-nav {
+        box-shadow: none;
+        border-right: 1px solid var(--grays-bg-500);
+        background: var(--grays-bg-100);
+        position: relative;
+        max-width: 130px !important;
+      }
+      .navBarPanel {
+        margin-top: 25px;
+      }
+      .close-nav-div {
+        position: relative;
+      }
+      .close-nav-bar {
+        cursor: pointer;
+        position: absolute;
+        display: inline-block;
+        padding-top: 9px;
+        width: 20px;
+        height: 45px;
+        left: 0px;
+        top: 10px;
+        background: var(--grays-bg-100);
+        // border: 1px solid var(--grays-bg-300);
+        z-index: 1px;
+        mat-icon {
+          font-size: 30px;
+          margin-left: -7px;
+          margin-top: -3px;
+        }
+      }
+      &.closedNavBar {
+        .left-nav {
+          display: none;
+        }
+      }
+      .body-inner-content{
+        // padding: 20px 5px 10px 20px;
+        width: 100%;
+        &.organization-scroll{
+          overflow: auto;
+        }
+      }
+    }
+
+    .explore-header {
+      margin-left: 20px;
+      margin-right: 0px;
+      text-transform: none;
+      margin-top: 16px;
+      div
+      {
+        min-height: 40px;
+      }
+      .explore-filter-btn
+      {
+        cursor: pointer;
+        font-size: 11px;	
+        font-weight: bold;	
+        letter-spacing: 0.91px;	
+        line-height: 12px;	
+        text-align: center;
+        color: var(--medium-emphasis);
+        padding: 0px 10px;
+      }
+      .explore-filter-btn.active
+      {
+        background-color:var(--button-bg-color);
+        color:var(--white-color);
+      }
+    }
+  }
+}

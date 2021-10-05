@@ -1,0 +1,24 @@
+<div class="market-type-div">
+<div class="header" fxLayout="row" fxLayoutAlign="start center">
+    <h4 mat-dialog-title>Select Market Type to Auto-Assign Inventory’s Market</h4>
+    <span fxFlex="1 1 auto"> </span>
+    <button mat-icon-button class="mat-dialog-close" class="close-icon" (click)="canclAutoAssign()">
+        <mat-icon>highlight_off</mat-icon>
+    </button>
+</div>
+ <mat-dialog-content>
+    <div class="marketTypeBlock">
+        <mat-radio-group [(ngModel)]="marketType">
+            <mat-radio-button name="Market" value="DMA">DMA</mat-radio-button>
+            <mat-radio-button name="Market" value="CBSA">CBSA</mat-radio-button>
+            <mat-radio-button name="Market" value="County">County</mat-radio-button>
+        </mat-radio-group>
+    </div>
+  </mat-dialog-content>    
+</div>
+<div fxLayoutGap="1rem" class="alignbutton" fxLayoutAlign="end">
+    <button mat-button class="imx-button-basic" (click)="canclAutoAssign()">cancel auto-assign</button>
+    <button mat-button class="imx-button-primary" (click)="onAdd()"><mat-icon svgIcon="IMX-check"></mat-icon> Add as individual</button>
+    <button mat-button class="imx-button-primary" (click)="addAsGroup()"> <mat-icon svgIcon="IMX-multi-check"></mat-icon> Add as group</button>
+
+</div>

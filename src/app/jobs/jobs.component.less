@@ -1,0 +1,80 @@
+::ng-deep {
+  app-jobs {
+    .body-content {
+      height: 100%;
+      .left-nav,
+      .body-inner-content {
+        height: calc(100vh - 120px);
+        background: #F9F9F9;
+      }
+
+      .left-nav {
+        background: var(--grays-bg-100);
+        position: relative;
+        width: 178px;
+      }
+
+      .close-nav-div {
+        position: relative;
+      }
+
+      .close-nav-bar {
+        cursor: pointer;
+        position: absolute;
+        display: inline-block;
+        padding-top: 9px;
+        width: 20px;
+        height: 45px;
+        left: 0px;
+        top: 10px;
+        background: var(--grays-bg-100);
+        border: 1px solid var(--grays-bg-300);
+        z-index: 1px;
+        mat-icon {
+          font-size: 30px;
+          margin-left: -7px;
+          margin-top: -3px;
+        }
+      }
+      &.closedNavBar {
+        .left-nav {
+          display: none;
+        }
+      }
+
+      .body-inner-content {
+        background: #F9F9F9;
+        width: 100%;
+        overflow: auto;
+        padding: 30px;
+      }
+
+    }
+
+    .records-managment-menu {
+      padding: 15px 15px 0px 20px;
+      ul {
+        list-style: none;
+        padding: 0px;
+        margin: 0;
+        li {
+          padding: 8px;
+          a {
+            color: var(--high-emphasis);
+            font-size: 15px;
+            font-weight: 500;
+            &.active, &:hover {
+              color: var(--primary-bg-900);
+              border-bottom: 1px solid;
+              text-decoration: none;
+            }
+          }
+        }
+      }
+    }
+
+    .imx-button {
+      padding: 8px 16px !important;
+    }
+  }
+}

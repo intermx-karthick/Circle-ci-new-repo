@@ -1,0 +1,20 @@
+<div class="bulk-export-container">
+  <h3>Export Options</h3>
+  <p>Please select the orientation you would like for your export.</p>
+  <mat-radio-group
+    aria-label="Select an orientation"
+    fxLayout="column"
+    fxLayoutGap="10px"
+    [(ngModel)]="orientation"
+    (change)="changeOrientation($event)"
+  >
+    <mat-radio-button value="landscape">Landscape (Wide)</mat-radio-button>
+    <mat-radio-button value="portrait" [disabled]='data.site === "omg"'>Portrait (Tall)</mat-radio-button>
+  </mat-radio-group>
+  <div class="modal-footer">
+    <button #closeDialog mat-raised-button type="button" class="button popup-left-btn button-primary-link no-radius" mat-dialog-close>CANCEL</button>
+    <button type="submit" mat-raised-button class="button button-primary uppercase no-radius test-inv-submit-btn" (click)="exportPDF()">
+      EXPORT
+    </button>
+  </div>
+</div>

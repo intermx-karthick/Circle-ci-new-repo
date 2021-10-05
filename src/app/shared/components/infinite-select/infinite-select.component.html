@@ -1,0 +1,38 @@
+<mat-form-field [class.new-tab-link]='showTabLink' class="imx-dropdown imx-input" 
+        [ngClass]="{'mat-form-field-invalid': showError}" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+        [tooltip]="(selectedOption && selectedOption[itemViewField]?.length > 10) ? selectedOption[itemViewField] : ''" [placement]="'top'" [delay]="'200'"
+>
+  <mat-label>{{ label }}</mat-label>
+  <mat-icon *ngIf='showTabLink' svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon for-mat-select"
+            [class.disabled]="!selectedOption?._id"
+            (click)="$event.stopPropagation();handleTabClick(selectedOption?._id)"
+            matSuffix></mat-icon>
+  <mat-select panelClass="imx-select" [compareWith]="compareObjects" [(ngModel)]="selectedOption" (selectionChange)="onSelectionChange($event.value)" [disabled]="disableEdit" #infiniteSelect>
+    <div class="mat-select-panel__wrapper" infiniteScroll
+         (scrolled)="onScroll()"
+         [scrollWindow]="false"
+         [infiniteScrollDistance]="100"
+         [infiniteScrollThrottle]="0"
+         [infiniteScrollDisabled]="isLoading || isComplete"
+         [fromRoot]="true">
+      <mat-option *ngIf="createOptionEnable" (click)="openNewWindowAction(); infiniteSelect.close();" class="create-option hide-selected-tick" disabled> <mat-icon>add</mat-icon> {{ createLabel }} </mat-option>
+      <mat-divider *ngIf="createOptionEnable"></mat-divider>
+      <mat-option [value]="null">Select {{ label }}</mat-option>
+      <mat-option *ngFor="let item of items" [value]="item">
+        <ng-container *ngIf="Array.isArray(itemViewField)">
+          <ng-container *ngFor="let itemView of itemViewField">
+            {{ item[itemView] }}
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="!Array.isArray(itemViewField)">
+          {{ item[itemViewField] }}
+        </ng-container>
+      </mat-option>
+      <mat-option disabled *ngIf="isLoading">
+        <div fxLayout="row" fxLayoutAlign="space-around center">
+          <mat-spinner diameter="20"></mat-spinner>
+        </div>
+      </mat-option>
+    </div>
+  </mat-select>
+</mat-form-field>

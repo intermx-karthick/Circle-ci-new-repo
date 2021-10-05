@@ -1,0 +1,45 @@
+form {
+    width: 100%;
+}
+
+h1 {
+  color: var(--grays-bg-700);
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+  margin-bottom: 32px;
+}
+
+.mat-dialog-content {
+  margin: unset !important;
+}
+
+.mat-dialog-actions {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+button:not(.button-primary) {
+  color: var(--text-primary);
+}
+
+.button-primary {
+  max-width: max-content !important;
+}
+
+.row-container {
+    width: 100%;
+
+    .close-icon {
+        transition: 1s ease-in-out;
+      }
+
+      .close-icon:hover {
+        transform: rotate(180deg);
+      }
+}
+
+.modal-close-icon path {
+  fill: var(--text-primary);
+}

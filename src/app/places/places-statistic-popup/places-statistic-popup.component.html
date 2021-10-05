@@ -1,0 +1,165 @@
+<div class='placeStatisticSheetPopup'>
+  <div fxLayout="row" fxLayoutAlign="space-between start" class='panel_nav' *ngIf="placeDetail['type'] == 'map'">
+    <a href="javascript:void(0);" class="prev">
+      <mat-icon class="prev">keyboard_arrow_left</mat-icon>
+    </a>
+    <div class='panel_nav_text'> {{ placeDetail['current'] }}/{{ placeDetail['length'] }}</div>
+    <a href="javascript:void(0);" class="next">
+      <mat-icon class="chevron-right next">keyboard_arrow_right</mat-icon>
+    </a>
+  </div>
+  <div class="popupHeader" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxFlex="50">
+      <div class="body-1" [title]="placeDetail['top_category']">IMX ID: <b>Unaudited</b> | <a href="javascript:void(0);"
+          class="button-primary-link">Request Audit</a></div>
+      <h4>{{placeDetail['place_name'] | truncate:'middle':35}}</h4>
+      <div class="subtitle-1">{{placeDetail['properties']['address']['street_address'] + ", " + placeDetail['properties']['address']['city'] | titlecase}}
+        {{placeDetail['properties']['address']['state'] | uppercase}} {{placeDetail['properties']['address']['zip_code']}}
+         <!-- | <a href="javascript:void(0);"
+          class="button-primary-link">Website</a> -->
+        </div>
+    </div>
+    <div fxFlex="50">
+      <div fxLayout="row" fxLayoutAlign="end center">
+        <!-- <button mat-raised-button class="btn-primary-color" type="button">
+          <mat-icon>vertical_align_bottom</mat-icon>
+          <span>Export PDF</span>
+        </button> -->
+        <button mat-raised-button class="btn-primary-color primaryBtn" type="button">
+          <mat-icon>add</mat-icon>
+          <span>Add to Place List</span>
+        </button>
+        <div class="selectYearDD">
+          <mat-form-field>
+            <mat-label>SELECT PERIOD</mat-label>
+            <select matNativeControl id="selectStatsPeriod">
+              <option value="Last Month">Last Month</option>
+              <option value="Last Quarter">Last Quarter</option>
+              <option value="Year-to-Month">Year-to-Month</option>
+              <option value="Last Year">Last Year</option>
+              <option value="Last Year, Last Month">Last Year, Last Month</option>
+              <option value="Last Year, Last Quarter">Last Year, Last Quarter</option>
+            </select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="imx-divider">
+      <mat-divider></mat-divider>
+  </div>
+  
+  <div fxLayout="row" fxFill fxLayoutAlign="space-between start" class="placeDetailBlock" [ngStyle]="{'height.px': contentHeight}" (window:resize)="onResize()">
+    <div class="block-1">
+      <h5>What is an IMX ID?</h5>
+      <p>The IMX ID communicates that an additional layer of a verification has been provided for any of the associated definitions or attributes associated with the place of interest.</p>
+      <h5>Audited</h5>
+      <p>An audited location means that an IMX ID has been provisioned and insights are provided where confidence in the necessary contributing data has been established.</p>
+      <h5>Unaudited</h5>
+      <p>An unaudited location means that any definition or insights associated are provided directly from the source data and have not gone through a manual vetting.</p>
+    </div>
+
+    <div class="block div-w-200">
+      <h5>Place Polygon Source</h5>
+      <p>This polygon is sourced from SafeGraph Places where the building geometry for commercial POIs includes latitude/longitude and the building footprint as a polygon and spatial hierarchy metadata defining whether the polygon is contained within another polygon.</p>
+      <h5>Unaudited Data Source</h5>
+      <p>Nulla dapibus elit congue elit tempo.  Praesent ut fringilla sem. Nullam ut quam velit. Praesent ut fringilla sem. Nullam ut quam velit.  Nullam ut quam velit.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ut fringilla sem. </p>
+    </div>
+    <div class="block div-w-185" *ngIf="!isAudit">
+      <h5>Sampled Devices</h5>
+      <p class="number-h1">12,482<mat-icon>info</mat-icon></p>
+      <h5>Sampled Visits</h5>
+      <p class="number-h1">13,939<mat-icon>info</mat-icon></p>
+      <h5>Device Type</h5>
+      <div>
+        <img src="../../../assets/images/device-type.png" alt="">
+      </div>
+    </div>
+    <div class="block div-w-185" *ngIf="isAudit">
+      <h5>Devices</h5>
+      <p class="number-h1">{{ deviceCount | convert: 'THOUSAND'}}<mat-icon>info</mat-icon></p>
+      <h5>Visits</h5>
+      <p class="number-h1">{{ visitCount | convert: 'THOUSAND'}}<mat-icon>info</mat-icon></p>
+      <h5>Device Type</h5>
+      <div>
+        <app-donut-chart *ngIf="deviceCount > 0" [data]="placeDetail.properties.measures.device_type"></app-donut-chart>
+      </div>
+    </div>
+    <div class="block div-w-200">
+      <h5>Place Polygon</h5>
+      <div class="place-image">
+        <img src='{{staticMapUrl}}' crossorigin="anonymous" onerror="this.src='../../../assets/images/place-no-image.png'">
+      </div>
+      <h5 class="imx-mt-10">Centroid</h5>
+      <p>{{placeDetail.location.point.coordinates[1] | number : '1.4-4'}}/{{placeDetail.location.point.coordinates[0] | number : '1.4-4'}}</p>
+      <!-- <p>45°27'52.9"N  |  25°27'14.1"E</p> -->
+      <h5 >Hours of Operation</h5>
+      <div *ngIf="(operationHours| json) != '{}';else operationHoursNotDefined">
+        <table >
+          <ng-container *ngFor="let hour of operationHours | geokeys">
+            <tr>
+              <td >{{hour['key']  | titlecase}} :</td>
+              <th>{{hour['value']['open']}} - {{hour['value']['close']}}</th>
+            </tr>
+          </ng-container>
+        </table>
+      </div>
+      <ng-template #operationHoursNotDefined>
+        <div class="posRel">
+          <div class="sampleData" >
+              <span>Sample Data</span>
+            </div>
+          <table>
+            <tr>
+              <td >Mon :</td>
+              <th>10.00 AM - 6.00 PM</th>
+            </tr>
+            <tr>
+              <td >Tue :</td>
+              <th>10.00 AM - 6.00 PM</th>
+            </tr>
+            <tr>
+              <td >Wed :</td>
+              <th>10.00 AM - 6.00 PM</th>
+            </tr>
+            <tr>
+              <td >Thu :</td>
+              <th>10.00 AM - 6.00 PM</th>
+            </tr>
+            <tr>
+              <td >Fri :</td>
+              <th>10.00 AM - 6.00 PM</th>
+            </tr>
+            <tr>
+              <td >Sat :</td>
+              <th>10.00 AM - 6.00 PM</th>
+            </tr>
+          </table>
+        </div>
+      </ng-template>
+      <div>
+          <a class="alink request-Audit-link">Request Audit</a>
+          <span fxFlex="1 1 auto"></span>
+          <!-- <a class="alink">See Example</a> -->
+      </div>
+    </div>
+
+  </div>
+  <div class="imx-divider">
+      <mat-divider></mat-divider>
+  </div>
+  <div class="popupActionBlock" fxLayoutAlign="end center" >
+    <button mat-raised-button class="btn-primary-color detailSheetBtn" type="button">
+      <mat-icon>undo</mat-icon>
+      <span>Return to Insights</span>
+    </button>
+    <button mat-raised-button class="btn-primary-color primaryBtn request-Audit-link" type="button">
+      <mat-icon>check</mat-icon>
+      <span>REQUEST AUDIT</span>
+    </button>
+  </div>
+
+  <!--<div class="body-1">Number of Audited Inventory in Place: <b>N/A</b></div>-->
+</div>

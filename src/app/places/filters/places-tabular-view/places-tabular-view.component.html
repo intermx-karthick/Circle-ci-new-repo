@@ -1,0 +1,84 @@
+<div fxLayout="row wrap" class="places-tabular-block" [ngStyle]="{'height.px': placesTabulaHeight}"> 
+  <div class="places-tabular-header" fxLayout="column" fxFlex="100%" [ngClass]="{'my-place-tab': selectedTab === 1}"> 
+    <div class="action-div">
+      <button mat-raised-button class="button-secondary e2e-customize-column" (click)="customizeColumn()" type="button"	id="customize-column">
+        Customize Columns
+      </button>
+    </div>
+  </div>
+  <div class="places-tabular-body test-result-tablist-scroll"
+       infiniteScroll
+       [infiniteScrollDistance]="1"
+       [infiniteScrollThrottle]="0"
+       (scrolled)="loadMore()"
+       [scrollWindow]="false" [ngStyle]="{'height.px': contentHeight}" (window:resize)="onResize()">
+    <mat-table [dataSource]="placesDataSource" matSort [ngStyle]="{'width.px':tableWidth}" matSortActive="{{currentSortKey}}" matSortDirection="{{currentSortDir}}">
+      <ng-container *ngFor="let column of currentSortables" [matColumnDef]="column.key" [sticky]="column.key == 'checked'">
+        <mat-header-cell *matHeaderCellDef mat-sort-header  [disabled]="column['key'] === 'checked' || column['key'] === 'count'" (click)="onSortting(column['key'])" [ngClass]="{'sort':sortingElement===column['key'], 'e2e-mat-header': column['key'] !== 'checked'}">
+          <ng-template [ngIf]="column['field_name'] == '' " >
+            <mat-checkbox [checked]="selectAllCheckbox" 
+            [indeterminate]="!selectAllCheckbox && selectedCount != 0"
+            (change)="selectAll()"
+            [value]="selectAllCheckbox"
+            [disableRipple]="true" class="e2e-header-checkbox"></mat-checkbox>
+          </ng-template>
+          <ng-template [ngIf]="column['field_name'] != ''" >
+            <span fxLayout="column" fxLayoutAlign="start start"  >
+              <span>{{ column.field_name }}</span>
+            </span>
+          </ng-template>								
+        </mat-header-cell>
+        <mat-cell
+          *matCellDef="let element;let i = index;" [ngSwitch]="column.key" [title]="element[column['key']]" [ngClass]="{'sort':sortingElement===column['key']}">
+          <div *ngSwitchCase="'checked'">
+            <mat-checkbox [ngModel]="element.selected"
+            (change)="selectCheckboxToggle(element, $event.checked)"
+             [disableRipple]="true"></mat-checkbox>
+          </div>
+          <div *ngSwitchCase="'count'">
+            {{ element[column['key']] |  convert:'THOUSAND'}}
+          </div>
+          <div *ngSwitchCase="'place_type'">
+              {{ element[column['key']] | truncate:'middle':15}}
+          </div>
+          
+          <div *ngSwitchCase="'place_name'">
+            <a class="clsPlaceNameLink e2e-place-name-link test-clsPlaceNameLink" (click)="setActivePlace(element[column['key']]);">{{ element[column['key']] | truncate:'middle':15}}</a>
+          </div>
+          <div *ngSwitchCase="'industry'">
+            {{ element[column['key']] | truncate:'middle':15}}
+          </div>
+          <div *ngSwitchCase="'location_name'">
+            <a class="clsPlaceNameLink e2e-place-name-link test-clsPlaceNameLink" (click)="onCardClick(element);"> {{ element[column['key']] | truncate:'middle':15}}</a>
+          </div>
+          <div *ngSwitchCase="'street_address'" class="capitalize">
+            {{ element['address'][column['key']] | truncate:'middle':15}}
+          </div>
+          <div *ngSwitchCase="'city'" class="capitalize">
+            {{ element['address'][column['key']] | truncate:'middle':15}}
+          </div>
+          <div *ngSwitchCase="'state'">
+            {{ element['address'][column['key']] | truncate:'middle':15 | uppercase}}
+          </div>
+          <div *ngSwitchCase="'zip_code'" class="capitalize">
+            {{ element['address'][column['key']] | truncate:'middle':15}}
+          </div>
+          <div *ngSwitchDefault class="capitalize">
+            {{ element[column['key']]}}
+          </div>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displaySortables; sticky: true"></mat-header-row>
+      <ng-container *ngIf="enableHover == 'true';else noHoverPart">
+          <mat-row *matRowDef="let row; columns: displaySortables;" (mouseenter)="hoverOnCard(row)" (mouseleave)="hoverOutOnCard()" class="hoverEffect"></mat-row>
+      </ng-container>      
+      <ng-template #noHoverPart>
+        <mat-row *matRowDef="let row; columns: displaySortables;"></mat-row>
+      </ng-template>      
+    </mat-table>
+    <div class="no-data-found" *ngIf="places.length <= 0">
+        No data found
+    </div>
+  </div>
+ 
+</div>

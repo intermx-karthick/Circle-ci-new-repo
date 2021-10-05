@@ -1,0 +1,108 @@
+::ng-deep {
+  app-filter-by-ids{
+    .mat-expansion-panel {
+      & .mat-expansion-indicator {
+        display: none !important;
+      }
+      & > .mat-expansion-panel-header {
+        padding: 0 !important;
+        height: 40px !important;
+        font-size: 14px;
+        & .mat-badge-medium .mat-badge-content {
+          width: 20px;
+          height: 20px;
+          line-height: 20px;
+          top: 0;
+          right: -25px;
+          background: var(--primary-bg);
+          font-size: 11px;
+        }
+      }
+      & .mat-expansion-panel-body {
+        padding: 0px !important;
+        padding-left: 5px !important;        
+      }
+    }
+    .id-container {
+      max-width: 50%;
+    }
+    .action-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding: 0 19px;
+      & > button {
+        height: 28px;
+        width: 55px;
+        min-width: 55px;
+        font-size: 10px;
+        font-weight: bold;
+        letter-spacing: 0.83px;
+        line-height: normal;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.btn-primary-color {
+          background: var(--button-bg-color);
+          color: #ffffff;
+          margin-left: 8px;
+        }
+        &.btn-clear {
+          background-color: var(--grays-bg-200);
+        }
+      }
+    }
+    app-tags-input {
+      .overline{
+        width: 100%;
+        height: 16px;
+        color: var(--medium-emphasis);
+        font-size: 11px;
+        font-weight: 300;
+        letter-spacing: 0.47px;
+        line-height: 16px;
+      }
+      .mat-chip-list-wrapper {
+        max-height: 150px;
+        overflow: auto;
+        margin-top: 5px;
+        margin-left: 0px;
+        & .mat-chip {
+          height: 20px;
+          // color: var(--medium-emphasis) !important;
+          background: var(--grays-bg-200) !important;
+          font-size: 12px;
+          font-weight: 300;
+          margin-top: 9px;
+        }
+        & .mat-chip-input{
+          flex: unset;
+          width: 100%;
+          margin: 0;
+        }
+      }
+      .mat-standard-chip.mat-chip-with-trailing-icon {
+        padding: 2px 7px 2px 12px;
+      }
+      & input.mat-input-element {
+        border-bottom: solid 1px var(--grays-bg-500);
+        &.empty {
+          height: 26px;
+          width: 90%;
+        }
+      }
+      .chip-invalid-color {
+        color:  var(--error-base) !important;
+      }
+    }
+  }
+  .ids-result-spinner{
+    margin-top: 20px;
+    .mat-progress-spinner circle,
+      .mat-spinner circle {
+        stroke: var(--medium-emphasis) !important;
+      }
+  }
+}

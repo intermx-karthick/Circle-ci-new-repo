@@ -1,0 +1,114 @@
+::ng-deep {
+  app-file-upload-v2 {
+    .upload-section {
+      // width: 100%;
+      // min-width: 500px;
+      width: 19.5rem;
+      height: 6.875rem;
+      margin: 2.625rem 3rem 2.5rem 0rem;
+      &.upload-section-error {
+        height: auto;
+        margin-bottom: 1rem;
+      }
+    }
+    .drop-files {
+      height: 6.875rem;
+      background-color: initial;
+      display: flex;
+      place-content: center;
+      align-items: center;
+      text-align: center;
+      border-color: var(--primary-bg) !important;
+      text-align: center;
+      border: dashed 1px;
+      /*background: var(--primary-bg);
+      background: linear-gradient(
+          to right,
+          var(--primary-bg) 50%,
+          rgba(255, 255, 255, 0) 0%
+        ),
+        linear-gradient(var(--primary-bg) 50%, rgba(255, 255, 255, 0) 0%),
+        linear-gradient(
+          to right,
+          var(--primary-bg) 50%,
+          rgba(255, 255, 255, 0) 0%
+        ),
+        linear-gradient(var(--primary-bg) 50%, rgba(255, 255, 255, 0) 0%);
+      background-position: top, right, bottom, left;
+      background-repeat: repeat-x, repeat-y;
+      background-size: 10px 1px, 1px 10px;*/
+
+      .upload-main-title {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 20px;
+        line-height: 25px;
+        text-align: center;
+        letter-spacing: 0.15px;
+        color: var(--grays-bg-700);
+      }
+      .upload-caption {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+        text-align: center;
+        letter-spacing: 0.4px;
+        color: var(--primary-bg-800);
+        cursor: pointer;
+      }
+    }
+
+    .file-error-text {
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .files-list {
+      background: #ffffff;
+      border: 1px dashed;
+      border-radius: 12px;
+      padding: 10px;
+      color:  var(--primary-bg);
+      margin-bottom: 1rem;
+      p{
+        margin-bottom: 0px;
+        font-size: 14px;
+      }
+      .delete-file-icon {
+        cursor: pointer;
+        font-size: 14px;
+        height: 14px;
+        width: 14px;
+      }
+    }
+    .upload-file-list {
+      width: auto;
+      margin-top: 10px;
+      // overflow: auto;
+      // max-height: 130px;
+    }
+    .file-upload-hint {
+      margin: 5px 0;
+      .upload-caption {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 10px;
+        line-height: 15px;
+        text-align: left;
+        letter-spacing: 0.4px;
+        color: var(--primary-bg-800);
+        cursor: none !important;
+        margin: 0px;
+      }
+    }
+    .file-upload-btn {
+      margin-top: 75px;
+    }
+  }
+ 
+}

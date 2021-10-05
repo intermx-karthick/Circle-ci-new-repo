@@ -1,0 +1,49 @@
+<div class="intermx-theme-new fields-mapping">
+
+  <div class="fields-mapping__header" fxLayout="row" fxLayoutAlign="space-between start">
+    <h4 class="fields-mapping__header-title">{{title}}</h4>
+    <mat-icon (click)='onClose()' [style.cursor]="'pointer'" class="primary">highlight_off</mat-icon>
+  </div>
+
+  <div class="fields-mapping__sub-header" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxFlex="56%">
+      <h4 class="fields-mapping__sub-header-text">{{leftHeading}}</h4>
+    </div>
+    <div fxFlex="44%">
+      <h4 class="fields-mapping__sub-header-text">{{rightHeading}}</h4>
+    </div>
+  </div>
+
+  <form [formGroup]="mappingsForm" (ngSubmit)='mapFields(mappingsForm)' class="fields-mapping__body">
+    <div class="fields-mapping__body-content" (window:resize)="onResize()">
+      <div formArrayName="mappings" fxLayout="row" class="fields-mapping__body-content-form"
+        *ngFor="let column of mappingsGroup.controls; let i=index" fxLayoutAlign="start center">
+        <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="start center" fxFlex="100%" class="field-area-title">
+          <div fxFlex="57%" fxFlexAlign="center" [style.padding-left]="'16px'">
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+              <div class="fields-mapping__body-content-input" [class.fields-mapping__error-field]="getValidity(i)">
+                {{dbFieldsColums[column.value['dest_key']].split('_').join(' ')}}</div>
+              <input type="hidden" formControlName="dest_key">
+              <mat-icon class="fields-mapping__error-mat" *ngIf="getValidity(i)">warning</mat-icon>
+            </div>
+          </div>
+          <div fxFlex="43%" [style.padding-right]="'20px'">
+            <div>
+              <mat-form-field class="fields-mapping__body-content-matform">
+                <mat-select formControlName="source_key">
+                  <mat-option value="">Select Column</mat-option>
+                  <mat-option *ngFor="let field of fileHeaders" [value]="field">{{field}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fields-mapping__body-actions" fxLayout="row" fxLayoutAlign="center">
+      <button class="button button-primary fields-mapping__body-actions-save uppercase" type="submit" mat-raised-button>SAVE</button>
+    </div>
+  </form>
+
+</div>

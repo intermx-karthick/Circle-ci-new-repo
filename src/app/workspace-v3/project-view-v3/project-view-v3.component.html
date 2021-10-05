@@ -1,0 +1,255 @@
+<div [hidden] = "!project?.name">
+  <!-- <a class="caption back-to-project" routerLink="/workspace-v3/projects/list" *ngIf="!loadedFromSelector">
+    <mat-icon>arrow_back</mat-icon>Back to {{labels.project[1]}}
+  </a> -->
+  <a class="caption back-to-project" [routerLink]="['/workspace-v3/projects/list']" [queryParams]="{type: labels.project[1]}" *ngIf="!loadedFromSelector">
+    <mat-icon>arrow_back</mat-icon>Back to {{labels.project[1]}}
+  </a>
+
+  <div class="header" fxLayout="row" fxLayoutAlign="space-between center" *ngIf="!loadedFromSelector">
+    <div class="title project-title-edit" fxLayout="column" fxLayoutAlign="space-between start" fxFlex="80%">
+      <div *ngIf="!isEdit">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <!-- <h5 class="text-tooltip" tooltip="{{project['name']}}" placement="right" delay="200" customClass="imx-tooltip-project"  tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">{{project['name'] | truncate : 'middle': 15 : 15}}</h5> -->
+          <h5 class="text-tooltip imx-name-wrap">{{project['name'] }}</h5>
+          <mat-icon class="editIcon" matTooltipPosition="right" (click) ="showOrHideEdit()" *ngIf="project && !this.project['isDraft'] && project.ownerEmail === userEmail;">edit</mat-icon>
+
+          <ng-container *ngIf="!project['isDraft']">
+            <ng-container *ngIf="!projectTooltip;else toolTipMsgBlockRef">
+              <mat-icon>info</mat-icon>
+            </ng-container>
+            <ng-template #toolTipMsgBlockRef>
+              <span tooltip="{{projectTooltip}}" placement="bottom" delay="200" customClass="imx-tooltip-project"  tooltipClass="imx-tooltip-v3" >
+                <mat-icon>info</mat-icon>
+              </span>
+            </ng-template>
+          </ng-container>
+          <!-- <mat-icon [matTooltipClass]="'project-tooltip'" [matTooltip]="project['description']" matTooltipPosition="right">info</mat-icon> -->
+        </div>
+      </div>
+      <form [formGroup]="projectForm"
+      (submit)="onSubmitProject(projectForm)"
+      *ngIf="isEdit"
+      >
+        <!-- <input formControlName="id" type="hidden"/> -->
+        <mat-form-field  class="imx-input" floatLabel="always">
+          <mat-label>{{labels.project[0]}} Name</mat-label>
+          <input matInput formControlName="name" maxlength='140' />
+          <mat-error *ngIf="projectForm?.controls?.name?.errors?.name_exists" >
+            <span>{{labels.project[0]}} with same name already exists.</span>
+          </mat-error>
+          <mat-error *ngIf="projectForm.controls.name.invalid && (projectForm.controls.name.value === '' || projectForm.controls.name.value === null)">
+            <span>Required</span>
+          </mat-error>
+        </mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="space-between stretch">
+          <mat-form-field  class="imx-input imx-input-description" fxFlex="49%" floatLabel="always">
+            <mat-label>{{labels.project[0]}} Description</mat-label>
+            <textarea matInput formControlName="description" maxlength="320" rows="1"></textarea>
+          </mat-form-field>
+          <div fxFlex="49%" class="project-tags" [ngClass]="{'active' : projectTagActive}">
+            <mat-label>{{labels.project[0]}} Tags</mat-label>
+            <app-tags-input
+              placeholder="{{labels.project[0]}} tags. To enter multiple tags, press Enter after each tag."
+              [chips]="tags" [form]="true" [editable]="true" [keysCodes]="scenarioKeysCodes"
+              (focusEvt) = 'onFocusProjectTag(true)'
+              (blurEvt) = 'onFocusProjectTag(false)'
+              ></app-tags-input>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap='10px'>
+          <button mat-button class="imx-button-basic small"  (click) ="cancelEdit()">Cancel</button>
+          <button mat-button class="imx-button-primary small">Save</button>
+        </div>
+      </form>
+    </div>
+    <div class="actions">
+      <button mat-button *ngIf="projectPermission?.scenarios?.package?.status !== 'hidden'" class="imx-button-primary_icon" [routerLink]="['/workspace-v3/plan/create']" [queryParams] ="{projectId: project['_id']}" [state]="project" >
+        Add Plan <mat-icon>add_circle_outline</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="imx-project-list mat-elevation-z8">
+    <div fxLayout="row" class="plan-header-action">
+      <div class="total-record" fxLayoutAlign="start center">
+        <ng-container  *ngIf="sortedScenarios?.data?.length < project?.scenarios?.length;else totalRecordFound">
+          Found : {{sortedScenarios?.data?.length}} / {{project?.scenarios?.length}}
+        </ng-container>
+        <ng-template #totalRecordFound>
+          Total : {{project?.scenarios?.length}}
+        </ng-template>
+      </div>
+    </div>
+    <div class="imx-table-container" (window:resize)="reSize()" #tableScrollRef >
+      <table mat-table matSort (matSortChange)="sortChange($event)" [dataSource]="sortedScenarios"
+             [trackBy]="scenariosTractByFn" class="imx-table-striped table-header-auto" (mouseleave)="onHoverOut()" [ngClass]="{'enable-table-scroll': hasHorizontalScrollbar}">
+        <ng-container  *ngFor="let column of columns | keyvalue" [matColumnDef]="column.key" [sticky]="column.key == 'name' ||  column.key == 'action'" >
+
+          <th mat-sort-header mat-header-cell  *matHeaderCellDef [disabled] = "column.key === 'action'" [ngClass]="{'imx-column-center': column.key === 'createdAt' || column.key === 'updatedAt', 'imx-column-center action-menu-column': column.key == 'action'}"  [ngClass]="{'no-table-data': sortedScenarios && sortedScenarios?.data?.length === 0}">
+            <!--  || (column.key === 'name' && disableSort) -->
+
+            <!-- conditional filter option for audience -->
+            <ng-container *ngIf="column.key === 'audiences'">
+              <div class="header-search__label mouse-pointer" fxLayout fxLayoutAlign="center center" #CdkOverlayOrigin="cdkOverlayOrigin" cdkOverlayOrigin>
+                <span>{{column.value}}</span>
+                <mat-icon class="filter-action" svgIcon="IMX-filter" (click)="$event.stopPropagation();audienceOverlayOrigin = CdkOverlayOrigin; isAudienceFilterOpen = !isAudienceFilterOpen; isMarketFilterOpen = false; isTypeFilterOpen = false; closeSearchFilter();"></mat-icon>
+              </div>
+            </ng-container>
+
+            <!-- conditional filter option for market -->
+            <ng-container *ngIf="column.key === 'market'">
+              <div class="header-search__label mouse-pointer" fxLayout fxLayoutAlign="center center" #CdkOverlayOrigin="cdkOverlayOrigin" cdkOverlayOrigin>
+                <span>{{column.value}}</span>
+                <mat-icon class="filter-action" svgIcon="IMX-filter" (click)="$event.stopPropagation();marketOverlayOrigin = CdkOverlayOrigin; isMarketFilterOpen = !isMarketFilterOpen; isAudienceFilterOpen = false; isTypeFilterOpen = false; closeSearchFilter()"></mat-icon>
+              </div>
+            </ng-container>
+
+            <!-- filter option for types -->
+            <ng-container *ngIf="column.key === 'type'">
+              <div class="header-search__label mouse-pointer" fxLayout fxLayoutAlign="center center" #CdkOverlayOrigin="cdkOverlayOrigin" cdkOverlayOrigin>
+                <span>{{column.value}}</span>
+                <mat-icon class="filter-action" svgIcon="IMX-filter" (click)="$event.stopPropagation();typeOverlayOrigin = CdkOverlayOrigin; isTypeFilterOpen = !isTypeFilterOpen; isAudienceFilterOpen = false; isMarketFilterOpen = false; closeSearchFilter()"></mat-icon>
+              </div>
+            </ng-container>
+
+            <!-- Searchable header for filter the scenarios list -->
+              <ng-container *ngIf="column.key === 'name'">
+                <div class="header-search">
+                  <ng-container  *ngIf="isSearchBarActive; else headerLabel" #searchBar>
+                    <div class="header-search__block">
+                      <mat-form-field floatLabel="never" (click)="$event.stopPropagation()">
+                        <mat-label>Search {{labels.scenario[1]}}</mat-label>
+                        <input [formControl]="scenarioNameFC" (click)="$event.stopPropagation()" (focus)="onFocusSearchBox()"  (blur)="onBlurSearchBox()" class="header-search__input" matInput type="text">
+                        <button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="disableSearch($event, column.key)">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                      </mat-form-field>
+                    </div>
+                  </ng-container>
+
+
+                  <ng-template #headerLabel>
+                    <div  class="header-search__label mouse-pointer" fxLayout fxLayoutAlign="center center">
+                      <span>{{column.value}}</span>
+                      <mat-icon (click)="enableSearch($event, column.key)"  matRipple>search</mat-icon>
+                    </div>
+                  </ng-template>
+                </div>
+              </ng-container>
+              <!-- End -->
+
+              <!-- common sorting column -->
+              <ng-container *ngIf="column.key !== 'audiences' && column.key !== 'name' && column.key !== 'market' && column.key !== 'type'">
+                {{column.key !== 'action' ? column.value : ''}}
+              </ng-container>
+
+              <!-- <ng-template #normalHeader>
+                {{column.key !== 'action' ? column.value : ''}}
+              </ng-template> -->
+          </th>
+          <ng-template [ngIf] ="column.key === 'name'">
+              <td routerLink="/workspace-v3/scenario/{{element._id}}" [queryParams] ="{projectId: project['_id']}" mat-cell *matCellDef="let element" class="status-cell text-wrap-column min-max-width-column-320 imx-poiner">
+                <div class="imx-ml-10">
+                  <span fxLayout="row" fxLayoutAlign="start center">
+                    <div class="status ">
+                      <mat-icon class="inProgress" *ngIf="element?.job?.status === 'inProgress'" svgIcon="IMX-ellipsis-animated"></mat-icon>
+                      <mat-icon class="unread" *ngIf="element?.job?.status === 'success'" svgIcon="IMX-dot"></mat-icon>
+                    </div>
+                   <span class="primary-color-text">{{ (element[column.key] || '-')}}</span>
+                  </span>
+                </div>
+              </td>
+            </ng-template>
+            <ng-template [ngIf] ="column.key === 'description'">
+              <td mat-cell *matCellDef="let element" class="text-wrap-column min-max-width-column-320">
+                <div class="imx-ml-10"> {{ (element[column.key] || '-') }}</div>
+              </td>
+            </ng-template>
+            <ng-template [ngIf] ="column.key === 'type'">
+              <td mat-cell *matCellDef="let element">
+                <div customClass="imx-field-tooltip" class="imx-ml-10 market-background">
+                  <div class="market-background-child"></div>{{element[column.key] === planTabLabels.MARKET_PLAN ? 'Market Plan' : 'Inventory Plan' }}</div>
+              </td>
+            </ng-template>
+            <ng-template [ngIf] ="column.key === 'createdAt'">
+              <td mat-cell *matCellDef="let element" class="imx-column-center">
+                <span *ngIf="element?.job?.status !== 'inProgress'; else generating">{{ element[column.key] | date : 'MM.dd.yyyy' }}</span>
+              </td>
+            </ng-template>
+            <ng-template [ngIf] ="column.key === 'updatedAt'" >
+              <td mat-cell *matCellDef="let element" class="imx-column-center">
+                <span *ngIf="element?.job?.status !== 'inProgress'; else generating">{{ element[column.key] | date : 'MM.dd.yyyy' }}</span>
+              </td>
+            </ng-template>
+            <ng-template [ngIf] ="column.key === 'units'">
+              <td mat-cell *matCellDef="let element">{{ element.spotCount?.inventory}}</td>
+            </ng-template>
+            <ng-template [ngIf] ="column.key === 'audiences'">
+              <td mat-cell *matCellDef="let element" class="text-wrap-column min-max-width-column-160">
+                <div class="imx-ml-10"> <span>{{element.audiences | audienceName }}</span></div>
+              </td>
+
+            </ng-template>
+            <ng-template [ngIf] ="column.key === 'market'">
+              <td mat-cell *matCellDef="let element" class="text-wrap-column min-max-width-column-160">
+                <app-imx-market-table-section [value] = "element.market" [length] = "5" [tooltipPlacement] = "'left'"></app-imx-market-table-section>
+                <!-- <div class="imx-ml-10"> <span>{{ element.market | marketName }}</span></div> -->
+              </td>
+            </ng-template>
+          <ng-template [ngIf] ="column.key === 'action'">
+            <td mat-cell *matCellDef="let element; let i = index;" class="imx-column-center action-menu-column" >
+              <mat-icon *ngIf="userEmail === project?.ownerEmail"  [matMenuTriggerFor]="actionMenu" class="action-icon">more_vert</mat-icon>
+              <!-- <button mat-button class="imx-button-stroked_icon_action" *ngIf=" i === hoveredIndex && userEmail === project?.ownerEmail"  (menuOpened) = 'onMenuOpen()' (menuClosed) = 'onMenuClosed()'  [ngClass]="{'close-action-btn':menuOpened}">Actions <mat-icon>keyboard_arrow_down</mat-icon></button> -->
+              <mat-menu #actionMenu="matMenu" xPosition="before" class="action-dropdown-imx minimun-height action-menu-position table-action-position">
+                <ng-container *ngIf="!(element | scenarioinProgressStatus); else disabledMenuBlock">
+                  <button mat-menu-item (click) = "createDuplicatePlan(element)">Duplicate</button>
+                  <button mat-menu-item (click) = "deleteScenario(element)">Delete</button>
+                  <button mat-menu-item (click) = "openMoveScenarioDialog(element)">Move to</button>
+                </ng-container>
+                <ng-template #disabledMenuBlock >
+                  <span tooltip='Generation in progress' placement='top' delay='200'
+                  tooltipClass='imx-tooltip-v3' customClass='imx-field-tooltip'>
+                    <button mat-menu-item class="disabled">Duplicate</button>
+                    <button mat-menu-item class="disabled">Delete</button>
+                    <button mat-menu-item class="disabled">Move to</button>
+                  </span>
+                </ng-template>
+                <button mat-menu-item (click) = "generatePlanViceVersa(element, element.type === planTabLabels.MARKET_PLAN ? planTabLabels.INVENTORY_PLAN : planTabLabels.MARKET_PLAN, project)">Generate {{element?.type === planTabLabels.MARKET_PLAN ? 'Inventory' : 'Market'}} Plan</button>
+              </mat-menu>
+            </td>
+          </ng-template>
+        </ng-container>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns; sticky: true"
+        ></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"  class="imx-data-row"></tr>
+      </table>
+      <imx-overlay-list *ngIf="typeOverlayOrigin" [CdkOverlayOrigin]="typeOverlayOrigin" (close)="isTypeFilterOpen = false"
+        (open)="isTypeFilterOpen = true" [isOpen]="isTypeFilterOpen" (onApply)="onApplyType($event)"
+        [searchLabel]="'Search Type'" [items]="typesList">
+      </imx-overlay-list>
+      <imx-overlay-list *ngIf="marketOverlayOrigin" [CdkOverlayOrigin]="marketOverlayOrigin" (close)="isMarketFilterOpen = false"
+        (open)="isMarketFilterOpen = true" [isOpen]="isMarketFilterOpen" (onApply)="onApplyMarket($event)"
+        [searchLabel]="'Search Market'" [items]="marketsList">
+      </imx-overlay-list>
+      <imx-overlay-list *ngIf="audienceOverlayOrigin" [CdkOverlayOrigin]="audienceOverlayOrigin" (close)="isAudienceFilterOpen = false"
+        (open)="isAudienceFilterOpen = true" [isOpen]="isAudienceFilterOpen" (onApply)="onApplyAudience($event)"
+        [searchLabel]="'Search Market'" [items]="audiencesList">
+      </imx-overlay-list>
+      <div fxLayout="row" fxLayoutAlign="center center" *ngIf="sortedScenarios && sortedScenarios?.data?.length === 0" class="noDataFound">No records found.</div>
+    </div>
+    <mat-paginator
+      [length]="sortedScenarios?.data?.length || 0"
+      [pageSize] = "10"
+      [pageSizeOptions]="paginationSizes"
+      [showFirstLastButtons] = "true"
+    >
+    </mat-paginator>
+  </div>
+</div>
+<div [hidden] = "project?.name">Loading...</div>
+<ng-template #generating>
+  <span>*Generating*</span>
+</ng-template>

@@ -1,0 +1,10 @@
+<div class='c-invoice-container'>
+  <app-reports-preview-header (triggerAction)='reportHeaderAction($event)'>
+  </app-reports-preview-header>
+  
+  <app-imx-pdf-previewer [fileSrc]="pdfValues?.body" [filename]="pdfValues?.name" [showCopyUrlBtn]="false"
+    [showCloseBtn]="false" *ngIf="pdfValues?.body">
+  </app-imx-pdf-previewer>
+  
+</div>
+

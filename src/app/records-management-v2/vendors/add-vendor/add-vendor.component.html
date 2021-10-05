@@ -1,0 +1,280 @@
+<div fxLayout="row" fxLayoutAlign="start center">
+  <a class="back-to-link" fxLayout="row" fxLayoutAlign="start center" [routerLink]="['/records-management-v2/vendors']">
+    <mat-icon>arrow_back</mat-icon>
+    Back to Vendors list
+  </a>
+</div>
+
+<div class="add-vendor">
+  <section fxLayout="row" fxLayoutAlign="space-between center" class="header">
+    <h4 *ngIf="!vendorDetails['name']; else duplicateVendor;"> Add Vendor </h4>
+    <ng-template #duplicateVendor>
+
+      <h4>
+      <ng-container *ngIf="vendorDetails['name'] as vendorName">
+      <span *ngIf="vendorName.length>vendorNameLength; else nameRef" tooltip="{{vendorName}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">Duplicate {{ vendorName | truncate:"end":vendorNameLength }} Details</span>
+      <ng-template #nameRef>{{ vendorName }} Details</ng-template>
+      </ng-container>
+      </h4>
+
+    </ng-template>
+    <button *ngIf="data?.showClose" (click)="navigateToVendorList()" matTooltip="Close" mat-icon-button>
+      <mat-icon class="mat-icon-close active">close</mat-icon>
+    </button>
+  </section>
+
+  <form [formGroup]="createEditVendorForm" (ngSubmit)="onSubmit()" autocomplete="off"
+        class="form-label-capitalize" >
+    <section class="add-vendor__form-body vendor-body" [ngStyle]="{'max-height.px':scrollContent}"
+             (window:resize)="reSize()" (scroll)="handlerContainerScroll()" id="add-vendor_Body">
+      <div class="form-body add-vendor__form">
+        <section fxLayout fxLayoutGap="16px" fxLayoutAlign="start center">
+          <mat-form-field fxFlex="38" class="imx-input">
+            <mat-label>Vendor Name</mat-label>
+            <input formControlName="name" matInput autocomplete="off" required>
+            <mat-error *ngIf="createEditVendorForm.controls['name']?.errors?.required">Vendor Name is required.
+            </mat-error>
+            <mat-error *ngIf="createEditVendorForm.controls['name']?.errors?.maxlength">Vendor name can be max 64 characters long.</mat-error>
+
+            <mat-error *ngIf="!createEditVendorForm.controls['name']?.errors?.required && createEditVendorForm.controls['name']?.errors?.whitespace">
+              <span>Invalid Vendor Name.</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="24" class="vendor-group-input details-mat-form-field imx-input parent-vendor" tooltip="{{createEditVendorForm['controls'].parentCompany.value?.name ?.length>10 ? createEditVendorForm['controls'].parentCompany.value?.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+            <input type="text" #vGroupInputRef matInput formControlName="parentCompany"
+                   (click)="openParentCompanyAutoComplete()"
+                   [matAutocomplete]="vendorsGroupAuto">
+            <mat-icon svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon"
+                      [class.disabled]="!createEditVendorForm.controls.parentCompany.value?._id"
+                      (click)="$event.stopPropagation();tabLinkHandler('parentVendor')" matSuffix></mat-icon>
+            <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+
+            <mat-autocomplete #vendorsGroupAuto="matAutocomplete" [displayWith]="vendorDisplayWithFn" [panelWidth]="'160'"
+                              (opened)="updateContainer()" class="autocomplete-scroll imx-autocomplete-dropdown">
+              <div  class="vendor-group-autocomplete"
+                    infiniteScroll
+                    [infiniteScrollDistance]="1"
+                    [infiniteScrollThrottle]="0"
+                    [scrollWindow]="false"
+                    [fromRoot]="true"
+                    [immediateCheck]="false"
+                    [alwaysCallback]="false"
+                    [infiniteScrollContainer]="panelContainer"
+                    (scrolled)="loadMoreWithSearch()">
+              <mat-option [value]="null" class="hide-selected-tick">Select Parent Vendor</mat-option>
+              <mat-option *ngFor="let vGroup of filteredParentVendors;trackBy: vGroupTrackByFn"
+                          [value]="vGroup" tooltip="{{vGroup.name?.length >10 ? vGroup.name : ''}}"
+                          [class.mat-selected]="createEditVendorForm && createEditVendorForm['controls']['parentCompany'].value?._id == vGroup?._id"
+                          placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+                <span [innerHTML]="(vGroup.name)| imx_highlight: vGroupInputRef.value"></span>
+              </mat-option>
+
+              <mat-option disabled *ngIf="isLoadingVendorsGroup">
+                <div fxLayout="row" fxLayoutAlign="space-around center" >
+                  <mat-spinner diameter="20"></mat-spinner>
+                </div>
+              </mat-option>
+
+              <mat-option disabled *ngIf="!isLoadingVendorsGroup  && filteredParentVendors.length <= 0 && vGroupInputRef.value">
+                Invalid Entry.
+              </mat-option>
+
+              <mat-option disabled *ngIf="!isLoadingVendorsGroup  && filteredParentVendors.length <= 0 && !vGroupInputRef.value">
+                No Records Found.
+              </mat-option>
+              </div>
+            </mat-autocomplete>
+
+            <mat-label *ngIf="isLoadingVendorsGroup; else vendorGroupLableRef">
+              <div fxLayout fxLayoutAlign="space-between start">
+                <span fxFlex="90">Loading...</span>
+                <mat-spinner class="spinner" diameter="20"></mat-spinner>
+              </div>
+            </mat-label>
+
+            <ng-template #vendorGroupLableRef>
+              <mat-label>Parent Vendor</mat-label>
+            </ng-template>
+
+            <mat-error class="small-font" *ngIf="createEditVendorForm['controls'].parentCompany.hasError('invalid')">
+              Please select from the drop down list.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-checkbox class="imx-checkbok isParentVendor circle-flag-main" formControlName="parentFlag"> is<span
+            class="circle-flag">P</span>arent
+          </mat-checkbox>
+        </section>
+
+        <section fxLayout fxLayoutGap="16px" fxLayoutAlign="start center">
+          <mat-form-field fxFlex="24" class="imx-input error-field-width">
+            <mat-label>Phone Number</mat-label>
+            <app-telephone-input formControlName="businessPhone"></app-telephone-input>
+            <mat-error>Phone number should be valid.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="24" class="imx-input">
+            <mat-label>FAX</mat-label>
+            <app-telephone-input formControlName="businessFax"></app-telephone-input>
+            <mat-error> Fax should be valid.</mat-error>
+          </mat-form-field>
+        </section>
+
+        <section fxLayout fxLayoutGap="16px" fxLayoutAlign="start center">
+          <mat-form-field fxFlex="24" class="imx-input">
+            <mat-label>Company Email</mat-label>
+            <input formControlName="email" matInput autocomplete="off">
+            <mat-error>Company Email should be valid.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="24" class="imx-input">
+            <mat-label>Billing Email</mat-label>
+            <input formControlName="billingEmail" matInput autocomplete="off">
+            <mat-error>Billing Email should be valid.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="24" class="imx-input">
+            <mat-label>Company Website</mat-label>
+            <input formControlName="businessWebsite" matInput autocomplete="off">
+            <mat-error>Company website should be valid.</mat-error>
+          </mat-form-field>
+        </section>
+
+        <section fxLayout fxLayoutGap="16px" class="address-margin">
+          <app-address-card class="address-card-override-class">
+            <app-us-address formControlName="address" scrollingContainer="add-vendor_Body"></app-us-address>
+          </app-address-card>
+        </section>
+
+        <section fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="start center">
+          <mat-form-field class="imx-input" fxFlex="21">
+            <mat-label>TAX ID</mat-label>
+            <input formControlName="taxIdNumber" matInput autocomplete="off">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="24" class="imx-input imx-dropdown vendor-form__select" tooltip="{{vendorTypeTooltipText?.length >20 ? vendorTypeTooltipText : ''}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+            <mat-label>Vendor Type</mat-label>
+            <mat-select #vendorTypeRef [panelClass]="'imx-select'" formControlName="type"
+                        [class.placeholder-default]="createEditVendorForm['controls'].type.value==''"
+                        [ngStyle]="{'max-height.px': 250}"
+                        infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                        (scrolled)="loadMoreVendorTypes()" (selectionChange)="getVendorTypetext()" [scrollWindow]="false"
+                        multiple>
+              <mat-option *ngFor="let vendorType of vendorTypes" [value]="vendorType._id">
+                {{vendorType.name}}
+              </mat-option>
+              <div *ngIf="isVendorTypesLoading" class="create-vendor">
+                <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+              </div>
+            </mat-select>
+          </mat-form-field>
+
+
+          <mat-form-field fxFlex="26" class="imx-input imx-dropdown vendor-form__select" tooltip="{{diversityTooltipText}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+            <mat-label>Diversity Ownership</mat-label>
+            <mat-select #diversityRef [panelClass]="'imx-select'" formControlName="diversityOwnership"
+                        [class.placeholder-default]="createEditVendorForm['controls'].diversityOwnership.value==''"
+                        [ngStyle]="{'max-height.px': 250}"
+                        infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                        (scrolled)="loadMoreDiversityOwnerships()" [scrollWindow]="false" (selectionChange)="getDiversityOwnershiptext()" multiple>
+              <!-- <mat-option value="" class="optional-option">Select Diversity Ownership</mat-option> -->
+
+              <mat-option *ngFor="let diversityOwnership of diversityOwnerships" [value]="diversityOwnership._id">
+                {{diversityOwnership.name}}
+              </mat-option>
+
+              <div *ngIf="isDiversityOwnershipsLoading" class="create-vendor">
+                <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+              </div>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="19" class="imx-input">
+            <mat-label>Retirement Date</mat-label>
+            <input
+              matInput
+              appDateFormat
+              [matDatepicker]="retirement_date_picker"
+              matTooltip="Select Retirement Date"
+              formControlName="retirementDate"
+            />
+            <mat-error> Retirement Date should be valid (MM/DD/YYYY).</mat-error>
+            <mat-icon
+              (click)="retirement_date_picker.open()"
+              matSuffix
+              class="date-picker-icon date-picker-icon_input"
+              svgIcon="IMX-calender"
+            ></mat-icon>
+            <mat-datepicker
+              #retirement_date_picker="matDatepicker"
+              [startAt]="minDateForRetirementDate"
+              [panelClass]="'imx-calander'"
+            ></mat-datepicker>
+          </mat-form-field>
+        </section>
+
+        <section fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="start center">
+          <mat-form-field fxFlex="17" class="imx-input error-field-width">
+            <mat-label>PUB ID (A)</mat-label>
+            <input formControlName="pubA_id" matInput autocomplete="off">
+            <mat-error *ngIf="createEditVendorForm.controls['pubA_id'].errors?.maxlength">PUB ID (A) can be max 8 characters long.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="17" class="imx-input error-field-width">
+            <mat-label>PUB ID (B)</mat-label>
+            <input formControlName="pubB_id" matInput autocomplete="off">
+            <mat-error *ngIf="createEditVendorForm.controls['pubB_id'].errors?.maxlength">PUB ID (B) can be max 8 characters long.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="17" class="imx-input">
+            <mat-label>EDITION (A)</mat-label>
+            <input formControlName="pubA_edition" matInput autocomplete="off">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="18" class="imx-input">
+            <mat-label>EDITION (B)</mat-label>
+            <input formControlName="pubB_edition" matInput autocomplete="off">
+          </mat-form-field>
+        </section>
+
+        <section fxLayout fxLayoutGap="16px" fxLayoutAlign="start center">
+          <mat-form-field fxFlex="47" class="imx-input">
+            <mat-label>Vendor Upload Instructions</mat-label>
+            <input formControlName="uploadInstruction" matInput autocomplete="off">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="26.5" class="imx-input">
+            <mat-label>Instruction URL</mat-label>
+            <input formControlName="instructionUrl" matInput autocomplete="off">
+            <mat-error>Instruction URL should be valid.</mat-error>
+          </mat-form-field>
+        </section>
+
+
+        <section fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="start center">
+          <mat-form-field fxFlex="50" class="imx-input" [ngClass]="showEditor ?'editorLabel':'notesTextAreaLabel'">
+            <mat-label>{{ showEditor ? 'Entering Notes' : 'Please enter Notes here' }}</mat-label>
+            <ckeditor  *ngIf="showEditor" class="imx-input" formControlName="notes"
+            [config]="editorConfig"
+            [data]="createEditVendorForm.controls['note']?.value">
+            </ckeditor>
+            <textarea formControlName="notes" matInput autocomplete="off"  [hidden]="showEditor" (focus)="showEditorFunc()"></textarea>
+            <mat-error *ngIf="createEditVendorForm.controls['notes'].errors?.minlength">Notes must be atleast 1 character long.</mat-error>
+            <mat-error *ngIf="createEditVendorForm.controls['notes'].errors?.maxlength">Notes can be max 2000 characters long.</mat-error>
+            <mat-error *ngIf="createEditVendorForm.controls['notes']?.errors?.whitespace">
+              <span>Invalid Notes.</span>
+            </mat-error>
+          </mat-form-field>
+        </section>
+      </div>
+    </section>
+
+    <section fxLayout fxLayoutAlign="end center" fxLayoutGap="20px" class="vendor-action">
+      <button type="reset" mat-button (click)="navigateToVendorList()" class="imx-button-secondary">Cancel</button>
+
+      <button type="submit" mat-button class="imx-button-primary">Save Vendor
+      </button>
+    </section>
+  </form>
+</div>

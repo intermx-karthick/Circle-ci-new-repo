@@ -1,0 +1,31 @@
+<div class="result-details">
+  <mat-form-field class="sort-control">
+    <mat-select placeholder="SORT BY" (selectionChange)="onSortables($event)" (value)="currentSortKey">
+      <mat-option *ngFor="let sortable of sortables" [value]="sortable.key">{{sortable.field_name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="result-list-container"
+       infiniteScroll
+       [infiniteScrollDistance]="1"
+       [infiniteScrollThrottle]="0"
+       (scrolled)="loadMore()"
+       [scrollWindow]="false" [ngStyle]="{'height.px': contentHeight}" (window:resize)="onResize()">
+    <mat-card class="result-item mat-elevation-z0" *ngFor="let place of placeResults" (mouseenter)="hoverOnCard(place)" (mouseleave)="hoverOutOnCard()">
+      <mat-card-content>
+        <div fxLayoutAlign="start center" fxLayoutGap="10px" class="poiTitle">
+          <mat-checkbox [(ngModel)]="place.selected" (change)="selectCheckboxToggle(place)"></mat-checkbox>
+          <h6 [title]="place.location_name" (click)="onCardClick(place)">{{place.location_name | truncate:'middle':20}}</h6>          
+        </div>
+        <div class="result-address-container">
+        <p class="result-item-address capitalize">{{place.address.street_address | truncate:'middle':20}}</p>
+        <p class="result-item-address capitalize">{{place.address.city}}  {{place.address.state | uppercase}} {{place.address.zip_code}}</p>
+        </div>
+        <!--<div class="result-item-details">
+          <p>M-F: N/A</p>
+          <p>SAT: N/A</p>
+          <p>SUN: N/A</p>
+        </div>-->
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,121 @@
+table{
+  width: 100%;
+}
+::ng-deep {
+  .audited-tooltip {
+    max-width: 400px !important;
+  }
+
+  .market-plan-measures-table {
+    max-height: calc(100vh - 600px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-left: 6px !important;
+  }
+}
+.mat-table{
+  thead{
+    display: none !important;
+  }
+  tr {
+    td:last-child {
+      background: none;
+    }
+  }
+  tr:first-child {
+    td:first-child {
+      border-radius: 10px 0 0 0;
+    }
+    td:nth-last-child(2) {
+      border-radius: 0 10px 0 0;
+    }
+  }
+  tr:last-child {
+    td:first-child {
+      border-radius: 0 0 0 10px;
+    }
+    td:nth-last-child(2) {
+      border-radius: 0 0 10px 0;
+    }
+  }
+}
+.mat-table .mat-row .mat-cell {
+  padding-left: 5px;
+  height: 100%;
+  align-self: center;
+  display: flex;
+  > span {
+    display: flex;
+    align-self: center;
+  }
+  &.cdk-column-MediaType {
+    width: 22%;
+    padding-left: 10px !important;
+  }
+}
+
+
+@keyframes blink {
+  /**
+   * At the start of the animation the dot
+   * has an opacity of .2
+   */
+  0% {
+    opacity: .2;
+  }
+  /**
+   * At 20% the dot is fully visible and
+   * then fades out slowly
+   */
+  20% {
+    opacity: 1;
+  }
+  /**
+   * Until it reaches an opacity of .2 and
+   * the animation can start again
+   */
+  100% {
+    opacity: .2;
+  }
+}
+
+.saving span {
+  /**
+   * Use the blink animation, which is defined above
+   */
+  animation-name: blink;
+  /**
+   * The animation should take 1.4 seconds
+   */
+  animation-duration: 1.4s;
+  /**
+   * It will repeat itself forever
+   */
+  animation-iteration-count: infinite;
+  /**
+   * This makes sure that the starting style (opacity: .2)
+   * of the animation is applied before the animation starts.
+   * Otherwise we would see a short flash or would have
+   * to set the default styling of the dots to the same
+   * as the animation. Same applies for the ending styles.
+   */
+  animation-fill-mode: both;
+}
+
+.saving span:nth-child(2) {
+  /**
+   * Starts the animation of the third dot
+   * with a delay of .2s, otherwise all dots
+   * would animate at the same time
+   */
+  animation-delay: .2s;
+}
+
+.saving span:nth-child(3) {
+  /**
+   * Starts the animation of the third dot
+   * with a delay of .4s, otherwise all dots
+   * would animate at the same time
+   */
+  animation-delay: .4s;
+}

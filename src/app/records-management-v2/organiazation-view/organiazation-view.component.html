@@ -1,0 +1,28 @@
+<div fxLayout="column" fxLayoutGap="1rem" class="organiazation-main-block">
+
+<!-- Email Address -->
+<div fxLayout="row" fxLayoutAlign="start ceneter">
+  <label>Email Address</label> <span class="add-content">{{companyDetails?.email || 'N.A.'}} </span>
+</div>
+
+<!-- conatct info -->
+<div fxLayout="row" fxLayoutAlign="start ceneter" fxLayoutGap="1rem">
+  <label fxLayout="row" fxFlex="10.5rem" fxLayoutAlign="start ceneter">Mobile <span class="add-content">{{(companyDetails?.mobile | phoneFormat) || 'N.A.'}}</span>  </label>
+  <label fxLayout="row" fxLayoutAlign="start ceneter" fxFlex="10.5rem">Office <span class="add-content" >{{(companyDetails?.office | phoneFormat)  || 'N.A.'}}</span> </label>
+  <label fxLayout="row" fxLayoutAlign="start ceneter">Ext <span class="add-content">{{companyDetails?.ext || 'N.A.'}}</span>  </label>
+  <label fxLayout="row" fxLayoutAlign="start ceneter">FAX <span class="add-content"> {{(companyDetails?.fax | phoneFormat) || 'N.A.'}} </span> </label>
+</div>
+
+<!-- address info -->
+<div fxLayout="row" fxLayoutAlign="start ceneter">
+  <label fxLayout="row" fxLayoutAlign="start ceneter">Address</label> <span class="add-content"> {{ companyDetails?.address?.line || 'N.A.'}} </span>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="start ceneter" fxLayoutGap="1rem">
+  <label fxLayout="row" fxLayoutAlign="start ceneter" fxFlex="8.5rem">ZIP Code <span class="add-content"> {{ companyDetails?.address?.zipcode || 'N.A.'}} </span> </label>
+  <label fxLayout="row" fxLayoutAlign="start ceneter" fxFlex="14.5rem">State <span class="add-content">{{ companyDetails?.address?.state?.short_name || 'N.A.'}}</span> </label>
+  <label fxLayout="row" fxLayoutAlign="start ceneter">City <span class="add-content">{{ companyDetails?.address?.city || 'N.A.'}}</span> </label>
+</div>
+
+
+</div>

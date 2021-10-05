@@ -1,0 +1,69 @@
+<mat-card>  
+  <mat-card-content>
+    <div class="dot-icon {{defaultIcon.name}}" [ngStyle]="{'color': defaultIcon.color}" *ngIf="place.selected && defaultIcon && index < 99 && defaultIcon.name !== 'icon-numbered' "></div>
+    <div class="dot" [ngStyle]="{'background-color': defaultIcon.color}" *ngIf="place.selected && defaultIcon && index < 99 && defaultIcon.name === 'icon-numbered'">{{index +1}}</div>
+
+    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between center" class="inventory-card">
+      <div class="image-container">
+          <div fxFlex="100px" class="clsInventoryImgNo" *ngIf='noimage || initialPlaceholder'></div>
+          <img loading="lazy" class="clsInventoryImg" [class.hidden]="noimage" crossorigin="anonymous" src="{{place?.photos | getImageUrl:imageType.WIDTH_100}}" (load)="setPlaceholderVisibility(false)" (error)="setPlaceholderVisibility(true)"/>
+
+      </div>
+      <div class="address-container" fxFlex="120px">
+        <h3 class="no-margin" *ngIf="place.representations" >{{ (( place.representations | operatorName ) | truncate:end:15 | uppercase) }}</h3>
+        <p *ngIf="place.media_type">{{place.media_type.name}}</p>
+        <p>{{place.location && place.location.primary_artery || '' | slice:0:14}}</p>
+        <p>
+          Orientation: {{
+          (place.location && place.location.orientation !== undefined) ?
+          (place.location.orientation | direction)
+          : 'N/A'}}</p>
+        <p>H : {{ place.max_height | inchesToFeet }} W : {{ place.max_width | inchesToFeet}}</p>
+        <p>Material : {{ place.digital === true ? 'Digital': 'Printed/Mesh' }}</p>
+        <p title="{{place.plant_frame_id}}">Operator Spot ID: {{  place.plant_frame_id | truncate:'end':12 }}</p>
+        <p>Geopath Spot ID: {{place.spot_id}}</p>
+    </div>
+    <div class="status-dots">
+      <app-inventory-status-dots [status] = 'place.media_status' [tooltipConfig] = "{'placement': 'left', 'delay': 300 }"></app-inventory-status-dots>
+    </div>
+      <div fxFlex="50px" [ngClass]="{'flag-position': !isSmallScreen, 'flag-position-mobile': !isSmallScreen}">
+          <a *ngIf="isSelectEnabled && isSmallScreen" [ngClass]="{'active': place.selected}"
+             (click)="toggleSelection();" class="selected-button">
+          <i class="material-icons" *ngIf="!place.selected; else selectedIcon">stars</i>&nbsp;{{place.selected
+       ? 'SELECTED' : 'SELECT'}}
+          </a>
+        <div class="impressions" *ngIf="measuresLicense !== 'hidden' && getImpressionValue(place.spot_references, sortQuery.value) > 0 && isSelectEnabled && !(place.media_status['name'] && place.media_status['name'] === 'Published - Suppressed')" >
+          <i class="material-icons">&#xE8E5;</i>
+          <span *ngIf="place.spot_references">{{formatImpressions(getImpressionValue(place.spot_references, sortQuery.value))}}</span>
+        </div>
+        <!-- Removed while implement inventory status dots on Nov 19 2019 -->
+        <!-- <div class="impressions flag-primary" *ngIf="measuresLicense !== 'hidden' && place.media_status && place.media_status['name'] && place.media_status['name'] === 'Published - Inactive'" >
+          <i class="material-icons">flag</i>
+          <span >{{auditStatusLabels['un_audited'] && auditStatusLabels['un_audited'] | truncate:end:13 }}</span>
+        </div>
+        <div class="impressions under-review-impressions" *ngIf="measuresLicense !== 'hidden' &&  place.media_status && place.media_status['name'] && place.media_status['name'] === 'Published - Under Review'" >
+          <i class="material-icons">flag</i>
+          <span >{{auditStatusLabels['under_review'] && auditStatusLabels['under_review'] | truncate:end:13 }}</span> 
+        </div>
+        -->
+      </div>
+    </div>  
+  </mat-card-content>
+  <mat-card-actions fxLayoutAlign="space-evenly center" >
+      <button mat-button class="inventory-card-btn no-audience e2e-more-view" *ngIf="!isSmallScreen" [ngClass]="{'centered': !isSelectEnabled}" (click)="mapView()">MAP VIEW</button>
+      <button mat-icon-button class="inventory-card-btn" *ngIf=" isSelectEnabled && !isSmallScreen" [ngClass]="{'active': place.selected}"
+              (click)="toggleSelection();" >
+          <mat-icon>{{place.selected ? 'star' : 'star_border'}} </mat-icon> {{place.selected
+            ? 'SELECTED' : 'SELECT'}}
+      </button>
+      <!-- <div *ngIf="!isSmallScreen" fxFlex="50%" class="ripple-effects border-right-acrion no-audience" [ngClass]="{'centered': !isSelectEnabled}" (click)="mapView()" >MAP VIEW</div> -->
+      <a *ngIf="isSmallScreen" class="btn more-button" (click)="mapView()">MORE DETAILS</a>
+      <!-- <div fxFlex="50%" *ngIf=" isSelectEnabled && !isSmallScreen" [ngClass]="{'active': place.selected}"
+           (click)="toggleSelection();" class="ripple-effects"><span><i class="material-icons" *ngIf="!place.selected; else selectedIcon">&#xE83A;</i>&nbsp;<span>{{place.selected
+        ? 'SELECTED' : 'SELECT'}}</span></span>
+      </div> -->
+  </mat-card-actions>
+</mat-card>
+<ng-template #selectedIcon>
+  <i class="material-icons">&#xE838;</i>
+</ng-template>

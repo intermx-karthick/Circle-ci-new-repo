@@ -1,0 +1,80 @@
+.imx-calander {
+  border       : 1px solid var(--primary-bg-800);
+  border-radius: 5px;
+
+  .mat-calendar-header {
+    .mat-calendar-controls {
+      .mat-calendar-previous-button {
+        position: absolute;
+      }
+
+      .mat-calendar-period-button {
+        flex       : 50 1 auto;
+        margin-left: 50px;
+      }
+
+      .mat-calendar-next-button::after {
+        content                : '\e5c8';
+        font-family            : 'Material Icons';
+        transform              : none;
+        border                 : none;
+        margin                 : 0;
+        font-size              : 18px;
+        color                  : var(--primary-bg);
+        -webkit-font-smoothing : antialiased;
+        text-rendering         : optimizeLegibility;
+        -moz-osx-font-smoothing: grayscale;
+        position               : relative;
+        top                    : 1px;
+      }
+
+      .mat-calendar-previous-button::after {
+        content                : '\e5c4';
+        font-family            : 'Material Icons';
+        transform              : none;
+        border                 : none;
+        margin                 : 0;
+        font-size              : 18px;
+        color                  : var(--primary-bg);
+        -webkit-font-smoothing : antialiased;
+        text-rendering         : optimizeLegibility;
+        -moz-osx-font-smoothing: grayscale;
+        position               : relative;
+        top                    : 1px;
+      }
+
+      .mat-calendar-period-button {
+        span {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+
+  .mat-calendar-table {
+    .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+      border-color: var(--primary-bg) !important;
+    }
+
+    .mat-calendar-body-cell:hover {
+      .mat-calendar-body-cell-content {
+        background-color: var(--primary-bg) !important;
+        box-shadow      : 0 2px 5px 0 rgba(0, 0, 0, .26);
+        color           : #fff;
+
+      }
+    }
+
+    .mat-calendar-body-cell-content {
+      color      : var(--grays-bg-800);
+      font-size  : 0.875rem;
+      line-height: 14px;
+
+      &.mat-calendar-body-selected {
+        background-color: var(--primary-bg);
+        box-shadow      : 0 2px 5px 0 rgba(0, 0, 0, .26);
+        color           : #fff;
+      }
+    }
+  }
+}

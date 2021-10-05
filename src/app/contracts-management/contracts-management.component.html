@@ -1,0 +1,45 @@
+<div>
+    <section class="header-section">
+        <app-header fxFlexFill>
+            <div class="projected-title">
+                <span class="">Contracts</span>
+            </div>
+        </app-header>
+        <div fxLayout="row" class="contant-section">
+        </div>
+    </section>
+    <div fxLayout="row" fxLayoutAlign="start start" fxFill class="body-content">
+        <div class="left-nav">
+            <div class="navBarPanel">
+                <div class="records-managment-menu">
+                    <ul>
+                        <li>
+                            <a [routerLink]="'contracts'" class="tableau-link" routerLinkActive="active" module="contractManagement" authenticate  userPermsModule="contract" visiblityType="menu" appUserAccessPermission>Contracts</a>
+                        </li>
+                        <li>
+                            <a [routerLink]="'vendor-contracts'" class="tableau-link" routerLinkActive="active" appAccessModule navModule="contractManagement" navSubModule="vendorContract" module="contract" visiblityType="menu" appUserAccessPermission>Vendor Contracts</a>
+                        </li>
+                        <li>
+                            <a [routerLink]="'line-items'" routerLinkActive="active" class="tableau-link" appAccessModule navModule="contractManagement" navSubModule="lineItems" module="contract" visiblityType="menu" appUserAccessPermission>Line Items</a>
+                        </li>
+                        <li>
+                            <a [routerLink]="'insertion-orders'" class="tableau-link" routerLinkActive="active" appAccessModule navModule="contractManagement" navSubModule="insertionOrders" module="contract" visiblityType="menu" appUserAccessPermission>Insertion Orders</a>
+                        </li>
+                        <li>
+                            <a [routerLink]="'billing-exports'" routerLinkActive="active" class="tableau-link" appAccessModule navModule="contractManagement" navSubModule="billingExports" module="billing_exports" visiblityType="menu" appUserAccessPermission>Billing Exports</a>
+                        </li>
+                        <li>
+                            <a [routerLink]="router?.url" [routerLinkActive]="router?.url === archivedUrl ? 'active' : ''"
+                            (click)="openArchivedTab()" class="tableau-link" appAccessModule
+                            navModule="contractManagement" navSubModule="archivedExports" module="billing_exports" visiblityType="menu" appUserAccessPermission>Archived Exports</a>
+                            <mat-icon svgIcon="IMX-new-tab" class="mat-link-icon"></mat-icon>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="body-inner-content" id="contracts-management__SCROLLABLE" cdkScrollable>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

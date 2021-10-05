@@ -1,0 +1,216 @@
+<div>
+  <a class="caption back-to-project" [routerLink]="['/workspace-v3/projects', project?._id]" *ngIf="!project?.isDraft">
+    <mat-icon>arrow_back</mat-icon>
+    Back to {{ project?.name }}
+  </a>
+  <a class="caption back-to-project" [routerLink]="['/workspace-v3/projects/list']"  [queryParams] ="{type:'sandbox'}" *ngIf="project?.isDraft">
+    <mat-icon>arrow_back</mat-icon>
+    Back to {{ project?.name }}
+  </a>
+  <div class="scenario-header" fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="scenario-title scenario-title-edit" fxLayout="row" fxLayoutAlign="space-between center">
+      <div *ngIf="!isEdit">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <!-- <h5 tooltip="{{scenario['name']}}" placement="right" delay="200" customClass="imx-tooltip-project"  tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">{{scenario['name'] | truncate : 'middle': 15 : 15}}</h5> -->
+          <h5 class="imx-name-wrap">{{scenario['name']}}</h5>
+          <mat-icon class="editIcon" matTooltipPosition="right" (click)="showOrHideEdit()">edit</mat-icon>
+          <!-- *ngIf="project && project.ownerEmail === userEmail;" -->
+          <ng-container *ngIf="!scenarioTooltip;else toolTipMsgBlockRef">
+            <mat-icon>info</mat-icon>
+          </ng-container>
+
+          <ng-template #toolTipMsgBlockRef>
+            <span tooltip="{{ scenarioTooltip }}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-tooltip-project"> <mat-icon>info</mat-icon></span>
+          </ng-template>
+        </div>
+      </div>
+      <form [formGroup]="scenarioForm"
+            (submit)="onSubmitScenario(scenarioForm)"
+            *ngIf="isEdit"
+      >
+        <!-- <input formControlName="id" type="hidden"/> -->
+        <mat-form-field class="imx-input">
+          <mat-label>{{ labels['scenario'][0] }} Name</mat-label>
+          <input matInput formControlName="name" maxlength='140'/>
+          <mat-error *ngIf="scenarioForm?.controls?.name?.errors?.name_exists">
+            <span>{{ labels['scenario'][0] }} with same name already exists.</span>
+          </mat-error>
+          <mat-error
+            *ngIf="scenarioForm.controls.name.invalid && (scenarioForm.controls.name.value === '' || scenarioForm.controls.name.value === null)">
+            <span>Required</span>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="imx-input imx-input-description">
+          <mat-label>{{ labels['scenario'][0] }} Description</mat-label>
+          <textarea matInput formControlName="description" maxlength="320"></textarea>
+        </mat-form-field>
+
+        <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap='10px'>
+          <button mat-button class="imx-button-basic small" (click)="cancelEdit()">Cancel</button>
+          <button mat-button class="imx-button-primary small">Save</button>
+        </div>
+      </form>
+    </div>
+    <div class="scenario-actions" fxLayout="row">
+      <!--  *ngIf="selectedTabLabel === 'inventoryPlan' && allowInventory === 'active'"  -->
+      <!-- <button type="button" mat-button class="imx-button-basic_icon map-inventory" (click)="openInventoryFilter()">
+        <span>SUMMARY</span>
+        <mat-icon svgIcon="IMX-eye"></mat-icon>
+      </button> -->
+      <button *ngIf="selectedTabLabel === 'inventoryPlan' && allowInventory === 'active'" type="button" mat-button
+              class="imx-button-basic_icon map-inventory" (click)="mapInventory()">
+        <span>MAP</span>
+        <mat-icon svgIcon="IMX-map-pin"></mat-icon>
+      </button>
+      <span *ngIf="inventoryCount > inventoryLimit  && !isJobInProgress && !isMPJobProgress" class="disabledOption"
+        matTooltip="Inventory plan is limited to {{inventoryLimit | convert : 'ABBREVIATE'}} inventory, Please filter more to export.">
+        <button mat-button disableRipple class="imx-button-basic_icon action-height-imx " [matMenuTriggerFor]="exportMenu" disabled="true">
+          <span>EXPORT</span>
+          <mat-icon>expand_more</mat-icon>
+        </button>
+      </span>
+      <span *ngIf="inventoryCount < inventoryLimit && !isJobInProgress && !isMPJobProgress" class="scenario-export-btn">
+        <button mat-button disableRipple class="imx-button-basic_icon action-height-imx " [matMenuTriggerFor]="exportMenu">
+          <span>EXPORT</span>
+          <mat-icon>expand_more</mat-icon>
+        </button>
+      </span>
+      <span *ngIf="isJobInProgress || isMPJobProgress" class="disabledOption scenario-export-btn" tooltip='Generation in progress' placement='top' delay='200'
+      tooltipClass='imx-tooltip-v3' customClass='imx-field-tooltip'>
+        <button mat-button disableRipple class="imx-button-basic_icon action-height-imx " [matMenuTriggerFor]="exportMenu" disabled="true">
+          <span>EXPORT</span>
+          <mat-icon>expand_more</mat-icon>
+        </button>
+      </span>
+      <mat-menu #exportMenu="matMenu" class="mat-elevation-z0 action-menu-less-width">
+        <button mat-menu-item type="button" (click)="exportCSV(scenario?.type)">
+          <span>CSV</span>
+        </button>
+        <!-- TODO:: Will add the export pdf function once API ready -->
+        <!-- <button mat-menu-item type="button">
+          <span>PDF</span>
+        </button> -->
+      </mat-menu>
+      <button mat-button disableRipple class="imx-button-basic_icon action-height-imx action-btn-marign-right" [mat-menu-trigger-for]="actionMenu"
+              *ngIf="userEmail === project?.ownerEmail">
+        <span>ACTIONS</span>
+        <mat-icon>expand_more</mat-icon>
+      </button>
+      <mat-menu #actionMenu="matMenu" class="mat-elevation-z0 action-dropdown-imx action-height-imx minimun-height">
+        <ng-container *ngIf="!isJobInProgress; else disabledMenuBlock">
+          <button mat-menu-item (click)="deletePlan(scenario, project, true)" type="button">
+            Delete
+          </button>
+          <button mat-menu-item (click)="createDuplicatePlan(scenario)" type="button">
+            Duplicate
+          </button>
+        </ng-container>
+        <ng-template #disabledMenuBlock >
+          <span tooltip='Generation in progress' placement='top' delay='200'
+          tooltipClass='imx-tooltip-v3' customClass='imx-field-tooltip'>
+          <button mat-menu-item type="button" class="disabled">
+            Delete
+          </button>
+          <button mat-menu-item type="button"  class="disabled">
+            Duplicate
+          </button>
+          </span>
+        </ng-template>
+
+        
+        <button mat-menu-item (click) = "generatePlanViceVersa(scenario, scenario.type === planTabLabels.MARKET_PLAN ? planTabLabels.INVENTORY_PLAN : planTabLabels.MARKET_PLAN, project)">Generate {{scenario?.type === planTabLabels.MARKET_PLAN ? 'Inventory' : 'Market'}} Plan</button>
+      </mat-menu>
+      <button mat-button class="imx-button-stroked" [disabled]="scenarioSaving" (click)="saveScenario()"
+              *ngIf="userEmail === project?.ownerEmail">
+        <span *ngIf="!scenarioSaving">SAVE</span>
+        <span *ngIf="scenarioSaving">Saving</span>
+        <!-- <span *ngIf="!scenarioChanged && !scenarioSaving">Saved</span> -->
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="scenario?.type === 'MP'">
+    <div class="market-background">
+      <div class="market-background-child"></div>Market Plan
+    </div>
+    <app-market-plan
+      [hidden]="!isEnableMyPlan"
+      [projectOwnerEmail]="project?.ownerEmail"
+      [userEmail]="userEmail"
+      [scenarioId]="scenario._id"
+      (toggleSideNav)="toggleSideNav()"
+      (planJobStatus)="isMPJobProgress = $event">
+    </app-market-plan>
+  </div>
+  <ng-container *ngIf="scenario?.type === 'IP'">
+    <div class="market-background">
+      <div class="market-background-child"></div>Inventory Plan
+    </div>
+    <div *ngIf="!isJobInProgress; else inProgressBlock;">
+      <app-inventory-plan 
+        [inventoryPlanIDs]="selectedInventoryIDs"
+        [scenarioInventorySet]="scenarioInventorySet"
+        (toggleSideNav)="toggleSideNav()"
+        [scenario]="scenario"
+        [regeneratePlans$]="regeneratePlans$"
+        (pushInventoryPlan)="onPushInventoryPlan($event)"
+        [projectOwnerEmail]="project?.ownerEmail"
+        [userEmail]="userEmail"
+        (saveInventoryUpdate)="saveInventoryUpdate($event)"
+        (updateInventorySetIds)="updateInventorySetIds($event)">
+      </app-inventory-plan>
+    </div>
+    <ng-template #inProgressBlock>
+      <div fxLayout="row" fxLayoutAlign="center center" class="plan-in-progress">
+        <mat-icon svgIcon="IMX-ellipsis-animated"></mat-icon>
+        Inventory Plan is being generated. We shall notify you soon.
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <!-- <mat-tab-group class="imx-tab-capital" [(selectedIndex)]="selectedTab"
+                 (selectedTabChange)=onSelectTab($event)>
+    <mat-tab label="MARKET PLAN" aria-label="marketPlan" *ngIf="isVisibleMarketPlanTab && scenario?.type === 'MP'">
+      <div>
+        <app-market-plan [hidden]="!isEnableMyPlan" [projectOwnerEmail]="project?.ownerEmail"
+                         [userEmail]="userEmail" (toggleSideNav)="toggleSideNav()"></app-market-plan>
+      </div>
+    </mat-tab>
+    <mat-tab label="INVENTORY PLAN" aria-label="inventoryPlan" *ngIf="isVisibleInventoryTab && scenario?.type === 'IP'">
+      <div *ngIf="!isJobInProgress; else inProgressBlock;">
+        <app-inventory-plan (toggleSideNav)="toggleSideNav()" [scenario]="scenario"
+                            (pushInventoryPlan)="onPushInventoryPlan($event)" [projectOwnerEmail]="project?.ownerEmail"
+                            [userEmail]="userEmail"></app-inventory-plan>
+      </div>
+      <ng-template #inProgressBlock>
+        <div fxLayout="row" fxLayoutAlign="center center" class="plan-in-progress">
+          <mat-icon svgIcon="IMX-ellipsis-animated"></mat-icon>
+          Inventory Plan is being generated. We shall notify you soon.
+        </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group> -->
+
+  <!--
+     == Side Nav filter
+     Do not use the sidenav reference to toggle the sidenav.
+     cause the animation issue.
+   -->
+  <div *ngIf="isSideNavOpen" class="scenario-view__filter-backdrop">
+
+  </div>
+  <mat-sidenav [disableClose]="true"
+                 [@slideRightLeft]="isSideNavOpen ? 'left': 'right'"
+                 class="side-nav-filter"
+                 mode="side"
+                 [opened]="false"
+                 position="end"
+                 (openedChange) = "onOpenedChange($event)">
+      <app-side-nav-filter [inventoryPlanIDs]="selectedInventoryIDs" [scenario$]="scenarioStore$"
+                           [selectedPlanTab]="selectedTabLabel" [projectOwnerEmail]="project?.ownerEmail"
+                           [userEmail]="userEmail" (close)="toggleSideNav()"
+                           [regeneratePlans$]="regeneratePlans$"
+                           (applyGeneratePlan)="applyGeneratePlan($event)" [operators]="operators"></app-side-nav-filter>
+    </mat-sidenav>
+  <!--  Side Nav filter -->
+</div>

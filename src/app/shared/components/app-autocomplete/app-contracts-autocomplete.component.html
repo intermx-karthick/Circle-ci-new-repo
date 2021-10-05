@@ -1,0 +1,17 @@
+<form>
+<mat-form-field class="example-full-width">
+  <input class="input-autocomplete" 
+          type="text"
+          placeholder="{{placeholder}}"
+          aria-label="Number"
+          matInput
+          [formControl]="autocompleteControl"
+          [matAutocomplete]="auto">
+          <mat-icon class="select-icon" matSuffix>keyboard_arrow_down</mat-icon>
+  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.value" (click)="onOptionClick(option)">
+      {{option.value}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+</form>

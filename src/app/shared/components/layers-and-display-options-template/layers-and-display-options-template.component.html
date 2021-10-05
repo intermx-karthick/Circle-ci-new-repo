@@ -1,0 +1,58 @@
+<div class="layers-filter-header">
+  Layers and Display Options
+</div>
+<!-- Need to enable commented code after implementing secondary map  -->
+<div class="layers-filter-body" fxLayout="row">
+  <mat-tab-group [(selectedIndex)]="selectedMapIndex">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <div fxLayout="row" fxLayoutAlign="start center" class="dual-map-section-title">
+          <div>
+            <!-- <mat-icon>layers</mat-icon> -->
+            <!-- <span class="title" *ngIf="!dualMapSections[0]['isEdit']" title="{{dualMapSections[0]['name']}}">{{dualMapSections[0]['name'] | truncate:'middle': 12: 12 }}</span> -->
+            <span class="title" *ngIf="!dualMapSections[0]['isEdit']" title="{{dualMapSections[0]['name']}}">{{dualMapSections[0]['name'] | truncate:'middle': 12: 12 }}</span>
+            <input *ngIf="dualMapSections[0]['isEdit']" type="text" [(ngModel)]="dualMapSections[0]['name']"  (keydown)="handleInput($event)">
+          </div>
+          <div fxFlex="1 1 auto"></div>
+          <div class="action">
+            <mat-icon *ngIf="!dualMapSections[0]['isEdit']" (click)="onTitleEdit(0)" title="Edit">edit</mat-icon>
+            <mat-icon *ngIf="dualMapSections[0]['isEdit']" (click)="onTitleSave(0)" title="Save">save</mat-icon>
+            <mat-icon *ngIf="dualMapSections[0]['isEdit']" (click)="onTitleClose(0)" title="Close">close</mat-icon>
+          </div>
+        </div>
+      </ng-template>
+      <div class="tab-body">
+        <app-layers-and-display-options [layerType] = "'primary'"></app-layers-and-display-options>
+      </div>
+    </mat-tab>
+    <mat-tab *ngIf="isEnableSecondaryMap">
+      <ng-template mat-tab-label>
+        <div fxLayout="row" fxLayoutAlign="start center" class="dual-map-section-title">
+          <div>
+            <span class="title" *ngIf="!dualMapSections[1]['isEdit']" title="{{dualMapSections[1]['name']}}">{{dualMapSections[1]['name'] | truncate:'middle': 12: 12 }}</span>
+            <input *ngIf="dualMapSections[1]['isEdit']" type="text" [(ngModel)]="dualMapSections[1]['name']"  (keydown)="handleInput($event)">
+          </div>
+          <div fxFlex="1 1 auto"></div>
+          <div class="action">
+            <mat-icon *ngIf="!dualMapSections[1]['isEdit']" (click)="onTitleEdit(1)" title="Edit">edit</mat-icon>
+            <mat-icon *ngIf="dualMapSections[1]['isEdit']" (click)="onTitleSave(1)" title="Save">save</mat-icon>
+            <mat-icon *ngIf="dualMapSections[1]['isEdit']" (click)="onTitleClose(1)" title="Close">close</mat-icon>
+          </div>
+        </div>
+      </ng-template>
+      <div class="tab-body">
+        <app-layers-and-display-options [layerType] = "'secondary'"></app-layers-and-display-options>
+      </div>
+    </mat-tab>
+  <mat-tab disabled >
+      <ng-template mat-tab-label>
+          <button mat-icon-button (click)="enableSecondaryMap()" title="Add Secondary Map" *ngIf="!isEnableSecondaryMap" [disableRipple]="true">
+              <mat-icon>add</mat-icon>
+          </button>
+          <button mat-icon-button (click)="closeSecondaryMap()" title="Close Secondary Map" *ngIf="isEnableSecondaryMap" [disableRipple]="true">
+            <mat-icon>close</mat-icon>
+          </button>
+      </ng-template>
+  </mat-tab>
+  </mat-tab-group>
+</div>

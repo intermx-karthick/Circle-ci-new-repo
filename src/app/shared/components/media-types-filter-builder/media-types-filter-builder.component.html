@@ -1,0 +1,182 @@
+<mat-accordion displayMode="flat">
+  <mat-expansion-panel class="mat-elevation-z" (opened)="mediaClassLazyLoader.triggerInitialLoad()">
+    <mat-expansion-panel-header collapsedHeight="48px" expandedHeight="48px">
+      <mat-panel-title tooltip="{{siteName + ' generally classifies out of home media into 3 core groupings: Roadside, Place Based & Fleet.'}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+      >
+        <!-- <mat-checkbox
+          disableRipple
+          [(ngModel)]="selection['classification']"
+          (click)="$event.stopPropagation(); changeParentcheckbox('classification', refClassfication)"
+          #refClassfication *ngIf="moduleName === 'project'"></mat-checkbox> -->
+        Media Class
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="attributes-panel-body">
+      <app-media-class-filter (select)="selectMediaClassOption($event)"
+                              [initiator$]="mediaClassLazyLoader.initiator$"
+                              [moduleName]="moduleName"
+                              [mediaTypesDataForEdit]="mediaTypesDataForEdit"
+                              [preload]="moduleName === 'project'">
+      </app-media-class-filter>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel class="mat-elevation-z" (opened)="structureTypeLazyLoader.triggerInitialLoad()">
+    <mat-expansion-panel-header collapsedHeight="48px" expandedHeight="48px">
+      <mat-panel-title tooltip='Structure Type refers to what the Frame is attached: Bulletins on interstates would typically be "Freestanding," while inventory affixed to bus shelters would be labeled as "Furniture."' placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+      >
+        <!-- <mat-checkbox
+          disableRipple
+          [(ngModel)]="selection['construction']"
+          (click)="$event.stopPropagation();changeParentcheckbox('construction', refConstruction)" #refConstruction *ngIf="moduleName === 'project'"></mat-checkbox> -->
+        Structure Type
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="attributes-panel-body">
+       <app-structure-type-filter (select)="selectStructureTypeOption($event)"
+                                  [moduleName]="moduleName"
+                                  [mediaTypesDataForEdit]="mediaTypesDataForEdit"
+                                  [preload]="moduleName == 'project'"
+                                  [initiator$]="structureTypeLazyLoader.initiator$"
+       ></app-structure-type-filter>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel class="mat-elevation-z" (opened)="mediaTypeLazyLoader.triggerInitialLoad()">
+    <mat-expansion-panel-header collapsedHeight="48px" expandedHeight="48px">
+      <mat-panel-title tooltip="The general description and size of the frame, and industry standards, define the Media Type. (Filter on Operator Media Name for more specific references)" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+      >
+        <!-- <mat-checkbox
+          disableRipple
+          [(ngModel)]="selection['mediaTypes']"
+          (click)="$event.stopPropagation();changeParentcheckbox('mediaTypes', refMediaTypes)" #refMediaTypes *ngIf="moduleName === 'project'"></mat-checkbox> -->
+        Media Type
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="attributes-panel-body">
+      <app-media-type-filter (select)="selectMediaTypeOption($event)"
+                             [initiator$]="mediaTypeLazyLoader.initiator$"
+                             [mediaTypesDataForEdit]="mediaTypesDataForEdit"
+                             [moduleName]="moduleName"
+                             [preload]="moduleName == 'project'">
+      </app-media-type-filter>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel class="mat-elevation-z" (opened)="operatorLazyLoader.triggerInitialLoad()">
+    <mat-expansion-panel-header collapsedHeight="48px" expandedHeight="48px">
+      <mat-panel-title tooltip="Operators may have their own nomenclature for inventory. This gives the opportunity for any operator's unique inventory name to be searched and used as a filter." placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+      >
+        <!-- <mat-checkbox
+          disableRipple
+          [(ngModel)]="selection['medias']"
+          (click)="$event.stopPropagation();changeParentcheckbox('medias', refmedias)" #refmedias *ngIf="moduleName === 'project'"></mat-checkbox> -->
+        Operator Media Name
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="attributes-panel-body operater-media-name-main" [ngClass]="{'enable-project': this.moduleName === 'project'}">
+      <app-operator-media-name-filter (select)="selectOperatorMediaNameOption($event)"
+                                      [initiator$]="operatorLazyLoader.initiator$"
+                                      [mediaTypesDataForEdit]="mediaTypesDataForEdit"
+                                      [moduleName]="moduleName"
+                                      [preload]="moduleName == 'project'">
+      </app-operator-media-name-filter>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel (opened)="materialLazyLoader.triggerInitialLoad()" class="mat-elevation-z">
+    <mat-expansion-panel-header collapsedHeight="48px" expandedHeight="48px">
+      <mat-panel-title tooltip="{{siteName + ' differentiates between digital, printed/mesh and painted.'}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+      >
+        <!-- <mat-checkbox
+          disableRipple
+          [(ngModel)]="selection['material']"
+          (click)="$event.stopPropagation()"
+          *ngIf="moduleName === 'project'"></mat-checkbox> -->
+        Material
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="attributes-panel-body">
+      <app-material-filter (setMaterialMedias)="setMaterialMedias($event)"
+                           (select)="changeMaterial($event)"
+                           [initiator$]="materialLazyLoader.initiator$"
+                           [mediaTypesDataForEdit]="mediaTypesDataForEdit"
+                           [moduleName]="moduleName"
+                           [preload]="moduleName == 'project'"
+      >
+      </app-material-filter>
+    </div>
+  </mat-expansion-panel>
+  <app-place-placement-filter *ngIf="moduleName !== 'project'" (placementTypeOnSelect)="selectedPlacementOption($event)"
+  (placeTypeOnSelect)="selectedPlaceTypeOption($event)"
+  [sPlaceType]="selectedPlaceType"
+  [sPlaceMentType]="selectedPlacementType"></app-place-placement-filter>
+  <mat-expansion-panel class="mat-elevation-z"  *ngIf="moduleName !== 'project'"
+                       (opened)="placeNameLazyLoader.triggerInitialLoad()" >
+    <mat-expansion-panel-header collapsedHeight="48px" expandedHeight="48px">
+      <mat-panel-title
+        [matTooltipClass]="'inventory-filter-tooltip'"
+        matTooltipPosition="above"
+        matTooltip=""
+      >
+        Place Name
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="attributes-panel-body">
+      <app-place-name-filter [preload]="false"
+                             [initiator$]="placeNameLazyLoader.initiator$"
+                             (updatePlaceNameFilterSelection)="updatePlaceNameFilterSelection($event)">
+      </app-place-name-filter>
+    </div>
+  </mat-expansion-panel>
+  <div
+    class="footer-action"
+    *ngIf="moduleName !== 'project'; else projectAction"
+  >
+    <button
+      mat-raised-button
+      class="btn-clear uppercase"
+      type="button"
+      (click)="clearSelection()"
+    >
+      Clear
+    </button>
+    <button
+      mat-raised-button
+      class="btn-primary-color uppercase"
+      type="button"
+      (click)="applySelection()"
+    >
+      Apply
+    </button>
+  </div>
+  <ng-template #projectAction>
+    <div
+      class="action-container"
+      fxLayout="row"
+      fxLayoutAlign="flex-end center"
+    >
+      <button
+        mat-raised-button
+        class="btn-clear uppercase"
+        type="button"
+        (click)="clearSelection()"
+      >
+        close
+      </button>
+      <!-- <button
+        mat-raised-button
+        class="btn-primary-color uppercase"
+        type="button"
+        (click)="applySelection('individual')"
+        *ngIf="!editMediaTypes"
+      >
+        Add as Individual
+      </button> -->
+      <button
+        mat-raised-button
+        class="btn-primary-color uppercase"
+        type="button"
+        (click)="applySelection()"
+      >
+        {{ editMediaTypes ? "Update" : "Add Selected" }}
+      </button>
+    </div>
+  </ng-template>
+</mat-accordion>

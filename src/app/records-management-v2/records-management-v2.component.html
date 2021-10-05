@@ -1,0 +1,25 @@
+<div>
+  <header class="header-section">
+    <app-header fxFlexFill>
+      <div class="projected-title">
+        <mat-icon>api</mat-icon>
+        <span class="">Records Management</span>
+      </div>
+    </app-header>
+
+    <div fxLayout="row" class="contant-section"></div>
+  </header>
+
+  <main fxLayout="row" fxLayoutAlign="start start" fxFill class="body-content"
+           [ngClass]="{'closedNavBar' : isClosedNavBar}">
+    <div fxFlex="130px" class="left-nav rc__sidebar-menu">
+      <div class="navBarPanel">
+        <app-records-management-menu-v2></app-records-management-menu-v2>
+      </div>
+    </div>
+
+    <div class="body-inner-content" cdkScrollable>
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

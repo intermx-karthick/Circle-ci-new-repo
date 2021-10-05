@@ -1,0 +1,108 @@
+::ng-deep {
+  app-places-search {
+    .div-container {
+      width: 480px;
+      background: white;
+      h4, p {
+        margin-left: 20px;
+        margin-bottom: 8px;
+      }
+      .search-filter-container {
+        margin-left: 20px;
+
+        button {
+          margin-bottom: 17px;
+          background: var(--button-bg-color);
+          color: white;
+          line-height: 28px;
+          padding: 0;
+          font-size: 11px;
+        }
+        form {
+          margin: 20px 0 0 0;
+        }
+        input.mat-input-element {
+          padding: 1px;
+        }
+        .mat-form-field-label{
+          text-transform: capitalize;
+        }
+      }
+    }
+  }
+
+  .place-autocomplete {
+    min-width: 353px !important;
+    padding: 0px !important;
+    margin-top: -17px;
+    .mat-progress-spinner {
+      left: 50%;
+    }
+    .mat-progress-spinner circle,
+    .mat-spinner circle {
+      stroke: #9a9494;
+    }
+    .search-place-content {
+      max-height: 350px;
+      overflow: auto;
+      padding: 15px 0px;
+      .highlight-active {
+        background-color: var(--button-bg-color) !important;
+        span {
+          color: var(--text-whites);
+        }
+        mat-icon {
+          color: var(--text-whites);
+        }
+      }
+      .subtitle-1 {
+        font-weight: bold;
+        display: block;
+      }
+      .subtitle-2 {
+        display: block;
+      }
+      li {
+        border-bottom: 0.5px solid var(--high-emphasis);
+      }
+    }
+  }
+
+  .dropdown-list {
+    max-height: 230px;
+    overflow: auto;
+    ul {
+      margin: 0px;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      li {
+        list-style: none;
+        width: 100%;
+        padding: 5px 5px 5px 15px !important;
+        cursor: pointer;
+        align-items: center;
+        &:hover {
+          background-color: var(--dropdown-hover-bg);
+        }
+        &.highlight-active {
+          background-color: var(--button-bg-color);
+          color: var(--text-whites);
+          mat-icon {
+            color: var(--text-whites);
+          }
+        }
+        mat-icon {
+          font-size: 18px;
+          height: 18px;
+          margin-top: 3px;
+          color: var(--low-emphasis);
+        }
+        label {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+<div mat-dialog-content class="confirmation-dialog" id="confirmation-dialog">
+  <div fxLayout="row" fxLayoutAlign="start">
+    <h3 class="modal-title">Data Source and Base Audience Reference Sheet</h3>
+    <span fxFlex="1 1 auto"></span>
+    <mat-icon mat-dialog-close class="mat-icon-close">highlight_off</mat-icon>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="start start" fxFill>
+    <div fxLayout="row" class="imx-base-audiences" fxLayoutAlign="space-between center" fxFill>
+      <div fxFlex="40%">Data Source</div>
+      <div fxFlex="60%">Base Audience</div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="start start" class="base-audience_scroll">
+      <div fxLayout="row" class="imx-base-audiences" fxLayoutAlign="space-between start"  *ngFor="let item of baseAudiences | keyvalue">
+        <div fxFlex="40%" fxLayout="row" fxLayoutAlign="start start"><span>{{item.key | measure_release_label}}</span></div>
+        <div fxFlex="60%" class="audience-row">
+          <div *ngFor="let audience of item.value" class="audience-column">
+            {{ audience.displayname }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

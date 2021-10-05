@@ -1,0 +1,75 @@
+<form [formGroup]="upForm" (ngSubmit)="onSubmit(upForm)" novalidate class="userCustomForm" fxFill>
+<mat-toolbar-row>
+      <span fxFlex="1 1 auto"></span>      
+      <button type="button" mat-raised-button (click)="cancel()">CANCEL</button>
+      <button mat-raised-button color="primary" class="button-primary">APPLY CHANGES</button>
+</mat-toolbar-row> 
+
+<div fxLayout="row wrap" fxLayoutAlign="start start" class="outer-block" fxLayoutGap="20px">
+  <!-- form div-->
+  <div fxFill>
+      <h2 class="m-t-0">User Profile</h2>
+  </div>
+  <div fxLayout="column"  fxFlex="45" fxFlex.xs="100">
+    <mat-card fxLayout="column" fxLayoutGap="20px" class="outer-block">
+        <mat-form-field>
+            <input matInput placeholder="Name" formControlName="given_name">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Family Name" formControlName="family_name">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Company" formControlName="company">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Title" formControlName="title">
+        </mat-form-field>
+    </mat-card> 
+  </div>
+  <!--action div-->
+  <div fxLayout="column" fxLayoutGap="10px" class="settings-action-footer" fxHide>
+    <button mat-raised-button color="primary" class="button-primary">APPLY CHANGES</button>
+    <button type="button" mat-raised-button (click)="cancel()">CANCEL</button>
+  </div>
+</div>
+</form>
+
+
+<!-- <div class="row">
+  <form [formGroup]="upForm" (ngSubmit)="onSubmit(upForm)" novalidate class="userCustomForm">
+  <div class="col-md-5 col-sm-5 col-xs-12">
+    <div class="col-md-12 col-sm-12 col-xs-12 card-div">
+      <div class="clearfix card-block">
+        <h5 class="card-title">User Profile</h5>
+        <div class="card-content colors-block z-depth-1">
+          <div  class="md-form">
+            <input class="form-control"type="text" id="defaultForm-given_name" formControlName="given_name">
+            <label class="" for="defaultForm-given_name">Name</label>
+            <show-errors [control]="upForm.controls.given_name"></show-errors>
+          </div>
+          <div  class="md-form">
+            <input class="form-control" id="defaultForm-family_namee" type="text"  formControlName="family_name">
+            <label class="" for="defaultForm-family_name">Family Name</label>
+            <show-errors [control]="upForm.controls.family_name"></show-errors>
+          </div>
+          <div  class="md-form">
+            <input class="form-control" id="defaultForm-company" type="text"  formControlName="company">
+            <label class="" for="defaultForm-company">Company</label>
+            <show-errors [control]="upForm.controls.company"></show-errors>
+          </div>
+          <div  class="md-form">
+            <input class="form-control" id="defaultForm-title" type="text"  formControlName="title">
+            <label class="" for="defaultForm-title">Title</label>
+            <show-errors [control]="upForm.controls.title"></show-errors>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-sm-6 col-xs-12 mt-2">
+    <button type="submit" class="btn geo-button waves-effect waves-light geo-setting-btn">Apply Changes</button>
+    <br>
+    <button type="button" class="btn geo-secondary-button geo-button waves-effect waves-light geo-setting-btn" (click)="cancel()">Cancel</button>
+  </div>
+  </form>
+</div> -->

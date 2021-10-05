@@ -1,0 +1,28 @@
+<mat-card class="imx-widget-card">
+  <mat-card-header>
+    <mat-card-title>Markets {{ selectedMarkets.length !== 0 ? "(" + selectedMarkets.length + ")"  : '' }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list >
+      <mat-list-item class="test-measure-item" *ngFor="let market of selectedMarkets; let i = index;" title="{{market.name}}" > 
+        <span matLine class="edit-Market" (click)="editFlag && editMarket(i)">{{ market.name | truncate:'middle':18:6}}</span> 
+        <div class="left-select">
+        <button class="select test-forward-button" mat-icon-button (click)="removeMarket(market)" [disabled]="!disableEdit" *ngIf = "editFlag">
+          <span title="Your spot schedule import is in progress, you can't make changes until the import is done." *ngIf="!disableUpload">
+            <mat-icon matListIcon>clear</mat-icon>
+          </span>
+			    <span *ngIf="disableUpload">
+            <mat-icon matListIcon>clear</mat-icon>
+          </span>
+        </button>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+  <mat-card-actions *ngIf = "editFlag">
+    <button [disabled]="!disableEdit" mat-button type="button" class="add-link" disableRipple (click)="openMarketDialog()">
+      <span title="Your spot schedule import is in progress, you can't make changes until the import is done." *ngIf="!disableUpload"><mat-icon>add</mat-icon> Market</span>
+			<span *ngIf="disableUpload"><mat-icon>add</mat-icon> Market</span>
+    </button>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,82 @@
+::ng-deep {
+    .imx-ngx-slider {
+      .ngx-slider-pointer {
+        width: 8px !important;
+        height: 8px !important;
+        top: -2.5px !important;
+        cursor: pointer !important;
+        background-color: var(--button-bg-color) !important;
+      }
+      .legend-text {
+          font-size:13px !important;
+      }
+      .ngx-slider-bar {
+          height: 3px !important;
+          cursor:  pointer !important;
+      }
+      .ngx-slider-bubble{
+        bottom: -24px !important;
+      }
+      .ngx-slider-ceil{
+        visibility: hidden !important;
+      }
+      .ngx-slider-floor{
+        visibility: hidden !important;
+      }
+      .ngx-slider-model-value{
+        visibility: visible !important;
+      }
+      .ngx-slider-combined{
+        visibility: visible !important;
+      }
+      .ngx-slider-model-high{
+        visibility: visible !important;
+      }
+      .ngx-slider-bubble{	
+        color: var(--high-emphasis) !important;
+        font-size: 13px !important;	
+        font-weight: 300;
+      }
+      .threshold-legend{
+        margin-top: 25px;
+        color: var(--high-emphasis);	
+        font-size: 13px;	
+        font-weight: bold;	
+        letter-spacing: 1.08px;	
+        line-height: 16px;
+      }
+      .ngx-slider-tick-legend{
+        top: 6px !important;	
+        color: var(--high-emphasis) !important;
+        font-size: 13px !important;	
+        font-weight: 300;
+      }
+      .ngx-slider[disabled] .ngx-slider-bar, .ngx-slider[disabled] .ngx-slider-pointer {
+        background: #E0E0E0 !important;
+        color: var(--grays-bg-600) !important;
+        opacity: 1;
+      }
+      .ngx-slider .ngx-slider-tick {
+        text-align: center;
+        cursor: pointer;
+        width: 2px;
+        height: 6px;
+        left: 5px !important;
+        background: var(--button-bg-color) !important;
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        margin-left: 0px;
+        margin-top: 4px;
+      }
+      .ngx-slider[disabled] .ngx-slider-model-high, 
+      .ngx-slider[disabled] .ngx-slider-model-value {
+        background: transparent !important;
+        color: var(--grays-bg-600) !important;
+        opacity: 1;
+      }
+    .disable-content {
+      color: var(--grays-bg-600) !important;
+    }
+  }
+}

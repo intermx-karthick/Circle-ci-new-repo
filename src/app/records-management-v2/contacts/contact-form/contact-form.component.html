@@ -1,0 +1,217 @@
+<form [formGroup]="contactForm" #contactFormRef="ngForm" autocomplete="off" class="form-label-capitalize">
+  <div cdkScrollable class="bottom-sheet-scroll">
+    <section fxLayout fxLayoutGap="16px">
+      <div class="contact-form__field" >
+        <mat-form-field class="imx-input" fxFlex="10rem">
+          <mat-label>First Name</mat-label>
+          <input formControlName="firstName" matInput autocomplete="off" required>
+          <mat-error *ngIf="contactForm.controls['firstName']?.errors?.required">First Name is required.</mat-error>
+          <mat-error *ngIf="contactForm.controls['firstName']?.errors?.maxlength">First Name can be max 64 characters long.</mat-error>
+          <mat-error *ngIf="!contactForm.controls['firstName']?.errors?.required && contactForm.controls['firstName']?.errors?.whitespace">
+            <span>Invliad first name.</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="contact-form__field" >
+        <mat-form-field class="imx-input" fxFlex="10rem">
+          <mat-label>Last Name</mat-label>
+          <input formControlName="lastName" matInput autocomplete="off" required>
+          <mat-error *ngIf="contactForm.controls['lastName']?.errors?.required">Last Name is required.</mat-error>
+          <mat-error *ngIf="contactForm.controls['lastName']?.errors?.maxlength">Last Name can be max 64 characters long.</mat-error>
+          <mat-error *ngIf="!contactForm.controls['lastName']?.errors?.required && contactForm.controls['lastName']?.errors?.whitespace">
+            <span>Invalid last name.</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="contact-form__field"  fxLayoutAlign="center center" *ngIf="isEditForm">
+        <mat-checkbox formControlName="current" class="imx-checkbok circle-flag-main" disableRipple><span class="circle-flag">C</span>urrent</mat-checkbox>
+      </div>
+    </section>
+    <section fxLayout fxLayoutGap="16px">
+      <div class="contact-form__field" >
+        <mat-form-field class="imx-dropdown details-mat-form-field imx-input" fxFlex="10rem" tooltip="{{contactForm['controls'].company.value?.name ?.length>10 ? contactForm['controls'].company.value?.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          <mat-label>Company Name</mat-label>
+          <input
+            type="text"
+            #companyInputRef
+            matInput
+            (click)="companyAutoCompleteTrigger.openPanel()"
+            [matAutocomplete]="companiesList"
+            formControlName="company"
+            class="imx-input-no-border"
+            required
+          />
+          <mat-icon style="cursor: pointer !important;" svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon"
+                    [class.disabled]="!contactForm.controls.company.value?._id"
+                    (click)="$event.stopPropagation();tabLinkHandler(contactForm.controls.company.value?.organizationType)" matSuffix></mat-icon>
+          <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+
+          <mat-autocomplete
+            #companiesList="matAutocomplete"
+            (opened)="updateCompanyContainer()"
+            class="autocomplete-scroll imx-autocomplete-dropdown"
+            [displayWith]="companyDisplayWithFn"
+            (optionSelected)="onCompanySelection($event)"
+          >
+            <div  class="company-list-autocomplete"
+                  infiniteScroll
+                  [infiniteScrollDistance]="1"
+                  [infiniteScrollThrottle]="0"
+                  [infiniteScrollDisabled]="companies?.length >= companyPagination?.total"
+                  (scrolled)="loadMoreCompanies()"
+                  [scrollWindow]="false"
+                  [infiniteScrollContainer]="panelCompanyContainer"
+                  [fromRoot]="true"
+                  [immediateCheck]="false"
+                  [alwaysCallback]="false"
+            >
+            <mat-option [value]="null" class="hide-selected-tick" tooltip="Select Company Name" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">Select Company Name</mat-option>
+            <mat-option
+              *ngFor="
+                let company of companies;
+                trackBy: companyTrackByFn
+              "
+              [value]="company"
+              [class.mat-selected]="contactForm && contactForm['controls']['company'].value?._id == company?._id"
+              tooltip="{{company.name?.length >10 ? company.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+            >
+              <span
+                [innerHTML]="
+                  company.name | imx_highlight: companyInputRef.value
+                "
+              ></span>
+            </mat-option>
+
+              <mat-option disabled *ngIf="isCompaniesLoading ">
+                <div fxLayout="row" fxLayoutAlign="space-around center" >
+                  <mat-spinner diameter="20"></mat-spinner>
+                </div>
+              </mat-option>
+
+              <mat-option disabled *ngIf="!isCompaniesLoading  && companies.length <= 0">
+                Invalid Entry.
+              </mat-option>
+            </div>
+          </mat-autocomplete>
+          <mat-error *ngIf="contactForm.controls['company']?.errors?.required">Company Name is required.</mat-error>
+          <mat-error class="small-font" *ngIf="!contactForm.controls['company']?.errors?.required && contactForm['controls'].company.hasError('invalid')">
+            Please select from the drop down list.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="contact-form__field parent-company" fxFlex="100" fxLayoutAlign="start center" fxFlex="10rem">
+        <span *ngIf="!parentCompanyName || !companyInputRef.value?.length"class="label">Parent Company</span>
+        <span *ngIf="parentCompanyName && companyInputRef.value?.length" tooltip="{{parentCompanyName?.length > 22 ? parentCompanyName : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          {{ parentCompanyName | truncate:'end':22 }}
+        </span>
+      </div>
+      <div class="contact-form__field" >
+        <mat-form-field class="imx-input imx-dropdown contact-form__select" fxFlex="155px">
+          <mat-label>Contact Type</mat-label>
+          <mat-select
+            [panelClass]="'imx-select'"
+            formControlName="type"
+            [class.placeholder-default]="contactForm['controls'].type.value==''"
+            [ngStyle]="{'max-height.px': 250}"
+            infiniteScroll
+            [infiniteScrollDistance]="1"
+            [infiniteScrollThrottle]="0"
+            (scrolled)="loadMoreContactTypes()"
+            [scrollWindow]="false"
+          >
+          <mat-option *ngIf="contactTypes?.length" [value]="null">Select Contact Type</mat-option>
+            <mat-option *ngFor="let contactType of contactTypes" [value]="contactType._id">
+              {{contactType.name}}
+            </mat-option>
+            <div *ngIf="isContactTypesLoading" class="create-contact">
+              <mat-spinner [strokeWidth]="2" [diameter]="20"></mat-spinner>
+            </div>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </section>
+    <section fxLayout fxLayoutGap="16px">
+      <div class="contact-form__field">
+        <mat-form-field fxFlex="100" class="imx-input" fxFlex="11.452rem">
+          <mat-label>Title</mat-label>
+          <input formControlName="title" matInput autocomplete="off">
+          <mat-error *ngIf="contactForm.controls['title']?.errors?.whitespace">
+            <span>Invalid Title.</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="contact-form__field">
+        <mat-form-field fxFlex="100" class="imx-input" fxFlex="22.903rem">
+          <mat-label>Email Address</mat-label>
+          <input formControlName="email" matInput autocomplete="off">
+          <mat-hint class="email-hint">Input multiple addresses separated by “;”</mat-hint>
+          <mat-error *ngIf="contactForm.controls['email']?.errors">Invalid email address.</mat-error>
+          <!-- <mat-error *ngIf="!contactForm.controls['email']?.errors?.vaildEmail && contactForm.controls['title']?.errors?.whitespace">
+            <span>Invalid email address.</span>
+          </mat-error> -->
+        </mat-form-field>
+      </div>
+    </section>
+    <section fxLayout fxLayoutGap="16px">
+      <div class="contact-form__field">
+        <mat-form-field fxFlex="10rem" class="imx-input error-field-width" >
+          <mat-label>Mobile</mat-label>
+          <app-telephone-input formControlName="mobile"></app-telephone-input>
+          <mat-error>Invalid mobile number.</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="contact-form__field">
+        <mat-form-field fxFlex="10rem" class="imx-input error-field-width">
+          <mat-label>Office</mat-label>
+          <app-telephone-input formControlName="office"></app-telephone-input>
+          <mat-error> Invalid office number.</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="contact-form__field">
+        <mat-form-field fxFlex="2.5rem" class="imx-input ">
+          <mat-label>Ext</mat-label>
+          <input formControlName="ext" matInput autocomplete="off">
+          <mat-error> Invalid Ext. </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="contact-form__field">
+        <mat-form-field fxFlex="9.938rem" class="imx-input error-field-width" >
+          <mat-label>FAX</mat-label>
+          <app-telephone-input formControlName="fax"></app-telephone-input>
+          <mat-error> Invalid fax number.</mat-error>
+        </mat-form-field>
+      </div>
+    </section>
+    <section fxLayout fxLayoutGap="16px" class="address-margin">
+      <app-address-card class="contact-form__address-card">
+        <app-us-address #contactFormAddress formControlName="address" [scrollingContainer]="scrollingContainer"></app-us-address>
+      </app-address-card>
+    </section>
+    <section fxLayout fxLayoutGap="36px" fxLayoutAlign="start center">
+      <div class="contact-form__field" *ngIf="!isEditForm || enableDuplicate">
+        <mat-form-field fxFlex="21.25rem" class="imx-input" [ngClass]=" showEditor ?'editorLabel':'notesTextAreaLabel'">
+          <mat-label>{{ showEditor ? 'Entering Notes' : 'Please enter Notes here' }}</mat-label>
+          <ckeditor *ngIf="showEditor"  class="imx-input" formControlName="note"
+          [config]="editorConfig"
+          [data]="contactForm.controls['note']?.value">
+          </ckeditor>
+          <textarea formControlName="note" matInput autocomplete="off" [hidden]="showEditor" (focus)="showEditorFunc()"></textarea>
+        <mat-error *ngIf="contactForm.controls['note'].errors?.minlength">Notes must be atleast 1 character long.</mat-error>
+        <mat-error *ngIf="contactForm.controls['note'].errors?.maxlength">Notes can be max 2000 characters long.</mat-error>
+        <mat-error *ngIf="contactForm.controls['note']?.errors?.whitespace">
+          <span>Invalid Notes.</span>
+        </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="isEditForm && !enableDuplicate">
+        <app-notes #contactFormNotes [moduleName]="moduleName" [noteParentId$]="contsctNoteId$" [organization]="organization" (noteUpdateEmit)="noteUpdateEmit($event)" [visiblityModule]="'contacts'" [disableEdit]="(!userPermission?.edit)"></app-notes>
+      </div>
+
+      <!-- TODO: Need to uncomment if we are going to reuse this component in edit contact page
+        <div>
+        <button mat-button class="notes__btn">ADD NOTE</button>
+      </div> -->
+    </section>
+  </div>
+</form>

@@ -1,0 +1,74 @@
+<div class="cast-management-block">
+  <div class="selection-cast-block" *ngIf="selectedBlock === 'selection'" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+  (scrolled)="loadMoreScenario()" [scrollWindow]="false">
+    <ul>
+      <li fxLayout="row" fxLayoutAlign="center center" (click)="toggleBlockCast('create')" networkLibraryAcl [access] = "'edit'"><span>Create Cast</span>
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </li>
+      <li *ngFor="let scenario of scenarios; trackBy: trackByScenarioID;" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" (click)="selectScenario(scenario)">
+        <div class="status-div" fxFlex="15%"><span class="tag tag-status">#{{scenario['status']}}</span></div>
+        <div fxFlex="50%">{{scenario['title']}}</div>
+        <div class="tag-div" fxFlex="30%">
+         <div> <span *ngFor="let tag of scenario['tags'];" class="tag tags">#{{tag}}</span> </div>
+        </div>
+      </li>
+    </ul>
+    <div fxLayout="row" fxLayoutAlign="center center" class="archived-cast" *ngIf="isScenarioLoading">
+      <mat-spinner diameter="30" ></mat-spinner>
+    </div>
+    <div fxLayout="row" *ngIf="!isScenarioLoading && scenarios.length <= 0" fxLayoutAlign="center center" class="archived-cast">
+      0 Casts
+    </div>
+    <!-- <div fxLayout="row" fxLayoutAlign="center center" class="archived-cast">
+      0 Archived Casts
+    </div> -->
+  </div>
+  <div class="create-cast-block"  *ngIf="selectedBlock === 'create'" networkLibraryAcl [access] = "'edit'">
+    <span class="back-cast-list" (click)="toggleBlockCast('selection')"><mat-icon>keyboard_arrow_left</mat-icon></span>
+    <div class="create-cast-form">
+      <h4>Create Cast</h4>
+      <form [formGroup]="castForm" (ngSubmit)="onSubmit(castForm)" novalidate fxFill>
+        <div>
+          <input type='hidden' formControlName="geo_scope_id">
+          <input type='hidden' formControlName="parent_cast_id">
+          <mat-form-field floatLabel="always">
+            <mat-label>Parent Cast</mat-label>
+            <input type="text"
+                   matInput
+                   formControlName="parent_cast"
+                   [matAutocomplete]="auto"
+                   class="no-border" required>
+            <mat-autocomplete 
+              autoActiveFirstOption
+              #auto="matAutocomplete"
+              (opened)="updateContainer()"
+              (optionSelected) = "onSelectingCast($event)"
+              class="cast-list-dd"
+              infiniteScroll
+              [infiniteScrollDistance]="1"
+              [infiniteScrollThrottle]="0"
+              (scrolled)="loadMorePublishedScenario()"
+              [infiniteScrollContainer]="panelContainer"
+              [fromRoot]="true"
+              [displayWith]="displayTitle"
+            >
+              <mat-option *ngFor="let option of publishedScenarios;trackBy: trackByScenarioID;" [value]="option" >
+                {{option['title']}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field  floatLabel="always">
+            <mat-label>Cast Name</mat-label>
+            <input class="title-input" matInput formControlName="title" required>
+            <mat-error *ngIf="castForm.controls.title.invalid">Required</mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <button mat-raised-button class="btn-primary-color" type="submit">
+            Save Cast
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

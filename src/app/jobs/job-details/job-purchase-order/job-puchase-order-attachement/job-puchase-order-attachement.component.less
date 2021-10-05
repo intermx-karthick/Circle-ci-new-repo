@@ -1,0 +1,42 @@
+.job-po-attachment {
+    &__title{
+      font-weight: normal;
+      font-size: 1rem;
+      line-height: 1.25rem;
+      letter-spacing: 0.15px;
+      color: var(--grays-bg-700);
+    }
+  
+    &__close{
+      cursor: pointer;
+      color: var(--primary-bg);
+      margin-right: 1rem;
+    }
+  
+    &__upload-section{
+      max-height: calc( 31.75rem - 3rem);
+      overflow-y: auto;
+      margin-top: 4px;
+      min-height: 220px;
+    }
+  }
+  
+  ::ng-deep{
+    .job-purchase-order-attachment-panel-class {
+      .mat-dialog-container {
+        display: block;
+        padding: 1.125rem 0 0 1rem;
+      }
+  
+      app-file-upload-v2 {
+        margin-bottom: 0 !important;
+      }
+  
+      app-logos .file-container-main{
+        height: auto !important;
+        max-height: initial !important;
+        overflow-y: hidden;
+      }
+    }
+  }
+  

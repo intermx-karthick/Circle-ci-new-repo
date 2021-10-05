@@ -1,0 +1,89 @@
+<div class="edit-plan-sheet" mat-dialog-content fxLayout="column" fxLayoutAlign="start">
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="edit-plan-sheet-heading">
+    <p class="gray-800">Editing Package</p>
+    <a (click)='closeSheet()'>
+      <mat-icon class="primary-text-color">highlight_off</mat-icon>
+    </a>
+  </div>
+  <div fxLayout="column">
+    <form method="post" class="noAnimation" [formGroup]="goalsForm" novalidate autocomplete="off" (ngSubmit)='onSubmit()'>
+      <div fxLayout="row wrap" fxLayoutGap="16px">
+        <mat-form-field class="imx-dropdown imx-input" fxFlex="13.75rem">
+          <mat-label>PLAN PERIOD TYPE</mat-label>
+          <mat-select [panelClass]="'imx-select'" formControlName='plan_period_type'>
+            <mat-option value="generic">Generic</mat-option>
+            <mat-option value="specific" disabled>Specific</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="imx-dropdown imx-input" fxFlex="5.625rem">
+          <mat-label>Plan period </mat-label>
+          <mat-select [panelClass]="'imx-select'" formControlName="duration">
+            <mat-option
+              [value]="week.duration"
+              *ngFor="let week of weeklyDurations"
+              >{{ week.duration + ' ' + week.unit }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row wrap" fxLayoutGap="16px">
+        <mat-form-field class="imx-dropdown imx-input" fxFlex="13.75rem">
+          <mat-label>Delivery Goals</mat-label>
+          <mat-select
+            [panelClass]="'imx-select'"
+            formControlName="type"
+            (selectionChange) = "onDeliveryGoalChange($event)"
+            tooltipv2="{{deliveryGoalTooltip?.value}}" placement="bottom" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+          >
+            <mat-option
+              [value]="deliveryGoal.name"
+              *ngFor="let deliveryGoal of deliveryGoals"
+            >{{ deliveryGoal.value }}</mat-option>
+
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="imx-input error-field-width" *ngIf="goalsForm.controls['type'].value === 'trp'" fxFlex="5.625rem">
+          <input matInput appNumeral [regex]="deliveryNumericPatternRegEx" format="0,0" [min]="1" [length]="9" placeholder="Value" formControlName="trp" required>
+          <mat-error>Goal Value must be number greater than or equal to 1</mat-error>
+        </mat-form-field >
+
+        <mat-form-field *ngIf="goalsForm.controls['type'].value === 'imp'" class="imx-input error-field-width" fxFlex="5.625rem">
+          <input matInput appNumeral [regex]="deliveryNumericPatternRegEx" format="0,0" [min]="1" [length]="9" placeholder="Value" formControlName="imp" required>
+          <mat-error>Goal Value must be number greater than or equal to 1</mat-error>
+        </mat-form-field >
+
+        <mat-form-field class="imx-input error-field-width" *ngIf="goalsForm.controls['type'].value === 'reach'" fxFlex="5.625rem">
+          <input matInput appNumberOnly [regex]="AppRegularExp.DECIMAL" [canAllowMinus]="false" [min]="0" [length]="10" placeholder="Value" formControlName="reach" required>
+          <mat-error>GOAL VALUE MUST BE NUMBER BETWEEN 1 AND 100</mat-error>
+        </mat-form-field >
+
+        <!-- <mat-form-field class="imx-dropdown imx-input">
+          <mat-label>plan period </mat-label>
+          <mat-select [panelClass]="'imx-select'">
+            <mat-option *ngFor="let duration of weeklyDurations; trackBy: trackDurations;" value="{{duration.duration}}">{{duration.duration}}</mat-option>
+          </mat-select>
+        </mat-form-field> -->
+
+        <mat-form-field class="imx-dropdown imx-input" fxFlex="7.125rem">
+          <mat-label>Effective Reach</mat-label>
+          <mat-select [panelClass]="'imx-select'" formControlName="effectiveReach">
+            <mat-option [value]="1">1</mat-option>
+            <mat-option [value]="3">3</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- <div class="allocation-method">
+          <mat-label class="overline">Allocation Method</mat-label>
+          <div>
+            <p class="body-2">Equal</p>
+          </div>
+        </div> -->
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center" class="action-btn">
+        <button (click)="closeSheet()" class="imx-button-basic" type="button" mat-button>CANCEL</button>
+        <button type="submit" class="imx-button-primary" mat-button>RE-GENERATE</button>
+      </div>
+    </form>
+  </div>
+</div>

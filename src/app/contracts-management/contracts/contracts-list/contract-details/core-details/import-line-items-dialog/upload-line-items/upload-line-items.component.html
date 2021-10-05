@@ -1,0 +1,20 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" class="row-container">
+    <h1 mat-dialog-title>Upload Line Items</h1>
+    <button mat-icon-button class="close-button" (click)="closeDialog.emit()">
+        <mat-icon>highlight_off</mat-icon>
+    </button>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="50px"  class="row-container">
+    <app-file-upload label='Upload Line Item File' [fileUploadConfig]="fileUploadConfig" (emitUploadFile)="uploadedFile($event)"></app-file-upload>
+    <button mat-button type="submit" class="imx-button-primary upload-btn" (click)="next()" cdkFocusInitial>{{"Upload" | uppercase}}</button>
+</div>
+
+<div class="no-file-error">
+    <mat-error *ngIf="noFileValidationMessage">No files are selected.</mat-error>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="space-between center" class="row-container download-link-sec">
+    <button mat-button type="submit" class="imx-button-basic sample-download-button" (click)="downloadSampleCSV()" [disabled]="isSampleCSVDownload">{{"Download Import Template" | uppercase}} <mat-spinner diameter="25" *ngIf="isSampleCSVDownload"></mat-spinner> </button>
+</div>
+

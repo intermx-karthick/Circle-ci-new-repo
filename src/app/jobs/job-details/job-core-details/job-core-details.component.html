@@ -1,0 +1,756 @@
+<div class="app-job-core-details job-core-details">
+    <form [formGroup]="jobDetailsForm">
+
+        <div class="job-core-details__body-content" fxLayout="row" fxLayoutAlign="space-between start">
+            <div fxFlex="80">
+                <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="0.625rem">
+                    <div fxFlex="8">
+                        <div class="job-core-details__readonly-content">
+                            <div class="job-core-details__readonly-content--label">
+                                JOB ID #
+                            </div>
+                            <div class="job-core-details__readonly-content--value">
+                                {{jobDetails?.jobId}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div fxFlex="88" class="pad-top">
+
+                        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1.25rem">
+                            <mat-form-field fxFlex="25" class="imx-input"
+                                [ngClass]="{'job-core-details__mat-error':jobDetailsForm?.controls?.jobName?.hasError('maxlength')}">
+                                <mat-label>Job Name</mat-label>
+                                <input matInput="jobName" formControlName="jobName" required>
+                                <mat-error *ngIf="jobDetailsForm?.controls?.jobName?.hasError('required')">
+                                    Job Name is required.
+                                </mat-error>
+                                <mat-error *ngIf="jobDetailsForm?.controls?.jobName?.hasError('maxlength')">
+                                    Job Name can be max 64 characters long.
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="22.5" class="imx-dropdown imx-input new-tab-link"
+                                [tooltip]="(selectedCampaign?.name?.length > 22 ) ? selectedCampaign?.name : ''"
+                                tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" [placement]="'top'"
+                                [delay]="'200'">
+                                <mat-label>
+                                    Campaign
+                                </mat-label>
+                                <mat-icon svgIcon='IMX-new-tab-link' class="mat-link-icon for-mat-select"
+                                    [class.disabled]="!jobDetailsForm?.controls?.campaign?.value"
+                                    (click)="$event.stopPropagation();tabLinkHandler.open(TabLinkType.CAMPAIGN, jobDetailsForm?.controls?.campaign?.value)"
+                                    matSuffix>
+                                </mat-icon>
+                                <mat-select panelClass="imx-select" formControlName="campaign">
+                                    <mat-option [value]="null" (onSelectionChange)="onChangeCampaignSelected($event, {})">Select Campaign</mat-option>
+                                    <mat-option *ngFor="let campaign of campaignsList;trackBy:campaignTrackByFn"
+                                        [tooltip]="campaign?.name?.length > 20 ? campaign.name :''" placement="top"
+                                        delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                                        (onSelectionChange)="onChangeCampaignSelected($event, campaign)"
+                                        [value]="campaign?._id">
+                                        {{ campaign?.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="13" class="imx-input">
+                                <mat-label>Start Date</mat-label>
+                                <input matInput formControlName="startDate" appDateFormat
+                                    [matDatepicker]="start_date_picker" [max]="maxDate" required />
+                                <mat-error> Invalid Date.</mat-error>
+                                <mat-icon (click)="start_date_picker.open()" matSuffix
+                                    class="date-picker-icon date-picker-icon_input" svgIcon="IMX-calender"></mat-icon>
+                                <mat-datepicker #start_date_picker="matDatepicker" [panelClass]="'imx-calander'">
+                                </mat-datepicker>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1.25rem">
+                            <mat-form-field fxFlex="22.5" class="imx-dropdown imx-input new-tab-link"
+                                [tooltip]="(jobDetailsForm?.controls?.client?.value?.clientName?.length > 22 ) ? jobDetailsForm.controls.client.value.clientName : ''"
+                                tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" [placement]="'top'"
+                                [delay]="'200'"
+                                [ngClass]="{'job-core-details__mat-error':jobDetailsForm?.controls?.client?.hasError('invalid')}">
+                                <mat-label>{{clientsAutoComplete?.isLoading ? 'Loading...' : 'Client *'}}</mat-label>
+                                <input type="text" #clientNameInputRef matInput formControlName="client"
+                                    [matAutocomplete]="clientNameAuto" class="imx-input-no-border"
+                                    [autocompletePosition]="clientAutoCompleteTrigger"
+                                    #triggerClientName="matAutocompleteTrigger"
+                                    (click)="clientAutoCompleteTrigger.openPanel()">
+                                <mat-icon svgIcon='IMX-new-tab-link' class="mat-link-icon"
+                                    [class.disabled]="!jobDetailsForm?.controls?.client?.value?._id"
+                                    (click)="$event.stopPropagation();tabLinkHandler.open(TabLinkType.CLIENT, jobDetailsForm?.controls?.client?.value?._id)"
+                                    matSuffix></mat-icon>
+                                <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                                <mat-autocomplete #clientNameAuto="matAutocomplete"
+                                    (opened)="updateClientNameContainer()"
+                                    (optionSelected)="onChangeClientSelected($event.option.value)"
+                                    class="clientName-list-autocomplete imx-autocomplete-dropdown create-link-autocomplete"
+                                    [displayWith]="clientNameDisplayWithFn" panelWidth="13.2%" infiniteScroll
+                                    [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0" [scrollWindow]="false"
+                                    [fromRoot]="true" [immediateCheck]="false" [alwaysCallback]="false"
+                                    [infiniteScrollDisabled]="clientsAutoComplete?.data?.length >= clientsAutoComplete?.pagination?.total"
+                                    [infiniteScrollContainer]="panelClientNameContainer"
+                                    (scrolled)="clientsAutoComplete?.loadMoreData(null,null)">
+
+                                    <mat-option (click)="openNewClientWindow();clientAutoCompleteTrigger.closePanel()"
+                                        disabled>
+                                        <mat-icon>add</mat-icon> Create Client
+                                    </mat-option>
+                                    <mat-divider></mat-divider>
+                                    <mat-option [value]="null" class="hide-selected-tick">Select Client</mat-option>
+                                    <mat-option
+                                        *ngFor="let client of clientsAutoComplete?.data;trackBy: clientNameTrackByFn"
+                                        [value]="client" class="drop-maxwidth"
+                                        [class.mat-selected]="jobDetailsForm?.controls?.client?.value?._id === client?._id"
+                                        tooltip="{{client.clientName?.length > 18 ? client.clientName : ''}}"
+                                        placement="top" delay="200" tooltipClass="imx-tooltip-v3"
+                                        customClass="imx-field-tooltip">
+                                        <span
+                                            [innerHTML]="client.clientName| imx_highlight: clientNameInputRef.value"></span>
+                                    </mat-option>
+
+                                    <mat-option disabled *ngIf="clientsAutoComplete?.isLoading">
+                                        <div fxLayout="row" fxLayoutAlign="space-around center">
+                                            <mat-spinner diameter="20"></mat-spinner>
+                                        </div>
+                                    </mat-option>
+
+                                    <mat-option disabled
+                                        *ngIf="!clientsAutoComplete?.isLoading && !clientsAutoComplete?.data?.length">
+                                        No Records Found.
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-error class="small-font"
+                                    *ngIf="jobDetailsForm?.controls?.client?.hasError('required')">
+                                    Client is required.
+                                </mat-error>
+                                <mat-error *ngIf="jobDetailsForm?.controls?.client?.hasError('invalid')">
+                                    Please select from the drop down list.
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="25" class="imx-input">
+                                <mat-label>PO Number</mat-label>
+                                <input matInput formControlName="poNumber">
+                                <mat-error *ngIf="jobDetailsForm?.controls['poNumber']?.errors?.maxlength">PO Number can
+                                    be max 64 characters long.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1.25rem">
+                            <div fxFlex="25" class="job-core-details__readonly-content job-core-details__readonly-field-custom">
+                                <div class="job-core-details__readonly-content--label">
+                                    OI Client Code
+                                </div>
+                                <div class="job-core-details__readonly-content--value">
+                                    {{jobDetails?.client?.oiClientCode}}
+                                </div>
+                            </div>
+
+                            <mat-form-field fxFlex="25" class="imx-dropdown imx-input"
+                                [tooltip]="(jobDetailsForm?.controls?.producer?.value?.name?.length > 22 ) ? jobDetailsForm.controls.producer.value.name : ''"
+                                tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" [placement]="'top'"
+                                [delay]="'200'"
+                                [ngClass]="{'job-core-details__mat-error':jobDetailsForm?.controls?.producer?.hasError('invalid')}">
+                                <mat-label>{{producersAutoComplete?.isLoading ? 'Loading...' : 'Producer *'}}
+                                </mat-label>
+                                <input type="text" #producerInputRef matInput formControlName="producer"
+                                    [matAutocomplete]="producerAuto" class="imx-input-no-border"
+                                    [autocompletePosition]="producerAutoCompleteTrigger"
+                                    #triggerProducer="matAutocompleteTrigger"
+                                    (click)="producerAutoCompleteTrigger.openPanel()">
+                                <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                                <mat-autocomplete #producerAuto="matAutocomplete" (opened)="updateProducerContainer()"
+                                    (optionSelected)="onChangeProducerSelected($event.option.value)"
+                                    class="autocomplete-scroll producer-list-autocomplete imx-autocomplete-dropdown"
+                                    [displayWith]="producerDisplayWithFn" panelWidth="14.6%" infiniteScroll
+                                    [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0" [scrollWindow]="false"
+                                    [fromRoot]="true" [immediateCheck]="false" [alwaysCallback]="false"
+                                    [infiniteScrollDisabled]="producersAutoComplete?.data?.length >= producersAutoComplete?.pagination?.total"
+                                    [infiniteScrollContainer]="panelProducerContainer"
+                                    (scrolled)="producersAutoComplete?.loadMoreData(null,null)">
+
+                                    <mat-option
+                                        *ngFor="let producer of producersAutoComplete?.data;trackBy: producerTrackByFn"
+                                        [value]="producer" class="drop-maxwidth"
+                                        [class.mat-selected]="jobDetailsForm?.controls?.producer?.value?._id === producer?._id"
+                                        tooltip="{{producer.name?.length > 18 ? producer.name : ''}}" placement="top"
+                                        delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+                                        <span
+                                            [innerHTML]="producer?.name| imx_highlight: producerInputRef.value"></span>
+                                    </mat-option>
+
+                                    <mat-option disabled *ngIf="producersAutoComplete?.isLoading">
+                                        <div fxLayout="row" fxLayoutAlign="space-around center">
+                                            <mat-spinner diameter="20"></mat-spinner>
+                                        </div>
+                                    </mat-option>
+
+                                    <mat-option disabled
+                                        *ngIf="!producersAutoComplete?.isLoading && !producersAutoComplete?.data?.length">
+                                        No Records Found.
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-error class="small-font"
+                                    *ngIf="jobDetailsForm?.controls?.producer?.hasError('required')">
+                                    Producer is required.
+                                </mat-error>
+                                <mat-error *ngIf="jobDetailsForm?.controls?.producer?.hasError('invalid')">
+                                    Please select from the drop down list.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1.25rem">
+                            <mat-form-field fxFlex="25" class="imx-dropdown imx-input"
+                                [tooltip]="((selectedClientContact?.firstName + selectedClientContact?.lastName).length > 22 )  ? (selectedClientContact?.firstName +' '+selectedClientContact?.lastName) : ''"
+                                tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" [placement]="'top'"
+                                [delay]="'200'">
+                                <mat-label>
+                                    Client Contact
+                                </mat-label>
+                                <mat-select panelClass="imx-select create-link-autocomplete"
+                                    formControlName="clientContact" #cliContactSelect>
+                                    <mat-option (click)="openNewContactWindow();cliContactSelect.close();" disabled>
+                                        <mat-icon>add</mat-icon> Create Contact
+                                    </mat-option>
+                                    <mat-divider></mat-divider>
+                                    <mat-option [disabled]="disableOption" [value]="null" (onSelectionChange)="onChangeClientContactSelected($event, {})">
+                                        <span>Select Client Contact</span>
+                                        <mat-icon class="refesh-icon" (mouseover)="onHover()"
+                                        (mouseout)="onHoverOut()" (click)="refreshContact()" *ngIf="jobDetailsForm?.controls?.client?.value?._id">refresh</mat-icon>
+                                    </mat-option>
+                                    <mat-option [tooltip]="cliContact?.value?.length > 20 ? cliContact.value :''"
+                                        placement="top" delay="200" tooltipClass="imx-tooltip-v3"
+                                        customClass="imx-field-tooltip"
+                                        *ngFor="let cliContact of clientContactsList;trackBy:clientContactTrackByFn"
+                                        (onSelectionChange)="onChangeClientContactSelected($event, cliContact)"
+                                        [value]="cliContact?._id">
+                                        {{cliContact?.firstName}} {{cliContact?.lastName}}
+                                    </mat-option>
+                                    <mat-option disabled
+                                        *ngIf="!clientContactsList?.length && !jobDetailsForm?.controls?.client?.value?._id">
+                                        Please select Client first
+                                    </mat-option>
+                                    <mat-option disabled
+                                        *ngIf="!clientContactsList?.length && jobDetailsForm?.controls?.client?.value?._id && !isLoadingContact">
+                                        No Records Found.
+                                    </mat-option>
+                                    <mat-option disabled *ngIf='isLoadingContact'>
+                                        <div fxLayout='row' fxLayoutAlign='space-around center'>
+                                          <mat-spinner diameter='20'></mat-spinner>
+                                        </div>
+                                      </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="25" class="imx-dropdown imx-input"
+                                [tooltip]="(selectedMediaContact?.name?.length > 22 ) ? selectedMediaContact.name : ''"
+                                tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" [placement]="'top'"
+                                [delay]="'200'">
+                                <mat-label>
+                                    OOH Media Contact
+                                </mat-label>
+                                <mat-select panelClass="imx-select" formControlName="oohMediaContact">
+                                    <mat-option [value]="null"  (onSelectionChange)="onChangeMediaContactSelected($event, {})">Select OOH Media Contact</mat-option>
+                                    <mat-option [tooltip]="cotact?.name?.length > 20 ? cotact.name :''" placement="top"
+                                        delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                                        (onSelectionChange)="onChangeMediaContactSelected($event, cotact)"
+                                        *ngFor="let cotact of oohMediaContactsList;trackBy:mediaContactTrackByFn"
+                                        [value]="cotact?._id">
+                                        {{ cotact?.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <div fxFlex="22" class="job-core-details__readonly-content job-core-details__readonly-field-custom">
+                                <div class="job-core-details__readonly-content--label">
+                                    OOH Media Office
+                                </div>
+                                <div class="job-core-details__readonly-content--value">
+                                    {{jobDetails?.client?.office?.name}}
+                                </div>
+                            </div>
+
+                            <div fxFlex="20" class="job-core-details__readonly-content job-core-details__readonly-field-custom">
+                                <div class="job-core-details__readonly-content--label">
+                                    Media division
+                                </div>
+                                <div class="job-core-details__readonly-content--value">
+                                    {{jobDetails?.client?.division?.name}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1.25rem">
+                            <mat-form-field fxFlex="25" class="imx-dropdown imx-input"
+                                [tooltip]="(jobDetailsForm?.controls?.primaryAgency?.value?.name?.length > 22 ) ? jobDetailsForm.controls.primaryAgency.value.name : ''"
+                                tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" [placement]="'top'"
+                                [delay]="'200'"
+                                [ngClass]="{'job-core-details__mat-error':jobDetailsForm?.controls?.primaryAgency?.hasError('invalid')}">
+                                <mat-label>{{primaryAgenciesAutoComplete?.isLoading ? 'Loading...' : 'Primary Agency'}}
+                                </mat-label>
+                                <input type="text" #primaryAgencyInputRef matInput formControlName="primaryAgency"
+                                    [matAutocomplete]="primaryAgencyAuto" class="imx-input-no-border"
+                                    [autocompletePosition]="primaryAgencyAutoCompleteTrigger"
+                                    #triggerPrimaryAgency="matAutocompleteTrigger"
+                                    (click)="primaryAgencyAutoCompleteTrigger.openPanel()">
+                                <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                                <mat-autocomplete #primaryAgencyAuto="matAutocomplete"
+                                    (opened)="updatePrimaryAgencyContainer()"
+                                    (optionSelected)="onChangePrimaryAgencySelected($event.option.value)"
+                                    class="primaryAgency-list-autocomplete imx-autocomplete-dropdown"
+                                    [displayWith]="primaryAgencyDisplayWithFn" panelWidth="14.5%" infiniteScroll
+                                    [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0" [scrollWindow]="false"
+                                    [fromRoot]="true" [immediateCheck]="false" [alwaysCallback]="false"
+                                    [infiniteScrollDisabled]="primaryAgenciesAutoComplete?.data?.length >= primaryAgenciesAutoComplete?.pagination?.total"
+                                    [infiniteScrollContainer]="panelPrimaryAgencyContainer"
+                                    (scrolled)="primaryAgenciesAutoComplete?.loadMoreData(null,null)">
+
+                                    <mat-option [value]="null" class="hide-selected-tick">Select Primary Agency</mat-option>
+                                    <mat-option
+                                        *ngFor="let eachAgency of primaryAgenciesAutoComplete?.data;trackBy: primaryAgencyTrackByFn"
+                                        [value]="eachAgency" class="drop-maxwidth"
+                                        [class.mat-selected]="jobDetailsForm?.controls?.primaryAgency?.value?._id === eachAgency?._id"
+                                        tooltip="{{eachAgency.name?.length > 18 ? eachAgency.name : ''}}"
+                                        placement="top" delay="200" tooltipClass="imx-tooltip-v3"
+                                        customClass="imx-field-tooltip">
+                                        <span
+                                            [innerHTML]="eachAgency.name| imx_highlight: primaryAgencyInputRef.value"></span>
+                                    </mat-option>
+
+                                    <mat-option disabled *ngIf="primaryAgenciesAutoComplete?.isLoading">
+                                        <div fxLayout="row" fxLayoutAlign="space-around center">
+                                            <mat-spinner diameter="20"></mat-spinner>
+                                        </div>
+                                    </mat-option>
+
+                                    <mat-option disabled
+                                        *ngIf="!primaryAgenciesAutoComplete?.isLoading && !primaryAgenciesAutoComplete?.data?.length">
+                                        No Records Found.
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-error *ngIf="jobDetailsForm?.controls?.primaryAgency?.hasError('invalid')">
+                                    Please select from the drop down list.
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="25" class="imx-dropdown imx-input"
+                                [tooltip]="(jobDetailsForm?.controls?.creativeAgency?.value?.name?.length > 22 ) ? jobDetailsForm.controls.creativeAgency.value.name : ''"
+                                tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" [placement]="'top'"
+                                [delay]="'200'"
+                                [ngClass]="{'job-core-details__mat-error':jobDetailsForm?.controls?.creativeAgency?.hasError('invalid')}">
+                                <mat-label>{{creativeAgenciesAutoComplete?.isLoading ? 'Loading...' : 'Creative
+                                    Agency'}}</mat-label>
+                                <input type="text" #creativeAgencyInputRef matInput formControlName="creativeAgency"
+                                    [matAutocomplete]="creativeAgencyAuto" class="imx-input-no-border"
+                                    [autocompletePosition]="creativeAgencyAutoCompleteTrigger"
+                                    #triggerCreativeAgency="matAutocompleteTrigger"
+                                    (click)="creativeAgencyAutoCompleteTrigger.openPanel()">
+                                <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                                <mat-autocomplete #creativeAgencyAuto="matAutocomplete"
+                                    (opened)="updateCreativeAgencyContainer()"
+                                    (optionSelected)="onChangeCreativeAgencySelected($event.option.value)"
+                                    class="creativeAgency-list-autocomplete imx-autocomplete-dropdown"
+                                    [displayWith]="creativeAgencyDisplayWithFn" panelWidth="14.6%" infiniteScroll
+                                    [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0" [scrollWindow]="false"
+                                    [fromRoot]="true" [immediateCheck]="false" [alwaysCallback]="false"
+                                    [infiniteScrollDisabled]="creativeAgenciesAutoComplete?.data?.length >= creativeAgenciesAutoComplete?.pagination?.total"
+                                    [infiniteScrollContainer]="panelCreativeAgencyContainer"
+                                    (scrolled)="creativeAgenciesAutoComplete?.loadMoreData(null,null)">
+
+                                    <mat-option [value]="null" class="hide-selected-tick">Select Creative
+                                        Agency</mat-option>
+                                    <mat-option
+                                        *ngFor="let eachAgency of creativeAgenciesAutoComplete?.data;trackBy: creativeAgencyTrackByFn"
+                                        [value]="eachAgency" class="drop-maxwidth"
+                                        [class.mat-selected]="jobDetailsForm?.controls?.creativeAgency?.value?._id === eachAgency?._id"
+                                        tooltip="{{eachAgency.name?.length > 18 ? eachAgency.name : ''}}"
+                                        placement="top" delay="200" tooltipClass="imx-tooltip-v3"
+                                        customClass="imx-field-tooltip">
+                                        <span
+                                            [innerHTML]="eachAgency.name| imx_highlight: creativeAgencyInputRef.value"></span>
+                                    </mat-option>
+
+                                    <mat-option disabled *ngIf="creativeAgenciesAutoComplete?.isLoading">
+                                        <div fxLayout="row" fxLayoutAlign="space-around center">
+                                            <mat-spinner diameter="20"></mat-spinner>
+                                        </div>
+                                    </mat-option>
+
+                                    <mat-option disabled
+                                        *ngIf="!creativeAgenciesAutoComplete?.isLoading && !creativeAgenciesAutoComplete?.data?.length">
+                                        No Records Found.
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-error *ngIf="jobDetailsForm?.controls?.creativeAgency?.hasError('invalid')">
+                                    Please select from the drop down list.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="start center" class="totalauth-amount-field" fxLayoutGap="1.25rem">
+                            <mat-form-field fxFlex="25" class="imx-input total-auth-amt">
+                                <mat-label>Total Authorized Amount</mat-label>
+                                <span matPrefix class="job-core-details__mat-prefix-symbol">$</span>
+                                <input matInput placeholder="" (focus)="formatNumericValue('totalAuthorizedAmount')"
+                                    formControlName="totalAuthorizedAmount" appNumeral [regex]="authAmtRegEx"
+                                    isDecimal="true" format="0,0.00" class="job-core-details__currency-amount">
+                                <mat-hint class="job-core-details__hint-label">USD</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="job-core-details__info-label">
+                    JOB COST SUMMARY
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start center" class="job-core-details__costs-summary">
+                    <table class="job-core-details__cost-summary-table" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <th>Materials</th>
+                            <th>Shipping</th>
+                            <th>Install</th>
+                            <th>Tax</th>
+                            <th>Fee</th>
+                            <th>Comm. %</th>
+                            <th><strong>Job Total</strong></th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div class="bordered">
+                                        $ {{jobDetails?.materialsTotal | convert:'THOUSAND':2:true }}
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div class="bordered">
+                                        $ {{jobDetails?.shippingTotal | convert:'THOUSAND':2:true }}
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div class="bordered">
+                                        $ {{jobDetails?.installationTotal | convert:'THOUSAND':2:true }}
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div class="bordered">
+                                        $ {{jobDetails?.totalTax | convert:'THOUSAND':2:true }}
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div class="bordered">
+                                        $ {{jobDetails?.totalFee | convert:'THOUSAND':2:true }}
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div class="bordered">
+                                        {{ (jobDetails?.totalCommission * 100) | convert:'PERCENT':4:true }} %
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div class="bordered">
+                                        $ {{jobDetails?.jobTotal | convert:'THOUSAND':2:true }}
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start start" class="job-core-details__body-content--billing"
+                    fxLayoutGap="1.5rem">
+                    <div fxFlex="25.188rem">
+                        <div fxLayout="column" fxLayoutAlign="space-between start" class="full-width">
+                            <div fxFlex="100" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="0.5rem"
+                                class="full-width">
+                                <mat-form-field fxFlex="10rem" class="imx-dropdown imx-input new-tab-link"
+                                    [tooltip]="(jobDetailsForm?.controls?.billingCompany?.value?.name?.length > 22 ) ? jobDetailsForm.controls.billingCompany.value.name : ''"
+                                    tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" [placement]="'top'"
+                                    [delay]="'200'">
+                                    <mat-label>{{billingCompanyAutoComplete?.isLoading ? 'Loading...' : 'Billing Company'}}
+                                    </mat-label>
+                                    <input type="text" #billingCompanyInputRef matInput 
+                                        formControlName="billingCompany"
+                                        [matAutocomplete]="billingCompanyAuto" 
+                                        class="imx-input-no-border" 
+                                        (click)="billingCompanyAutoCompleteTrigger.openPanel()" 
+                                        [autocompletePosition]="billingCompanyAutoCompleteTrigger"
+                                        #triggerPrimaryAgency="matAutocompleteTrigger"
+                                        >
+                                    <mat-icon svgIcon='IMX-new-tab-link' class="mat-link-icon"
+                                        [class.disabled]="!jobDetailsForm?.controls?.billingCompany?.value?._id"
+                                        (click)="$event.stopPropagation();tabLinkHandler.open(TabLinkType[jobDetailsForm?.controls?.billingCompany?.value?.organizationType?.toUpperCase()], jobDetailsForm?.controls?.billingCompany?.value?.organizationTypeId)"
+                                        matSuffix></mat-icon>
+                                    <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                                    <mat-autocomplete #billingCompanyAuto="matAutocomplete"
+                                        [displayWith]="billingCompanyDisplayWithFn"
+                                        (opened)="updateBillingCompanyContainer()"
+                                        class="autocomplete-scroll imx-autocomplete-dropdown"
+                                        panelWidth="13.2%"
+                                        (optionSelected)="onChangeBillingCompanySelected($event.option.value)"
+                                        >
+                                        <div class="billingCompany-list-autocomplete"
+                                            infiniteScroll
+                                            [infiniteScrollDistance]="1"
+                                            [infiniteScrollThrottle]="0"
+                                            [scrollWindow]="false"
+                                            [infiniteScrollContainer]="panelBillingCompanyContainer"
+                                            [infiniteScrollDisabled]="billingCompanyAutoComplete?.data?.length >= billingCompanyAutoComplete?.pagination?.total"
+                                            [fromRoot]="true"
+                                            [immediateCheck]="false"
+                                            [alwaysCallback]="false"
+                                            (scrolled)="billingCompanyAutoComplete?.loadMoreData(null,null)"
+                                            >
+                                            <mat-option [value]="null" class="hide-selected-tick">Select Billing Company</mat-option>
+                                            <mat-option
+                                                *ngFor="let eachCompany of billingCompanyAutoComplete?.data;trackBy: billingContactTrackByFn"
+                                                [value]="eachCompany" class="drop-maxwidth"
+                                                [class.mat-selected]="jobDetailsForm?.controls?.billingCompany?.value?._id === eachCompany?._id"
+                                                tooltip="{{eachCompany.name?.length > 18 ? eachCompany.name : ''}}"
+                                                placement="top" delay="200" tooltipClass="imx-tooltip-v3"
+                                                customClass="imx-field-tooltip">
+                                                <span
+                                                    [innerHTML]="eachCompany.name| imx_highlight: billingCompanyInputRef.value"></span>
+                                            </mat-option>
+    
+                                            <mat-option disabled *ngIf="billingCompanyAutoComplete?.isLoading">
+                                                <div fxLayout="row" fxLayoutAlign="space-around center">
+                                                    <mat-spinner diameter="20"></mat-spinner>
+                                                </div>
+                                            </mat-option>
+    
+                                            <mat-option disabled
+                                                *ngIf="!billingCompanyAutoComplete?.isLoading && !billingCompanyAutoComplete?.data?.length">
+                                                No Records Found.
+                                            </mat-option>
+                                        </div>
+                                    </mat-autocomplete>
+                                    <mat-error *ngIf="jobDetailsForm?.controls?.billingCompany?.hasError('invalid')">
+                                        Please select from the drop down list.
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex="11rem" class="imx-dropdown imx-input new-tab-link"
+                                    [tooltip]="((selectedBillingContact?.firstName + selectedBillingContact?.lastName).length > 22 ) ? (selectedBillingContact?.firstName +' '+selectedBillingContact?.lastName) : ''"
+                                    tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" [placement]="'top'"
+                                    [delay]="'200'">
+                                    <mat-label>Billing Contact</mat-label>
+
+                                    <mat-icon svgIcon='IMX-new-tab-link' class="mat-link-icon for-mat-select"
+                                        [class.disabled]="!jobDetailsForm?.controls?.billingContact?.value"
+                                        (click)="$event.stopPropagation();tabLinkHandler.open(TabLinkType.CONTACT, jobDetailsForm?.controls?.billingContact?.value)"
+                                        matSuffix>
+                                    </mat-icon>
+
+                                    <mat-select panelClass="imx-select create-link-autocomplete" formControlName="billingContact">
+
+                                        <div class="billingContact-list-autocomplete" infiniteScroll
+                                            (scrolled)="billingContactAutoComplete.loadMoreData(null,null)"
+                                            [scrollWindow]="false" [infiniteScrollDistance]="1"
+                                            [infiniteScrollThrottle]="0" [fromRoot]="true"
+                                            [infiniteScrollContainer]="panelBillingContactContainer"
+                                            (opened)="updateBillingContactContainer()"
+                                            [infiniteScrollDisabled]="billingContactAutoComplete?.data?.length >= billingContactAutoComplete?.pagination?.found">
+                                            <mat-option (click)="openNewBillingContactWindow();cliContactSelect.close();" disabled *ngIf="jobDetailsForm?.controls?.billingCompany?.value">
+                                                <mat-icon>add</mat-icon> Create Billing Contact
+                                            </mat-option>
+                                            <mat-divider *ngIf="jobDetailsForm?.controls?.billingCompany?.value"></mat-divider>
+                                            <mat-option
+                                                *ngIf="!billingContactAutoComplete.isLoading && billingContactAutoComplete?.data?.length"
+                                                [value]="null">Select Billing Contact</mat-option>
+                                            <mat-option *ngFor="let contact of billingContactAutoComplete.data"
+                                                [value]="contact?._id"
+                                                (onSelectionChange)="onChangeBillingContactSelected($event,contact)"
+                                                [tooltip]="contact?.firstName?.length > 10 ? (contact?.firstName + ' ' + contact?.lastName) :''"
+                                                placement="top" delay="200" tooltipClass="imx-tooltip-v3"
+                                                customClass="imx-field-tooltip">
+                                                {{contact?.firstName}} {{contact?.lastName}}
+                                            </mat-option>
+                                            <mat-option disabled *ngIf="billingContactAutoComplete.isLoading">
+                                                <div fxLayout="row" fxLayoutAlign="space-around center">
+                                                    <mat-spinner diameter="20"></mat-spinner>
+                                                </div>
+                                            </mat-option>
+                                            <mat-option disabled
+                                                *ngIf="!billingContactAutoComplete.isLoading && !billingContactAutoComplete.data?.length && !jobDetailsForm?.controls?.billingCompany?.value?._id">
+                                                Please select Billing Company first
+                                            </mat-option>
+                                            <mat-option disabled
+                                                *ngIf="!billingContactAutoComplete.isLoading && !billingContactAutoComplete.data?.length && jobDetailsForm?.controls?.billingCompany?.value?._id">
+                                                No Records Found.
+                                            </mat-option>
+                                        </div>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="full-width">
+                                <app-jobs-organization-view [companyDetails]="selectedBillingContact">
+                                </app-jobs-organization-view>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div fxFlex="12.041rem">
+                        <div fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="0.5rem">
+                            <mat-form-field class="imx-input hint-lable-right">
+                                <mat-label>Accounting Job #</mat-label>
+                                <input matInput formControlName="accountingJobNo" [maxlength]="40">
+                                <!-- <mat-hint class="job-core-details__hint-label">Max. 40</mat-hint>
+                        <mat-error *ngIf="jobDetailsForm?.controls['accountingJobNo']?.errors?.maxlength">
+                            Accounting Job # can be max 40 characters long.
+                        </mat-error> -->
+                            </mat-form-field>
+                            <mat-form-field class="imx-input">
+                                <mat-label>Invoice #</mat-label>
+                                <input matInput formControlName="invoiceNo" [maxlength]="40">
+                                <!-- <mat-error *ngIf="jobDetailsForm?.controls['invoiceNo']?.errors?.maxlength">
+                            Invoice # can be max 40 characters long.
+                        </mat-error> -->
+                            </mat-form-field>
+                            <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="0.5rem">
+                                <mat-form-field fxFlex="25" class="imx-input">
+                                    <mat-label>Invoice Date</mat-label>
+                                    <input matInput formControlName="invoiceDate" appDateFormat
+                                        [matDatepicker]="invoice_date_picker" [max]="maxDate" />
+                                    <mat-error> Invalid Date.</mat-error>
+                                    <mat-icon (click)="invoice_date_picker.open()" matSuffix
+                                        class="date-picker-icon date-picker-icon_input" svgIcon="IMX-calender">
+                                    </mat-icon>
+                                    <mat-datepicker #invoice_date_picker="matDatepicker" [panelClass]="'imx-calander'">
+                                    </mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field fxFlex="25" class="imx-input">
+                                    <mat-label>Due Date</mat-label>
+                                    <input matInput formControlName="invoiceDueDate" appDateFormat
+                                        [min]="invoice_date_picker._selected" [max]="maxDate"
+                                        [matDatepicker]="invoice_due_picker" />
+                                    <mat-error> Invalid Date.</mat-error>
+                                    <mat-icon (click)="invoice_due_picker.open()" matSuffix
+                                        class="date-picker-icon date-picker-icon_input" svgIcon="IMX-calender">
+                                    </mat-icon>
+                                    <mat-datepicker #invoice_due_picker="matDatepicker" [panelClass]="'imx-calander'">
+                                    </mat-datepicker>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="billingNotesWidth">
+                                <mat-form-field class="imx-input notes-label" fxFlex="50" [ngClass]="showBillingEditor ?'editorLabel':'notesTextAreaLabel'">
+                                    <div class="notes-heading">BILLING NOTES</div>
+                                    <ckeditor *ngIf="showBillingEditor" class="imx-input" formControlName="billingNotes" tagName="textarea" [config]="editorConfig">
+                                    </ckeditor>
+                                    <mat-label>{{ showBillingEditor ? '' : 'Enter Billing notes' }}</mat-label>
+                                    <input matInput formControlName="billingNotes" [hidden]="showBillingEditor" (focus)="showBillingNoteEditorFunc()"/>
+                                </mat-form-field>
+
+                                <!-- <mat-form-field class="imx-input notes-label"
+                                    [ngClass]="showBillingEditor ?'editorLabel':'notesTextAreaLabel'">
+                                    <mat-label>{{ showBillingEditor ? '' : 'Enter Billing notes' }}</mat-label>
+                                    <ckeditor *ngIf="showBillingEditor" class="imx-input" formControlName="billingNotes"
+                                        tagName="textarea" [config]="editorConfig">
+                                    </ckeditor>
+                                    <textarea class="notes-text-area" matInput autocomplete="off"
+                                        formControlName="billingNotes" [hidden]="showBillingEditor"
+                                        (focus)="showBillingNoteEditorFunc()"></textarea>
+                                    <mat-error *ngIf="jobDetailsForm?.controls['billingNotes']?.errors?.maxlength">
+                                        Billing Notes can be max 2000 characters long.
+                                    </mat-error>
+                                </mat-form-field> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div fxFlex="15">
+                        <div class="job-core-details__info-label">
+                            DISPLAY COST OPTIONS
+                        </div>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="1rem"
+                            formControlName="displayCostOption">
+                            <mat-radio-button [value]="eachOption?._id"
+                                *ngFor="let eachOption of displayCostOptionsList">
+                                {{eachOption?.name}}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </div>
+            <div fxFlex="18">
+                <div fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="2rem">
+                    <div>
+                        <div class="job-core-details__info-label">
+                            JOB CHECKPOINTS
+                        </div>
+                        <div fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="1.375rem">
+                            <mat-checkbox class="imx-checkbok" [checked]="getCheckBoxStatus(eachPoint)"
+                                (change)="onCheckboxChange($event,eachPoint?._id)" disableRipple
+                                *ngFor="let eachPoint of checkpointsList;let i = index; trackBy checkpointsTrackByFn" [disabled]="disableEdit">
+                                {{eachPoint?.name}}
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                    <a href="javascript:void(0)" (click)="openPrinterAuthorizationPDF(jobDetails?._id)" class="job-print-link" module="print_production" visiblityType="view" appUserAccessPermission>Production authorization</a>
+                    <a href="javascript:void(0)" (click)="viewJobInvoicePDF(jobDetails?._id)"  class="job-print-link" module="print_production" visiblityType="view" appUserAccessPermission>Client invoice</a>
+                    <div>
+                        <div class="job-core-details__info-label">
+                            JOB RECORD STATUS
+                        </div>
+                        <mat-radio-group fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="1rem"
+                            formControlName="jobRecordStatus">
+                            <mat-radio-button [value]="eachStatus?._id" *ngFor="let eachStatus of statusesList">
+                                {{eachStatus?.name}}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div>
+                        <mat-form-field class="imx-input notes-label" [ngClass]="showEditor ?'editorLabel':'notesTextAreaLabel'">
+                            <div class="notes-heading">JOB NOTES</div>
+                            <ckeditor *ngIf="showEditor" class="imx-input" formControlName="jobNote" tagName="textarea" [config]="editorConfig">
+                            </ckeditor>
+                            <mat-label>{{ showEditor ? '' : 'Enter Job notes' }}</mat-label>
+                            <input matInput formControlName="jobNote" [hidden]="showEditor" (focus)="showJobNoteEditorFunc()"/>
+                        </mat-form-field>
+                        <!-- <mat-form-field class="imx-input notes-label imx-normalcase"
+                            [ngClass]="showEditor ?'editorLabel':'notesTextAreaLabel'">
+                            <mat-label>{{ showEditor ? '' : 'Enter all the Notes for this Job here' }}</mat-label>
+                            <ckeditor *ngIf="showEditor" class="imx-input" formControlName="jobNote" tagName="textarea"
+                                [config]="jobNotesEditorConfig">
+                            </ckeditor>
+                            <textarea matInput class="notes-text-area" autocomplete="off" formControlName="jobNote"
+                                [hidden]="showEditor" (focus)="showJobNoteEditorFunc()"></textarea>
+                            <mat-error *ngIf="jobDetailsForm?.controls['jobNote']?.errors?.maxlength">
+                                Job Notes can be max 2000 characters long.
+                            </mat-error>
+                        </mat-form-field> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+    <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="1rem"
+        class="job-core-details__body-content--lineItem">
+        <div>
+            <button type="button" mat-button class="imx-button-stroked" (click)="onAddLineItemsDialog()" module="print_production" visiblityType="create" appUserAccessPermission>ADD LINE ITEM</button>
+        </div>
+        <div>
+            <app-job-line-items [jobDetailValues]="jobDetails" [refreshTable]="refreshTable"
+                (lineItemEdit)="onEditLineItem($event.data, $event.isForDuplicate,$event?.sort,$event?.pagination)">
+            </app-job-line-items>
+        </div>
+    </div>
+
+</div>

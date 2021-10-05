@@ -1,0 +1,104 @@
+<div fxLayout="column" id="map-div-block-secondary">
+
+  <div fxLayout="row " fxFill class="common-secondary-map-block" mwlResizable [enableGhostResize]="true"
+    (resizeEnd)="onResizeEnd($event)" [ngStyle]="style" (resizing)="onResizing($event)"
+    (window:resize)="onResize($event)" #topMapReference fxLayoutAlign="start start">
+    <div mwlResizeHandle [resizeEdges]="{bottom: false, right: false, top: false, left: true}"
+      class="common-resize-border">
+      <div [ngStyle]="dragHandleStyle"><i class="material-icons">drag_handle</i></div>
+    </div>
+    <div class="common-secondary-map-content" >
+      <div class="map-div-block secondary map-div-block-secondary" #mapDivBlock [ngClass]="{'notShowMapControls':!showMapControls}" id="{{mapIdName}}" 
+      [ngStyle]="mapCSS" >
+
+      <div class="custom-logo-layer">
+        <app-custom-logo-layer
+          [zoomLevel]="zoomLevel"
+          [logoStyle]="logoStyle"
+          [activeDraggablePosition]="activeDraggablePosition"
+          [mapWidthHeight]="mapWidthHeight"
+          [layerDisplayOptions]="layerDisplayOptions"
+          [mapDivBlock]="mapDivBlock"
+          [layerType]="layerType"
+          [module]="module"
+          (layerChanges)="layerChanges($event)"
+          [mapId]="mapIdName"
+          [applydisplay]="applyLayerObservable"
+          >
+        </app-custom-logo-layer>
+      </div>
+
+      <div class="custom-text-layer">
+        <app-custom-text-layer
+          [activeDraggableTextPosition]="activeDraggableTextPosition"
+          [mapWidthHeight]="mapWidthHeight"
+          [layerDisplayOptions]="layerDisplayOptions"
+          [customTextStyle]="customTextStyle"
+          [mapDivBlock]="mapDivBlock"
+          [layerType]="layerType"
+          [module]="module"
+          [mapId]="mapIdName"
+          (layerChanges)="layerChanges($event)"
+          [applydisplay]="applyLayerObservable"
+        >
+        </app-custom-text-layer>
+      </div>
+
+      <div class="map-zoom-out map-zoom-out-secondary">
+        <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+          <button (click)="zoomOutMap()" title="ZOOM OUT MAP">
+            <span><i class="material-icons">zoom_out_map</i></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="map-sync-btn map-sync-btn-secondary">
+        <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+          <button (click)="mapSyncOnOff(false)" title="TURN OFF MAP SYNC" *ngIf="isDualMapSyncEnabled else syncOff">
+            <span><i class="material-icons">sync</i></span>
+          </button>
+          <ng-template #syncOff>
+            <button (click)="mapSyncOnOff(true)" title="TURN ON MAP SYNC">
+              <span><i class="material-icons">sync_disabled</i></span>
+            </button>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="key-legend-map-control key-legend-map-control-secondary test-key-legend-map" *ngIf="showMapLegend">
+        <app-map-legends [layerType]='"secondary"' [module]='"population"'></app-map-legends>
+      </div>
+
+      <div class="secondary-map-close map-action-button" fxHide.sm fxHide.xs>
+        <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+          <button type="button" title="CLOSE MAP" (click)="closeTopMap()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+
+        <div
+          class="single-inventory-key-legend"
+          *ngIf="isKeylegend"
+          [ngClass]="{ 'open-side-bar': sidebarState }"
+        >
+          <p *ngIf="currentSingleInventory['replevel'] == 'dma'">
+            Spot ID {{ currentSingleInventory["fid"] }} - Top Contributing DMAs by Percentage
+          </p>
+          <p *ngIf="currentSingleInventory['replevel'] == 'zip_code'">
+            Spot ID {{ currentSingleInventory["fid"] }} - Top Contributing Zip Code by Percentage
+          </p>
+          <ul>
+            <li *ngFor="let color of keyLegendColors; let i = index">
+              <mat-icon [ngStyle]="{ color: color, 'background-color': color }"
+                >stop</mat-icon
+              >
+              <span *ngIf="i == '0'" title="Highest {{ currentSingleInventory['maxValue'] && currentSingleInventory['maxValue'] + '%'}}">Highest {{ currentSingleInventory["maxValue"] && currentSingleInventory["maxValue"] + ' %'}}</span>
+              <span *ngIf="i == '5'" title="Lowest - {{ currentSingleInventory['minValue'] && currentSingleInventory['minValue'] + '%'}}">Lowest {{ currentSingleInventory["minValue"] && currentSingleInventory["minValue"] + ' %'}}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

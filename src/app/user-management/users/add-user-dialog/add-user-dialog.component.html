@@ -1,0 +1,133 @@
+<div fxLayout="row" fxLayoutAlign="space-between start" class="row-container">
+    <h1 mat-dialog-title>Add User</h1>
+    <a href="javascript:void(0)" (click)="onNoClick()">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="modal-close-icon">
+        <path d="M10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18ZM10 0C4.47 0 0 4.47 0 10C0 15.53 4.47 20 10 20C15.53 20 20 15.53 20 10C20 4.47 15.53 0 10 0ZM12.59 6L10 8.59L7.41 6L6 7.41L8.59 10L6 12.59L7.41 14L10 11.41L12.59 14L14 12.59L11.41 10L14 7.41L12.59 6Z" fill="#922A95"/>
+      </svg>
+    </a>
+</div>
+<form [formGroup]="createGroupForm" fxLayout="column" fxLayoutAlign="space-between stretch" class="create-group-form">
+        <div fxLayout="row" fxLayoutAlign="space-between start" class="row-container">
+          <mat-form-field fxFlex="48">
+              <mat-label>First Name</mat-label>
+              <input formControlName="firstName" matInput>
+          </mat-form-field>
+          <mat-form-field fxFlex="48">
+              <mat-label>Last Name</mat-label>
+              <input formControlName="lastName" matInput>
+          </mat-form-field>
+        </div>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input formControlName="email" matInput>
+        </mat-form-field>
+        <mat-form-field class="password-field" [style.marginBottom]="createGroupForm.controls['password']?.status === 'INVALID' && createGroupForm.controls['password']?.touched ? '15px' : '0'">
+            <mat-label>Password</mat-label>
+            <input formControlName="password" type="password" matInput>
+            <mat-error *ngIf="createGroupForm.controls['password']?.status === 'INVALID'">
+              {{ createGroupForm.controls['password']?.errors?.vaildPassword?.message }}
+            </mat-error>
+        </mat-form-field>
+        <div class="site-name">
+          <label class="site-name__label">Site</label>
+          <div class="site-name__value">
+            {{ data.siteName }}
+          </div>
+        </div>
+        <mat-form-field class="imx-dropdown imx-input" matInput>
+          <mat-label>Select Groups</mat-label>
+          <mat-select panelClass="imx-select" multiple (selectionChange)="onGroupAdded($event)" formControlName="groups">
+            <mat-option *ngFor="let group of data.groups" [value]="group">
+              {{ group.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="view-roles imx-dropdown imx-input" matInput>
+          <mat-label>View Roles</mat-label>
+          <mat-select panelClass="imx-select disabled-view-select" multiple [(ngModel)]="roles" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let role of roles" [value]="role" [disabled]="true">
+              {{ role.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  </form>
+
+  <div class="is-save-as-contact" *ngIf="data.userContactsAccess?.status === 'active'">
+    <mat-checkbox class="imx-checkbok" [(ngModel)]="isSaveAsContact" (ngModelChange)="onChangeIsSaveRecord($event)">Save to Contact Record</mat-checkbox>
+  </div>
+
+<form [formGroup]="contactForm" *ngIf="showContactSection">
+  <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="space-between start" class="row-container">
+    <mat-form-field class="imx-dropdown imx-input" fxFlex="50" matInput>
+      <mat-label>Select Office</mat-label>
+      <mat-select panelClass="imx-select" matInput formControlName="office" (selectionChange)="onOfficeChange($event)">
+        <div class="mat-select-panel__wrapper" infiniteScroll
+             (scrolled)="getOfficesList(true, true)"
+             [scrollWindow]="false"
+             [infiniteScrollDistance]="1"
+             [infiniteScrollThrottle]="0"
+             [infiniteScrollDisabled]="isOfficesLoading || isOfficesComplete"
+             [fromRoot]="true">
+          <mat-option [value]="null">Select Office</mat-option>
+          <mat-option *ngFor="let office of offices" [value]="office">
+            {{ office.name }}
+          </mat-option>
+          <mat-option disabled *ngIf="isOfficesLoading">
+            <div fxLayout="row" fxLayoutAlign="space-around center" >
+              <mat-spinner diameter="20"></mat-spinner>
+            </div>
+          </mat-option>
+        </div>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="50">
+      <mat-label>View Division</mat-label>
+      <input formControlName="division" matInput>
+    </mat-form-field>
+  </div>
+
+  <div class="user-address-container">
+    <mat-form-field fxFlex="100">
+      <mat-label>Address</mat-label>
+      <input formControlName="line" matInput maxLength="64">
+    </mat-form-field>
+    <div dir="ltr" fxLayoutGap="16px" class="row-container">
+      <mat-form-field fxFlex="20">
+        <mat-label>ZIP Code</mat-label>
+        <input formControlName="zipcode" appNumberOnly matInput maxLength="64">
+      </mat-form-field>
+      <mat-form-field fxFlex="30" class="imx-dropdown imx-input">
+        <mat-label>State</mat-label>
+        <mat-select formControlName="state" panelClass="imx-select">
+          <mat-option [value]="null">Select State</mat-option>
+          <mat-option *ngFor="let state of states; let i = index" [(value)]="states[i]">
+            {{ state.short_name }} ({{state.name}})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field fxFlex="40">
+        <mat-label>City</mat-label>
+        <input formControlName="city" matInput maxLength="64">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="space-between start" class="row-container phone-number-container">
+    <mat-form-field fxFlex="50">
+      <mat-label>Business</mat-label>
+      <input formControlName="business" appNumberOnly matInput maxLength="64">
+    </mat-form-field>
+    <mat-form-field fxFlex="50">
+      <mat-label>Mobile</mat-label>
+      <input formControlName="mobile" appNumberOnly matInput maxLength="64">
+    </mat-form-field>
+  </div>
+</form>
+
+<div mat-dialog-actions>
+    <div fxLayout="row" fxLayoutAlign="space-between start" class="row-container">
+        <button mat-button fxFlex="20" class="imx-button" (click)="onNoClick()">{{"Cancel" | uppercase}}</button>
+        <button mat-button fxFlex="30" type="submit" class="imx-button button-primary" (click)="onSubmit(createGroupForm.value)" cdkFocusInitial>{{"Add User" | uppercase}}</button>
+    </div>
+</div>

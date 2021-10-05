@@ -1,0 +1,68 @@
+@import "../../../../assets/css/variables.less";
+
+::ng-deep {
+  labeled-chart {
+    .labeled-chart-container {
+      width: 100%;
+      color: var(--primary-bg);
+
+      &.storybook-container {
+        width: 85vw;
+      }
+
+      .for(@colors, {
+        @name: extract(@value, 1);
+        @color: extract(@value, 2);
+        &.is-@{name} {
+          color: @color;
+          .labeled-chart-break {
+            border-color: @color;
+          }
+        }
+      });
+
+      .labeled-chart-title {
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+
+      .labeled-chart-break {
+        border: 0;
+        height: 2px;
+        background-color: var(--primary-bg);
+      }
+
+      .labeled-chart-content {
+        width: 100%;
+        display: flex;
+
+        .chart-container, .labels {
+          padding: 0.5rem 1rem;
+          flex: 1;
+          tr.highlighted {
+            font-weight: bold;
+          }
+        }
+
+        .chart-container {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          padding-right: 0.5rem;
+        }
+        .labels {
+          padding-left: 0;
+          .label-chart-label {
+            padding-right: 0.5rem;
+          }
+          .label-chart-value,
+          .label-chart-description {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            text-align: right;
+          }
+        }
+      }
+    }
+  }
+}

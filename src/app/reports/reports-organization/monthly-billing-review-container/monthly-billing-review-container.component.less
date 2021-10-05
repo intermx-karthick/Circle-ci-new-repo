@@ -1,0 +1,54 @@
+.subtitle-block {
+  margin: 20px 0px 30px 0;
+}
+.previewing-sub-title {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.25rem;
+  line-height: 25px;
+  color: var(--grays-bg-700);
+}
+.last-generated {
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--grays-bg-800);
+}
+.separator {
+  color: var(--grays-bg-400);
+  height: 1px !important;
+  margin-top: 1rem;
+
+  &.mt-1{
+    margin-top: 1rem;
+  }
+}
+
+::ng-deep{
+  .enableScroll{
+    .mat-dialog-container{
+      overflow: auto !important;
+    }
+  }
+}
+.c-monthly-report-container{
+
+  &__report-block{
+    height: calc(100vh - 33rem);
+    overflow-y: auto;
+    scrollbar-width: none; // for firefox
+    padding-top: .5rem;
+  }
+
+  &__sub-title{
+    font-weight: normal;
+    font-size: 1.25rem;
+    line-height: 1.563rem;
+    letter-spacing: 0.15px;
+    color: var(--grays-bg-800);
+    margin-top: .5rem;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+}

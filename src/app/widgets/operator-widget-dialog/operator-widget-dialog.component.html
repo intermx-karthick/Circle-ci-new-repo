@@ -1,0 +1,44 @@
+<div role="dialog" class="operator-options-dialog">
+	<div class="modal-dialog" role="document">
+		<div>
+			<div class="modal-body">
+        <h5>{{dialogData.title}}</h5>
+        <div class="additionalLinks" *ngIf="method !== 'single'">
+          <span class="add-link" (click)="addTopOption(10)"><mat-icon matPrefix class="mat-button-icon">add</mat-icon>Add Top 10</span>
+          <span class="add-link" (click)="addTopOption(20)"><mat-icon matPrefix class="mat-button-icon">add</mat-icon>Add Top 20</span>
+        </div>
+				<mat-form-field fxFlexFill floatPlaceholder="always">
+          <input class="filter-search-field" [(ngModel)]="searchQuery" type="text" appSearch key="name" [sourceData]="options" (filter)="searchFilters($event)" matInput placeholder="Enter keyword" autocomplete="off">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-selection-list fxFlexFill *ngIf="method !== 'single'; else singleSelected" #selectionList [compareWith]="compare" >
+          <mat-list-option checkboxPosition="before" *ngFor="let option of optionsData;let i=index" [value]="option" (click)="onChangeOperator(option, optRef)" #optRef [selected]="option.selected">
+              <span [innerHTML]="( (option.id !== 'all' && ((option.slno && option.slno || (i+1)) + '. ') || '  ') + option.name) | imx_highlight: searchQuery" [ngClass]="{'option-all': option.id === 'all'}"></span>
+          </mat-list-option>
+          <p *ngIf="!optionsData || optionsData.length <= 0" class="text-center">No data found</p>
+        </mat-selection-list>
+
+        <ng-template #singleSelected>
+          <mat-list *ngIf="method == 'single'">
+            <mat-radio-group [(ngModel)]="singleSelectOption">
+              <mat-list-item *ngFor="let option of optionsData;let i=index">
+                <span class="slno">{{option.slno && option.slno || (i + 1) }}.</span>
+                <mat-radio-button [value]="option" [checked] = "singleSelectOption['id'] === option.id">
+                  <span [innerHTML]="(option.name | imx_highlight: searchQuery) | truncate:'middle':20:20"></span>
+                </mat-radio-button>
+              </mat-list-item>
+            </mat-radio-group>
+          </mat-list>
+        </ng-template>
+        <div *ngIf="!optionsData || optionsData.length < 0" fxLayout="row" fxLayoutAlign="center center" class="noOptionsDiv">
+          Loading options...
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+        <button mat-dialog-close mat-button type="button" class="button popup-left-btn close-button button-primary-link no-radius"><mat-icon>clear</mat-icon>Close</button>
+        <button type="button" mat-raised-button class="button add-select-button button-primary no-radius" (click)="onAdd()"><mat-icon>check</mat-icon>{{dialogData['buttonText']}}</button>
+      </div>
+	</div>
+</div>

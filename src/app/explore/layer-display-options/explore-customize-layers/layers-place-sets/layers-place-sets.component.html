@@ -1,0 +1,36 @@
+<mat-form-field floatLabel="never" fxFlexFill class="search-field"  >
+  <input matInput type="text" [formControl]="searchPlaceFromCtl" placeholder="Search" name="search"  class="ta-search-text place-set-search" autocomplete="off">
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
+
+<div *ngIf="isSearchingPlace" class="place-loader">
+  <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+</div>
+
+<ng-container *ngIf="isInitLoading">
+  <app-cl-list-right-checkbox></app-cl-list-right-checkbox>
+</ng-container>
+
+<div  class="places-set-list" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+      (scrolled)="loadMorePlaceSets()" [scrollWindow]="false">
+
+<mat-list>
+  <mat-list-item class="test-place-set-item" *ngFor="let place of filteredPlacePacks;trackBy:trackById; let i = index;" title="{{place.name}}">
+    <span matLine>{{place.name | truncate:'middle':18:6}} </span>
+    <div class="left-select">
+      <button class="select test-forward-button" mat-icon-button *ngIf="!place.selected; else notSelected" (click)="moveLayer(place,  i)">
+        <mat-icon matListIcon>arrow_forward</mat-icon>
+      </button>
+      <ng-template #notSelected>
+        <span class="selected "><mat-icon>check</mat-icon></span>
+      </ng-template>
+    </div>
+  </mat-list-item>
+
+  <div *ngIf="isLoading && isInitiated && isInitialLoadCompleted" class="place-loader">
+    <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+  </div>
+</mat-list>
+</div>
+
+<p class="placeholder-color text-center mtb-10" *ngIf="!isLoading && filteredPlacePacks.length <= 0">No place sets found.</p>

@@ -1,0 +1,162 @@
+<form [formGroup]="formGroup" #shippingAddressFormRef="ngForm" class="shipping-address">
+  <div fxLayout="column" fxLayoutAlign="start start">
+
+  <div>
+  <mat-form-field class="imx-input" fxFlex="22.188rem">
+    <mat-label>Designator</mat-label>
+    <input type="text" formControlName="designator" matInput>
+  </mat-form-field>
+  </div>
+
+  <div>
+  <mat-form-field class="imx-input shipping-field" fxFlex="22.188rem">
+    <mat-label>Ship to Business Name</mat-label>
+    <input type="text" formControlName="businessName" matInput>
+  </mat-form-field>
+  </div>
+
+  <div>
+  <mat-form-field class="imx-input error-field-width" fxFlex="22.188rem">
+    <mat-label>Address</mat-label>
+    <input type="text" formControlName="address" matInput>
+    <mat-error *ngIf="formGroup.controls['address'].errors?.maxlength">Address can be max 64 characters long.</mat-error>
+  </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">
+    <div>
+      <mat-form-field class="imx-dropdown imx-input zip-code-error-field-width" fxFlex="4.6rem">
+        <mat-label>ZIP Code</mat-label>
+        <input
+        type="text"
+        #zipcodeRef
+        matInput
+        appNumberOnly
+        [length]="5"
+        [matAutocomplete]="zipcodeList"
+        formControlName="zipCode"
+        class="imx-input-no-border"
+        #zipCodetrigger="matAutocompleteTrigger" [autocompletePosition]="zipCodetrigger" [scrollContainer]="scrollingContainer" (click)="zipCodetrigger.openPanel()"
+        />
+        <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+        <mat-autocomplete
+          #zipcodeList="matAutocomplete"
+          (opened)="updateZipCodeContainer()"
+          class="autocomplete-scroll imx-autocomplete-dropdown"
+          [displayWith]="zipCodeDisplayWithFn">
+          <div class="zipcode-list-autocomplete"
+            infiniteScroll
+            [infiniteScrollDistance]="1"
+            [infiniteScrollThrottle]="0"
+            [scrollWindow]="false"
+            [fromRoot]="true"
+            [immediateCheck]="false"
+            [alwaysCallback]="false"
+            [infiniteScrollDisabled]="zipCodeAutoComplete.data?.length >= zipCodeAutoComplete.pagination?.total"
+            [infiniteScrollContainer]="zipCodePanelContainer"
+            (scrolled)="loadMoreZipCodes()">
+            <mat-option [value]="null" class="hide-selected-tick" tooltip="Select ZIP Code"
+            placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">Select ZIP Code</mat-option>
+            <mat-option
+              *ngFor="
+                let zipcode of zipCodeAutoComplete.data;
+                trackBy: zipCodeTrackByFn"
+              [class.mat-selected]="formGroup && formGroup['controls']['zipCode'].value?._id == zipcode?._id"
+              [value]="zipcode"
+              (click)="onZipCodeSelection(zipcode)">
+              <span
+                [innerHTML]="
+                  zipcode.ZipCode | imx_highlight: zipcodeRef.value
+                "
+              ></span>
+            </mat-option>
+            <mat-option disabled *ngIf="zipCodeAutoComplete.isLoading">
+              <div fxLayout="row" fxLayoutAlign="space-around center" >
+                <mat-spinner diameter="20"></mat-spinner>
+              </div>
+            </mat-option>
+            <mat-option disabled *ngIf="!zipCodeAutoComplete.isLoading  && zipCodeAutoComplete.data?.length <= 0 && zipcodeRef.value">
+              Invalid Entry.
+            </mat-option>
+            <mat-option disabled *ngIf="!zipCodeAutoComplete.isLoading  && zipCodeAutoComplete.data?.length <= 0 && !zipcodeRef.value">
+              No Records Found.
+            </mat-option>
+          </div>
+        </mat-autocomplete>
+        <mat-error class="small-font" *ngIf="formGroup['controls']?.zipCode?.hasError('invalid')">
+          Invalid Entry.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field class="imx-input imx-dropdown" fxFlex="5.375rem" tooltip="{{formGroup['controls'].state.value?.name ?.length>9 ? (formGroup['controls'].state.value?.short_name +' - '+ formGroup['controls'].state.value?.name) : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+        <mat-label>State</mat-label>
+        <input
+          type="text"
+          #stateInputRef
+          matInput
+          [matAutocomplete]="stateList"
+          formControlName="state"
+          class="imx-input-no-border"
+          #trigger="matAutocompleteTrigger" [autocompletePosition]="trigger" [scrollContainer]="scrollingContainer" (click)="trigger.openPanel()"/>
+        <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+        <mat-autocomplete
+          #stateList="matAutocomplete"
+          class="state-list-autocomplete imx-autocomplete-dropdown"
+          [panelWidth]="'160'"
+          [displayWith]="stateDisplayWithFn"
+        >
+        <mat-option [value]="null" class="hide-selected-tick">Select State</mat-option>    
+        <mat-option
+            *ngFor="let state of filteredStates | appFilter: formGroup['controls'].state.value  : 'name' : 'short_name';trackBy: stateTrackByFn"
+            [value]="state"
+            [class.mat-selected]="formGroup['controls'].state.value?._id == state?._id"
+            tooltip="{{state.name?.length >20 ? (state.short_name +' - '+ state.name) : ''}}" placement="top" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+              <span [innerHTML]="state.short_name +' - '+ state.name | imx_highlight: stateInputRef.value"></span>
+          </mat-option>
+          <mat-option disabled *ngIf="isLoadingState">
+            <div fxLayout="row" fxLayoutAlign="space-around center" >
+              <mat-spinner diameter="20"></mat-spinner>
+            </div>
+          </mat-option>
+          <mat-option disabled *ngIf="!isLoadingState &&  (filteredStates | appFilter: formGroup['controls'].state.value  : 'name' : 'short_name').length <= 0">
+            Invalid Entry.
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="formGroup['controls'].state.hasError('invalid')">
+          Please select from the drop down list.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="imx-input" fxFlex="10.1rem" tooltip="{{formGroup['controls'].city.value ? formGroup['controls'].city.value : ''}}" placement="top" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+      <mat-label>City</mat-label>
+      <input type="text" formControlName="city" matInput>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field class="imx-input"  fxFlex="22.188rem">
+      <mat-label>Contact Name</mat-label>
+      <input type="text" formControlName="contactName" matInput>
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="1rem">
+    <div>
+      <mat-form-field class="imx-input" fxFlex="8rem">
+        <mat-label>Phone number</mat-label>
+        <app-telephone-input formControlName="phoneNumber"></app-telephone-input>
+        <mat-error>Invalid Phone number.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="imx-input" fxFlex="13.188rem">
+      <mat-label>Email Address</mat-label>
+      <input type="text" formControlName="email" matInput>
+      <mat-error>Invalid Email address.</mat-error>
+    </mat-form-field>
+  </div>
+  </div>
+
+</form>

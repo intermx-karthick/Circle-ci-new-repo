@@ -1,0 +1,29 @@
+<mat-accordion displayMode="flat">
+  <mat-expansion-panel class="mat-elevation-z" expanded>
+    <mat-expansion-panel-header expandedHeight="60px" collapsedHeight="60px">
+      <mat-panel-title>
+        Daily Mobility
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="menu-body-list">
+      <div class="menu-list">
+        <mat-list role="list">
+          <mat-list-item role="listitem" [routerLink]="['cbsa_report/report']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" appAccessModule navModule="reports" navSubModule="cbsaReport"><span class="daily-link">CBSA Report</span></mat-list-item>
+          <mat-list-item role="listitem" [routerLink]="['state_report/report']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"  appAccessModule navModule="reports" navSubModule="stateReport"><span class="daily-link" appAccessModule navModule="reports" navSubModule="stateReport">State Report</span></mat-list-item>
+          <mat-list-item role="listitem" [routerLink]="['cbsa_explorer/report']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" appAccessModule navModule="reports" navSubModule="cbsaExplorer"><span class="daily-link">CBSA Explorer</span></mat-list-item>
+          <mat-list-item role="listitem" [routerLink]="['state_explorer/report']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" appAccessModule navModule="reports" navSubModule="stateExplorer"><span class="daily-link">State Explorer</span></mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+<div class="menu-body-list">
+  <div class="menu-list">
+    <h5  [routerLink]="['weekly_imp_variation/report']" [routerLinkActive]="['active']"  appAccessModule navModule="reports" navSubModule="weeklyImpVariation"><span class="tableau-link">Weekly Impression Variation</span></h5>
+  </div>
+</div>
+<div class="menu-body-list" appAccessModule navModule="reports" navSubModule="reports">
+  <div class="menu-list">
+    <h5 [routerLink]="['organization']" [routerLinkActive]="['active']"><span class="tableau-link">Reports</span></h5>
+  </div>
+</div>

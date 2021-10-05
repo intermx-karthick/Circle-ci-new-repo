@@ -1,0 +1,36 @@
+
+@import url(../../../assets/css/variables.less);
+.outer-block{
+padding: 40px;
+}
+.mat-fab.mat-primary, .mat-flat-button.mat-primary, .mat-mini-fab.mat-primary, .mat-raised-button.mat-primary {
+  background-color: var(--button-bg-color);;
+}
+mat-toolbar-row{
+  background-color: #f5f5f5;
+  button{
+    margin-right: 10px;
+  }
+}
+@media @all-devices-under-768 {
+  .outer-block{
+    padding: 10px;
+  }
+  div{
+    margin-right: 0px !important;
+  }
+  .settings-action-footer{
+    margin-top: 20px;
+    width: 100%;
+    button{
+      min-width: 100%;      
+    }
+  }
+  form{
+    display: flex;
+    flex-direction: column;
+  }
+  mat-toolbar-row{
+    order: 2;
+  }
+}

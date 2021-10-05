@@ -1,0 +1,187 @@
+<div class="imx-common-margin">
+  <form [formGroup]="scheduleFormGroup">
+    <div fxLayout="row wrap" fxLayoutGap="16px">
+      <div fxFlex="8rem">
+        <ng-container *ngIf="selectedPlanTab !== planTabLabels.INVENTORY_PLAN; else planPeriodTypeIP">
+          <mat-form-field class="imx-dropdown imx-input" *ngIf="selectedPlanTab !== planTabLabels.INVENTORY_PLAN; else planPeriodTypeIP" fxFlex="8rem">
+            <mat-label>PLAN PERIOD TYPE</mat-label>
+            <mat-select [panelClass]="'imx-select'" (selectionChange)="onPlanPeriodTypeChange($event)"
+                        formControlName='plan_period_type_mp'>
+              <mat-option value="generic">Generic</mat-option>
+              <mat-option value="specific" [disabled] = 'selectedPlanTab !== planTabLabels.INVENTORY_PLAN'>Specific</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <ng-template #planPeriodTypeIP>
+          <mat-form-field class="imx-dropdown imx-input" fxFlex="8rem">
+            <mat-label>PLAN PERIOD TYPE</mat-label>
+            <mat-select [panelClass]="'imx-select'" (selectionChange)="onPlanPeriodTypeChange($event)"
+                        formControlName='plan_period_type'>
+              <mat-option value="generic">Generic</mat-option>
+              <mat-option value="specific" [disabled] = 'selectedPlanTab !== planTabLabels.INVENTORY_PLAN'>Specific</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-template>
+      </div>
+      <ng-container *ngIf="selectedPlanTab !== planTabLabels.INVENTORY_PLAN; else planPeriodTypeIPBlock">
+        <mat-form-field class="imx-dropdown imx-input error-field-width" formGroupName="goals"  fxFlex="6.375rem">
+          <mat-label>Plan Period</mat-label>
+          <mat-select
+            [panelClass]="'imx-select'"
+            formControlName='duration'
+          >
+            <mat-option
+              [value]="week.duration"
+              *ngFor="let week of periodDurations"
+              [disabled] = "checkMeasureRelease() && (week.duration === 26 || week.duration === 52)"
+            >{{ week.duration + ' ' + week.unit }}</mat-option
+            >
+          </mat-select>
+          <mat-error *ngIf="scheduleFormGroup?.controls?.delivery_period_weeks?.errors?.type === 'planPeriodConflict'" >
+            <span>Plan period is conflict with selected Audiences</span>
+          </mat-error>
+        </mat-form-field>
+      </ng-container>
+      <ng-template #planPeriodTypeIPBlock>
+        <div *ngIf='planPeriodType === "generic"' fxFlex="6.375rem">
+          <mat-form-field class="imx-dropdown imx-input" fxFlex="6.375rem">
+            <mat-label>Plan Period</mat-label>
+            <mat-select
+              [panelClass]="'imx-select'"
+              formControlName='delivery_period_weeks'
+            >
+              <mat-option
+                [value]="week.duration"
+                *ngFor="let week of periodDurations"
+                [disabled] = "checkMeasureRelease() && (week.duration === 26 || week.duration === 52)"
+              >{{ week.duration + ' ' + week.unit }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf='planPeriodType === "specific"'>
+          <div fxLayout="row" fxLayoutGap="16px" formGroupName = "spot_schedule" >
+            <mat-form-field class="imx-input"  fxFlex="7.375rem" 
+              [ngStyle]="{ 'margin-bottom': (scheduleFormGroup.controls.spot_schedule.controls.start.errors?.required) ? '1.25rem' : ''}">
+              <mat-label>Start Date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="start_date_picker"
+                formControlName="start"
+                (dateChange)="changeDate($event, 'start')"
+                (blur)="changeDate($event, 'start')"
+                (ngModelChange)="dateValueChange($event, 'start')"
+                appDateFormat
+                [max]="maxDate"
+                id="startDtPicker"
+              />
+              <mat-icon
+                (click)="start_date_picker.open()"
+                matSuffix
+                tooltip="Select Start Date" placement="bottom" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                class="date-picker-icon date-picker-icon_input"
+                svgIcon="IMX-range"
+              ></mat-icon>
+              <mat-datepicker
+
+              #start_date_picker="matDatepicker"
+                [panelClass]="'imx-calander'"
+              ></mat-datepicker>
+              <mat-error *ngIf="scheduleFormGroup.controls.spot_schedule.controls.start.errors?.required">
+                Start Date is required.</mat-error>
+              <mat-error *ngIf="scheduleFormGroup.controls.spot_schedule.controls.start.errors?.matDatepickerMax">
+                Invalid Date.</mat-error>
+            </mat-form-field>
+            <mat-form-field class="imx-input"  fxFlex="7.375rem"
+              [ngStyle]="{ 'margin-bottom': (scheduleFormGroup.controls.spot_schedule.controls.end.errors?.required) ? '1.25rem ': ''}">
+              <mat-label>End Date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="end_date_picker"
+                formControlName="end"
+                (dateChange)="changeDate($event, 'end')"
+                (blur)="changeDate($event, 'end')"
+                (ngModelChange)="dateValueChange($event, 'end')"
+                appDateFormat
+                [max]="maxDate"
+                id="endDtPicker"
+              />
+              <mat-icon
+                (click)="end_date_picker.open()"
+                matSuffix
+                tooltip="Select End Date" placement="bottom" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                class="date-picker-icon date-picker-icon_input"
+                svgIcon="IMX-range"
+              ></mat-icon>
+              <mat-datepicker
+                #end_date_picker="matDatepicker"
+                [panelClass]="'imx-calander'"
+              ></mat-datepicker>
+              <mat-error *ngIf="scheduleFormGroup.controls.spot_schedule.controls.end.errors?.required">
+                End Date is required.</mat-error>
+              <mat-error *ngIf="scheduleFormGroup.controls.spot_schedule.controls.end.errors?.matDatepickerMax">
+                Invalid Date.</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-error *ngIf="scheduleFormGroup?.controls?.spot_schedule['controls']?.start.errors?.dates">
+              {{ scheduleFormGroup?.controls?.spot_schedule['controls'].end.errors?.dates}}
+            </mat-error>
+            <mat-error *ngIf="scheduleFormGroup?.controls?.spot_schedule?.errors?.dates">
+              {{ scheduleFormGroup?.controls?.spot_schedule?.errors?.dates}}
+            </mat-error>
+          </div>
+        </div>
+      </ng-template>
+      <!-- IMXUIPRD-3436 | Goal seaction commented in plan peorid and added seprate sections -->
+      <!-- <ng-container formGroupName="goals">
+      <div *ngIf="selectedPlanTab !== planTabLabels.INVENTORY_PLAN" fxFlex="7rem">
+        <mat-form-field class="imx-dropdown imx-input" fxFlex="7rem">
+          <mat-label>Effective Reach</mat-label>
+          <mat-select
+            [panelClass]="'imx-select'"
+            formControlName="effectiveReach"
+          >
+            <mat-option
+              *ngFor = 'let e of effectReaches;'
+              [value]="e">{{e}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row wrap" fxLayoutGap="16px" *ngIf="selectedPlanTab === planTabLabels.MARKET_PLAN">
+        <mat-form-field class="imx-dropdown imx-input" fxFlex="6.875rem" >
+          <mat-label>Delivery Goals</mat-label>
+          <mat-select
+            [panelClass]="'imx-select'"
+            formControlName="type"
+            (selectionChange) = "onDeliveryGoalChange($event)"
+            tooltip="{{deliveryGoalTooltip?.value}}" placement="bottom" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+          >
+            <mat-option
+              [value]="deliveryGoal.name"
+              *ngFor="let deliveryGoal of deliveryGoals"
+            >{{ deliveryGoal.value }}</mat-option>
+
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="imx-input small-input error-field-width" *ngIf="scheduleFormGroup['controls']['goals']['controls'].type.value === 'trp'">
+          <input matInput appNumeral [regex]="numericPatternRegEx" format="0,0" [min]="1" [length]="9" formControlName="trp" placeholder="Value" required/>
+          <mat-error>Goal Value must be number greater than or equal to 1</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="imx-input small-input error-field-width" *ngIf="scheduleFormGroup['controls']['goals']['controls'].type.value === 'imp'">
+          <input matInput appNumeral [regex]="numericPatternRegEx" format="0,0" [min]="1" [length]="9" formControlName="imp" placeholder="Value" required/>
+          <mat-error>Goal Value must be number greater than or equal to 1</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="imx-input small-input error-field-width" *ngIf="scheduleFormGroup['controls']['goals']['controls'].type.value === 'reach'">
+          <input matInput appNumberOnly [regex]="AppRegularExp.DECIMAL" [canAllowMinus]="false" [min]="0" [length]="10" formControlName="reach" placeholder="Value" required/>
+          <mat-error>GOAL VALUE MUST BE NUMBER BETWEEN 1 AND 100</mat-error>
+        </mat-form-field>
+      </div>
+      </ng-container> -->
+    </div>
+  </form>
+</div>

@@ -1,0 +1,68 @@
+@import url('../../../../assets/css/variables.less');
+
+.mat-dialog-actions {
+  margin: 10px 0px 0px;
+  padding-bottom: 0px;
+}
+
+::ng-deep {
+  app-billing-export-dialog {
+    .export-desc{
+      .export-text-record{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 10px;
+        line-height: 13px;
+        /* identical to box height */
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        color: #000000;
+      }
+      .text-value-count{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 20px;
+        letter-spacing: 0.15px;
+        color: #000000;
+      }
+    }
+    .confirmation-dialog {
+      overflow: hidden;
+      position: relative;
+    }
+    .confirmation-dialog {
+      &.mat-dialog-content {
+        margin: 0 !important;
+      }
+    }
+    .d-modal-title {
+      margin-top: 0;
+      font-size: 14px !important;
+      font-weight: 300 !important;
+      line-height: 33px !important;
+      margin-bottom: 26px !important;
+    }
+
+
+    .mat-icon-close {
+      color: var(--primary-bg);
+      cursor: pointer;
+    }
+
+    .e-dialog-footer {
+      position: absolute;
+      bottom: 20px;
+      display: flex;
+      width: 100%;
+      right: 0px;
+      button{
+        mat-icon{
+          svg{
+            width: 16px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="18px" viewBox="0 0 24 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>winks_pb</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Winks" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="winks_pb">
+            <g>
+                <rect id="Rectangle-2" fill="#4A4A4A" x="0" y="0" width="24" height="18" rx="4"></rect>
+                <path d="M10.6919226,10.5 C12.248065,7.80989383 15.1566123,6 18.4878829,6 C21.8191535,6 24.7277007,7.80989383 26.2838431,10.5 L22.3109403,10.5 C21.2686973,9.56645488 19.8996339,9 18.4002013,9 C16.9007686,9 15.5317052,9.56645488 14.4894622,10.5 L10.6919226,10.5 Z" id="Combined-Shape" fill="#FFFFFF" transform="translate(18.487883, 9.000000) rotate(90.000000) translate(-18.487883, -9.000000) "></path>
+                <circle id="Oval" stroke="#FFFFFF" stroke-width="2" fill="#4A4A4A" cx="12" cy="9" r="3"></circle>
+                <path d="M-2.29790457,10.4899998 C-0.741374073,7.7998936 2.16789857,5.98999977 5.5,5.98999977 C8.83210143,5.98999977 11.7413741,7.7998936 13.2979046,10.4899998 L9.32401091,10.4899998 C8.28150798,9.55645465 6.91210311,8.98999977 5.41229652,8.98999977 C3.91248992,8.98999977 2.54308505,9.55645465 1.50058212,10.4899998 L-2.29790457,10.4899998 Z" id="Combined-Shape" fill="#FFFFFF" transform="translate(5.500000, 8.990000) rotate(270.000000) translate(-5.500000, -8.990000) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

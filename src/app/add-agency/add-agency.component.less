@@ -1,0 +1,93 @@
+::ng-deep{
+    app-add-agency {
+        .body-content {
+            height: 100%;
+            .left-nav,
+            .body-inner-content {
+              height: calc(100vh - 120px);
+              background: #F9F9F9;
+            }
+      
+            .left-nav {
+              background: var(--grays-bg-100);
+              position: relative;
+              width: 178px;
+            }
+      
+            .close-nav-div {
+              position: relative;
+            }
+        }
+  
+        .agency-managment-menu {
+            padding: 25px 25px 0 30px;
+      
+            ul {
+              list-style: none;
+              padding: 0;
+              margin: 0;
+      
+              li {
+                padding: 8px;
+      
+                a {
+                  font-size: 15px;
+                  font-weight: 500;
+                  color: var(--grays-bg-800);
+      
+                  &.active, &:hover {
+                    color: var(--primary-bg-900);
+                    border-bottom:1px solid;
+                  }
+                }
+              }
+            }
+          }
+
+        .agency-colum-header {
+            margin-bottom: 20px;
+        }  
+        .add-agency-container {
+            overflow: auto;
+            height: calc(100vh - 120px);
+            margin: 0 2%;
+        }
+        .agency-colum-dividen {
+          padding-right: 3%;
+
+          mat-form-field {
+            width: 100% !important;
+        }
+        }
+
+        .agency-monetary-info {
+            form {
+                background: #E2EBEF;
+                box-shadow: 0px 0px 1px rgb(0 0 0 / 10%);
+                border-radius: 5px;
+                padding: 20px;
+            }
+        }
+
+        .agency-aditional-info {
+            form {
+                border: 1px solid #E2EBEF;
+                background: #FCFCFC;
+                padding: 8px;
+                border-radius: 5px;
+            }
+        }
+
+        .agency-notes {
+            >div:first-child {
+                background: #FEFAD5;
+                padding: 10px;
+
+                mat-form-field {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+  

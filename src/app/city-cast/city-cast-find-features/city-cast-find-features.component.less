@@ -1,0 +1,47 @@
+::ng-deep {
+  .cast-find-feature {
+    .cast-find-feature-title {
+      padding: 15px 0px;
+      h4 {
+        margin: 0px;
+      }
+    }
+    .search-content {
+      margin-top: 15px;
+      .mat-form-field {
+        .mat-form-field-infix {
+          padding: 10px 0 0;
+        }
+      }
+
+      .mat-input-element {
+        height: 25px;
+      }
+
+      ul {
+        height: calc(~"100vh - 270px");
+        overflow-y: auto;
+        padding: 0;
+        margin: 0;
+
+        li {
+          list-style: none;
+          cursor: pointer;
+
+          &:hover {
+            background: var(--grays-bg-200);
+          }
+
+          i {
+            font-size: 24px;
+            margin: 5px;
+          }
+
+          & h6 {
+            margin: 0 0 0px 0;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+<!-- This template displays the overlay content and is connected to the table filter column header icon -->
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="CdkOverlayOrigin" [cdkConnectedOverlayOpen]="isOpen">
+  <div fxFlexFill fxLayout="column" fxLayoutAlign="start start" class="search-filter-overlay" id="filter_over"
+    #overlay_list_container [disabled]="isLoading">
+    <div class="search-div">
+      <mat-form-field class="search-text-field">
+        <mat-label class="label-cls">{{searchLabel}}</mat-label>
+        <input type="text" [formControl]="searchCtrl" matInput autocomplete="off" class="input-field">
+        <mat-icon *ngIf="searchCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">close
+        </mat-icon>
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="option-list">
+      <div fxLayout="row" fxLayoutAlign="space-around center" *ngIf="isLoading" class="spinner-div">
+        <mat-spinner diameter="20"></mat-spinner>
+      </div>
+      <ng-container *ngIf="optionItems$ | async as optionItems">
+        <mat-selection-list class="full-width" [formControl]="selectedItemsCtrl" (selectionChange)="onChange($event)"
+          (scrolled)="loadMoreItems()" [infiniteScrollDistance]="10" [infiniteScrollThrottle]="200" [ngStyle]="isLoading && { 'opacity': 0.5 }"
+          [scrollWindow]="false" infiniteScroll
+          [infiniteScrollDisabled]="isLoading || (currentPageSet >= totalPageSets)" #selectItemList>
+          <mat-list-option disableRipple checkboxPosition="before" *ngFor="let item of optionItems" [value]="item"
+            [selected]="item.selected" (click)="setToggleButtonLabel()" role="listitem"
+            [ngClass]="item.isHide ? 'hide-list-option' : ''">
+            <span class="primary-text-color">{{item?.label}}</span>
+          </mat-list-option>
+
+        </mat-selection-list>
+        <div fxLayout="row" fxLayoutAlign="center center" fxFill *ngIf="optionItems.length === 0 && !isLoadingEstimate">
+          <div>
+            <p>No records found</p>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div fxFlexFill fxLayout="row" fxLayoutAlign="end start" class="btn-div">
+      <button disableRipple mat-button (click)="onToggleSelectAll()" class="select-all-btn"
+      [disabled]="isLoading || visibleItems.length == 0">{{selectAllLabel}}</button>
+      <button mat-button (click)="apply()" class="apply-btn">APPLY</button>
+    </div>
+  </div>
+</ng-template>

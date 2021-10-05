@@ -1,0 +1,262 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" class="layer-customize-main-block" fxLayoutGap="20px">
+  <div fxFlex="50" class="left-side" fxFlexAlign="start">
+    <h6 class="test-available-layer">Available Layers</h6>
+    <div class="available-layers">
+        <mat-accordion>
+          <mat-expansion-panel (opened)="triggerInventorySetsInitialLoad()"
+                               *ngIf="inventorySetModulePermission['status']!=='hidden'"
+                               [disabled]="inventorySetModulePermission['status']==='disabled'">
+            <mat-expansion-panel-header expandedHeight="48px">
+              <mat-panel-title class="test-inventory-sets">
+                Inventory Sets
+              </mat-panel-title>
+              <mat-panel-description fxLayoutAlign="end center">
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="expansion-panel-body">
+              <app-explore-layers-inventory-sets (move)="moveLayer($event.set, 'inventory collection', $event.position)"
+                [inventorySets]="inventorySets" [preload]="false" [initiator$]="inventorySetsLazyLoader.initiator$"
+                (updateInventorySets)="updateInventorySets($event)">
+              </app-explore-layers-inventory-sets>
+            </div>
+          </mat-expansion-panel>
+
+          <!-- PlaceSets section -->
+          <mat-expansion-panel (opened)="placeSetsLazyLoader.triggerInitialLoad()" *ngIf="placeModulePermission['status']!=='hidden'" [disabled]="placeModulePermission['status']==='disabled'">
+              <mat-expansion-panel-header expandedHeight="48px">
+                <mat-panel-title class="test-place-sets">Place Sets</mat-panel-title>
+                <mat-panel-description fxLayoutAlign="end center"></mat-panel-description>
+              </mat-expansion-panel-header>
+              <div class="expansion-panel-body">
+                <app-layers-place-sets (move)="moveLayer($event.layer, 'place collection', $event.index)"
+                                       [defaultPrimaryColor]="defaultPrimaryColor"
+                                       [initiator$]="placeSetsLazyLoader.initiator$"
+                                       [layerType]="layerType"
+                                       [placeSetsClearListener]="placeSetsClearListener"
+                                       [preload]="false">
+                </app-layers-place-sets>
+              </div>
+          </mat-expansion-panel>
+          <!-- End PlaceSets section -->
+
+          <mat-expansion-panel  navModule="gpAudience" appAccessModule>
+            <mat-expansion-panel-header class="single-unit-container">
+              <mat-panel-title class="test-single-unit">Audience Delivery : Geopath Spot ID</mat-panel-title>
+              <mat-panel-description fxLayoutAlign="end center">
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="expansion-panel-body single-unit-search p-b-15">
+              <div *ngIf="!selectedSingleUnit; else singleUnitSelected">
+                <div class="single-unit-options test-single-unit-options">
+                  <mat-radio-group fxLayout="row" fxLayoutGap="20px" [(ngModel)]="singleUnitType">
+                    <mat-radio-button value="top_zips">ZIP Codes</mat-radio-button>
+                    <mat-radio-button value="top_markets">Markets</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+                <div class="place-filter-search" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                  <mat-form-field  class="full-width search-field">
+                    <input matInput placeholder="Geopath Spot ID" id="singleUnitSearch" [(ngModel)]="singleUnit" >
+                  </mat-form-field>
+                  <button type="button" mat-raised-button color="primary" class="single-inv-btn" (click)="onSingleUnitSearch();" [disabled]="singleUnit.length==0">Search</button>
+                </div>
+                <div class="filter-block-div filter_blk suggestion-autocomplete">
+                  <div *ngIf="fetchingSingleSuggestion; else idList" id="singleUnitLoader"></div>
+                  <ng-template #idList>
+                    <mat-list [ngClass]="{'auto-Complete':geoPanelIds.length>0}">
+                      <mat-list-item class="single-paces-item" *ngFor="let id of geoPanelIds; let i=index">
+                        <span matLine title="{{id}}">{{id}}</span>
+                        <div>
+                          <button class="select" mat-icon-button *ngIf="id; else notSelected" (click)="moveLayer(id, 'geopathId', null)">
+                            <mat-icon matListIcon>arrow_forward</mat-icon>
+                          </button>
+                        </div>
+                      </mat-list-item>
+                      <p class="placeholder-color text-center test-noplaces" *ngIf="!fetchingSingleSuggestion && !processing && geoPanelIds.length <= 0">No GeoPanel IDs found.</p>
+                    </mat-list>
+                  </ng-template>
+                </div>
+              </div>
+              <ng-template #singleUnitSelected>
+                <div class="single-selected">
+                  <p class="test-notify-message">The unit below is added to the map. To add a different unit, please remove the current unit.</p>
+                  <mat-list class="auto-Complete">
+                    <mat-list-item class="single-paces-item">
+                      <span matLine title="{{selectedSingleUnit}}">{{selectedSingleUnit}}</span>
+                      <div>
+                        <button class="select test-close-select-unit" mat-icon-button (click)="removeLayer(selectedSingleUnit, 'geopathId', null)">
+                          <mat-icon matListIcon>close</mat-icon>
+                        </button>
+                      </div>
+                    </mat-list-item>
+                  </mat-list>
+                </div>
+              </ng-template>
+            </div>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+              <mat-expansion-panel-header expandedHeight="48px">
+                <mat-panel-title class="test-single-place">Single Place</mat-panel-title>
+                <mat-panel-description fxLayoutAlign="end center">
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div class="expansion-panel-body  single-search-place">
+                  <div class="place-filter-search">
+                      <mat-form-field  class="full-width search-field">
+                       <input matInput placeholder="Search Places" id="search" [formControl]="searchPlaceCtrl" autocomplete="off">
+                       <mat-icon matSuffix>search</mat-icon>
+                     </mat-form-field>
+                    </div>
+                     <div class="filter-block-div filter_blk place-suggestion-autocomplete">
+                       <div *ngIf="fetchingSuggestion" id="loader"></div>
+                       <mat-list [ngClass]="{'auto-Complete':autocompletePlaces.length>0}">
+                        <mat-list-item class="single-paces-item" *ngFor="let ap of autocompletePlaces; let i=index" [ngClass]="{'highlight-active':(ap?.properties?.ids?.safegraph_place_id == selectedSearchPlace?.properties?.id)}" (click)="selectedSearchPlace = ap;" >
+                            <span matLine title="{{ap?.place_name}}">{{ ap?.place_name | truncate: 'middle':40:6 }}</span>
+                             <span matLine *ngIf="ap?.properties?.address as address" title="{{ap?.properties?.address?.street_address | truncate: 'middle':20:6}} {{ ap?.properties?.address?.city }},{{ ap?.properties?.address?.state | uppercase }} {{ ap?.properties?.address?.zip_code }}" class="caption">
+                                {{
+                                  address?.street_address | truncate: 'middle':20:6
+                                }}
+                                {{ address?.city }},
+                                {{ address?.state | uppercase }}
+                                {{ address?.zip_code }}
+                              </span>
+                              <div>
+                              <button class="select" mat-icon-button *ngIf="!ap.selected; else notSelected" (click)="moveLayer(ap, 'place', i)">
+                                  <mat-icon matListIcon>arrow_forward</mat-icon>
+                              </button>
+                              <ng-template #notSelected><span class="selected"><mat-icon>check</mat-icon></span>
+                              </ng-template>
+                            </div>
+                          </mat-list-item>
+                          <p class="placeholder-color text-center test-noplaces" *ngIf="!fetchingSuggestion && autocompletePlaces.length <= 0 && (searchPlaceCtrl.value && searchPlaceCtrl.value.length >= 3)">No places found.</p>
+                        </mat-list>
+                     </div>
+              </div>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header expandedHeight="48px">
+              <mat-panel-title class="test-single-place">Specific Geography</mat-panel-title>
+              <mat-panel-description fxLayoutAlign="end center">
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="expansion-panel-body">
+              <div class="place-filter-search">
+                <mat-form-field class="full-width search-field">
+                  <input matInput placeholder="Search Specific Geography" id="geo-search" [formControl]="searchGeography"
+                    autocomplete="off">
+                  <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="filter-block-div filter_blk geography-autocomplete-layer">
+                <mat-spinner *ngIf="fetchingGeography" diameter="25"></mat-spinner>                <mat-list class="list-group"
+                  *ngIf="geographyData.length != 0">
+                  <div class="group-keys" *ngFor="let marketdata of geographyData | geokeys:true;">
+                    {{l}}
+                    <p class="nav-header">{{marketdata.key | uppercase}}</p>
+                    <mat-list>
+                      <mat-list-item class="pointer" *ngFor="let geolocation of marketdata.value;let i=index"
+                      title="{{geolocation.name}}">
+                      {{geolocation.name | truncate:'middle':25:6 }}
+                      <span fxFlex="1 1 auto"> </span>
+                      <div>
+                        <button class="select" mat-icon-button *ngIf="!geolocation.selected; else notSelected"
+                          (click)="moveLayer(geolocation, 'geography', {key:marketdata.key,index:i})">
+                          <mat-icon matListIcon>arrow_forward</mat-icon>
+                        </button>
+                        <ng-template #notSelected>
+                          <span class="selected">
+                            <mat-icon>check</mat-icon>
+                          </span>
+                        </ng-template>
+                      </div>
+                    </mat-list-item>
+                    </mat-list>
+                  </div>
+                  <p class="placeholder-color text-center"
+                    *ngIf="!isGeographyAvailable && geographyData.length!=0">
+                    No data found.</p>
+                </mat-list>
+              </div>
+
+            </div>
+          </mat-expansion-panel>
+          <mat-expansion-panel class="location-panel mat-elevation-z0" (opened)="geoSetsLazyLoader.triggerInitialLoad()">
+            <mat-expansion-panel-header>
+              <mat-panel-title [matTooltipClass]="'inventory-filter-tooltip'" matTooltipPosition="above"  matTooltip="">
+                My Saved Geography Sets
+              </mat-panel-title>
+              <mat-panel-description (click)="$event.stopPropagation();">
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="mat-expansion-content">
+              <app-geography-sets-list
+                [preload]="false"
+                [initiator$]="geoSetsLazyLoader.initiator$"
+                [isForLayers]="true"
+                [selectedGeoSetIds]="selectedGeoSetIds"
+                (setSelected)="onGeoSetSelected($event)">
+              </app-geography-sets-list>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+  </div>
+  <div fxFlex="50" class="right-side" fxFlexAlign="start">
+    <h6 class="test-selected-layer">Selected Layers</h6>
+    <div class="scroll-div">
+      <div id="boxContent" class="ngx-dnd-container" ngxDroppable [model]="selectedLayers">
+        <div class="ngx-dnd-item has-handle test-selected-places" *ngFor="let layer of selectedLayers; let i = index;" ngxDraggable [model]="layer" fxLayout="column" fxLayoutAlign="start center" [ngClass]="{'sinale-places':layer.type === 'place','open-color-palet':layer['id']=== SelectedLayerColorPalet}">
+          <div fxLayout="row" fxFill fxLayoutAlign="start center" class="header">
+
+            <div *ngIf="layer['icon'] === 'icon-numbered'" class="cursor-link expand-icon icon {{layer['icon']}} dot" (click)="openColorPalet(layer['id'])" [ngStyle]="{'background-color': layer['color']}"
+              title="Click to customize icon."></div>
+
+            <div *ngIf="layer['icon'] !== 'icon-numbered'" class="cursor-link expand-icon icon {{layer['icon']}}" (click)="openColorPalet(layer['id'])" [ngStyle]="{'color':layer['color']}"
+            title="Click to customize icon."></div> <!--  [ngClass]="{'icon-circle':layer['icon']==='lens' || layer['icon']==='place'}" -->
+          <!-- <mat-icon class=" cursor-link expand-icon" (click)="openColorPalet(layer['id'])" [ngStyle]="{'color':layer['color']}" title="Click to customize icon." [ngClass]="{'dot-icon':layer['icon']==='lens'}">{{layer['icon']}}</mat-icon> -->
+
+          <div fxLayout="column">
+              <span *ngIf="layer.type === 'place collection' || layer.type === 'inventory collection' || layer.type === 'geography'" class="title">{{isSmallScreen? (layer.data.name | truncate:'end':6) : (layer.data.name | truncate: 'middle':18:6)}}</span>
+            <div fxLayout="column">
+                <span *ngIf="layer.type === 'place'" class="title" title="{{layer?.data.place_name}}">{{isSmallScreen?(layer?.data?.place_name | truncate:'end':6) : (layer?.data?.place_name | truncate: 'middle':18:6)}}</span>
+                <span *ngIf="layer.type === 'geopathId'" class="title">Geopath Spot ID  {{layer.data}}</span>
+                <span *ngIf="layer.type === 'place' && layer?.data?.properties?.address as address" class="title caption" title="{{((address?.street_address ? address?.street_address + ',' : '' ) + '' + address?.city  +',' + (address?.state | uppercase) + ',' + address?.zip_code )}}">{{isSmallScreen?(((address?.street_address ? address?.street_address + ',' : '' ) + '' + address?.city  +',' + (address?.state | uppercase) + ',' + address?.zip_code ) | truncate:'end':6) : (((address?.street_address ? address?.street_address + ',' : '' ) + '' + address?.city  +',' + (address?.state | uppercase) + ',' + address?.zip_code ) | truncate: 'middle':18:6)}}</span>
+                <span *ngIf="layer.type === 'geo sets'" class="title">{{layer?.data?.name}}</span>
+              </div>
+          </div>
+          <span class="septater"></span>
+          <span class="action">
+            <button disableRipple class="drag-icon" title="Drag" mat-icon-button ngxDragHandle  (dndStart)="onDragStart($event)" (dndEnd)="onDragEnd($event)" >
+              <mat-icon >drag_handle</mat-icon>
+            </button>
+            <button disableRipple class="select" mat-icon-button title="Remove"  (click)="removeLayer(layer.data, layer.type, i)">
+              <mat-icon >clear</mat-icon>
+            </button>
+          </span>
+          </div>
+          <div *ngIf="layer['id']===SelectedLayerColorPalet" class="color-palet" fxFill>
+            <div [ngClass]="{'disabled-panel': layer['icon'] === 'icon-wink-pb-dig'}">
+                <app-color-picker (appColorChange)="onAppColorChange(layer, $event, layer.type, layer['icon'])" inputLabel="Icon Color" appColor="{{layer['color']}}" (appColorClose)="onClose($event)" ></app-color-picker>
+            </div>
+            <div fxLayout="column" class="shape-slection" *ngIf="layer.type !== 'geopathId'">
+              <p>Icon Shape</p>
+              <div>
+                  <!-- <mat-icon class="dot-icon cursor-link" (click)="onAppColorChange(layer, layer['color'], layer.type, 'lens')" [ngStyle]="{'color':layer['icon']==='lens' && layer['color'] || '' }">lens</mat-icon>
+                  <mat-icon class="cursor-link" (click)="onAppColorChange(layer, layer['color'], layer.type, 'place')" [ngStyle]="{'color':layer['icon']==='place' && layer['color'] || ''}">place</mat-icon> -->
+                <div *ngFor="let icon of customIcons" class="cursor-link icons-color-space {{icon}}"
+                (click)="onAppColorChange(layer, layer['color'], layer.type, icon)"
+                [ngStyle]="{'color':layer['icon'] == icon && layer['color'] || ''}"></div>
+                <!-- <div class="cursor-link icons-color-space "><mat-icon>pause_circle_filled</mat-icon></div> -->
+
+                <div class="cursor-link icons-color-space icon-wink-pb-dig" [ngStyle]="{'color':layer['icon'] == 'icon-wink-pb-dig' && layer['color'] || ''}" (click)="onAppColorChange(layer, layer['color'], layer.type, 'icon-wink-pb-dig')" *ngIf="layer.type === 'inventory collection'"></div>
+                <div class="cursor-link expand-icon icon icon-numbered dot" [ngStyle]="{'background-color':layer['icon'] == 'icon-numbered' && layer['color'] || ''}" (click)="onAppColorChange(layer, layer['color'], layer.type, 'icon-numbered')" *ngIf="layer['id'] === 'default'"></div>
+
+              </div>
+            </div>
+          </div>
+
+          </div>
+      </div>
+      <p *ngIf="selectedLayers.length === 0" class="non-select test-no-selected-layers">No layers added. Please add layers from left column and apply them to the map.</p>
+    </div>
+  </div>
+</div>

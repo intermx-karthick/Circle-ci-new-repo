@@ -1,0 +1,23 @@
+
+@import "../../../assets/css/variables.less";
+
+/**
+Angular material for Side bar Filter 
+*/
+::ng-deep {
+    app-reports-tableau-reports {
+    h4 {
+      margin: 10px 0;
+    }
+    .reportViewContainer {
+      overflow: auto;
+      height: calc(~"100vh - 120px");
+    //   width: calc(~"100vw - 40px");
+      #vizContainer {
+        iframe {
+          margin: auto;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,156 @@
+<div class="c-contacts">
+  <section class="c-contacts__header" fxLayout="row" fxLayoutAlign="space-between flex-end">
+    <div fxFlex="70">
+      <form [formGroup]="contactSearchForm" (ngSubmit)="search()"  class="form-label-capitalize">
+        <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">
+          <mat-form-field class="imx-input search-by-name" fxFlex="16rem">
+            <mat-label>Search by Contact Name</mat-label>
+            <input matInput autocomplete="off" formControlName="name">
+          </mat-form-field>
+          <mat-form-field class="imx-dropdown imx-input" fxFlex="10rem" tooltip="{{contactSearchForm['controls'].company.value?.name ?.length>21 ? contactSearchForm['controls'].company.value?.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+            <mat-label>Company Name</mat-label>
+            <input
+              type="text"
+              #companyInputRef
+              matInput
+              [matAutocomplete]="companiesList"
+              formControlName="company"
+              class="imx-input-no-border"
+            />
+            <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+            <mat-autocomplete
+              #companiesList="matAutocomplete"
+              (opened)="updateCompanyContainer()"
+              class="autocomplete-scroll imx-autocomplete-dropdown"
+              [displayWith]="companyDisplayWithFn"
+              [panelWidth]="'160'"
+            >
+              <div class="company-list-autocomplete"
+                infiniteScroll
+                [infiniteScrollDistance]="1"
+                [infiniteScrollThrottle]="0"
+                [infiniteScrollDisabled]="companies?.length >= companyPagination?.total"
+                (scrolled)="loadMoreCompanies()"
+                [scrollWindow]="false"
+                [infiniteScrollContainer]="panelCompanyContainer"
+                [fromRoot]="true"
+                [immediateCheck]="false"
+                [alwaysCallback]="false"
+              >
+                <mat-option [value]="null" class="hide-selected-tick">Select Company Name</mat-option>
+                <mat-option
+                  *ngFor="
+                    let company of companies;
+                    trackBy: companyTrackByFn
+                  "
+                  [value]="company"
+                  [class.mat-selected]="contactSearchForm['controls'].company.value?._id == company?._id"
+                  tooltip="{{company.name?.length >21 ? company.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                >
+                  <span
+                    [innerHTML]="
+                      company.name | imx_highlight: companyInputRef.value
+                    "
+                  ></span>
+                </mat-option>
+                <mat-option disabled *ngIf="isCompaniesLoading ">
+                  <div fxLayout="row" fxLayoutAlign="space-around center" >
+                    <mat-spinner diameter="20"></mat-spinner>
+                  </div>
+                </mat-option>
+                <mat-option disabled *ngIf="!isCompaniesLoading  && companies.length <= 0">
+                  Invalid Entry.
+                </mat-option>
+              </div>
+            </mat-autocomplete>
+            <mat-error class="small-font" *ngIf="contactSearchForm['controls'].company.hasError('invalid')">
+              Please select from the drop down list.
+            </mat-error>
+          </mat-form-field>
+          <mat-checkbox formControlName="currentFlag" class="circle-flag-main imx-checkbok"><span class="circle-flag">C</span>urrent only</mat-checkbox>
+          <button mat-button type='button' class='imx-button-basic_icon padding-none' disableRipple (click)='onResetForm()'>Reset </button>
+          <button mat-raised-button class="imx-button-primary">Search</button>
+        </div>
+
+        <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">
+
+            <mat-form-field class="imx-dropdown imx-input" fxFlex="7.5rem" tooltip="{{companyTypeTooltipText?.length >10 ? companyTypeTooltipText : ''}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+              <mat-label>Company Type</mat-label>
+              <mat-select #companyTypeRef formControlName="companyType" [class.placeholder-default]="contactSearchForm['controls'].companyType.value==''" [panelClass]="'imx-select'" multiple (selectionChange)="changeCompanyType()">
+                <mat-option *ngFor="let companyType of companyTypes" [value]="companyType"> {{companyType}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="imx-dropdown imx-input error-field-extra-width" fxFlex="5rem" tooltip="{{contactSearchForm['controls'].state.value?.name ?.length>9 ? (contactSearchForm['controls'].state.value?.short_name +' - '+ contactSearchForm['controls'].state.value?.name) : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+              <mat-label>State</mat-label>
+              <input
+                type="text"
+                #stateInputRef
+                matInput
+                [matAutocomplete]="stateList"
+                formControlName="state"
+                class="imx-input-no-border"
+              />
+              <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+              <mat-autocomplete
+                #stateList="matAutocomplete"
+                class="state-list-autocomplete imx-autocomplete-dropdown"
+                [displayWith]="stateDisplayWithFn"
+                [panelWidth]="'160'"
+              >
+                <mat-option [value]="null" class="hide-selected-tick">Select State</mat-option>
+                <mat-option
+                  *ngFor="
+                    let state of filteredStates | appFilter: contactSearchForm['controls'].state.value  : 'name' : 'short_name'; trackBy: stateTrackByFn"
+                  [value]="state"
+                  [class.mat-selected]="contactSearchForm['controls'].state.value?._id == state?._id"
+                  tooltip="{{state.name?.length >20 ? (state.short_name +' - '+ state.name ): ''}}" placement="top" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                >
+                  <span
+                    [innerHTML]="
+                    state.short_name +' - '+ state.name | imx_highlight: stateInputRef.value
+                    "
+                  ></span>
+                </mat-option>
+                <mat-option disabled *ngIf="isLoadingState">
+                  <div fxLayout="row" fxLayoutAlign="space-around center" >
+                    <mat-spinner diameter="20"></mat-spinner>
+                  </div>
+                </mat-option>
+                <mat-option disabled *ngIf="!isLoadingState && (filteredStates | appFilter: contactSearchForm['controls'].state.value  : 'name' : 'short_name').length <= 0">
+                  Invalid Entry
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error class="small-font" *ngIf="contactSearchForm['controls'].state.hasError('invalid')">
+                Please select from the drop down list.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="imx-input" fxFlex="9.6rem">
+              <mat-label>City</mat-label>
+              <input matInput autocomplete="off" formControlName="city">
+            </mat-form-field>
+
+        </div>
+      </form>
+    </div>
+
+    <div class="c-contacts__actions" fxLayout="row-reverse" fxLayoutAlign="start center" fxLayoutGap="1.5rem">
+      <button appUserAccessPermission visiblityType="create" module="contacts" mat-raised-button class="imx-button-stroked add-new" (click)="addContact()">ADD CONTACT</button>
+
+      <button appUserAccessPermission visiblityType="create" module="rm_exports" mat-button class="imx-button-basic_icon action-overlay-height-imx" [matMenuTriggerFor]="exportMenu">
+        <span>EXPORT</span>
+        <mat-icon>expand_more</mat-icon>
+      </button>
+
+      <mat-menu #exportMenu="matMenu" class="mat-elevation-z0 action-menu-less-width">
+        <button mat-menu-item type="button" (click)="exportCSV()">
+          <span>CSV</span>
+        </button>
+      </mat-menu>
+    </div>
+  </section>
+
+  <section class="c-contacts__list">
+    <app-contacts-list-v2 [searchParams$]="searchParams$" [exportCSV$]="exportCSV$" [searchFilterApplied]="searchFilterApplied"></app-contacts-list-v2>
+  </section>
+</div>

@@ -1,0 +1,34 @@
+[
+    {
+        "Package": "1A",
+        "Market": "New York, NY",
+        "Audience": "(2021) Persons 5+ yrs",
+        "Media Type": "Junior Poster",
+        "Operator": "-",
+        "Spots": "-",
+        "Weeks": "-",
+        "Total Imp": "11,827,704",
+        "Target Imp": "11,091,944",
+        "Target In-Mkts Imp": "10,841,431",
+        "Reach %": "20.61",
+        "Reach Net": "4,131,147",
+        "Frequency": "2.62",
+        "TRP": "54.096"
+    },
+    {
+        "Package": "-",
+        "Market": "New York, NY",
+        "Audience": "(2021) Persons 5+ yrs",
+        "Media Type": "Junior Poster",
+        "Operator": "Lamar",
+        "Spots": "203",
+        "Weeks": "1",
+        "Total Imp": "11,827,704",
+        "Target Imp": "11,091,944",
+        "Target In-Mkts Imp": "10,841,431",
+        "Reach %": "20.61",
+        "Reach Net": "4,131,147",
+        "Frequency": "2.62",
+        "TRP": "54.096"
+    }
+]

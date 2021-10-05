@@ -1,0 +1,35 @@
+@import "../../../assets/css/variables.less";
+
+::ng-deep {
+  app-reports-tableau-imp-variation {
+    .report-body{
+      height: calc(~"100vh - 120px") ;
+      overflow: auto;
+    }
+    .title-div {
+      h4 {
+        text-align: center;
+        margin: 10px;
+        color: var(--primary-bg);
+      }
+    }
+    .row-one {
+      margin-left: 10px;
+    }
+    h4 {
+      margin: 10px 0;
+      color: var(--primary-bg);
+    }
+    .impVariationContainer {
+        overflow: auto;
+        height: calc(~"100vh - 120px");
+        width: calc(~"100vw - 40px");
+        #impVariationVizContainer {
+          iframe {
+            margin: auto;
+          }
+        }
+      }
+    }
+  
+}

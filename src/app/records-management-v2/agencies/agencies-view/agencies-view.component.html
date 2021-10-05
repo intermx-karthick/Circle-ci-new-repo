@@ -1,0 +1,65 @@
+<div fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <a class="back-to-link" fxLayout="row" fxLayoutAlign="start center" [routerLink]="['/records-management-v2/agencies']">
+      <mat-icon>arrow_back</mat-icon>Back to Agencies list
+    </a>
+  </div>
+  <section fxLayout="row" fxLayoutAlign="space-between start" class="header header-spacing">
+    <div>
+      <h4> <ng-container *ngIf="agencyDetails['name']">{{agencyDetails['name']}} Details</ng-container></h4>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <button [isAccessDenied]="(!userPermission?.delete && !userPermission?.create)" visiblityType="menu" module="agency" appUserAccessPermission mat-button *ngIf="selectedTabLabel == 'general_Tab'" class="imx-button-basic_icon action-overlay-height-imx" [mat-menu-trigger-for]="actionMenu" >
+        <span>ACTIONS</span>
+        <mat-icon>expand_more</mat-icon>
+      </button>
+      <button type="button" module="contract" visiblityType="create" appUserAccessPermission mat-button class="imx-button-basic add-contact-btn" *ngIf="selectedTabLabel === 'contacts_tab'" (click)="openNewContact()"> ADD CONTACT</button>
+      <mat-menu #actionMenu="matMenu" class="mat-elevation-z0 action-dropdown-imx minimun-height action-menu-less-width">
+        <button [isAccessDenied]="!userPermission?.delete" module="agency" visiblityType="delete" appUserAccessPermission mat-menu-item (click)="deleteAgency()" type="button">
+          Delete
+        </button>
+        <button [isAccessDenied]="!userPermission?.create" module="agency" visiblityType="create" appUserAccessPermission mat-menu-item (click)="duplicateAgency()" type="button">
+          Duplicate
+        </button>
+      </mat-menu>
+    </div>
+  </section>
+  <div fxLayout="row" fxLayoutAlign="start center" (window:resize)="reSize()" class="agency-tabs">
+    <mat-tab-group
+    [(selectedIndex)]="selectedTab"
+    mat-align-tabs="start"
+    class="imx-tab-capital"
+    (selectedTabChange) = "onSelectedTabChange($event)"
+    >
+      <mat-tab label="GENERAL" aria-label="general_Tab">
+        <div module="menu" appUserAccessPermission [ngStyle]="{'height.px':scrollContent}" class="agency-tabs-scroll" (scroll)="handleScroll()" id="view_agency_SCROLLABLE">
+          <app-agencies-form #agenciesForm [containerScrolling$]="scrolling$"  [agencyDetails$]="agencyDetails$" (agencyFormChanges)="agencyFormChanges($event)" [submitForm$]="submitForm$" scrollingContainer="view_agency_SCROLLABLE"></app-agencies-form>
+          <!-- <app-general-form-v2 [agencyDetails$]="agencyDetails$" (generalFormChange)="updateGeneralForm($event)"></app-general-form-v2> -->
+        </div>
+      </mat-tab>
+      <mat-tab label="CONTACTS" aria-label="contacts_tab" *ngIf="!!contactsAccess">
+      <div [ngStyle]="{'height.px':scrollContent }" class="agency-tabs-scroll contact-tab-body" [ngClass]="{'enable-tabwindow-size': tabWindowSize}">
+        <app-contacts-list-v2 [enableCustomizeHeader]="false" moduleName="agency" [organizationId$]="organizationId$" [defaultColumns]="defaultColumns" [contactRefresh$]="contactRefresh$" (openContactEmit)="openContactEmit($event)" (openDuplicateContactEmit)="openDuplicateContactEmit($event)"
+         [reLoader$]="contactRefresher$">
+        </app-contacts-list-v2>
+      </div>
+    </mat-tab>
+      <mat-tab label="LOGOS" aria-label="logos_tab" *ngIf="!!logosAccess">
+        <div [ngStyle]="{'height.px':scrollContent}" class="agency-tabs-scroll">
+          <app-logos [organizationId$]="organizationId$" [fileUploadConfig]="fileUploadConfig" [logos]="agencyLogos" (deleteLogoFunc)="deleteLogo($event)" (createLogoFunc)="createLogo($event)" [uploadInProgress$]="uploadInProgress$" [clearAttachment$]="clearAttachment$"
+           (loadMoreLogos)="loadMoreLogos()" [isLogosLoading$]="isAgencyLogosLoading$" [disableEdit]="disableLogoEdit" [ngClass]="{'more-attachments':agencyLogoPagination.total>10}"></app-logos>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4rem" class="footer-block">
+    <div>
+      <app-time-stamp [timeStampData]="timeStampData"></app-time-stamp>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" *ngIf="selectedTabLabel !== 'contacts_tab'">
+      <button mat-button class="imx-button-secondary" [routerLink]="['/records-management-v2/agencies']" module="agency" visiblityType="edit" appUserAccessPermission>Cancel</button>
+      <button (click)="validateAssociationAndUpdateAgency()" module="agency" visiblityType="edit" appUserAccessPermission mat-button class="imx-button-primary">Save</button>
+    </div>
+  </div>
+</div>

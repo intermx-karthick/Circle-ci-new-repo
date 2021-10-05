@@ -1,0 +1,86 @@
+<div class="app-job-details job-details">
+
+    <div fxLayout="row" fxLayoutAlign="start center">
+        <a class="job-details__back-to" fxLayout="row" fxLayoutAlign="start center" [routerLink]="['/jobs']">
+            <mat-icon>arrow_back</mat-icon>Back to Jobs List
+        </a>
+    </div>
+
+    <section fxLayout="row" fxLayoutAlign="space-between center" class="job-details__header">
+        <div>
+            <h4>
+                <ng-container>{{jobDetails?.name}}/{{jobDetails?.jobId}} Details</ng-container>
+            </h4>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end end">
+            <div fxLayout="row" fxLayoutAlign="end center">
+                <button type="button" mat-button class="imx-button-basic" [mat-menu-trigger-for]="actionMenu" [isAccessDenied]="(!userPermission?.delete && !userPermission?.create && !userPermission?.view)" visiblityType="menu" module="print_production" appUserAccessPermission>
+                    <span>ACTIONS</span>
+                    <mat-icon>expand_more</mat-icon>
+                </button>
+                <mat-menu #actionMenu="matMenu" class="mat-elevation-z0 action-dropdown-imx action-menu-less-width">
+                    <button mat-menu-item (click)="openPrinterAuthorizationPDF(jobDetails?._id)" [isAccessDenied]="!userPermission?.view" module="print_production" visiblityType="view" appUserAccessPermission>View Production Authorization</button>
+                    <button mat-menu-item (click)="viewJobInvoicePDF(jobDetails?._id)" [isAccessDenied]="!userPermission?.view" module="print_production" visiblityType="view" appUserAccessPermission>View Client Invoice</button>
+                    <button [isAccessDenied]="!userPermission?.delete" module="print_production" visiblityType="delete" appUserAccessPermission mat-menu-item type="button" (click)="deleteJobItem()">Delete</button>
+                    <button [isAccessDenied]="!userPermission?.create" module="print_production" visiblityType="create" appUserAccessPermission mat-menu-item type="button" (click)="duplicateJob()">
+                        Duplicate
+                    </button>
+                </mat-menu>
+                <!-- <button type="button" mat-button class="imx-button-basic " [mat-menu-trigger-for]="exportMenu">
+                    <span>EXPORT</span>
+                    <mat-icon>expand_more</mat-icon>
+                </button>
+                <mat-menu #exportMenu="matMenu" class="mat-elevation-z0 action-dropdown-imx action-menu-less-width">
+                    <button mat-menu-item type="button">
+                        CSV
+                    </button>
+                </mat-menu> -->
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+                <button type="button" mat-button class="imx-button-basic" [routerLink]="['/jobs']" module="print_production" visiblityType="edit" appUserAccessPermission>
+                    CANCEL
+                </button>
+                <button mat-raised-button class="imx-button-primary search-btn" cdkFocusInitial
+                    (click)="initSave()" module="print_production" visiblityType="create" appUserAccessPermission>
+                    SAVE
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <div fxLayout="row" fxLayoutAlign="start center" class="job-details__core-tab">
+        <mat-tab-group animationDuration="150ms" mat-align-tabs="start" class="imx-tab-capital"
+            [selectedIndex]="selectedTabIndex" (selectedTabChange)="onSelectedTabChange($event)" #jobTabs>
+            <mat-tab label="CORE DETAILS" [aria-label]='tabItems.CORE_DETAILS'>
+                <div [ngStyle]="{'height.px':scrollContent}" class="job-details__tabs-scroll" (scroll)='handleScroll()'>
+                    <app-job-core-details
+                        [jobDetailsValue]="jobDetails"
+                        [formSave]="formSave$"
+                        [containerScrolling$]="scrolling$"
+                        (detailsFormValues)="detailsFormValues($event)"
+                        (lineItemUpdate)="onLineItemUpdate()"
+                        (openPrintPreview)="openPrintPreview($event)"
+                    >
+                    </app-job-core-details>
+                </div>
+            </mat-tab>
+            <mat-tab label="ATTACHMENTS" [aria-label]='tabItems.ATTACHMENTS' *ngIf="!!logosAccess">
+                <div [ngStyle]="{'height.px':scrollContent}" class="job-details__tabs-scroll intermx-theme-new">
+                    <app-job-attachments [jobId]="JobID"></app-job-attachments>
+                </div>
+            </mat-tab>
+            <mat-tab label="PURCHASE ORDER" [aria-label]='tabItems.PURCHASE_ORDER'>
+                <div [ngStyle]="{'height.px':scrollContent}" class="job-details__tabs-scroll">
+                    <app-job-purchase-order
+                         [jobDetailValues]="jobDetails" 
+                         [jobUpdateListener]=jobUpdateListener$>
+                    </app-job-purchase-order>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+
+    <div class="job-details__footer">
+        <app-time-stamp [timeStampData]="timeStamp" *ngIf="selectedTabIndex !== 2"></app-time-stamp>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+<div class="c-location-selection">
+  <div class="c-location-selection__wrapper">
+
+  <div class="c-loc-selctn-header">
+
+    <div class="c-loc-selctn-header__wrapper" *ngIf="moduleName !== 'project'">
+       <h5 class="c-loc-selctn-header__title">Add Location</h5>
+    </div>
+
+  </div>
+
+  <div class="c-loc-selctn-body">
+
+    <div class="c-loc-selctn-body__wrapper">
+      <div class="c-loc-selctn-body__search">
+        <mat-form-field fxFlexFill floatPlaceholder="always">
+
+          <mat-chip-list #locationChipList aria-label="location selection">
+            <mat-chip *ngFor="let location of selectedLocations" [selectable]="selectable"
+                      [removable]="removable" (removed)="removeSelectedLocation(location)">
+              {{location.label}}
+              <mat-icon matChipRemove *ngIf="removable">close</mat-icon>
+            </mat-chip>
+
+          <input class="filter-search-field" [formControl]="searchLocationFrmCtrl" type="text"
+                  placeholder="SEARCH" [matChipInputFor]="locationChipList"
+                 [matChipInputAddOnBlur]="false" autocomplete="off" >
+          <mat-icon *ngIf="!isSearching; else searchLocationLoader" matSuffix>search</mat-icon>
+          <ng-template #searchLocationLoader><mat-spinner  [diameter]="24" matSuffix></mat-spinner></ng-template>
+          </mat-chip-list>
+        </mat-form-field>
+      </div>
+      <div class="c-loc-selctn-body__selction-list">
+
+        <!--        <mat-selection-list fxFlexFill [(ngModel)]="selectedLocations" [compareWith]="compare">-->
+        <mat-list>
+        <div infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+            [scrollWindow]="false">
+
+        <div *ngFor="let locCategory of locationList$ | async">
+              <h5 [innerHTML]="(locCategory.label)| imx_highlight: searchQuery"></h5>
+              <mat-list-item *ngFor="let location of locCategory.data;let i=index"
+               (click)="selectedLocation(location)">
+                <span [innerHTML]="(location.label)| imx_highlight: searchQuery"></span>
+              </mat-list-item>
+          </div>
+          </div>
+      </mat-list>
+
+      <!--        </mat-selection-list>-->
+      </div>
+    </div>
+
+  </div>
+
+  <div class="c-loca-selctn-footer" *ngIf="moduleName !== 'project'">
+
+    <div class="c-loca-selctn-footer__wrapper" fxLayout="row" fxLayoutAlign="flex-end start">
+      <button  mat-dialog-close mat-raised-button class="btn-clear no-radius" type="button">CLOSE</button>
+      <button mat-raised-button class="btn-primary-color button-primary m-l-10 no-radius" type="button"(click)="apply();">APPLY</button>
+    </div>
+
+  </div>
+</div>
+</div>

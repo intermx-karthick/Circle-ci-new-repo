@@ -1,0 +1,116 @@
+<div fxLayout="column" fxLayoutAlign="space-between start">
+  <div fxLayout="row" fxLayoutAlign="space-between start" class="row-container">
+    <div>
+      <h4 mat-dialog-title>{{ "DEFINE CLIENT ACCESS" | uppercase }}</h4>
+      <div class="subtitle">Drag and drop</div>
+    </div>
+    <a href="javascript:void(0)" (click)="onNoClick()" class="close-link">
+      close
+    </a>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between start" class="row-container">
+    <div class="all-clients-title">
+      <h5>All Clients</h5>
+      <mat-form-field class="search-clients">
+        <mat-label>Search Clients</mat-label>
+        <input matInput (input)="searchClients($event.target.value)">
+      </mat-form-field>
+    </div>
+    <div class="access-box-title user-client-access-title">
+      <h5>User Client Access</h5>
+    </div>
+    <div class="access-box-title">
+      <h5>Client Access by {{ data.officeName }}</h5>
+    </div>
+  </div>
+</div>
+<mat-dialog-content
+  cdkDropListGroup
+  class="client-access-container"
+>
+  <div class="client-access">
+      <table>
+          <thead>
+            <tr>
+              <th class="client-name-column">Client Name</th>
+              <th>DIV</th>
+              <th>Type</th>
+              <th>Office</th>
+              </tr>
+          </thead>
+          <tbody
+            cdkDropList
+            [cdkDropListData]="allClientsList"
+            (cdkDropListDropped)="drop($event)"
+            #allClients="cdkDropList"
+            [cdkDropListConnectedTo]="[userAccess]"
+            id="allClientsDragList"
+          >
+            <tr *ngFor="let item of allClientsList; let i = index">
+              <td [title]="item.clientName">{{item.clientName}}</td>
+              <td [title]="item.division?.name">{{item.division?.name}}</td>
+              <td [title]="item.clientType?.name">{{item.clientType?.name}}</td>
+              <td [title]="item.office?.name">
+                <span>
+                  {{item.office?.name}}
+                </span>
+                <mat-icon
+                  matSuffix
+                  (click)="onAddingAccess(i)"
+                  class="arrow-move-icon"
+                  svgIcon="IMX-arrow-move"
+                >
+                  <div *cdkDragPreview class="access-box">
+                    {{item.clientName}} - {{item.office.name}}
+                  </div>
+                </mat-icon>
+              </td>
+            </tr>
+          </tbody>
+      </table>
+  </div>
+
+    <div class="boundary">
+      <div class="user-access">
+        <div
+          cdkDropList
+          [cdkDropListData]="userClientAccess"
+          (cdkDropListDropped)="drop($event)"
+          [cdkDropListConnectedTo]="[allClients, officeAccess]"
+          #userAccess="cdkDropList"
+          id="userAccessDragList"
+        >
+        <div class="access-box" title="{{item.clientName}} - {{item.office?.name}}" *ngFor="let item of userClientAccess; let i = index" cdkDrag [cdkDragDisabled]="true">
+          <span class="trancuate">{{item.clientName}} - {{item.office?.name}}</span>
+          <mat-icon (click)="removeDragItem(i, 'users', item.isOfficeItem)">close</mat-icon>
+        </div>
+      </div>
+    </div>
+
+    <div class="office-access">
+      <div
+        cdkDropList
+        [cdkDropListData]="officesAccess"
+        (cdkDropListDropped)="drop($event)"
+        #officeAccess="cdkDropList"
+        [cdkDropListConnectedTo]="[userAccess]"
+        id="officeAccessDragList"
+      >
+        <div class="access-box" title="{{item.clientName}} - {{item.office?.name}}" *ngFor="let item of officesAccess; let i = index" cdkDragBoundary=".boundary" cdkDrag>
+          <span class="trancuate">{{item.clientName}} - {{item.office?.name}}</span>
+          <mat-icon (click)="removeDragItem(i, 'offices')">close</mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</mat-dialog-content>
+
+<div class="spacer"></div>
+
+<mat-dialog-actions>
+  <div fxLayout="row" fxLayoutAlign="space-between start" class="row-container">
+      <button mat-flat-button class="imx-button" (click)="resetToDefault()">{{"RESET TO DEFAULT" | uppercase}}</button>
+      <button mat-raised-button class="imx-button button-primary" type="submit" class="button-primary" (click)="onSubmit()" cdkFocusInitial>{{"apply access" | uppercase}}</button>
+  </div>
+</mat-dialog-actions>

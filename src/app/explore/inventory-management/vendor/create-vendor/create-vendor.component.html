@@ -1,0 +1,378 @@
+<div class="create-vendor">
+
+  <section fxLayout="row" fxLayoutAlign="space-between center">
+    <h4 class="outer-padding">Add Vendor</h4>
+    <button *ngIf="data?.showClose" (click)="navigateToVendorList()" matTooltip="Close" mat-icon-button>
+      <mat-icon class="mat-icon-close active">close</mat-icon>
+    </button>
+  </section>
+
+    <form [formGroup]="createEditVendorForm" (ngSubmit)="onSubmit(createEditVendorForm.value)">
+
+        <div class="form-body vendor-body outer-padding" [ngStyle]="{'max-height.px':scrollContent}"
+        (window:resize)="reSize()">
+            <section fxLayout fxLayoutGap="24px">
+                <div class="vendor-form__field" fxFlex="30">
+                    <mat-form-field fxFlex="100">
+                        <mat-label>Vendor Name</mat-label>
+                        <input formControlName="name" matInput autocomplete="off" required>
+                    </mat-form-field>
+                </div>
+
+                <div class="vendor-form__field" >
+                    <mat-form-field class="vendor-group-input">
+                        <input type="text" #vGroupInputRef matInput formControlName="parentCompany" placeholder="Select  Parent Vendor"
+                               [matAutocomplete]="vendorsGroupAuto">
+
+                        <mat-autocomplete #vendorsGroupAuto="matAutocomplete"  [displayWith]="vendorDisplayWithFn" (opened)="updateContainer()" class="vendor-group-autocomplete" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0" (scrolled)="loadMoreWithSearch()" [scrollWindow]="false"  [infiniteScrollContainer]="panelContainer" [fromRoot]="true">
+                          <mat-option *ngFor="let vGroup of filteredParentVendors;trackBy: vGroupTrackByFn" [value]="vGroup">
+                            <span [innerHTML]="(vGroup.name)| imx_highlight: vGroupInputRef.value"></span>
+                          </mat-option>
+                        </mat-autocomplete>
+
+                        <mat-label *ngIf="isLoadingVendorsGroup; else vendorGroupLableRef">
+                          <div fxLayout fxLayoutAlign="space-between start" >
+                            <span>Loading...</span>
+                            <mat-spinner class="spinner" diameter="20"></mat-spinner>
+                          </div>
+                        </mat-label>
+
+                        <ng-template #vendorGroupLableRef>
+                          <mat-label>Parent Vendor</mat-label>
+                        </ng-template>
+
+                        <mat-error class="small-font" *ngIf="createEditVendorForm['controls'].parentCompany.hasError('invalid')">
+                          You should not enter values manually, Please select from suggested list only.
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                <div class="vendor-form__field" fxFlex="20">
+                    <mat-checkbox class="isParentVendox" formControlName="parentFlag"> IsParent</mat-checkbox>
+                </div>
+            </section>
+
+            <section fxLayout fxLayoutGap="24px">
+                <div class="vendor-form__field" fxFlex="15">
+                    <mat-form-field fxFlex="100">
+                        <mat-label>Phone Number</mat-label>
+                        <input formControlName="businessPhone" matInput autocomplete="off" appNumberOnly>
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field" fxFlex="15">
+                    <mat-form-field fxFlex="100">
+                        <mat-label>FAX</mat-label>
+                        <input formControlName="businessFax" matInput autocomplete="off" appNumberOnly>
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>Company Email</mat-label>
+                        <input formControlName="email" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <!-- <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>Billing Email</mat-label>
+                        <input formControlName="BillingEmail" matInput autocomplete="off">
+                    </mat-form-field>
+                </div> -->
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>Company Website</mat-label>
+                        <input formControlName="businessWebsite" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+            </section>
+
+            <section fxLayout fxLayoutGap="24px">
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>Address 1</mat-label>
+                        <input formControlName="addressLine1" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>Address 2</mat-label>
+                        <input formControlName="addressLine2" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field" fxFlex="10">
+                    <mat-form-field fxFlex="100">
+                        <mat-label>City</mat-label>
+                        <input formControlName="city" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field" fxFlex="10">
+                    <mat-form-field fxFlex="100">
+                        <mat-label>State</mat-label>
+                        <input formControlName="state" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field" fxFlex="10">
+                    <mat-form-field fxFlex="100">
+                        <mat-label>Zip</mat-label>
+                        <input formControlName="zipCode" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+            </section>
+
+            <section fxLayout fxLayoutGap="24px">
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>TAX ID</mat-label>
+                        <input formControlName="taxIdNumber" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field">
+                  <mat-form-field>
+                      <mat-label>Vendor Type</mat-label>
+                        <mat-select formControlName="type" [class.placeholder-default]="createEditVendorForm['controls'].type.value==''" [ngStyle]="{'max-height.px': 250}"
+                                    infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                                    (scrolled)="loadMoreVendorTypes()" [scrollWindow]="false">
+                          <mat-option value="" class="optional-option">Select Vendor Type</mat-option>
+                          <mat-option *ngFor="let vendorType of vendorTypes" [value]="vendorType._id">
+                            {{vendorType.name}}
+                          </mat-option>
+                          <div *ngIf="isVendorTypesLoading" class="create-vendor">
+                            <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+                          </div>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <!-- <mat-form-field>
+                        <mat-label>Vendor Type</mat-label>
+                        <input formControlName="type" matInput autocomplete="off">
+                    </mat-form-field> -->
+                </div>
+                <div class="vendor-form__field">
+
+                    <mat-form-field>
+                      <mat-label>Diversity Ownership</mat-label>
+                      <mat-select formControlName="diversityOwnership" [class.placeholder-default]="createEditVendorForm['controls'].diversityOwnership.value==''" [ngStyle]="{'max-height.px': 250}"
+                                  infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                                  (scrolled)="loadMoreDiversityOwnerships()" [scrollWindow]="false">
+                        <mat-option value="" class="optional-option">Select Diversity Ownership</mat-option>
+
+                        <mat-option *ngFor="let diversityOwnership of diversityOwnerships" [value]="diversityOwnership._id">
+                          {{diversityOwnership.name}}
+                        </mat-option>
+
+                        <div *ngIf="isVendorTypesLoading" class="create-vendor">
+                          <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+                        </div>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <!-- <mat-form-field>
+                        <mat-label>Diversity Ownership</mat-label>
+                        <input formControlName="diversityOwnership" matInput autocomplete="off">
+                    </mat-form-field> -->
+                </div>
+            </section>
+
+            <section fxLayout fxLayoutGap="24px">
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>PUB ID (A)</mat-label>
+                        <input formControlName="pubA_id" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>PUB ID (B)</mat-label>
+                        <input formControlName="pubB_id" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>Edition (A)</mat-label>
+                        <input formControlName="pubA_edition" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>Edition (B)</mat-label>
+                        <input formControlName="pubB_edition" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+            </section>
+
+            <section fxLayout fxLayoutGap="24px">
+                <div class="vendor-form__field" fxFlex="80">
+                    <mat-form-field fxFlex="100">
+                        <mat-label>Notes</mat-label>
+                        <input formControlName="notes" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+            </section>
+
+            <section fxLayout fxLayoutGap="24px">
+                <!-- <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>Company Name</mat-label>
+                        <input formControlName="parentCompany" matInput autocomplete="off">
+                    </mat-form-field>
+                </div> -->
+
+                <!-- <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>Contact Type</mat-label>
+                        <mat-select formControlName="contactType">
+                            <mat-option [value]="false">
+                                No
+                            </mat-option>
+                            <mat-option [value]="true">
+                                Yes
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div> -->
+            </section>
+
+            <!-- <section fxLayout fxLayoutGap="24px">
+                <h6>Contact Person</h6>
+            </section>
+            <section fxLayout fxLayoutGap="24px" formArrayName="contacts"
+                *ngFor="let contactsGroup of createEditVendorForm.get('contacts')['controls'];let i = index"
+                [formGroup]="contactsGroup">
+                <div class="vendor-form__field" formGroupName={{i}}>
+                    <mat-form-field>
+                        <mat-label>Name</mat-label>
+                        <input formControlName="name" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field" formGroupName={{i}}>
+                    <mat-form-field>
+                        <mat-label>Email Address</mat-label>
+                        <input formControlName="email" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <a (click)="deleteContactGroup(i)" class="deleteIcon" title="Delete contact">
+                    <mat-icon>delete</mat-icon>
+                </a>
+            </section>
+            <section fxLayout fxLayoutGap="24px">
+                <div class="vendor-form__field addIcon">
+                    <a (click)="addNewContactGroup()" title="Add new contact">
+                        Add New Contact
+                    </a>
+                </div>
+            </section> -->
+            <!-- <section fxLayout fxLayoutGap="24px">
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>Full Name</mat-label>
+                        <input formControlName="fullName" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>Email Address</mat-label>
+                        <input formControlName="emailAddress" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>Phone Number</mat-label>
+                        <input formControlName="cPhoneNumber" matInput autocomplete="off" appNumberOnly>
+                    </mat-form-field>
+                </div>
+            </section> -->
+            <!--
+            <section fxLayout fxLayoutGap="24px">
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>Work Phone</mat-label>
+                        <input formControlName="cWorkPhone" matInput autocomplete="off" appNumberOnly>
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>Mobile Phone</mat-label>
+                        <input formControlName="cMobileNumber" matInput autocomplete="off" appNumberOnly>
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>Home Phone</mat-label>
+                        <input formControlName="cHomeNumber" matInput autocomplete="off" appNumberOnly>
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>FAX</mat-label>
+                        <input formControlName="cFax" matInput autocomplete="off" appNumberOnly>
+                    </mat-form-field>
+                </div>
+            </section> -->
+            <!--
+            <section fxLayout fxLayoutGap="24px">
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>Address 1</mat-label>
+                        <input formControlName="cAddress1" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field">
+                    <mat-form-field>
+                        <mat-label>Address 2</mat-label>
+                        <input formControlName="cAddress2" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field" fxFlex="10">
+                    <mat-form-field fxFlex="100">
+                        <mat-label>City</mat-label>
+                        <input formControlName="cCity" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field" fxFlex="10">
+                    <mat-form-field fxFlex="100">
+                        <mat-label>State</mat-label>
+                        <input formControlName="cState" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field" fxFlex="10">
+                    <mat-form-field fxFlex="100">
+                        <mat-label>ZIP</mat-label>
+                        <input formControlName="cZip" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+
+            </section> -->
+
+            <!-- <section fxLayout fxLayoutGap="24px">
+                <div class="vendor-form__field" fxFlex="40">
+                    <mat-form-field fxFlex="100">
+                        <mat-label>Address Block</mat-label>
+                        <input formControlName="addressBlock" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="vendor-form__field" fxFlex="40">
+                    <mat-form-field fxFlex="100">
+                        <mat-label>Notes</mat-label>
+                        <input formControlName="cNotes" matInput autocomplete="off">
+                    </mat-form-field>
+                </div>
+            </section> -->
+            <!-- <section fxLayout fxLayoutGap="24px">
+                <div class="drop-files" (click)="fileInputDrop.click()" appDragDrop (OnFileDropped)="uploadFile($event)">
+                    <input hidden type="file" #fileInputDrop (change)="uploadFile($event.target.files)">
+                    <h6 class="uploads"><mat-icon >cloud_upload</mat-icon>Drag and Drop or select file to upload</h6>
+                    <div class="upload-btn-div">
+                      <button mat-button mat-raised-button class="geo-button-primary">Browse Files</button>
+                    </div>
+                  </div>
+            </section> -->
+            <div class="vendor-file-upload">
+                <app-file-upload [fileUploadConfig]="fileUploadConfig" (emitUploadFile)="uploadedFile($event)"></app-file-upload>
+            </div>
+
+        </div>
+        <section fxLayout fxLayoutGap="20px" class="vendor-action">
+            <button type="reset" mat-raised-button (click)="navigateToVendorList()">Cancel</button>
+            <button type="submit" mat-raised-button class="btn-primary-color "
+                [disabled]="createEditVendorForm.controls['name'].invalid">Save Vendor</button>
+        </section>
+    </form>
+</div>

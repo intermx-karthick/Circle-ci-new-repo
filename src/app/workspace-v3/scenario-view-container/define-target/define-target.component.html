@@ -1,0 +1,87 @@
+<section class="c-define-target dt-mt-3">
+  <mat-accordion>
+    <mat-expansion-panel #audience class="side-nav-main-panel" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title  class="primary">
+          Audience
+        </mat-panel-title>
+        <mat-panel-description fxLayout="row-reverse">
+          <mat-icon *ngIf="audience.expanded; else audienceExpandDownIcon" svgIcon="IMX-accordion-up" aria-hidden="false"
+                    aria-label="up"></mat-icon>
+          <ng-template #audienceExpandDownIcon>
+            <mat-icon svgIcon="IMX-accordion-down" aria-hidden="false" aria-label="down"></mat-icon>
+          </ng-template>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <app-audience-filter [selectedAudienceList]="selectedAudienceList"
+                           (onCompletedBrowsing)="addSelectedAudience($event)"
+                           (updateSelectedAudienceList)="updateSelectedAudienceList($event)"
+                           [isScenario]="isScenario"
+                           [openAudience]="openAudience" [isInventory]="isInventory"
+                           [selectionType]="audienceSelectionType"
+                           [includeType]="includeType" [deleteAudience$]="deleteAudience"></app-audience-filter>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel #markets class="side-nav-main-panel" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title  class="primary">
+          Markets
+        </mat-panel-title>
+        <mat-panel-description fxLayout="row-reverse">
+          <mat-icon *ngIf="markets.expanded; else marketExpandDownIcon" svgIcon="IMX-accordion-up" aria-hidden="false"
+                    aria-label="up"></mat-icon>
+          <ng-template #marketExpandDownIcon>
+            <mat-icon svgIcon="IMX-accordion-down" aria-hidden="false" aria-label="down"></mat-icon>
+          </ng-template>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <app-market-filter-v3 (select)="selectMarketList($event)" (updateSelectedMarketsList)="updateSelectedMarketsList($event)"  [hideClearBtn]="'true'" [selectedMarketsData]="selectedMarkets" [deleteMarket]="deleteMarket"></app-market-filter-v3>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel #planPeriod class="side-nav-main-panel" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title  class="primary">
+          Plan Period
+        </mat-panel-title>
+        <mat-panel-description fxLayout="row-reverse">
+          <mat-icon *ngIf="planPeriod.expanded; else planExpandDownIcon" svgIcon="IMX-accordion-up" aria-hidden="false"
+                    aria-label="up"></mat-icon>
+          <ng-template #planExpandDownIcon>
+            <mat-icon svgIcon="IMX-accordion-down" aria-hidden="false" aria-label="down"></mat-icon>
+          </ng-template>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div>
+        <app-plan-period-v3 [scheduleFormSubmit$]="scheduleFormSubmit$" [scheduleFormGroup]="scheduleFormGroup" [selectedPlanTab]="selectedPlanTab" [selectedAudienceList]="selectedAudienceList"></app-plan-period-v3>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel #defineGoal class="side-nav-main-panel" hideToggle *ngIf="selectedPlanTab == 'marketPlan'">
+      <mat-expansion-panel-header>
+        <mat-panel-title  class="primary">
+          Define Goals
+        </mat-panel-title>
+        <mat-panel-description fxLayout="row-reverse">
+          <mat-icon *ngIf="defineGoal.expanded; else planExpandDownIcon" svgIcon="IMX-accordion-up" aria-hidden="false"
+                    aria-label="up"></mat-icon>
+          <ng-template #planExpandDownIcon>
+            <mat-icon svgIcon="IMX-accordion-down" aria-hidden="false" aria-label="down"></mat-icon>
+          </ng-template>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div>
+        <app-define-gole
+          [defineGoleFormGroup]="defineGoleFormGroup"
+          [defineGoalFormSubmit$]="defineGoalFormSubmit$"
+          [deliveryGoals]="deliveryGoals"
+        ></app-define-gole>
+        <!-- <app-plan-period-v3 [scheduleFormSubmit$]="scheduleFormSubmit$" [scheduleFormGroup]="scheduleFormGroup" [selectedPlanTab]="selectedPlanTab"></app-plan-period-v3> -->
+      </div>
+    </mat-expansion-panel>
+
+  </mat-accordion>
+</section>

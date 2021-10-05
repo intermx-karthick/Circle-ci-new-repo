@@ -1,0 +1,26 @@
+/*
+The mat menu have a drop shadow by default
+Use material elevation classes to remove the shadow
+  <mat-menu class="mat-elevation-z0">
+*/
+.mat-menu-panel {
+  border: 1px solid var(--primary-bg-700);
+  border-radius: 5px;
+  min-height: auto;
+}
+.mat-menu-content .mat-menu-item {
+  color: var(--primary-bg-700);
+  padding: 0 8px;
+}
+.imx-new-matmenu {
+  .mat-menu-content {
+    &:not(:empty) {
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+    .mat-menu-item {
+      height: 24px;
+      line-height: 24px;
+    }
+  }
+}

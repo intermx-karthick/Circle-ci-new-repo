@@ -1,0 +1,42 @@
+dssdfsdf
+<div fxLayout="row" fxLayoutAlign="space-between start" class="row-container">
+    <h1 mat-dialog-title>Validating Line item from Imported Data</h1>
+    <button mat-icon-button class="close-button" (click)="closeDialog.emit()">
+        <mat-icon class="close-icon">close</mat-icon>
+    </button>
+</div>
+<div class="row-container" fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="header" fxFlex="50">System column header</div>
+    <div class="header" fxFlex="50">Imported column header</div>
+</div>
+<div class="row-container" fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-form-field fxFlex="45">
+        <mat-label>System Column Name</mat-label>
+        <input matInput >
+    </mat-form-field>
+    <app-contracts-autocomplete fxFlex="45" [placeholder]="'Matched Column'"></app-contracts-autocomplete>
+</div>
+
+<div class="row-container" fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-form-field fxFlex="45">
+        <mat-label>System Column Name</mat-label>
+        <input matInput >
+    </mat-form-field>
+    <app-contracts-autocomplete fxFlex="45" [placeholder]="'Matched Column'"></app-contracts-autocomplete>
+</div>
+
+<div class="row-container" fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-form-field fxFlex="45">
+        <mat-label>System Column Name</mat-label>
+        <input matInput >
+    </mat-form-field>
+    <app-contracts-autocomplete fxFlex="45" [placeholder]="'Matched Column'"></app-contracts-autocomplete>
+</div>
+
+
+<div class="row-container" fxLayout="row" fxLayoutAlign="space-around center">
+    <div fxflex="40" class="actions">
+        <button mat-button type="submit" class="imx-button-primary" (click)="next()" cdkFocusInitial>{{"Save" | uppercase}}</button>
+    </div>
+</div>
+

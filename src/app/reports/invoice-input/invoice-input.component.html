@@ -1,0 +1,27 @@
+<div role="group" class="imx-tel-input-container"
+     [formGroup]="parts">
+  <input class="imx-tel-input-element"
+         formControlName="initial" size="1"
+         maxLength="1"
+         aria-label="Initial"
+         (input)="_handleInput(parts.controls.initial, middle)"
+         #initial>
+  <span class="imx-tel-input-spacer">&ndash;</span>
+  <input class="imx-tel-input-element middle-input"
+         formControlName="middle"
+         maxLength="2"
+         size="2"
+         aria-label="Middle"
+         (input)="_handleInput(parts.controls.middle, end)"
+         (keyup.backspace)="autoFocusPrev(parts.controls.middle, initial)"
+         #middle>
+  <span class="imx-tel-input-spacer">&ndash;</span>
+  <input class="imx-tel-input-element"
+         formControlName="end"
+         maxLength="12"
+         size="12"
+         aria-label="End"
+         (input)="_handleInput(parts.controls.end)"
+         (keyup.backspace)="autoFocusPrev(parts.controls.end, middle)"
+         #end appNumberOnly [canAllowMinus]="false">
+</div>

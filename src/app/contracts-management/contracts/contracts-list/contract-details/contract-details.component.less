@@ -1,0 +1,131 @@
+::ng-deep {
+  app-contract-details {
+    h3 {
+      font-size: 34px;
+  }
+
+  .footer {
+    padding: 1rem 0rem;
+  }
+    
+mat-tab-group{
+  &.imx-tab{
+    &-capital{
+      .mat-tab-header{
+        .mat-tab-label{
+          height: 28px;
+          padding: 0px;
+          min-width: auto;
+          margin-right: 16px;
+          opacity: 1;
+          .mat-tab-label-content{
+            font-style: normal;
+            font-weight: normal;
+            font-size: 0.875rem;
+            line-height: 20px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--grays-bg-800);;
+          }
+          &.mat-tab-label-active{
+            opacity: 1;
+            .mat-tab-label-content{
+              color: var(--primary-bg-900);
+            }
+          } 
+        }
+        .mat-ink-bar{
+          background-color: var(--primary-bg-900);
+        }
+        border-bottom: 0;
+      } 
+      .mat-tab-content{
+        padding: 16px;
+        margin-top: 16px;
+
+      }       
+    }
+  }
+}
+
+.contract-tabs-scroll {
+  padding-right: 20px;
+  overflow-y: auto;
+}
+
+
+  .mat-tab-body.mat-tab-body-active {
+    overflow-y: hidden;
+  }
+
+  .mat-tab-body-content {
+    overflow: hidden;
+  }
+
+      
+      .header{
+        margin-top: 1rem;
+        
+        h4{
+          word-break: break-all;
+        }
+      }
+      .imx-button-secondary, .imx-button-primary{
+        height:34px;
+      }
+      .contact-tab-body{
+        padding: 2rem 0;
+      }
+
+  
+      .vendor-tabs {
+        overflow: hidden;
+        margin-top: 16px;
+
+        mat-tab-group {
+          width: 100%;
+        }
+
+        .vendor-tabs-scroll {
+          padding-right: 20px;
+          overflow-y: auto;
+        }
+      }
+
+      .back-to-link{
+        font-size: 12px;
+        color: var(--primary-bg-800);
+
+        mat-icon{
+          margin-right: 8px;
+          height: 11px;
+          width: 11px;
+          font-size: 11px;
+          line-height: 11px;
+        }
+      }
+      .footer-block{
+        padding:1rem 0rem;
+      }
+      .enable-tabwindow-size{
+        .clist-table-parent{
+          max-height: 195px !important;
+          min-height: 195px !important;
+        }
+      }
+      .shipping-address-tab{
+        width: calc(100vw - 215px);
+      }
+    }
+
+    .broken-lineitems-warn {
+      color: #030303;
+      font-size: 17px;
+
+      div {
+        font-size: 16px;
+        margin: 6px 6px 0 30px
+      }
+    }
+  }
+

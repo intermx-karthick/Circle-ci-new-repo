@@ -1,0 +1,203 @@
+<div class="row-detail-component">
+    <div fxLayout="row" fxLayoutAlign="space-around strech" class="row-container details-inputs">
+        <div class="sections row-container" fxLayout="column" fxLayoutAlign="space-around stretch" *ngIf="userView && !isUserContactActive">
+            <div fxLayout="row" fxLayoutAlign="space-around center" class="row-container">
+                <mat-form-field fxFlex="33" class="details-element">
+                    <mat-label>{{"First Name" | uppercase}}</mat-label>
+                    <input [(ngModel)]="userView.given_name" matInput>
+                </mat-form-field>
+                <mat-form-field fxFlex="33" class="details-element">
+                    <mat-label>{{"Last Name" | uppercase}}</mat-label>
+                    <input [(ngModel)]="userView.family_name" matInput>
+                </mat-form-field>
+                <mat-form-field class="details-element imx-dropdown imx-input" fxFlex="33">
+                  <mat-label>
+                    {{ "Selected Groups" }}
+                    <span>
+                      ({{userView?.groups ? userView?.groups?.length : 0}})
+                    </span>
+                  </mat-label>
+                  <mat-select panelClass="imx-select" multiple [(ngModel)]="userView.groups" (selectionChange)="groupsChanged($event)">
+                    <mat-option *ngFor="let group of allGroups" [value]="group">
+                      {{ group.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-around center" class="row-container">
+              <mat-form-field fxFlex="66" class="details-element">
+                <mat-label>{{"Email" | uppercase}}</mat-label>
+                <input [(ngModel)]="userView.email" matInput>
+              </mat-form-field>
+              <mat-form-field fxFlex="33" class="imx-dropdown imx-input">
+                <mat-label>
+                  View Roles
+                </mat-label>
+                <mat-select panelClass="imx-select disabled-view-select" multiple [(ngModel)]="userRoles">
+                  <mat-option *ngFor="let role of userRoles" [value]="role" [disabled]="true">
+                    {{ role.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+        </div>
+        <div class="sections row-container user-contact-form" [formGroup]="userContactForm" fxLayout="column" fxLayoutAlign="space-around stretch" *ngIf="userView && isUserContactActive">
+          <div fxLayout="row" fxLayoutAlign="space-around center" class="row-container">
+              <mat-form-field fxFlex="16" class="details-element">
+                  <mat-label>{{"First Name" | uppercase}}</mat-label>
+                  <input formControlName="firstName" matInput>
+                <mat-error *ngIf="userContactForm.controls['firstName']?.errors?.required">First Name is required.</mat-error>
+                <mat-error *ngIf="userContactForm.controls['firstName']?.errors?.maxlength">First Name can be max 64 characters long.</mat-error>
+                <mat-error *ngIf="!userContactForm.controls['firstName']?.errors?.required && userContactForm.controls['firstName']?.errors?.whitespace">
+                  <span>Invliad first name.</span>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field fxFlex="16" class="details-element">
+                  <mat-label>{{"Last Name" | uppercase}}</mat-label>
+                  <input formControlName="lastName" matInput>
+                <mat-error *ngIf="userContactForm.controls['lastName']?.errors?.required">Last Name is required.</mat-error>
+                <mat-error *ngIf="userContactForm.controls['lastName']?.errors?.maxlength">Last Name can be max 64 characters long.</mat-error>
+                <mat-error *ngIf="!userContactForm.controls['lastName']?.errors?.required && userContactForm.controls['lastName']?.errors?.whitespace">
+                  <span>Invliad last name.</span>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field fxFlex="33" class="details-element">
+                <mat-label>{{"Email" | uppercase}}</mat-label>
+                <input formControlName="email" matInput>
+                <mat-error *ngIf="userContactForm.controls['email']?.errors">Invalid email address.</mat-error>
+              </mat-form-field>
+
+            <mat-form-field fxFlex="13" class="imx-input error-field-width" >
+              <mat-label>{{"Mobile" | uppercase}}</mat-label>
+              <app-shared-telephone-input formControlName="mobile"></app-shared-telephone-input>
+              <mat-error> Invalid mobile number.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="13" class="imx-input error-field-width ml-1" >
+              <mat-label>{{"Business" | uppercase}}</mat-label>
+              <app-shared-telephone-input formControlName="officeNum"></app-shared-telephone-input>
+              <mat-error> Invalid business number.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="13" class="imx-input error-field-width ml-1" >
+              <mat-label>FAX</mat-label>
+              <app-shared-telephone-input formControlName="fax"></app-shared-telephone-input>
+              <mat-error> Invalid fax number.</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div fxLayout="row"  class="row-container">
+            <div fxLayout="columm" fxFlex="17" class="column-container">
+              <mat-form-field class="imx-dropdown imx-input details-element" matInput>
+                <mat-label>{{ "Select Office" }}</mat-label>
+                <mat-select panelClass="imx-select" formControlName="office" (selectionChange)="onOfficeChange($event)">
+                  <div class="mat-select-panel__wrapper" infiniteScroll
+                       (scrolled)="getOfficesList(true, true)"
+                       [scrollWindow]="false"
+                       [infiniteScrollDistance]="1"
+                       [infiniteScrollThrottle]="0"
+                       [infiniteScrollDisabled]="isOfficesLoading || isOfficesComplete"
+                       [fromRoot]="true">
+                    <mat-option [value]="null">Select Office</mat-option>
+                    <mat-option *ngFor="let office of offices" [value]="office._id">
+                      {{ office.name }}
+                    </mat-option>
+                    <mat-option disabled *ngIf="isOfficesLoading">
+                      <div fxLayout="row" fxLayoutAlign="space-around center" >
+                        <mat-spinner diameter="20"></mat-spinner>
+                      </div>
+                    </mat-option>
+                  </div>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="details-element">
+                <mat-label>{{"Title" | uppercase}}</mat-label>
+                <input formControlName="title" matInput>
+              </mat-form-field>
+            </div>
+            <div fxLayout="columm" fxFlex="17" class="column-container">
+              <mat-form-field class="details-element division-input">
+                <mat-label>{{"Division" | uppercase}}</mat-label>
+                <input formControlName="parentCompany" matInput>
+              </mat-form-field>
+              <mat-form-field class="details-element">
+                <mat-label>{{"Department" | uppercase}}</mat-label>
+                <input matInput>
+              </mat-form-field>
+            </div>
+            <div  fxLayout="columm" class="column-container" fxLayoutAlign='flex-end start' fxFlex="17">
+              <mat-form-field class="imx-input imx-dropdown contact-form__select user-details__contact-type">
+                <mat-label>Contact Type</mat-label>
+                <mat-select
+                  [panelClass]="'imx-select'"
+                  formControlName="type"
+                  [class.placeholder-default]="userContactForm['controls'].type.value==''"
+                  [ngStyle]="{'max-height.px': 250}"
+                  infiniteScroll
+                  [infiniteScrollDistance]="1"
+                  [infiniteScrollThrottle]="0"
+                  (scrolled)="loadMoreContactTypes()"
+                  [scrollWindow]="false"
+                >
+                  <mat-option *ngIf="contactTypes?.length" [value]="null">Select Contact Type</mat-option>
+                  <mat-option *ngFor="let contactType of contactTypes" [value]="contactType._id">
+                    {{contactType.name}}
+                  </mat-option>
+                  <div *ngIf="isContactTypesLoading" class="create-contact">
+                    <mat-spinner [strokeWidth]="2" [diameter]="20"></mat-spinner>
+                  </div>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class=" column-container m-l-10 mt-1" fxLayout="columm">
+              <app-shared-address-card class="contact-form__address-card">
+                <app-shared-us-address [readonly]='false' scrollingContainer='user-management-body' formControlName="address"></app-shared-us-address>
+              </app-shared-address-card>
+            </div>
+            <mat-checkbox [disableRipple]="true" class="imx-checkbok full-access-checkbox mt-1" formControlName="fullAccess" *ngIf="isClientAccessActive">Full Client Access </mat-checkbox>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="start" class="row-container groups-roles-container">
+            <mat-form-field class="details-element imx-dropdown imx-input" fxFlex="16">
+              <mat-label>
+                {{ "Selected Groups" }}
+                <span>
+                  ({{userView?.groups ? userView?.groups?.length : 0}})
+                </span>
+              </mat-label>
+              <mat-select panelClass="imx-select" multiple [(ngModel)]="userView.groups" [ngModelOptions]="{standalone: true}" (selectionChange)="groupsChanged($event)">
+                <mat-option *ngFor="let group of allGroups" [value]="group">
+                  {{ group.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field fxFlex="16" class="imx-dropdown imx-input details-element">
+              <mat-label>
+                View Roles
+              </mat-label>
+              <mat-select panelClass="imx-select disabled-view-select" multiple [ngModelOptions]="{standalone: true}" [(ngModel)]="userRoles">
+                <mat-option *ngFor="let role of userRoles" [value]="role" [disabled]="true">
+                  {{ role.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="row-container">
+              <mat-form-field fxFlex="73">
+                <textarea matInput placeholder="User Notes" formControlName="note"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="sections row-container details-buttons" fxLayout="row" fxLayoutAlign="space-between end">
+        <div fxLayout="row" fxLayoutAlign="start" class="row-container left-buttons">
+          <button mat-button class="imx-button button-secondary-bordered" (click)="onRevoke()">{{"Revoke" | uppercase}}</button>
+          <button mat-button class="imx-button button-secondary-bordered" (click)="onReset()">{{"Reset PWD" | uppercase}}</button>
+          <button mat-button class="imx-button button-secondary-bordered" (click)="onDelete()">{{"Delete" | uppercase}}</button>
+          <button mat-button class="imx-button button-secondary-bordered" *ngIf="isClientAccessActive" (click)="onClientAccess()">{{"Client Access" | uppercase}}</button>
+          <button mat-button class="imx-button button-secondary-bordered" *ngIf="isUserContactActive" (click)="onContactDetails()">{{contactInfo ? "UN-LINK CONTACT" : "Link to Contact" | uppercase}}</button>
+        </div>
+        <button mat-button fxFlex="20" class="imx-button button-tertiary" (click)="onCancelClicked()">{{"Cancel" | uppercase}}</button>
+        <button mat-button fxFlex="20" type="submit" class="imx-button button-primary" (click)="onSaveButtonClick()" cdkFocusInitial>{{"Save" | uppercase}}</button>
+    </div>
+  </div>

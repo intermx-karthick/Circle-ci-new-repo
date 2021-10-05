@@ -1,0 +1,17 @@
+<div class='placePopup'>
+  <div fxLayout="row" fxLayoutAlign="space-between start" class='panel_nav' *ngIf="isFeature">
+    <a href="javascript:void(0);" class="prevPoiFrame {{interset.layerType}}">
+      <mat-icon class="prev">keyboard_arrow_left</mat-icon>
+    </a>
+    <div class='panel_nav_text'> {{ interset.currentPage }}/{{ interset.features.length }}</div>
+  <a href="javascript:void(0);" class="nextPoiFrame {{interset.layerType}}">
+      <mat-icon class="chevron-right next">keyboard_arrow_right</mat-icon>
+    </a>
+  </div>
+  <h5>{{placeDetail?.location_name | truncate:'middle':30}}</h5>
+  <div class="subtitle-1" *ngIf="placeDetail?.properties?.address as address">{{address?.street_address + ", " + address?.city | titlecase}}
+    {{address?.state | uppercase}}
+    {{address?.zip_code}}</div>
+  <div class="body-1" [title]="placeDetail?.top_category">Industry Type: <b>{{placeDetail['top_category'] | truncate : 'middle': 40}}</b></div>
+  <!--<div class="body-1">Number of Audited Inventory in Place: <b>N/A</b></div>-->
+</div>

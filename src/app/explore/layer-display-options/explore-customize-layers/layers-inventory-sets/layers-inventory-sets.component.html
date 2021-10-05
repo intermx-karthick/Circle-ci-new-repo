@@ -1,0 +1,44 @@
+<div>
+  <div class="search-div">
+    <mat-form-field class="search-text-field">
+      <mat-label class="label-cls">Search Inventory Sets</mat-label>
+      <input type="text" [formControl]="search" matInput autocomplete="off" class="input-field">
+      <mat-icon *ngIf="search.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">close
+      </mat-icon>
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+  <mat-list>
+    <ng-container *ngIf="inventories$ | async as inventories;">
+      <ng-container *ngIf="inventorySets.length > 0; else notFound">
+        <mat-list-item class="test-inventory-set-item" *ngFor="let set of inventorySets; let i = index;trackBy: trackById"
+          title="{{set.name}}">
+          <span matLine>{{set.name | truncate:'middle':18:6}} </span>
+          <div class="left-select">
+            <button class="select test-forward-button" mat-icon-button *ngIf="!set.selected; else notSelected"
+              (click)="moveInventory(set, i)">
+              <mat-icon matListIcon>arrow_forward</mat-icon>
+            </button>
+            <ng-template #notSelected><span class="selected ">
+                <mat-icon>check</mat-icon>
+              </span>
+            </ng-template>
+          </div>
+        </mat-list-item>
+      </ng-container>
+      <p class="text-center no-inventory-set" *ngIf="inventories.length <= 0 && !packagesLoading">
+        No Inventory set data found.
+      </p>
+    </ng-container>
+  </mat-list>
+  
+  <!--content loader -->
+  <ng-container *ngIf="packagesLoading">
+    <app-cl-list-right-checkbox></app-cl-list-right-checkbox>
+  </ng-container>
+  <!-- end content loader -->
+  
+  <ng-container *ngIf="totalInventorySetPages > currentInventorySetPage && !packagesLoading">
+    <div class="load-more-div"><button class="load-more-btn" (click)="loadMoreInventorySet()">Load More..</button></div>
+  </ng-container>
+</div>

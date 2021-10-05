@@ -1,0 +1,113 @@
+<div class="places-filter-tabs" [ngClass]="{'hide': !showFilter }">
+  <div class="mat-sidenav-div" fxFlexFill>
+      <mat-tab-group [(selectedIndex)]="selectedTab" fxFill class="explore-filter-tab-group" (selectedIndexChange)="onSelectedIndexChange()">
+          <mat-tab fxFlexFill>
+            <ng-template mat-tab-label>
+              Fine and Define
+            </ng-template>
+            <div fxLayout="row" fxFill>
+              <app-places-search (pushFilterLevel)= 'onPushFilterLevel($event)' (pushFilter)= 'onPushFilter($event)' *ngIf="filterLevel === 1"></app-places-search>
+              <app-places-details-search [summary] = "summary"
+              [filterData] = "filterData"
+              [filterOptions] = "filterOptions"
+              [appliedLocationFilterType] = "appliedLocationFilterType"
+              [placeTypes]="placeTypes"
+              (pushFilter)= 'onPushFilter($event)' *ngIf="filterLevel == 2" (pushFilterLevel)= 'onPushFilterLevel($event)'
+              (drawPolygon)="drawPolygonFunc()"
+              (drawCircularPolygon)="drawCircularPolygonFunc()"
+              (geoPolygon)="geoPolygonFunc($event)"
+              (removePolygon)="removePolygonFunc($event)"
+              (filterLocationsByRadius)="filterLocationsByRadiusFunc($event)"
+              ></app-places-details-search>  
+              <app-place-results
+                [filterData] = "filterData"
+                [searchResults]="placesResults"
+                [placeDataDetails]="placeDetailData"
+                *ngIf="selectedTab === 0 && filterLevel == 2"
+                [selectedTab] = "selectedTab"
+                (onHoverOnCard)="hoverOnCard($event)"
+                (onLeaveOnCard)="hoverOutOnCard()"
+                (onClickOnCard)="clickOnCard($event)"
+                (updateNationalLevel)="updateNationalLevelData($event)"
+                (selectedFids)= "selectedFids($event)"
+                >
+              </app-place-results>
+            </div>
+          </mat-tab>
+          <mat-tab fxFlexFill>
+            <ng-template mat-tab-label>
+              MY PLACES
+            </ng-template>
+
+            <div fxLayout="row" fxFill class="myplace-audit-jobs-block">
+              <app-my-places-filter
+                [poiData]='poiData'
+                [selectedPlaceSetId] = "selectedPlaceSet && selectedPlaceSet['_id']"
+                (filterByPlaceSet)="onFilterByPlaceSet($event)"
+                (pushFilterStatus)="onPushFilterStatus($event)" 
+              ></app-my-places-filter>
+              <app-place-results [poiData]='poiData'
+                [selectedPlaceSet] = "selectedPlaceSet"
+                (filterByPlaceSet)="onFilterByPlaceSet($event)"
+                *ngIf="selectedTab === 1 && placeSetLevel === 1"
+                [selectedTab] = "selectedTab"
+                (onHoverOnCard)="hoverOnCard($event)"
+                (onLeaveOnCard)="hoverOutOnCard()"
+                (onClickOnCard)="clickOnCard($event)"
+                (updateNationalLevel)="updateNationalLevelData($event)">
+              </app-place-results>
+              <ng-container *ngIf="placeAudit || openCreateNewPlace">
+                <app-audit-details
+                  [safegraphPlace]="safegraphPlace"
+                  [place]="placeAudit && placeAudit.currentPlace"
+                  [clientId]="placeAudit && placeAudit.clientId"
+                  [updatedPlacePosition]="updatedPlaceCoords"
+                  [updatedPlaceInfo]="updatedPlaceInfo"
+                  (facilityMapData)="onOpenFacilityMap($event)"
+                  (listHereIdDetails)="onOpenHerePlace($event)"
+                  (placeComplete)="placeCompleted()"
+                  (closeFacilityMap)="closeFacilityMap($event)"
+                  (closeDetailsWindow)="closeDetailsWindow($event)"
+                  [newPlaceData]="newPlaceData"
+                  [createNewPlace] = "openCreateNewPlace"
+                  >
+                </app-audit-details>
+              <app-facility-map
+                *ngIf="facilityMapVisible"
+                zoom="17"
+                [place]="placeAudit && placeAudit.currentPlace"
+                [clientId]="placeAudit && placeAudit.clientId"
+                [polygonFeature]="facilityMapData"
+                [placePosition]="placePosition"
+                [facilityAreaType]="facilityAreaType"
+                [buildingAreaFeature]="buildingAreaPolygon"
+                [openFacilityArea]="openFacilityArea"
+                (updatePolygonInfo)="updatePolygonInfo($event)"
+                (updatePlacePosition)="updatePlacePosition($event)"
+                (closeFacilityMap)="closeFacilityMap($event)"
+                [newPlaceData]="newPlaceData"
+                [createNewPlace] = "openCreateNewPlace"
+                ></app-facility-map>
+              <app-here-places *ngIf="isVisibleHerePlaces" [searchParams]="herePlaceSearchData" (selectedPlaces)="onConfirmPlace($event)" (closePlaseList)="closeHerePlaces($event)"></app-here-places>
+              </ng-container>
+            </div>
+          </mat-tab>
+          <mat-tab fxFlexFill>
+            <ng-template mat-tab-label>
+              Layers and Display Options
+            </ng-template>
+            <app-layers-and-display-options-template [layersOptionsList] = "layersOptionsList"
+      [displayOptionsList] = "displayOptionsList"></app-layers-and-display-options-template>
+            <!-- <app-layers-and-display-options
+              [layerType] = "'primary'"
+              [layersOptionsList] = "layersOptionsList"
+              [displayOptionsList] = "displayOptionsList"
+            > 
+            </app-layers-and-display-options>-->
+          </mat-tab>
+          <mat-tab>
+            <app-action-menu-template [printConatiner]= "'printContent'" [module]="'places'" (resetAll)="clearAllFromAction()"></app-action-menu-template>
+          </mat-tab>
+      </mat-tab-group>
+  </div>
+</div>

@@ -1,0 +1,177 @@
+.imx-widget-card{
+  box-shadow: unset;
+  margin: 0 !important;
+  .mat-card-header{
+   .mat-card-title{
+      margin: 10px 0px;
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 23px;
+    }
+  }
+  .mat-card-actions{
+    padding: 6px 0;
+    margin: 0;
+    .add-link{
+      color: var(--primary-bg);
+      font-weight: 700;
+    }    
+  }
+  .mat-button{
+    .mat-button-focus-overlay{
+      background: unset !important;
+    }
+  }
+}
+
+::ng-deep{
+  app-media-attribute-dialog{
+    .mat-expansion-panel{
+      margin-bottom: 0;
+      border-radius: 0px !important;
+      box-shadow: unset !important;
+      .mat-form-field-infix{
+        width: inherit !important ;
+      }
+      .mat-expansion-panel-header{
+          border-bottom: 1px solid;
+          border-color: var(--low-emphasis);
+          &.mat-expanded{
+            height: 48px !important;
+            border-bottom: 0px solid;
+          }
+          .mat-checkbox-label{
+            font-weight: 300 !important;
+            color: var(--high-emphasis);
+          }
+          .mat-checkbox{
+            margin-right: 10px;
+          }
+        }
+      mat-radio-group {
+        text-indent: 20px;
+        mat-radio-button {
+          padding: 5px 0;
+        }
+        .mat-radio-label-content {
+          color: var(--high-emphasis);
+          font-size: 14px;
+          font-weight: 400;
+          letter-spacing: 0.2px;
+          line-height: 20px;
+          text-indent: 0px;
+        }
+      }
+      .movermeny-panel-body {
+        padding-left: 20px !important;
+      }
+      .audit-panel-body {
+        padding-left: 25px !important;
+        .mat-list-text {
+          color: var(--high-emphasis) !important;
+          font-size: 14px  !important ;
+        }
+      }
+      .mat-expansion-panel-body{
+        padding-left: 0 !important;
+        max-height: 190px;
+        overflow: auto;
+        .input-section{
+          padding-left: 40px;
+        }
+      }
+    }
+    .attribute-loop-div{
+      &:last-child{
+        .mat-expansion-panel{
+          border-bottom: none!important;
+        }
+      }
+    }
+    .digital-attributes-class {
+      padding-left: 25px !important;
+    }
+    .footer-action {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      & > button {
+        height: 28px;
+        font-weight: bold;
+        letter-spacing: 0.83px;
+        line-height: normal;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.btn-primary-color {
+          background: var(--button-bg-color);
+          color: #ffffff;
+          margin-left: 8px;
+        }
+        &.btn-clear {
+          background-color: var(--grays-bg-200);
+        }
+      }
+    }
+    .left-side-list{
+      float: left;
+    }
+    .left-side-list,.right-side-list{
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      flex: 1 1 100%;
+      box-sizing: border-box;
+      max-width: 50%;
+    }
+    .ngx-slider{
+      .ngx-slider-selection, .ngx-slider-pointer{
+        background-color: var(--primary-bg);
+      }
+      .ngx-slider-pointer{
+        width: 16px;
+        height: 15px;
+        top: -5px; /* to remove the default positioning */
+        bottom: 0;
+        &:after{
+          display: none;
+        }
+        &.ngx-slider-active:after{
+          background-color: var(--primary-bg);
+          display: none;
+        }
+      }
+    }
+    .illumination-range-dody{
+      padding: 0 10px;
+      color: var(--high-emphasis);
+    }
+
+    .mat-accent .mat-pseudo-checkbox-checked, .mat-accent .mat-pseudo-checkbox-indeterminate, .mat-pseudo-checkbox-checked, .mat-pseudo-checkbox-indeterminate {
+    background: var(--primary-bg);
+    }
+  }
+  .imx-widget-card{
+    &.mat-card{
+      margin: 10px;
+      padding: 0;
+    }
+    .mat-list{
+      max-width: 100%;
+    }
+    .mat-button:hover .mat-button-focus-overlay, .mat-stroked-button:hover .mat-button-focus-overlay,.mat-button.cdk-program-focused .mat-button-focus-overlay {
+      opacity: 0;
+    }
+    .mat-list-item{
+      .mat-list-text{
+        padding-left: inherit !important;
+      }
+    }
+
+  }
+}
+.mat-card-header .mat-card-title {
+  font-size: 14px;
+}

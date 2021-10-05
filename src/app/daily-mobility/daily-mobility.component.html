@@ -1,0 +1,38 @@
+<div>
+  <section class="header-section">
+    <app-header fxFlexFill>
+      <div class="projected-title">
+        <i class="icon-custom icon-custom-carsharing"></i>
+        <span class="uppercase">Daily Mobility</span>
+      </div>
+      <div class="explore-header content-breadcrumb navbar-default projected-secondary" >
+        <div fxLayout="row" fxLayoutAlign="start stretch">
+          <div fxLayout="row">
+            <div class="explore-filter-btn" fxLayoutAlign="center center" [matMenuTriggerFor]="explorerMenu">EXPLORER</div>
+            <div class="explore-filter-btn" fxLayoutAlign="center center"  [matMenuTriggerFor]="reportsMenu">REPORT</div>
+          </div>
+          <mat-menu #explorerMenu="matMenu">
+            <button mat-menu-item (click) = "onChangeMenu('CBSAExplore')">by CBSA</button>
+            <button mat-menu-item (click) = "onChangeMenu('StateExplore')">by State</button>
+          </mat-menu>
+          <mat-menu #reportsMenu="matMenu">
+            <button mat-menu-item  (click) = "onChangeMenu('CBSAReport')">by CBSA</button>
+            <button mat-menu-item  (click) = "onChangeMenu('StateReport')">by State</button>
+          </mat-menu>
+        </div>
+      </div>
+    </app-header>
+    <div fxLayout="row" class="contant-section">
+
+    </div>
+  </section>
+  <div class="landing-page">
+    <div>
+      <section class="content">
+        <div class="no-p-t-b no-mobile-padding">
+          <router-outlet></router-outlet>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

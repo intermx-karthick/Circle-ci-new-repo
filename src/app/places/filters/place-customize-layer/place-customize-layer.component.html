@@ -1,0 +1,85 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" class="layer-customize-main-block" fxLayoutGap="20px">
+    <div fxFlex="50" class="left-side" fxFlexAlign="start">
+      <h6 class="test-available-layer">Available Layers</h6>
+      <div class="available-layers">
+        <mat-accordion>
+          <div  class="places-set-list" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+          (scrolled)="loadMorePlaceSets()" [scrollWindow]="false">
+          <app-layer-place-set
+          [filteredPlacePacks]= "filteredPlacePacks"
+          [type] = "'place collection'"
+          [isLoading]="isLoading"
+          (layer) = 'layer($event)'
+          >
+          </app-layer-place-set>
+        </div>
+          <app-layer-single-place
+          [selectedLayers] = "selectedLayers"
+          [map] = "map"
+          [type] = "'place'"
+          [clearLayer] = "clearLayer"
+          (layer) = "layer($event)"
+          >
+          </app-layer-single-place>
+
+          <app-layer-specific-geography
+          [selectedLayers] = "selectedLayers"
+          [clearLayer] = "clearLayer"
+          (layer) = "layer($event)"
+          >
+          </app-layer-specific-geography>
+        </mat-accordion>
+      </div>
+    </div>
+    <div fxFlex="50" class="right-side" fxFlexAlign="start">
+      <h6 class="test-selected-layer">Selected Layers</h6>
+      <div class="scroll-div">
+        <div id="boxContent" class="ngx-dnd-container" ngxDroppable [model]="selectedLayers">
+          <div class="ngx-dnd-item has-handle test-selected-places" *ngFor="let layer of selectedLayers; let i = index;" ngxDraggable [model]="layer" fxLayout="column" fxLayoutAlign="start center" [ngClass]="{'sinale-places':layer.type === 'place','open-color-palet':layer['id']=== SelectedLayerColorPalet}">
+            <div fxLayout="row" fxFill fxLayoutAlign="start center" class="header">
+
+              <div *ngIf="layer['icon'] === 'icon-numbered'" class="cursor-link expand-icon icon {{layer['icon']}} dot" (click)="openColorPalet(layer['id'])" [ngStyle]="{'background-color': layer['color']}"
+                title="Click to customize icon."></div>
+
+              <div *ngIf="layer['icon'] !== 'icon-numbered'" class="cursor-link expand-icon icon {{layer['icon']}}" (click)="openColorPalet(layer['id'])" [ngStyle]="{'color':layer['color']}"
+              title="Click to customize icon."></div>
+            <div fxLayout="column">
+                <span *ngIf="layer.type === 'place collection' || layer.type === 'geography'" class="title">{{isSmallScreen? (layer.data.name | truncate:'end':6) : (layer.data.name | truncate: 'middle':16:6)}}</span>
+              <div fxLayout="column">
+                  <span *ngIf="layer.type === 'place'" class="title" title="{{layer.data.properties.location_name}}">{{isSmallScreen?(layer.data.properties.location_name | truncate:'end':6) : (layer.data.properties.location_name | truncate: 'middle':16:6)}}</span>
+                <span *ngIf="layer.type === 'geopathId'" class="title">Geopath ID  {{layer.data}}</span>
+                  <span *ngIf="layer.type === 'place'" class="title caption" title="{{((layer.data.properties.street_address ? layer.data.properties.street_address + ',' : '' ) + '' + layer.data.properties.city  +',' + (layer.data.properties.state | uppercase) + ',' + layer.data.properties.zip_code )}}">{{isSmallScreen?(((layer.data.properties.street_address ? layer.data.properties.street_address + ',' : '' ) + '' + layer.data.properties.city  +',' + (layer.data.properties.state | uppercase) + ',' + layer.data.properties.zip_code ) | truncate:'end':6) : (((layer.data.properties.street_address ? layer.data.properties.street_address + ',' : '' ) + '' + layer.data.properties.city  +',' + (layer.data.properties.state | uppercase) + ',' + layer.data.properties.zip_code ) | truncate: 'middle':16:6)}}</span>
+                </div>
+            </div>
+            <span class="septater"></span>
+            <span class="action">
+              <button disableRipple class="drag-icon" title="Drag" mat-icon-button ngxDragHandle  (dndStart)="onDragStart($event)" (dndEnd)="onDragEnd($event)" >
+                <mat-icon >drag_handle</mat-icon>
+              </button>
+              <button disableRipple class="select" mat-icon-button title="Remove"  (click)="removeLayer(layer.data, layer.type, i)">
+                <mat-icon >clear</mat-icon>
+              </button>
+            </span>
+            </div>
+            <div *ngIf="layer['id']===SelectedLayerColorPalet" class="color-palet" fxFill>
+              <div [ngClass]="{'disabled-panel': layer['icon'] === 'icon-wink-pb-dig'}">
+                  <app-color-picker (appColorChange)="onAppColorChange(layer, $event, layer.type, layer['icon'])" inputLabel="Icon Color" appColor="{{layer['color']}}" (appColorClose)="onClose($event)" ></app-color-picker>
+              </div>
+              <div fxLayout="column" class="shape-slection" *ngIf="layer.type !== 'geopathId'">
+                <p>Icon Shape</p>
+                <div>
+                  <div *ngFor="let icon of customIcons" class="cursor-link icons-color-space {{icon}}"
+                  (click)="onAppColorChange(layer, layer['color'], layer.type, icon)"
+                  [ngStyle]="{'color':layer['icon'] == icon && layer['color'] || ''}"></div>
+                  <div class="cursor-link icons-color-space icon-wink-pb-dig" [ngStyle]="{'color':layer['icon'] == 'icon-wink-pb-dig' && layer['color'] || ''}" (click)="onAppColorChange(layer, layer['color'], layer.type, 'icon-wink-pb-dig')" *ngIf="layer.type === 'inventory collection'"></div>
+                  <div class="cursor-link expand-icon icon icon-numbered dot" [ngStyle]="{'background-color':layer['icon'] == 'icon-numbered' && layer['color'] || ''}" (click)="onAppColorChange(layer, layer['color'], layer.type, 'icon-numbered')" *ngIf="layer['id'] === 'default'"></div>
+
+                </div>
+              </div>
+            </div>
+            </div>
+        </div>
+        <p *ngIf="selectedLayers.length === 0" class="non-select test-no-selected-layers">No layers added. Please add layers from left column and apply them to the map.</p>
+      </div>
+    </div>
+  </div>

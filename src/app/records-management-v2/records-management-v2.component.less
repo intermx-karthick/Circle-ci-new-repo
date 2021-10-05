@@ -1,0 +1,64 @@
+::ng-deep {
+  app-records-management-v2 {
+    .body-content {
+      height: 100%;
+      .left-nav,
+
+      .body-inner-content {
+        height: calc(100vh - 120px);
+      }
+
+      .left-nav {
+        background: var(--grays-bg-50);
+        position: relative;
+        min-width: 120px;
+      }
+
+      .close-nav-div {
+        position: relative;
+      }
+
+      .close-nav-bar {
+        cursor: pointer;
+        position: absolute;
+        display: inline-block;
+        padding-top: 9px;
+        width: 20px;
+        height: 45px;
+        left: 0;
+        top: 10px;
+        background: var(--grays-bg-100);
+        border: 1px solid var(--grays-bg-300);
+        z-index: 1px;
+        mat-icon {
+          font-size: 30px;
+          margin-left: -7px;
+          margin-top: -3px;
+        }
+      }
+
+      &.closedNavBar {
+        .left-nav {
+          display: none;
+        }
+      }
+
+      .body-inner-content {
+        width: 100%;
+        background: #F9F9F9;
+        // overflow: auto;
+      }
+    }
+
+    .rc__sidebar-menu{
+      box-shadow: none;
+      background: #FCFCFC !important;
+      border-right: 1px solid var(--grays-bg-400);
+    }
+
+    // use if it matched with your design
+    .parent-group-autocomplete{
+      min-width:160px !important;
+    }
+  }
+}

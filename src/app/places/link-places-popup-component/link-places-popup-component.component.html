@@ -1,0 +1,35 @@
+
+<div class="map-popup">
+    <div class="popup-header">
+        <h4>
+            Associate Place
+        </h4>
+    </div>
+    <div class="popup-content">
+        <ul>
+            <li>
+                <span class="label">Place Name: </span>
+                <span>{{layerInfo.feature[0].properties.placeName}}</span>
+            </li>
+            <li>
+                <span class="label">
+                    Place Id:
+                </span>
+                <span>
+                    {{layerInfo.feature[0].properties.place_id}}
+                </span>
+            </li>
+        </ul>
+
+    </div>
+    <div class="popup-footer">
+        <button mat-raised-button *ngIf="layerInfo && layerInfo.place && layerInfo.place.building_area && layerInfo.place.building_area.building_area_id === null && layerInfo.place.udp_place_id !== null" type="button" class="btn-primary-color associate" color="primary">
+            Associate
+        </button>
+        <button mat-raised-button [disabled]="layerInfo && layerInfo.place && layerInfo.place.building_area && layerInfo.place.building_area.building_area_id !== null && layerInfo.place.property_area_id !== null"
+         *ngIf="layerInfo && layerInfo.place && layerInfo.place.building_area && layerInfo.place.building_area.building_area_id !== null && layerInfo.place.property_area_id !== null" 
+         title="This place already contains building and property area." type="button" class="btn-primary-disabled associate" color="primary">
+            Associate
+        </button>
+    </div>
+</div>

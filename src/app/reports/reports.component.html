@@ -1,0 +1,43 @@
+<div>
+  <section class="header-section">
+    <app-header fxFlexFill="">
+        <div class="projected-title">
+          <mat-icon class="mobile-hide">assessment</mat-icon>
+          <span class="uppercase">reports</span>
+        </div>
+        <div class="explore-header content-breadcrumb  projected-secondary" fxLayout="row">
+          <div fxLayout="row" fxLayoutAlign="start stretch">
+            <div fxLayout="row">
+              <!-- <div class="explore-filter-btn" fxLayoutAlign="center center" routerLink="/reports/impression-variation" >Impression Variation</div> -->
+            </div>
+          </div>
+          <!-- <div class="mobile-hide" appAccessModule navModule="explore">
+            <a routerLink="/explore"  class="filter-button">Go back to Explore tab</a>
+          </div> -->
+        </div>
+    </app-header>
+  </section>
+  <div fxLayout="row" fxLayoutAlign="start start" fxFill class="body-content"  [ngClass] = "{'closedNavBar' : isClosedNavBar}">
+    <div fxFlex="20%" class="left-nav">
+      <div class="navBarPanel"><app-reports-nav-left></app-reports-nav-left></div>
+    </div>
+    <!-- <div class="close-nav-div">
+      <span class="close-nav-bar" (click) = 'toggleNavBar()'>
+        <mat-icon *ngIf="!isClosedNavBar; else closedNavBar">arrow_left</mat-icon>
+        <ng-template #closedNavBar><mat-icon >arrow_right</mat-icon></ng-template>
+      </span>
+    </div> -->
+    <div class="body-inner-content" id="report-form-card_SCROLLABLE" (scroll)='reportAPIService.dispatchScroll()'>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <!-- <div class="landing-page">
+    <div>
+      <section class="content">
+        <div class="no-p-t-b no-mobile-padding">
+          <router-outlet></router-outlet>
+        </div>
+      </section>
+    </div>
+  </div> -->
+</div>

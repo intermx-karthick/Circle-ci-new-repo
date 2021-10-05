@@ -1,0 +1,18 @@
+<a class="button-primary-link" *ngIf="!data || !data['state']" (click)="toggleSuggestion()">
+  <span *ngIf="data && data['suggestion']; else suggestChange">Edit Suggestion</span>
+  <ng-template #suggestChange>Suggest Changes</ng-template>
+</a> 
+<div
+  class="suggestion-changes"
+  *ngIf="data && data['state']"
+>
+  <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="5px" class="suggestion-fields">
+    <mat-form-field>
+      <input matInput placeholder="Enter Suggested Value" [(ngModel)]="suggestion"/>
+    </mat-form-field>
+    <button mat-raised-button class="close-btn" (click)="toggleSuggestion(false)">
+      <mat-icon>close</mat-icon>
+    </button>
+    <button mat-raised-button class="apply-btn uppercase" (click)="saveSuggestion()">SAVE</button>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<div class="imx-tooltip-panel" [id]="panelElementID">
+    <div class="imx-tooltip-panel__content" [innerHtml]="data?.content">
+    </div>
+    <div class="imx-tooltip-panel__link" *ngIf="data?.url">
+        <a [href]="data?.url" target="_blank"><span>View more Details</span> <mat-icon svgIcon="IMX-new-tab"></mat-icon></a>
+    </div>
+</div>

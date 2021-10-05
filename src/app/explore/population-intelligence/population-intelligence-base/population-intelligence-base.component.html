@@ -1,0 +1,101 @@
+<div class="pop_intel-container" fxLayout="column" [ngClass]="{'extended': selectedProduct?.value}">
+  <div class="pop_intel-trigger" fxLayout="row">
+    <ng-container  *ngFor="let product of products; trackBy: productTrackBy">
+      <div class="pop_intel-trigger-item" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center" (click)="selectProduct(product)" [ngClass]="{'active': product.value === selectedProduct?.value}" >
+        <mat-icon [svgIcon]="product.iconName" class="pop_intel-icon"></mat-icon>
+        <div>{{product.label}}</div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="pop_intel-form" fxFlex="grow" *ngIf="selectedProduct?.value">
+    <form [formGroup]="populationIntelForm">
+      <mat-form-field class="imx-dropdown imx-input" *ngIf="!populationIntelForm.controls.viewNational.value && selectedProduct.value !== 'anytimePopulation'">
+        <mat-label>Select ZIP Code</mat-label>
+        <mat-select formControlName="zipCode" panelClass="imx-select">
+          <mat-option>Select</mat-option>
+          <mat-option *ngFor="let zipCode of zipCodeList$ | async ; trackBy: zipCodeTrackBy" [value]="zipCode">{{zipCode.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="imx-dropdown imx-input" *ngIf="populationIntelForm.controls.viewNational.value && selectedProduct.value !== 'anytimePopulation'">
+        <mat-label>Select DMA</mat-label>
+        <mat-select formControlName="dma" panelClass="imx-select">
+          <mat-optiodman>Select</mat-optiodman>
+          <mat-option  *ngFor="let dma of dmaList$ | async | keyvalue; trackBy: dmaTrackBy" [value]="dma">{{dma.value?.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="imx-dropdown imx-input" *ngIf="selectedProduct.value === 'anytimePopulation'">
+        <mat-label>Select Target Segment</mat-label>
+        <mat-select formControlName="targetSegment" panelClass="imx-select">
+          <mat-option>Select</mat-option>
+          <mat-option  *ngFor="let segment of targetSegments; index as i" [value]="segment">{{segment.description}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div fxLayout="row" fxLayoutAlign="flex-start center" fxLayoutGap="10px" class="toggle_switch_field bottom-space"  *ngIf="selectedProduct.value === 'anytimePopulation'">
+        <label for="percentageOrPopulation">Percentage</label>
+        <mat-slide-toggle class="pop_intel-toggle" formControlName="percentageOrPopulation" id="percentageOrPopulation" name="percentageOrPopulation"></mat-slide-toggle>
+        <label for="percentageOrPopulation">Population</label>
+      </div>
+      <mat-form-field class="imx-dropdown imx-input">
+        <mat-label>Select Time Frame</mat-label>
+        <mat-select formControlName="timeFrame" panelClass="imx-select">
+          <mat-option>Select</mat-option>
+          <mat-option  *ngFor="let timeframe of timeframes; index as i" [value]="timeframe.value">{{timeframe.description}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="pop_intel-days-container">
+        <div fxLayout="row" class="range-slide-toggle" fxFlex="20rem" fxLayoutAlign="start center">
+          <div fxFlex="30%">
+            <mat-slide-toggle name="weekSelection" class="pop_intel-toggle" [labelPosition]="'before'" formControlName="allDays">7 Days</mat-slide-toggle>
+          </div>
+          <div fxFlex="70%">
+            <mat-button-toggle-group formControlName="selectedDays" #group="matButtonToggleGroup">
+              <mat-button-toggle
+                *ngFor="let day of daysInWeek"
+                value="{{day.value}}">{{day.label}}</mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+        </div>
+      </div>
+      <div class="pop_intel-form-body">
+        <mat-slide-toggle class="pop_intel-toggle" [labelPosition]="'before'" name="viewNational" formControlName="viewNational">View National</mat-slide-toggle>
+        <div *ngIf="selectedProduct.value !== 'tradeAreaAnalysis' && !populationIntelForm.controls.viewNational.value">
+          <div fxLayout="row" fxLayoutAlign="space-between center" class="toggle_switch_field top-space">
+            <label for="dailyOrHourlyAverage">Daily Average</label>
+            <mat-slide-toggle class="pop_intel-toggle" formControlName="dailyOrHourlyAverage" id="dailyOrHourlyAverage" name="dailyOrHourlyAverage"></mat-slide-toggle>
+            <label for="dailyOrHourlyAverage">Hourly Average</label>
+          </div>
+          <div class="top-space">
+            <menu-slider
+              id="hourly-slider"
+              [animated]="true"
+              [animating]="sliderAnimating"
+              (animatingChange)="sliderAnimatingChange($event)"
+              [value]="selectedHour"
+              (valueChange)="selectedHourChange($event)"
+              [maxValue]="23"
+              [wrapperClass]="typeClass"
+              [hideValueLabel]="true"
+            ></menu-slider>
+          </div>
+        </div>
+        <div class="pop_intel-national-section top-space" *ngIf="populationIntelForm.controls.viewNational.value">
+          <mat-form-field class="imx-dropdown imx-input">
+            <mat-label>Chart Groups</mat-label>
+            <mat-select formControlName="nonLocalChartGroups" panelClass="imx-select">
+              <mat-option  *ngFor="let chartOption of nonlocalChartGroupOptions ; index as i" [value]="chartOption.value">{{chartOption.text}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="pop_intel-footer" fxLayout="column" fxLayoutAlign="center center"  *ngIf="selectedProduct?.value">
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+      <img src="../../../../assets/images/intermx-logo-2021.svg" alt="InterMX logo">
+      <mat-icon>favorite</mat-icon>
+      <span>'s</span>
+      <h6>OOH</h6>
+    </div>
+    <p>Click here for additional Insights or Direct API access</p>
+  </div>
+</div>

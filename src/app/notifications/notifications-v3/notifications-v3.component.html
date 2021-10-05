@@ -1,0 +1,151 @@
+<section class='notifications-v3 intermx-theme-new' *ngIf='isNotificationsAvailable; else noNotifications'>
+  <div class='notifications-list' infiniteScroll [infiniteScrollDistance]='2'
+       [infiniteScrollThrottle]='100'
+       [style]="{'max-height': listHeight}"
+       (scrolled)='loadMoreNotifications(notificationTypeId)'
+       [scrollWindow]='false'>
+
+    <div class='notification-item'
+         fxLayout='row'
+         fxLayoutAlign='space-between start'
+         *ngFor='let notification of notifications; trackBy: trackNotifications; let index = index'>
+      <div fxFlex='5' class='notification-icon color-{{notification.alertType.name}}' *ngIf='!jobType; else jobIcons'>
+        <mat-icon [matTooltip]='notification.alertType.label'>{{notification.alertType.icon}}</mat-icon>
+      </div>
+
+      <div class='notification-item-content'
+           [ngStyle]="{'maxWidth':  notification.moduleData['topic'] == 'inventory_plans' && notification?.moduleData['errorType'] == 'limitIssue'  ? '100%': '270px'}"
+           fxFlex>
+        <div *ngIf='notification.jobs._id; else messageRef'>
+          <div (click)='selectNotification(notification)'>
+            <h6 [ngClass]="{'cursor-pointer': notification?.moduleData?.entityType === 'ScenarioInventoryPlans'}"
+                class='notifications-v3__plan-title'>
+              {{ notification.moduleData['entityType'] == 'ScenarioInventoryPlans' || notification.moduleData['entityType'] == 'ScenarioReports' || (notification.jobs.status == 'inProgress' && notification.moduleData['entityType'] == 'InventoryReports') ? notification?.moduleData['name'] : notification.links && notification.links[0] && notification.links[0].label || ''}}
+            </h6>
+
+            <p class='notifications-v3__plan-message' fxLayout='row' fxLayoutAlign='start center'>
+              <ng-container *ngIf="(notification.moduleData['topic'] === 'reports' && notification.jobs.status === 'completed' && notification.jobs?.state !== 'error' && !notification?.moduleData['errorType']); else normalNotification">
+                <a *ngIf="notification.moduleData['topic'] == 'reports'  && notification.links.length > 0 && AppRegularExp.PDF.test(notification.links[0].url)"
+                  (click)='$event.stopPropagation();markNotificationAsRead(notification)'
+                  tooltipv2='Download PDF' placement='left' delay='200' tooltipClass='imx-tooltip-v3'
+                  customClass='imx-field-tooltip'
+                  class="normal-link"
+                  target='_blank'
+                  href='{{notification.links[0].url}}'>
+                  {{notification.message}}
+                </a>
+
+                <a *ngIf="notification.moduleData['topic'] == 'reports' && notification.links.length > 0 && AppRegularExp.CSV.test(notification.links[0].url)"
+                  (click)='$event.stopPropagation();markNotificationAsRead(notification)'
+                  tooltipv2='Download CSV' placement='left' delay='200' tooltipClass='imx-tooltip-v3'
+                  customClass='imx-field-tooltip'
+                  class="normal-link"
+                  href='{{notification.links[0].url}}'>
+                  {{notification.message}}
+                </a>
+
+                <a *ngIf="notification.moduleData['topic'] == 'reports' && notification.links.length > 0 && AppRegularExp.ZIP.test(notification.links[0].url)"
+                  (click)='$event.stopPropagation();markNotificationAsRead(notification)'
+                  tooltipv2='Download ZIP' placement='left' delay='200' tooltipClass='imx-tooltip-v3'
+                  customClass='imx-field-tooltip'
+                  class="normal-link"
+                  href='{{notification.links[0].url}}'>
+                  <span *ngIf="notification.moduleData['entityType'] == 'BillingExportReports' && notification.moduleData['summary'] as summary" class="billing-export-desc"> Total {{summary['totalRecords']}} , TXT Exported {{summary['totalFiles']}} <br>
+                    File count in zip {{summary['fileCountInZip']}}  </span>
+                  <span *ngIf="notification.moduleData['entityType'] != 'BillingExportReports'">{{notification.message}}</span>                   
+
+                </a>
+
+                <a *ngIf="notification.moduleData['topic'] == 'reports' && notification.links.length > 0 && AppRegularExp.XLS.test(notification.links[0].url)"
+                  (click)='$event.stopPropagation();markNotificationAsRead(notification)'
+                  tooltipv2='Download XLS' placement='left' delay='200' tooltipClass='imx-tooltip-v3'
+                  customClass='imx-field-tooltip'
+                  class="normal-link"
+                  href='{{notification.links[0].url}}'>
+                  {{notification.message}}
+                </a>
+              </ng-container>
+              <ng-template #normalNotification>
+                <span fxFlex='100%' [ngClass]="{'cursor-pointer': notification?.moduleData?.entityType === 'ScenarioInventoryPlans'}" >
+                  {{notification.message}}
+                </span>
+              </ng-template>
+
+              <mat-icon
+                *ngIf="notification?.moduleData['errorType'] == 'limitIssue' &&  notification.moduleData['entityType'] == 'ScenarioInventoryPlans'"
+                svgIcon='IMX-alert'></mat-icon>
+            </p>
+
+            <div
+              *ngIf="notification?.moduleData['errorType'] == 'limitIssue' && notification.moduleData['entityType'] == 'ScenarioInventoryPlans' && !notification.isRead && !notification['isDismissed']">
+              <button (click)='$event.stopPropagation();handleModify(notification)'
+                      mat-button class='imx-button-stroked notifications-v3__modify-btn'>
+                Modify
+              </button> <!-- if 15k plan error -->
+              <button (click)='$event.stopPropagation();handleDismiss(notification)' mat-button class='imx-button-basic'>Dismiss</button>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #messageRef>
+          <h6>{{notification.message}}</h6>
+          <a *ngIf='notification.links.length > 0'
+             href='{{notification.links[0].url}}'>{{notification.links[0].label}}</a>
+        </ng-template>
+      </div>
+
+      <span>
+        <div fxFlex='5' class='notification-action'>
+          <mat-icon *ngIf='(!notification.jobs._id && !notification.isRead);else jobsIcons' tooltipv2='Mark As Read' placement='left' delay='200'
+                    tooltipClass='imx-tooltip-v3' customClass='imx-field-tooltip'
+                    (click)='markNotificationAsRead(notification)'>close</mat-icon>
+
+          <ng-template #jobsIcons>
+            <a *ngIf="notification.moduleData['topic'] == 'reports'  && notification.links.length > 0 && AppRegularExp.PDF.test(notification.links[0].url)"
+              (click)='markNotificationAsRead(notification)'
+              tooltipv2='Download PDF' placement='left' delay='200' tooltipClass='imx-tooltip-v3'
+              customClass='imx-field-tooltip'
+              target='_blank'
+              href='{{notification.links[0].url}}'>
+              <mat-icon svgIcon='IMX-pdf-download'></mat-icon>
+            </a>
+
+            <a *ngIf="notification.moduleData['topic'] == 'reports' && notification.links.length > 0 && AppRegularExp.CSV.test(notification.links[0].url)"
+              (click)='markNotificationAsRead(notification)'
+              tooltipv2='Download CSV' placement='left' delay='200' tooltipClass='imx-tooltip-v3'
+              customClass='imx-field-tooltip'
+              href='{{notification.links[0].url}}'>
+              <mat-icon svgIcon='IMX-csv-download'></mat-icon>
+            </a>
+
+            <a *ngIf="notification.moduleData['topic'] == 'reports' && notification.links.length > 0 && AppRegularExp.ZIP.test(notification.links[0].url)"
+              (click)='markNotificationAsRead(notification)'
+              tooltipv2='Download ZIP' placement='left' delay='200' tooltipClass='imx-tooltip-v3'
+              customClass='imx-field-tooltip'
+              href='{{notification.links[0].url}}'>
+              <mat-icon svgIcon='IMX-zip-download'></mat-icon>
+            </a>
+
+            <a *ngIf="notification.moduleData['topic'] == 'reports' && notification.links.length > 0 && AppRegularExp.XLS.test(notification.links[0].url)"
+              (click)='markNotificationAsRead(notification)'
+              tooltipv2='Download XLS' placement='left' delay='200' tooltipClass='imx-tooltip-v3'
+              customClass='imx-field-tooltip'
+              href='{{notification.links[0].url}}'>
+              <mat-icon svgIcon='IMX-xls-download'></mat-icon>
+            </a>
+          </ng-template>
+        </div>
+    </span>
+    </div>
+  </div>
+</section>
+<ng-template #noNotifications>
+  <div [style]="{'max-height': listHeight}">
+    <app-empty-notifications-message></app-empty-notifications-message>
+  </div>
+</ng-template>
+<ng-template #jobIcons>
+  <div fxFlex='5' class='notification-icon in-progress' *ngIf="jobType === 'inProgress'">
+    <mat-icon svgIcon='IMX-ellipsis-animated'></mat-icon>
+  </div>
+</ng-template>

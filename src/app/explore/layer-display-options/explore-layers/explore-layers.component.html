@@ -1,0 +1,38 @@
+<div class="layers-filter-body" fxLayout="row">
+  <mat-tab-group class="layers-filter-tab-group"  (selectedIndexChange)="tabchange($event)">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>layers</mat-icon>
+        <span class="test-layers">Layers</span>
+      </ng-template>
+      <div class="tab-body">
+        <app-explore-customize-layers (changeOfLayers) = "onChangeOfLayer($event)" [layerType] = 'layerType' [layerID] = 'layerID'></app-explore-customize-layers>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>compare</mat-icon>
+        <span class="test-display-options">Display Options</span>
+      </ng-template>
+      <div class="tab-body">
+        <app-display-options (changeOfDisplayOption) = "onChangeOfDisplayOption($event)" [layerType] = 'layerType' [layerID] = 'layerID'></app-display-options>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>exit_to_app</mat-icon>
+        <span class="test-saved-view-tab">Load Saved View</span>
+      </ng-template>
+      <div class="tab-body">
+        <app-load-save-view></app-load-save-view> 
+      </div>
+    </mat-tab> 
+  </mat-tab-group>  
+</div>
+  <div class="layers-filter-footer" fxLayout="row" fxLayoutAlign="end center" [ngClass]="{ 'module-disable':allowInventory === 'disabled'}">
+    <button mat-raised-button class="button button-secondary uppercase clear-btn test-clear-all-btn"  *ngIf="tabSelectedIndex !==2" (click)="clearAll()">Clear All</button>
+    <!-- have commented save view button, we will enable later-->
+    <button mat-raised-button class="button button-secondary uppercase clear-btn test-save-view-btn" *ngIf="tabSelectedIndex !==2" (click)="onSaveView()">Save View</button>
+    <button mat-raised-button class="button button-secondary uppercase clear-btn" *ngIf="tabSelectedIndex !==2 && selectedView" (click)="onUpdateView()">Update View</button>
+    <button mat-raised-button class="button button-primary-color uppercase btn-primary-color test-apply-btn" (click)="onApply()">Apply View</button>
+  </div>

@@ -1,0 +1,160 @@
+.c-estimate-form {
+
+  .estimation-form__delete-icon {
+    cursor: pointer;
+    color: var(--primary-bg-800);
+    width: 14px !important;
+    height: 18px !important;
+    font-size: 22px;
+    line-height: 18px !important;
+  }
+  .estimation-form__duplicate-icon {
+    cursor: pointer;
+    color: var(--primary-bg-800);
+    height: 22px !important;
+    width: 19px !important;
+    font-size: 22px;
+    line-height: 18px !important;
+  }
+
+  .date-picker-icon_input {
+    font-size: .83rem !important;
+    height: .83rem !important;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  &__product-code{
+    p {
+      font-size: 14px;
+      line-height: 18px;
+      margin: 0;
+      font-weight: normal;
+      min-height: 24px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      cursor: default;
+      color: var(--grays-bg-800);
+    }
+
+    span{
+      font-size: 14px;
+      line-height: 18px;
+      color: var(--grays-bg-500);
+    }
+  }
+
+  &__estimate-date-block{
+    margin: .5rem 0 2rem 0;
+
+    &_client-requirement-code{
+      margin-left: .5rem;
+    }
+  }
+}
+
+::ng-deep {
+  app-estimate-form {
+    .estimate-form__product-code{
+      .mat-form-field-underline{
+        display: none !important;
+      }
+    }
+
+    .label-heading {
+      font-size: 0.625rem;
+      color: var(--grays-bg-800);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .placeholder-default {
+      .mat-select-value-text {
+        color: var(--low-emphasis)
+      }
+    }
+
+    .extend-error-msg-space{
+      .mat-form-field-subscript-wrapper {
+        width: 180px !important;
+        margin-top: 0.6rem;
+      }
+    }
+
+    .error-field-width {
+      &.mat-form-field-invalid {
+        .mat-form-field-subscript-wrapper {
+          width: 230px;
+          margin-top: 0.8rem;
+        }
+      }
+    }
+    .bottom-space{
+      margin-bottom:1.5rem;
+    }
+
+    .imx-input-no-border {
+      height: auto;
+      border: none;
+    }
+
+    .estimate-date-block {
+      margin-top: 12px;
+      padding: 8px 16px 10px;
+      border: 1px solid var(--primary-bg);
+      border-radius: 5px;
+      display: block;
+      min-width: 21.5rem;
+      .mt2-rem {
+        margin-top: 2rem;
+      }
+
+      .width-50 {
+        width: 50%;
+      }
+    }
+
+    .mat-form-field-subscript-wrapper {
+      width: 100px;
+      .mat-error{
+        font-size: 0.565rem !important;
+        line-height: 11px !important;
+      }
+    }
+
+    .details-mat-form-field {
+      margin-right: 40px !important;
+
+      .mat-link-icon {
+        position: absolute;
+        right: -24px;
+        top: 4px;
+        color: var(--primary-bg) !important;
+      }
+
+      .mat-link-icon.for-mat-select{
+        top: -12px;
+      }
+    }
+  }
+
+  .imx-calander {
+    .mat-calendar-body-disabled  .mat-calendar-body-cell-content:not(.mat-calendar-body-selected) {
+      color: var(--grays-bg-400) !important;
+    }
+  }
+
+  .mat-select-panel-wrap{
+    margin: 16px;
+  }
+}

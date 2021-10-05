@@ -1,0 +1,125 @@
+.pop_intel-container {
+  background: #F9F9F9;
+  border-radius: 0 0 4px 4px;
+  width: 322px;
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  &.extended {
+    min-height: 450px;
+  }
+  .pop_intel-trigger {
+    padding: 16px 40px;
+  }
+  .pop_intel-trigger-item {
+    cursor: pointer;
+    & > div {
+      font-size: 12px;
+      line-height: 15px;
+      text-align: center;
+    }
+    &.active {
+      div {
+        color: var(--primary-bg);
+      }
+    }
+  }
+  .top-space {
+    margin-top: 12px;
+  }
+  .bottom-space {
+    margin-bottom: 12px;
+  }
+  .pop_intel-form {
+    margin: 0 16px 0 24px;
+    & mat-form-field {
+      width: 100%;
+    }
+    & .pop_intel-form-body {
+      padding: 20px 0 12px 0;
+    }
+    & .toggle_switch_field {
+      & label {
+        font-size: 14px;
+      }
+    }
+  }
+  .pop_intel-footer {
+    & mat-icon {
+      color: #6497B1;
+      margin-right: 2px;
+    }
+    & h6 {
+      font-size: 14px;
+      font-weight: 700;
+      margin: 0;
+    }
+    & p {
+      font-size: 10px;
+    }
+  }
+}
+::ng-deep {
+  app-population-intelligence {
+    mat-slide-toggle {
+      & .mat-slide-toggle-bar {
+        width: 24px;
+        height: 13.5px;
+      }
+      & .mat-slide-toggle-thumb {
+        width: 10px;
+        height: 10px;
+      }
+      & .mat-slide-toggle-thumb-container {
+        width: 10px;
+        height: 10px;
+        top: 1.5px;
+        left: 1px;
+      }
+      &.mat-checked {
+        .mat-slide-toggle-thumb-container {
+          left: -3.5px;
+        }
+        .mat-slide-toggle-thumb {
+          background-color: var(--text-whites) !important;
+        }
+        .mat-slide-toggle-bar {
+          background-color: var(--primary-bg) !important;
+        }
+      }
+    }
+    & mat-button-toggle-group {
+      color: #9e9e9e;
+      &.mat-button-toggle-group-appearance-standard {
+        border-radius: 0;
+        border-color: #9e9e9e;
+      }
+      & > mat-button-toggle {
+        min-width: 24px;
+        height: 25px !important;
+        &.mat-button-toggle {
+          .mat-button-toggle-label-content {
+            padding: 0 3px;
+            line-height: 27px !important;
+          }
+         &+.mat-button-toggle {
+           border-left: solid 2px #9e9e9e !important;
+         }
+        }
+      }
+    }
+    .pop_intel-trigger-item {
+      mat-icon {
+        font-size: 32px;
+        & path {
+            fill: var(--grays-bg-800);
+        }
+      }
+      &.active {
+        mat-icon path {
+              fill: var(--primary-bg);
+            }
+      }
+    }
+  }
+}

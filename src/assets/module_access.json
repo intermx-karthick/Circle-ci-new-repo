@@ -1,0 +1,57 @@
+{
+        "projects": {
+            "status": "disabled",
+            "edit": false,
+            "view": false
+        },
+        "explore": {
+            "features": {
+                "gpAudience": {
+                    "status": "hidden",
+                    "edit": true,
+                    "view": true
+                },
+                "gpInventory": {
+                    "status": "hidden",
+                    "edit": true,
+                    "view": true
+                }
+            },
+            "status": "active",
+            "view": true
+        },
+        "markets": {
+            "status": "disabled",
+            "edit": false,
+            "view": false
+        },
+        "reports": {
+            "status": "disabled",
+            "edit": false,
+            "view": false
+        },
+        "share": {
+            "status": "disabled",
+            "edit": false,
+            "view": false
+        },
+        "help": {
+            "status": "hidden",
+            "edit": false,
+            "view": false
+        },
+        "profile": {
+            "status": "disabled",
+            "edit": false,
+            "view": false
+        },
+        "settings": {
+            "status": "disabled",
+            "edit": false,
+            "view": false
+        },
+        "support": {
+            "status": "hidden",
+            "view": false
+        }
+    }

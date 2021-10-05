@@ -1,0 +1,36 @@
+<div class="app-archived-exports archived-exports">
+    <fom [formGroup]="archiExportForm">
+        <div fxLayout="column" fxLayoutAlign="space-between start">
+            <div class="content-width">
+                <mat-form-field appearance="outline" class="full-width form-search-field">
+                    <input matInput class="imx-input-no-border" [formControl]="archiExportForm"
+                        placeholder="Search Exports" />
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="content-width">
+
+                <div class="export-list-body" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                    (scrolled)="loadMoreExportList()" [scrollWindow]="false">
+                    <mat-list>
+                        <mat-list-item class="test-place-set-item"
+                            *ngFor="let report of archiExportList;trackBy:trackByFn; let i = index;"
+                            title="{{report?.link?.label}}">
+                            <span matLine (click)="initLinkDownload(report?.link)"
+                                [innerHTML]="report?.link?.label | imx_highlight: archiExportForm?.value">
+                            </span>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+
+                <div *ngIf="isLoading" class="spiner-div">
+                    <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+                </div>
+
+                <p class="placeholder-color text-center mtb-10" *ngIf="!isLoading && !archiExportList.length">
+                    No Exports found.
+                </p>
+            </div>
+        </div>
+    </fom>
+</div>

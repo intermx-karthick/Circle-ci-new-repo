@@ -1,0 +1,111 @@
+@import '../../../../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
+@import '../../../../assets/css/variables.less';
+::ng-deep {
+  app-places-filters {
+    .mat-accordion .mat-expansion-panel:first-of-type {
+      border-top-right-radius: 0px;
+      border-top-left-radius: 0px;
+    }
+    .mat-accordion .mat-expansion-panel:last-of-type {
+      border-bottom-right-radius: 0px;
+      border-bottom-left-radius: 0px;
+    }
+    .explore-filter-tab-group {
+      > mat-tab-header {
+        display: none !important;
+      }
+    }
+    .places-filter-tabs {
+      // min-width: 480px;
+      height: 100%;
+      .mat-sidenav-div {
+        mat-tab-group {
+          mat-tab-body {
+            .mat-tab-body-content {
+              overflow: hidden !important;
+            }
+            mat-tab-group {
+              .mat-tab-body-content {
+                overflow: hidden !important;
+              }
+            }
+            > :not(mat-tab-group) {
+              .mat-tab-body-content {
+                overflow: auto !important;
+                overflow-x: hidden !important;
+              }
+            }
+          }
+        }
+      }
+    }
+    .action-container {
+      margin: 20px 0;
+      /* & > button:not(:last-child) {
+        margin-right: 20px;
+      } */
+      button {
+        height: 28px;
+        // padding: 0 3px;
+        min-width: 55px;
+        font-size: 10px;
+        font-weight: bold;
+        letter-spacing: 0.83px;
+        line-height: normal;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.btn-primary-color {
+          background: var(--button-bg-color);
+          color: #ffffff;
+          margin-left: 8px;
+        }
+        &.btn-clear {
+          background-color: var(--grays-bg-200);
+        }
+      }
+    }
+
+    .layers-filter-body{
+      max-width: 670px;
+      min-width: 670px;
+      overflow: hidden;
+      .mat-tab-body-wrapper{
+        .layers-filter-body{
+          height: calc(100vh - 305px);
+          .mat-tab-body-wrapper{
+            .mat-tab-body:first-child{
+              .mat-tab-body-content{
+                overflow: hidden !important;
+              }
+            }
+          }
+        }
+        mat-tab-header .mat-tab-label-container .mat-tab-label {
+          height: 28px;
+          font-size: 12px;
+        } 
+      }
+    }
+    .actions-filter-body{
+      width: 670px;
+    }
+  }
+  .myplace-audit-jobs-block{
+    position: relative;
+    overflow:  hidden !important;
+    app-my-places-filter{
+      position: relative;
+      overflow:  hidden !important;
+    }
+      app-facility-map{
+        box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.15);
+      }
+      .building-area-map{
+        app-facility-map{
+          box-shadow: unset;
+        }
+      }
+  }
+}

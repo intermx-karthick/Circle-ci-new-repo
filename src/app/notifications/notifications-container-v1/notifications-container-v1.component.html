@@ -1,0 +1,76 @@
+<div class="notifications-container intermx-theme-new mat-elevation-z2">
+  <div class="notifications-title" fxLayout="row" fxLayoutAlign="space-between center">
+    <h6 fxFlex>NOTIFICATIONS</h6>
+    <mat-icon matRipple (click)="closeNotification()" placement="left" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" tooltipv2="Close" class="close-icon">
+      close
+    </mat-icon>
+  </div>
+
+  <div class="notification-loading" *ngIf="isLoading">
+    <mat-spinner diameter="30"></mat-spinner>
+  </div>
+
+  <div class="notifications-body" *ngIf="notificationData$ | async as notificationData;">
+    <ng-container *ngIf="overAllNotificationCount > 0; else noAlerts;">
+
+      <mat-tab-group mat-align-tabs="start" class="imx-tab-capital">
+        <mat-tab *ngFor="let category of notificationData; trackBy: trackCategories">
+          <ng-template mat-tab-label>
+            <div class="notification__lable" fxLayout fxLayoutAlign="center center">
+              <span>{{category.name}}</span>
+              <span *ngIf="isNewNotificationAvailable(category.notifications)"
+                    class="notify-dot">.</span>
+            </div>
+          </ng-template>
+          <ng-container *ngIf="category.name === 'job' else normalNotificationList">
+            <ng-container *ngIf="category?.completed['count'] > 0 || category?.inProgress['count'] > 0; else noAlerts">
+              <ng-container *ngIf="category.completed['count'] > 0">
+                <div class="tab__description" fxLayout fxLayoutAlign="space-between center">
+                  <div class="job-status">Recently completed ({{category.completed['count'] || 0}})</div>
+                  <button mat-button (click)="handleClear('completed', category._id)" class="tab__description_view-all">CLEAR</button>
+                </div>
+                <app-notifications-v3 (loadMore)="loadMoreNotifications(category._id, 'completed')"
+                                      (markAsRead)="markAsRead($event)"
+                                      (dismiss)='handleDismiss($event)'
+                                      (select)="selectNotification($event)"
+                                      listHeight="{{category.inProgress['count'] > 0 ? '40vh' : '80vh'}}"
+                                      [notificationTypeId]="category._id"
+                                      [jobType]="'completed'"
+                                      [notifications]="category.completed?.notifications">
+                </app-notifications-v3>
+              </ng-container>
+              <ng-container *ngIf="category.inProgress['count'] > 0">
+                <mat-divider *ngIf="category?.completed?.notifications"></mat-divider>
+
+                <div class="tab__description" fxLayout fxLayoutAlign="space-between center">
+                  <div class="job-status">In Progress ({{category.inProgress['count'] || 0}})</div>
+                </div>
+
+                <app-notifications-v3 (loadMore)="loadMoreNotifications(category._id, 'inProgress')"
+                                    (markAsRead)="markAsRead($event)"
+                                    (select)="selectNotification($event)"
+                                    listHeight="{{category.completed['count'] > 0 ? '36vh' : '80vh'}}"
+                                    [notificationTypeId]="category._id"
+                                    [jobType]="'inProgress'"
+                                    [notifications]="category.inProgress?.notifications">
+                </app-notifications-v3>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+          <ng-template #normalNotificationList>
+            <app-notifications-v3 (loadMore)="loadMoreNotifications(category._id)"
+                                  (markAsRead)="markAsRead($event)"
+                                  [notificationTypeId]="category._id"
+                                  [notifications]="category.notifications">
+            </app-notifications-v3>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #noAlerts>
+  <app-empty-notifications-message></app-empty-notifications-message>
+</ng-template>

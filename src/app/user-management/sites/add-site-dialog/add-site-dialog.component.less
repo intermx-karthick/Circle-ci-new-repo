@@ -1,0 +1,68 @@
+h1 {
+  color: var(--grays-bg-700);
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+  margin-bottom: 32px;
+}
+
+.row-container {
+    width: 100%;
+}
+
+.mat-dialog-actions {
+    margin-bottom: 0;
+}
+
+.current-flag-main {
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: .5px;
+
+  ::ng-deep .mat-checkbox-label {
+    font-weight: normal;
+  }
+}
+
+:host ::ng-deep {
+  mat-label {
+    text-transform: capitalize;
+    font-size: 13px;
+  }
+
+  .modal-close-icon path {
+    fill: var(--text-primary);
+  }
+
+  .mat-checkbox-frame,
+  .mat-checkbox-background {
+      border: 1px solid var(--grays-bg-700) !important;
+      border-radius: 4px !important;
+      height: 16px !important;
+      width: 16px !important;
+      &::after{
+        height: 4px !important;
+        top: 3px !important;
+        left: 2px !important;
+        width: 8px !important;
+        color: var(--primary-bg-800);
+      }
+  }
+
+  .mat-checkbox-checked.mat-checkbox-background,
+  .mat-checkbox-checked .mat-checkbox-frame {
+      border-color: var(--primary-bg-800);
+      background: inherit !important;
+  }
+
+  .mat-checkbox-label {
+    margin-bottom: 2px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 16px;
+    letter-spacing: 0.5px;
+  }
+}
+

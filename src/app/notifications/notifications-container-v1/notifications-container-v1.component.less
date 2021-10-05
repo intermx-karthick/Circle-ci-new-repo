@@ -1,0 +1,117 @@
+::ng-deep {
+  app-notifications-container-v1 {
+    .notifications-container {
+      width: 330px;
+      background: #ffffff;
+      box-shadow: 0 2px 4px 2px rgba(31, 115, 183, 0.2);
+      border-radius: 0 0 10px 10px;
+      padding: 0 8px 0 11px;
+      min-height: 522px;
+      max-height: 98vh;
+    }
+    mat-expansion-panel {
+      border-radius: unset !important;
+    }
+
+    mat-expansion-panel-header,
+    .mat-expansion-panel-header.mat-expanded:focus,
+    .mat-expansion-panel-header.mat-expanded:hover {
+      background: #f0f0f0 !important;
+      text-transform: uppercase;
+      color: var(--high-emphasis);
+    }
+    mat-panel-title {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--high-emphasis);
+    }
+    .mat-expansion-panel-body {
+      padding: 0;
+    }
+
+    .notifications-title {
+      padding: 8px 0 8px 0;
+      font-size: 21px;
+      & h6 {
+        margin: 0;
+        font-size: 12px;
+        line-height: 15px;
+        letter-spacing: 0.4px;
+        color: var(--high-emphasis);
+      }
+      & mat-icon {
+        font-size: 16px !important;
+        line-height: 24px !important;
+        color: var(--grays-bg-600);
+      }
+    }
+
+
+    .empty-notifications {
+      font-size: 15px;
+      padding: 10px 0;
+    }
+    .notification-loading {
+      padding: 10px 0;
+      mat-spinner {
+        margin: 0 auto;
+      }
+    }
+
+    .mat-tab-label-content {
+      font-size: 12px !important;
+      line-height: 15px !important;
+      letter-spacing: 0.4px;
+    }
+  }
+
+  .close-icon{
+    cursor: pointer !important;
+    width: 20px !important;
+  }
+
+  th.mat-header-cell.cdk-header-cell {
+    z-index: 0 !important;
+  }
+
+  .notification__lable{
+    position: relative;
+    padding: 8px 8px 0 0;
+
+    .notify-dot{
+      font-size: 30px;
+      position: absolute;
+      right: -2px;
+      top: 0;
+      margin: 0;
+      color: var(--primary-bg-900);
+    }
+  }
+
+  .job-status{
+    font-size: 12px;
+    line-height: 15px;
+    letter-spacing: 0.4px;
+    color: var(--grays-bg-700);
+  }
+
+  .tab__description {
+    font-size: 12px;
+    margin-top: 12px;
+    line-height: 15px;
+    letter-spacing: 0.4px;
+    color: var(--grays-bg-700);
+
+    &_view-all {
+      color: var(--primary-bg-800);
+      cursor: pointer;
+      padding-right: .5rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  .tab__description:first-child{
+    margin-top: 16px;
+  }
+}
+

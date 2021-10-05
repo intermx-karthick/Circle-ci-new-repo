@@ -1,0 +1,41 @@
+<mat-form-field class="autocomplete-field imx-dropdown imx-input" [tooltip]="tooltip" [placement]="placement" [delay]="delay" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+  <mat-label>{{ label }}</mat-label>
+  <input type="text" #inputRef matInput [formControl]="autoCompleteControl"
+      [matAutocomplete]="autocomplete">
+  <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+
+  <mat-autocomplete #autocomplete="matAutocomplete"
+                    [displayWith]="autocompleteDisplayWith"
+                    (opened)="onAutoCompleteOpened($event)"
+                    class="autocomplete-scroll imx-autocomplete-dropdown"
+                    [panelWidth]="panelWidth">
+    <div class="autocomplete-infinite-scroll"
+          infiniteScroll
+          [infiniteScrollDistance]="1"
+          [infiniteScrollThrottle]="0"
+          [scrollWindow]="false"
+          [fromRoot]="true"
+          [immediateCheck]="false"
+          [alwaysCallback]="false"
+          [infiniteScrollContainer]="panelContainer"
+          (scrolled)="onScrolled($event)">
+      <mat-option *ngFor="let option of filteredOptions | async; trackBy: trackByFn"
+                  [value]="option"
+                  [class.mat-selected]="inputRef.value === option.name"
+      >
+        <span [innerHTML]="(option.name) | imx_highlight: inputRef.value" tooltip="{{option?.name.length > tooltipMaxLengh ? option.name : ''}}" [placement]="optionTextPlacement" [delay]="optionTextDelay" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"></span>
+      </mat-option>
+      <mat-option disabled *ngIf="isLoading">
+        <div fxLayout="row" fxLayoutAlign="space-around center">
+          <mat-spinner diameter="20"></mat-spinner>
+        </div>
+      </mat-option>
+      <mat-option disabled *ngIf="!isLoading && (filteredOptions | async)?.length === 0">
+        Invalid Entry
+      </mat-option>
+    </div>
+  </mat-autocomplete>
+  <mat-error *ngIf="isErrors">
+    Please select from the drop down list.
+  </mat-error>
+</mat-form-field>

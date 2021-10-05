@@ -1,0 +1,1262 @@
+[
+  {
+    "slno": 1,
+    "name": "New York, NY",
+    "id": "DMA501",
+    "count": 21746437
+  },
+  {
+    "slno": 2,
+    "name": "Los Angeles, CA",
+    "id": "DMA803",
+    "count": 18606697
+  },
+  {
+    "slno": 3,
+    "name": "Chicago, IL",
+    "id": "DMA602",
+    "count": 9687037
+  },
+  {
+    "slno": 4,
+    "name": "Dallas-Ft. Worth, TX",
+    "id": "DMA623",
+    "count": 8191138
+  },
+  {
+    "slno": 5,
+    "name": "Philadelphia, PA",
+    "id": "DMA504",
+    "count": 8180178
+  },
+  {
+    "slno": 6,
+    "name": "San Francisco et al, CA",
+    "id": "DMA807",
+    "count": 7702364
+  },
+  {
+    "slno": 7,
+    "name": "Houston, TX",
+    "id": "DMA618",
+    "count": 7460704
+  },
+  {
+    "slno": 8,
+    "name": "Atlanta, GA",
+    "id": "DMA524",
+    "count": 7150633
+  },
+  {
+    "slno": 9,
+    "name": "Washington, DC (Hagerstown, MD)",
+    "id": "DMA511",
+    "count": 7101236
+  },
+  {
+    "slno": 10,
+    "name": "Boston et al, MA-NH",
+    "id": "DMA506",
+    "count": 6702183
+  },
+  {
+    "slno": 11,
+    "name": "Phoenix (Prescott), AZ",
+    "id": "DMA753",
+    "count": 5698404
+  },
+  {
+    "slno": 12,
+    "name": "Seattle-Tacoma, WA",
+    "id": "DMA819",
+    "count": 5443891
+  },
+  {
+    "slno": 13,
+    "name": "Tampa et al, FL",
+    "id": "DMA539",
+    "count": 4982960
+  },
+  {
+    "slno": 14,
+    "name": "Detroit, MI",
+    "id": "DMA505",
+    "count": 4882144
+  },
+  {
+    "slno": 15,
+    "name": "Miami-Ft. Lauderdale, FL",
+    "id": "DMA528",
+    "count": 4866610
+  },
+  {
+    "slno": 16,
+    "name": "Minneapolis-St. Paul, MN",
+    "id": "DMA613",
+    "count": 4827093
+  },
+  {
+    "slno": 17,
+    "name": "Denver, CO",
+    "id": "DMA751",
+    "count": 4612806
+  },
+  {
+    "slno": 18,
+    "name": "Sacramento et al, CA",
+    "id": "DMA862",
+    "count": 4394308
+  },
+  {
+    "slno": 19,
+    "name": "Orlando et al, FL",
+    "id": "DMA534",
+    "count": 4348042
+  },
+  {
+    "slno": 20,
+    "name": "Cleveland et al, OH",
+    "id": "DMA510",
+    "count": 3814545
+  },
+  {
+    "slno": 21,
+    "name": "Portland, OR",
+    "id": "DMA820",
+    "count": 3480999
+  },
+  {
+    "slno": 22,
+    "name": "San Diego, CA",
+    "id": "DMA825",
+    "count": 3371481
+  },
+  {
+    "slno": 23,
+    "name": "Salt Lake City, UT",
+    "id": "DMA770",
+    "count": 3359455
+  },
+  {
+    "slno": 24,
+    "name": "Charlotte, NC",
+    "id": "DMA517",
+    "count": 3336498
+  },
+  {
+    "slno": 25,
+    "name": "Raleigh et al, NC",
+    "id": "DMA560",
+    "count": 3272651
+  },
+  {
+    "slno": 26,
+    "name": "St. Louis, MO",
+    "id": "DMA609",
+    "count": 3191600
+  },
+  {
+    "slno": 27,
+    "name": "Indianapolis, IN",
+    "id": "DMA527",
+    "count": 3064555
+  },
+  {
+    "slno": 28,
+    "name": "Baltimore, MD",
+    "id": "DMA512",
+    "count": 3014969
+  },
+  {
+    "slno": 29,
+    "name": "Nashville, TN",
+    "id": "DMA659",
+    "count": 2968707
+  },
+  {
+    "slno": 30,
+    "name": "San Antonio, TX",
+    "id": "DMA641",
+    "count": 2876894
+  },
+  {
+    "slno": 31,
+    "name": "Pittsburgh, PA",
+    "id": "DMA508",
+    "count": 2795822
+  },
+  {
+    "slno": 32,
+    "name": "Hartford & New Haven, CT",
+    "id": "DMA533",
+    "count": 2632801
+  },
+  {
+    "slno": 33,
+    "name": "Columbus, OH",
+    "id": "DMA535",
+    "count": 2609587
+  },
+  {
+    "slno": 34,
+    "name": "Kansas City, MO-KS",
+    "id": "DMA616",
+    "count": 2573122
+  },
+  {
+    "slno": 35,
+    "name": "Cincinnati, OH",
+    "id": "DMA515",
+    "count": 2399427
+  },
+  {
+    "slno": 36,
+    "name": "Greenville et al, SC-NC",
+    "id": "DMA567",
+    "count": 2347479
+  },
+  {
+    "slno": 37,
+    "name": "Austin, TX",
+    "id": "DMA635",
+    "count": 2342820
+  },
+  {
+    "slno": 38,
+    "name": "Milwaukee, WI",
+    "id": "DMA617",
+    "count": 2335374
+  },
+  {
+    "slno": 39,
+    "name": "Las Vegas, NV",
+    "id": "DMA839",
+    "count": 2318560
+  },
+  {
+    "slno": 40,
+    "name": "W. Palm Beach et al, FL",
+    "id": "DMA548",
+    "count": 2177043
+  },
+  {
+    "slno": 41,
+    "name": "Grand Rapids et al, MI",
+    "id": "DMA563",
+    "count": 2085195
+  },
+  {
+    "slno": 42,
+    "name": "Fresno-Visalia, CA",
+    "id": "DMA866",
+    "count": 2080372
+  },
+  {
+    "slno": 43,
+    "name": "Harrisburg et al, PA",
+    "id": "DMA566",
+    "count": 2043730
+  },
+  {
+    "slno": 44,
+    "name": "Jacksonville, FL",
+    "id": "DMA561",
+    "count": 1964761
+  },
+  {
+    "slno": 45,
+    "name": "Norfolk et al, VA",
+    "id": "DMA544",
+    "count": 1955842
+  },
+  {
+    "slno": 46,
+    "name": "Oklahoma City, OK",
+    "id": "DMA650",
+    "count": 1954012
+  },
+  {
+    "slno": 47,
+    "name": "Albuquerque-Santa Fe, NM",
+    "id": "DMA790",
+    "count": 1924937
+  },
+  {
+    "slno": 48,
+    "name": "Birmingham et al, AL",
+    "id": "DMA630",
+    "count": 1906534
+  },
+  {
+    "slno": 49,
+    "name": "Greensboro et al, NC",
+    "id": "DMA518",
+    "count": 1829617
+  },
+  {
+    "slno": 50,
+    "name": "Memphis, TN",
+    "id": "DMA640",
+    "count": 1808806
+  },
+  {
+    "slno": 51,
+    "name": "New Orleans, LA",
+    "id": "DMA622",
+    "count": 1783520
+  },
+  {
+    "slno": 52,
+    "name": "Louisville, KY",
+    "id": "DMA529",
+    "count": 1781636
+  },
+  {
+    "slno": 53,
+    "name": "Providence et al, RI-MA",
+    "id": "DMA521",
+    "count": 1626775
+  },
+  {
+    "slno": 54,
+    "name": "Richmond-Petersburg, VA",
+    "id": "DMA556",
+    "count": 1550422
+  },
+  {
+    "slno": 55,
+    "name": "Buffalo, NY",
+    "id": "DMA514",
+    "count": 1543534
+  },
+  {
+    "slno": 56,
+    "name": "Wilkes Barre et al, PA",
+    "id": "DMA577",
+    "count": 1496967
+  },
+  {
+    "slno": 57,
+    "name": "Mobile et al, AL-FL",
+    "id": "DMA686",
+    "count": 1487517
+  },
+  {
+    "slno": 58,
+    "name": "Little Rock et al, AR",
+    "id": "DMA693",
+    "count": 1478752
+  },
+  {
+    "slno": 59,
+    "name": "Tulsa, OK",
+    "id": "DMA671",
+    "count": 1434440
+  },
+  {
+    "slno": 60,
+    "name": "Honolulu, HI",
+    "id": "DMA744",
+    "count": 1434384
+  },
+  {
+    "slno": 61,
+    "name": "Ft. Myers-Naples, FL",
+    "id": "DMA571",
+    "count": 1416765
+  },
+  {
+    "slno": 62,
+    "name": "Knoxville, TN",
+    "id": "DMA557",
+    "count": 1396383
+  },
+  {
+    "slno": 63,
+    "name": "Harlingen et al, TX",
+    "id": "DMA636",
+    "count": 1394731
+  },
+  {
+    "slno": 64,
+    "name": "Albany et al, NY",
+    "id": "DMA532",
+    "count": 1390192
+  },
+  {
+    "slno": 65,
+    "name": "Lexington, KY",
+    "id": "DMA541",
+    "count": 1315334
+  },
+  {
+    "slno": 66,
+    "name": "Wichita et al, KS",
+    "id": "DMA678",
+    "count": 1212598
+  },
+  {
+    "slno": 67,
+    "name": "Spokane, WA",
+    "id": "DMA881",
+    "count": 1210179
+  },
+  {
+    "slno": 68,
+    "name": "Dayton, OH",
+    "id": "DMA542",
+    "count": 1204828
+  },
+  {
+    "slno": 69,
+    "name": "Tucson (Sierra Vista), AZ",
+    "id": "DMA789",
+    "count": 1203092
+  },
+  {
+    "slno": 70,
+    "name": "Des Moines-Ames, IA",
+    "id": "DMA679",
+    "count": 1191924
+  },
+  {
+    "slno": 71,
+    "name": "Omaha, NE",
+    "id": "DMA652",
+    "count": 1158709
+  },
+  {
+    "slno": 72,
+    "name": "Green Bay-Appleton, WI",
+    "id": "DMA658",
+    "count": 1144433
+  },
+  {
+    "slno": 73,
+    "name": "Roanoke-Lynchburg, VA",
+    "id": "DMA573",
+    "count": 1142223
+  },
+  {
+    "slno": 74,
+    "name": "Flint-Saginaw et al, MI",
+    "id": "DMA513",
+    "count": 1131287
+  },
+  {
+    "slno": 75,
+    "name": "Columbia, SC",
+    "id": "DMA546",
+    "count": 1119835
+  },
+  {
+    "slno": 76,
+    "name": "Springfield, MO",
+    "id": "DMA619",
+    "count": 1106861
+  },
+  {
+    "slno": 77,
+    "name": "Charleston et al, WV",
+    "id": "DMA564",
+    "count": 1103328
+  },
+  {
+    "slno": 78,
+    "name": "Waco-Temple-Bryan, TX",
+    "id": "DMA625",
+    "count": 1083679
+  },
+  {
+    "slno": 79,
+    "name": "Rochester, NY",
+    "id": "DMA538",
+    "count": 1076544
+  },
+  {
+    "slno": 80,
+    "name": "El Paso et al, TX-NM",
+    "id": "DMA765",
+    "count": 1073845
+  },
+  {
+    "slno": 81,
+    "name": "Toledo, OH",
+    "id": "DMA547",
+    "count": 1054999
+  },
+  {
+    "slno": 82,
+    "name": "Huntsville et al, AL",
+    "id": "DMA691",
+    "count": 1046904
+  },
+  {
+    "slno": 83,
+    "name": "Madison, WI",
+    "id": "DMA669",
+    "count": 1020570
+  },
+  {
+    "slno": 84,
+    "name": "Colorado Sprgs et al, CO",
+    "id": "DMA752",
+    "count": 1018072
+  },
+  {
+    "slno": 85,
+    "name": "Shreveport, LA",
+    "id": "DMA612",
+    "count": 1010733
+  },
+  {
+    "slno": 86,
+    "name": "Portland-Auburn, ME",
+    "id": "DMA500",
+    "count": 1008710
+  },
+  {
+    "slno": 87,
+    "name": "Syracuse, NY",
+    "id": "DMA555",
+    "count": 998352
+  },
+  {
+    "slno": 88,
+    "name": "Chattanooga, TN",
+    "id": "DMA575",
+    "count": 986746
+  },
+  {
+    "slno": 89,
+    "name": "Savannah, GA",
+    "id": "DMA507",
+    "count": 979628
+  },
+  {
+    "slno": 90,
+    "name": "Paducah et al, KY-MO-IL",
+    "id": "DMA632",
+    "count": 977202
+  },
+  {
+    "slno": 91,
+    "name": "Champaign et al, IL",
+    "id": "DMA648",
+    "count": 949415
+  },
+  {
+    "slno": 92,
+    "name": "Baton Rouge, LA",
+    "id": "DMA716",
+    "count": 931629
+  },
+  {
+    "slno": 93,
+    "name": "Charleston, SC",
+    "id": "DMA519",
+    "count": 928956
+  },
+  {
+    "slno": 94,
+    "name": "Cedar Rapids et al, IA",
+    "id": "DMA637",
+    "count": 913285
+  },
+  {
+    "slno": 95,
+    "name": "Jackson, MS",
+    "id": "DMA718",
+    "count": 907738
+  },
+  {
+    "slno": 96,
+    "name": "South Bend-Elkhart, IN",
+    "id": "DMA588",
+    "count": 904094
+  },
+  {
+    "slno": 97,
+    "name": "Ft. Smith et al, AR",
+    "id": "DMA670",
+    "count": 891132
+  },
+  {
+    "slno": 98,
+    "name": "Burlington et al, VT-NY",
+    "id": "DMA523",
+    "count": 848256
+  },
+  {
+    "slno": 99,
+    "name": "Boise, ID",
+    "id": "DMA757",
+    "count": 841507
+  },
+  {
+    "slno": 100,
+    "name": "Greenville et al, NC",
+    "id": "DMA545",
+    "count": 820800
+  },
+  {
+    "slno": 101,
+    "name": "Bakersfield, CA",
+    "id": "DMA800",
+    "count": 820270
+  },
+  {
+    "slno": 102,
+    "name": "Myrtle Beach et al, SC",
+    "id": "DMA570",
+    "count": 810068
+  },
+  {
+    "slno": 103,
+    "name": "Tri-Cities, TN-VA",
+    "id": "DMA531",
+    "count": 786489
+  },
+  {
+    "slno": 104,
+    "name": "Monterey-Salinas, CA",
+    "id": "DMA828",
+    "count": 782254
+  },
+  {
+    "slno": 105,
+    "name": "Tyler-Longview et al, TX",
+    "id": "DMA709",
+    "count": 769857
+  },
+  {
+    "slno": 106,
+    "name": "Reno, NV",
+    "id": "DMA811",
+    "count": 769770
+  },
+  {
+    "slno": 107,
+    "name": "Tallahassee et al, FL-GA",
+    "id": "DMA530",
+    "count": 762482
+  },
+  {
+    "slno": 108,
+    "name": "Davenport et al, IA-IL",
+    "id": "DMA682",
+    "count": 758859
+  },
+  {
+    "slno": 109,
+    "name": "Yakima et al, WA",
+    "id": "DMA810",
+    "count": 750856
+  },
+  {
+    "slno": 110,
+    "name": "Johnstown et al, PA",
+    "id": "DMA574",
+    "count": 741869
+  },
+  {
+    "slno": 111,
+    "name": "Lincoln et al, NE",
+    "id": "DMA722",
+    "count": 740504
+  },
+  {
+    "slno": 112,
+    "name": "Evansville, IN",
+    "id": "DMA649",
+    "count": 738562
+  },
+  {
+    "slno": 113,
+    "name": "Santa Barbara et al, CA",
+    "id": "DMA855",
+    "count": 736943
+  },
+  {
+    "slno": 114,
+    "name": "Ft. Wayne, IN",
+    "id": "DMA509",
+    "count": 734679
+  },
+  {
+    "slno": 115,
+    "name": "Augusta-Aiken, GA-SC",
+    "id": "DMA520",
+    "count": 727528
+  },
+  {
+    "slno": 116,
+    "name": "Sioux Falls et al, SD",
+    "id": "DMA725",
+    "count": 717769
+  },
+  {
+    "slno": 117,
+    "name": "Springfield-Holyoke, MA",
+    "id": "DMA543",
+    "count": 703454
+  },
+  {
+    "slno": 118,
+    "name": "Lansing, MI",
+    "id": "DMA551",
+    "count": 685751
+  },
+  {
+    "slno": 119,
+    "name": "Macon, GA",
+    "id": "DMA503",
+    "count": 668262
+  },
+  {
+    "slno": 120,
+    "name": "Fargo-Valley City, ND",
+    "id": "DMA724",
+    "count": 650098
+  },
+  {
+    "slno": 121,
+    "name": "Eugene, OR",
+    "id": "DMA801",
+    "count": 649087
+  },
+  {
+    "slno": 122,
+    "name": "Lafayette, LA",
+    "id": "DMA642",
+    "count": 643649
+  },
+  {
+    "slno": 123,
+    "name": "Youngstown, OH",
+    "id": "DMA536",
+    "count": 638953
+  },
+  {
+    "slno": 124,
+    "name": "Peoria-Bloomington, IL",
+    "id": "DMA675",
+    "count": 631585
+  },
+  {
+    "slno": 125,
+    "name": "Montgomery-Selma, AL",
+    "id": "DMA698",
+    "count": 623434
+  },
+  {
+    "slno": 126,
+    "name": "Traverse City et al, MI",
+    "id": "DMA540",
+    "count": 616742
+  },
+  {
+    "slno": 127,
+    "name": "Corpus Christi, TX",
+    "id": "DMA600",
+    "count": 607317
+  },
+  {
+    "slno": 128,
+    "name": "Columbus, GA (Opelika, AL)",
+    "id": "DMA522",
+    "count": 586539
+  },
+  {
+    "slno": 129,
+    "name": "La Crosse-Eau Claire, WI",
+    "id": "DMA702",
+    "count": 569428
+  },
+  {
+    "slno": 130,
+    "name": "Amarillo, TX",
+    "id": "DMA634",
+    "count": 552476
+  },
+  {
+    "slno": 131,
+    "name": "Chico-Redding, CA",
+    "id": "DMA868",
+    "count": 525319
+  },
+  {
+    "slno": 132,
+    "name": "Wilmington, NC",
+    "id": "DMA550",
+    "count": 521464
+  },
+  {
+    "slno": 133,
+    "name": "Columbus et al, MS",
+    "id": "DMA673",
+    "count": 493038
+  },
+  {
+    "slno": 134,
+    "name": "Odessa-Midland, TX",
+    "id": "DMA633",
+    "count": 485822
+  },
+  {
+    "slno": 135,
+    "name": "Columbia et al, MO",
+    "id": "DMA604",
+    "count": 484240
+  },
+  {
+    "slno": 136,
+    "name": "Lubbock, TX",
+    "id": "DMA651",
+    "count": 476500
+  },
+  {
+    "slno": 137,
+    "name": "Palm Springs, CA",
+    "id": "DMA804",
+    "count": 474412
+  },
+  {
+    "slno": 138,
+    "name": "Beaumont-Port Arthur, TX",
+    "id": "DMA692",
+    "count": 469609
+  },
+  {
+    "slno": 139,
+    "name": "Monroe-El Dorado, LA-AR",
+    "id": "DMA628",
+    "count": 468036
+  },
+  {
+    "slno": 140,
+    "name": "Rockford, IL",
+    "id": "DMA610",
+    "count": 465414
+  },
+  {
+    "slno": 141,
+    "name": "Anchorage, AK",
+    "id": "DMA743",
+    "count": 462469
+  },
+  {
+    "slno": 142,
+    "name": "Topeka, KS",
+    "id": "DMA605",
+    "count": 461996
+  },
+  {
+    "slno": 143,
+    "name": "Medford et al, OR",
+    "id": "DMA813",
+    "count": 451131
+  },
+  {
+    "slno": 144,
+    "name": "Wausau-Rhinelander, WI",
+    "id": "DMA705",
+    "count": 445782
+  },
+  {
+    "slno": 145,
+    "name": "Salisbury, MD",
+    "id": "DMA576",
+    "count": 445615
+  },
+  {
+    "slno": 146,
+    "name": "Duluth-Superior, MN-WI",
+    "id": "DMA676",
+    "count": 420273
+  },
+  {
+    "slno": 147,
+    "name": "Wichita Fls et al, TX-OK",
+    "id": "DMA627",
+    "count": 419349
+  },
+  {
+    "slno": 148,
+    "name": "Minot et al, ND",
+    "id": "DMA687",
+    "count": 416043
+  },
+  {
+    "slno": 149,
+    "name": "Albany, GA",
+    "id": "DMA525",
+    "count": 409331
+  },
+  {
+    "slno": 150,
+    "name": "Sioux City, IA",
+    "id": "DMA624",
+    "count": 406972
+  },
+  {
+    "slno": 151,
+    "name": "Panama City, FL",
+    "id": "DMA656",
+    "count": 403814
+  },
+  {
+    "slno": 152,
+    "name": "Joplin-Pittsburg, MO-KS",
+    "id": "DMA603",
+    "count": 398858
+  },
+  {
+    "slno": 153,
+    "name": "Idaho Falls et al, ID-WY",
+    "id": "DMA758",
+    "count": 397403
+  },
+  {
+    "slno": 154,
+    "name": "Erie, PA",
+    "id": "DMA516",
+    "count": 397221
+  },
+  {
+    "slno": 155,
+    "name": "Yuma-El Centro, AZ-CA",
+    "id": "DMA771",
+    "count": 396615
+  },
+  {
+    "slno": 156,
+    "name": "Rochester et al, MN-IA",
+    "id": "DMA611",
+    "count": 376169
+  },
+  {
+    "slno": 157,
+    "name": "Terre Haute, IN",
+    "id": "DMA581",
+    "count": 374907
+  },
+  {
+    "slno": 158,
+    "name": "Biloxi-Gulfport, MS",
+    "id": "DMA746",
+    "count": 369506
+  },
+  {
+    "slno": 159,
+    "name": "Sherman-Ada, TX-OK",
+    "id": "DMA657",
+    "count": 349142
+  },
+  {
+    "slno": 160,
+    "name": "Gainesville, FL",
+    "id": "DMA592",
+    "count": 347757
+  },
+  {
+    "slno": 161,
+    "name": "Bangor, ME",
+    "id": "DMA537",
+    "count": 344874
+  },
+  {
+    "slno": 162,
+    "name": "Binghamton, NY",
+    "id": "DMA502",
+    "count": 331554
+  },
+  {
+    "slno": 163,
+    "name": "Wheeling et al, WV-OH",
+    "id": "DMA554",
+    "count": 323288
+  },
+  {
+    "slno": 164,
+    "name": "Missoula, MT",
+    "id": "DMA762",
+    "count": 316046
+  },
+  {
+    "slno": 165,
+    "name": "Bluefield et al, WV",
+    "id": "DMA559",
+    "count": 315544
+  },
+  {
+    "slno": 166,
+    "name": "Abilene-Sweetwater, TX",
+    "id": "DMA662",
+    "count": 315501
+  },
+  {
+    "slno": 167,
+    "name": "Hattiesburg-Laurel, MS",
+    "id": "DMA710",
+    "count": 297904
+  },
+  {
+    "slno": 168,
+    "name": "Laredo, TX",
+    "id": "DMA749",
+    "count": 296083
+  },
+  {
+    "slno": 169,
+    "name": "Billings, MT",
+    "id": "DMA756",
+    "count": 291472
+  },
+  {
+    "slno": 170,
+    "name": "Lake Charles, LA",
+    "id": "DMA643",
+    "count": 274678
+  },
+  {
+    "slno": 171,
+    "name": "Utica, NY",
+    "id": "DMA526",
+    "count": 269849
+  },
+  {
+    "slno": 172,
+    "name": "Clarksburg-Weston, WV",
+    "id": "DMA598",
+    "count": 266902
+  },
+  {
+    "slno": 173,
+    "name": "Harrisonburg, VA",
+    "id": "DMA569",
+    "count": 266438
+  },
+  {
+    "slno": 174,
+    "name": "Quincy et al, IL-MO-IA",
+    "id": "DMA717",
+    "count": 261028
+  },
+  {
+    "slno": 175,
+    "name": "Dothan, AL",
+    "id": "DMA606",
+    "count": 259767
+  },
+  {
+    "slno": 176,
+    "name": "Rapid City, SD",
+    "id": "DMA764",
+    "count": 253353
+  },
+  {
+    "slno": 177,
+    "name": "Watertown, NY",
+    "id": "DMA549",
+    "count": 248099
+  },
+  {
+    "slno": 178,
+    "name": "Jackson, TN",
+    "id": "DMA639",
+    "count": 244888
+  },
+  {
+    "slno": 179,
+    "name": "Alexandria, LA",
+    "id": "DMA644",
+    "count": 244545
+  },
+  {
+    "slno": 180,
+    "name": "Elmira (Corning), NY",
+    "id": "DMA565",
+    "count": 238324
+  },
+  {
+    "slno": 181,
+    "name": "Bowling Green, KY",
+    "id": "DMA736",
+    "count": 230816
+  },
+  {
+    "slno": 182,
+    "name": "Jonesboro, AR",
+    "id": "DMA734",
+    "count": 221120
+  },
+  {
+    "slno": 183,
+    "name": "Charlottesville, VA",
+    "id": "DMA584",
+    "count": 218877
+  },
+  {
+    "slno": 184,
+    "name": "Marquette, MI",
+    "id": "DMA553",
+    "count": 211886
+  },
+  {
+    "slno": 185,
+    "name": "Lafayette, IN",
+    "id": "DMA582",
+    "count": 202608
+  },
+  {
+    "slno": 186,
+    "name": "Twin Falls, ID",
+    "id": "DMA760",
+    "count": 198707
+  },
+  {
+    "slno": 187,
+    "name": "Grand Junction et al, CO",
+    "id": "DMA773",
+    "count": 195278
+  },
+  {
+    "slno": 188,
+    "name": "Butte-Bozeman, MT",
+    "id": "DMA754",
+    "count": 193094
+  },
+  {
+    "slno": 189,
+    "name": "Bend, OR",
+    "id": "DMA821",
+    "count": 192686
+  },
+  {
+    "slno": 190,
+    "name": "Lima, OH",
+    "id": "DMA558",
+    "count": 182037
+  },
+  {
+    "slno": 191,
+    "name": "Meridian, MS",
+    "id": "DMA711",
+    "count": 175697
+  },
+  {
+    "slno": 192,
+    "name": "Greenwood-Greenville, MS",
+    "id": "DMA647",
+    "count": 174819
+  },
+  {
+    "slno": 193,
+    "name": "Great Falls, MT",
+    "id": "DMA755",
+    "count": 168156
+  },
+  {
+    "slno": 194,
+    "name": "Eureka, CA",
+    "id": "DMA802",
+    "count": 164230
+  },
+  {
+    "slno": 195,
+    "name": "San Angelo, TX",
+    "id": "DMA661",
+    "count": 155297
+  },
+  {
+    "slno": 196,
+    "name": "Parkersburg, WV",
+    "id": "DMA597",
+    "count": 152108
+  },
+  {
+    "slno": 197,
+    "name": "Cheyenne et al, WY-NE",
+    "id": "DMA759",
+    "count": 148904
+  },
+  {
+    "slno": 198,
+    "name": "Casper-Riverton, WY",
+    "id": "DMA767",
+    "count": 144669
+  },
+  {
+    "slno": 199,
+    "name": "Mankato, MN",
+    "id": "DMA737",
+    "count": 139247
+  },
+  {
+    "slno": 200,
+    "name": "St. Joseph, MO",
+    "id": "DMA638",
+    "count": 126803
+  },
+  {
+    "slno": 201,
+    "name": "Ottumwa et al, IA-MO",
+    "id": "DMA631",
+    "count": 125746
+  },
+  {
+    "slno": 202,
+    "name": "Fairbanks, AK",
+    "id": "DMA745",
+    "count": 109488
+  },
+  {
+    "slno": 203,
+    "name": "Victoria, TX",
+    "id": "DMA626",
+    "count": 93627
+  },
+  {
+    "slno": 204,
+    "name": "Zanesville, OH",
+    "id": "DMA596",
+    "count": 86257
+  },
+  {
+    "slno": 205,
+    "name": "Helena, MT",
+    "id": "DMA766",
+    "count": 74890
+  },
+  {
+    "slno": 206,
+    "name": "Juneau, AK",
+    "id": "DMA747",
+    "count": 72626
+  },
+  {
+    "slno": 207,
+    "name": "Presque Isle, ME",
+    "id": "DMA552",
+    "count": 66779
+  },
+  {
+    "slno": 208,
+    "name": "Alpena, MI",
+    "id": "DMA583",
+    "count": 38533
+  },
+  {
+    "slno": 209,
+    "name": "North Platte, NE",
+    "id": "DMA740",
+    "count": 37053
+  },
+  {
+    "slno": 210,
+    "name": "Glendive, MT",
+    "id": "DMA798",
+    "count": 9836
+  }
+]

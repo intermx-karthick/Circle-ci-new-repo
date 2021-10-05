@@ -1,0 +1,96 @@
+<div class='c-editing-contracts'>
+  <header fxLayout='row' fxLayoutAlign='space-between center'>
+    <h4 class='c-editing-contracts__title' mat-dialog-title> {{vendorContract?.contract?.contractId}} > Editing Contract</h4>
+    <button class='c-editing-contracts_button primary-color' mat-button mat-dialog-close>CLOSE</button>
+  </header>
+
+  <div fxLayout='row' fxLayoutAlign='space-between center'>
+    <section>
+      <mat-tab-group
+        [(selectedIndex)]='selectedTabIndex'
+        mat-align-tabs='start'
+        class='imx-tab-capital'
+        (selectedTabChange)='onSelectedTabChange($event)'>
+        <!-- Don't include your tab component here look at below ngSwitch -->
+        <mat-tab label='Line Items' [aria-label]='tab.LINE_ITEM'></mat-tab>
+        <mat-tab label='Terms' [aria-label]='tab.TERMS'></mat-tab>
+        <!-- <mat-tab label='Header & Footer' [aria-label]='tab.HEADER_AND_FOOTER'></mat-tab> -->
+      </mat-tab-group>
+    </section>
+
+    <section fxLayout='row' fxLayoutAlign='flex-end center'>
+      <div class="c-editing-contracts__sorting-item" *ngIf="selectedTabLabel === tab.LINE_ITEM">
+        <mat-form-field class="imx-dropdown imx-input">
+          <mat-label *ngIf="!sortCtrl.value">Sort by </mat-label>
+          <mat-select panelClass="imx-select disabled-view-select" [formControl]="sortCtrl" (selectionChange)="onSortSelection()">
+            <mat-option [value]="null" [disabled]="true" class="default-selection">Sort by</mat-option>
+            <div cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="sortOptionToDisplay">
+              <mat-option *ngFor="let option of sortOptionToDisplay" [disabled]="true" [value]="option.id" cdkDrag class="custom-drag-preview">
+                <mat-icon svgIcon="IMX-handle-1" class="drag-handle c-editing-contracts__drag-icon" aria-hidden="false"
+                  aria-label="drag handle"></mat-icon>
+                {{ option.value }}
+              </mat-option>
+            </div>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class='c-editing-contracts__one-line-item' *ngIf="selectedTabLabel === tab.LINE_ITEM">
+        <mat-checkbox (ngModelChange)='onChangeLineItem()'
+                      [(ngModel)]='lineItemCheckBox'
+                      class='imx-checkbok'>One line item / Page</mat-checkbox>
+      </div>
+      <div>
+        <button class="imx-button-stroked_icon " mat-button (click)='previewReport()' [disabled]="contractPreviewService.isLoadingPreviewAPI" [ngClass]="{'contract-preview-btn': !contractPreviewService.isLoadingPreviewAPI}">
+          PREVIEW 
+          <mat-icon *ngIf="contractPreviewService.isLoadingPreviewAPI"><mat-spinner diameter="25" ></mat-spinner></mat-icon>
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <mat-dialog-content [ngClass]="{'enable-conditional-scroll':  selectedTabLabel !== 'line-items'}" #scrollContainer (window:resize)="reSize()">
+    <!-- include tab component -->
+    <ng-container [ngSwitch]='selectedTabLabel'>
+      <ng-container *ngSwitchCase='tab.LINE_ITEM'>
+        <section class="contract-preview-body" fxLayout="column">
+          <div class="single-item-scroll" [ngStyle]="{'max-width.px': lineItemScroll,'max-height.px':lineItemScrollHeight, 'min-height.px':lineItemScrollHeight}" 
+          infiniteScroll
+          [infiniteScrollDistance]="1"
+          [infiniteScrollThrottle]="0"
+          [scrollWindow]="false"
+          [fromRoot]="true"
+          [immediateCheck]="false"
+          [alwaysCallback]="false"
+          [infiniteScrollDisabled]="lineItems?.length>=lineItemPagination?.total"
+          (scrolled)="loadLineItems(true)">
+            <app-contracts-line-item *ngFor="let _lineItem of lineItems;let i=index" [showHeading] = "(i === 0 || (lineItems[i].vendor.name !== lineItems[i-1].vendor.name)) ? true: false" [lineItem]="_lineItem" [headingVisible]="i==0 ? true : false" [isLoadedFromEdit]="true"></app-contracts-line-item>
+          </div>
+          <div class="spiner-div" *ngIf="isLoading" fxLayout="row" fxLayoutAlign="center center" fxFlex="grow" class="contract-preview-header w100">
+            <mat-spinner diameter="30" ></mat-spinner>
+          </div>
+      </section>
+      </ng-container>
+      <ng-container *ngSwitchCase='tab.TERMS'>
+        <app-terms [termsFormGroup]="termsFormGroup" [dialogHeightRef]="lineItemScrollHeight"></app-terms>
+      </ng-container>
+      <!-- IMXUIPRD-3564 -- Based on that it moved to next sprint-->
+      <!-- <ng-container *ngSwitchCase='tab.HEADER_AND_FOOTER'>
+        <app-header-footer></app-header-footer>
+      </ng-container> -->
+    </ng-container>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <div fxFlex='100%' fxLayout='row' fxLayoutAlign='space-between center'>
+      <section>
+        <app-imx-time-stamp [timeStampData]='timestamp'></app-imx-time-stamp>
+      </section>
+
+      <section>
+        <button class='c-editing-contracts_button primary-color' mat-button mat-dialog-close>CANCEL</button>
+        <button (click)='saveVendorContract()' class='c-editing-contracts_button button-primary-color'
+                mat-raised-button>SAVE VENDOR CONTRACT</button>
+      </section>
+    </div>
+  </mat-dialog-actions>
+</div>

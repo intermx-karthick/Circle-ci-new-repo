@@ -1,0 +1,424 @@
+<div class="explore-filter-tabs" [ngClass]="{'hide': !showFilter }"
+     *ngIf="(allowInventory == 'active' || allowInventory == 'disabled')" >
+  <!-- <mat-sidenav-container (mouseenter)="mouseHover($event)" (mouseleave)="mouseLeave($event)"> -->
+    <!-- <mat-sidenav #sidenav mode='push' (closedStart)="showFilter = false"
+                 (openedStart)="showFilter = true;openThresholdFilter()" fullscreen> -->
+      <div class="mat-sidenav-div" fxFlexFill>
+        <!--TODO : Refactor this and remove the mat-tab in favor of conditional divs
+        Warning: Do not remove this long comment unless this mat tab is removed.
+        The mat tabs here are not actually used and only implemented as a toggle state, The tab should be old code that got carried when reimplementing the menu designs. These tabs here are not used as tabs but as simple divs, in theory, if you remove this tab and use a div with a simple ngIf it should work exactly as is now, the tab labels here are placeholders. Don't copy this implementation for any new screen design.
+
+        I analysed the optional tab issue that happened on 17th July 2020, and asked around why there is an ngIf for the inner tab content (https://api.codestream.com/c/Xw17PV_benoYMTk7/7LsPUXnOSdu2jKjqLVC2Dg) no one is aware of the exact reason, so I am thinking that it is legacy code coming back from the bootstrap days. So I dig deeper and realized that this mat tab is also not required here. The toggles for this tabs are at the explore-header component and based on the sidenavstate, and active selection there, we are selecting the tabs here, the tab labels here are never shown in the UI.
+
+          // from the css file for this component,
+          .mat-tab-label-container
+          {
+            /*display: none;*/
+            height: 0px;
+          }
+
+          The other styles were also written based on the tabs and the tabs were migrated into mat sidenav as we moved in to use angular material usage. This comment here is an indicator that this is legacy code and new implementations should take a better, cleaner approach. Having/removing this tab doesn't make any difference to the actual end user or to performance. But this is more of a likely to be a maintenance problem for the future maintainers.
+
+          Removing this also not very easy as the entire layout is written around CSS targetting mat-tab and tab-group, the hardest legacy code to change is CSS legacy code, so please be careful and do thorough testing when removing this and reimplementing it with conditionals.
+        -->
+
+        <mat-tab-group [selectedIndex]="selectedTab" (selectedTabChange)='openThresholdFilter()' fxFill class="explore-filter-tab-group">
+          <mat-tab fxFlexFill opened>
+            <ng-template mat-tab-label>
+              DEFINE TARGET
+            </ng-template>
+            <div class="target-filters" [hidden]="selectedTab !== tab.DEFINE_TARGET">
+              <mat-accordion displayMode="flat">
+                <mat-expansion-panel *appLicense="'gpAudience'" (opened)="onOpenAudience(true)" (closed)="onOpenAudience(false)" #defineTargetExpPanel>
+                  <mat-expansion-panel-header [collapsedHeight]="tabHeaderHeight"
+                                              [expandedHeight]="tabHeaderHeight"
+                                              class="target-expansion-panel-header e2e-select-audience select-audience-panel">
+                    <mat-panel-title>
+                      Select Audience
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div class="mat-expansion-content">
+                    <app-audience-browser
+                      [selectedAudienceList]="selectedAudienceList"
+                      (onCompletedBrowsing)='onCompletedBrowsing($event)'
+                      [isScenario]="isScenario"
+                      [openAudience]="openAudience"
+                      [preload]="false"
+                      [initiator$]="audianceLazyLoader.initiator$"
+                      [includeType] = "includeType">
+                    </app-audience-browser>
+                  </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel (opened)="assignMarketGeoSetsLazyLoader.triggerInitialLoad()">
+                  <mat-expansion-panel-header [collapsedHeight]="tabHeaderHeight"
+                                              [expandedHeight]="tabHeaderHeight"
+                                              class="target-expansion-panel-header e2e-assign-market">
+                    <mat-panel-title>
+                      Assign Market
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div class="mat-expansion-content">
+                    <app-market-type-filter [preload]="false" [initiator$]="assignMarketGeoSetsLazyLoader.initiator$"
+                                            module="explore" selectionType="single"></app-market-type-filter>
+                  </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header [collapsedHeight]="tabHeaderHeight"
+                                              [expandedHeight]="tabHeaderHeight"
+                                              class="target-expansion-panel-header e2e-assign-market">
+                    <mat-panel-title>
+                      Schedule Delivery
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div class="mat-expansion-content">
+                    <app-week-selection></app-week-selection>
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              SPOT INVENTORY
+            </ng-template>
+            <div class="inventory-filters" fxFlexFill [hidden]="selectedTab !== tab.FILTER_INVENTORY">
+              <div class="inventory-filters-header">
+                Inventory Filters
+              </div>
+              <div class="inventory-filters-body">
+                <!-- <h4 class="">Available Filters</h4> -->
+                <div>
+                  <mat-accordion displayMode="flat">
+                    <!-- <mat-expansion-panel expanded hideToggle>  -->
+                    <!-- removed expand as per the disscusion in call  -->
+                    <mat-expansion-panel hideToggle>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title tooltip="Filter here to define the types of environments and broadest categories of media." placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+                          <mat-icon>chevron_right</mat-icon>
+                          Media & Placement
+                        </mat-panel-title>
+                        <mat-panel-description (click)="$event.stopPropagation();">
+                          <mat-checkbox
+                            disableRipple
+                            [checked]="filtersSelection && filtersSelection['mediaTypeList']"
+                            class="rounded-checkbox"
+                            (change)="toggleFilter($event, 'mediaTypeList')"
+                            [disabled]="filtersSelection['mediaTypeList'] === undefined"></mat-checkbox>
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <div class="mat-expansion-content">
+                        <app-media-types-filter-builder></app-media-types-filter-builder>
+                      </div>
+                    </mat-expansion-panel>
+                    <!-- Media attribute start-->
+                    <mat-expansion-panel hideToggle
+                                         *ngIf="isMediaAttributesSearchEnabled && isMediaAttributesSearchEnabled.status==='active'">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title tooltip="Filter here for more detailed media qualities." placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" >
+                          <mat-icon>chevron_right</mat-icon>
+                          Media Attributes
+                        </mat-panel-title>
+                        <mat-panel-description (click)="$event.stopPropagation();">
+                          <mat-checkbox disableRipple
+                                        [checked]="filtersSelection['mediaAttributes']"
+                                        class="rounded-checkbox"
+                                        (change)="toggleFilter($event, 'mediaAttributes')"
+                                        [disabled]="filtersSelection['mediaAttributes'] === undefined"></mat-checkbox>
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <div class="mat-expansion-content">
+                        <app-media-attributes></app-media-attributes>
+                      </div>
+                    </mat-expansion-panel>
+                    <!-- Media attribute end-->
+
+                    <mat-expansion-panel (opened)="operatorsLazyLoader.triggerInitialLoad()" hideToggle>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          <mat-icon>chevron_right</mat-icon>
+                          Operators
+                        </mat-panel-title>
+                        <mat-panel-description (click)="$event.stopPropagation();">
+                          <mat-checkbox disableRipple [checked]="filtersSelection['operatorList']"
+                                        class="rounded-checkbox"
+                                        (change)="toggleFilter($event, 'operatorList')"
+                                        [disabled]="filtersSelection['operatorList'] === undefined"></mat-checkbox>
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <div class="mat-expansion-content">
+                        <app-operator-filter [preload]="false"
+                                             [initiator$]="operatorsLazyLoader.initiator$"
+                        >
+                        </app-operator-filter>
+                      </div>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel hideToggle class="location-panel">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title [matTooltipClass]="'inventory-filter-tooltip'" matTooltipPosition="above"
+                                         matTooltip="Filter on the geography inventory should be limited to.">
+                          <mat-icon>chevron_right</mat-icon>
+                          Location
+                        </mat-panel-title>
+                        <mat-panel-description (click)="$event.stopPropagation();">
+                          <mat-checkbox disableRipple [checked]="filtersSelection.location"
+                                        class="rounded-checkbox"
+                                        (change)="toggleLocationFilter($event)"
+                                        [disabled]="filtersSelection['location'] === undefined"></mat-checkbox>
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <div class="mat-expansion-content">
+                        <mat-accordion [displayMode]="'flat'">
+                          <!-- <mat-expansion-panel class="mat-elevation-z0" hideToggle>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                Limit to Map View
+                              </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="location-panel-body">
+                              <p>Filters inventory to what is currently shown in the map</p>
+                              <div class="action-container" appLicenseDisable>
+                                <button mat-raised-button class="btn-clear" type="button"
+                                        (click)='removePolygon()'>CLEAR
+                                </button>
+                                <button mat-raised-button class="btn-primary-color" type="button"
+                                        (click)="loadMapView()">
+                                  <mat-icon>map</mat-icon>
+                                  <span>MAP VIEW</span></button>
+                              </div>
+                            </div>
+                          </mat-expansion-panel> -->
+                          <mat-expansion-panel (opened)="geoSetsLazyLoader.triggerInitialLoad()"
+                                               *ngIf="isPopulationEnabled"
+                                               class="location-panel mat-elevation-z0">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title [matTooltipClass]="'inventory-filter-tooltip'" matTooltipPosition="above"
+                                               matTooltip="">
+                                My Saved Geography Sets
+                              </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="mat-expansion-content">
+                              <app-geography-sets-list
+                                [preload]="false"
+                                [initiator$]="geoSetsLazyLoader.initiator$"
+                                (setSelected)="onGeoSetSelected($event)"
+                                (setCleared)="onGeoSetCleared()">
+                              </app-geography-sets-list>
+                            </div>
+                          </mat-expansion-panel>
+
+                          <mat-expansion-panel class="mat-elevation-z0"
+                                               *ngIf="(scenario_mod_permission['status'] != 'hidden' && isPolygonFiltersEnabled != 'hidden')">
+
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                Custom Shape
+                              </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="location-panel-body">
+                              <p>Click to draw a boundary; double click to filter </p>
+                              <div class="action-container" appLicenseDisable>
+                                <button mat-raised-button class="btn-clear" type="button"
+                                        (click)='removePolygon()'>CLEAR
+                                </button>
+                                <button mat-raised-button class="btn-primary-color" type="button"
+                                        (click)="drawPolygon()">
+                                  <mat-icon>mode_edit</mat-icon>
+                                  <span class="no-wrap">DRAW POLYGON</span></button>
+
+                                <button mat-raised-button class="btn-primary-color" type="button"
+                                        (click)="drawCircle()"><img
+                                  src="../assets/images/icon-place-radius.svg"
+                                  class="radius_img"><span>RADIUS</span></button>
+                              </div>
+                            </div>
+                          </mat-expansion-panel>
+                          <mat-expansion-panel (opened)="placeSetsLazyLoader.triggerInitialLoad()"
+                                               *ngIf="(scenario_mod_permission['status'] !== 'hidden' && isRadiusFilterEnabled !== 'hidden')"
+                                               class="mat-elevation-z0">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                Filter by Place Set and Radius
+                              </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="location-panel-body">
+
+                              <div class="miles-container">Constrain results to
+                                <mat-form-field class="radius-miles">
+                                  <mat-label></mat-label>
+                                  <input matInput id="radius" [formControl]="radiusCtrl"
+                                         type="number">
+                                </mat-form-field>
+                                miles of each place
+                              </div>
+                              <mat-error *ngIf="radiusCtrl.invalid">Please enter a distance greater
+                                than zero.
+                              </mat-error>
+
+                              <app-explore-place-sets [initiator$]="placeSetsLazyLoader.initiator$"
+                                                      [preload]="false"
+                                                      [selectedPlacesCtrl]="selectedPlacesCtrl"
+                                                      [searchFromCtl]="searchFromCtl"
+                              >
+                              </app-explore-place-sets>
+
+                              <div class="action-container" appLicenseDisable
+                                   [ngClass]="{'module-disable':(scenario_mod_permission['status'] == 'disabled')}">
+                                <button mat-raised-button class="btn-clear" type="button"
+                                        (click)='removePolygon()'>CLEAR
+                                </button>
+                                <button mat-raised-button class="btn-primary-color" type="button"
+                                        (click)="applyForm();">APPLY SETS
+                                </button>
+                              </div>
+                            </div>
+
+                          </mat-expansion-panel>
+                          <mat-expansion-panel class="mat-elevation-z0" [expanded]="isRadiusFilterEnabled === 'hidden'"
+                                               [hideToggle]="isRadiusFilterEnabled === 'hidden'">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title [matTooltipClass]="'inventory-filter-tooltip'" matTooltipPosition="above"
+                                               matTooltip="State, DMA, CBSA, County or Zip Code where inventory is locatied.">
+                                Filter by Specific Geography
+                              </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="list-item-location">
+                              <app-chips-group-autocomplete
+                                [ariaLabel]="'Geography search'"
+                                (search)="searchGeographies($event)"
+                                [chips$]="this.geographySearch$"
+                                [chips]="this.selectedGeographies"
+                                (chipsChanged)="geographySelected($event)"
+                                (removed)="onGeographyRemoved($event)"
+                                [autoCompleteClass]="'explore-geographies-autocomplete'">
+                              </app-chips-group-autocomplete>
+                              <div *ngIf="loadertrue" id="loader"></div>
+                              <div class="action-container" appLicenseDisable>
+                                <button mat-raised-button class="btn-clear" type="button"
+                                        (click)='removePolygon()'>CLEAR
+                                </button>
+                                <button mat-raised-button class="btn-primary-color" type="button"
+                                        (click)="applyForm();">APPLY
+                                </button>
+                              </div>
+                            </div>
+                          </mat-expansion-panel>
+
+                        </mat-accordion>
+                      </div>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel hideToggle class="specific-spots-panel">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          <mat-icon>chevron_right</mat-icon>
+                          Specific IDs
+                        </mat-panel-title>
+                        <mat-panel-description (click)="$event.stopPropagation();">
+                          <mat-checkbox disableRipple
+                                        [checked]="filtersSelection.geoPanelId || filtersSelection.plantUnitId || filtersSelection.inventorySet"
+                                        class="rounded-checkbox"
+                                        (change)="toggleSpotsIdsFilter($event)"
+                                        [disabled]="filtersSelection['geoPanelId'] === undefined && filtersSelection['plantUnitId'] === undefined && filtersSelection['inventorySet'] === undefined"></mat-checkbox>
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <div class="mat-expansion-content">
+                        <mat-accordion [displayMode]="'flat'">
+                          <mat-expansion-panel class="mat-elevation-z0" hideToggle [expanded]="true">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title [matTooltipClass]="'inventory-filter-tooltip'" matTooltipPosition="above"
+                                               matTooltip="Filter inventory by known Geopath Spot IDs or Operator Spot IDs">
+                                Specific Spots
+                              </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="speficids-panel-body">
+                              <app-filter-by-ids></app-filter-by-ids>
+                            </div>
+                          </mat-expansion-panel>
+
+                          <mat-expansion-panel class="mat-elevation-z0" hideToggle
+                                               (opened)="inventorySetsLazyLoader.triggerInitialLoad()"
+                                               *ngIf="inventorySetModulePermission['status']!=='hidden'"
+                                               [disabled]="inventorySetModulePermission['status']==='disabled'">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title [matTooltipClass]="'inventory-filter-tooltip'" matTooltipPosition="above"
+                                               matTooltip="User saved Inventory Sets">
+                                Load Saved Inventory Sets
+                              </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="speficids-panel-body">
+                              <app-explore-inventory-sets [preload]="false"
+                                                          [initiator$]="inventorySetsLazyLoader.initiator$">
+                              </app-explore-inventory-sets>
+                            </div>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+                      </div>
+                    </mat-expansion-panel> <!-- specific ids close -->
+                    <mat-expansion-panel hideToggle
+                                         *ngIf="(allowScenarios === 'active' && allowInventory === 'active')">
+                      <mat-expansion-panel-header (click)="openThresholdFilter()">
+                        <mat-panel-title>
+                          <mat-icon>chevron_right</mat-icon>
+                          Thresholds
+                        </mat-panel-title>
+                        <mat-panel-description (click)="$event.stopPropagation();">
+                          <mat-checkbox disableRipple [checked]="filtersSelection.thresholds"
+                                        class="rounded-checkbox"
+                                        (change)="toggleFilter($event, 'thresholds')"
+                                        [disabled]="filtersSelection['thresholds'] === undefined"></mat-checkbox>
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <div class="mat-expansion-content">
+                        <app-thresholds-filter-gp></app-thresholds-filter-gp>
+                      </div>
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                </div>
+              </div>
+              <div class="inventory-filters-footer" fxLayout="row" fxLayoutAlign="end center"
+                   appLicenseDisable>
+                <button mat-raised-button class="button button-secondary uppercase clear-btn"
+                        (click)="resetAllFilter();">Clear All
+                </button>
+              </div>
+            </div>
+
+            <ng-template mat-tab-label>
+              INVENTORY MANAGEMENT
+            </ng-template>
+            <div [hidden]="selectedTab !== tab.INVENTORY_MANAGEMENT" *ngIf="inventoryManagementEnabled">
+              <app-inventory-management></app-inventory-management>
+            </div>
+
+            <ng-template mat-tab-label>
+              Layers and Display Options
+            </ng-template>
+            <div class="layers-filters" fxFlexFill [hidden]="selectedTab !== tab.LAYERS_AND_DISPLAY">
+              <app-explore-layers-template></app-explore-layers-template>
+            </div>
+
+            <div class="actions-filters" fxFlexFill [hidden]="selectedTab !== tab.ACTIONS">
+              <app-action-menu-template [printConatiner]="'printContent'" [module]="'explore'"
+                                        (resetAll)="resetAll($event)"></app-action-menu-template>
+            </div>
+            <!-- <ng-template mat-tab-label>
+              Actions
+            </ng-template>
+            <div class="actions-filters" fxFlexFill [hidden]="selectedTab !== 3">
+              <app-actions-filter></app-actions-filter>
+            </div> -->
+          </mat-tab>
+
+
+        </mat-tab-group>
+      </div>
+    <!-- </mat-sidenav> -->
+    <!-- <mat-sidenav-content>
+      <div class="find-inventory-btn-icon close-filter" fxLayout="column"
+           fxLayoutAlign="center center" fxFlex="15px" (click)="onCloseFilterTab()">
+        <mat-icon *ngIf="showFilter">arrow_left</mat-icon>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container> -->
+</div>

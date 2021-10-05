@@ -1,0 +1,185 @@
+
+@font-face {
+  font-family: 'LL Circular Pro Web';
+  src: url("../fonts/circular/lineto-circular-pro-book.eot");
+  src: url("../fonts/circular/lineto-circular-pro-book.eot?#iefix") format("embedded-opentype"),
+  url("../fonts/circular/lineto-circular-pro-book.woff2") format("woff2"),
+  url("../fonts/circular/lineto-circular-pro-book.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'LL Circular Pro Web';
+  src: url("../fonts/circular/lineto-circular-pro-bold.eot");
+  src: url("../fonts/circular/lineto-circular-pro-bold.eot?#iefix") format("embedded-opentype"),
+  url("../fonts/circular/lineto-circular-pro-bold.woff2") format("woff2"),
+  url("../fonts/circular/lineto-circular-pro-bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "LL Circular Pro Medium Web";
+  src: url("../fonts/circular/lineto-circular-pro-medium.eot");
+  src: url("../fonts/circular/lineto-circular-pro-medium.eot?#iefix") format("embedded-opentype"),
+  url("../fonts/circular/lineto-circular-pro-medium.woff2") format("woff2"),
+  url("../fonts/circular/lineto-circular-pro-medium.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+html {
+  height: 100%;
+  font-family: 'LL Circular Pro Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  line-height: 18px;
+  letter-spacing: 0.17;
+}
+/*
+To apply global style to body
+*/
+body.intermx-theme-new {
+  @import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+  height: 100%;
+  font-family: 'LL Circular Pro Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  line-height: 18px;
+  letter-spacing: 0.17;
+  color: var(--grays-base);
+
+  p {
+    font-size: 1rem;
+    color: var(--grays-base);
+  }
+  .mat-snack-bar-container {
+    max-width: 50vw  !important;
+    min-width: inherit !important;
+    simple-snack-bar{
+      word-break: break-all;
+    }
+    .mat-simple-snackbar {    
+      > span {
+        &::first-letter{
+          text-transform:uppercase;
+        }
+        font-size: 16px !important;
+        color: var(--text-whites) !important;
+      }
+      .mat-simple-snackbar-action {
+        color: #D2EDD0 !important;
+        .mat-button-wrapper {
+          font-size: 14px !important;
+        }
+      }
+    }
+  }
+}
+
+.noDataFound{
+  width: 100%;
+  background: #fff;
+  margin:.25rem 0;
+  height: initial;
+  
+  p{
+    font-size: 1.75rem;
+    line-height: 2.313rem;
+    font-weight:400;
+    text-align: left;
+    color: var(--grays-bg-800);
+  }
+  img{
+    height:100%;
+  }
+}
+
+/* To use the new theme within a portion of a page, such as notifications. Once new theme is widely implemented, remove the old theme files and move all required styles here. Then this class can be removed, letting the styles to apply globally.*/
+.intermx-theme-new {
+  /** Typography style*/
+
+  @import "../theme/imx-typography.less";
+
+  /** Typography button style*/
+
+  @import "../theme/imx-button.less";
+
+  /** Form element */
+
+  @import "../theme/imx-form-element.less";
+
+  /** custom icons element */
+
+  @import "../theme/imx-icon.less";
+
+  @import "../theme/imx-tab.less";
+
+  /** common cdk overlay dropdown */
+    @import "../theme/imx-dropdown.less";
+
+  /** Table design */
+  @import "../theme/imx-table.less";
+
+  /** Mat Dialog design */
+  @import "../theme/imx-mat-dialog.less";
+
+  /** mat expansion panel */
+  @import "../theme/imx-expansion-panel.less";
+
+  /** mat-chip **/
+  @import "../theme/imx-chip.less";
+
+  /** mat menu styles */
+  @import "../theme/imx-mat-menu.less";
+
+   /** list select with icon */
+   @import "../theme/imx-selection-list.less";
+
+   /** Tooltip design */
+   @import "../theme/imx-tooltip.less";
+
+
+   /** calendar picker design */
+   @import "../theme/imx-calendar.less";
+
+   /** circle single text design */
+   @import "../theme/imx-circle-text.less";
+
+
+  /** note design */
+  @import "../theme/imx-note.less";
+
+  @import "../theme/imx-tag-input.less";
+   
+  /** ckeditor design */
+  @import "../theme/imx-ckeditor.less";
+
+   .mat-paginator {
+    .mat-paginator-page-size-select {
+      .mat-form-field-underline {
+        display: none;
+      }
+      .mat-form-field-infix {
+        border: 1px solid var(--grays-bg-600);
+        border-radius: 5px;
+        padding: 5px;
+        margin-top: 10px;
+      }
+    }
+  }
+
+  // Common styles
+  .imx-name-wrap{
+    word-break: break-word;
+  }
+}
+.imx-link-cursor{
+  cursor: pointer;
+}
+
+
+

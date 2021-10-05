@@ -1,0 +1,17 @@
+<div fxFill class="save-audience-dialog-box">
+  <div mat-dialog-content class="save-audience-dialog">
+      <mat-form-field fxFill class="audience-title-field">
+        <input class="audience-title" matInput [formControl]="audienceTitleFc" placeholder="Audience Name">
+        <mat-error *ngIf="audienceTitleFc.errors?.required">Required</mat-error>
+        <mat-error *ngIf="!audienceTitleFc.errors?.required && audienceTitleFc.errors?.whitespace">Invalid Audience Name</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="save-audience-dialog-actions" mat-dialog-actions dir="rtl" fxLayoutGap="10px">
+      <button mat-button class="imx-button-primary" (click)="save()">SAVE</button>
+      <button mat-button mat-dialog-close class="imx-button-basic" (click)="onNoClick()">Cancel</button>
+      <!-- <button class="button-primary apply-btn audience-dialog-save-btn" mat-raised-button [mat-dialog-close]="data.audience.title" cdkFocusInitial>SAVE</button>
+      <button class="button button-secondary clear-btn audience-dialog-cancel-btn" mat-raised-button (click)="onNoClick()">CANCEL</button> -->
+    </div>
+</div>
+

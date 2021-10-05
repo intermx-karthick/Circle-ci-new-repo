@@ -1,0 +1,91 @@
+<div class="city-cast-scheme">
+  <div fxLayout="row" fxLayoutAlign="start center" class="cast-scheme-title">
+    <i class="icon-custom icon-custom-cc-scheme"></i>
+    <h4>Scheme</h4>
+  </div>
+  <div class="scheme-content" *ngIf="cast.status === castStatuses.PUBLISHED">
+    <div class="scheme-content-pad">
+      <div>
+        <h5>BaseCast</h5>
+      </div>
+      <div class="body-2">
+        created by Transport Foundry
+      </div>
+    </div>
+    <div class="scheme-content-pad">
+      <div>
+        <h5>No Changes</h5>
+      </div>
+      <div class="body-2">
+        BaseCasts are read-only and cannot be changed
+      </div>
+    </div>
+  </div>
+  <div
+    class="scheme-content"
+    *ngIf="
+      cast.status === castStatuses.DRAFT || cast.status === castStatuses.RUNNING
+    "
+  >
+    <div class="scheme-content-pad">
+      <div>
+        <h5>
+          BaseCast : {{ cast.parentCast?.title }}
+        </h5>
+      </div>
+      <div class="body-2">
+        with the following changes:
+      </div>
+    </div>
+    <div
+      *ngIf="
+        unSavedChanges.length > 0 || savedDeltas.length > 0;
+        else noSavedChanges
+      "
+    >
+      <div
+        *ngIf="cast && unSavedChanges.length > 0"
+        class="cast-unsaved-changes"
+      >
+        <h5>Unsaved Changes</h5>
+        <ng-container
+          *ngFor="
+            let data of unSavedChanges;
+            let i = index;
+            trackBy: trackByFeature
+          "
+        >
+          <app-city-cast-scheme-card
+            [data]="data"
+            [index]="i"
+            [cast]="cast"
+            [type]="'unsaved'"
+            (cardAction)="cardAction($event)"
+          ></app-city-cast-scheme-card>
+        </ng-container>
+        <hr />
+      </div>
+      <ng-container
+        *ngFor="let data of savedDeltas; let i = index; trackBy: trackByFeature"
+      >
+        <app-city-cast-scheme-card
+          [data]="data"
+          [index]="i"
+          [cast]="cast"
+          [type]="'saved'"
+          (cardAction)="cardAction($event)"
+        ></app-city-cast-scheme-card>
+      </ng-container>
+    </div>
+    <ng-template #noSavedChanges>
+      <div class="scheme-content-pad">
+        <div>
+          <h5>No Changes</h5>
+        </div>
+        <div class="body-2">
+          Select a Link or Tract to add changes to this Cast
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

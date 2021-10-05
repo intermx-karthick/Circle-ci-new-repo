@@ -1,0 +1,29 @@
+{
+    "reporter": "mochawesome",
+    "reporterOptions": {
+        "reportDir": "cypress/reports/mochawesome-report",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "mmddyyyy_HHMMss"
+    },
+    "defaultCommandTimeout": 100000,
+    "pageLoadTimeout": 30000,
+    "watchForFileChanges": false,
+    "edgeWebSecurity": false,
+    "chromeWebSecurity": false,
+    "requestTimeout": 9000,
+    "responseTimeout": 30000,
+    "experimentalStudio": false,
+    "video": false,
+    "viewportHeight":1000,
+    "viewportWidth":1400,
+    "env": {
+        "url": "https://gisdev.geopath.io/?connection=Intermx",
+        "oneomgurl": "https://staging.oneomg.io/?connection=Intermx"
+    },
+    "retries": {
+        "runMode": 0
+    },
+    "projectId": "rxwe28"
+}

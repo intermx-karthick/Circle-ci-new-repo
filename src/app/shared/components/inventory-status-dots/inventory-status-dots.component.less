@@ -1,0 +1,22 @@
+@import url(../../../../assets/css/variables.less);
+::ng-deep{
+  app-inventory-status-dots {
+    .inventory-status-dots{
+      font-size: 20px;
+      cursor: pointer;
+      &.green {
+        color: green;
+      }
+      &.red {
+        color: red;
+      }
+      &.yellow {
+        color: #FFBD33;
+        text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+      } 
+      &.grey {
+        color: var(--grays-bg-700);
+      }
+    }
+  }
+}

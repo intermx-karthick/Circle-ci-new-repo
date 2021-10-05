@@ -1,0 +1,248 @@
+<div class="page-body" *ngIf="selectedSite">
+    <div fxLayout="row" [ngStyle]="{'justify-content': isSiteAdmin ? 'space-between' : 'flex-end'}">
+      <mat-form-field class="imx-dropdown imx-input" *ngIf="isSiteAdmin">
+        <mat-label>Select site</mat-label>
+        <mat-select panelClass="imx-select" [(value)]="selectedSite._id" (selectionChange)="onSelectSiteChange($event.value)">
+          <div class="mat-select-panel__wrapper" infiniteScroll
+               (scrolled)="getSitesList(true, true)"
+               [scrollWindow]="false"
+               [infiniteScrollDistance]="1"
+               [infiniteScrollThrottle]="0"
+               [infiniteScrollDisabled]="isComplete || isSitesListLoading"
+               [fromRoot]="true">
+            <mat-option [value]="null">Select Site</mat-option>
+            <mat-option *ngFor="let site of sites" [value]="site._id">
+              {{ site.siteName }}
+            </mat-option>
+            <mat-option disabled *ngIf="isSitesListLoading">
+              <div fxLayout="row" fxLayoutAlign="space-around center" >
+                <mat-spinner diameter="20"></mat-spinner>
+              </div>
+            </mat-option>
+          </div>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button class="imx-button button-primary add-users-button" *ngIf="selectedSite?.auth0?.connectionType === 'database'" (click)="openAddUsersDialog()">{{'Add users' | uppercase}}  <mat-icon class="add-site-icon">add_circle_outline</mat-icon></button>
+    </div>
+    <mat-card class="table-card">
+      <mat-card-content>
+        <ngx-datatable
+          #usersTable
+          [columnMode]="ColumnMode.flex"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [rows]="rows"
+          [limit]="limit"
+          (mouseleave)="onTableMouseLeave($event)"
+          [sorts]="[{prop: 'name', dir: 'asc'}]"
+        >
+          <!-- Row Detail Template -->
+          <ngx-datatable-row-detail rowHeight="auto" #myDetailRow (toggle)="onDetailToggle($event)">
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+              <div fxLayout="row" fxLayoutAlign="start" class="expanded-details-container">
+                  <app-user-details
+                    [userId]="row.user_id"
+                    [groups]="groups"
+                    [roles]="roles"
+                    [userRow]="row"
+                    [connection]="selectedSite.auth0.connections"
+                    [organizationId]="selectedSite.organizationId"
+                    [userContactsAccess]="userContactsAccess"
+                    [clientAccess]="clientAccess"
+                    (saveUser)="onSaveUser($event)"
+                    (deleteUser)="onDeleteUser($event)"
+                    (deleteUserGroups)="onDeleteUserGroups($event)"
+                    (cancel)="toggleExpandRow(row)"
+                    (updateTable)="onTableUpdate()"
+                  ></app-user-details>
+              </div>
+            </ng-template>
+          </ngx-datatable-row-detail>
+          <!-- Column Templates -->
+          <ngx-datatable-column
+            [sortable]="true"
+          >
+            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+              <div [style.paddingTop]="expanded ? '0.7rem' : '0'">
+                <a
+                  class="expand-row"
+                  [class.datatable-icon-down]="!expanded"
+                  [class.datatable-icon-up]="expanded"
+                  title="Expand/Collapse Row"
+                  (click)="toggleExpandRow(row)"
+                >
+                </a>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+            <ngx-datatable-column name="Name" prop="name" [flexGrow]="userContactsAccess?.status === 'active' ? 2 : 3">
+              <ng-template ngx-datatable-header-template let-column="Name" let-expanded="expanded" let-sort="sortFn" let-sortDir="sortDir">
+                <a (click)="sort($event, sortDir, sortFn)">
+                  <mat-icon
+                    *ngIf="sortDir"
+                    class="user-mgmt-sort"
+                    matSuffix
+                    [svgIcon]="sortDir === 'asc' ? 'IMX-arrow-sort-up' : 'IMX-arrow-sort-down'"
+                  ></mat-icon>
+                  Name
+                </a>
+                <span class="details-icon" (click)="onDetailsSelectToggle()">
+                  <mat-icon
+                    matSuffix
+                    svgIcon="IMX-user-mgmt-table-search"
+                  ></mat-icon>
+                </span>
+                <input
+                  type="text"
+                  class="details-select"
+                  placeholder="Filter names"
+                  (keyup)="updateFilter($event)"
+                  *ngIf="isDetailsSelect"
+                />
+              </ng-template>
+              <ng-template let-value="value" let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                <div [title]="value" (mouseenter)="onTableMouseOver(row)" [style.paddingTop]="expanded ? '0.7rem' : '0'">
+                  <span class="primary-color">{{ value }}</span>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Office" prop="office" [flexGrow]="2" *ngIf="userContactsAccess?.status === 'active'">
+              <ng-template ngx-datatable-header-template let-column="Office" let-expanded="expanded" let-sort="sortFn" let-sortDir="sortDir">
+                <a (click)="sort($event, sortDir, sortFn)">
+                  <mat-icon
+                    *ngIf="sortDir"
+                    class="user-mgmt-sort"
+                    matSuffix
+                    [svgIcon]="sortDir === 'asc' ? 'IMX-arrow-sort-up' : 'IMX-arrow-sort-down'"
+                  ></mat-icon>
+                  Office
+                </a>
+                <span class="details-icon" (click)="onOfficeDetailsSelectToggle()">
+                  <mat-icon
+                    matSuffix
+                    svgIcon="IMX-user-mgmt-table-search"
+                  ></mat-icon>
+                </span>
+                <input
+                  type="text"
+                  class="details-select"
+                  placeholder="Filter offices"
+                  (keyup)="updateOfficeFilter($event)"
+                  *ngIf="isOfficeDetailsSelect"
+                />
+              </ng-template>
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template let-expanded="expanded">
+                <div [title]="value" (mouseenter)="onTableMouseOver(row)" [style.paddingTop]="expanded ? '0.7rem' : '0'">
+                  <span>{{ value }}</span>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Email" prop="email" [flexGrow]="3">
+              <ng-template ngx-datatable-header-template let-column="Email" let-expanded="expanded" let-sort="sortFn" let-sortDir="sortDir">
+                <a (click)="sort($event, sortDir, sortFn)">
+                  <mat-icon
+                    *ngIf="sortDir"
+                    class="user-mgmt-sort"
+                    matSuffix
+                    [svgIcon]="sortDir === 'asc' ? 'IMX-arrow-sort-up' : 'IMX-arrow-sort-down'"
+                  ></mat-icon>
+                  Email
+                </a>
+              </ng-template>
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template let-expanded="expanded">
+                <div (mouseenter)="onTableMouseOver(row)" [style.paddingTop]="expanded ? '0.7rem' : '0'">
+                  <span>{{ value }}</span>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Groups" prop="groups" [flexGrow]="1">
+              <ng-template ngx-datatable-header-template let-column="Groups" let-expanded="expanded" let-sort="sortFn" let-sortDir="sortDir">
+                <a (click)="sort($event, sortDir, sortFn)">
+                  <mat-icon
+                    *ngIf="sortDir"
+                    class="user-mgmt-sort"
+                    matSuffix
+                    [svgIcon]="sortDir === 'asc' ? 'IMX-arrow-sort-up' : 'IMX-arrow-sort-down'"
+                  ></mat-icon>
+                  Groups
+                </a>
+              </ng-template>
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template let-expanded="expanded">
+                <div (mouseenter)="onTableMouseOver(row)" [style.paddingTop]="expanded ? '0.7rem' : '0'">
+                  <span>{{value.length}} Groups</span>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Status" prop="blocked" [flexGrow]="2">
+              <ng-template ngx-datatable-header-template let-column="Status" let-expanded="expanded" let-sort="sortFn" let-sortDir="sortDir">
+                <a (click)="sort($event, sortDir, sortFn)">
+                  <mat-icon
+                    *ngIf="sortDir"
+                    class="user-mgmt-sort"
+                    matSuffix
+                    [svgIcon]="sortDir === 'asc' ? 'IMX-arrow-sort-up' : 'IMX-arrow-sort-down'"
+                  ></mat-icon>
+                  Status
+                </a>
+              </ng-template>
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template let-expanded="expanded">
+                <div (mouseenter)="onTableMouseOver(row)" [style.paddingTop]="expanded ? '0.7rem' : '0'">
+                  <span class="user-status" [ngClass]="[value ? 'user-status_revoked' : 'user-status_active']">
+                    {{value ? 'Revoked' : 'Active'}}
+                  </span>
+                  <div class="actions-select" [hidden]="(isDetailExpanded && expandedRow?.value.user_id === row.user_id) || row.user_id !== mouseOverRow?.user_id">
+                    <button mat-icon-button [disableRipple]="true" [matMenuTriggerFor]="actionsMenu">
+                      Action
+                      <mat-icon>keyboard_arrow_down</mat-icon>
+                    </button>
+                    <mat-menu #actionsMenu="matMenu" class="actionsMenu">
+                      <button *ngFor="let option of actionsList" [disableRipple]="true" mat-menu-item (click)="onActionChange($event, row)">
+                        {{option}}
+                      </button>
+                    </mat-menu>
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-footer>
+              <ng-template
+                ngx-datatable-footer-template
+                let-rowCount="rowCount"
+                let-pageSize="pageSize"
+                let-selectedCount="selectedCount"
+                let-curPage="curPage"
+                let-offset="offset"
+              >
+                <div class="page-limit-container">
+                  <span class="page-limit-label">Rows</span>
+                  <mat-form-field class="imx-dropdown imx-input">
+                    <mat-label>Rows</mat-label>
+                    <mat-select panelClass="imx-select" [disabled]="!rows || !rows.length" [(value)]="currentPageLimit" (selectionChange)="onLimitChange($event)" class="page-limit">
+                      <mat-option *ngFor="let option of pageLimitOptions" [value]="option">
+                        {{option}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <datatable-pager
+                  *ngIf="rows?.length"
+                  [pagerLeftArrowIcon]="'datatable-icon-left'"
+                  [pagerRightArrowIcon]="'datatable-icon-right'"
+                  [pagerPreviousIcon]="'datatable-icon-prev'"
+                  [pagerNextIcon]="'datatable-icon-skip'"
+                  [page]="curPage"
+                  [visiblePagesCount]="currentVisible"
+                  [size]="pageSize"
+                  [count]="rowCount"
+                  [hidden]="false"
+                  (change)="usersTable.onFooterPage($event)"
+                >
+                </datatable-pager>
+              </ng-template>
+            </ngx-datatable-footer>
+        </ngx-datatable>
+      </mat-card-content>
+    </mat-card>
+  </div>

@@ -1,0 +1,118 @@
+::ng-deep {
+  app-contact-form {
+    .cke_toolbox {
+      .cke_button__numberedlist::after {
+          border: unset !important;
+      }
+      .cke_toolbar_last {
+          float: right !important;
+      }
+    }
+    
+    .company-id {
+      align-self: center;
+      font-size: 14px;
+      font-weight: normal;
+      line-height: 18px;
+      color: var(--grays-bg-800);
+    }
+
+    .address-margin {
+      margin: 20px 0;
+    }
+
+    .error-field-width {
+      &.mat-form-field-invalid {
+        .mat-form-field-subscript-wrapper {
+          width: 180px;
+        }
+      }
+    }
+
+    .email-hint {
+      font-size: 10px;
+      color: #7D7D7D;
+      line-height: 16px;
+      font-style: normal;
+      font-weight: normal;
+    }
+
+    .contact-form__select {
+      width: 100%;
+
+      .mat-select {
+        font-size: 0.813rem;
+        letter-spacing: 0.5px;
+        color: var(--grays-bg-800);
+
+        .mat-select-value-text {
+          color: var(--grays-bg-800) !important;
+        }
+      }
+    }
+
+    .imx-input-no-border{
+      height:auto;
+      border: none;
+    }
+    .contact-form__address-card{
+      width: 27.813rem !important;
+      max-width: 27.813rem !important;
+    }
+    .parent-company-readonly{
+      input{
+        cursor: pointer;
+      }
+    }
+
+    .parent-company {
+      font-weight: normal;
+      line-height: 16px;
+      font-size: 0.813rem !important;
+      letter-spacing: 0.5px;
+      .span {
+        color: var(--grays-bg-800);
+      }
+      .label{
+        color: var(--grays-bg-500);
+      }
+    }
+    // TODO: Need to uncomment if we are going to reuse this component in edit contact page
+    // .notes__btn{
+    //   color: var(--primary-bg);
+    // }
+    .details-mat-form-field {
+      margin-right: 24px !important;
+
+      .mat-link-icon {
+        position: absolute;
+        right: -24px;
+        top: 4px;
+        color: var(--primary-bg) !important;
+      }
+    }
+  }
+
+  .autocomplete-scroll {
+    .company-list-autocomplete{
+      max-height: 14.375rem;
+      overflow-y: auto;
+    }
+
+    &.mat-autocomplete-panel{
+      overflow-y: hidden !important;
+      padding-right: 0 !important;
+    }
+  }
+
+  .editorLabel {
+    .mat-form-field-label {
+      top: 0px !important;
+    }
+  }
+  .notesTextAreaLabel {
+    .mat-form-field-label-wrapper {
+      top: unset !important;
+    }
+  }
+}

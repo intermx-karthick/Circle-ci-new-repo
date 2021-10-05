@@ -1,0 +1,23 @@
+<div class="add-agency-main">
+
+  <!-- add agency header start -->
+  <div class="add-agency-Header">
+    <h4 *ngIf="!agencyDetails['name']; else duplicateAgency;">Add Agency</h4>
+    <ng-template #duplicateAgency>
+      <h4>Duplicate {{ agencyDetails['name'] }} Details</h4>
+    </ng-template>
+  </div><!-- add agency header close -->
+
+  <!-- add agency form body start -->
+  <div class="add-agency-body" [ngStyle]="{'max-height.px':scrollContent}" (scroll)="handleScroll()"
+        (window:resize)="reSize()" id="add_agency_SCROLLABLE">
+    <app-agencies-form [agencyDetails$]="agencyDetails$" [containerScrolling$]="scrolling$"  (agencyFormChanges)="agencyFormChanges($event)" [type]="type" [submitForm$]="submitForm$" scrollingContainer="add_agency_SCROLLABLE"></app-agencies-form>
+  </div><!-- add agency form body close -->
+
+  <!-- add agency footer action start -->
+  <div class="add-agency-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20px">
+  <button type="reset" mat-button (click)="navigateToAgencyList()" class="imx-button-secondary">Cancel</button>
+  <button type="button" (click)="submitAgency()" mat-button class="imx-button-primary">SAVE AGENCY</button>
+  </div><!-- add agency footer action close -->
+
+</div>

@@ -1,0 +1,105 @@
+::ng-deep {
+    app-select-operator-popup {
+      .mat-dialog-content {
+        height: 93%;
+        > div {
+          height: 100%;
+        }
+        .operator-popup{
+          position: relative;
+        }
+        overflow: hidden;
+        app-operator-widget-dialog-w3 {
+            .operator-options-dialog {
+                .mat-selection-list {
+                    max-height: 320px !important;
+                }
+                &.operators-selected {
+                    .mat-selection-list {
+                        max-height: 200px !important;
+                    }
+                }
+            }
+            .operator-selection-action.operator-type-select {
+                position: fixed;
+               // bottom: 125px;
+                width: 100%;
+                max-width: 550px;
+                margin-left: -10px;
+                z-index: 1;
+                background: #fff;
+                .selected-media-type {
+                  height: 115px !important;
+                  min-height: 115px !important;
+                }
+                .select-media-type-block {
+                    height: 85px !important;
+                    min-height: 85px !important;
+                }
+                .mat-list{
+                    max-height: 75px !important;
+                    overflow: auto;
+                    min-height: 75px !important;
+                }
+            }
+            // Commented on March-21 due to IMXUIPRD-3501
+           /* @media (min-height:0px) and (max-height:700px){
+                .operator-selection-action{
+                  &.operator-type-select{       
+                    bottom: 120px;
+                  }
+                }
+              }
+          
+              @media (min-height:701px) and (max-height:780px){
+                .operator-selection-action{
+                  &.operator-type-select{       
+                    bottom: 150px;
+                  }
+                }
+              }
+          
+              @media (min-height:781px) and (max-height:850px){
+                .operator-selection-action{
+                  &.operator-type-select{       
+                    bottom: 190px;
+                  }
+                }
+              }
+          
+          
+              @media (min-height:850px) and (max-height:950px){
+                .operator-selection-action{
+                  &.operator-type-select{       
+                    bottom: 22%;
+                  }
+                }
+              }
+          
+              @media (min-height:951px) and (max-height:1000px){
+                .operator-selection-action{
+                  &.operator-type-select{       
+                    bottom: 250px;
+                  }
+                }
+              }
+          
+              @media (min-height:1001px) and (max-height:1200px){
+                .operator-selection-action{
+                  &.operator-type-select{       
+                    bottom: 280px;
+                  }
+                }
+              }
+          
+              @media (min-height:1200px){
+                .operator-selection-action{
+                  &.operator-type-select{       
+                    bottom: 35%;
+                  }
+                }
+              }*/
+        }
+      }
+    }
+  }

@@ -1,0 +1,74 @@
+<div fxFlexFill class="inventory-summary-card" fxLayout="column" *ngIf="measuresLicense === 'active'">
+    <div class="card-heading" fxLayout="row" fxLayoutAlign="space-between center">
+        <h6>SPOT SUMMARY LIST</h6>
+        <a *ngIf="(!mobileView && !isSmallScreen && allowInventory !== 'hidden' && allowInventory !== 'disabled') && (isTabularViewEnabled && isTabularViewEnabled.status ==='active')" (click)="expandTable();" >View as Table</a>
+    </div>
+    <div class="card-content">
+      <p class="subtitle-1 margin-bottom-10 margin-bottom-5 button-primary-link" *ngIf="inventorySummary.period_days && inventorySummary.period_days > 0 && measuresLicense === 'active' && !isSmallScreen">{{inventorySummary.period_days / 7}} Week Metrics</p>
+      <div fxLayout="row wrap" fxLayoutAlign="space-between center" *ngIf="measuresLicense === 'active' && !isSmallScreen">
+          <div fxFlex="100%" fxLayoutAlign="center" fxLayoutGap="10px" class="m-t-10">
+            <div fxLayout="column" fxFlex='33' fxLayoutAlign="start center" class="measureColumns">
+              <span class="metric-item-value" title="{{ (inventorySummary.imp >= 0) ?inventorySummary.imp : '-'}}">{{(inventorySummary.imp >= 0) ?(inventorySummary.imp | convert:'ABBREVIATE':0) :'-'}}</span>
+                <span class="overline" title="Total Impressions ({{defaultAudience['description']}})">TOTAL<br>IMP</span>
+            </div>
+            <div fxLayout="column"  fxFlex='33' fxLayoutAlign="start center" class="measureColumns">
+              <span class="metric-item-value" title="{{ (inventorySummary.imp_inmkt >= 0) ?inventorySummary.imp_inmkt : '-'}}">{{(inventorySummary.imp_inmkt >= 0) ?(inventorySummary.imp_inmkt | convert:'ABBREVIATE':0) :'-'}}</span>
+              <span class="overline" title="Total In-Market Impressions ({{defaultAudience['description']}})">TOTAL<br>IN-MKT IMP</span>
+            </div>
+            <div fxLayout="column"  fxFlex='33' fxLayoutAlign="start center" class="measureColumns">
+              <span class="metric-item-value" title="{{ (inventorySummary.imp_target_inmkt >= 0) ?inventorySummary.imp_target_inmkt : '-'}}">{{(inventorySummary.imp_target_inmkt >= 0) ?(inventorySummary.imp_target_inmkt | convert:'ABBREVIATE':0) :'-'}}</span>
+              <span class="overline" title="Target In-Market Impressions">TARGET<br>IN-MKT IMP</span>
+            </div>
+          </div>
+          <!-- <div fxLayout="column"  >
+              <span class="metric-item-value" title="{{inventorySummary | measures:'TARGETCOMP':5}}">{{inventorySummary | measures:'TARGETCOMP':5}}</span>
+              <span class="overline" title="Target Composition">TARGET Comp.</span>
+          </div> -->
+          
+          <div fxFlex="100%" fxLayoutAlign="center" fxLayoutGap="10px" class="m-t-10">
+            <div fxLayout="column" fxFlex='33' fxLayoutAlign="start center" class="measureColumns">
+              <span class="metric-item-value" title="{{ (inventorySummary.trp >= 0) ?inventorySummary.trp : '-'}}">{{(inventorySummary.trp >= 0) ?(inventorySummary.trp | convert:'ABBREVIATE':0) :'-'}}</span>
+                <span class="overline" title="Target Rating Points">TRP</span>
+            </div>
+            <div fxLayout="column" fxFlex='33' fxLayoutAlign="start center" class="measureColumns">
+              <span class="metric-item-value" title="{{(inventorySummary.pct_comp_imp_target_inmkt >= 0) ? ((inventorySummary.pct_comp_imp_target_inmkt !== null)? ((inventorySummary.pct_comp_imp_target_inmkt | convert:'PERCENT':1) + '%') : '0') : '-'}}">{{(inventorySummary.pct_comp_imp_target_inmkt >= 0) ? ((inventorySummary.pct_comp_imp_target_inmkt !== null)? ((inventorySummary.pct_comp_imp_target_inmkt | convert:'PERCENT':1) + '%') : '0')  : '-'}}</span>
+              <span class="overline" title="Target In-Market Composition">TARGET<br>IN-MKT COMP.</span>
+            </div>
+            <div fxLayout="column" fxFlex='33' fxLayoutAlign="start center" class="measureColumns">
+              <span class="metric-item-value" title="{{(inventorySummary.index_comp_target >= 0) ? ((inventorySummary.index_comp_target !== null)? (inventorySummary.index_comp_target) : '0') : '-'}}">{{(inventorySummary.index_comp_target >= 0) ? ((inventorySummary.index_comp_target !== null)? (inventorySummary.index_comp_target | number:'1.0-0') : '0')  : '-'}}</span>
+              <span class="overline" title="Composition Index">COMP.INDEX</span>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="card-footer">
+        <div *ngIf="audienceLicense['status'] === 'active'" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+            <div fxLayoutAlign="start center" fxFlex='45%'>
+              <mat-icon>my_location</mat-icon>
+              <ng-container *ngIf="marketData && marketData['selectedMarkets'] && marketData['selectedMarkets'].length > 0; else noMarketsSelected">
+                <mat-form-field>
+                  <mat-label></mat-label>
+                  <mat-select [value]="marketData['selected']" (selectionChange)="marketChanges($event)">
+                    <mat-option value="all" *ngIf="marketData['selectedMarkets'].length > 1 && marketData['submitType'] === 'group'">Combined Markets</mat-option>
+                    <mat-option value="individual_all" *ngIf="marketData['selectedMarkets'].length > 1 && marketData['submitType'] === 'individual'">Individual Markets (all)</mat-option>
+                    <span *ngFor="let market of marketData['selectedMarkets']">
+                      <mat-option value="{{market.id}}">{{market.name}}</mat-option>
+                    </span>
+                  </mat-select>
+                </mat-form-field>
+              </ng-container>
+              <ng-template #noMarketsSelected>
+                <span class="e2e-applyed-audience-name target-labels">United States</span>
+              </ng-template>
+            <!-- <span class="e2e-applyed-market-name">
+              {{ (marketNames.length>1)? (marketNames | slice:0:1)+'( 1+ Markets...)':(marketNames) }}
+            </span> -->
+          </div>
+          <div title="{{targetName}}" fxLayoutAlign="start center" fxFlex='45%'>
+            <mat-icon>group_add</mat-icon>
+            <span class="e2e-applyed-audience-name target-labels">{{targetName | truncate: 'middle' : 8}}</span>
+          </div>
+        </div>
+    </div>
+  </div>
+<mat-divider *ngIf="!isSmallScreen && measuresLicense === 'active'"></mat-divider>

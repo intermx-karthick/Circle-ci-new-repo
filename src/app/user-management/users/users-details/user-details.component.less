@@ -1,0 +1,98 @@
+::ng-deep {
+    app-user-details {
+        width: 100%;
+
+        .row-detail-component {
+        width: 100%;
+        height: 100%;
+        padding: 2rem 0;
+
+        .row-container {
+          width: 99%;
+
+          &.left-buttons button:not(:last-child) {
+            margin-right: 1rem;
+          }
+        }
+
+        .details-element {
+          margin-right: 10px;
+        }
+
+        .button-primary {
+          margin: 0 10px;
+        }
+
+        .button-tertiary,
+        .button-primary {
+          max-width: max-content !important;
+        }
+
+        mat-form-field .mat-form-field-label, mat-form-field .placeholder-text {
+          line-height: 13px!important;
+        }
+      }
+    }
+  }
+
+:host {
+  padding-right: 35px;
+}
+
+.details-inputs {
+  max-width: 80%
+}
+
+.details-buttons {
+  margin-top: 3rem;
+  max-width: 90%
+}
+
+.full-access-checkbox {
+  margin-left: 1rem;
+  align-self: flex-start;
+}
+
+.user-address-container {
+  width: 50%;
+}
+
+.groups-roles-container {
+  align-items: baseline !important;
+
+  mat-form-field {
+    height: 100%;
+  }
+}
+
+.user-contact-form {
+  mat-form-field:not(.details-element) {
+    margin: 1rem 0;
+  }
+
+  mat-form-field.details-element {
+    margin: 1rem 0;
+    margin-right: 10px;
+  }
+}
+
+.user-address-container {
+  mat-form-field {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  align-self: flex-start !important;
+  padding: 16px 8px 0 !important;
+}
+
+.user-details__contact-type{
+  margin-top: 0.89rem !important;
+}
+
+.mt-1{
+  margin-top: .5rem;
+}
+
+.ml-1 {
+  margin-left: 1rem !important;
+}

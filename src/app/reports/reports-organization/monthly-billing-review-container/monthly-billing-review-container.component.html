@@ -1,0 +1,21 @@
+<div class="c-monthly-report-container">
+  <app-reports-preview-header (triggerAction)='reportHeaderAction($event)'></app-reports-preview-header>
+  <h6 class='c-monthly-report-container__sub-title'>Monthly Billing Review</h6>
+
+  <hr class='separator'>
+
+  <app-detailed-contract-recap [canShowReportTitle]="false"
+                               reportTypeName="MONTHLY BILLING REVIEW"
+                               [hideTaxIncludeText]="false">
+
+  </app-detailed-contract-recap>
+
+  <hr class='separator mt-1' />
+
+  <section class="c-monthly-report-container__report-block">
+    <app-report-preview-table-monthly [isNeedMarketCol]="true"></app-report-preview-table-monthly>
+  </section>
+  <div>
+    <app-report-billing-instruction></app-report-billing-instruction>
+  </div>
+</div>

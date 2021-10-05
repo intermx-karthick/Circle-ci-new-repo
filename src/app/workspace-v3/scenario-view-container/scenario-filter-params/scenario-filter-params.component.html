@@ -1,0 +1,310 @@
+<div id="plan-summary-block">
+  <h4 mat-dialog-title>Viewing {{labels.scenario[0]}} Summary</h4>
+  <button mat-button type="button" mat-dialog-close class="mat-dialog-close imx-button-basic">
+    Close
+  </button>
+  <mat-dialog-content>
+    <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem" class="market-plan-filters market-tip">
+      <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem" id="plan-summary-title">
+        <div fxLayout="row" fxLayoutAlign="start center" class="filter-display">
+          <div>
+            {{labels.scenario[0]}} in:
+            <div class="plan-name-p"> {{ this.project?.name }}</div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" fxLayoutAlign="start " fxLayoutGap="2rem" class="tip-scroll-conetnt"
+        [ngStyle]="{'max-height.px': scrollContent, 'height.px': scrollContent}">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display width100">
+            <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+              1. Targeted Markets
+            </div>
+            <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="1rem"
+              *ngIf="scenario?.market?.length > 0;">
+              <ul class="market-list-tip">
+                <li class="action-item" hover-class="toggle-delete-action" *ngFor="let market of scenario?.market | metrics:2">
+                  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" *ngFor="let value of market">
+                    <div class="audience-name-display">
+                      {{value.name}}
+                    </div>
+                  </div>
+                <li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display">
+            <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+              2. Targeted Audience
+            </div>
+            <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="1rem"
+              *ngIf="scenario?.audiences?.length > 0;">
+              <ul class="audience-list-tip">
+                <li class="action-item" hover-class="toggle-delete-action" *ngFor="let audience of scenario?.audiences | metrics:3">
+                  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" *ngFor="let value of audience">
+                    <div class="audience-name-display">
+                      {{value.name}}
+                    </div>
+                  </div>
+                <li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display">
+            <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+              3. Operators
+            </div>
+            <ng-container *ngIf="isAllOperator || operators?.length > 0; else noDataDiv">
+              <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="1rem" class="filter-info"
+              *ngIf="isAllOperator">
+                All Operators
+              </div>
+              <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="1rem"
+                *ngIf="!isAllOperator && operators?.length > 0;">
+                <ul class="audience-list-tip">
+                  <li class="action-item" hover-class="toggle-delete-action" *ngFor="let operator of operators | metrics:3">
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" *ngFor="let value of operator">
+                      <div class="audience-name-display">
+                        {{value}}
+                      </div>
+                    </div>
+                  <li>
+                </ul>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display width100" >
+            <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+              4. Inventory
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem" class="filter-info" *ngIf="(data?.selectedTabLabel === tabLabel.INVENTORY_PLAN && (scenario?.locationFilters?.data?.length > 0 || selectedPackages?.length > 0)) || scenario?.mediaTypeFilters?.data?.length > 0 || (scenario?.measureRangeFilters !== null && scenario?.measureRangeFilters?.data.length) || (selectedMediaAttributes && selectedMediaAttributes | isObjectExists); else noDataDiv">
+              <div fxLayout="column" fxLayoutAlign="start" *ngIf="data?.selectedTabLabel === tabLabel.INVENTORY_PLAN && selectedPackages?.length > 0" >
+                <div class="tip-title">
+                  Inventory Set
+                </div>
+                <div>
+                  <ul class="inventory-aligin">
+                    <li class="action-item" hover-class="toggle-delete-action"  *ngFor="
+                    let package of selectedPackages;
+                    let i = index;
+                  ">{{ package['name'] }}</li>
+                  </ul>
+                </div>
+              </div>
+              <div fxLayout="column" fxLayoutAlign="start" *ngIf="data?.selectedTabLabel === tabLabel.INVENTORY_PLAN && scenario?.locationFilters?.data?.length > 0" >
+                <div class="tip-title">
+                  Location
+                </div>
+                <div>
+                  <ul class="inventory-aligin">
+                    <li class="action-item" hover-class="toggle-delete-action" *ngFor="let location of scenario?.locationFilters?.data; let i = index;">{{location['label']}}</li>
+                  </ul>
+                </div>
+              </div>
+              <div fxLayout="column" fxLayoutAlign="start" *ngIf="scenario?.mediaTypeFilters?.data?.length > 0">
+                <div class="tip-title">
+                  Media Types
+                </div>
+                <div>
+                  <ul class="market-list-tip">
+                    <li class="action-item" hover-class="toggle-delete-action"
+                      *ngFor="let media of scenario?.mediaTypeFilters?.data; let i = index;">{{media['data']}}</li>
+                  </ul>
+                </div>
+              </div>
+              <div fxLayout="column" fxLayoutAlign="start"
+                *ngIf="scenario?.measureRangeFilters !== null && scenario?.measureRangeFilters?.data.length">
+                <div class="tip-title">
+                  Thresholds
+                </div>
+                <div>
+                  <ul class="inventory-aligin">
+                    <li class="action-item" hover-class="toggle-delete-action"
+                      *ngFor="let measureRange of scenario?.measureRangeFilters?.data">
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem"
+                        *ngIf="measureRange['type'] === 'imp_target'">
+                        <div>
+                          In-Market Target Impressions:<br>{{ measureRange['min'] | convert :'ABBREVIATE' }} - {{
+                          measureRange['max'] | convert :'ABBREVIATE'}}
+                        </div>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem"
+                        *ngIf="measureRange['type'] === 'index_comp_target'">
+                        <div>
+                          In-Market Target Comp Index:<br>{{ targetAudienceMinMax(measureRange['min']) | convert
+                          :'ABBREVIATE' }} - {{ targetAudienceMinMax(measureRange['max']) | convert :'ABBREVIATE' }}
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div fxLayout="column" fxLayoutAlign="start"
+                *ngIf="selectedMediaAttributes && selectedMediaAttributes | isObjectExists">
+                <div class="tip-title">
+                  Media Attributes
+                </div>
+                <div>
+                  <ul class="inventory-aligin">
+                    <li class="action-item" hover-class="toggle-delete-action"
+                      *ngIf="selectedMediaAttributes?.orientation">
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                        <div>
+                          Orientation : {{ orientationObj.degreeToDirection(selectedMediaAttributes['orientation']) }}
+                        </div>
+                      </div>
+                    </li>
+                    <li class="action-item" hover-class="toggle-delete-action"
+                      *ngIf="selectedMediaAttributes?.rotating !== undefined">
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                        <div>
+                          Rotating: {{ selectedMediaAttributes.rotating ? (selectedMediaAttributes.rotating === 'all' ?
+                          'All' : 'Yes') : 'No' }}
+                        </div>
+                      </div>
+                    </li>
+                    <li class="action-item" hover-class="toggle-delete-action"
+                      *ngIf="selectedMediaAttributes?.frame_height">
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                        <div>
+                          Spot Dimensions Height: {{ selectedMediaAttributes?.frame_height['min'] || 0 }}
+                          {{selectedMediaAttributes?.frame_height['max'] && ' - ' +
+                          selectedMediaAttributes?.frame_height['max'] }}
+                        </div>
+                      </div>
+                    </li>
+                    <li class="action-item" hover-class="toggle-delete-action"
+                      *ngIf="selectedMediaAttributes?.frame_width">
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                        <div>
+                          Spot Dimensions Width: {{ selectedMediaAttributes?.frame_width['min'] || 0 }} {{
+                          selectedMediaAttributes?.frame_width['max'] && ' - ' +
+                          selectedMediaAttributes?.frame_width['max']
+                          }}
+                        </div>
+                      </div>
+                    </li>
+                    <li class="action-item" hover-class="toggle-delete-action"
+                      *ngIf="selectedMediaAttributes?.spot_length">
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                        <div>
+                          Spot Length: {{ selectedMediaAttributes?.spot_length?.min || 0 }} {{
+                          selectedMediaAttributes?.spot_length?.max && ' - ' + selectedMediaAttributes?.spot_length?.max
+                          }}
+                        </div>
+                      </div>
+                    </li>
+                    <li class="action-item" hover-class="toggle-delete-action"
+                      *ngIf="selectedMediaAttributes?.illumination_start_time">
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                        <div>
+                          Illumination Hours: {{ formatTimeLabel(selectedMediaAttributes?.illumination_start_time )}} - {{
+                          formatTimeLabel(selectedMediaAttributes?.illumination_end_time) }}
+                        </div>
+                      </div>
+                    </li>
+                    <li *ngIf="selectedMediaAttributes?.status_type_name_list">
+                      <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem">
+                        <div class="tip-title">
+                          Audit Status:
+                        </div>
+                        <div>
+                          <ul class="inventory-aligin">
+                            <li class="action-item" hover-class="toggle-delete-action"
+                              *ngFor="let status of selectedMediaAttributes?.status_type_name_list;let i = index">
+                              {{status['displayName']}}</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                    <li *ngIf="
+                      selectedMediaAttributes?.spot_audio !== undefined ||
+                      selectedMediaAttributes?.spot_full_motion !== undefined ||
+                      selectedMediaAttributes?.spot_interactive !== undefined ||
+                      selectedMediaAttributes?.spot_partial_motion !== undefined
+                      ">
+                      <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem">
+                        <div class="tip-title">
+                          Digital Attributes:
+                        </div>
+                        <ng-container *ngIf="selectedMediaAttributes?.spot_audio !== undefined">
+                          <div class="action-item digital-attributes" hover-class="toggle-delete-action" fxLayout="row"
+                            fxLayoutAlign="start center" fxLayoutGap="1rem">
+                            <div>
+                              Audio Enabled: {{ selectedMediaAttributes.spot_audio ? (selectedMediaAttributes.spot_audio
+                              ===
+                              'all' ? 'All' : 'Yes') : 'No' }}
+                            </div>
+                          </div>
+                        </ng-container>
+                        <ng-container *ngIf="selectedMediaAttributes?.spot_full_motion !== undefined">
+                          <div class="action-item digital-attributes" hover-class="toggle-delete-action" fxLayout="row"
+                            fxLayoutAlign="start center" fxLayoutGap="1rem">
+                            <div>
+                              Full Motion/Full Screen: {{ selectedMediaAttributes.spot_full_motion ?
+                              (selectedMediaAttributes.spot_full_motion === 'all' ? 'All' : 'Yes') : 'No' }}
+                            </div>
+                          </div>
+                        </ng-container>
+                        <ng-container *ngIf="selectedMediaAttributes?.spot_interactive !== undefined">
+                          <div class="action-item digital-attributes" hover-class="toggle-delete-action" fxLayout="row"
+                            fxLayoutAlign="start center" fxLayoutGap="1rem">
+                            <div>
+                              Interactive: {{ selectedMediaAttributes.spot_interactive ?
+                              (selectedMediaAttributes.spot_interactive === 'all' ? 'All' : 'Yes') : 'No' }}
+                            </div>
+                          </div>
+                        </ng-container>
+                        <ng-container *ngIf="selectedMediaAttributes?.spot_partial_motion !== undefined">
+                          <div class="action-item digital-attributes" hover-class="toggle-delete-action" fxLayout="row"
+                            fxLayoutAlign="start center" fxLayoutGap="1rem">
+                            <div>
+                              Partial Motion: {{ selectedMediaAttributes.spot_partial_motion ?
+                              (selectedMediaAttributes.spot_partial_motion === 'all' ? 'All' : 'Yes') : 'No' }}
+                            </div>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display">
+            <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+              5. Plan Period
+            </div>
+            <div fxLayout="row wrap" fxLayoutAlign="start center" class="filter-info" fxLayoutGap="1rem"
+              *ngIf="data?.selectedTabLabel === tabLabel.MARKET_PLAN || scenario?.delivery_period_weeks !== null; else spotSchedule">
+              {{scenario?.delivery_period_weeks !== null ? scenario?.delivery_period_weeks : 1}} {{scenario?.delivery_period_weeks > 1 ? 'weeks': 'week'}}
+            </div>
+            <ng-template #spotSchedule>
+              <div *ngIf="scenario?.spot_schedule | isObjectExists" class="filter-info">
+                {{scenario?.spot_schedule.start | date:'MM.dd.yyyy'}} to {{scenario?.spot_schedule.end |
+                date:'MM.dd.yyyy'}}
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #noDataDiv>
+      <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="1rem" class="filter-info">
+        -
+      </div>
+    </ng-template>
+  </mat-dialog-content>
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="center center" *ngIf = "!isJobInitiated || data?.selectedTabLabel === tabLabel.MARKET_PLAN">
+    <button mat-button class="imx-button-primary_icon width200" (click) = "openParameters()">EDIT PARAMETERS<mat-icon>edit</mat-icon></button>
+  </mat-dialog-actions>
+</div>

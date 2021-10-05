@@ -1,0 +1,151 @@
+.c-clients {
+
+  &__client-of-agency {
+    margin-right: 4px !important;
+  }
+
+  padding: 8px 33px 16px 33px;
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+
+  &__header {
+    padding-bottom: 8px;
+
+    .mat-form-field-label {
+      text-transform: initial !important;
+    }
+  }
+
+  input {
+    height: auto;
+    border-bottom: unset;
+  }
+
+  &__actions {
+    margin-bottom: 10px;
+  }
+
+  .mr-12 {
+    margin-right: 12px !important;
+  }
+
+  .circle-flag {
+    margin-right: 1px !important;
+  }
+
+  .parent-only {
+    margin-right: 27px !important;
+    margin-left: 3px !important;
+
+    span {
+      text-transform: uppercase;
+    }
+  }
+
+  .current-only {
+    margin-right: 18px !important;
+    margin-left: 4px;
+  }
+
+  .advanced-search {
+    text-transform: capitalize !important;
+    letter-spacing: 0.5px;
+    font-size: 13px !important;
+  }
+
+  .advanced-search-btn {
+    box-sizing: content-box !important;
+    max-width: 140px !important;
+    padding: 0 !important;
+
+    .mat-icon {
+      margin-left: 4px !important;
+    }
+  }
+
+  .add-new {
+    border: 1px solid !important;
+    box-shadow: none !important;
+    border-radius: 5px !important;
+    margin-left: 2.563rem !important;
+  }
+
+  .parent-client-autocomplete {
+    min-width: 160px !important;
+  }
+}
+
+::ng-deep {
+  .client-list-dialog-fullscreen {
+    max-width: 90vw !important;
+    .mat-dialog-container {
+      padding: 0px;
+      overflow: hidden;
+    }
+    .c-clients {
+      padding: 0px;
+      overflow: hidden;
+    }
+    .clist-table-parent {
+      width: auto;
+      min-width: 100%;
+      min-height: calc(80vh - 56px) !important;
+      max-height: calc(80vh - 56px) !important;
+    }
+    .clist-body {
+      margin-top: 0px !important;
+    }
+    .full-screen-exit-icon{
+      padding: 3px;
+      border-radius: 4px;
+      path, line {
+        stroke: var(--white-color);
+      }
+      background-color: var(--primary-bg);
+    }
+    .noDataFound{
+      min-height: calc(80vh - 160px) !important;
+    }
+  }
+  .c-clients {
+    &__header {
+      padding-bottom: 8px;
+
+      .mat-form-field-label {
+        text-transform: initial !important;
+      }
+
+      .mat-form-field-should-float {
+        .mat-form-field-label {
+          text-transform: uppercase !important;
+        }
+      }
+
+      .mat-form-field-should-float {
+        .mat-form-field-label {
+          text-transform: uppercase !important;
+        }
+      }
+    }
+  }
+  .error-field-extra-width {
+    &.mat-form-field-invalid {
+      .mat-form-field-subscript-wrapper {
+        width: 238px;
+      }
+    }
+  }
+  .autocomplete-scroll {
+    .parent-client-autocomplete, .agencies-list-autocomplete, .users-list-autocomplete {
+      max-height: 14.375rem;
+      overflow-y: auto;
+    }
+
+    &.mat-autocomplete-panel {
+      overflow-y: hidden !important;
+      padding-right: 0 !important;
+    }
+  }
+}

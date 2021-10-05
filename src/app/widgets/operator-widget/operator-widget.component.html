@@ -1,0 +1,20 @@
+<mat-card class="imx-widget-card">
+  <mat-card-header>
+    <mat-card-title>Operators {{ selectedOperators.length !== 0 ? "(" + selectedOperators.length + ")"  : '' }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list >
+      <mat-list-item class="test-measure-item" *ngFor="let operator of selectedOperators; let i = index;" title="{{operator.name}}" > 
+        <span matLine>{{(operator.id=== 'all') ? 'All' : (operator.name | truncate:'middle':18:6)}}</span> 
+        <div class="left-select">
+        <button class="select test-forward-button" mat-icon-button (click)="removeOperator(operator)" *ngIf = "editFlag">
+          <mat-icon matListIcon>clear</mat-icon>
+        </button>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+  <mat-card-actions *ngIf = "editFlag">
+    <button mat-button type="button" class="add-link" disableRipple (click)="openOperatorDialog()"><mat-icon>add</mat-icon> Operator</button>
+  </mat-card-actions>
+</mat-card>

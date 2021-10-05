@@ -1,0 +1,28 @@
+<div fxLayout="column" fxLayoutAlign="center center" class="login-main">
+  <div fxLayout="column" fxLayoutAlign="start" class="login-section">
+
+    <div class="logo divider-40" fxLayout="column" fxLayoutAlign="center center">
+      <img src="{{themeSettings['logo']}}" alt="">
+      <h1>Sign in to {{themeSettings['siteName']}}</h1>
+    </div>
+
+    <div class="divider-20" fxLayout="column" fxLayoutAlign="start">
+      <label for="" class="label">EMAIL ADDRESS</label>
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="sample@intermx.com" class="email-field">
+      </mat-form-field>
+      <div fxLayout="row">
+        <label for="" class="label">PASSWORD</label>
+        <span fxFlex="1 1 auto"></span>
+        <label for="" class="label forget-password">Forget Password?</label>
+      </div>
+      <mat-form-field appearance="outline">
+        <input type="password" matInput placeholder="Enter your password">
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <button mat-raised-button color="primary" [ngStyle]="{'background-color': themeSettings.baseColor}" class="sign-btn">SIGN IN</button>
+    </div>
+  </div>
+</div>

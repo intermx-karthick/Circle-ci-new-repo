@@ -1,0 +1,13 @@
+<div fxLayoutGap="3px" fxLayoutAlign="space-between" fxLayout="column"> 
+  <p>Annual Avg by Day of Week</p> 
+  <app-bar-chart-with-colors [data]="impChartData" [options]='barChartConfig'
+   [manualRefresh]="graphRefresh"
+   [lineChartConfig]='chartLineConfig'
+   [lineChartData]="hourlyImpressionLineData"
+   chartName="weekly"
+  ></app-bar-chart-with-colors>
+  <p class="line-heading">Annual Avg by Hour of the Day</p>
+  <div id="hourly-imp-line-chart">
+    <app-multi-line-chart [data]="hourlyImpressionLineData" [options]='chartLineConfig'></app-multi-line-chart>
+  </div>
+</div>

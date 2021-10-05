@@ -1,0 +1,29 @@
+<div fxLayout="column" class="imx-main-content">
+  <section class="header-section">
+    <app-header fxFlexFill>
+        <div class="projected-title">
+          <mat-icon class="mobile-hide">apps</mat-icon>
+          <span class="uppercase">Workspace</span>
+        </div>
+        <!-- <div class="explore-filter content-breadcrumb projected-secondary">
+          <breadcrumbs></breadcrumbs>
+        </div> -->
+        <div authenticate module="projects"  class="project-banner" (click) = "redirectToOldWs('/v2/projects/lists')">
+          <div class="old-ws-banner" fxLayout="column">
+            <span>Switch back to Workspace Classic</span>
+            <div class="subtitle">Workspace Classic will no longer be available after April 22, 2021</div>
+          </div>
+        </div>
+    </app-header>
+  </section>
+  <div class="common-pading" cdkScrollable>
+    <div>
+      <section class="content">
+        <div class="no-p-t-b no-mobile-padding">
+          <router-outlet></router-outlet>
+          <!-- <app-create-scenario></app-create-scenario> -->
+        </div>
+      </section>
+    </div>
+  </div>
+</div>  

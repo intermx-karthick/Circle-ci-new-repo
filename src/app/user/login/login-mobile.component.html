@@ -1,0 +1,46 @@
+<div *ngIf="themeSettings" class="login-page-background"  [ngStyle]="{ 'background-image': 'url(' + themeSettings['background']['bg_image'] + ')'}"></div>
+<div *ngIf="themeSettings" style="height: 100vh">
+  <div class="flex-center flex-column">
+    <div class="login-box-body">
+      <div class="login-form-block">
+        <div class="login-logo" *ngIf="themeSettings">
+          <img  src="{{themeSettings['logo']['full_logo']}}">
+          <div class="logo-slogan">{{themeSettings['productName']}}</div>
+        </div>
+        <div class="">
+          <form  method="post" class="loginForm noAnimation" [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)" novalidate autocomplete="off">
+          <div class="login-title-block">
+            <span class="login-title">Log In</span>
+            <span class="login-title-solgan">{{themeSettings['welcome']}}</span>
+            <a href="javascript:void(0);" data-toggle="modal" data-target="#reset-password" class="login-page-link">Forgot Password?</a>
+          </div>
+          <div class="clearfix"></div>
+          <div class="error-block" [style.display]="loginFail?'block':'none'">
+            <div class="login-error-blk clearfix">
+              <i class="material-icons">info_outline</i><span>Sorry, the information you entered isn't right. Please try again.</span>
+            </div>
+          </div>
+          <div class="md-form">
+            <input type="text" id="defaultForm-email" class="form-control" formControlName="username" autocomplete="off">
+            <label for="defaultForm-email">Email</label>
+            <show-errors [control]="loginForm.controls.username"></show-errors>
+          </div>
+          <div class="md-form">
+            <input type="password" id="defaultForm-pass" class="form-control" formControlName="password" autocomplete="off">
+            <label for="defaultForm-pass">Password</label>
+            <show-errors [control]="loginForm.controls.password"></show-errors>
+          </div>
+          <div class="login-footer-block clearfix">
+            By clicking the button to sign in, you agree to the <a href="http://www.intermx.com/usage-and-privacy-policy/" target="_blank" class="login-page-link" >Usage Policy</a>.
+          </div>
+          <div class="row login-button">
+            <div class="col-xs-12">
+              <button type="submit" class="btn geo-button waves-effect waves-light login-btn">Sign In</button>
+            </div>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

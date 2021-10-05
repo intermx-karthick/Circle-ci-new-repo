@@ -1,0 +1,291 @@
+<div class="vendor-list-main" fxLayout="column" fxLayoutAlign="start start">
+  <div class="vlist-header" *ngIf="!isDialogOpenend">
+    <form [formGroup]="vendorSearchForm" (ngSubmit)="searchSubmit()"  class="form-label-capitalize" autocomplete="off">
+    <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="16px">
+      <mat-form-field class="imx-input vendor-name-search-field" fxFlex="183px">
+        <mat-label>Search by Vendor Name</mat-label>
+        <input matInput autocomplete="off" formControlName="name">
+      </mat-form-field>
+
+      <mat-form-field class="vendor-group-input imx-dropdown imx-input" fxFlex="159px" tooltip="{{vendorSearchForm['controls'].parentCompany.value?.name ?.length>21 ? vendorSearchForm['controls'].parentCompany.value?.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+        <mat-label>Parent Company</mat-label>
+        <input type="text" #vGroupInputRef matInput formControlName="parentCompany"
+            [matAutocomplete]="vendorsGroupAuto" autocomplete="off" >
+        <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+
+      <mat-autocomplete #vendorsGroupAuto="matAutocomplete"
+                        [displayWith]="vendorDisplayWithFn"
+                        (opened)="updateContainer()"
+                        class="autocomplete-scroll imx-autocomplete-dropdown"
+                        [panelWidth]="'160'">
+
+        <div  class="vendor-group-autocomplete"
+              infiniteScroll
+              [infiniteScrollDistance]="1"
+              [infiniteScrollThrottle]="0"
+              [scrollWindow]="false"
+              [fromRoot]="true"
+              [immediateCheck]="false"
+              [alwaysCallback]="false"
+              [infiniteScrollContainer]="panelContainer"
+              (scrolled)="loadMoreWithSearch()">
+        <mat-option [value]="null" class="hide-selected-tick">Select Parent Company</mat-option>
+        <mat-option *ngFor="let vGroup of filteredParentVendors ;trackBy: vGroupTrackByFn"
+                    [value]="vGroup"
+                    [class.mat-selected]="vendorSearchForm && vendorSearchForm['controls']['parentCompany'].value?._id == vGroup?._id"
+        >
+          <span [innerHTML]="(vGroup.name)| imx_highlight: vGroupInputRef.value" tooltip="{{vGroup.name?.length >21 ? vGroup.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"></span>
+        </mat-option>
+        <mat-option disabled *ngIf="isLoadingVendorsGroup">
+          <div fxLayout="row" fxLayoutAlign="space-around center" >
+            <mat-spinner diameter="20"></mat-spinner>
+          </div>
+        </mat-option>
+          <mat-option disabled *ngIf="!isLoadingVendorsGroup && filteredParentVendors.length <= 0">
+            Invalid Entry
+          </mat-option>
+        </div>
+      </mat-autocomplete>
+      <mat-error *ngIf="vendorSearchForm['controls'].parentCompany.hasError('invalid')">
+        Please select from the drop down list.
+       </mat-error>
+    </mat-form-field>
+
+      <mat-form-field class="imx-input imx-dropdown vendor-type-field" fxFlex="175px" tooltip="{{vendorGroupTooltipText?.length >20 ? vendorGroupTooltipText : ''}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+        <mat-label>Vendor / Company Type</mat-label>
+        <mat-select [panelClass]="'imx-select'" formControlName="type"  [ngStyle]="{'max-height.px': 250}"
+                      infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                      (scrolled)="loadMoreVendorTypes()" [scrollWindow]="false" multiple #vendorCompanyRef (selectionChange)="changeVendorType($event)">
+            <mat-option class="option" *ngFor="let vendorType of vendorTypes" [value]="vendorType._id">
+              {{vendorType.name}}
+            </mat-option>
+            <div *ngIf="isVendorTypesLoading" class="create-vendor">
+              <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+            </div>
+          </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="16px">
+
+      <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="16px">
+      <mat-form-field class="imx-dropdown imx-input error-field-extra-width" fxFlex="86px" tooltip="{{vendorSearchForm['controls'].state.value?.name ?.length>9 ? (vendorSearchForm['controls'].state.value?.short_name +' - '+ vendorSearchForm['controls'].state.value?.name) : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+        <mat-label>state</mat-label>
+        <input
+          type="text"
+          #stateInputRef
+          matInput
+          [matAutocomplete]="stateList"
+          formControlName="state"
+          class="imx-input-no-border"
+        />
+        <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+        <mat-autocomplete
+          #stateList="matAutocomplete"
+          class="state-list-autocomplete imx-autocomplete-dropdown"
+          [displayWith]="stateDisplayWithFn"
+          [panelWidth]="'160'"
+        >
+        <mat-option [value]="null" class="hide-selected-tick">Select State</mat-option>  
+        <mat-option
+            *ngFor="
+              let state of filteredStates | appFilter: vendorSearchForm['controls'].state.value  : 'name' : 'short_name'; trackBy: stateTrackByFn
+            "
+            [value]="state"
+            [class.mat-selected]="vendorSearchForm['controls'].state.value?._id == state?._id"
+            tooltip="{{state.name?.length >20 ? (state.short_name +' - '+ state.name) : ''}}" placement="top" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+            <span
+              [innerHTML]="state.short_name +' - '+ state.name | imx_highlight: stateInputRef.value"
+            ></span>
+          </mat-option>
+          <mat-option disabled *ngIf="isLoadingState">
+          <div fxLayout="row" fxLayoutAlign="space-around center" >
+          <mat-spinner diameter="20"></mat-spinner>
+          </div>
+          </mat-option>
+          <mat-option disabled *ngIf="!isLoadingState && (filteredStates | appFilter: vendorSearchForm['controls'].state.value  : 'name' : 'short_name').length <= 0">
+            Invalid Entry
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="vendorSearchForm['controls'].state.hasError('invalid')">
+          Please select from the drop down list.
+         </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="imx-input" fxFlex="86px">
+        <mat-label>City</mat-label>
+        <input matInput autocomplete="off" formControlName="city">
+      </mat-form-field>
+
+      <mat-checkbox formControlName="parentFlag" class="circle-flag-main imx-checkbok" disableRipple><span class="circle-flag">P</span>arent Only</mat-checkbox>
+
+      <mat-checkbox formControlName="currentFlag" class="circle-flag-main imx-checkbok" disableRipple><span class="circle-flag">C</span>urrent Only</mat-checkbox>
+      <button mat-button type='button' class='imx-button-basic_icon padding-none' disableRipple (click)='onResetForm()'>Reset </button>
+      <button mat-raised-button class="imx-button-primary search-btn">Search</button>
+      </div>
+
+      <div fxFlex="1 1 auto"></div>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="16px">
+        <!-- TODO : Once Ready API will enable the export  -->
+        <button mat-button type="button" class="imx-button-basic_icon action-overlay-height-imx" disableRipple [matMenuTriggerFor]="exportMenu" appUserAccessPermission visiblityType="create" module="rm_exports">
+          <span>EXPORT</span>
+          <mat-icon>expand_more</mat-icon>
+        </button>
+        <mat-menu #exportMenu="matMenu" class="mat-elevation-z0 action-menu-less-width">
+          <button mat-menu-item type="button" (click)="csvExport()">
+            <span>Excel</span>
+          </button>
+          <button mat-menu-item type="button" (click)="csvExport('csv')">
+            <span>CSV</span>
+          </button>
+        </mat-menu>
+          <button module="vendor_general" visiblityType="create" appUserAccessPermission type="button" mat-button class="imx-button-stroked" (click)="openAddVendor()">Add Vendor</button>
+      </div>
+
+    </div>
+    </form> <!-- Vendor form close tag-->
+  </div>
+  <!-- Vendor Search header close -->
+  <!-- Vendor List table -->
+  <div class="vlist-body" fxLayout="column" fxLayoutAlign="start start" fxFill >
+    <div fxLayout="row" class="vlist-header-action">
+      <div fxFlex="20" class="total-record" fxLayoutAlign="start center" *ngIf="!searchFilterApplied">
+        Total : {{vendorPagination?.total || 0}}
+      </div>
+      <div fxFlex="20" class="total-record" fxLayoutAlign="start center" *ngIf="searchFilterApplied">
+        Found : {{vendorPagination?.found || 0}}
+      </div>
+      <div fxFlex="80" fxLayoutAlign="end" fxLayoutGap="1.2rem">
+        <div tooltip="Customize Columns" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" *ngIf="!isDialogOpenend">
+          <mat-icon svgIcon="IMX-columns" class="svg-primary" (click)="customizeColumn()"></mat-icon>
+        </div>
+        <div *ngIf="!isDialogOpenend; else closeDialog" tooltip="Expand Table" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          <mat-icon (click)="openVendorDialog()">zoom_out_map</mat-icon>
+        </div>
+        <ng-template #closeDialog>
+          <mat-icon tooltip="Collapse Table" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" svgIcon="IMX-fullscreen-exit" class="full-screen-exit-icon" (click)="closeDialogBox()"></mat-icon>
+        </ng-template>
+      </div>
+      
+    </div>
+    <div class="vtable-container" fxFill>
+    <div class="vlist-table-parent" [ngStyle]="{'max-height.px':scrollContent, 'min-height.px': scrollContent}" id="{{ isDialogOpenend ? 'vendor-fullscreen-scroll' : 'vendor-table-scroll'}}" #tableScrollRef>
+    <mat-table #scrollBar
+                 [dataSource]="dataSource"
+                 matSort (matSortChange)="onSorting($event)"
+                 matSortActive="{{sortName}}"
+                 matSortDirection="{{sortDirection}}"
+                 matSortDisableClear
+                 class="margin-top-20 imx-table-striped table-header-auto" (window:resize)="reSize()"
+                  [matSortDisabled]="!vendorsList?.length"
+                  [ngClass]="{'enable-table-scroll': hasHorizontalScrollbar}">
+        <ng-container matColumnDef="name" sticky>
+          <mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="22.188rem" >Vendor Name</mat-header-cell>
+          <mat-cell  *matCellDef="let element" fxFlex="22.188rem" class="imx-link-cursor" (click)="openVendorDetails(element)">
+              <a class="primary-color-text font-weight-normal vendor-name-td imx-name-wrap">
+               {{element.name}}
+              </a>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="parentCompany">
+          <mat-header-cell *matHeaderCellDef class="" fxFlex="15rem" mat-sort-header> Parent Company </mat-header-cell>
+          <mat-cell  *matCellDef="let element" fxFlex="15rem"> {{ element.parentCompany }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="pubA_id">
+          <mat-header-cell *matHeaderCellDef class="" fxFlex="9rem" mat-sort-header>PUB ID</mat-header-cell>
+          <mat-cell  *matCellDef="let element" fxFlex="9rem"> {{ element?.pubA?.id }} </mat-cell>
+        </ng-container>
+
+
+        <ng-container matColumnDef="city" >
+          <mat-header-cell *matHeaderCellDef class="" fxFlex="10rem" mat-sort-header> City </mat-header-cell>
+          <mat-cell  *matCellDef="let element" fxFlex="10rem"> {{element.city  | truncate:'middle':30}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="state" >
+          <mat-header-cell *matHeaderCellDef fxFlex="4.5rem" mat-sort-header> State </mat-header-cell>
+          <mat-cell  *matCellDef="let element" fxFlex="4.5rem"> {{element.state}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="parentFlag">
+          <mat-header-cell *matHeaderCellDef  fxFlex="4.5rem" class="imx-column-center"> Parent</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="circle-flag-main imx-column-center no-sorting" fxFlex="4.5rem">
+            <span class="circle-flag" *ngIf="element?.parentFlag">P</span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="currentFlag">
+          <mat-header-cell *matHeaderCellDef class="" fxFlex="6.5rem" class="imx-column-center">Current</mat-header-cell>
+          <mat-cell *matCellDef="let element"  class="circle-flag-main imx-column-center" fxFlex="6.5rem">
+            <span class="circle-flag" *ngIf="element?.currentFlag">C</span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="updatedAt" >
+          <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15rem">Last Modified</mat-header-cell>
+          <mat-cell  *matCellDef="let element" fxFlex="15rem"> <span class="lowercase" [innerHTML]="element.updatedAt | dateAgo :'new'"></span> </mat-cell>
+        </ng-container>
+
+          <ng-container matColumnDef="action" [sticky]="true">
+          <mat-header-cell *matHeaderCellDef fxFlex="2.5rem" class="action-menu-column" [ngStyle]="{'left.px': 355.02}"></mat-header-cell>
+          <mat-cell  *matCellDef="let element;let i = index" fxFlex="2.5rem" class="action-menu-column" [ngStyle]="{'left.px': 355.02}">
+            <mat-icon [matMenuTriggerFor]="actionMenu" class="action-icon" [isAccessDenied]="(!userPermission?.delete && !userPermission?.create)" visiblityType="menu" module="vendor_general" appUserAccessPermission>more_vert</mat-icon>
+            <mat-menu #actionMenu="matMenu" xPosition="before" class="action-dropdown-imx minimun-height action-menu-position  action-dropdown-width table-action-position">
+              <button [isAccessDenied]="!userPermission?.create" module="vendor_general" visiblityType="create" appUserAccessPermission mat-menu-item (click)="duplicateVendor(element)">Duplicate</button>
+              <button [isAccessDenied]="!userPermission?.delete" module="vendor_general" visiblityType="delete" appUserAccessPermission mat-menu-item (click)="deleteVendor(element)">Delete</button>
+            </mat-menu>
+
+          <!-- <div class="action-btn-main" id="{{ isDialogOpenend ? 'action-btn-main-dialog' + element['_id'] : 'action-btn-main' + element['_id']}}" [ngStyle]="{'display':(hoveredIndex === i ? 'block' :'none')}">
+            <div class="action-btn">
+               <button *ngIf=" i === hoveredIndex" mat-button class="imx-button-stroked_icon_action table-action-capitalize" [matMenuTriggerFor]="actionMenu"
+                      (menuOpened)='onMenuOpen()' (menuClosed)='onMenuClosed()' [ngClass]="{'close-action-btn':menuOpened}">Actions
+                <mat-icon>keyboard_arrow_down</mat-icon>
+              </button>              
+            </div>
+          </div> -->
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="customizeColumnService.displayedColumns;sticky: true"></mat-header-row>
+        <mat-row  *matRowDef="let row; let i = index; columns: customizeColumnService.displayedColumns;"></mat-row >
+      </mat-table>
+      <div fxLayout="row" fxLayoutAlign="center center" fxFill *ngIf="vendorsList.length === 0 && !isLoadingVendors" class="noDataFound">
+        <div>
+          <p>No Vendor found with that Criteria.<br> Try searching for something else</p>
+          <div [ngStyle]="{'height.px':scrollContent -190}">
+          <img src="../../../assets/images/cuate.svg" alt="" >
+          </div>
+
+
+          <!-- <p>Do you want to <button mat-flat-button class="button-primary-link" type="button" (click)="openAddVendor()"><mat-icon>add</mat-icon> Add Vendor</button></p> -->
+        </div>
+      </div>
+      </div>
+
+      <div class="vlist-pagination" [class.no-top-border]="!vendorsList?.length && isLoadingVendors" >
+        <div class="spiner-div" *ngIf="isLoadingVendors">
+            <mat-spinner diameter="30" ></mat-spinner>
+        </div>
+        <div>
+          <mat-paginator
+          [disabled]="!vendorsList?.length"
+          (page)="getPageEvent($event)"
+          [length]="vendorPagination?.found || 0"
+          [pageIndex] = "(vendorPagination?.page || 1) - 1"
+          [pageSize]="vendorPagination?.perPage"
+          [pageSizeOptions]="paginationSizes"
+          [showFirstLastButtons] = "true"
+          >
+          </mat-paginator>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+  <!-- Vendor List table end-->
+
+
+</div>

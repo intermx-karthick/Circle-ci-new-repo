@@ -1,0 +1,101 @@
+<mat-expansion-panel [ngClass]="'e2e-' + filterKey">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <h5 id="optionsList">{{title}}</h5>
+      <div>
+        <a
+          *ngIf="!showSearchField"
+          id="searchFieldToggle"
+          class="parent-search-icon"
+          (click)="$event.stopPropagation(); showSearch()"
+          ><i class="material-icons">search</i></a
+        >
+        <mat-form-field
+          id="searchFieldContainer"
+          *ngIf="showSearchField"
+          floatLabel="always"
+          class="mat-filter-input search-place"
+          (click)="$event.stopPropagation()"
+          (keydown)="$event.stopPropagation()"
+        >
+          <i class="material-icons search-icon" matSuffix>search</i>
+          <mat-label></mat-label>
+          <input
+            matInput
+            placeholder="Search Options"
+            [(ngModel)]="searchQuery"
+            placeholder="Search"
+            name="search"
+            class="ta-search-text option-search"
+            appSearch
+            key="name"
+            filterName="option"
+            [sourceData]="options"
+            (filter)="filterOptions($event)"
+            [keyboardEventsManager]="keyboardEventsManager"
+            [listItems]="listItems"
+            arrowNavigation="true"
+            #optionSearch
+          />
+        </mat-form-field>
+        <a
+          *ngIf="showSearchField"
+          (click)="$event.stopPropagation(); showSearch()"
+          ><i class="material-icons close-project-field">highlight_off</i></a
+        >
+      </div>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="optionsListOption">
+    <div class="option-container">
+      <mat-selection-list class="option-list" [disableRipple]="true" #optionList>
+        <!-- [(ngModel)]="selectedOptions" [compareWith]="compare" -->
+        <ng-container  *ngFor="let option of filteredOptions; let i = index">
+          <app-arrow-navigation
+            [option]="option"
+            [selectedOption]="selectedOptions"
+            (setSelectedOption)="setSelectedOption($event)"
+            (submit)="submit($event)"
+            fxLayout="column"
+            *ngIf="(i < 5 || loadMoreChild)"
+          >
+            <mat-list-option
+              [value]="option"
+              checkboxPosition="before"
+              (click)="onSelectOption(optionList)"
+              [selected]="checkIsSelected(option)"
+              [ngClass]="'e2e-option-' + filterKey"
+              [disableRipple] = "true"
+            >
+              <span
+                title="{{ option.name }}"
+                [innerHTML]="
+                  option.name | truncate: 'middle':40:6 | imx_highlight: searchQuery
+                "
+              ></span>
+              (<span>{{ option.count }}</span
+              >)
+            </mat-list-option>
+          </app-arrow-navigation>
+        </ng-container>
+        <div *ngIf="filteredOptions.length > 4" class="show-more-action">
+          <button mat-button *ngIf="!loadMoreChild" class="show-btn show-more-btn" (click)="showMoreLess()">
+            <mat-icon class="mat-icon-rtl-mirror">
+              keyboard_arrow_down
+            </mat-icon>
+            More
+          </button>
+          <button mat-button *ngIf="loadMoreChild" class="show-btn show-less-btn" (click)="showMoreLess()">
+            <mat-icon class="mat-icon-rtl-mirror">
+              keyboard_arrow_up
+            </mat-icon>
+            Less
+          </button>
+        </div>
+        <p *ngIf="filteredOptions.length <= 0" class="text-center">
+          No data found
+        </p>
+      </mat-selection-list>
+    </div>
+  </div>
+</mat-expansion-panel>

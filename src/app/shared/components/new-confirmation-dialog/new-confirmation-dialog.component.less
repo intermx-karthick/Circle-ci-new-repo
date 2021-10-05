@@ -1,0 +1,136 @@
+@import url('../../../../assets/css/variables.less');
+
+.mat-dialog-actions {
+  margin: 10px 0px 0px;
+  padding-bottom: 0px;
+
+  button {
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 4px;
+    font-size: 13px;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+
+    &.cancel-btn {
+      background-color: #FAFAFA;
+      color: rgba(117, 117, 117, 1);
+      border-radius: 4px;
+     /*  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.2); */
+    }
+
+    &.continue-btn {
+      background-color: var(--primary-bg);
+      color: #ffffff;
+    }
+
+    .mat-button-wrapper {
+      letter-spacing: 0.83px;
+    }
+  }
+}
+
+.notify-message {
+  font-size: 18px;
+  margin-top: 50px;
+}
+
+.ok-btn {
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+  background-color: var(--primary-bg);
+  color: #ffffff;
+  float: right;
+  margin-top: 50px;
+}
+
+::ng-deep {
+  app-new-confirmation-dialog {
+    .confirmation-dialog {
+      overflow: hidden;
+      position: relative;
+    }
+    .confirmation-dialog {
+      &.mat-dialog-content {
+        margin: 0 !important;
+      }
+    }
+    .modal-title {
+      margin-top: 0;
+      font-size: 14px !important;
+      font-weight: 300 !important;
+      line-height: 33px !important;
+      margin-bottom: 26px !important;
+    }
+    .modal-description {
+      line-height: 20px;
+    }
+    .modal-image {
+      // margin-right: 40px;
+      .mat-icon {
+        height: 65px;
+        width: 65px;
+        svg path {
+          color: #f15703;
+        }
+      }
+    }
+    form {
+      padding: 0px 10px;
+    }
+
+    .mat-icon-close {
+      color: var(--primary-bg);
+      cursor: pointer;
+    }
+
+    .dialog-footer {
+      display: flex;
+      place-content: flex-end;
+
+      button {
+        text-transform: uppercase;
+        border-radius: 4px;
+        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+        font-size: 13px;
+        font-weight: bold;
+        letter-spacing: 1.08px;
+
+        &.cancel-btn {
+          margin-right: 10px;
+          color: rgba(117, 117, 117, 1);
+          border-radius: 4px;
+          background-color: #FAFAFA;
+          box-shadow: none;
+        }
+
+        &.continue-btn {
+          background-color: var(--primary-bg);
+          color: #ffffff;
+        }
+      }
+    }
+
+    .dialog-footer {
+      // margin-top: 20px;
+      position: absolute;
+      bottom: 20px;
+    }
+
+    .confirm-text-icon {
+      margin: 0 0 20px 0;
+      display: flex;
+
+      i {
+        margin-right: 10px;
+      }
+    }
+
+    .notify-message {
+      a:focus {
+        outline: none !important;
+      }
+    }
+  }
+}

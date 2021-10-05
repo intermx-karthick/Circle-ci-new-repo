@@ -1,0 +1,391 @@
+/**
+ * Track Git logs
+ *
+ */
+def showChangeLogs(versionHash) {
+
+    def authors       = []
+    def accept        = []
+    def changeLogSets = currentBuild.rawBuild.changeSets
+
+    if (changeLogSets.size() == 0) return [];
+
+    for (int i = 0; i < changeLogSets.size(); i++) {
+
+        def entries = changeLogSets[i].items
+        for (int j = 0; j < entries.length; j++) {
+
+            def author = "${entries[j].author}"
+            def email  = "${entries[j].authorEmail}"
+
+            authors.push("${author}:${email}")
+
+            def isParent   = false
+            def source     = currentBuild.rawBuild.changeSets[i].browser.getChangeSetLink(entries[j]).toString().split('/')[4]
+            def sourceDirs = []
+
+            switch (source) {
+                case 'widgetworld':
+                    entries[j].comment.contains(versionHash) ?: accept.push(source)
+                    isParent = true
+                    break
+                case 'intermx-cicd-helm':
+                    sourceDirs = ['insights-ui-testing']
+                    break
+            }
+
+            if (isParent) continue;
+
+            def entry = entries[j]
+            def files = new ArrayList(entry.affectedFiles)
+
+            for (int k = 0; k < files.size(); k++) {
+
+                !sourceDirs.contains(files[k].path.split('/')[0]) ?: accept.push(files[k].path)
+            }
+        }
+    }
+
+    return accept.unique().size() == 0 ?: authors.unique()
+}
+
+/**
+ * TODO: Track Container Deployment Status
+ *
+ */
+def getDeploymentStatus(commitId, environment) {
+    sh "sleep 10s"
+
+    def status
+    def sleep   = ['ContainerCreating', 'Pending', 'Succeeded']
+    def success = ['Running']
+    def failure = ['CrashLoopBackOff', 'Terminating', 'Error']
+
+    sh "kubectl get pods -l build=${commitId} --namespace=${environment} --sort-by=.status.startTime"
+
+    def deploymentVerify = sh (script: "kubectl get pods -l build=${commitId} --namespace=${environment} --sort-by=.status.startTime | awk 'NR==2{print \$3}'", returnStdout: true).trim()
+    def containerCount   = sh (script: "kubectl get pods -l build=${commitId} --namespace=${environment} --sort-by=.status.startTime | awk 'NR==2{print \$4}'", returnStdout: true).trim().toInteger()
+
+    echo "Deployment Status: ${deploymentVerify}"
+    echo "Container Restart Count: ${containerCount}"
+
+    if (sleep.contains(deploymentVerify)) {
+        return getDeploymentStatus(commitId, environment)
+    }
+
+    if (success.contains(deploymentVerify)) {
+        if (containerCount == 0) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    if (failure.contains(deploymentVerify)) {
+        return false
+    }
+}
+
+/**
+ * Jenkins pipeline stages.
+ *
+ * A list of stages available in this pipeline Jenkins file will be executed
+ * squentially. The name of this file should be matching with Pipeline block of
+ * Jenkins configuration.
+ *
+ */
+node {
+
+    timeout(unit: 'HOURS', time: 5) {
+
+        /**
+         * Version details for tagging the image.
+         *
+         */
+        def tag
+
+        /**
+         * Define script variables.
+         *
+         */
+        def notify
+        def slackChannel = "#general"
+        def organization = "${ORGANIZATION}"
+        organization = organization.toUpperCase()
+        // Docker image
+        def proxy
+        def environment = "staging"
+        // AWS Credentials
+        def awsCredentials = "intermx-impinger-credentials"
+        // ECR Repository for proxy
+        def proxyEcrRepoName = "intermx-insights-ui-testing"
+        // ECR Repository Endpoint
+        def ecrEndpoint = 'https://${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com'
+        // ECR Credentials
+        def ecrCredentials = "ecr:us-east-1:${awsCredentials}"
+        // Version Hash
+        def versionHash = '2d3cbcc5acfa4626c44f81f33c5f7013'
+        // Git commit message
+        def commitMessage
+        def currRepoBranch
+        def commitId
+        def deployment
+        def domain
+
+        try {
+
+            /**
+             * Cloning the repository to workspace to build image.
+             *
+             */
+            checkout scm
+
+            def (origin, branch) = scm.branches[0].name.tokenize('/')
+
+            commitMessage  = sh (script: 'git log --oneline -1 ${GIT_COMMIT}', returnStdout: true).trim().substring(8)
+            commitId       = sh (script: 'git log -1 --format=%H', returnStdout: true).trim() // %h, for short hash
+            notify         = showChangeLogs(versionHash)
+            currRepoBranch = branch;
+
+            if (notify instanceof Boolean && Boolean.TRUE.equals(notify)) {
+
+                return
+            }
+
+            // Slack notification in progress.
+            notifyBuild('STARTED', currRepoBranch, commitMessage)
+
+            sh "echo ${currRepoBranch} branch"
+
+            /**
+             * Run Tests
+             *
+             */
+            stage('Run Cypress Test') {
+
+                // Set Node tool
+                env.NODEJS_HOME = "${tool 'node'}"
+                env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
+
+                // Prepare POD to run test
+                sh "apt --fix-broken -y install"
+                sh "apt-get update && apt-get -y install xdg-utils libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb zip unzip"
+                sh "wget  https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+                sh "apt install -y ./google-chrome-stable_current_amd64.deb"
+
+                // Add required modules
+                sh "mv common.package.json package.json && mv common.package-lock.json package-lock.json"
+                sh "npm install"
+                sh "npm install mochawesome-merge"
+
+                // Run test (Ref: https://docs.cypress.io/guides/guides/command-line#cypress-cache-command)
+                try {
+                     // handles graceful exit on failure
+                     sh "./node_modules/.bin/cypress run --browser chrome --headless"
+                } catch(exception) {
+                    echo "One or more test case failed"
+
+                    echo "${exception}"
+                }
+
+                // Generate report
+                sh "npm run mochawesome-report-output"
+                sh "npm run mochawesome-report"
+            }
+
+            /**
+             * Copy Latest Report to S3
+             *
+             */
+            stage('Copy Latest Report to S3') {
+
+                def s3_bucket = "impinger.intermx.io"
+                def s3_path = "live/staging/test-automation-reports/reports"
+
+                sh "cd cypress/reports/ && zip -r mochawesome-report-html.zip mochawesome-report-html"
+
+                withAWS(credentials: awsCredentials) {
+                    s3Upload(file: 'cypress/reports/mochawesome-report-html.zip', bucket: s3_bucket, path: "${s3_path}/${env.BUILD_NUMBER}.zip")
+                }
+
+                try {
+                    int build_limit = 10
+
+                    def reports = "reports.zip"
+
+                    dir("previous_reports") {
+                        withAWS(credentials: awsCredentials) {
+                            s3Download(file: "${reports}", bucket: s3_bucket, path: "${s3_path}/${reports}", force: true)
+                        }
+
+                        sh "unzip ${reports} && ls -all && cp -r ../cypress/reports/mochawesome-report-html reports/${env.BUILD_NUMBER} && mv reports/${env.BUILD_NUMBER}/Cypress_HTML_Report.html reports/${env.BUILD_NUMBER}/index.html"
+
+                        def files = sh(script: 'ls -1 reports', returnStdout: true).split()
+
+                        try {
+                            files = files[0..(build_limit)]
+                        } catch(exception) {
+                            echo "Gracefull handling of Index error"
+
+                            echo "${exception}"
+                        }
+
+                        dir("latest") {
+                            dir("reports") {
+                                for (file in files) {
+                                    sh "cp -r ../../reports/${file} ."
+                                }
+                            }
+
+                            sh "zip -r ${reports} reports"
+
+                            withAWS(credentials: awsCredentials) {
+                                s3Upload(file: "${reports}", bucket: s3_bucket, path: "${s3_path}/${reports}")
+                            }
+                        }
+                    }
+                } catch(exception) {
+                    echo "Possibly resource not available !!!"
+
+                    echo "${exception}"
+                }
+            }
+
+            /**
+             * Set Image Tag from package.json
+             *
+             */
+            stage('Set Image Tag') {
+
+                def json = readJSON file: "package.json"
+                def version
+                def revision
+
+                for (def key in json) {
+
+                    key = key.toString().split('=')
+
+                    if (key[0] == 'version') {
+                        version = key[1].toString()
+                    }
+
+                    if (key[0] == 'revision') {
+                        revision = key[1].toString()
+                    }
+                }
+
+                tag = "v${version}"
+
+                echo "Image Tag: ${tag}"
+            }
+
+            /**
+             * Building the Docker image from cloned repository for Development.
+             *
+             */
+            stage('Build Image for Development') {
+
+                proxy = docker.build(proxyEcrRepoName, "-f Testing-Dockerfile --network host .")
+            }
+
+            /**
+             * Authenticate and push the built image to AWS ECR for Development.
+             *
+             */
+            stage('Push Image for Development') {
+
+                docker.withRegistry(ecrEndpoint, ecrCredentials) {
+
+                    /**
+                     * Push the built Image to AWS ECR for Development.
+                     *
+                     */
+                    proxy.push(tag)
+                }
+            }
+        }
+
+        catch(exception) {
+
+            echo "${exception}"
+
+            // Slack notification failure.
+            notifyBuild('FAILURE', null, null, 'Something went wrong in one of the stages, exception found in Jenkins.', notify, slackChannel)
+        }
+
+        finally {
+
+            // Clean up the workspace after finish the job.
+            deleteDir()
+        }
+    }
+}
+
+/**
+ * Sending notifications to Slack channel.
+ *
+ */
+def notifyBuild(buildStatus = 'FAILURE', branch = null, commitMessage = null, message = null, notify = null, channel = null) {
+
+    // Default values
+    def summary
+    def alert   = false
+    def baseURL = "${SLACK_BASE_URL}"
+
+    if (buildStatus == 'STARTED') {
+        color = 'YELLOW'
+        colorCode = '#FFFF00'
+        summary = "${buildStatus}: ${organization} - Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' is currently working on branch '${branch}' with a message: '${commitMessage}'"
+    } else if (buildStatus == 'SUCCESS') {
+        color = 'GREEN'
+        colorCode = '#00FF00'
+        summary = "${buildStatus}: ${organization} - Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' | Message: ${message}"
+    } else {
+        color = 'RED'
+        colorCode = '#FF0000'
+        summary = "${buildStatus}: ${organization} - Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' | Error: ${message} | URL: `${env.BUILD_URL}console` (please make sure, you are on VPN to access the Jenkins link)"
+        alert = true
+    }
+
+    // Send notifications to Slack.
+    slackSend (baseUrl: baseURL, color: colorCode, message: summary)
+
+    if (color == 'GREEN') {
+        testMessage = "Testing performed on Staging environment successfully, reference build number ${env.BUILD_NUMBER}"
+        slackSend (baseUrl: baseURL, channel: "#test-automation", color: colorCode, message: testMessage)
+    }
+
+    if (alert) {
+
+        for(int i = 0; i < notify.size(); i++) {
+            def notice = notify[i].split(":")
+            def author = notice[0]
+            def email  = notice[1]
+            def domain = email.split("@")[1]
+
+            if (domain && domain == 'intermx.com') {
+
+                emailext (
+                    to: "${email}",
+                    subject: "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                    body: """
+                      <html>
+                        <body>
+                          <p>Hi ${author},</p>
+                          <br>
+                          <p>The build job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' failed to complete.</p>
+                          <p>The following error was reported:</p>
+                          <br>
+                          <p>${message}</p>
+                          <br>
+                          <p>Please review the error at <a href=\"${env.BUILD_URL}console\">${env.BUILD_URL}console</a> and resolve the issue causing the failure so that releases can continue.</p>
+                        </body>
+                      </html>
+                    """
+                )
+            }
+        }
+
+        slackSend (baseUrl: baseURL, channel: "${channel}", color: colorCode, message: summary)
+    }
+}

@@ -1,0 +1,32 @@
+<div class="mobile-hide">
+  <div class="map-key-legend" *ngIf="!show; else keyLegend">
+    <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+      <button (click)="toggle()" title="SHOW KEY">
+        <span>KEY</span>
+      </button>
+    </div>
+  </div>
+  <ng-template #keyLegend>
+  <div class="key-legends mapboxgl-ctrl-group">
+    <div fxLayout="row" class="legend-header">
+        <p>Map Key</p>
+        <span fxFlex="1 1 auto"></span>
+        <i class="material-icons" (click)="toggle()" title="Close">close</i>
+    </div>
+    
+    <ul>
+      <ng-container *ngFor="let key of objectKeys(legends)">
+        <li *ngFor="let markers of legends[key]">
+          <span *ngFor="let icon of markers['icons']" class="icon {{icon['font']}}" [ngStyle]="{ 'color': '' + icon['color'] + '' , 'background': icon['type']=='zip' ? icon['color']:'', 'background-color': icon['font'] === 'icon-numbered' ? icon['color']:''}" [ngClass]="{'dot': icon['font'] === 'icon-numbered'}"></span>
+          <span>{{markers['displayName'] | truncate : 'middle': 30 : 6 }}</span>
+        </li>      
+      </ng-container>
+    </ul>
+    <!-- <a href="javascript:void(0);" class="close-legend" (click)="toggle()">
+      <i class="material-icons">
+        keyboard_arrow_up
+      </i>
+    </a> -->
+  </div>
+  </ng-template>
+</div>

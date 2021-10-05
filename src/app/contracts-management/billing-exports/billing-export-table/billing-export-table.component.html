@@ -1,0 +1,209 @@
+<div class='c-container-line-item-list imx-new-theme'>
+    <div fxLayout='row' fxLayoutAlign='start center' class='vlist-header-action' fxLayoutGap='18px'>
+      <div fxFlex="90" class="export-options" fxLayoutAlign="start center" fxLayoutGap='1rem'>
+        <div class="total-record" *ngIf='!searchFilterApplied'>Total: {{tablePagination?.total || 0}}</div>
+        <div class="total-record" *ngIf='searchFilterApplied'>Found : {{tablePagination?.found || 0}}</div>
+        <div class="insertion-orders-list-table-headers__total-record spiner-div" *ngIf="isLoading">
+          <mat-spinner diameter="20"></mat-spinner>
+      </div>
+        <div class="check-selection" (click)="masterToggle()">{{(isAllCheckboxSelected && !excludedItemsIds?.length) && 'Deselect All' || ' Select All'}}</div>
+        <div class="export-header-action" fxLayout="row" fxLayoutGap="1rem">
+          <button type="button" mat-button class="imx-button-stroked button-options btn-export" (click)="unMarkDoNotExport(true)" [disabled]="!tableData?.length && !isLoading">Mark as "Do not Export”</button>
+          <button type="button" mat-button class="imx-button-stroked button-options btn-export" (click)="unMarkDoNotExport(false)" [disabled]="!tableData?.length && !isLoading">UnMark as "Do not Export”</button>
+          <button type="button" mat-button class="imx-button-stroked button-options btn-export" (click)="onReExportUpdate()" [disabled]="!tableData?.length && !isLoading">Select to Re-Export</button>
+          <button type="button" mat-button class="imx-button-stroked button-options btn-export"  (click)="onExportIOsAccounting()" [disabled]="!tableData?.length && !isLoading">Export I/Os for Accounting</button>
+        </div>
+
+      </div>
+      <div fxFlex="10" fxLayoutAlign="end center">
+        <div tooltip='Customize Columns' class="custom-column" placement='top' delay='200' tooltipClass='imx-tooltip-v3'
+        customClass='imx-field-tooltip' *ngIf='!data.fullScreenMode'>
+          <mat-icon svgIcon='IMX-columns' class='svg-primary' (click)='customizeColumn()'></mat-icon>
+        </div>
+        <div *ngIf='!data.fullScreenMode' tooltip='Expand Table' placement='top' delay='200' tooltipClass='imx-tooltip-v3'
+            customClass='imx-field-tooltip'>
+          <mat-icon (click)='enterFullScreen()'>zoom_out_map</mat-icon>
+        </div>
+        <div *ngIf='data.fullScreenMode' tooltip='Collapse Table' placement='top' delay='200'
+           tooltipClass='imx-tooltip-v3' customClass='imx-field-tooltip'>
+          <mat-icon svgIcon='IMX-fullscreen-exit' class='full-screen-exit-icon' (click)='exitFullScreen()'></mat-icon>
+        </div>
+      </div>
+      
+  
+      
+    </div>
+    <div>
+      <div class="vlist-table-parent" [class.fullScreen] = "data?.fullScreenMode">
+        <mat-table class='table-header-auto imx-table-striped level-two-sticky' mat-table matSort matSortDisableClear
+                   (matSortChange)='onSorting($event)'
+                   matSortActive='{{sort?.active}}'
+                   matSortDirection='{{sort?.direction}}'
+                   [dataSource]='dataSource'
+                   [matSortDisabled]="!tableData?.length">
+          <ng-container matColumnDef="lineItemCheckbox" [sticky]="true">
+            <mat-header-cell *matHeaderCellDef fxFlex="1rem">
+                <mat-checkbox class="imx-checkbok" disableRipple
+                            [indeterminate]="!!excludedItemsIds?.length || (!isAllCheckboxSelected && selection?.hasValue())"
+                            (change)="$event ? masterToggle() : null"
+                            [checked]="isAllCheckboxSelected && !excludedItemsIds?.length" [disabled]="dataSource?.data?.length === 0">
+                </mat-checkbox>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="imx-link-cursor" fxFlex="1rem">
+                <mat-checkbox class="imx-checkbok" disableRipple
+                            (click)="$event.stopPropagation()"
+                            (change)="$event ? toggleCheckbox(element?.IODateId) : null"
+                            [checked]="selection?.isSelected(element?.IODateId)">
+                </mat-checkbox>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef='lineItemId' [sticky]="true">
+            <mat-header-cell fxFlex='8.125rem' mat-sort-header class='first-column left48' *matHeaderCellDef> Line Item ID
+            </mat-header-cell>
+            <mat-cell fxFlex='8.125rem' mat-cell *matCellDef='let element' class='first-column left48'>
+              <div [style.visibility]='!element?.importskipStatus? "hidden": "initial"' class='status '>
+                <mat-icon class='unread error-dot' svgIcon='IMX-dot'></mat-icon>
+              </div>
+              <a (click)='openContractDetails(element)' href='javascript:void(0)'
+                 class='table-link' >{{element.lineItemId}}</a></mat-cell>
+          </ng-container>
+  
+          <!-- <ng-container matColumnDef='style'>
+            <mat-header-cell fxFlex='6rem' mat-sort-header *matHeaderCellDef> Style</mat-header-cell>
+            <mat-cell fxFlex='6rem' mat-cell *matCellDef='let element'> {{element.style}} </mat-cell>
+          </ng-container> -->
+  
+          <ng-container matColumnDef='clientCode'>
+            <mat-header-cell fxFlex='7.75rem' mat-sort-header *matHeaderCellDef> Client Code</mat-header-cell>
+            <mat-cell fxFlex='7.75rem' mat-cell *matCellDef='let element'> {{element?.clientCode}} </mat-cell>
+          </ng-container>
+  
+          <ng-container matColumnDef='productCode'>
+            <mat-header-cell fxFlex='8.438rem' mat-sort-header *matHeaderCellDef> Product Code</mat-header-cell>
+            <mat-cell fxFlex='8.438rem' mat-cell *matCellDef='let element'> {{element.productCode}} </mat-cell>
+          </ng-container>
+  
+          <ng-container matColumnDef='estimateNumber'>
+            <mat-header-cell fxFlex='7.313rem' mat-sort-header *matHeaderCellDef> Estimate #</mat-header-cell>
+            <mat-cell fxFlex='7.313rem' mat-cell *matCellDef='let element'> {{element.estimateNumber}} </mat-cell>
+          </ng-container>
+  
+          <ng-container matColumnDef='pubId'>
+            <mat-header-cell fxFlex='6.625rem' *matHeaderCellDef> PUB ID</mat-header-cell>
+            <mat-cell fxFlex='6.625rem' mat-cell *matCellDef='let element'> {{element.pubId}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef='clientName'>
+            <mat-header-cell fxFlex='9rem' mat-sort-header *matHeaderCellDef> Client Name</mat-header-cell>
+            <mat-cell fxFlex='9rem' mat-cell *matCellDef='let element'> {{element.clientName}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef='productName'>
+            <mat-header-cell fxFlex='8.625rem' mat-sort-header *matHeaderCellDef> Product Name</mat-header-cell>
+            <mat-cell fxFlex='8.625rem' mat-cell *matCellDef='let element'> {{element.productName}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef='estimateName'>
+            <mat-header-cell fxFlex='10.125rem' mat-sort-header *matHeaderCellDef> Estimate Name</mat-header-cell>
+            <mat-cell fxFlex='10.125rem' mat-cell *matCellDef='let element'> {{element.estimateName}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef='vendor'>
+            <mat-header-cell fxFlex='9.438rem' *matHeaderCellDef> Vendor Name</mat-header-cell>
+            <mat-cell fxFlex='9.438rem' mat-cell *matCellDef='let element'> {{element.vendor}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef='mediaDescription'>
+            <mat-header-cell fxFlex='17.813rem' mat-sort-header *matHeaderCellDef> Media Description</mat-header-cell>
+            <mat-cell fxFlex='17.813rem' mat-cell *matCellDef='let element'> <span tooltipv2="{{element.mediaDescription}}" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" class="cursor-link">{{element.mediaDescription | truncate : 'end': 60}} </span> </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef='insertionDate'>
+            <mat-header-cell fxFlex='8.625rem' mat-sort-header *matHeaderCellDef> Insertion Date</mat-header-cell>
+            <mat-cell fxFlex='8.625rem' mat-cell *matCellDef='let element'> {{element.insertionDate | date: 'MM/dd/yyyy'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef='netCost'>
+            <mat-header-cell fxFlex='9.375rem' mat-sort-header *matHeaderCellDef> Net Cost</mat-header-cell>
+            <mat-cell fxFlex='9.375rem' mat-cell class='costs' *matCellDef='let element'> $ {{element.netCost | convert:'NUMERICALFORMAT':2:true:'0,0.00'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef='doNotExport'>
+            <mat-header-cell fxFlex='8.25rem' mat-sort-header *matHeaderCellDef> Do Not Export</mat-header-cell>
+            <mat-cell fxFlex='8.25rem' mat-cell *matCellDef='let element'> {{(element.doNotExport || element.LIdoNotExport) ? 'YES' : ''}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef='deletedStatus'>
+            <mat-header-cell fxFlex='7.25rem' mat-sort-header *matHeaderCellDef> Delete File</mat-header-cell>
+            <mat-cell fxFlex='7.25rem' mat-cell *matCellDef='let element'> {{element?.deletedStatus ? 'YES' : ''}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef='exportedStatus'>
+            <mat-header-cell fxFlex='5.563rem' mat-sort-header *matHeaderCellDef> Exported</mat-header-cell>
+            <mat-cell fxFlex='5.563rem' mat-cell *matCellDef='let element'> {{element?.exportedStatus ? 'YES' : ''}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef='exportedAt'>
+            <mat-header-cell fxFlex='8.688rem' mat-sort-header *matHeaderCellDef> Exported Date</mat-header-cell>
+            <mat-cell fxFlex='8.688rem' mat-cell *matCellDef='let element'> {{element.exportedAt | date: 'MM/dd/yyyy'}} </mat-cell>
+          </ng-container>
+  
+          <ng-container matColumnDef='revisedAt'>
+            <mat-header-cell fxFlex='8.125rem' mat-sort-header *matHeaderCellDef> Revised Date</mat-header-cell>
+            <mat-cell fxFlex='8.125rem' mat-cell *matCellDef='let element'> {{element.revisedAt | date: 'MM/dd/yyyy'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef='accountingDept'>
+            <mat-header-cell fxFlex='7rem' mat-sort-header *matHeaderCellDef> Acct Dept</mat-header-cell>
+            <mat-cell fxFlex='7rem' mat-cell *matCellDef='let element'> {{element.accountingDept}} </mat-cell>
+          </ng-container>
+  
+          <!-- <ng-container matColumnDef='updatedAt'>
+            <mat-header-cell fxFlex='11.25rem' mat-sort-header *matHeaderCellDef>Last Modified Date</mat-header-cell>
+            <mat-cell fxFlex='11.25rem' mat-cell *matCellDef='let element'><span
+              [innerHTML]="(element.updatedAt | dateAgo :'new') | lowercase"></span></mat-cell>
+          </ng-container> -->
+  
+          <ng-container matColumnDef="action" [sticky]="true">
+            <mat-header-cell *matHeaderCellDef fxFlex="2.5rem" class="action-menu-column" [ngStyle]="{'left.px': 178}">
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element;let i = index" fxFlex="2.5rem" class="action-menu-column" [ngStyle]="{'left.px': 178}">
+              <mat-icon (click)='openContractDetails(element, true)' svgIcon='IMX-new-tab' class="mat-link-icon"></mat-icon>
+            </mat-cell>
+          </ng-container>
+  
+          <mat-header-row *matHeaderRowDef='customizeColumnService.displayedColumns;sticky: true'></mat-header-row>
+          <mat-row *matRowDef='let row; let i = index; columns: customizeColumnService.displayedColumns;'></mat-row>
+  
+        </mat-table>
+        <div fxLayout='row' fxLayoutAlign='center center' fxFill *ngIf='!tableData?.length && !isLoading' class='noDataFound'>
+          <div>
+            <!-- <p>No Items for this contract.</p> -->
+            <p [innerHTML]="'No Items found with that Criteria. <br /> Try searching for something else.'" *ngIf="searchFilterApplied"></p>
+            <img src='../../../../assets/images/cuate.svg' alt=''>
+          </div>
+        </div>
+      </div>
+  
+      
+  
+      <div class="vlist-pagination" [class.no-top-border]="!dataSource?.data?.length && isLoading" >
+        <!-- <div class="spiner-div" *ngIf="isLoading">
+          <mat-spinner diameter="30" ></mat-spinner>
+        </div> -->
+        <div>
+          <mat-paginator
+            [disabled]='!tableData?.length'
+            (page)='getPageEvent($event)'
+            [length]='tablePagination?.found || 0'
+            [pageIndex]='(tablePagination?.page || 1) - 1'
+            [pageSize]='tablePagination?.perPage'
+            [pageSizeOptions]='paginationSizes'
+            [showFirstLastButtons]='true'
+          >
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>

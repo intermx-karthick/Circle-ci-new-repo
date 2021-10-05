@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>winks_mt05</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Winks" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="winks_mt05" fill="#FC644B">
+            <g id="Markers-/-Winks-/-TransitShelters_mt05">
+                <path d="M4.10050506,0 L9.89949494,0 L14,4.10050506 L14,9.89949494 L9.89949494,14 L4.10050506,14 L0,9.89949494 L0,4.10050506 L4.10050506,-1.77635684e-15 Z M7,11.6666667 C9.57732883,11.6666667 11.6666667,9.57732883 11.6666667,7 C11.6666667,4.42267117 9.57732883,2.33333333 7,2.33333333 C4.42267117,2.33333333 2.33333333,4.42267117 2.33333333,7 C2.33333333,9.57732883 4.42267117,11.6666667 7,11.6666667 Z" id="Combined-Shape"></path>
+                <circle id="Oval" cx="7" cy="7" r="2.33333333"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,129 @@
+@import "../../../../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
+@import "../../../../assets/css/variables.less";
+::ng-deep {
+	app-explore-layers
+	{
+    .layers-filter-body
+    {
+      height: calc(~"100vh - 305px");
+      overflow: auto;
+    }
+    .layers-filter-footer
+    {
+      background-color: var(--grays-bg-100);
+      height: 70px;
+      padding:0 15px;
+      button {
+        margin-left: 8px;
+        font-weight: bold !important;
+        font-size: 13px !important
+      }
+      &.btn-primary-color {
+        background: var(--button-bg-color) !important;
+        color: #ffffff  !important;
+      }
+    }
+    .layers-filter-tab-group.mat-tab-group
+    {
+      height: 100%;
+      .mat-tab-body-wrapper
+      {
+        height: 100%;
+      }
+    }
+    mat-tab-header{
+      .mat-tab-label-container{
+        align-items: center;
+        height: auto !important;
+        .mat-tab-label {
+          height: 28px;
+          font-size: 12px;
+          mat-icon {
+            font-size: 15px;
+            margin-top: 5px;
+          }
+        }
+        .mat-tab-label-active {
+          opacity: 1;
+          border-bottom: 1px solid var(--primary-bg);
+          .mat-tab-label-content {
+            color: var(--button-bg-color) !important;
+          }
+        }
+        .mat-ink-bar {
+          background-color: var(--primary-bg) !important;
+        }
+      }
+    }
+    .btn-Load-layer{
+      position: absolute;
+      height: 50px;
+      left: 350px;
+      z-index: 1;
+      opacity: .6;
+      &:hover{
+        color: var(--button-bg-color) !important;
+      }
+      a{
+        height: 100%
+      }
+    }
+    mat-tab-group{
+      width: 100%;
+      .tab-body{
+        padding: 0px 10px;
+      }
+    }
+
+    @media @all-devices-under-768 {
+     mat-tab-header {
+      .mat-tab-label-container{
+        .mat-tab-label-active{
+          .mat-tab-label-content {
+            color: inherit !important;
+          }
+        }
+      } 
+     }
+     .btn-Load-layer {
+      right: 0;
+      left: inherit;
+      height: 41px;
+      width: 10%;
+      border-bottom: 1px solid rgba(0,0,0,.12);
+      a {
+        span{
+          display: none;
+        } 
+      }
+     }
+     .layers-filter-body {
+      height: 100%;
+      overflow: auto;
+    }
+    .layers-filter-footer{
+      position: absolute;
+      bottom: 0px;
+      z-index: 1;
+      width: 100%;
+      place-content: center center !important;
+      button{
+        padding: 0px !important;
+        min-width: 90px;
+     }
+    }
+    .scroll-div{
+      padding-bottom: 175px;
+    }
+    mat-list{
+      mat-list-item{
+        padding-left: 0px !important;
+      }
+      .mat-list-text{
+        padding: 0px !important;
+      }
+    } 
+
+    }// closed all mobile under 768
+  }
+}

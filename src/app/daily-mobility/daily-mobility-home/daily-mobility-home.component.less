@@ -1,0 +1,23 @@
+
+@import "../../../assets/css/variables.less";
+
+/**
+Angular material for Side bar Filter 
+*/
+::ng-deep {
+  app-daily-mobility {
+    h4 {
+      margin: 10px 0;
+    }
+    .dailyMobilityContainer {
+      overflow: auto;
+      height: calc(~"100vh - 120px");
+      width: calc(~"100vw - 40px");
+      #dailyMobilityVizContainer {
+        iframe {
+          margin: auto;
+        }
+      }
+    }
+  }
+}

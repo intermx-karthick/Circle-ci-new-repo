@@ -1,0 +1,89 @@
+::ng-deep {
+    app-explore-inventory-sets {
+      .inventory-set-container {
+        width: 97%;
+      }
+      .action-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        & > button {
+          height: 28px;
+          width: 55px;
+          min-width: 55px;
+          font-size: 10px;
+          font-weight: bold;
+          letter-spacing: 0.83px;
+          line-height: normal;
+          border-radius: 4px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          &.btn-primary-color {
+            background: var(--button-bg-color);
+            color: #ffffff;
+            margin-left: 8px;
+          }
+          &.btn-clear {
+            background-color: var(--grays-bg-200);
+          }
+        }
+      }
+    .mat-selection-list .mat-list-item .mat-list-item-content, .mat-selection-list .mat-list-option .mat-list-item-content {
+      padding: 0 5px !important;
+    }
+    .mat-selection-list {
+      max-height: 160px;
+      overflow: auto;
+    }
+    .mat-list-option {
+      height: 30px !important;
+      color: var(--medium-emphasis) !important;
+      font-size: 13px !important;
+      font-weight: 300;
+      letter-spacing: 0.17px;
+      line-height: 19px; 
+      .mat-list-icon{
+        font-size: 18px !important;
+        line-height: 18px;
+        height: 18px !important;
+        padding: 5px 0px !important;
+        color: var(--high-emphasis) !important;
+      }  
+      .mat-list-text {
+        color: var(--high-emphasis) !important;
+        font-size: 14px !important;
+      }
+    }
+    .search-field {
+      .mat-form-field-wrapper {
+        margin-bottom: -1.25em
+      }
+      input {
+        height: inherit;
+        border-bottom: none;
+        &:focus {
+          border-bottom: none !important;
+          box-shadow: unset !important;
+        }
+      }
+      mat-icon {
+        color: var(--medium-emphasis);
+      }
+    }
+    .mat-accent .mat-pseudo-checkbox-checked, .mat-accent .mat-pseudo-checkbox-indeterminate, .mat-pseudo-checkbox-checked, .mat-pseudo-checkbox-indeterminate {
+      background: var(--button-bg-color) !important;
+    }
+    .constrain-title { 
+      padding-top: 14px;
+    }
+    .miles-container{
+      color: var(--medium-emphasis);
+      .radius-miles {
+        text-align: center;
+        width: 50px;
+      }
+    }
+  }
+}

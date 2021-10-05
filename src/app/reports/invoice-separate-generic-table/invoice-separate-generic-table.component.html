@@ -1,0 +1,55 @@
+<div class="imx-table-container">
+  <table mat-table [dataSource]="transactions" class="imx-table monthly-report-table">
+    <!-- Item Column -->
+    <ng-container *ngFor="let column of columns | keyvalue" [matColumnDef]="column.key"
+                  [sticky]="column.key == 'checked'">
+      <th [style.paddingLeft]="column.key == 'market'? '8px !important': ''"
+          [ngClass]="headerClasses(column)" mat-header-cell *matHeaderCellDef
+          [class.report-line-item]="column.key === 'lineItemIdOrType'">
+        <ng-container>
+          {{column.value}}
+        </ng-container>
+      </th>
+      <td mat-cell *matCellDef="let element" class="text-center"
+          [class.text-right]="column.key === 'netCost' || column.key === 'salesTax' || column.key === 'feeAmount' || column.key === 'netTaxFee'">
+        <ng-container
+          *ngIf="column.key === 'fee' || column.key === 'netCost' || column.key === 'salesTax' || column.key === 'feeAmount' || column.key === 'netTaxFee' else normalHeader">
+          {{element[column.key] | currency}}
+        </ng-container>
+        <ng-template #normalHeader>
+          <ng-container>{{element[column.key]}}</ng-container>
+        </ng-template>
+      </td>
+    </ng-container>
+
+    <ng-container *ngFor="let column of displayedColumnsFooter" [matColumnDef]="column">
+      <td mat-footer-cell *matFooterCellDef
+          [ngClass]="column === last2ndFooterColName ? 'total-due-col':''"
+          [class.add-border]="column === lastFooterColName" [attr.colspan]="column === last2ndFooterColName ? '3' : ''">
+        <ng-container *ngIf="column === last2ndFooterColName"><span class="table-total">Total amount Due</span></ng-container>
+        <ng-container *ngIf="column === lastFooterColName">{{getNetTaxFee() | currency}}</ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container *ngIf='isForMedia'>
+      <ng-container *ngFor="let column of displayedColumnsFooter1" [matColumnDef]="column">
+        <td mat-footer-cell *matFooterCellDef
+            [ngClass]="column === last2ndFooterColName1 ? 'total-due-col':''"
+            [class.add-border]="column === lastFooterColName1" [attr.colspan]="column === last2ndFooterColName1 ? '3' : ''">
+          <ng-container *ngIf="column === last2ndFooterColName1"><span class="table-total">Includes Taxes of</span></ng-container>
+          <ng-container *ngIf="column === lastFooterColName1">{{getNetTaxFee() | currency}}</ng-container>
+        </td>
+      </ng-container>
+    </ng-container>
+
+    <ng-container matColumnDef="blankFooter">
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-footer-row *matFooterRowDef="displayedColumnsFooter"></tr>
+    <ng-container *ngIf='isForMedia'>
+      <tr  mat-footer-row *matFooterRowDef="displayedColumnsFooter1"></tr>
+    </ng-container>
+  </table>
+</div>

@@ -1,0 +1,31 @@
+<mat-card class="library-nav-container mat-elevation-z6" *ngIf="isExpanded; else libraryBubble">
+  <mat-icon class="close-nav" (click)="toggleExpansionState()">close</mat-icon>
+  <div class="library-item" fxLayout="column" (click)="navigate('/explore')" [ngClass]="{'active':activeRoute === 'inventory'}"  *ngIf="isExploreAllowed['status'] === 'active'">
+    <div fxLayout="row">
+      <mat-icon>tv</mat-icon>
+      <h3>Inventory Library</h3>
+    </div>
+    <p>Search inventories from around the nation</p>
+  </div>
+  <div class="library-item" fxLayout="column" (click)="navigate('/population')" [ngClass]="{'active':activeRoute === 'population'}" *ngIf="isPopulationAllowed['status'] === 'active'">
+    <div fxLayout="row">
+      <mat-icon>supervised_user_circle</mat-icon>
+      <h3>Population Library</h3>
+    </div>
+    <p>View audience profiles & geographies</p>
+  </div>
+  <div class="library-item " fxLayout="column" (click)="navigate('/places')" [ngClass]="{'active':activeRoute === 'places'}"  *ngIf="isPlacesAllowed['status'] === 'active'">
+    <div fxLayout="row">
+      <mat-icon>place</mat-icon>
+      <h3>Places Library</h3>
+    </div>
+    <p>Search company name, brand or place type</p>
+  </div>
+</mat-card>
+<ng-template #libraryBubble>
+  <div class="minimized-nav-icon" (click)="toggleExpansionState()" [matTooltipClass]="'nav-icon-tooltip'" [matTooltip]="tooltip" matTooltipPosition="right" [ngSwitch]="activeRoute">
+    <mat-icon *ngSwitchCase="'inventory'">tv</mat-icon>
+    <mat-icon *ngSwitchCase="'population'" >supervisor_account</mat-icon>
+    <mat-icon *ngSwitchCase="'places'" >place</mat-icon>
+  </div>
+</ng-template>

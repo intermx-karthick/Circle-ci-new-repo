@@ -1,0 +1,162 @@
+<div fxLayout="row" fxLayoutAlign="space-between start" class="row-container">
+    <h5 mat-dialog-title class="model-header">Add a Contract</h5>
+    <a href="javascript:void(0)" (click)="onNoClick()">
+      <img src="../../../../../assets/custom-icons/close_icon.svg">
+    </a>
+</div>
+
+<form [formGroup]="createContractForm" mat-dialog-content fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxFlex="48" class="field-column">
+        <div fxLayout="column" fxLayoutAlign="space-between stretch">
+              <mat-form-field class="imx-dropdown new-tab-link imx-input client-selection" tooltip="{{createContractForm['controls'].client?.value?.length>15 ? createContractForm['controls'].client?.value : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+                <mat-label *ngIf="isClientsListLoading; else parentClientGroupLableRef">
+                    <div fxLayout fxLayoutAlign="space-between start">
+                      <span fxFlex="90">Loading...</span>
+                      <mat-spinner class="spinner" diameter="20"></mat-spinner>
+                    </div>
+                  </mat-label>
+      
+                  <ng-template #parentClientGroupLableRef>
+                    <mat-label>Client *</mat-label>
+                  </ng-template>
+                <input type="text" #clientGroupInputRef matInput formControlName="client"
+                       [matAutocomplete]="parentClientAuto">
+                <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                <mat-autocomplete #parentClientAuto="matAutocomplete"
+                  [displayWith]="parentClientDisplayWithFn"
+                  (opened)="updateContainer()"
+                  class="autocomplete-scroll contract-autocomplete">
+                  <div class="parent-client-autocomplete scroll-section-autocomplete"
+                  infiniteScroll
+                  [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                  (scrolled)="getClientsList(true, true)" [scrollWindow]="false"
+                  [infiniteScrollContainer]="panelContainer" [fromRoot]="true"
+                  [immediateCheck]="false"
+                  [alwaysCallback]="false"
+                  [infiniteScrollDisabled]="clientsAutocompleteItems?.length >= parentClientPagination?.found"
+                  >
+                  <mat-option [value]="null" class="hide-selected-tick">Select Client</mat-option>  
+                  <mat-option *ngFor="let vGroup of clientsAutocompleteItems;trackBy: parentClientTrackByFn" [value]="vGroup.value"
+                      [class.mat-selected]="createContractForm['controls'].client?.value === vGroup?.value"
+                      tooltip="{{vGroup.value?.length >15 ? vGroup.value : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+                      <span [innerHTML]="(vGroup.value)| imx_highlight: clientGroupInputRef.value"></span>
+                    </mat-option>
+    
+                    <mat-option disabled *ngIf="isClientsListLoading">
+                      <div fxLayout="row" fxLayoutAlign="space-around center" >
+                        <mat-spinner diameter="20"></mat-spinner>
+                      </div>
+                    </mat-option>
+    
+                    <mat-option disabled *ngIf="!isClientsListLoading && clientsAutocompleteItems?.length <= 0">
+                      No Records Found.
+                    </mat-option>
+                  </div>
+                </mat-autocomplete>
+                <mat-error class="small-font" *ngIf="createContractForm['controls'].client.hasError('required')">
+                    Client is required.
+                 </mat-error>
+              </mat-form-field>
+
+            <mat-form-field  class="imx-input text-input">
+                <mat-label>Contract Name </mat-label>
+                <input formControlName="name" matInput required>
+                <mat-error *ngIf="createContractForm.controls['name']?.errors?.required || createContractForm.controls['name']?.errors?.pattern">Contract Name is required.</mat-error>
+                <mat-error *ngIf="createContractForm.controls['name']?.errors?.maxlength">Contract Name can be max 64 characters long.</mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div fxFlex="48" class="field-column">
+        <div fxLayout="column" fxLayoutAlign="space-between stretch">
+           
+          <mat-form-field class="imx-dropdown imx-input client-selection" fxFlex="33"
+            [tooltip]="createContractForm?.controls?.buyer?.value?.firstName?.length + createContractForm?.controls?.buyer?.value?.lastName?.length > 10 
+                      ? createContractForm.controls.buyer.value.firstName +' '+ createContractForm.controls.buyer.value.lastName : ''" placement="top" delay="200" tooltipClass="imx-tooltip-v3"
+            customClass="imx-field-tooltip">
+          
+            <mat-label *ngIf="buyerAutoComplete.isLoading; else buyerLableRef">
+              <div fxLayout fxLayoutAlign="space-between start">
+                <span fxFlex="90">Loading...</span>
+                <mat-spinner class="spinner" diameter="20"></mat-spinner>
+              </div>
+            </mat-label>
+          
+            <ng-template #buyerLableRef>
+              <mat-label>Buyer *</mat-label>
+            </ng-template>
+          
+            <input type="text" #buyerInputRef matInput [matAutocomplete]="buyerMatAuto" formControlName="buyer"
+              class="imx-input-no-border" #triggerBuyer="matAutocompleteTrigger" [autocompletePosition]="triggerBuyer"
+              scrollContainer="report-form-card_SCROLLABLE" (click)="triggerBuyer.openPanel()" />
+            <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+          
+          
+            <mat-autocomplete #buyerMatAuto="matAutocomplete" (opened)="updateBuyerContainer()"
+              class="buyer-list-autocomplete imx-autocomplete-dropdown" [displayWith]="buyerDisplayWithFn" infiniteScroll
+              [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0" [scrollWindow]="false" [fromRoot]="true"
+              [immediateCheck]="false" [alwaysCallback]="false"
+              [infiniteScrollDisabled]="buyerAutoComplete.data?.length >= buyerAutoComplete?.pagination?.found"
+              [infiniteScrollContainer]="panelBuyerContainer" (scrolled)="buyerAutoComplete.loadMoreData(null,null)">
+              <mat-option [value]="null" class="hide-selected-tick">Select Buyer</mat-option>
+              <mat-option *ngFor="let buyer of buyerAutoComplete.data;trackBy: buyerTrackByFn" [value]="buyer"
+                [tooltip]="buyer.firstName?.length + buyer.lastName?.length > 10 ? buyer.firstName +' '+ buyer.lastName : ''"
+                [class.mat-selected]="createContractForm && createContractForm?.controls?.buyer?.value?._id == buyer?._id"
+                placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" class="drop-maxwidth">
+                <span [innerHTML]="(buyer.firstName +' '+ buyer.lastName) | imx_highlight: buyerInputRef.value"></span>
+              </mat-option>
+          
+              <mat-option disabled *ngIf="buyerAutoComplete.isLoading">
+                <div fxLayout="row" fxLayoutAlign="space-around center">
+                  <mat-spinner diameter="20"></mat-spinner>
+                </div>
+              </mat-option>
+          
+              <mat-option disabled *ngIf="!buyerAutoComplete.isLoading  && !buyerAutoComplete.data?.length && buyerInputRef.value">
+                Invalid Entry.
+              </mat-option>
+              <mat-option disabled *ngIf="!buyerAutoComplete.isLoading && !buyerAutoComplete.data?.length && !buyerInputRef.value ">
+                No Records.
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error class="small-font" *ngIf="createContractForm?.controls?.buyer?.hasError('required')">
+              Buyer is required.
+            </mat-error>
+            <mat-error *ngIf="createContractForm?.controls?.buyer?.hasError('invalid')" class="error">
+              Please select from the drop down list.
+            </mat-error>
+          </mat-form-field>
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+                <mat-form-field fxFlex="62" class="imx-dropdown new-tab-link imx-input">
+                    <mat-label>
+                        Select Campaign
+                    </mat-label>
+                  <mat-icon svgIcon='IMX-new-tab-link' class="mat-link-icon for-mat-select"
+                            [class.disabled]="!createContractForm.controls.campagin.value"
+                            (click)="$event.stopPropagation();tabLinkHandler.open(TabLinkType.CAMPAIGN, createContractForm.controls.campagin.value)"
+                            matSuffix></mat-icon>
+                    <mat-select panelClass="imx-select disabled-view-select" formControlName="campagin">
+                      <mat-option [value]="null">Select Campaign</mat-option>
+                      <mat-option *ngFor="let campagin of data?.campaigns" [value]="campagin.id">
+                        {{ campagin.value }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                <mat-form-field  class="imx-input text-input" fxFlex="35">
+                    <mat-label>PO Number</mat-label>
+                    <input formControlName="number" matInput>
+                    <mat-error *ngIf="createContractForm.controls['number']?.errors?.maxlength">PO Number can be max 64 characters long.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div mat-dialog-actions>
+    <div fxLayout="row" fxLayoutAlign="end center" class="row-container">
+        <div fxflex="40" class="actions">
+            <button type="button" mat-button class="imx-button-basic" (click)="onNoClick()">{{"Cancel" | uppercase}}</button>
+            <button mat-raised-button class="imx-button-primary search-btn" (click)="onSubmit()" cdkFocusInitial>{{"Save" | uppercase}}</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+@import url(../../../assets/css/variables.less);
+.login-main-layout{
+  background-color: var(--login-bg-color);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: auto;
+  background-attachment: fixed;
+  position: fixed;
+}
+.login-box-body{
+  width: 575px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  .login-form-block{
+    padding: 30px;
+    .flex-column{
+      margin-top: 5%;
+    }
+  }
+}
+@media @all-devices-under-768{
+  .login-box-body{
+    width: 100%;
+  }
+}
+

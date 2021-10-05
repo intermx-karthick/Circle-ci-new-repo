@@ -1,0 +1,27 @@
+<div class="cast-find-feature">
+    <div fxLayout="row" fxLayoutAlign="start center" class="cast-find-feature-title">
+      <i class="icon-custom icon-custom-cc-search"></i>
+      <h4>Find Map Feature</h4>
+    </div>
+    <div class="search-content">
+      <div>
+        <mat-form-field appearance="legacy" floatLabel="always">
+          <mat-label>Search all links, transit routes, and tracts</mat-label>
+          <input matInput [formControl] = 'findQuery'  type="text" autocomplete="off">
+        </mat-form-field>
+      </div>
+      <ul class="search-content-list" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+      (scrolled)="loadMore()" [scrollWindow]="false">
+        <!--  -->
+        <li *ngFor="let feature of filteredFeatures; trackBy: trackByFeatureID;" (click) = "openFeature(feature)">
+          <div fxLayout="row" fxLayoutAlign="start center" class="side-panel-header">
+            <i class="icon-custom icon-custom-cc-{{feature[2]}}"></i>
+            <h6><span class="subtitle-1" title="{{feature[2] | titlecase}} ID: {{feature[1]}}">{{feature[2] | titlecase}}</span>&nbsp;<b>{{feature[3]}}</b>&nbsp;<span [ngClass] = "{'subtitle-1' : (feature[2] === 'route')}">{{feature[1] | truncate : 'middle': 10 : 10 }}</span></h6>
+          </div>
+        </li>
+        <!-- <li *ngIf = "mapOnFeatureCount > 0">
+          <h6><span class="subtitle-1">and</span> {{mapOnFeatureCount | convert : 'THOUSAND'}} <span class="subtitle-1">more map features</span></h6> 
+        </li> -->
+      </ul>
+    </div>
+  </div>

@@ -1,0 +1,124 @@
+@import "../../../../assets/css/variables.less";
+
+
+.c-location-selection {
+
+  .btn-clear{
+    margin-right: 12px;
+    color           : var(--medium-emphasis) !important;
+    font-size       : 13px;
+    font-weight     : bold;
+    letter-spacing  : 0.08px;
+    text-transform  : uppercase;
+    border-radius   : 4px !important;
+  }
+  .btn-primary-color{
+    background-color: var(--button-bg-color);
+    color           : var(--text-whites) !important;
+    font-size       : 13px;
+    font-weight     : bold;
+    letter-spacing  : 0.08px;
+    line-height     : 24px;
+    text-transform  : uppercase;
+    border-radius   : 4px !important;
+  }
+
+  .search-highlight {
+    color: var(--primary-bg) !important;
+   }
+
+}
+
+
+.c-location-selection .c-loc-selctn-header{
+
+  &__title{
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
+  .search-highlight {
+    color: var(--primary-bg) !important;
+  }
+
+}
+
+.c-location-selection .c-loc-selctn-body{
+
+  // removed
+  ::ng-deep.mat-form-field-underline{
+    //  display: none !important;
+  }
+
+  ::ng-deep.mat-list {
+
+    max-width: 100%;
+    overflow-y: auto;
+    max-height: 216px;
+    overflow-x: hidden;
+
+    .mat-list-item {
+      box-shadow: none;
+      font-size: 14px;
+      height: 41px !important;
+      margin-left: 16px;
+      border-bottom: 1px solid var(--grays-bg-300);
+      cursor: pointer;
+    }
+
+  }
+
+
+  h5{
+   font-size: 16px;
+   margin: 8px 0;
+  }
+
+  ::ng-deep.mat-list:focus{
+    outline: unset;
+  }
+
+  ::ng-deep.mat-pseudo-checkbox-checked {
+    background: var(--button-bg-color);
+  }
+
+  ::ng-deep.mat-chip-list-wrapper {
+    max-height: 120px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  ::ng-deep.mat-chip.mat-standard-chip {
+    background-color: var(--grays-bg-200) !important;
+    color: var(--high-emphasis) !important;
+    font-size: 12px;
+    height: auto;
+    padding: 4px 7px 4px 12px;
+    font-weight: 300;
+  }
+
+  ::ng-deep.mat-chip.mat-standard-chip.mat-chip-selected.mat-primary .mat-chip-remove {
+    color: var(--high-emphasis) !important;
+    opacity: .5;
+  }
+
+  mat-form-field {
+    width: 100% !important;
+
+    input{
+      border: none !important;
+    }
+  }
+
+}
+
+.c-location-selection .c-loca-selctn-footer{
+
+  &__wrapper{
+    margin-top: 12px;
+  }
+
+}
+
+
+

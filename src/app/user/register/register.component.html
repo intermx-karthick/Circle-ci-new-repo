@@ -1,0 +1,69 @@
+<div *ngIf="themeSettings" fxLayout="row" fxLayoutAlign="center center" fxFill class="login-main-layout" [ngStyle]="{ 'background-image': 'url(' + themeSettings['background']['bg_image'] + ')'}">
+<div class="login-main-block">
+  <div class="login-box-body" fxLayout="column" >
+    <div class="login-logo">
+      <img  src="{{themeSettings['logo']['full_logo']}}" onError="this.src='./assets/images/logo-placeholder.png'">
+      <div class="logo-slogan">{{themeSettings['productName']}} <span class="site-version">{{themeSettings['version']}}</span></div>
+    </div>
+    <div class="login-form">
+      <form  method="post" [formGroup]="registerForm" class="loginForm" (ngSubmit)='onSubmit(registerForm)' novalidate autocomplete="off">
+        <div class="login-title-block">
+          <span class="login-title">Create an Account</span>
+          <span class="login-title-solgan">Please enter your information below to access Inventory Explorer within the Geopath Insights Suite.</span>
+          <p class="required-info">*indicates required field</p>
+        </div>
+
+        <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="0">
+          <mat-form-field floatLabel="always"  fxFlex.sm="45" fxFlex.md="45" fxFlex.ls="45" [hideRequiredMarker]="false">
+            <label>First Name <span>*</span></label>
+              <input matInput formControlName="first_name" autocomplete="off">
+              <mat-error *ngIf="registerForm['controls'].first_name.hasError('required')">First name can't be blank</mat-error>
+          </mat-form-field>
+  
+          <mat-form-field floatLabel="always"  fxFlex.sm="45" fxFlex.md="45" fxFlex.ls="45">
+            <label>Last Name <span>*</span></label>
+              <input matInput formControlName="last_name" autocomplete="off">
+              <mat-error *ngIf="registerForm['controls'].last_name.hasError('required')">Last name can't be blank</mat-error>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutGap="30px" fxLayoutGap.xs="0">
+          <mat-form-field floatLabel="always" fxFlex.sm="45" fxFlex.md="45" fxFlex.ls="45">
+            <label>Job Title <span>*</span></label>
+              <input matInput formControlName="job_title" autocomplete="off">
+              <mat-error *ngIf="registerForm['controls'].job_title.hasError('required')">Job title can't be blank</mat-error>
+          </mat-form-field>
+
+          <mat-form-field floatLabel="always" fxFlex.sm="45" fxFlex.md="45" fxFlex.ls="45">
+            <label>Company Name <span>*</span></label>
+              <input matInput formControlName="company_name" autocomplete="off">
+              <mat-error *ngIf="registerForm['controls'].company_name.hasError('required')">Company name can't be blank</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="column wrap">
+          <mat-form-field floatLabel="always" fxFlex="100">
+            <label>Company Email <span>*</span></label>
+              <input matInput id="defaultForm-email" formControlName="company_email" autocomplete="off">
+              <mat-error *ngIf="registerForm['controls'].company_email.hasError('required')">Company Email can't be blank</mat-error>
+              <mat-error *ngIf="registerForm['controls'].company_email.hasError('email')">Should be valid email.</mat-error>           
+          </mat-form-field>
+          <p class="email-note">you will use your email to log in.</p>
+        </div>
+
+        <div fxLayout="row wrap" >
+          <mat-form-field floatLabel="always" fxFlex="100">
+            <label>Password <span>*</span></label>
+              <input matInput formControlName="password" autocomplete="off" type="password">
+              <mat-error >Passwords must be at lease 8 characters and contain at least one:capital letter,lower case letter,number, or symbol(-+_!@#$%^&*.,?).</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="footer-login-action" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+          <a class="return-link register-link" [routerLink]="['/user/login']" >RETURN TO LOGIN</a>
+          <button mat-raised-button type="submit" class="login-btn button-primary uppercase">REGISTER</button>
+        </div>
+        </form>
+    </div>
+  </div>
+</div>
+</div>

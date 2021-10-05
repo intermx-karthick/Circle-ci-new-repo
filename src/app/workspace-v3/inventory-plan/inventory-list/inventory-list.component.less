@@ -1,0 +1,109 @@
+.plan-header-action{
+  padding:15px 0px;
+  cursor: pointer;
+  .total-record{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 18px;
+    color: var(--grays-bg-700);
+  }
+}
+.mat-table-responsive{
+  position:responsive;
+  max-height:300px;
+  &.Loader-padding{
+    padding-bottom:10px;
+  }
+  mat-table{
+    min-width:100%;
+  }
+  overflow: auto;
+  .mat-header-row{
+    background: #F9F9F9;
+  }
+  .mat-sort-header-content{
+    text-transform: uppercase !important;
+    font-size: 10px;
+    letter-spacing: 0.6px;
+  }
+  mat-row{
+    border: 0;
+    mat-cell{
+      font-size: 13px;
+      line-height: 16px;
+      letter-spacing: 0.5px;
+      color: var(--grays-bg-700);
+    }
+  }
+    .imx-mat-progress{
+      display: flex;
+      place-content: center;
+    }
+}
+
+
+
+::ng-deep{
+  app-inventory-list{
+    .mat-column-checked{
+      max-width:45px;
+      place-content: center;
+      z-index: 1 !important;
+    }
+    .mat-paginator {
+      .mat-paginator-page-size-select {
+        .mat-form-field-underline {
+          display: none;
+        }
+        .mat-form-field-infix {
+          border: 1px solid var(--grays-bg-600);
+          border-radius: 5px;
+          padding: 5px;
+          margin-top: 10px;
+        }
+      }
+      .mat-paginator-range-actions{
+        .mat-paginator-range-label{
+          display: none;
+        }
+      }
+
+    }
+    .inventory-list-table {
+     /* max-height: 300px;
+      overflow-x: hidden;
+      overflow-y: auto;*/
+      z-index: 0;
+      position: relative;
+    }
+    .stikeout-deleted-inv {
+      position: relative;
+      .mat-column-checked {
+        z-index: 0 !important
+      }
+    }
+    .stikeout-deleted-inv::before {
+      content: " ";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      border-bottom: 1px solid #111;
+      width: 100%;
+      z-index: 1;
+    }
+    mat-header-row{
+      mat-header-cell{
+        &:first-child{
+          padding-left: 20px !important;
+        }
+        padding-left: 20px !important;
+        font-size: 10px !important;
+        letter-spacing: 0.6px !important;
+      }
+    }
+    .svg-primary {
+      margin-right: 15px;
+    }
+  }
+}

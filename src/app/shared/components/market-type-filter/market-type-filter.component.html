@@ -1,0 +1,15 @@
+
+<app-market-filter *ngIf="module ==='explore'"
+  [dmaList]="activeDMA"
+  [cbsaList]="activeCBSA"
+  [countyList]="activeCounties"
+  [geoSetsList]="geoSets"
+  [geoSetsLoader]="isInitiated && !isInitialLoadCompleted"
+  [nationalList]="nationalList"
+  [searchedMarkets]="searchedMarkets"
+  [totalPages]="totalPages"
+  [totalCountyPages]="totalCountyPages"
+  (searchMarkets)="searchMarkets($event)"
+  (loadMoreMarkets)="loadMoreMarkets($event)"
+  (resetMarkets)="resetMarkets($event)">
+</app-market-filter>

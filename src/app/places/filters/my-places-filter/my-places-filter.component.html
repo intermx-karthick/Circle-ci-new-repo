@@ -1,0 +1,65 @@
+<div class="collapse-navigation" (click)="collapseNavigation(false)" [ngClass]="{'hide' : !isCollapseNavigation}" title="Expand the my places">
+  <mat-icon >filter_list</mat-icon>
+</div>
+<div class="my-place-filter" [ngClass]="{'hide' : isCollapseNavigation}">
+  <div class="action-buttons">
+    <mat-icon (click) = "collapseNavigation(true)" title="Collapse the my places">keyboard_arrow_left</mat-icon>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="heading">
+    <h4><span>My Places</span></h4>
+    <hr>
+  </div>
+  <div class="my-place-body-section">
+    <mat-accordion>
+      <mat-expansion-panel class="e2e-saved-place-sets-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h5>View Saved Places</h5>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <!-- <div class="imx-panel-body"> -->
+          <app-places-set [poiData]='poiData' [selectedPlaceSetId] = 'selectedPlaceSetId' (filterByPlaceSet)="onFilterByPlaceSet($event)"></app-places-set>
+        <!-- </div> -->
+      </mat-expansion-panel>
+      <mat-divider ></mat-divider>
+      <mat-expansion-panel class="import-jobs-panel e2e-import-jobs-panel" *ngIf="isPlacesImportAllowed">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h5>Import New Places</h5>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="imx-panel-body">
+          <!-- <div>
+            <div fxLayout="row" *ngFor="let job of jobs">
+              <div fxFlex="50%">
+                <p>{{job['name']}}</p>
+              </div>
+              <div fxFlex="50%" class="job-status">
+                <p>{{job['status']}}</p>
+              </div>
+            </div>
+          </div> -->
+          <mat-form-field class="width100">
+            <mat-select class="e2e-place-import-select"  [formControl]="selectedUploadOptionCtrl">
+              <!-- <mat-option value="Single Place" >Upload one by one</mat-option> -->
+              <mat-option (click)="openPopup()" value="Group of Places" class="e2e-group-place-import">Upload multiple places (csv)</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+      <mat-divider *ngIf="isPlacesImportAllowed"></mat-divider>
+       <mat-expansion-panel *ngIf="isAuditRole" class="audit-jobs-list">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h5>Audit Places</h5>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="imx-panel-body">
+          <app-audit-jobs-filter></app-audit-jobs-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-divider class="mt-1" *ngIf="isAuditRole"></mat-divider>
+    </mat-accordion>
+  </div>
+</div>

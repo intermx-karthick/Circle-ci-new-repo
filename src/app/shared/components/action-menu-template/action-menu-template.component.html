@@ -1,0 +1,73 @@
+<div class="action-filter-header">
+  Actions
+</div>
+
+<div class="actions-filter-body" fxLayout="row">
+  <mat-accordion fxFlex="100">
+    <mat-expansion-panel (opened)="loadSavedScenarioLazyLoader.triggerInitialLoad()"  *ngIf="(allowScenarios === 'active' && allowInventory === 'active' && module === 'explore')">
+      <mat-expansion-panel-header expandedHeight="48px">
+        <mat-panel-title class="test-action-save-view">Load Saved {{workflowLabels?.scenario[1]}}</mat-panel-title>
+        <mat-panel-description fxLayoutAlign="end center">
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="expansion-panel-body">
+        <app-explore-scenarios [initiator$]="loadSavedScenarioLazyLoader.initiator$" [preload]="false">
+        </app-explore-scenarios>
+      </div>
+    </mat-expansion-panel>
+    <!-- TODO: Will work once done the save view for all liberary -->
+    <!-- <mat-expansion-panel>
+      <mat-expansion-panel-header expandedHeight="48px">
+        <mat-panel-title class="test-action-save-view">Retrieve Saved View</mat-panel-title>
+        <mat-panel-description fxLayoutAlign="end center">
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="expansion-panel-body">
+          <app-load-save-view [from]="fromAction"></app-load-save-view>
+      </div>
+      <div class="actions-filter-footer" fxLayout="row" fxLayoutAlign="end center" [ngClass]="{ 'module-disable':allowInventory === 'disabled'}">
+          <button mat-raised-button class="button button-primary-color uppercase btn-primary-color test-apply-btn test-action-loadView" (click)="onLoadView()">Load View</button>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header expandedHeight="48px">
+        <mat-panel-title class="test-action-save-view-option">Save View</mat-panel-title>
+        <mat-panel-description fxLayoutAlign="end center">
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="expansion-panel-body">
+        <p class="body-2">Save current view with all selected display options.</p>
+      </div>
+      <div class="actions-filter-footer" fxLayout="row" fxLayoutAlign="end center" [ngClass]="{ 'module-disable':allowInventory === 'disabled'}">
+          <button mat-raised-button class="button button-primary-color uppercase btn-primary-color test-apply-btn test-action-current-save-view-btn" (click)="saveView()">Save View </button>
+      </div>
+    </mat-expansion-panel> -->
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header expandedHeight="48px">
+        <mat-panel-title class="test-action-clear-view">Clear View</mat-panel-title>
+        <mat-panel-description fxLayoutAlign="end center">
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="expansion-panel-body">
+        <p class="body-2">Clear all filters, display options and layers</p>
+      </div>
+      <div class="actions-filter-footer" fxLayout="row" fxLayoutAlign="end center" [ngClass]="{ 'module-disable':allowInventory === 'disabled'}">
+          <button mat-raised-button class="button button-primary-color uppercase btn-primary-color test-apply-btn test-action-clear-view-btn" (click)="clearView()">Reset All</button>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header expandedHeight="48px">
+        <mat-panel-title class="test-action-print">Print View</mat-panel-title>
+        <mat-panel-description fxLayoutAlign="end center">
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="expansion-panel-body">
+          <p class="body-2">Print the current map and Inventory List</p>
+      </div>
+      <div class="actions-filter-footer" fxLayout="row" fxLayoutAlign="end center" [ngClass]="{ 'module-disable':allowInventory === 'disabled'}">
+          <button mat-raised-button class="button button-primary-color uppercase btn-primary-color test-apply-btn test-action-print-btn" (click)="printView()">Print</button>
+      </div>
+    </mat-expansion-panel>
+    </mat-accordion>
+</div>

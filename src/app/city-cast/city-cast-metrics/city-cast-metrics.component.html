@@ -1,0 +1,25 @@
+<div fxLayout="row" fxLayoutAlign="start center" class="cast-metrics-title">
+  <i class="icon-custom icon-custom-cc-metrics"></i>
+  <h4>Metrics</h4>
+</div>
+<div class="cast-metrics-content">
+  <div *ngIf="castMetrics && castMetrics['files']">
+    <h5>Attachments</h5>
+    <div class="body">
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        *ngFor="let file of metrics; trackBy: trackByFileName"
+        (click) ="downloadMetrics(castMetrics['basePath'], file['file'])"
+        class="cast-metrics-item"
+        title="{{file['file']}}"
+      >
+        <span fxFlex="20%">
+         <span class="file-type {{ file['file'] | fileExtn}}">{{ (file['file'] | fileExtn) | uppercase}}</span>
+        </span>
+        <a class="" fxFlex="65%" >{{ file['file'] | truncate : 'middle' : 15}}</a>
+        <span fxFlex="15%" class="file-size">{{ file['size'] | formatBytes : 2 }}</span>
+      </div>
+    </div>
+  </div>
+</div>

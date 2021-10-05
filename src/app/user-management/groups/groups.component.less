@@ -1,0 +1,178 @@
+::ng-deep {
+  .page-body {
+    height: 100%;
+    padding: 32px;
+
+    .table-card {
+      margin-top: 20px;
+
+      .mat-card-header-text {
+        margin: 0;
+      }
+
+      .ngx-datatable {
+        .datatable-body .datatable-row-wrapper {
+          border-bottom: 1px solid #D8D8D8;
+          justify-content: center;
+          min-height: 50px;
+        }
+
+        datatable-header {
+          display: flex;
+          align-items: center;
+          border-bottom: 1px solid #D8D8D8;
+        }
+
+        .details-select {
+          padding: 8px;
+          font-size: 14px;
+          margin: 0 10px 0 0;
+          width: 50%;
+          height: 23px;
+        }
+
+        .details-icon {
+          vertical-align: middle;
+          margin-left: 10px;
+          margin-right: 10px;
+          cursor: pointer;
+
+          svg path {
+            fill: var(--text-primary);
+          }
+        }
+
+        .expand-row {
+          font-size: 18px;
+          text-decoration: none !important;
+        }
+
+        .mat-form-field-infix {
+          padding: .6em 0 !important;
+        }
+
+        // .actions-select-container .mat-form-field-can-float .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label, .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+        //   display: none !important;
+        // }
+
+        .details-select {
+          padding: 8px;
+          font-size: 14px;
+          margin: 0 10px 0 0;
+          width: 50%;
+          height: 23px;
+        }
+
+        .details-icon {
+          vertical-align: middle;
+          margin-left: 10px;
+          margin-right: 10px;
+          cursor: pointer;
+
+          mat-icon {
+            height: 14px;
+          }
+
+          svg path {
+            fill: var(--text-primary);
+          }
+        }
+
+        .pager li > a, .pager li > span {
+          border: 0;
+        }
+
+        .pages {
+          display: none !important;
+        }
+
+        .page-count {
+          display: none;
+        }
+
+        .expand-row {
+          font-size: 18px;
+          text-decoration: none !important;
+        }
+
+        datatable-body-cell:first-child,
+        datatable-header-cell:first-child {
+          width: 40px;
+          text-align: center;
+        }
+
+        ::ng-deep .datatable-footer-inner {
+          justify-content: flex-end;
+          margin-top: 20px;
+          overflow: hidden;
+
+          .page-limit-label {
+            margin-right: 1rem;
+            font-size: 14px;
+            line-height: 18px;
+            color: var(--grays-bg-600);
+          }
+
+          .mat-form-field-label-wrapper,
+          .mat-form-field-underline {
+            display: none;
+          }
+
+          .mat-select-value-text {
+            color: var(--grays-bg-600);
+          }
+
+          .mat-form-field-infix {
+            border: 1px solid var(--grays-bg-600);
+            border-radius: 5px;
+            padding: 3px 4px !important;
+          }
+
+          .mat-form-field-wrapper {
+            padding-bottom: 0 !important;
+          }
+
+          .mat-select-arrow-wrapper:after {
+            right: -2px;
+            font-size: 18px;
+          }
+        }
+
+        .datatable-pager {
+          flex: unset !important;
+        }
+
+        .page-limit-container {
+          mat-form-field {
+            width: 60px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.add-groups-button {
+  ::ng-deep .mat-button-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  mat-icon {
+    margin-left: 10px;
+  }
+}
+
+:host ::ng-deep .datatable-header .sort-active {
+  color: var(--text-primary);
+}
+
+.expanded-details-container {
+  padding-left: 35px;
+  width: 100%;
+}
+
+.mat-card {
+  padding-right: 0;
+  padding-left: 0;
+}

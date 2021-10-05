@@ -1,0 +1,48 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header expandedHeight="48px">
+      <mat-panel-title class="test-single-place-geo">Specific Geography</mat-panel-title>
+      <mat-panel-description fxLayoutAlign="end center">
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="expansion-panel-body">
+      <div class="place-filter-search">
+        <mat-form-field class="full-width search-field">
+          <input matInput placeholder="Search Specific Geography" class="test-place-geo-search" id="search" [formControl]="searchGeography"
+            autocomplete="off">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+      <div class="filter-block-div filter_blk geography-autocomplete-layer">
+        <mat-spinner *ngIf="fetchingGeography" diameter="25"></mat-spinner>
+        <mat-list class="list-group"
+          *ngIf="geographyData.length != 0">
+          <div class="group-keys" *ngFor="let marketdata of geographyData | geokeys:true;">
+            {{l}}
+            <p class="nav-header">{{marketdata.key | uppercase}}</p>
+            <mat-list>
+              <mat-list-item class="pointer" *ngFor="let geolocation of marketdata.value;let i=index"
+              title="{{geolocation.name}}">
+              {{geolocation.name | truncate:'middle':25:6 }}
+              <span fxFlex="1 1 auto"> </span>
+              <div>
+                <button class="select" mat-icon-button *ngIf="!geolocation.selected; else notSelected"
+                  (click)="moveLayer(geolocation, 'geography', {key:marketdata.key,index:i})">
+                  <mat-icon matListIcon>arrow_forward</mat-icon>
+                </button>
+                <ng-template #notSelected>
+                  <span class="selected">
+                    <mat-icon>check</mat-icon>
+                  </span>
+                </ng-template>
+              </div>
+            </mat-list-item>
+            </mat-list>
+          </div>
+          <p class="placeholder-color text-center"
+            *ngIf="!isGeographyAvailable && geographyData.length!=0">
+            No data found.</p>
+        </mat-list>
+      </div>
+
+    </div>
+  </mat-expansion-panel>

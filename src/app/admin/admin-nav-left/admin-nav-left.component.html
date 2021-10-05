@@ -1,0 +1,26 @@
+<mat-accordion displayMode="flat">
+  <mat-expansion-panel class="mat-elevation-z" expanded>
+    <mat-expansion-panel-header expandedHeight="60px" collapsedHeight="60px">
+      <mat-panel-title>
+        System
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="menu-body-list">
+      <div class="menu-list">
+        <h5>Alerts</h5>
+        <div class="list">
+          <mat-list role="list">
+            <mat-list-item role="listitem" [routerLink]="['alerts/create']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
+true}">Create New
+            </mat-list-item>
+            <mat-list-item role="listitem" [routerLink]="['alerts/list']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
+true}">History</mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+      <div class="menu-list">
+        <h5><a href='https://online.tableau.com' class="tableau-link" target="_block">Tableau Management console</a></h5>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

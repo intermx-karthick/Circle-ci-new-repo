@@ -1,0 +1,100 @@
+::ng-deep {
+  app-logos { 
+    .file-container-form{
+      height: 100%;
+      width: 100%;
+    }
+    .logo-div {
+      margin-bottom: 1rem;
+    }
+    .logo-content {
+      width: 11rem;
+    }
+
+    .delete-logo-icon {
+      margin-top: 20%;
+      cursor: pointer;
+      font-size: 16px;
+      height: 16px;
+      width: 16px;
+      color: var(--primary-bg-800);
+    }
+    .download-icon {
+      cursor: pointer;
+      font-size: 16px;
+      height: 16px;
+      width: 16px;
+      path, line {
+        stroke: var(--primary-bg-900);
+      }
+      path {
+        fill: none !important;
+      }
+      color: var(--primary-bg-900);
+    }
+    .file-main{
+      display:flex;
+      margin-bottom: 0.5rem;
+      margin-right: 2rem;
+      height: 100%;
+    }
+    .file-container-main{     
+      width: 100%;
+      overflow: auto;
+      align-items: flex-end !important;
+      
+    }
+    .file-container {
+      padding-left:0px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 15rem);
+      gap: 2rem;
+      // max-width:45rem;
+    }
+    .logo-delete-container{
+      min-width:30px;
+    }
+    .title-content {
+      font-style: normal !important;
+      font-weight: normal !important;
+      color: var(--primary-bg-800) !important;
+      font-size: 13px !important;
+      line-height: 16px !important;
+      letter-spacing: 0.5px !important;
+      word-break: break-word;
+    }
+    .file-name {
+      word-break: break-all;
+    }
+    .caption {
+      font-style: normal !important;
+      font-weight: normal !important;
+      font-size: 12px !important;
+      line-height: 15px !important;
+      letter-spacing: 0.4px !important;
+      color: var(--grays-bg-500) !important;
+    }
+    .error-case {
+      margin-bottom: 1rem;
+    }
+    .caption-edit {
+      margin-top: -5px;
+    }
+    @media (min-height: 750px){
+      .file-container-main{     
+        max-height: 270px;
+      }
+    }
+      /** Less content not showing scroll issue so that added this style*/
+      &.more-attachments{
+        overflow: -moz-scrollbars-vertical;
+        overflow-y: scroll;
+        ul{         
+          height:101%;
+        }
+      }
+    .attachment_margin{
+      margin-top: 2rem;
+    }
+  }
+}

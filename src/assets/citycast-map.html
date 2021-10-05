@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Create and style clusters</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .mapboxgl-ctrl-compass {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script>
+    const MAPBOX = window.mapboxgl; // eslint-disable-next-line
+    MAPBOX.accessToken = 'pk.eyJ1IjoiaW50ZXJteCIsImEiOiJjajJqOWM4eW4wMDRwMndteDZqZ2tzaGoxIn0.xD-vjv6mH8eYZkb_luz8ag';
+    // pk.eyJ1IjoiaW50ZXJteCIsImEiOiJjazFqZHpycGwwYXZ1M2RvMjVrcXo1NzhxIn0.6SiGsPZuFxl5cG4cmqibRw
+    const map = new MAPBOX.Map({
+      container: "map",
+      style: 'mapbox://styles/mapbox/light-v9',
+      center: [ 33.753746, -84.38633 ], // starting position
+      zoom: 10, // starting zoom
+      hash: true,
+      transformRequest: (url, resourceType)=> {
+        console.log('transformRequest 11', resourceType, url);
+        if((resourceType == 'Tile' || resourceType == 'Source') && url.startsWith('https://d1ypwspvyiy404.cloudfront.net')) {
+          console.log('transformRequest', resourceType, url);
+          return {
+            url: url,
+            headers: { 
+              'origin': 'http://localhost:4200',
+              'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlF6RkJNRGRFTWtFMk1ESTVPRGsyT1VFNU5EQkdSVFZCT1RKRVFqZzVNMFUyUVRZNU5ERXdRUSJ9.eyJpc3MiOiJodHRwczovL2ludGVybXguYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDVhYmEzYzYyZDIwMTk3NjA4ZWI3NGVlNiIsImF1ZCI6Imh0dHBzOi8vYXBpLmludGVybXguaW8iLCJpYXQiOjE1OTEyNTI1NzEsImV4cCI6MTU5MTMzODk3MSwiYXpwIjoiT1NxcERoSkxsa0YxM2RLSElvaTN5djQwb2pZTE14eG0iLCJzY29wZSI6InVzZXI6aW50ZXJteCB2aWV3OmF1ZGl0IHJlYWQ6YXVkaXQgd3JpdGU6YXVkaXQgd3JpdGU6cGxhY2UgcmVhZDpwbGFjZSB2aWV3Om5vdGlmaWNhdGlvbnMgcmVhZDpub3RpZmljYXRpb25zIHdyaXRlOm5vdGlmaWNhdGlvbnMiLCJndHkiOiJwYXNzd29yZCJ9.NRfs-m7UHzy7UeRdc3UQbnoxg8Yv9BdljWaynAVJZ4Kj6evCOZ6wN9kMNXX--jwulUm48RepFX9kUSrkfAK6DbrRDabde4RVGOO9X3a38N1roAF5p2Th_d_s8L6Y-KD9wSnqQ-htAI7WaqPpUWoJ_CKvx185fCqk5QSsGDdDqscuXTQFDKtKecrK0cksEED0C99wTCXpgfGc1_IdH7WPmRKBvQR76EcpbJcJiA0cOEDAuUdNMDhSdc4agyzZLNzA9nZLeEzGUTNGUUkpK4sd5EiLBI8kGMCuzOgUkACe7Pq7pM5Qg5JGWX6-RTlx1x8pEvXRgR_crBnOyihJHnSyFA',
+              'Access-Control-Allow-Origin': '*',
+              // 'x-amz-cf-id': '1Jp4W8buJzEMzKweqefAHFthW8rPZx-kHL8dwiSvH6rAHu9JoPICyw==',
+              // 'x-amz-cf-pop': 'MAA50-C1',
+              // 'x-cache': 'LambdaGeneratedResponse from cloudfront'
+            },
+            withCredentials: 'include'
+          }
+        }
+      }
+    });
+    map.on('load', () => {
+
+      map.addSource('fromVector', {
+        type: 'vector',
+        "tiles": [
+          'https://d1ypwspvyiy404.cloudfront.net/v0-0-1/f3b73eaf-10a0-4f50-a59f-5140b5d0c5d8/casts/89cb6b64-8006-4f8d-84fc-73aab48c29c5/jobs/ede1e58_1589329548/ui/tiles/9/129/184.pbf'
+        ],
+        minzoom: 9,
+        maxzoom: 14
+      });
+
+      map.addLayer({
+        id: 'fromVectorLayer',
+        type: 'fill',
+        source: 'fromVector',
+        'source-layer' : 'counties',
+        paint: {
+          'fill-opacity': 1,
+          'fill-color': '#B95846'
+        }
+      });
+
+      // map.on('click', 'routesLayer', (e) => {
+      //   const features = map.queryRenderedFeatures(e.point, { layers: ['routesLayer'] });
+      //   console.log('features', features);
+      // });
+      
+      // map.on('zoom', (e) => {
+      //   console.log('zoom', map.getZoom());
+      // });
+    });
+
+  </script>
+</body>
+
+</html>

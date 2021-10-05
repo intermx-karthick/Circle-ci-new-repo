@@ -1,0 +1,388 @@
+.successful{
+  font-size: .75rem;
+}
+::ng-deep {
+  .pr-0{
+    padding-right: 0 !important;
+  }
+  .add-client-option{
+    cursor: pointer !important;
+    .mat-icon{
+      margin-right: 0.5rem !important;
+    }
+  }
+  .drop-maxwidth {
+    max-width: inherit !important;
+  }
+  app-contract-core-details {
+    .disabled-date-picker{
+      .date-picker-icon{
+        display: none;
+      }
+    }
+   @media (max-width:1350px) {
+     .basic-info-small-view{
+       min-width: 1000px !important;
+     }
+   }
+  .basic-info {
+    margin-top: 1rem;
+  }
+
+  .form-row {
+    margin-bottom: 22px;
+  }
+
+  .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: var(--primary-bg-800) !important;
+    width: 16px;
+    height: 16px;
+  }
+
+  .mat-radio-outer-circle {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: var(--primary-bg-800) !important;
+    width: 16px;
+    height: 16px;
+  }
+
+  .mat-radio-checked {
+     .mat-radio-label-content {
+      color: var(--primary-bg-800) !important;
+    }
+  }
+
+.mat-prefix-symbol{
+  position: relative;
+  top: 5px;
+  font-size: 14px;
+}
+tr{
+  td:last-child{
+    border-right: none;
+  }
+}
+.contract-cost-table{
+  border-collapse: collapse;
+  .remove-lr-border{
+    border-top: none;
+    border-left: none;
+  }
+  .remove-top-boder{
+    border-top: none;
+  }
+  .remove-left-boder{
+    border-left: none;
+  }
+  .remove-right-boder{
+    border-right: none;
+  }
+  th{
+    text-align: left;
+    padding:0.5rem 1rem;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 16px;
+    /* identical to box height, or 123% */
+    letter-spacing: 0.5px;
+    width: fit-content;
+  }
+  td {
+    width: fit-content;
+    border: 1px solid;
+    border-color: var(--grays-bg-600);
+    text-align: left;
+    padding:0.5rem 1rem;
+    .bordered{
+      white-space: nowrap;
+      padding: 0 .5rem;
+      border: 1px solid;
+      border-radius: 5px;
+      border-color: var(--grays-bg-600);
+      width: fit-content;
+    }
+    &:first-child{
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+  }
+  tr:last-child{
+    td{
+      border-bottom: none;
+    }
+  }
+  .cost-formatter {
+    div:first-child {
+      padding-right: 15px;
+    }
+  }
+}
+.costs-section {
+  margin: 20px 0;
+  font-size: 13px;
+  width: fit-content;
+}
+
+.copy {
+  border-radius: 10px !important;
+  // margin-left: 6.435rem;
+  margin-left: 1rem;
+}
+
+@media (min-width: 768px) and (max-width: 1600px) {
+  .copy {
+    margin-left: 1rem;
+  }
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-infix {
+  height: 45px;
+}
+
+.contract-checkbox {
+  margin-bottom: 16px;
+}
+.mat-radio-group{
+  width: 100%;
+
+  .mat-radio-button {
+    display: flex;
+    flex-direction: column;
+
+    .mat-radio-label{
+      display: flex;
+      margin-bottom: 5px;
+
+      .mat-radio-label-content{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 0.813rem;
+        line-height: 16px;
+        letter-spacing: 0.5px;
+        text-transform: capitalize;
+        color: var(--grays-bg-800);
+        position: relative;
+        bottom: 2px;
+        padding-left: 4px;
+      }
+    }
+  }
+  mat-icon{
+    font-size: 18px;
+    height: 18px;
+    color: var(--medium-emphasis);
+  }
+}
+
+.button-secondary-bordered {
+  padding: 0 10px !important;
+  border-color: var(--primary-bg-800);
+  color: var(--primary-bg-800) !important;
+}
+
+.currency-amount {
+  position: relative;
+  top: 6px;
+  height: 16px !important;
+  font-size: 14px !important;
+}
+
+.checkbox-group {
+    margin-bottom: 25px;
+
+    .imx-checkbok {
+      .mat-checkbox-inner-container {
+        height: 16px !important;
+        width : 16px !important;
+      }
+
+      .mat-checkbox-label {
+        font-style    : normal;
+        font-weight   : normal;
+        font-size     : 0.813rem;
+        line-height   : 16px;
+        /* identical to box height, or 123% */
+        letter-spacing: 0.5px;
+        /* Grays/800 */
+        color         : var(--grays-bg-800);
+      }
+
+      &.mat-checkbox-checked {
+        .mat-checkbox-frame {
+          border-color: var(--primary-bg-900);
+          border-width: 1px;
+        }
+
+        .mat-checkbox-label {
+          color: var(--primary-bg-800);
+        }
+      }
+
+      .mat-checkbox-frame {
+        border-color: var(--grays-bg-700);
+        border-width: 1px;
+        border-radius: 4px;
+      }
+
+      .mat-checkbox-persistent-ripple {
+        background: var(--primary-bg-800);
+      }
+
+      .mat-checkbox-background {
+        background: inherit;
+      }
+
+      .mat-checkbox-checkmark {
+        fill: var(--primary-bg-800);
+      }
+
+      .mat-checkbox-checkmark-path {
+        stroke: var(--primary-bg-800) !important;
+      }
+
+      &.gray-tick{
+        .mat-checkbox-checkmark-path {
+          stroke: var(--grays-bg-700) !important;
+        }
+      }
+
+      .mat-checkbox-mixedmark {
+        background-color: var(--primary-bg-800);
+      }
+    }
+
+    .info-row-label {
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.47px;
+      color: rgba(0,0,0,.54);
+      margin-bottom: 16px;
+    }
+}
+
+.costs-header {
+  margin-top: 1rem;
+
+  .costs-header-label {
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.47px;
+    color: rgba(0,0,0,.54);
+    // margin-bottom: 7px;
+  }
+}
+
+.line-items-header {
+  margin-bottom: 10px;
+  button{
+    min-width: inherit !important;
+  }
+}
+
+.footer {
+  margin-top: 25px;
+}
+
+
+
+.static {
+  height: 50px;
+  padding-top: 16px;
+
+  .imported-total {
+    font-weight: bold;
+    font-size: .875rem;
+  }
+}
+
+.static-form-value {
+  height: 50px;
+  padding-top: 4px;
+
+  .info-row-label {
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    font-weight: 300;
+    letter-spacing: 0.47px;
+    color: rgba(0,0,0,.54);
+  }
+
+  .info-row-content {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 16px;
+    letter-spacing: 0.5px;
+  }
+}
+
+.copy-icon {
+  position: relative;
+  bottom: 2px;
+}
+
+
+.search-btn {
+  margin-top: 20px;
+}
+
+.imx-button-primary {
+  background: var(--primary-bg-800);
+  box-shadow: 0px 2px 6px rgb(0 0 0 / 16%);
+  color: #FFFFFF;
+  margin: 0;
+}
+
+  .search-btn {
+    margin: 0 !important;
+  }
+
+  .imx-button-basic {
+    color: var(--primary-bg-800);
+  }
+
+  .error-box {
+    height: 31px;
+    padding-top: 5px;
+    color: var(--error-bg-900);
+    border: 1px solid var(--error-bg-900);
+    border-radius: 15px;
+    text-align: center;
+    cursor: pointer !important;
+  }
+}
+.scroll-section-autocomplete {
+  overflow-y: auto !important;
+  max-height: 200px !important;
+  padding: 0 8px 0 0;
+  .mat-option{
+    padding: 0 !important;
+  }
+}
+.contract-client-autocomplete{
+  padding: 0 0 0 8px !important;
+}
+.client-selection{
+  input{
+    border-bottom: none !important;
+    height: 1rem !important;
+  }
+}
+.imx-total-auth-amt {
+  .mat-form-field-prefix {
+    margin-right: 0.25rem ;
+  }
+}
+
+.mat-link-icon{
+  height: 16px !important;
+  width: 16px !important;
+  color: var(--primary-bg) !important;
+}
+}
+

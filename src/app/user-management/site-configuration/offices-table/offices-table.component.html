@@ -1,0 +1,136 @@
+<div class="offices-table-container">
+  <div fxLayout="row" fxLayoutAlign="end">
+      <button *ngIf="!data?.fullScreenMode" mat-raised-button class="imx-button button-secondary-bordered" (click)="openAddOfficesDialog()">{{'add office' | uppercase}}</button>
+    </div>
+    <mat-card class="table-card">
+      <mat-card-content>
+        <div class="vlist-body" fxLayout="column" fxLayoutAlign="start start" fxFill >
+          <div fxLayout="row" class="vlist-header-action" style="align-items: center; width: 100%;">
+            <div style="margin-right: auto !important;">
+              <span class="total-text">
+                Total:
+              </span>&nbsp;{{ officesList.length }}</div>
+            <div tooltip="Customize Columns" placement="top" delay="200" tooltipClass="imx-tooltip-v3" style="margin-right: 1.2rem" customClass="imx-field-tooltip" class="custom-column-container">
+              <!-- *ngIf="!isDialogOpenend" -->
+              <mat-icon svgIcon="IMX-columns" class="svg-primary" (click)="customizeColumn()"></mat-icon>
+            </div>
+            <div *ngIf="!data?.fullScreenMode" tooltip="Expand Table" placement="top" class="expand-table-icon" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+              <mat-icon (click)="enterFullScreen()">zoom_out_map</mat-icon>
+            </div>
+            <div *ngIf="data?.fullScreenMode" tooltip="Expand Table" placement="top" class="expand-table-icon" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+              <mat-icon tooltip="Collapse Table" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" svgIcon="IMX-fullscreen-exit" class="full-screen-exit-icon exit-full-screen-icon" (click)="exitFullScreen()"></mat-icon>
+            </div>
+            <ng-template #closeDialog>
+              <mat-icon tooltip="Collapse Table" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" svgIcon="IMX-fullscreen-exit" class="full-screen-exit-icon" (click)="closeDialogBox()"></mat-icon>
+            </ng-template>
+          </div>
+          <div class="vtable-container" fxFill>
+            <!-- [ngStyle]="{'max-height.px':scrollContent, 'min-height.px': scrollContent}" id="{{ isDialogOpenend ? 'vendor-fullscreen-scroll' : 'vendor-table-scroll'}}" -->
+          <div class="vlist-table-parent" >
+          <mat-table #scrollBar
+                       [dataSource]="dataSource"
+                       matSort
+                       (matSortChange)="onSorting($event)"
+                       matSortActive="{{sortName}}"
+                       matSortDirection="{{sortDirection}}"
+                       matSortDisableClear
+                       class="offices-table imx-table mat-sorting"
+          >
+              <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header class="primary-color-column">Office Name</mat-header-cell>
+                <mat-cell  *matCellDef="let element">
+                    <a class="geo-button-link font-weight-normal vendor-name-td imx-name-wrap" (click)="openOfficeDetailsDialog(element._id)">
+                     {{element.name}}
+                    </a>
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="division">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Division</mat-header-cell>
+                <mat-cell  *matCellDef="let element"> {{ element.division?.name || '' }} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="line">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Street Address</mat-header-cell>
+                <mat-cell  *matCellDef="let element"> {{ element.address?.line || '' }}</mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="city">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>City</mat-header-cell>
+                <mat-cell  *matCellDef="let element"> {{element.address?.city || '' }} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="state">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>State</mat-header-cell>
+                <mat-cell  *matCellDef="let element"> {{element.address?.stateCode || '' }} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="zipcode">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>ZIP Code</mat-header-cell>
+                <mat-cell  *matCellDef="let element"> {{element.address?.zipcode || '' }} </mat-cell>
+              </ng-container>
+
+                <!-- <ng-container matColumnDef="action">
+                <mat-header-cell *matHeaderCellDef fxFlex="2px" [ngStyle]="{'display':'none'}"></mat-header-cell>
+                <mat-cell  *matCellDef="let element;let i = index" fxFlex="2px" [ngStyle]="{'display':'none'}">
+                <div class="action-btn-main" id="{{ isDialogOpenend ? 'action-btn-main-dialog' + element['_id'] : 'action-btn-main' + element['_id']}}" [ngStyle]="{'display':(hoveredIndex === i ? 'block' :'none')}">
+                  <div class="action-btn">
+                    <button *ngIf=" i === hoveredIndex" mat-button class="imx-button-stroked_icon_action table-action-capitalize" [matMenuTriggerFor]="actionMenu"
+                            (menuOpened)='onMenuOpen()' (menuClosed)='onMenuClosed()' [ngClass]="{'close-action-btn':menuOpened}">Actions
+                      <mat-icon>keyboard_arrow_down</mat-icon>
+                    </button>
+                    <mat-menu #actionMenu="matMenu" xPosition="before" class="action-dropdown-imx minimun-height action-dropdown-width">
+                      <button mat-menu-item (click)="duplicateVendor(element)">Duplicate</button>
+                      <button mat-menu-item (click)="deleteVendor(element)">Delete</button>
+                    </mat-menu>
+                  </div>
+                </div>
+                </mat-cell>
+              </ng-container> -->
+
+              <mat-header-row *matHeaderRowDef="customizeColumnService.displayedColumns;sticky: true"></mat-header-row>
+              <mat-row  *matRowDef="let row; let i = index; columns: customizeColumnService.displayedColumns;"></mat-row >
+                <!-- id="{{ isDialogOpenend ? 'vendorHoverid-dialog-' + i :  'vendorHoverid-' + i}}" -->
+            </mat-table>
+            <!-- <div fxLayout="row" fxLayoutAlign="center center" fxFill *ngIf="vendorsList.length === 0 && !isLoadingVendors" class="noDataFound">
+              <div>
+                <p>No Vendor found with that Criteria.<br> Try searching for something else</p>
+                <div [ngStyle]="{'height.px':scrollContent -190}">
+                <img src="../../../assets/images/cuate.svg" alt="" >
+                </div>
+
+
+                <p>Do you want to <button mat-flat-button class="button-primary-link" type="button" (click)="openAddVendor()"><mat-icon>add</mat-icon> Add Vendor</button></p>
+              </div>
+            </div> -->
+            </div>
+
+            <div class="vlist-pagination"  >
+              <!-- [class.no-top-border]="!vendorsList?.length && isLoadingVendors" -->
+              <!-- <div class="spiner-div" > -->
+                <!-- *ngIf="isLoadingVendors" -->
+                  <!-- <mat-spinner diameter="30" ></mat-spinner> -->
+              <!-- </div> -->
+              <div>
+                <!-- [disabled]="!vendorsList?.length" -->
+                <mat-paginator
+                  (page)="getPageEvent($event)"
+                  [length]="officesPagination?.total || 0"
+                  [pageIndex] = "(officesPagination?.page || 1) - 1"
+                  [pageSize]="officesPagination?.perPage"
+                  [pageSizeOptions]="paginationSizes"
+                  [showFirstLastButtons] = "true"
+                  *ngIf="dataSource && dataSource?.data?.length"
+                >
+                </mat-paginator>
+              </div>
+
+            </div>
+
+
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+</div>

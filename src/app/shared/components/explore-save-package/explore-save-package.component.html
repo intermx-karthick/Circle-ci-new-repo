@@ -1,0 +1,70 @@
+<div class="intermx-theme-new new-inventory-set-dialog">
+	<div mat-dialog-content class="save-workspace-dialog" *ngIf="type != 'exist'">
+		
+		<h5 class="modal-title login-title test-package-title">{{editPackage ? 'Save Inventory Set' : 'Save Spots as Inventory Set'}}</h5>
+
+		<form  method="post"  class="workspaceForm noAnimation Test" [formGroup]="workspaceForm" novalidate autocomplete="off" (ngSubmit)="onSubmit(workspaceForm)">
+	  	<div class="modal-body">
+					<div fxLayout="column" fxFlex="100">
+					<input type="hidden" class="form-control" formControlName="id" autocomplete="off">
+					<input type="hidden" id="defaultForm-name" class="form-control" formControlName="name_key" autocomplete="off" placeholder="Type Package Name">
+					<mat-form-field class="imx-input" fxFlex="100">
+						<mat-label>Inventory set Name</mat-label>
+						<input matInput formControlName="name" class="test-package-name" />
+						<mat-error *ngIf="workspaceForm.controls.name.invalid && !workspaceForm.controls.name.errors['uniqueName']">Inventory Set Name can't be blank</mat-error>
+						<mat-error *ngIf="workspaceForm.controls.name.invalid && workspaceForm.controls.name.errors['uniqueName']">Inventory Set names must be unique.</mat-error>
+					</mat-form-field>
+
+					<mat-form-field class="imx-input" fxFlex="100">
+						<mat-label>Add Notes</mat-label>
+						<textarea matInput formControlName="description" class="test-package-description" rows="3"></textarea>       
+					</mat-form-field>
+
+				</div>
+
+					<!-- <div class="md-form">
+						<input type="text" id="defaultForm-name" class="form-control test-package-name" formControlName="name" autocomplete="off" placeholder="Type Inventory Set Name">
+						<input type="hidden" id="defaultForm-name" class="form-control" formControlName="name_key" autocomplete="off" placeholder="Type Package Name">
+						<input type="hidden" class="form-control" formControlName="id" autocomplete="off">
+						<p *ngIf="workspaceForm.controls.name.invalid && !workspaceForm.controls.name.errors['uniqueName'] &&(workspaceForm.controls.name.dirty || workspaceForm.controls.name.touched)" class="mat-error">Inventory Set Name can't be blank</p>
+						<p *ngIf="workspaceForm.controls.name.invalid && workspaceForm.controls.name.errors['uniqueName'] && (workspaceForm.controls.name.dirty || workspaceForm.controls.name.touched)" class="mat-error">Inventory Set names must be unique. Please add to existing set or use a unique name.</p>
+					</div>
+					<div class="md-form">
+						 <textarea id="defaultForm-description" class="form-control rounded-0 test-package-description" id="exampleFormControlTextarea1" formControlName="description" rows="3" placeholder="Add Notes"></textarea>
+						<show-errors [control]="workspaceForm.controls.description"></show-errors>
+					</div> -->
+	    </div>
+	    <div class="modal-footer">
+				<button mat-button type="button" class="button popup-left-btn button-primary-link no-radius " mat-dialog-close>CANCEL</button>
+	    	<button type="submit" mat-raised-button class="button button-primary uppercase no-radius imx-button-primary test-inv-submit-btn">
+	    		<ng-template [ngIf]="from == 'scenarios' || from == 'newWorkspace'">SAVE</ng-template>
+	    		<ng-template [ngIf]="from != 'scenarios' && from != 'newWorkspace'">SAVE & KEEP EXPLORING</ng-template>
+	    	</button>
+	    </div>
+	  </form>
+	</div>
+	<div mat-dialog-content class="existing-inventory-dialog" *ngIf="type == 'exist'">
+	  <form  *ngIf="inventoryPackages" method="post" class="workspaceForm noAnimation Test" [formGroup]="multiInventoryPackagesForm" novalidate autocomplete="off" (ngSubmit)="updateSelectedInventoryPackages(multiInventoryPackagesForm)">
+	    	<div class="modal-body">
+					<h3 class="modal-title login-title test-package-title">Save to Existing Inventory Set</h3>
+					<p>Please select from your saved Inventory sets below.</p>
+					<div class="">
+						<ul>
+							<li *ngFor="let package of packages['controls']; let i=index">
+								<label><span class="name" title="{{inventoryPackages[i].name}}">{{inventoryPackages[i].name | truncate: 'middle':22 }}</span><span class="description" title="{{inventoryPackages[i].description}}">{{inventoryPackages[i].description | truncate: 'middle':22 }}</span></label>
+								<div class="package-checkbox">
+									<input type="checkbox" id="package_{{i}}" name="package_checkbox" [formControl]="package"/>
+									<label for="package_{{i}}"></label>
+								</div>							
+							</li>
+						</ul>
+					</div>
+	      </div>
+	      <div class="modal-footer">
+					<button mat-button type="button" class="button no-radius popup-left-btn button-primary-link" mat-dialog-close>CANCEL</button>
+	      	<button type="submit" mat-raised-button class="button button-primary no-radius uppercase">Save to selected sets</button>     	
+	      </div>
+    </form>
+    
+	</div>
+</div>

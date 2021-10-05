@@ -1,0 +1,72 @@
+<div class="auditListBlock">
+  <mat-icon *ngIf="dataLoadedAPI" class="refresh-icon" title="Click to Refresh the List" (click)='refreshAuditPlaces()'>refresh</mat-icon>
+  <!-- <div class="innerHTMLLoader" *ngIf="dataSource.data.length <= 0 && !dataLoadedAPI">
+    No data found
+  </div> -->
+  <mat-form-field floatLabel="never" fxFlexFill class="search-field"  >
+    <input matInput type="text" [formControl]="searchFromCtl" placeholder="Search" name="search"  class="ta-search-text audit-place-search" autocomplete="off">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+  <div class="innerHTMLLoader" *ngIf="!dataLoadedAPI">
+    <mat-spinner diameter="25" strokeWidth="4"></mat-spinner>
+  </div>
+  <mat-tree #treeSelector [dataSource]="dataSource" *ngIf="dataLoadedAPI" [treeControl]="treeControl">
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding [ngClass]="{'level-2': node.level === 2,'selectedAuditPlace': (node.placeId && node.placeId || node.id)  === selectedAuditPlaceID }" (click) = "openPlaceDetails(node)">
+      <button mat-icon-button disabled></button>
+      <span  [innerHTML]="node.name | truncate:'middle':25:6 | imx_highlight : searchFromCtl.value"> </span>
+     <!-- {{node.name | truncate:'middle':25:6 }} -->
+    </mat-tree-node>
+    <mat-nested-tree-node [ngClass]="{'level-1': node.level === 1, 'level-0': node.level === 0}" *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding >
+        <div fxLayout="row" id = "parent{{node.id}}{{node.parent}}"  fxLayoutAlign="space-between center" class="cursor-link" fxFill>
+            <div class="imx-flex">
+              <span matTreeNodeToggle class="left-space link-open" [innerHTML]="node.name | imx_highlight : searchFromCtl.value"> </span>
+            </div>
+            <span fxFlex="1 1 auto"><mat-spinner *ngIf="node.isLoading && node.count>0"  diameter="15" strokeWidth="2"></mat-spinner></span>
+            <div class="media_count ">
+              <span class="count" matTreeNodeToggle>{{
+                '(' + node.count + ')'
+              }}</span>
+              <button
+                type="button"
+                mat-icon-button
+                matTreeNodeToggle
+                [attr.aria-label]="'toggle ' + node.name"
+              class="unit-toogle-button">
+                <mat-icon class="mat-icon-rtl-mirror" >
+                  {{ node.isExpand ? 'expand_more' : 'chevron_right' }}
+                </mat-icon>
+              </button>
+            </div>
+        </div>
+      <ul hasChild class="childOf{{node.level}} childList" [class.tree-invisible]="!node.isExpand" infiniteScroll [infiniteScrollDistance]="3"
+      [infiniteScrollThrottle]="0" (scrolled)="loadMorePanels(node)" [scrollWindow]="false"
+      >
+        <ng-container matTreeNodeOutlet></ng-container>
+        <ng-template [ngIf]="treeChildren[node.parent] && treeChildren[node.parent][node.id]" >
+          <li class="childOfLevel{{node.level}} level-2" *ngFor='let data of treeChildren[node.parent][node.id]'  [ngClass]="{'selectedAuditPlace': (data.placeId && data.placeId || data.id)  === selectedAuditPlaceID }" (click) = "openPlaceDetails(data)">
+            <ng-container *ngIf="data.placeId && data.placeId !== ''; else noPlaceId">
+              <span  [innerHTML]="data.name + ' (' + data.placeId + ')' | imx_highlight : searchFromCtl.value"> </span>
+              <!-- {{data.name + ' (' + data.placeId + ')'}} -->
+            </ng-container>
+            <ng-template #noPlaceId>
+              <span  [innerHTML]="data.name | imx_highlight : searchFromCtl.value"> </span>
+              <!-- {{data.name}} -->
+            </ng-template>
+          </li>
+        </ng-template>
+      </ul>
+    </mat-nested-tree-node>
+
+  </mat-tree>
+</div>
+<!-- <hr>
+<mat-form-field>
+    <mat-label>Add</mat-label>
+    <mat-select>
+      <mat-option value="option-1">option-1</mat-option>
+      <mat-option value="option-2">option-2</mat-option>
+      <mat-option value="option-3">option-3</mat-option>
+      <mat-option value="option-4">option-4</mat-option>
+    </mat-select>
+</mat-form-field>
+ -->

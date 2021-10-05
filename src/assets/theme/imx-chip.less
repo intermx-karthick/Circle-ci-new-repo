@@ -1,0 +1,42 @@
+app-tags-input, app-imx-tag-input {
+  .mat-input-element {
+    border-bottom: 1px solid;
+    border-color : var(--grays-bg-800);
+    padding      : 5px 0;
+
+    &:focus {
+      border-color: var(--primary-bg-900);
+    }
+  }
+}
+
+mat-chip-list {
+  mat-chip {
+    padding         : 5px 16px !important;
+    height          : auto !important;
+    border-radius   : 20px !important;
+    font-size       : 0.875rem !important;
+    color           : #ffffff !important;
+    background-color: var(--primary-bg-800) !important;
+
+    &:Hover {
+      /* Chip/Hover */
+      box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16), 0px 4px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    mat-icon {
+      color        : #fff !important;
+      opacity      : 1 !important;
+      // border: 1px solid !important;
+      border-radius: 30px !important;
+      font-size    : 0.875rem !important;
+      line-height  : 14px !important;
+      width        : 14px !important;
+      height       : 14px !important;
+    }
+    &.chip-invalid-color {
+      border: 1px solid var(--error-base);
+      background-color: var(--error-base) !important;
+    }
+  }
+}

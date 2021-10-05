@@ -1,0 +1,109 @@
+<div [ngClass]="{'available-market-selected': selectedMarketsData.length}">
+<div class="market-dialog-container">
+  <mat-tab-group mat-align-tabs="start" class="imx-tab-capital"
+                 [(selectedIndex)]="selectedMarketTab" (selectedTabChange)=onSelectMarketType($event)>
+    <mat-tab label="NATIONAL" aria-label="National"></mat-tab>
+    <mat-tab label="DMA" aria-label="DMA"></mat-tab>
+    <mat-tab label="CBSA" aria-label="CBSA"></mat-tab>
+    <mat-tab label="COUNTY" aria-label="County"></mat-tab>
+    <mat-tab label="SAVED GEOGRAPHY SETS" aria-label="GEO_SET" *ngIf="isPopulationEnabled"></mat-tab>
+  </mat-tab-group>
+  <div class="market-dialog-body side-nav-filter__main-panel-block">
+
+    <mat-form-field *ngIf="selectedMarketLabel === 'DMA'; else apiSearch" fxFill class="imx-input">
+      <input [(ngModel)]="searchQuery" type="text" appSearch key="name"
+             [sourceData]="options" (filter)="searchFilters($event)" matInput placeholder="ENTER KEYWORD" autocomplete="off">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <ng-template #apiSearch>
+      <mat-form-field *ngIf="selectedMarketLabel !== 'National'" fxFill class="imx-input">
+        <input type="text" [formControl]="searchCtrl" matInput placeholder="ENTER KEYWORD"
+               autocomplete="off">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </ng-template>
+
+    <div class="market-content-body">
+
+      <mat-list infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0" (scrolled)="loadMore()"
+                [scrollWindow]="false"  [infiniteScrollDisabled]="disableInfiniteScroll" *ngIf="selectedMarketLabel === 'GEO_SET'; else otherMarkets">
+        <mat-radio-group [(ngModel)]="singleSelectOption">
+          <div *ngIf="enableLoader" class="search-loader">
+            <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+          </div>
+          <mat-list-item *ngFor="let option of optionsData;let i=index;trackBy: trackMarkets">
+            <mat-radio-button [value]="option"
+                              [checked]="singleSelectOption['id'] && singleSelectOption['id'] === option.id">
+              <span class="slno">{{option.slno && option.slno || (i + 1) }}.</span>
+              <span [innerHTML]="(option.name | imx_highlight: searchQuery) | truncate:'middle':20:20"></span>
+            </mat-radio-button>
+          </mat-list-item>
+        </mat-radio-group>
+      </mat-list>
+
+      <ng-template #otherMarkets>
+        <div class="market-chip-section chip-section" fxLayout="row" [ngClass]="{'selected-market-avilable': selectedDummyFilterOptions.length > 3, 'no-selected-market-avilable': selectedDummyFilterOptions.length > 0 && selectedDummyFilterOptions.length < 4, 'national-market-selected' : selectedMarketLabel === 'National' }">
+          <mat-chip-list #chipList>
+            <span *ngFor="let market of selectedDummyFilterOptions">
+              <!-- *ngIf="market.id!== 'global'"  -->
+              <mat-chip (removed)="removeMarket(market)" title="{{ market.name }}"> 
+                {{(market.name.length>15)? (market.name | slice:0:15)+'...':(market.name)}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+              <!-- <mat-chip *ngIf="market.id === 'global'" [disabled]="true" (removed)="removeMarket(market)"  title="{{ market.name }}">
+                {{(market.name.length>15)? (market.name | slice:0:15)+'...':(market.name)}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip> -->
+            </span>
+          </mat-chip-list>
+        </div>
+        <mat-selection-list fxFlexFill infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                            [infiniteScrollDisabled]="(selectedMarketLabel === 'DMA' || this.disableInfiniteScroll)" (scrolled)="loadMore()" [scrollWindow]="false"
+                            [(ngModel)]="selectedFilterOptions" [compareWith]="compare">
+          <span *ngIf="selectedMarketLabel !=='National'">
+            <mat-list-option checkboxPosition="before" *ngFor="let option of optionsData;let i=index;trackBy: trackMarkets" [value]="option"
+                             (click)="onChangeOptions(option)">
+              <span
+                [innerHTML]=" ((option.slno && option.slno || (i + 1)) + '. ' + option.name) | imx_highlight: searchQuery"></span>
+            </mat-list-option>
+          </span>
+          <span *ngIf="selectedMarketLabel ==='National'">
+            <mat-list-option checkboxPosition="before" *ngFor="let option of optionsData;let i=index;trackBy: trackMarkets" [value]="option" (click)="onChangeOptions(option)">
+              <span
+                [innerHTML]="((option.slno && option.slno || (i + 1)) + '. ' +option.name) | imx_highlight: searchQuery"></span>
+            </mat-list-option>
+          </span>
+        </mat-selection-list>
+      </ng-template>
+
+    </div>
+  </div>
+</div>
+
+<div fxLayout="row">
+  <button mat-button class="imx-button-basic_icon" (click)="clearMarket()" *ngIf="!hideClearBtn"> CLEAR SELECTION </button>
+  <span fxFlex="1 1 auto" class="enable-module-view"></span>
+  <button mat-button class="imx-button-basic_icon margin-r5" (click)="addAsGroup()" *ngIf="(selectedDummyFilterOptions.length > 1 || selectedMarketLabel === 'GEO_SET')">ADD AS GROUP
+    <mat-icon>playlist_add_check</mat-icon>
+  </button>
+  <span fxFlex="1 1 auto" class="hide-module-view"></span>
+  <button mat-button class="imx-button-basic_icon" (click)="onAddSelectedMarket()" [disabled] = "selectedDummyFilterOptions.length <= 0">ADD AS INDIVIDUAL
+    <mat-icon>playlist_add_check</mat-icon>
+  </button>
+</div>
+<!-- As we added Plan Summary in sidepanel we don't need to show this. -->
+<!-- <div fxLayout="column" fxLayoutAlign="start start"  fxFlexAlign="start" fxFill *ngIf="selectedMarketsData.length > 0" class="imx-selection-list">
+  <p class="workspace-selected-title">Selected Market details</p>
+  <div fxFill>
+    <mat-list role="list" fxFill class="workspace-selecetd-items">
+      <mat-list-item role="listitem" *ngFor="let market of selectedMarketsData;trackBy: trackMarkets; let i = index">
+        <div fxFill class="listitem">
+          <span fxFlex="80%">{{ market.name}}</span>
+          <span fxFlex="1 1 auto"></span>
+          <mat-icon (click)="removeSelectedMarket(market, i)">delete</mat-icon>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div> -->
+</div>

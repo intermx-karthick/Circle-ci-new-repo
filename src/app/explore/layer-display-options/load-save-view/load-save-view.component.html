@@ -1,0 +1,19 @@
+<h5 *ngIf="!from; else showTitle">Please Choose a Saved View</h5>
+<ng-template #showTitle>
+  <span class="retrieve-view-title">Choose from one of your saved views:</span>
+</ng-template>
+<div>
+  <mat-form-field *ngIf="!from" floatLabel="never">
+      <input id="search" matInput placeholder="search" [formControl]="savedFiltersCtrl">
+  </mat-form-field>
+  <mat-list class="test-saved-view-list">
+    <mat-radio-group class="example-radio-group" [(ngModel)]="selectedView">
+      <mat-list-item *ngFor="let savedLayer of loadsavedViews | async ">
+        <mat-radio-button matLine disableRipple (change)="changeSavedView($event)" value="{{savedLayer['_id']}}">{{savedLayer.name}}</mat-radio-button>
+        <div *ngIf="!from" class="action-icon test-saved-view-action">
+          <mat-icon (click)="onDeleteLayer(savedLayer)">delete</mat-icon>
+        </div>
+      </mat-list-item>
+    </mat-radio-group>
+  </mat-list>
+</div>

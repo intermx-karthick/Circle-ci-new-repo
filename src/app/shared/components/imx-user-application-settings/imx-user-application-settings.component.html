@@ -1,0 +1,85 @@
+<div class="user-app-setting intermx-theme-new" fxLayout="column" fxLayoutAlign="start stretch" fxFill>
+  <div class="user-app-setting-header" fxFlex="60px" fxLayout="row" fxLayoutAlign="space-between center" >
+    <div>Settings</div>
+    <mat-icon (click)="closeUserSettings()" class="cursor-link close-icon" svgIcon='IMX-close-icon'></mat-icon>
+  </div>
+  <div class="user-app-setting-content" fxFlex="grow">
+    <form  method="post" [formGroup]="userApplicationForm" (ngSubmit)='onSubmit(userApplicationForm)' novalidate autocomplete="off" fxLayout="column" fxLayoutAlign="start stretch">
+      <div class="app-setting-content-title">PROFILE</div>
+      <mat-form-field class="imx-input full-width" [floatLabel]="'always'" fxFlex="100" >
+        <mat-label>FULL NAME </mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+      <div class="static-form-value">
+        <div class="info-row-label">EMAIL ADDRESS</div>
+        <div class="info-row-content">{{userData?.email}}</div>
+      </div>
+      <div class="static-form-value">
+        <div class="info-row-label">TITLE</div>
+        <div class="info-row-content">{{contactData['title']}}</div>
+      </div>
+      <div fxLayout="row wrap" fxLayoutGap="1rem">
+        <div class="user-form__field">
+          <mat-form-field class="imx-input" >
+            <mat-label>Mobile</mat-label>
+            <app-shared-telephone-input formControlName="mobile" [readonly]='true'></app-shared-telephone-input>
+            <mat-error>Invalid mobile number.</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="user-form__field">
+          <mat-form-field class="imx-input">
+            <mat-label>Office</mat-label>
+            <app-shared-telephone-input formControlName="office"  [readonly]='true'></app-shared-telephone-input>
+            <mat-error>Invalid Office numbe.</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="user-form__field">
+          <mat-form-field class="imx-input" >
+            <mat-label>Ext</mat-label>
+            <mat-error>Invalid Office number.</mat-error>
+            <input matInput formControlName="ext"  readonly='true'>
+          </mat-form-field>
+        </div>
+      </div>
+      <app-shared-address-card class="user-app-address">
+        <app-shared-us-address [readonly]='true' [includeType] = "'user'"  #contactFormAddress formControlName="address"></app-shared-us-address>
+      </app-shared-address-card>
+      <div class="app-setting-content-title">APPLICATION</div>
+      <mat-form-field class="imx-input full-width" [floatLabel]="'always'" fxFlex="100" >
+        <mat-label>Set Timezone</mat-label>
+        <mat-select formControlName="timezone" panelClass="imx-user-select" disabled>
+          <mat-option value="{{timezone.value}}" *ngFor="let timezone of timezones;">{{timezone.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="imx-input full-width" [floatLabel]="'always'" fxFlex="100" >
+        <mat-label>Default Data Source</mat-label>
+        <mat-select formControlName="default_data_source" panelClass="imx-user-select" (selectionChange) = "onDataSourceChange($event)">
+          <mat-option *ngFor="let vers of dataVersions" disableRipple [value]="vers">{{vers | measure_release_label}}</mat-option>
+        </mat-select>
+        <mat-icon class="information-icon" svgIcon="IMX-information" (click) = "openDataSourceInfo($event)"></mat-icon>
+      </mat-form-field>
+      <mat-form-field class="imx-input full-width" [floatLabel]="'always'" fxFlex="100" >
+        <mat-label>Default Base Audience</mat-label>
+        <mat-select formControlName="default_data_audience" panelClass="imx-user-select" >
+          <mat-option *ngFor="let audience of audiences;" value="{{audience.audienceKey}}" >{{audience.displayname}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="imx-input full-width" [floatLabel]="'always'" fxFlex="100" >
+        <mat-label>Default Language</mat-label>
+        <mat-select formControlName="default_language" panelClass="imx-user-select" disabled>
+          <mat-option value="eng_us">ENG (US)</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="app-setting-content-title">NOTIFICATION</div>
+      <mat-form-field class="imx-input full-width" [floatLabel]="'always'" fxFlex="100" >
+        <mat-label>Show Form</mat-label>
+        <mat-select formControlName="show_notification" panelClass="imx-user-select" disabled>
+          <mat-option value="{{notification.value}}" *ngFor="let notification of notifications;">{{notification.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="user-app-setting-footer" fxFlex="60px" fxLayout="row" fxLayoutAlign="center center">
+    <button mat-raised-button class="imx-button-primary search-btn" (click)='onSubmit(userApplicationForm)'>Save</button>
+  </div>
+</div>

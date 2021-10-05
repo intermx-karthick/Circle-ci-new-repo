@@ -1,0 +1,75 @@
+<div class='detailed-recap-report'>
+  <section class="detailed-recap-report__header" fxLayout='row' fxLayoutAlign='space-between stretch'>
+    <img class="detailed-recap-report__logo" [src]='details.logoURL' alt='LOGO' />
+
+    <div class='detailed-recap-report__heading'>
+      <h5 *ngIf='canShowReportTitle'>{{details.displayName}}</h5>
+      <h6 *ngIf='reportTypeName'>{{reportTypeName}}</h6>
+    </div>
+
+    <div class='detailed-recap-report__last-generated'>
+      Last Generated {{details.lastGenerated}}
+    </div>
+  </section>
+
+  <section fxLayout='row' fxLayoutAlign='space-between center'>
+    <div fxFlex='39.875rem'>
+      <table>
+        <tbody>
+        <tr>
+          <td class='detailed-recap-report__table_header'>Client</td>
+          <td class='detailed-recap-report__table_value' colspan='4'>{{details.client}}</td>
+        </tr>
+        <tr>
+          <td class='detailed-recap-report__table_header'>Product</td>
+          <td class='detailed-recap-report__table_value' colspan='4'>{{details.product}}</td>
+        </tr>
+        <tr>
+          <td class='detailed-recap-report__table_header'>Estimate</td>
+          <td class='detailed-recap-report__table_value' colspan='4'>{{details.estimate}}</td>
+        </tr>
+        <tr>
+          <td class='detailed-recap-report__table_header'>Client Ref.</td>
+          <td class='detailed-recap-report__table_value' colspan='4'>{{details.clientRef}}</td>
+        </tr>
+
+        </tbody>
+      </table>
+
+      <section fxLayout='row' fxLayoutAlign='start center'>
+        <div class='detailed-recap-report__client-code detailed-recap-report__table_header'>Client Code</div>
+        <div
+          class='detailed-recap-report__client-code-val detailed-recap-report__table_value'>{{details.clientCode}}</div>
+        <div class='detailed-recap-report__product-code detailed-recap-report__table_header'>Product Code</div>
+        <div
+          class='detailed-recap-report__product-code-val detailed-recap-report__table_value'>{{details.productCode}}</div>
+        <div class='detailed-recap-report__estimate-id detailed-recap-report__table_header'>Estimate #</div>
+        <div
+          class='detailed-recap-report__estimate-id-val detailed-recap-report__table_value'>{{details.estimateId}}</div>
+      </section>
+    </div>
+
+    <div class='detailed-recap-report__right-block'>
+
+      <table>
+        <tbody>
+        <tr>
+          <td class='detailed-recap-report__table_header'>Cost Type</td>
+          <td class='detailed-recap-report__table_value'>{{details.costType}}</td>
+        </tr>
+        <tr>
+          <td class='detailed-recap-report__table_header'>Timing</td>
+          <td class='detailed-recap-report__table_value'>{{details.timing}}</td>
+        </tr>
+        <tr>
+          <td class='detailed-recap-report__table_header'>Fee</td>
+          <td class='detailed-recap-report__table_value'>{{details.fee}}</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf='hideTaxIncludeText' class='detailed-recap-report__taxes-included'>Taxes included if applicable</div>
+    </div>
+  </section>
+
+</div>

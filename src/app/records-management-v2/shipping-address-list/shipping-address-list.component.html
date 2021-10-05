@@ -1,0 +1,20 @@
+
+<div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="4rem">
+  <form [formGroup]="shippingAddressForm" class="shipping-form-div" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" >
+    <div formArrayName="shippingAddressList"
+      *ngFor="let column of addressGroup.controls; let i=index"  class="shipping-address-list">
+      <div [formGroupName]="i" module="vendor_shipping" visiblityType="view" appUserAccessPermission>
+        <app-address-card >
+          <app-shipping-address formControlName="shippingAddress" [submitForm$]="submitForm$" [scrollingContainer]="scrollingContainer" [disableEdit]="disableEdit"></app-shipping-address>
+        </app-address-card>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center" class="shipping-action">
+        <button type="button" mat-button class="imx-button-basic" (click)="deleteShippingAddress(i)" module="vendor_shipping" visiblityType="delete" appUserAccessPermission> DELETE</button>
+        <span FxFlex="1 1 auto"></span>
+        <button type="button" mat-button class="imx-button-basic" (click)="duplicateShippingAddress(i)" module="vendor_shipping" visiblityType="create" appUserAccessPermission> DUPLICATE </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+

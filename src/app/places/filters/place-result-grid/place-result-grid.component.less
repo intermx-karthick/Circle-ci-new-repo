@@ -1,0 +1,57 @@
+::ng-deep {
+  app-place-result-grid {
+    .result-details {
+      padding: 10px 0px;
+      max-width: 350px;
+      min-width: 350px;
+      & .sort-control {
+        width: 100%;
+        padding: 0px 10px;
+      }
+      & .no-data-found {
+        display: flex;
+        font-size: 16px;
+        justify-content: center;
+        align-items: center;
+      }     
+      & .result-list-container {
+        height: calc(~"100vh - 405px");
+        padding: 0px 10px;
+        overflow-y: auto;
+        & .result-item {
+          border: 1px solid rgba(151,151,151,0.21);
+          color: var(--low-emphasis);
+          margin-bottom: 10px;
+          & a, & a:hover, & a:visited {
+            color: var(--low-emphasis);
+          }
+          & h6 {
+            color: var(--text-grays);
+            font-size: 14px;
+            margin: 0;
+          }
+          & .result-details-link{
+            font-size: 12px;
+            & > mat-icon {
+              font-size: 18px;
+              width: 18px;
+              height: 18px;
+            }
+            & > p {
+              margin: 0
+            }
+          }
+          & .result-item-details {
+            line-height: 15px;
+            margin-top: 10px;
+            text-indent: 30px;
+            font-size: 12px;
+            & > p {
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

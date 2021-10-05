@@ -1,0 +1,166 @@
+@font-face {
+  font-family: 'imx-map-font-33';
+  src:  url('fonts/imx-map-font-33.eot?yn0yf9');
+  src:  url('fonts/imx-map-font-33.eot?yn0yf9#iefix') format('embedded-opentype'),
+    url('fonts/imx-map-font-33.ttf?yn0yf9') format('truetype'),
+    url('fonts/imx-map-font-33.woff?yn0yf9') format('woff'),
+    url('fonts/imx-map-font-33.svg?yn0yf9#imx-map-font-33') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'imx-map-font-33' !important;
+  speak: none;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  line-height: 1 !important;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+.icon-circle-stroke:before {
+  content: "\41";
+}
+.icon-map-pin:before {
+  content: "\42";
+}
+.icon-wink-flat:before {
+  content: "\61";
+}
+.icon-wink-flat-dig:before {
+  content: "\62";
+}
+.icon-wink-pb:before {
+  content: "\63";
+}
+.icon-wink-pb-dig:before {
+  content: "\64";
+}
+.icon-wink-round:before {
+  content: "\65";
+}
+.icon-wink-round-dig:before {
+  content: "\66";
+}
+.icon-wink-square:before {
+  content: "\67";
+}
+.icon-wink-square-dig:before {
+  content: "\68";
+}
+.icon-place:before {
+  content: "\69";
+}
+.icon-star1:before {
+  content: "\6a";
+}
+.icon-map-marker:before {
+  content: "\6b";
+}
+.icon-street-view:before {
+  content: "\6c";
+}
+.icon-map-signs:before {
+  content: "\6d";
+}
+.icon-map-o:before {
+  content: "\6e";
+}
+.icon-map:before {
+  content: "\6f";
+}
+.icon-globe:before {
+  content: "\70";
+}
+.icon-location-arrow:before {
+  content: "\71";
+}
+.icon-circle:before {
+  content: "\72";
+}
+.icon-square:before {
+  content: "\73";
+}
+.icon-triangle:before {
+  content: "\74";
+}
+.icon-square-1:before {
+  content: "\75";
+}
+.icon-thumb-tack:before {
+  content: "\76";
+}
+.icon-bullseye:before {
+  content: "\77";
+}
+.icon-circle-o:before {
+  content: "\78";
+}
+.icon-circle-1:before {
+  content: "\79";
+}
+.icon-neuter:before {
+  content: "\7a";
+}
+.icon-bank:before {
+  content: "\e900";
+}
+.icon-star:before {
+  content: "\e901";
+}
+.icon-hotel:before {
+  content: "\e902";
+}
+.icon-store:before {
+  content: "\e903";
+}
+.icon-shopping-2:before {
+  content: "\e904";
+}
+.icon-shopping:before {
+  content: "\e905";
+}
+.icon-gas:before {
+  content: "\e906";
+}
+.icon-bar:before {
+  content: "\e907";
+}
+.icon-restaurant:before {
+  content: "\e908";
+}
+.icon-warning:before {
+  content: "\e909";
+}
+.icon-airplane:before {
+  content: "\e90a";
+}
+.icon-car:before {
+  content: "\e90b";
+}
+.icon-train:before {
+  content: "\e90c";
+}
+.icon-home:before {
+  content: "\e90d";
+}
+.icon-wink-pb-dig:before {
+  content: "\64";
+}
+.icon-numbered:before {
+  content: "1";
+}
+
+.dot {
+  background-color: #008da4;
+  border-radius: 50%;
+  text-align: center;
+  display: inline-block;
+  color: #fefefe;
+}

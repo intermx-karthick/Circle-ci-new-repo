@@ -1,0 +1,203 @@
+<mat-horizontal-stepper [@.disabled]="true" [selectedIndex]="selectedIndex" class="e2e-places-upload-popup" #stepper>
+  <!-- <mat-step>
+    <div class="heading-customer">
+      <h4>Assign to Customer</h4>
+    </div>
+    <form [formGroup]="customerForm" (ngSubmit)='updateCustomer(customerForm)'>
+      <div class="assign-list">
+        <mat-form-field floatLabel="always">
+          <mat-select formControlName="customerId" class="e2e-customer-select">
+            <mat-option class="e2e-customer-option" *ngFor="let customer of customers" [value]="customer.client_id" >{{customer.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="customerForm.invalid">Please Select Customer</mat-error>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="end" class="nextarrbutton" fxLayoutGap="10px">
+        <a class="button button-secondary uppercase" mat-dialog-close (click)="onClose()"> Close </a>
+        <button class="button button-primary uppercase" type="submit" mat-raised-button>Next
+          <mat-icon class="arrowicon">keyboard_arrow_right</mat-icon></button>
+      </div>
+    </form>
+  </mat-step> -->
+  <mat-step>
+    <div class="heading-customer">
+      <h4>Who do you want to assign these places to?</h4>
+    </div>
+    <div fxLayout="column" class="saveFile">
+      <form #uploadFormRef="ngForm" [formGroup]="uploadForm" (ngSubmit)='uploadFile()'>
+        <div class="width100" *ngIf="isAuditRole">
+          <mat-form-field *ngIf="isAuditRole" floatLabel="always" class="width100">
+            <mat-select formControlName="customerId" class="e2e-customer-select">
+              <mat-option class="e2e-customer-option" *ngFor="let customer of customers" [value]="customer.client_id">
+                {{customer.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-label *ngIf="!isAuditRole">{{client.name}}</mat-label>
+          <mat-error *ngIf="uploadForm.controls['customerId'].hasError('required') && uploadSubmitted"
+            class="mat-select-error">Please Select Customer</mat-error>
+        </div>
+        <div class="width100" *ngIf="!isAuditRole && client">
+          <mat-label>{{client.name}}</mat-label>
+        </div>
+
+
+        <div class="mb-20">
+          <h4 class="h-space">Upload csv file</h4>
+          <p>for better mapping results you can <a class="imx-primary-link unit-test-domloadcsv"
+              (click)="downloadSampleCSV()">Download the csv template</a> </p>
+        </div>
+
+        <div class="width100" fxLayout="row" fxLayoutAlign="space-around start" fxLayoutGap="20px">
+          <mat-form-field floatLabel="always">
+            <input matInput formControlName="fileName" placeholder="File Name" (click)="fileInp.click()">
+            <mat-error *ngIf="uploadForm['controls'].fileName.hasError('required') && uploadSubmitted">File can't be
+              blank</mat-error>
+            <mat-error *ngIf="uploadForm['controls'].fileName.hasError('inValidFile') && uploadSubmitted">Please upload
+              valid csv file.</mat-error>
+          </mat-form-field>
+          <input type="file" (change)="processFile($event)" accept=".csv" class="fileInp unit-fileInp" #fileInp>
+          <div fxLayout="row" fxLayoutGap="10px" class="browse">
+            <button type="button" class="button button-primary uppercase" mat-raised-button (click)="fileInp.click()">
+              <mat-icon class="save-alticon">add</mat-icon>Browse
+            </button>
+          </div>
+        </div>
+        <div class="mt-10" *ngIf="isAuditRole">
+          <mat-checkbox formControlName="requested">Request Insights for all places in the file</mat-checkbox>
+        </div>
+      </form>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="end" class="nextarrow" fxLayoutGap="10px">
+      <button class="button button-secondary uppercase" mat-dialog-close (click)="onClose()"> Close
+      </button>
+      <button mat-raised-button class="button button-primary uppercase" mat-raised-button
+        (click)="uploadFormSubmit()">Next</button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <div class="heading-customer validation-header">
+      <h4>Validate the mapped fields from your uploaded file</h4>
+      <!-- <span fxFlex="1 1 auto"></span>
+      <a class="button-primary-link" (click)="assignNoMatch()"> Assign No Match to All</a> -->
+    </div>
+    <div fxLayout="row" class="layout-full">
+      <div fxFlex="50%">
+        <h5 class="upload-header">Matching Value</h5>
+      </div>
+      <div fxFlex="50%">
+        <h5 class="upload-header">Uploaded Value</h5>
+      </div>
+    </div>
+    <form [formGroup]="mappingsForm" (ngSubmit)='mapFields(mappingsForm)' class="pl-20">
+      <div class="field-area-main" [ngStyle]="{'height.px': contentHeight}" (window:resize)="onResize()">
+        <div formArrayName="mappings" fxLayout="row" class="field-area"
+          *ngFor="let column of mappingsGroup.controls; let i=index" fxLayoutAlign="start center">
+          <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="start center" fxFlex="100%" class="field-area-title">
+            <div fxFlex="50%" fxFlexAlign="center">
+              <div class="mapping-key-label">{{dbFieldsColums[column.value['dest_key']]}}</div>
+              <input type="hidden" formControlName="dest_key">
+            </div>
+            <div fxFlex="50%">
+              <div>
+                <mat-form-field>
+                  <mat-select formControlName="source_key">
+                    <mat-option *ngFor="let field of fileHeaders" [value]="field">{{field}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="showUnMapped">
+          <div formArrayName="unmappings" fxLayout="row" class="field-area"
+            *ngFor="let column of unMappingsGroup.controls; let i=index" fxLayoutAlign="start center">
+            <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="start center" fxFlex="100%" class="field-area-title">
+              <div fxFlex="50%" fxFlexAlign="center">
+                <div class="mapping-key-label">{{dbFieldsColums[column.value['dest_key']]}}</div>
+                <input type="hidden" formControlName="dest_key">
+              </div>
+              <div fxFlex="50%">
+                <div>
+                  <mat-form-field>
+                    <mat-select formControlName="source_key">
+                      <mat-option *ngFor="let field of fileHeaders" [value]="field">{{field}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" class="unMappedLink" fxLayoutAlign="start stretch" fxLayoutGap="5px">
+        <div *ngIf="!showUnMapped && unMappingsGroup.controls.length > 0">There were {{unMappingsGroup.controls.length}}
+          fields which did not get mapped.</div>
+        <a class="imx-primary-link unit-test-showhide" (click)="onShowUnMapped()"
+          *ngIf="!showUnMapped && unMappingsGroup.controls.length > 0">VIEW ALL UNMAPPED FIELDS</a>
+        <a class="imx-primary-link unit-test-showhide" (click)="onHideUnMapped()"
+          *ngIf="showUnMapped && unMappingsGroup.controls.length > 0">HIDE ALL UNMAPPED FIELDS</a>
+      </div>
+      <div class="mt-10">
+        <mat-checkbox formControlName="placeSetNeeded">Create/update a place set with the uploaded places</mat-checkbox>
+      </div>
+      <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end" class="next">
+        <button type="button" mat-raised-button class="button button-secondary uppercase" mat-dialog-close
+          (click)="onClose()"> Close
+        </button>
+        <button class="button button-primary unit-file-submit uppercase" type="submit" mat-raised-button>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <div class="heading-customer validation-header">
+      <h4>Select how you want to save the uploaded places</h4>
+      <!-- <span fxFlex="1 1 auto"></span>
+      <a class="button-primary-link" (click)="assignNoMatch()"> Assign No Match to All</a> -->
+    </div>
+    <div class="place-set-selector">
+      <form [formGroup]="placeSetForm" class="pl-20" (ngSubmit)="submitFormData($event)">
+        <div class="field-area-main" [ngStyle]="{'height.px': contentHeight}" (window:resize)="onResize()">
+          <div fxLayout="column" class="field-area" fxLayoutAlign="center space-between">
+            <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="100%" class="field-area-title">
+                <mat-radio-group formControlName="placeSetType">
+                  <mat-radio-button value="existing">Add to existing place set</mat-radio-button>
+                  <mat-radio-button value="new">Create a new place set</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div fxLayout="column" *ngIf="placeSetForm?.controls?.placeSetType?.value === 'new'; else existing" fxLayoutAlign="space-between" fxFlex="100%" class="field-area-title full-width new-place-set">
+              <mat-form-field fxFlex="100%" >
+                <input matInput  formControlName="placeSetName" required placeholder="Place set name">
+              </mat-form-field>
+              <mat-error *ngIf="placeSetForm.controls['placeSetName'].hasError('required') && this.placeSetFormSubmitted"
+                         class="mat-select-error">Please Enter place set name</mat-error>
+            </div>
+            <ng-template #existing>
+              <mat-error *ngIf="placeSetForm.controls['placeSetId'].hasError('required') && this.placeSetFormSubmitted"
+                         class="mat-select-error">Please select a place set</mat-error>
+              <app-places-set (filterByPlaceSet)="placeSetSelected($event)" [hideClearButton]="hideClearButton"></app-places-set>
+            </ng-template>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end" class="next">
+          <button type="button" mat-raised-button class="button button-secondary uppercase" mat-dialog-close> Close
+          </button>
+          <button class="button button-primary unit-file-submit uppercase" type="submit" mat-raised-button>Next</button>
+        </div>
+      </form>
+    </div>
+  </mat-step>
+  <mat-step>
+    <div class="heading-customer">
+      <h4 class="upload-complete">
+        <mat-icon>check_circle</mat-icon> File uploaded successfully.
+      </h4>
+    </div>
+    <div class="upload-filesus">
+      <p></p>
+    </div>
+    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end" class="btn-nextsize">
+      <button mat-raised-button class="button button-secondary uppercase" mat-dialog-close (click)="onClose()"> Close
+      </button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

@@ -1,0 +1,18 @@
+<section class="header-section">
+  <app-header fxFlexFill="">
+      <div class="projected-title">
+          <span class="uppercase">Settings & Admin</span>
+      </div>
+  </app-header>
+</section>
+
+<div fxLayout="row" fxLayoutAlign="start start" class="body-content">
+  <div fxFlex="20%" class="left-nav">
+    <app-admin-nav-left></app-admin-nav-left>
+  </div>
+  <div class="body-inner-content">
+    <!--<app-new-alert></app-new-alert>
+    <app-alert-history></app-alert-history>-->
+    <router-outlet></router-outlet>
+  </div>
+</div>

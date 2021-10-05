@@ -1,0 +1,107 @@
+@import '../../../assets/css/variables.less';
+::ng-deep {
+  .imx-mat-dialog {
+    .mat-dialog-container {
+      padding: 18px;
+      position: relative;
+      border-radius: 5px;
+      .mat-dialog-title {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1rem;
+        line-height: 20px;
+        letter-spacing: 0.15px;
+        color: var(--grays-bg-800);
+        text-transform: none;
+      }
+      .mat-dialog-close {
+        width: auto;
+        height: auto;
+        position: absolute;
+        line-height: 20px;
+        border-radius: 0px;
+        top: 18px;
+        right: 18px;
+        color: var(--text-primary);
+      }
+      .mat-dialog-content {
+        margin: 16px 0px 0 0;
+        padding: 0px;
+        max-height: 100vh !important;
+      }
+      .mat-dialog-actions {
+        margin: 0;
+        padding: 0px;
+        min-height: auto;
+      }
+    }
+  }
+  app-explore-save-scenario-v3 {
+    /* @import "../../../assets/theme/imx-dropdown.less"; */
+    @import "../../../assets/theme/imx-button.less";
+    .imx-project-form {
+      .mat-form-field {
+        width: 100%;
+        margin-bottom: 10px;
+        .mat-form-field-label {
+          font-size: 10px;
+          line-height: 13px;
+          letter-spacing: 0.6px;
+          text-transform: uppercase;
+        }
+        .mat-input-element {
+          font-size: 13px;
+          line-height: 16px;
+          letter-spacing: 0.5px;
+          color: var(--grays-bg-800);
+          border: 0px;
+        }
+      }
+      .project-list-text {
+        &.mat-form-field-appearance-legacy {
+          .mat-form-field-infix {
+            padding: 0px !important;
+          }
+        }
+      }
+      
+    }
+  }
+  .project-list-autocomplete {
+    overflow: auto !important;
+    max-height: 200px !important;
+    mat-option {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 0.813rem;
+      line-height: 16px;
+      letter-spacing: 0.5px;
+      color: var(--primary-bg-800);
+      height: auto;
+      margin: 8px 0px;
+      padding: 5px 16px;
+      &:first-child{
+        color: var(--primary-bg-800) !important;
+        mat-icon{
+          font-size: 1rem;
+          height: 1rem;
+          width: 1rem;
+          margin-right: 5px;
+        }
+        &:after{
+          content:none !important;
+        }
+      }
+      &.sandboxHighlight{
+        color: #616161 !important;
+      }
+    }
+    span{
+      mat-option{
+        span{
+          color: #424242 !important;
+        }
+      }
+    }
+  }
+}

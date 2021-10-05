@@ -1,0 +1,385 @@
+/**
+ * Helper function for looping over Map object
+ *
+ */
+@NonCPS
+def mapToList(depmap) {
+    def dlist = []
+    for (def entry in depmap) {
+        dlist.add(new java.util.AbstractMap.SimpleImmutableEntry(entry.key, entry.value))
+    }
+    dlist
+}
+
+/**
+ * Functions to validate and deploy image
+ *
+ */
+def helmLint(Map args) {
+    // lint helm chart
+    sh "/usr/local/bin/helm lint ${args.chart_dir} --set image.app.repository=${args.appRepo},image.proxy.repository=${args.proxyRepo},image.app.tag=${args.tag},image.proxy.tag=${args.tag},version=${args.version},config.directory=config/${args.namespace},logging.env.cloud_id=${ELASTIC_ID},logging.env.username=${ELASTIC_USER},logging.env.password=${ELASTIC_PASSWORD},ingress.type=${INGRESS_VERSION},service.hosts[0]='${args.endpointHost}',context=${args.context},ingress.entry=${args.entry},ingress.external=true"
+}
+
+def helmDeploy(Map args) {
+    try {
+
+        // Configure helm client and confirm tiller process is installed
+
+        if (args.dry_run) {
+            println "Running dry-run deployment"
+
+            sh "/usr/local/bin/helm install --dry-run --debug -n ${args.name} ${args.chart_dir} --set image.app.repository=${args.appRepo},image.proxy.repository=${args.proxyRepo},image.app.tag=${args.tag},image.proxy.tag=${args.tag},version=${args.version},config.directory=config/${args.namespace},logging.env.cloud_id=${ELASTIC_ID},logging.env.username=${ELASTIC_USER},logging.env.password=${ELASTIC_PASSWORD},ingress.type=${INGRESS_VERSION},service.hosts[0]='${args.endpointHost}',context=${args.context},ingress.entry=${args.entry},ingress.external=true --namespace=${args.namespace} --namespace=${args.namespace}"
+        } else {
+            println "Running deployment"
+
+            sh "/usr/local/bin/helm upgrade --install ${args.name} ${args.chart_dir} --set image.app.repository=${args.appRepo},image.proxy.repository=${args.proxyRepo},image.app.tag=${args.tag},image.proxy.tag=${args.tag},version=${args.version},config.directory=config/${args.namespace},logging.env.cloud_id=${ELASTIC_ID},logging.env.username=${ELASTIC_USER},logging.env.password=${ELASTIC_PASSWORD},ingress.type=${INGRESS_VERSION},service.hosts[0]='${args.endpointHost}',context=${args.context},ingress.entry=${args.entry},ingress.external=true --namespace=${args.namespace} --namespace=${args.namespace}"
+
+            echo "Application ${args.name} successfully deployed. Use helm status ${args.name} to check."
+        }
+
+        // Slack notification success.
+        notifyBuild('SUCCESS', null, null, "Image deployed to `${args.namespace}` Kubernetes successfully.")
+    }
+
+    catch(exception) {
+
+        echo "${exception}"
+
+        // Slack notification failure.
+        notifyBuild('FAILURE', null, null, "Error in pushing image to `${args.namespace}` Kubernetes - Retrying.", args.notify, args.slack_channel)
+
+        println "Error on Upgrade / Install"
+        println "Deleting the resource"
+        sh "/usr/local/bin/helm del --purge ${args.name} --namespace=${args.namespace}"
+
+        println "Running deployment again"
+        sh "/usr/local/bin/helm upgrade --install ${args.name} ${args.chart_dir} --set image.app.repository=${args.appRepo},image.proxy.repository=${args.proxyRepo},image.app.tag=${args.tag},image.proxy.tag=${args.tag},version=${args.version},config.directory=config/${args.namespace},logging.env.cloud_id=${ELASTIC_ID},logging.env.username=${ELASTIC_USER},logging.env.password=${ELASTIC_PASSWORD},service.hosts[0]='${args.endpointHost}',context=${args.context},ingress.entry=${args.entry},ingress.external=true --namespace=${args.namespace} --namespace=${args.namespace}"
+
+        echo "Application ${args.name} successfully deployed. Use helm status ${args.name} to check."
+
+        // Slack notification success.
+        notifyBuild('SUCCESS', null, null, "Image deployed to `${args.namespace}` Kubernetes successfully.")
+    }
+}
+
+def showChangeLogs() {
+
+    def authors       = []
+    def changeLogSets = currentBuild.rawBuild.changeSets
+
+    for (int i = 0; i < changeLogSets.size(); i++) {
+
+        def entries = changeLogSets[i].items
+        for (int j = 0; j < entries.length; j++) {
+
+            def author = "${entries[j].author}"
+            def email  = entries[j].author.getProperty(hudson.tasks.Mailer.UserProperty.class).getAddress()
+
+            authors.push("${author}:${email}")
+        }
+    }
+
+    return authors.unique();
+}
+
+def assertUniqueTag(Map args) {
+
+  withAWS(credentials: args.credentials) {
+  try {
+    sh "if echo \$(aws ecr describe-images --region ${env.AWS_REGION} --repository-name ${args.repo} --filter tagStatus=TAGGED --query 'imageDetails[*].imageTags[*]' --output text) | grep --line-regexp '.*[[:space:]]${args.tag}[[:space:]].*'; then exit 1; fi"
+    }
+    catch (exception) {
+    sh "echo ${exception}"
+    error "Tag ${args.tag} already found in repo ${args.repo}. Will not overwrite..."
+    }
+  }
+}
+
+/**
+ * Jenkins pipeline stages.
+ *
+ * A list of stages available in this pipeline Jenkins file will be executed
+ * sequentially. The name of this file should be matching with Pipeline block of
+ * Jenkins configuration.
+ *
+ */
+node {
+
+    /**
+     * Version details for tagging the image.
+     *
+     * @var int major
+     *   A current release major version number.
+     * @var int minor
+     *   A current release minor version number.
+     * @var int patch
+     *   A patch number for current release.
+     * @var int revision
+     *   A revision number for current release.
+     *
+     */
+    // TODO: At present versioning is controlled by developer statically.
+    final major    = 1
+    final minor    = 0
+    final patch    = 1
+    final revision = 2
+
+    final tag = "v${major}.${minor}.${patch}_lamar"
+
+    /**
+     * Define script variables.
+     *
+     */
+    def notify
+    def slackChannel = "#general"
+    // Pull Repo details
+    def pullRepoTag = "v1.0.1_lamar-rc-${revision}"
+    // Docker image
+    def app
+    def proxy
+    // Config.json file
+    def config
+    // Component specific variables builds
+    def component = "insights-ui"
+    def cluster = "live"
+    def environment = "production"
+    def chartDirectory
+    // Config File from S3
+    def configFile
+    // Git Credentials
+    def gitCredentials = "impinger-cicd-github"
+    // Helm Repository
+    def helmRepo = "git@github.com:InterMx/intermx-cicd-helm.git"
+    // S3 Config Bucket
+    def configBucket = "${AWS_BUCKET_NAME}"
+    // AWS Credentials
+    def awsCredentials = "intermx-impinger-credentials"
+    // ECR Repository for application
+    def appEcrRepoName = "intermx-insights-ui"
+    // ECR Repository for proxy
+    def proxyEcrRepoName = "intermx-insights-proxy"
+    // ECR Repository
+    def ecrRepo     = "${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com"
+    // ECR FQDN
+    def ecrAppRepo = "${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/${appEcrRepoName}"
+    def ecrProxyRepo = "${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/${proxyEcrRepoName}"
+    // ECR Repository Endpoint
+    def ecrEndpoint = "https://${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com"
+    // ECR Credentials
+    def ecrCredentials = "ecr:us-east-1:${awsCredentials}"
+    // Host to listen to for routing
+    def endpointHost = "lamar.intermx.com"
+    // Context name to avoid collisions
+    def context = "ui-lamar"
+    // Helm deployment name to avoid collisions
+    def deploymentName = "intermx-insights-ui-lamar"
+    // Entry point for Traefik
+    def entryPoint = "https"
+    // Git commit message
+    def commitMessage
+
+    try {
+
+        /**
+         * Cloning the repository to workspace to build image.
+         *
+         */
+        stage('Clone Repository') {
+
+            checkout scm
+
+            def (origin, branch) = scm.branches[0].name.tokenize('/')
+
+            commitMessage = sh (script: 'git log --oneline -1 ${GIT_COMMIT}', returnStdout: true).trim().substring(8)
+            notify        = showChangeLogs()
+
+            // Slack notification in progress.
+            notifyBuild('STARTED', branch, commitMessage)
+        }
+
+        /**
+         * Get dependencies for Kubernetes Deploy.
+         *
+         */
+        stage('Get Dependencies for Production') {
+
+            // Get helm charts from git repo
+            dir('../helm') {
+                git url: helmRepo, credentialsId: gitCredentials
+            }
+
+            // Download config.json from S3 into the insights-ui/config helm repo
+            final s3ConfigPath = "${cluster}/${environment}/${component}"
+
+            chartDirectory = "../helm/${component}"
+            configFile     = "${chartDirectory}/config/${environment}/config.json"
+
+            dir("${chartDirectory}/config/${environment}") {
+                withAWS(credentials:awsCredentials) {
+                    s3Download(file: 'config.json', bucket: configBucket, path: "${s3ConfigPath}/config.json")
+                    s3Download(file: 'filebeat.yaml', bucket: configBucket, path: "${s3ConfigPath}/filebeat.yaml")
+                    s3Download(file: 'ilm_policy.json', bucket: configBucket, path: "${s3ConfigPath}/ilm_policy.json")
+                }
+            }
+        }
+
+        /**
+         * Environment variables for Kubernetes.
+         *
+         */
+        stage('Build Kubernetes Env Variables for Production From Config') {
+
+            config = readJSON file: "${configFile}"
+
+            for (entry in mapToList(config)) {
+                dir("${chartDirectory}/config/${environment}"){
+                    writeFile file: "${entry.key}", text: "${entry.value}"
+                }
+            }
+        }
+
+        stage ('Assert Unique Tag') {
+        assertUniqueTag(
+          credentials : awsCredentials,
+          repo        : appEcrRepoName,
+          tag         : tag
+        )
+        assertUniqueTag(
+          credentials : awsCredentials,
+          repo        : proxyEcrRepoName,
+          tag         : tag
+        )
+      }
+
+        /**
+         * Pull the image from Integration, chnage tag and push the same to AWS ECR Production repo.
+         *
+         */
+        stage('Pull and Push the Image to ECR Repo') {
+
+            docker.withRegistry("${ecrEndpoint}", "${ecrCredentials}") {
+
+                docker.image("${appEcrRepoName}:${pullRepoTag}").pull()
+                docker.image("${proxyEcrRepoName}:${pullRepoTag}").pull()
+
+                docker.image("${ecrRepo}/${appEcrRepoName}:${pullRepoTag}").push("${tag}")
+                docker.image("${ecrRepo}/${proxyEcrRepoName}:${pullRepoTag}").push("${tag}")
+            }
+        }
+
+        /**
+         * Deploy Image to Kubernetes using Helm.
+         *
+         */
+        stage('Deploy image to Production Environment') {
+
+           // Run helm chart linter
+            helmLint(
+                chart_dir     : chartDirectory,
+                chart_version : environment,
+                appRepo       : ecrAppRepo,
+                proxyRepo     : ecrProxyRepo,
+                tag           : tag,
+                name          : deploymentName,
+                version       : environment,
+                namespace     : environment,
+                endpointHost  : endpointHost,
+                context       : context,
+                entry         : entryPoint
+            )
+
+            // Deploy using Helm chart
+            helmDeploy(
+                dry_run       : false,
+                name          : deploymentName,
+                appRepo       : ecrAppRepo,
+                proxyRepo     : ecrProxyRepo,
+                chart_dir     : chartDirectory,
+                tag           : tag,
+                version       : environment,
+                namespace     : environment,
+                notify        : notify,
+                slack_channel : slackChannel,
+                endpointHost  : endpointHost,
+                context       : context,
+                entry         : entryPoint
+            )
+        }
+    }
+
+    catch(exception) {
+
+        echo "${exception}"
+
+        // Slack notification failure.
+        notifyBuild('FAILURE', null, null, 'Something went wrong in one of the stages, exception found in Jenkins.', notify, slackChannel)
+    }
+
+    finally {
+
+        // Clean up the workspace after finish the job.
+        deleteDir()
+    }
+}
+
+/**
+ * Sending notifications to Slack channel.
+ *
+ */
+def notifyBuild(buildStatus = 'FAILURE', branch = null, commitMessage = null, message = null, notify = null, channel = null) {
+    // Default values
+    def summary
+    def alert = false
+
+    if (buildStatus == 'STARTED') {
+        color = 'YELLOW'
+        colorCode = '#FFFF00'
+        summary = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' is currently working on branch '${branch}' with a message: '${commitMessage}'"
+    } else if (buildStatus == 'SUCCESS') {
+        color = 'GREEN'
+        colorCode = '#00FF00'
+        summary = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' | Message: ${message}"
+    } else {
+        color = 'RED'
+        colorCode = '#FF0000'
+        summary = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' | Error: ${message} | URL: `${env.BUILD_URL}console` (please make sure, you are on VPN to access the Jenkins link)"
+        alert = true
+    }
+
+    // Send notifications to Slack.
+    slackSend (color: colorCode, message: summary)
+
+    if (alert) {
+
+        for(int i = 0; i < notify.size(); i++) {
+            def notice = notify[i].split(":")
+            def author = notice[0]
+            def email  = notice[1]
+            def domain = email.split("@")[1]
+
+            if (domain && domain == 'intermx.com') {
+
+                emailext (
+                    to: "${email}",
+                    subject: "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                    body: """
+                      <html>
+                        <body>
+                          <p>Hi ${author},</p>
+                          <br>
+                          <p>The build job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' failed to complete.</p>
+                          <p>The following error was reported:</p>
+                          <br>
+                          <p>${message}</p>
+                          <br>
+                          <p>Please review the error at <a href=\"${env.BUILD_URL}console\">${env.BUILD_URL}console</a> and resolve the issue causing the failure so that releases can continue.</p>
+                        </body>
+                      </html>
+                    """
+                )
+            }
+        }
+
+        slackSend (channel: "${channel}", color: colorCode, message: summary)
+    }
+}

@@ -1,0 +1,62 @@
+<mat-card class="imx-widget-card">
+  <mat-card-header>
+    <mat-card-title>Media Attributes {{ (selectedMediaAttribute | keyvalue).length !== 0 ?  "(" + (selectedMediaAttribute | keyvalue).length + ")"  : ''}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list >
+      <mat-list-item class="test-measure-item" *ngFor="let mediaAttribute of selectedMediaAttribute | keyvalue;let i = index">
+
+        <span *ngIf="mediaAttribute.key === 'orientationList'">Orientation: {{ mediaAttribute.value && mediaAttribute.value['option'] || 'All'}}</span>
+        <span *ngIf="mediaAttribute.key === 'illuminationHrsRange'" > 
+          Illumination Hours: {{ formatTimeLable(mediaAttribute.value[0]) }} - {{ formatTimeLable(mediaAttribute.value[1] === '23:59:59' && '24:00:00' || mediaAttribute.value[1] ) }} 
+        </span>
+
+        <span *ngIf="mediaAttribute.key === 'panelSizeHeightRange'" > 
+          Spot Dimensions Height in Feet: Min:{{mediaAttribute.value[0]}} - Max:{{ mediaAttribute.value[1]}} 
+        </span>
+
+        <span *ngIf="mediaAttribute.key === 'panelSizeWidthRange'" > 
+          Spot Dimensions Width in Feet: Min:{{mediaAttribute.value[0]}} - Max:{{ mediaAttribute.value[1]}} 
+        </span>
+
+        <span *ngIf="mediaAttribute.key === 'spotLength'" > 
+          Spot Length in Seconds: Min:{{mediaAttribute.value.min}} - Max:{{ mediaAttribute.value.max}} 
+        </span>
+
+        <span *ngIf="mediaAttribute.key === 'rotating'" > 
+          Rotating: {{ ((mediaAttribute.value === true && 'Yes' ) || (mediaAttribute.value === false && 'No' )) || 'All'}} 
+        </span>
+
+        <span *ngIf="mediaAttribute.key === 'spotAudio'">
+          Audio Enabled: {{ ((mediaAttribute.value === true && 'Yes' ) || (mediaAttribute.value === false && 'No' )) || 'All'}}
+        </span>
+
+        <span *ngIf="mediaAttribute.key === 'spotFullMotion'">
+          Full Video/Full Motion: {{ ((mediaAttribute.value === true && 'Yes' ) || (mediaAttribute.value === false && 'No' )) || 'All'}}
+        </span>
+
+        <span *ngIf="mediaAttribute.key === 'spotPartialMotion'">
+          Partial Motion: {{ ((mediaAttribute.value === true && 'Yes' ) || (mediaAttribute.value === false && 'No' )) || 'All'}}
+        </span>
+
+        <span *ngIf="mediaAttribute.key === 'spotInteractive'">
+          Interactive: {{ ((mediaAttribute.value === true && 'Yes' ) || (mediaAttribute.value === false && 'No' )) || 'All'}}
+        </span>
+
+        <span *ngIf="mediaAttribute.key === 'auditStatusList'"  matTooltip="{{ mediaAttribute.value | convert:'COMMASEPATT'}}"> 
+          Audit Status ( {{ mediaAttribute.value.length }})
+        </span>
+        
+        <span fxFlex="1 1 auto"></span>
+        <div class="left-select">
+        <button class="select test-forward-button" mat-icon-button (click)="removeMediaAttribute(mediaAttribute.key)" *ngIf = "editFlag">
+          <mat-icon matListIcon>clear</mat-icon>
+        </button>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+  <mat-card-actions *ngIf = "editFlag">
+    <button mat-button type="button" class="add-link" disableRipple (click)="addMediaAttribute()"><mat-icon>add</mat-icon> Media Attribute</button>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,260 @@
+.open-map-link{
+  padding: 11px 0 10px 0;
+  margin: 0 10px;
+  border-bottom: 1px solid rgba(0,0,0,.12);
+  .link{
+    color: var(--primary-bg);
+    cursor: pointer;
+  }
+  mat-icon{
+    color: var(--primary-bg);
+    cursor: pointer;
+    &.collapse-icon {
+      color: var(--grays-bg-600);
+    }
+  }
+}
+mat-form-field .link{
+  display: flex;
+  place-content: center;
+  align-items: center;
+}
+.no-margin{
+  margin: 0px;
+}
+.area-controls-div {
+  margin-top: 5px;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+}
+.area-border {
+  padding: 5px;
+  border: 1px solid;
+  border-color: var(--medium-emphasis);
+}
+.imx-mtb-20{
+  margin: 20px 0px;
+}
+.note-details{
+  white-space: pre-wrap;
+  max-width: 560px;
+}
+.action-link-div {
+  width: 100%;
+}
+.imx-mlr-20{
+  margin-right: 20px;
+}
+.field-area{
+  padding: 10px 10px 10px 9px;
+  overflow: auto;
+  .imx-field{
+    .imx-field-check{
+      min-width:150px;
+      .layers_mat-icon{
+        cursor: pointer !important;
+        margin-left: 4px;
+        color: var(--primary-bg);
+      }
+    }
+  }
+  .imx-time-field{
+    padding-left: 20px;
+    .imx-time-label{
+      min-width: 100px;
+    }
+  }
+  .time-field{
+    width: 90px;
+    &.mr-10{
+      margin-right: 10px;
+    }
+  }
+  .ext-time-field {
+    width: 40px;
+  }
+  .width100{
+    width:100%;
+  }
+  .link{
+    color: var(--primary-bg);
+    cursor: pointer;
+  }
+  .width80{
+    width:80%;
+  }
+  .fx-width-100{
+    width: 100px;
+    margin-right: 20px
+  }
+  .custom-field{
+    width: 100%;
+    border: 1px solid rgba(151,151,151,0.21);
+    padding: 10px;
+    margin-top: 10px;
+    .delete-icon{
+      color: var(--medium-emphasis);
+      cursor: pointer;
+    }
+  }
+}
+.field-action-area{
+  padding: 10px 10px;
+  button{
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}
+.auditedControls {
+  .mat-form-field {
+    width: 100%;
+  }
+  .saveAuditBtn {
+    color: var(--medium-emphasis);
+  }
+}
+.mat-fab.mat-primary, .mat-flat-button.mat-primary, .mat-mini-fab.mat-primary, .mat-raised-button.mat-primary {
+  background-color: var(--primary-bg);
+}
+.imx-form-field{
+  width:100%;
+  mat-form-field{
+    width:100%;
+  }
+}
+.overflow-hidden{
+  overflow: hidden !important;
+}
+.imx-ml-10{
+  margin-left: 10px;
+}
+.notes-area{
+  margin-bottom: 10px;
+}
+::ng-deep{
+  .imx-add-audit-hours{
+    .imx-mr-10{
+      margin-right:10px;
+    }
+    mat-calendar{
+      border: 1px solid;
+      border-color: var(--medium-emphasis);
+      min-width: 225px;
+      .mat-calendar-header {
+        padding: 0px 8px 0 8px;
+      }
+      .mat-calendar-body-label{
+        display: none;
+      }
+    }
+    .hours-save-btn{
+      margin-top: 10px;
+      display: flex;
+      place-content: flex-end;
+      button{
+        height: 30px;
+        line-height: unset;
+        text-transform: uppercase;
+        font-size: 11px;
+        font-weight: bold;
+      }
+    }
+  }
+  app-audit-details{
+    .custom-labels {
+      opacity: 0.7;
+    }
+    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.15);
+    .mat-form-field-appearance-legacy.mat-form-field-can-float .mat-input-server:focus+.mat-form-field-label-wrapper .mat-form-field-label, .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+      -webkit-transform: translateY(-1.28125em) scale(1) perspective(100px) translateZ(.001px);
+      transform: translateY(-1.28125em) scale(1) perspective(100px) translateZ(.001px);
+      -ms-transform: translateY(-1.28125em) scale(1);
+      width: 133.33333%;
+    }
+    .dis-associate-btn {
+      height: 28px;
+      width: 100px;
+      min-width: 55px;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0.83px;
+      line-height: normal;
+      border-radius: 4px;
+      display: -webkit-box;
+      display: flex;
+      -webkit-box-pack: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      align-items: center;
+      background-color: var(--primary-bg);
+      color: white;
+    }
+    .building-area-main{
+      width: 100%;
+      .building-area-map{
+        cursor: pointer;
+        display: flex;
+        place-content: center;
+        width: 100%;
+        margin: 18px 0px;
+        border: 1px solid var(--low-emphasis);
+      }
+    }
+    .audit-jobs-details-collapse{
+      cursor: pointer;
+      display: flex;
+      height: 100%;
+      width: 24px;
+      background: var(--grays-bg-200);
+      min-height: 100vh;
+      overflow: hidden;
+      mat-icon{
+        margin-top: 5px;
+        cursor: pointer;
+      }
+    }
+    .audit-jobs-details-expand{
+      height: 64px;
+      align-items: center;
+      border-bottom: 1px solid rgba(0,0,0,.12);
+      mat-icon{
+        color:var(--primary-bg);
+        margin-right: 10px;
+        cursor: pointer;
+      }
+    }
+    button.search-icon {
+      font-size: 18px !important;
+    }
+    .star{
+      color: var(--error-base);
+    }
+    .ml-2{
+      margin-left:2px;
+    }
+    span.label{
+      text-transform: uppercase;
+      color: var(--medium-emphasis);
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.47px;
+    }
+    .audit-jobs-details {
+      min-width: 388px;
+    }
+  }
+  .action-create-place{
+    .auditedControlButton{
+      place-content: space-between !important;
+    }
+    button:first-child{
+      color: var(--medium-emphasis);
+    }
+  }
+}
+
+.mat-flat-button.mat-warn, .mat-raised-button.mat-warn:enabled, .mat-fab.mat-warn, .mat-mini-fab.mat-warn {
+  background-color: var(--error);
+  color: #fff !important;
+}

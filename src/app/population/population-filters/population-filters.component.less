@@ -1,0 +1,470 @@
+::ng-deep {
+  app-population-filters{
+    .list-item-location{
+        input{
+          color: var(--high-emphasis);
+          padding: 10px;
+        }
+      }
+
+    mat-panel-title{
+      .mat-select-arrow-wrapper:after{
+        top:-3px !important;
+      }
+    }
+
+    .filter-container{
+      height: 100%;
+      min-width: 670px;
+      max-width: 670px;
+      .explore-filter-tab-group{
+        &>.mat-tab-body-wrapper{
+          height: 100%;
+        }
+      }
+      .target-filters{
+        .mat-expansion-panel-body{
+          padding: 0px;
+        }
+        .saved-audiences{
+          .saved-audience-header{
+            mat-form-field{
+              width: 100%;
+            }
+          }
+          .saved-audience-expansion {
+            min-height: calc(100vh - 440px) !important;
+          }
+        }
+        app-audience-browser{
+          .audiences-tab{
+            .audience-selector-body{
+              padding: 0px 20px;
+              max-height: inherit !important;
+              .audience-selection-list {
+                height: calc(100vh - 500px) !important;
+              }
+              &.edit-audience-name{
+                .audience-selection-list {
+                  height: calc(100vh - 557px) !important;
+                }
+              }
+            }
+            .audience-selector-footer{
+              .action-footer{
+                margin: 0px 40px 20px 40px;
+              }
+            }
+          }
+          .mat-tab-body{
+            padding: 0px;
+          }
+          .multi-selection,.single-selection{
+            .audience-selector-footer{
+              position: relative;
+            }
+          }
+          .single-selection-radio-group{
+            height: calc(~"100vh - 479px");
+            overflow: auto;
+            &.is-title-edit{
+              height: calc(~"100vh - 525px");
+            }
+          }
+        }
+      }
+      .mat-expansion-panel{
+        border-radius: 0px !important;
+      }
+    }
+
+
+
+    .assign-market-population{
+      mat-expansion-panel-header{
+        .mat-expansion-panel-header-title{
+          color: #fff;
+          font-size: 20px;
+          font-weight: 300;
+          letter-spacing: .14px;
+          line-height: 25px;
+        }
+      }
+
+
+      imx-market-selector{
+        .markets-section {
+          max-height: calc(100vh - 248px);
+          min-height: calc(100vh - 248px);
+          .radio-group-section{
+            min-height: calc(100vh - 555px);
+          }
+        }
+        .market-search{
+          height: 40px !important;
+          input{
+            border-bottom: none !important;
+          }
+        }
+      }
+    }
+    .population-filters{
+      .population-filters-header{
+        background: var(--primary-bg);
+        color: var(--text-whites);
+        display: flex;
+        place-content: flex-start;
+        align-items: center;
+        height: 65px;
+        padding: 10px 24px;
+        h3{
+          font-size: 20px;
+          color: var(--text-whites);
+          margin: 0;
+        }
+      }
+      .population-filters-body{
+        height: calc(~"100vh - 250px");
+        overflow: auto;
+        padding: 20px 30px;
+        .location-panel{
+          .mat-expansion-panel-header-title{
+            width: 100%;
+          }
+        }
+        .mat-expansion-panel
+        {
+          box-shadow:none;
+          border-bottom: 1px solid #E0E0E0;
+        }
+        & .mat-expansion-panel-body {
+          padding: 0 0px 16px 40px;
+        }
+        .specific-spots-panel{
+          & .mat-expansion-panel-body {
+            padding: 0 0px 16px 15px;
+            .specific-units-section>div:first-child{
+              padding-left: 25px;
+            }
+          }
+        }
+        .mat-expansion-panel-header,.mat-expansion-panel-header:hover
+        {
+          padding-left:10px;
+          padding-right:10px;
+          .mat-expansion-panel-header-title
+          {
+            font-size: 14px;
+            width: 100%;
+            align-items: center;
+            .mat-icon
+            {
+              width: 20px;
+              height: 20px;
+              font-size: 20px;
+              color:var(--dropdown-arrow-color);
+              margin-right: 10px;
+            }
+          }
+          .mat-expansion-panel-header-description
+          {
+            margin-right:0px;
+          }
+          &.mat-expanded
+          {
+            .mat-expansion-panel-header-title
+            {
+              .mat-icon
+              {
+                -webkit-transform: rotate(90deg);
+                -moz-transform: rotate(90deg);
+                -o-transform: rotate(90deg);
+                transform: rotate(90deg);
+                -webkit-transition-duration: 0.5s;
+                -moz-transition-duration: 0.5s;
+                -o-transition-duration: 0.5s;
+                transition-duration: 0.5s;
+              }
+            }
+
+          }
+          .mat-expansion-indicator::after
+          {
+            font-size:  14px;
+          }
+        }
+        & .location-panel{
+          & .mat-expansion-panel-body {
+            width:97%;
+            & .mat-expansion-content {
+              & .mat-expansion-panel-header{
+                padding: 0px 5px 0px 0px !important;
+              }
+              & .mat-expansion-panel-body{
+                color: var(--medium-emphasis);
+                padding: 0px !important
+              }
+              & mat-panel-title{
+                color: var(--black-color) !important;
+              }
+            }
+          }
+          & .action-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding: 0 0px;
+            & > button {
+              height: 28px;
+              min-width: 55px;
+              font-size: 10px;
+              font-weight: bold;
+              letter-spacing: 0.83px;
+              line-height: normal;
+              border-radius: 4px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              &.btn-primary-color {
+                background: var(--button-bg-color);
+                color: #ffffff;
+                margin-left: 8px;
+              }
+              &.btn-clear {
+                background-color: var(--grays-bg-200);
+              }
+            }
+          }
+          & mat-form-field {
+            line-height: 28px !important;
+            &.radius-miles{
+              width: 100px;
+            }
+            & .mat-form-field-label {
+              color: var(--medium-emphasis);
+              font-size: 11px;
+              font-weight: 300;
+              letter-spacing: 0.12px;
+              line-height: 24px;
+            }
+
+            & .mat-form-field-infix{
+              border-top: none !important;
+              input{
+                border-bottom: none !important;
+              }
+            }
+          }
+          .mat-form-field.mat-focused .mat-form-field-label{
+            color: var(--primary-bg);
+          }
+          .geo-sets-container{
+            .search-field{
+              line-height: inherit !important;
+            }
+          }
+          & .location-geography-group
+          {
+            width:  100% !important;
+            max-width: 100% !important;
+            margin-bottom: 0px;
+            font-size: 13px;
+            height: 150px;
+            overflow: auto;
+            mat-list{
+              padding: 0px !important;
+              max-width: 100% !important;
+              mat-list-item {
+                cursor: pointer;
+                height: 30px !important;
+                margin-right: 5px;
+                border-bottom: none;
+                font-size: 14px;
+                font-weight: 300px;
+                padding-left: 10px !important;
+                color: var(--medium-emphasis);
+              }
+              mat-list-item.highlight-active, mat-list-item.highlight-active:hover{
+                background-color: var(--primary-bg);
+                color:var(--text-whites);
+              }
+              & mat-list-item:hover {
+                box-shadow: none;
+                color: var(--medium-emphasis);
+                background-color: var(--dropdown-hover-bg);
+              }
+            }
+            p{
+              margin-bottom: 0px;
+              font-weight: 700;
+            }
+          }
+        }
+        .mat-accent .mat-pseudo-checkbox-checked, .mat-accent .mat-pseudo-checkbox-indeterminate, .mat-pseudo-checkbox-checked, .mat-pseudo-checkbox-indeterminate {
+          background: var(--button-bg-color) !important;
+        }
+      }
+
+      .population-filters-footer
+      {
+        background-color: var(--grays-bg-100);
+        height: 70px;
+        padding:0 15px;
+        button {
+          font-weight: bold;
+        }
+      }
+      .radius_img{
+        width: 20px;
+        position: relative;
+        top: -2px;
+        margin-right: 5px;
+      }
+      .draw-polygon{
+        mat-icon{
+          font-size: 20px;
+          width: 20px;
+          height: 20px;
+          margin-right: 10px;
+        }
+      }
+    }
+    .population-filters-tab{
+      .mat-tab-body-content{
+        overflow: hidden !important;
+      }
+    }
+      mat-tab-body{
+        &>div.mat-tab-body-content{
+          overflow: hidden !important;
+        }
+      }
+
+    .layers-filter-body{
+      mat-tab-body{
+        &>div.mat-tab-body-content{
+          overflow-y: auto !important;
+        }
+      }
+    }
+
+    .explore-location-places-list {
+      max-height: 150px;
+      overflow: auto;
+    }
+
+
+    .mat-list-option {
+      height: 30px !important;
+      color: var(--medium-emphasis) !important;
+      font-size: 13px !important;
+      font-weight: 300;
+      letter-spacing: 0.17px;
+      line-height: 19px;
+      .mat-list-icon{
+        font-size: 18px !important;
+        line-height: 18px;
+        height: 18px !important;
+        padding: 5px 0px !important;
+        color: var(--medium-emphasis) !important;
+      }
+    }
+  }
+  imx-market-selector{
+    .markets-section{
+      .market-type-section{
+        .market-selection{
+          max-width: 100% !important;
+          place-content: flex-start !important;;
+        }
+      }
+      .radio-group-section {
+        max-height: calc(100vh - 443px);
+        min-height: calc(100vh - 443px);
+      }
+      &.no-audience{
+        .radio-group-section {
+          max-height: calc(100vh - 443px);
+          min-height: calc(100vh - 443px);
+        }
+      }
+    }
+  }
+  .mat-expansion-panel:first-of-type {
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+  }
+  .explore-filter-btn {
+    &.active {
+      background: var(--primary-bg-600);
+      color: var(--text-whites);
+    }
+  }
+
+  .filter-container {
+    margin-left: 40px;
+    .select-audience-panel {
+      background: var(--primary-bg-600) !important;
+      .mat-expansion-indicator::after {
+        color: var(--white-color);
+      }
+    }
+    & .filter-header {
+      color: var(--text-whites);
+      & h3 {
+        color: var(--text-whites);
+        font-size: 20px;
+        font-weight: 300;
+        letter-spacing: .14px;
+        line-height: 25px;
+      }
+    }
+
+    & p {
+      margin-bottom: unset;
+    }
+
+    .geography-type {
+      & > p {
+        font-weight: bold;
+      }
+      & .mat-select-value {
+        color: var(--text-whites) !important;
+        font-weight: bold;
+      }
+    }
+  }
+  app-population-filters {
+    .explore-filter-tab-group {
+      & > mat-tab-header{
+        display: none !important;
+      }
+    }
+   /* app-audience-browser{
+      .mat-tab-body-wrapper{
+        .mat-tab-body{
+          height: 100% !important;
+          padding: 0;
+        }
+      }
+      .audiences-tab {
+        padding: 0px 10px;
+        .audience-selector-body{
+          max-height: 521px !important;
+          padding: 0 !important;
+        }
+      }
+    }*/
+  }
+  .population-geographies-autocomplete{
+    .mat-option {
+      line-height: 30px !important;
+      height: 30px !important;
+    }
+  }
+}
+
+.place-loader>mat-spinner {
+  margin: 10px auto;
+}

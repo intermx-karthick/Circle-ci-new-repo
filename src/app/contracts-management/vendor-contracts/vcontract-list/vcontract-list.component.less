@@ -1,0 +1,204 @@
+@import "/src/assets/mixins/mixin-sticky-column-left-fix";
+.vcontractlist-body{
+  margin-top: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.noDataFound{
+  width: 100%;
+  background: #fff;
+  margin:.25rem 0px;
+  text-align: center;
+  height: auto !important;
+  min-height: auto !important;
+  p{
+    font-size: 1.75rem;
+    line-height: 2.313rem;
+    font-weight:400;
+    text-align: left;
+    color: var(--grays-bg-800);
+    text-align: center;
+  }
+  img{
+    height:13.5rem;
+  }
+}
+.vcontractlist-pagination{
+  background: #fff;
+  position: relative;
+  min-height: 48px;
+  max-height: 48px;
+  border-top: 1px solid;
+  &.no-top-border{
+    border:none;
+  }
+  border-color: var(--grays-bg-400);
+  .spiner-div{
+  position: absolute;
+  align-items: center;
+  display: flex;
+  place-content: center;
+  width: 100%;
+  top: 12px;
+  }
+}
+::ng-deep{
+  .vendorContract-list-dialog-fullscreen {
+    max-width: 90vw !important;
+    .mat-dialog-container {
+      padding: 0px;
+      overflow: hidden;
+    }
+    .vendor-list-main {
+      padding-right: 0px;
+    }
+    .vcontractlist-table-parent {
+      width: auto;
+      min-width: 100%;
+      min-height: calc(80vh - 56px) !important;
+      max-height: calc(80vh - 56px) !important;
+    }
+    .vcontractlist-body {
+      margin-top: 0px !important;
+    }
+    .full-screen-exit-icon{
+      padding: 3px;
+      border-radius: 4px;
+      path, line {
+        stroke: var(--white-color);
+      }
+      background-color: var(--primary-bg);
+    }
+    .noDataFound{
+      min-height: calc(80vh - 160px) !important;
+      img{
+        height:100% !important;
+      }
+    }
+  }
+  app-vcontract-list{
+    .mat-sort-header-sorted .mat-sort-header-arrow {
+      opacity: 1 !important;
+      transform: translateY(0%) !important;
+    }
+
+    .vcontractlist-table-parent{
+      width:calc(100vw - 260px);
+      overflow:auto;
+      height: 25rem;
+      max-height: 25rem !important;
+      background: #ffffff;
+    }
+    .search-btn{
+      Width : 96px;
+      Height : 34px;
+      margin-left:15px;
+      line-height:34px;
+    }
+
+    .imx-input-no-border{
+      height:auto;
+      border: none;
+    }
+    .mat-paginator {
+      .mat-paginator-container{
+        height: 48px;
+        min-height: 48px;
+        max-height: 48px;
+      }
+      .mat-paginator-page-size{
+        max-height: 48px;
+        align-items: center;
+      }
+      .mat-paginator-range-actions {
+        min-height: 48px;
+        max-height: 48px;
+      }
+      .mat-paginator-page-size-select {
+        .mat-form-field-underline {
+          display: none;
+        }
+        .mat-form-field-infix {
+          border: 1px solid var(--grays-bg-600);
+          border-radius: 5px;
+          padding: 5px;
+          margin-top: 10px;
+        }
+      }
+      .mat-paginator-range-actions{
+        .mat-paginator-range-label{
+          display: none;
+        }
+      }
+    }
+    .mat-table{
+      min-width: fit-content; // Added min-width based on figma
+      mat-row{
+        border: none;
+        mat-cell{
+          word-break: break-all;
+          word-break: break-word;
+          &.mat-table-sticky{
+            z-index: 0 !important;
+          }
+        }
+      }
+      &.enable-table-scroll-first{
+        &:not(.level-two-sticky){
+          .mat-header-cell:nth-child(1), .mat-cell:nth-child(1){
+            filter: drop-shadow(16px 0px 16px rgba(117, 117, 117, 0.08)) !important;
+          }
+        }
+        &.level-two-sticky{
+          .mat-header-cell:nth-child(1), .mat-cell:nth-child(1){
+            filter: drop-shadow(16px 0px 16px rgba(117, 117, 117, 0.08)) !important;
+          }
+        }
+      }
+      mat-cell, mat-header-cell {
+        .mixin-sticky-column-left-fix(144px);
+      }
+      .mat-column-signed{
+        justify-content: center !important;
+      }
+    }
+    width: 100%;
+    .svg-primary{
+      path, line {
+        stroke: var(--primary-bg);
+      }
+    }
+    mat-header-row{
+      z-index: 1 !important;
+    }
+    .vcontractlist-header-action{
+      width:100%;
+      background: #ffffff;
+      padding: 0.5rem 1rem;
+      mat-icon{
+        color:var(--primary-bg);
+        cursor: pointer;
+        &.tune-icon{
+          transform: rotate(90deg);
+        }
+      }
+      .total-record{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 18px;
+        color: var(--grays-bg-700);
+      }
+    }
+
+    .vcontract_disable_link {
+      cursor: default !important;
+    }
+
+    .signed-img{
+      cursor: pointer;
+    }
+    .imx-signed{
+      color: var(--primary-bg);
+    }
+  }
+}

@@ -1,0 +1,239 @@
+<div fxLayout="column" class="mobile-hide explore-tabular-block" *ngIf="allowInventory !== 'hidden'" [ngClass]="{'inventoryView':mapViewPostionState === 'inventoryView','mapView':mapViewPostionState === 'mapView','tabularView':mapViewPostionState === 'tabularView','topZipMarketView':(mapViewPostionState === 'secondaryMapView')}">
+  <div fxLayout="row wrap" class="explore-tabular-toggle-button closed" *ngIf="tabularView < 2 && (allowInventory !== 'hidden')" >
+    <div  class="mapboxgl-ctrl mapboxgl-ctrl-group" title="EXPAND TABLE" [ngClass]="{ 'module-disable':allowInventory === 'disabled'}">
+      <button (click)="enlargeTable();">
+        <i class="material-icons">keyboard_arrow_up</i>
+      </button>
+    </div>
+  </div>
+  <div fxLayout="row wrap" class="explore-tabular-list-block" mwlResizable [enableGhostResize]="true" (resizeEnd)="onResizeEnd($event)"
+    [ngStyle]="style" (resizing)="onResizing($event)" (window:resize)="onResize($event)" #tabularHeight fxLayoutAlign="start start">
+    <div mwlResizeHandle [resizeEdges]="{bottom: false, right: false, top: true, left: false}" class="explore-tabular-border">
+      <i class="material-icons">drag_handle</i>
+    </div>
+    <div class="explore-tabular-toggle-close-button" *ngIf="tabularView > 0">
+      <div class="mapboxgl-ctrl mapboxgl-ctrl-group" title="COLLAPSE TABLE">
+        <button (click)="shrinkTable();">
+          <i class="material-icons">keyboard_arrow_down</i>
+        </button>
+      </div>
+    </div>
+    <div class="explore-tabular-header" fxLayout="column" fxFlex="100%">
+      <div class="explore-tabular-action" *ngIf="formattedPlaces && formattedPlaces.length > 0" fxLayout="row wrap" fxLayoutAlign="space-between center" >
+				<div fxFlexAlign="start" fxLayout="row">
+					<div class="explore-tabular-title">
+						<h4>Spot List</h4>
+						<div class="list-pagecount subtitle-1">
+              {{selectedInventoryCount + ' selected of '}}{{totalInventoryCount | convert:'THOUSAND' }}{{' Spots in filter'}}
+            </div>
+					</div>
+					<div class="action-div">
+						<div fxLayout="column">
+							<span class="overlay-caption">SELECT</span>
+							<button mat-button [matMenuTriggerFor]="select_menu" class="sort-button" title="{{defaultSelectQuery}}">
+								{{ defaultSelectQuery | truncate:'middle':6:6}}
+								<span fxFlex="1 1 auto"></span>
+								<mat-icon>keyboard_arrow_down</mat-icon>
+							</button>
+							<mat-menu #select_menu="matMenu" class="tabular-dropdown" xPosition="after" [overlapTrigger]="false">
+								<a mat-menu-item *ngFor="let item of selectOptions" (click)="selectTopList(item)" [ngClass]="{'active' : item === selectQuery}" title="{{item}}">{{item}}</a>
+							</mat-menu>
+						</div>
+					</div>
+					<div class="action-div">
+						<div fxLayout="column">
+							<span class="overlay-caption">SAVE AS</span>
+							<button mat-button [matMenuTriggerFor]="save_menu" class="sort-button" title="{{sortQuery.name}}">
+									Select...
+								<span fxFlex="1 1 auto"></span>
+								<mat-icon>keyboard_arrow_down</mat-icon>
+							</button>
+							<mat-menu #save_menu="matMenu" class="tabular-dropdown" xPosition="after" [overlapTrigger]="false">
+								<a mat-menu-item (click)="openPackage()" *ngIf="inventorySetLicense !== 'hidden'" [ngClass]="{'module-disable': inventorySetLicense==='disabled'}">Save as New Inventory Set</a>
+								<a mat-menu-item (click)="openPackage('exist')" *ngIf="packages && packages.length > 0 && inventorySetLicense !== 'hidden'" [ngClass]="{'module-disable': inventorySetLicense==='disabled'}">Add to Existing Inventory Set</a>
+								<a mat-menu-item (click)="openPackage('edit')" *ngIf="selectedPackage && selectedPackage.name && inventorySetLicense !== 'hidden'" [ngClass]="{'module-disable': inventorySetLicense==='disabled'}">Save Current Inventory Set</a>
+								<a mat-menu-item (click)="openSaveScenario()" *ngIf="!mobileView && isScenarioLicense !== 'hidden'" [ngClass]="{'module-disable': isScenarioLicense==='disabled'}">Save as {{this.workFlowLabels.scenario[0]}}</a>
+								<!-- PDF & CSV download API's are not working properly once the API is fixed we can uncomment these lines -->
+								<a mat-menu-item (click)="exportPDF()" *ngIf="pdfExportLicense !=='hidden'" [ngClass]="{'module-disable': pdfExportLicense ==='disabled'}">Download as PDF</a>
+								<a mat-menu-item (click)="exportCSV()" *ngIf="csvExportLicense !== 'hidden'" [ngClass]="{'module-disable': csvExportLicense ==='disabled'}">Download CSV</a>
+							</mat-menu>
+						</div>
+					</div>
+					<div *ngIf="csvExportLoder" class="export-csv-loader" fxLayout="column" fxLayoutAlign="center center">
+						<mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+					</div>
+					<div class="action-div" *ngIf="measuresLicense === 'active'">
+						<button mat-raised-button class="button-secondary" (click)="customizeColumn()" type="button"	id="customize-column" >
+							Customize Columns
+						</button>
+					</div>
+					
+				</div>
+			</div>
+		</div><!--explore-tabular-header -->
+		<div class="explore-tabular-body" *ngIf="formattedPlaces && formattedPlaces.length > 0 && !discoveringPanel" fxLayout="row" id="tabular-view-div"  [ngClass]="{'conditionalFormattingTable':(conditionalFormatting)}" [ngStyle]="{'height.px':conditionalFormatting?tableHeight:tableHeight+10}" infiniteScroll [infiniteScrollDistance]="2"
+			[infiniteScrollThrottle]="500" [infiniteScrollDisabled]="isLoader" (scrolled)="loadMore()" [scrollWindow]="false">
+			<mat-table [trackBy]="trackByFunction" [dataSource]="dataSource" matSort="{matSortDisableClear: true}"  [matSortActive]="defaultSortQuery['value']" [matSortDirection]="sortOrder" matSortDisableClear [ngStyle]="{'width.px':displaySortables.length*130}">
+				<ng-container *ngFor="let column of currentSortables" [matColumnDef]="column.value" [sticky]="column.value == 'checked'" >
+					<mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortColumn(column)" [disabled]="column.value | canSort">
+						<ng-template [ngIf]="column['name'] == 'CHECKBOX'" >
+							<mat-checkbox [checked]="selectedInventoryCount === totalInventoryCount" (change)="selectAllCheckbox($event)" [indeterminate]="selectedInventoryCount !== totalInventoryCount && selectedInventoryCount > 0" [disableRipple]="true" class="e2e-checked"></mat-checkbox>
+						</ng-template>
+						<ng-template [ngIf]="column['name'] != 'CHECKBOX'" >
+							<span fxLayout="column" fxLayoutAlign="start start"  >
+								<span>{{ column.displayname }}</span>
+							</span>
+						</ng-template>
+					</mat-header-cell>
+					<mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'sort':sortColumnQuery===column['value'] && sortColumnQuery!=='checked'}" class="{{((element.sortedColumns && element.sortedColumns[column['value']] && conditionalFormatting)?element.sortedColumns[column['value']]:'')}}">
+						<ng-template [ngIf]="column['name'] == 'CHECKBOX'">
+							<mat-checkbox [checked]="element.selected" (click)="clickOnRow(element.spot_id,i)" (change)="selectCheckboxToggle(element)" [disableRipple]="true"></mat-checkbox>
+						</ng-template>
+						<ng-template [ngIf]="column['name'] == 'SLNO'">
+						{{i+1}}
+						</ng-template>
+						<ng-template [ngIf]="column['value'] == 'plant_operator'" >
+							<span title="{{element['representations'] | operatorName}}">{{ (element['representations'] | operatorName | uppercase) | truncate: 'middle' : 12: 12 }}</span>
+						</ng-template>
+            <ng-template [ngIf]="column['value'] == 'spot_id'">
+              {{element.spot_id}}
+            </ng-template>
+						<ng-template [ngIf]="column['value'] == 'plant_frame_id'">
+							{{ element.plant_frame_id}}
+						</ng-template>
+            <ng-template [ngIf]="column['value'] == 'frame_id'">
+              {{element.frame_id}}
+            </ng-template>
+						<ng-template [ngIf]="column['value'] == 'media_status_name'">
+							<app-inventory-status-dots [status] = "element['media_status']" [tooltipConfig] = "{'placement': 'top', 'delay': 300 }"></app-inventory-status-dots>
+						</ng-template>
+						<ng-template [ngIf]="column['value'] == 'media_status_description'">
+							<span>{{element['media_status']['name'] | auditStatusLabel}}</span>
+						</ng-template>
+            <ng-template [ngIf]="column['value'] == 'media_type'">
+              <span title="{{element['media_type']['name']}}">{{ element['media_type']['name'] | truncate: 'middle' : 12: 12 }}</span>
+            </ng-template>
+						<ng-template [ngIf]="column['value'] == 'media_name'">
+								<span title="{{element['media_name']}}">{{ element['media_name'] | truncate: 'middle' : 12: 12 }}</span>
+						</ng-template>
+						<ng-template [ngIf]="(column['value'] == 'imp' || column['value'] == 'imp_target' || column['value'] == 'imp_target_inmkt' || column['value'] == 'imp_inmkt'  )" >
+								{{( (element['spot_references'][0]['measures'] && (element['spot_references'][0]['measures'][column['value']] > 0)) ? element['spot_references'][0]['measures'][column['value']]:0) | convert:'THOUSAND' }}
+						</ng-template>
+						<ng-template [ngIf]="(column['value'] == 'trp')" >
+								{{(element['spot_references'][0]['measures']['trp'] > 0 ? (element['spot_references'][0]['measures']['trp'] | convert: 'DECIMAL':2) : 'n/a')}}
+						</ng-template>
+						<ng-template [ngIf]="column['value'] == 'index_comp_target'" >
+							{{(element['spot_references'][0]['measures'] && (element['spot_references'][0]['measures']['index_comp_target'] > 0)) ? (element['spot_references'][0]['measures']['index_comp_target'] | convert:'THOUSAND') : 0 }}
+						</ng-template>
+						<ng-template [ngIf]="column['value'] == 'pct_comp_imp_target' ||
+						  column['value'] == 'pct_imp_target_inmkt' ||
+						  column['value'] == 'pct_comp_imp_target_inmkt' ||
+						  column['value'] == 'pct_imp_inmkt'">
+								{{( (element['spot_references'][0]['measures'] && (element['spot_references'][0]['measures'][column['value']] > 0))
+                  ? ((element['spot_references'][0]['measures'][column['value']]) | convert:'PERCENT' ) + '%'
+                  : 'n/a')}}
+						</ng-template>
+						<ng-template [ngIf]="column['value'] == 'reach_pct'">
+							{{((element['spot_references'][0]['measures'] && (element['spot_references'][0]['measures']['reach_pct'] > 0)) ? ((element['spot_references'][0]['measures']['reach_pct']) | convert:'DECIMAL' ) + '%' : 'n/a')}}
+						</ng-template>
+						<ng-template [ngIf]="column['value'] == 'freq_avg'">
+								{{( ( element['spot_references'][0]['measures'] && (element['spot_references'][0]['measures']['freq_avg'] > 0)) ? (element['spot_references'][0]['measures']['freq_avg'] | convert: 'DECIMAL': 1) : 'n/a')}}
+						</ng-template>
+
+						<ng-template [ngIf]="column['value'] == 'classification_type' || column['value'] == 'construction_type' || column['value'] == 'illumination_type'">
+								{{(element[column['value']]['name'] && element[column['value']]['name'] || '')}}
+						</ng-template>
+
+						<ng-template [ngIf]="column['value'] == 'digital'">
+							{{ element['digital']== true && 'Digital' || 'Printed/Mesh'}}
+						</ng-template>
+
+						<ng-template [ngIf]="column['value'] == 'max_height' || column['value'] == 'max_width'">
+								{{(element[column['value']] && element[column['value']] || '')}}
+						</ng-template>
+            <ng-template [ngIf]="column['value'] == 'orientation'">
+              {{element['geometry']['orientation'] | direction}}
+            </ng-template>
+						<ng-template [ngIf]="column['value'] == 'primary_artery' || column['value'] == 'zip_code'">
+							{{(element['geometry'][column['value']] && element['geometry'][column['value']]  || '')}}
+						</ng-template>
+
+						<ng-template [ngIf]="column['value'] == 'longitude' || column['value'] == 'latitude'" *ngIf="measuresLicense !== 'active'">
+							{{(element['geometry'][column['value']] && (element['geometry'][column['value']] |convert:'DECIMAL':3) || '')}}
+						</ng-template>
+
+						<ng-template [ngIf]="column['value'] == 'longitude' || column['value'] == 'latitude'" *ngIf="measuresLicense == 'active'">
+							{{(element['geometry'][column['value']] && element['geometry'][column['value']] || '')}}
+						</ng-template>
+
+						<ng-template [ngIf]="column['value'] == 'market_name'">
+							{{ selectedMarketsFormat['market_name'] !== "" ? selectedMarketsFormat['market_name'] : 'United States' }}
+						</ng-template>
+
+						<ng-template [ngIf]="column['value'] == 'market_type'">
+							{{ selectedMarketsFormat['market_type'] !=="" ? selectedMarketsFormat['market_type'] : 'National' }}
+						</ng-template>
+
+						<ng-template [ngIf]="column['value'] == 'market_pop'">
+							{{( element['spot_references'][0]['measures']['pop_inmkt'] > 0? element['spot_references'][0]['measures']['pop_inmkt']:0) | convert:'THOUSAND' }}
+						</ng-template>
+
+						<ng-template [ngIf]="column['value'] == 'scheduled_weeks'">
+							{{ (selectedPeriodDays / 7 ) }}
+						</ng-template>
+
+						<ng-template [ngIf]="column['value'] == 'target_aud'">
+							{{ this.selectTarget }}
+						</ng-template>
+
+						<ng-template [ngIf]="column['value'] == 'target_aud_pop'">
+							{{( (element['spot_references'][0]['measures'] && (element['spot_references'][0]['measures']['pop_target_inmkt'] > 0)) ? element['spot_references'][0]['measures']['pop_target_inmkt']:0) | convert:'THOUSAND' }}
+						</ng-template>
+
+						<ng-template [ngIf]="column['value'] == 'out_market_imp'">
+							{{(( element['spot_references'][0]['measures'] && (element['spot_references'][0]['measures']['out_market_imp'] > 0)) ? element['spot_references'][0]['measures']['out_market_imp'] : 0) | convert:'THOUSAND' }}
+						</ng-template>
+
+						<ng-template [ngIf]="column['value'] == 'per_out_market_imp'">
+							{{((element['spot_references'][0]['measures'] && (element['spot_references'][0]['measures']['per_out_market_imp'] > 0)) ? element['spot_references'][0]['measures']['per_out_market_imp'] : 0) + '%' }}
+						</ng-template>
+<!--            TODO : Need to check if Market name is correct here-->
+						<ng-template [ngIf]="column['value'] == 'dma_name'">
+							{{element['location']['dma_id'] | DMANameFromID | async}}
+						</ng-template>
+						<ng-template [ngIf]="column['value'] == 'cbsa_name'">
+							<span title="{{element['location']['cbsa_name']}}">{{element['location']['cbsa_name'] | truncate: 'middle':16}}</span> 
+						</ng-template>
+						<ng-template [ngIf]="column['value'] == 'county_name'">
+							{{element['location']['county_name']}}
+            </ng-template>
+
+						<ng-template [ngIf]="column['value'] == 'reach_net'">
+							{{ element['spot_references'][0]['measures'] && element['spot_references'][0]['measures']['reach_net'] | convert:'THOUSAND' || 'N/A' }}
+						</ng-template>
+						<ng-template [ngIf]="column['value'] == 'place_name'">
+							{{ element['place_name'] || 'N/A' }}
+						</ng-template>
+						<ng-template [ngIf]="column['value'] == 'placement_type'">
+							{{ element['placement_type'] || 'N/A' }}
+						</ng-template>
+						<ng-template [ngIf]="column['value'] == 'place_type'">
+							{{ element['place_type']|| 'N/A' }}
+						</ng-template>
+					</mat-cell>
+				</ng-container>
+				<mat-header-row *matHeaderRowDef="displaySortables; sticky: true"></mat-header-row>
+				<mat-row *matRowDef="let row; columns: displaySortables;"></mat-row>
+			</mat-table>
+      <div *ngIf="isLoader" style="margin-top: 10px;" fxLayout="row" fxLayoutAlign="center center">
+        <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+      </div>
+		</div><!--explore-tabular-body -->
+		<div class="explore-tabular-body"  *ngIf="discoveringPanel && !disableInventoryList">
+			<h4 class="well no-data-info">Discovering Spots....</h4>
+		</div>
+		<div class="explore-tabular-body"  *ngIf="disableInventoryList">
+			<h4 class="well no-data-info">Filter more to see spots.</h4>
+		</div>
+  </div> <!-- explore-tabular-list-block -->
+</div> <!-- explore-tabular-block -->

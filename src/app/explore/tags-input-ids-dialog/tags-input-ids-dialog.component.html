@@ -1,0 +1,31 @@
+<div class="mat-dialog-container-for-valid-invalid-ids">
+
+    <h1 mat-dialog-title>{{dialogData.title}}</h1>
+    <div mat-dialog-content>
+      <p [hidden]="dialogData.ids.length != 0">No IDs Found!!!</p>
+      <div [hidden]="dialogData.ids.length == 0">
+          <table mat-table [dataSource]="tableDataSource" matSort class="mat-elevation-z8" matSortActive="ids" matSortDirection="asc" matSortDisableClear>
+        
+            <!-- valid and Invalid IDs -->
+            <ng-container matColumnDef="ids">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> ID #</th>
+              <td mat-cell *matCellDef="let element"> {{element.ids}} </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+      </div>
+      
+    </div>
+    
+    <div mat-dialog-actions class="dialog-box-action-btn">
+      <button mat-button type="button" [disabled]="dialogData.ids.length == 0" (click)="copyAllIds()"
+      [ngClass]="(copiedStatus) ? '' : 'copied-color-btn'">
+        <mat-icon>{{(copiedStatus) ? 'done' : 'file_copy'}}</mat-icon>
+        {{(copiedStatus) ? 'Copied' : 'Copy All'}}</button>
+      <button mat-button type="button" (click)="closeDialog()">
+          <mat-icon>close</mat-icon> Close</button>
+    </div>
+
+</div>

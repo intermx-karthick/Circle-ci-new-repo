@@ -1,0 +1,172 @@
+//** CreateInventoryComponent:
+// == Designed for
+//## Header
+//## Tabs
+//## MatDialog
+//## Footer
+//## Children form components
+//== Style Overrides for
+//## MatFormField
+//## MatTabs
+//## MatIcons
+//> code style: BEM
+::ng-deep {
+
+  .inventory-form {
+
+    &__title {
+      color: var(--high-emphasis);
+    }
+
+    &__form {
+      width: 80%;
+    }
+
+    &-nav {
+      margin: 8px 0 26px 0;
+      display: flex;
+      align-items: center;
+      place-content: center center;
+
+      &__item {
+        display: flex;
+        align-items: center;
+        place-content: center center;
+        cursor: pointer;
+
+        & > h6 {
+          color: var(--medium-emphasis);
+          font-weight: normal;
+        }
+      }
+
+      &__item &__item_icon {
+        display: flex;
+        align-items: center;
+        place-content: center center;
+        margin-right: 8px;
+      }
+    }
+
+    &__field {
+      .mat-form-field {
+        width: 100%;
+        max-width: 100%;
+
+        .mat-icon {
+          color: var(--medium-emphasis) !important;
+        }
+
+        .spinner {
+          margin: 0 4px;
+        }
+      }
+    }
+
+    &__list-header {
+      margin-top: 16px;
+    }
+
+    &-actions {
+      bottom: 24px !important;
+      // position: absolute !important;
+      right: 24px;
+      left: 0;
+      padding: 24px 0;
+
+      &__submit {
+        background-color: var(--primary-bg);
+        color: #ffffff;
+      }
+
+      &__back {
+        background-color: #FAFAFA;
+        color: rgba(117, 117, 117, 1);
+      }
+
+      &__hint {
+        // margin-left: 24px;
+        font-size: 10px;
+      }
+
+      &__hint > * {
+        margin: 0 2px;
+      }
+    }
+
+    &--active {
+      & > div {
+        background-color: var(--primary-bg) !important;
+        color: #ffffff !important;
+      }
+
+      & > h6{
+        color: var(--text-primary);
+      }
+    }
+
+    input {
+      border-bottom: initial !important;
+      height: initial !important;
+    }
+
+    .mat-tab-header {
+      display: none !important;
+    }
+
+    .mat-hint {
+      margin-top: 6px !important;
+      font-size: 10px;
+    }
+
+    .media-class {
+      overflow-y: hidden;
+      overflow-x: hidden;
+    }
+
+  }
+
+  .create-inventory .mat-dialog-container {
+    position: relative !important;
+  }
+  .inventory-form-actions__hint{
+    color: var(--text-primary);
+  }
+  app-create-inventory {
+    mat-form-field:not(.mat-form-field-invalid){
+      .mat-form-field-required-marker{
+        color: var(--text-primary) !important;
+      }
+    }
+    .mat-icon-close{
+      color: var(--text-primary) !important ;
+    }
+    .mat-tab-body-content{
+      min-height: 250px;
+      max-height: 250px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .mat-dialog-content{
+      min-height: 260px;
+    }
+  }
+
+  .cdk-overlay-pane {
+    &.create-inventory{
+      height: auto !important;
+    }
+  }
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.round {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: grey;
+  color: white;
+}

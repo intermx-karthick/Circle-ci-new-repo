@@ -1,0 +1,120 @@
+@import "../../../../assets/css/variables.less";
+::ng-deep {
+  app-bar-chart-with-colors {
+    .basic-bar-chart 
+    {
+      rect {
+        // fill: var(--primary-bg);
+        fill-opacity: 0.6;
+        cursor: pointer;
+      }  
+      rect.supportBar {
+        fill: transparent;
+      } 
+      rect.active {
+        fill-opacity: 1;
+      }
+    }
+    // input[type=checkbox] {
+    //   opacity: 1 !important;
+    //   width: 15px !important;
+    //   height: 15px !important;
+    // }
+    .graph-select-all-div {
+      // margin-top: 5px;
+      label:after{
+        top:5px !important;
+      }
+    }
+    .graph-check-box {
+      display: flex;
+      // margin-top: 10px;
+      font-size: 12px;
+      span{
+        line-height: 15px;
+        &:nth-child(2){
+          color: var(--medium-emphasis);
+        }
+      }
+      b {
+        text-transform: capitalize;
+      }
+      input {
+        margin-right: 2px !important;
+      }
+    }
+
+    .top-line,.avg-line{
+      text{
+        opacity: 0.47;
+        font-size: 12px;
+      }
+      .tick{
+        display: none;
+      }
+      path{
+        opacity: 0.27;
+      }
+    }
+    .avg-line{
+      .domain{
+        stroke-dasharray: 7, 3;
+      }
+    }
+    .x-line{
+      path{
+        opacity: 0.27;
+      }
+    }
+    input[type=checkbox] + label {
+      position: static !important;
+      z-index: 0;
+      &:before{
+        position: fixed;
+      }
+      &:after{
+        position: fixed;
+      }
+    }
+    input[type=checkbox].intermediate + label:after {
+      -webkit-transform: rotateZ(90deg) !important;
+      transform: rotateZ(90deg) !important;
+      left: 3px !important;
+      width: 0px !important;
+      height: 5px !important;
+    }
+
+  }
+
+  .d3-tip {
+    z-index: 1000;
+    line-height: 18px;
+    font-weight: bold;
+    padding: 12px;
+    background-color: rgba(0,0,0,0.6);
+    color: var(--white-color);
+    border-radius: 2px;
+    text-transform: capitalize;
+    text-align: center;
+  }
+  
+  /* Creates a small triangle extender for the tooltip */
+  // .d3-tip:after {
+  //   box-sizing: border-box;
+  //   display: inline;
+  //   font-size: 10px;
+  //   line-height: 1;
+  //   width: 100%;
+  //   background-color: rgba(0,0,0,0.6);
+  //   content: "\25BC";
+  //   position: absolute;
+  //   text-align: center;
+  // }
+  
+  // /* Style northward tooltips differently */
+  // .d3-tip.n:after {
+  //   margin: -1px 0 0 0;
+  //   top: 100%;
+  //   left: 0;
+  // }
+}

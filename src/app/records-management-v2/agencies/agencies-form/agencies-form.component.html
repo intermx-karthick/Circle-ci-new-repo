@@ -1,0 +1,495 @@
+<div fxLayout="column" fxLayoutAlign="start start">
+<form autocomplete="off" class="width-100p" [formGroup]="agencyForm" #agencyFormRef="ngForm">
+  <section fxLayout="row wrap" fxLayoutGap="1rem" class="width-100p">
+    <div class="agency-form__field" fxFlex="18.625rem">
+        <mat-form-field fxFlex="100" class="imx-input spacemargin-2">
+          <mat-label>Agency Name</mat-label>
+          <input matInput autocomplete="off" formControlName="name" required>
+          <mat-error *ngIf="agencyForm.controls['name']?.errors?.required">Agency name is required.</mat-error>
+          <mat-error *ngIf="agencyForm.controls['name']?.errors?.maxlength">Agency name can be max 64 characters long.</mat-error>
+          <mat-error *ngIf="!agencyForm.controls['name']?.errors?.required && agencyForm.controls['name']?.errors?.whitespace">
+            <span>Please enter a valid Agency name.</span>
+          </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="agency-form__field">
+    <mat-form-field class="imx-input imx-dropdown agency-form__select" fxFlex="7.375rem" tooltip="{{agencyTypeTooltipText}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+      <mat-label>Agency Type</mat-label>
+      <mat-select #agencyTypeRef formControlName="type" required [panelClass]="'imx-select'" [ngStyle]="{'max-height.px': 250}" (selectionChange)="getAgencyTypeText()" multiple>
+        <mat-option *ngFor="let agencyType of agencyTypes" [value]="agencyType._id">
+          {{agencyType.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="agencyForm.controls['type']?.errors?.required">Agency Type is required.</mat-error>
+    </mat-form-field>
+
+    </div>
+
+    <div class="agency-form__select">
+      <mat-form-field fxFlex="24" class="vendor-group-input imx-input parent-vendor details-mat-form-field spacemargin-2" fxFlex="7.375rem" tooltip="{{agencyForm['controls'].parentAgency.value?.name ?.length>10 ? agencyForm['controls'].parentAgency.value?.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+        <input type="text" #aGroupInputRef matInput formControlName="parentAgency"
+               (click)="companyAutoCompleteTrigger.openPanel()"
+               [matAutocomplete]="agencyGroupAuto" class="parent-agency-input">
+        <mat-icon svgIcon='IMX-new-tab-link' class="svg-primary mat-link-icon"
+                  [class.disabled]="!agencyForm.controls.parentAgency.value?._id"
+                  (click)="$event.stopPropagation();tabLinkHandler('Agency')" matSuffix></mat-icon>
+        <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+        <mat-autocomplete #agencyGroupAuto="matAutocomplete"
+                          [displayWith]="displayWithFn"
+                          (opened)="updateContainer()"
+                          [panelWidth]="'160'"
+                          class="autocomplete-scroll imx-autocomplete-dropdown"
+                          >
+                          <div class="vendor-group-autocomplete"
+                          infiniteScroll
+                          [infiniteScrollDistance]="1"
+                          [infiniteScrollThrottle]="0"
+                          (scrolled)="loadMoreAgencies()"
+                          [scrollWindow]="false"
+                          [infiniteScrollContainer]="panelContainer"
+                          [fromRoot]="true"
+                          [immediateCheck]="false"
+                          [alwaysCallback]="false"
+                          >
+                            <mat-option [value]="null" class="hide-selected-tick">Select Parent Agency</mat-option>
+                            <mat-option *ngFor="let vGroup of parentAgencies;trackBy: agencyTrackByFn" [value]="vGroup" [class.mat-selected]="agencyForm['controls'].parentAgency.value?._id == vGroup?._id" tooltip="{{vGroup.name?.length >10 ? vGroup.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+                              <span [innerHTML]="(vGroup.name)| imx_highlight: aGroupInputRef.value"></span>
+                            </mat-option>
+
+                            <mat-option disabled *ngIf="isParentAgenciesLoading">
+                              <div fxLayout="row" fxLayoutAlign="space-around center" >
+                                <mat-spinner diameter="20"></mat-spinner>
+                              </div>
+                            </mat-option>
+
+                            <mat-option disabled *ngIf="!isParentAgenciesLoading  && parentAgencies?.length <= 0 && aGroupInputRef.value">
+                              Invalid Entry.
+                            </mat-option>
+
+                            <mat-option disabled *ngIf="!isParentAgenciesLoading && parentAgencies?.length <= 0 && !aGroupInputRef.value">
+                              No Records Found.
+                            </mat-option>
+                          </div>
+        </mat-autocomplete>
+
+        <mat-label *ngIf="isParentAgenciesLoading; else agencyLabelRef">
+          <div fxLayout fxLayoutAlign="space-between start">
+            <span fxFlex="90">Loading...</span>
+            <mat-spinner class="spinner" diameter="20"></mat-spinner>
+          </div>
+        </mat-label>
+
+        <ng-template #agencyLabelRef>
+          <mat-label>Parent Agency</mat-label>
+        </ng-template>
+
+        <mat-error class="small-font" *ngIf="agencyForm['controls'].parentAgency.hasError('invalid')">
+          Please select from the drop down list.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- <mat-form-field class="imx-input imx-dropdown agency-form__select" fxFlex="7rem">
+      <mat-label>Parent Agency</mat-label>
+        <mat-select formControlName="parentAgency" [panelClass]="'imx-select'" [ngStyle]="{'max-height.px': 250}"
+                      infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                      (scrolled)="loadMoreAgencies()" [scrollWindow]="false">
+          <ng-container *ngFor="let parentAgency of parentAgencies" >
+            <mat-option *ngIf="type === 'add' || agencyDetails['_id'] !== parentAgency['_id']" [value]="parentAgency['_id']" >
+              {{parentAgency.name}}
+            </mat-option>
+          </ng-container>
+
+
+          <div *ngIf="isDiversityOwnershipsLoadingOne" class="create-vendor">
+            <mat-spinner [strokeWidth]="2" [diameter]="20"></mat-spinner>
+          </div>
+        </mat-select>
+      </mat-form-field> -->
+    </div>
+
+    <div class="agency-form__field" fxFlex="20" fxLayoutAlign="start center">
+        <mat-checkbox formControlName="isParent" class="imx-checkbok circle-flag-main" disableRipple> is<span class="circle-flag">P</span>arent</mat-checkbox>
+    </div>
+
+  </section>
+
+  <section fxLayout="row wrap" fxLayoutGap="1rem" class="width-100p">
+    <div class="agency-form__field">
+      <mat-form-field  class="imx-input imx-dropdown" fxFlex="7.375rem" tooltip="{{divisionTooltipText}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+        <mat-label>Division</mat-label>
+        <mat-select formControlName="division" [panelClass]="'imx-select'" [class.placeholder-default]="agencyForm['controls'].division.value==''" #divisionRef (selectionChange)="getDivisiontext()">
+          <mat-option [value]="null">Select Division</mat-option>
+          <mat-option *ngFor="let division of divisions" [value]="division?._id">{{division.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      </div>
+
+      <div class="agency-form__field" >
+        <mat-form-field  class="imx-input imx-dropdown" fxFlex="10.25rem">
+          <mat-label>Office</mat-label>
+          <mat-select formControlName="office" [panelClass]="'imx-select'" [class.placeholder-default]="agencyForm['controls'].office.value==''">
+            <mat-option [value]="null">Select Office</mat-option>
+            <mat-option *ngFor="let office of offices" [value]="office?._id">{{office.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="agency-form__field">
+        <mat-form-field class="imx-dropdown error-field-width imx-input error-msg__expander" fxFlex="10rem" tooltip="{{agencyForm['controls'].managedBy.value?.name ?.length>10 ? agencyForm['controls'].managedBy.value?.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          <mat-label>Managed By</mat-label>
+          <input
+            type="text"
+            #managerInputRef
+            matInput
+            (click)="managerAutoCompleteTrigger.openPanel()"
+            [matAutocomplete]="usersList"
+            formControlName="managedBy"
+            class="imx-input-no-border"
+          />
+          <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+          <mat-autocomplete
+            #usersList="matAutocomplete"
+            (opened)="updateMangedByContainer()"
+            class="autocomplete-scroll imx-autocomplete-dropdown"
+            [displayWith]="managedByUserDisplayWithFn"
+            [panelWidth]="'10rem'"
+          >
+            <div class="users-list-autocomplete"
+            infiniteScroll
+            [infiniteScrollDistance]="1"
+            [infiniteScrollThrottle]="0"
+            [infiniteScrollDisabled]="managedByAutoComplete.data?.length >= managedByAutoComplete.pagination?.found"
+            (scrolled)="loadMoreManagementUsers()"
+            [scrollWindow]="false"
+            [infiniteScrollContainer]="managedBypanelContainer"
+            [fromRoot]="true"
+            [immediateCheck]="false"
+            [alwaysCallback]="false"
+            >
+            <mat-option [value]="null" class="hide-selected-tick">Select Managed By</mat-option>
+            <mat-option
+              *ngFor="
+                let user of managedByAutoComplete.data;
+                trackBy: managedByUserTrackByFn
+              "
+              [value]="user"
+              [class.mat-selected]="agencyForm['controls'].managedBy.value?.id == user?.id"
+              tooltip="{{user.name?.length >10 ? user.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+            >
+              <span
+                [innerHTML]="
+                  user.name | imx_highlight: managerInputRef.value
+                "
+              ></span>
+            </mat-option>
+            <mat-option disabled *ngIf="managedByAutoComplete.isLoading">
+              <div fxLayout="row" fxLayoutAlign="space-around center" >
+                <mat-spinner diameter="20"></mat-spinner>
+              </div>
+            </mat-option>
+            <mat-option disabled *ngIf="!managedByAutoComplete.isLoading  && managedByAutoComplete.data?.length <= 0 && managerInputRef.value">
+              Invalid Entry.
+            </mat-option>
+            <mat-option disabled *ngIf="!managedByAutoComplete.isLoading  && managedByAutoComplete.data?.length <= 0 && !managerInputRef.value">
+              No Records Found.
+            </mat-option>
+            </div>
+
+          </mat-autocomplete>
+          <mat-error class="small-font" *ngIf="agencyForm['controls'].managedBy.hasError('invalid')">
+            Please select from the drop down list.
+          </mat-error>
+        </mat-form-field>
+        <!-- <mat-form-field class="imx-input imx-dropdown" fxFlex="7.375rem" tooltip="{{managedByTooltipText}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          <mat-label>Managed By</mat-label>
+          <mat-select #managedByRef formControlName="managedBy" [panelClass]="'imx-select'" [class.placeholder-default]="agencyForm['controls'].managedBy.value==''" (selectionChange)="getManagedBytext()">
+            <mat-option *ngFor="let user of managedBy" [value]="user['id']">{{user.name}}</mat-option>
+          </mat-select>
+        </mat-form-field> -->
+      </div>
+  </section>
+
+  <section fxLayout="row wrap" fxLayoutGap="1rem" class="width-100p">
+    <div class="agency-form__field" fxFlex="7rem">
+      <mat-form-field fxFlex="100" class="imx-input" >
+          <mat-label>Phone</mat-label>
+          <app-telephone-input formControlName="phone"></app-telephone-input>
+          <mat-error>Phone should be valid.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="agency-form__field" fxFlex="7rem">
+      <mat-form-field fxFlex="100" class="imx-input" >
+          <mat-label>FAX</mat-label>
+          <app-telephone-input formControlName="fax"></app-telephone-input>
+          <mat-error>FAX should be valid.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="agency-form__field">
+      <mat-form-field  class="imx-input" fxFlex="12.5rem">
+          <mat-label>Company Email</mat-label>
+          <input formControlName="email" matInput autocomplete="off">
+          <mat-error>Company Email should be valid. </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="agency-form__field">
+      <mat-form-field class="imx-input"  fxFlex="10rem">
+          <mat-label>Website</mat-label>
+          <input matInput autocomplete="off" formControlName="website">
+          <mat-error> Website should be valid.</mat-error>
+      </mat-form-field>
+    </div>
+  </section>
+
+  <section fxLayout fxLayoutGap="16px" class="address-margin">
+    <app-address-card class="address-card-override-class">
+      <app-us-address #addressArea formControlName="address" [scrollingContainer]="scrollingContainer"></app-us-address>
+    </app-address-card>
+  </section>
+
+
+  <section fxLayout="row wrap" fxLayoutGap="1rem" class="width-100p">
+    <div class="agency-form__field">
+      <mat-form-field class="imx-input imx-dropdown agency-form__select" fxFlex="10rem" tooltip="{{diversityTooltipText}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          <mat-label>Diversity Ownership</mat-label>
+          <mat-select #diversityRef formControlName="diversityOwnership" [panelClass]="'imx-select'" [ngStyle]="{'max-height.px': 250}"
+                      infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                      (scrolled)="loadMoreDiversityOwnerships()" [scrollWindow]="false" (selectionChange)="getDiversityOwnershiptext()" multiple>
+            <mat-option *ngFor="let diversityOwnership of diversityOwnerships" [value]="diversityOwnership._id">
+              {{diversityOwnership.name}}
+            </mat-option>
+
+            <div *ngIf="isDiversityOwnershipsLoadingOne" class="create-vendor">
+              <mat-spinner [strokeWidth]="2" [diameter]="20"></mat-spinner>
+            </div>
+          </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="agency-form__field" fxFlex="10rem">
+        <mat-form-field  fxFlex="100" class="imx-input  spacemargin-2">
+          <mat-label>Credit Rating</mat-label>
+          <input formControlName="creditRating" matInput autocomplete="off" >
+        </mat-form-field>
+    </div>
+    <div class="agency-form__field">
+      <mat-form-field class="imx-input imx-dropdown"  fxFlex="10rem">
+        <mat-label>Cancellation Privilege</mat-label>
+        <mat-select formControlName="cancellationPrivilege" [panelClass]="'imx-select'" [class.placeholder-default]="agencyForm['controls'].cancellationPrivilege.value==''">
+          <mat-option [value]="null">Select Cancellation Privilege</mat-option>
+          <mat-option *ngFor="let privilege of cancellationPrivileges" [value]="privilege?._id">{{privilege.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </section>
+
+  <section fxLayout="row wrap" fxLayoutGap="1rem" class="width-100p mtb-1">
+    <div class="agency-form__field" fxFlex="20" fxLayoutAlign="start center">
+      <mat-checkbox formControlName="current" class="imx-checkbok circle-flag-main" disableRipple><span class="circle-flag">C</span>urrent</mat-checkbox>
+    </div>
+  </section>
+
+  <section fxLayout="row wrap" fxLayoutGap="1rem" class="width-100p">
+    <div class="agency-form__field">
+      <mat-form-field class="imx-input" fxFlex="7.875rem">
+              <mat-label>Retirement Date</mat-label>
+              <input
+              formControlName="retirementDate"
+                matInput
+                [matDatepicker]="retirement_date_picker" />
+              <mat-error>Retirement Date should be valid(MM/DD/YYYY).</mat-error>
+              <mat-icon
+                (click)="retirement_date_picker.open()"
+                matSuffix
+                matTooltip="Select Retirement Date"
+                class="date-picker-icon cursor date-picker-icon_input"
+                svgIcon="IMX-calender"
+              ></mat-icon>
+              <mat-datepicker
+                #retirement_date_picker="matDatepicker"
+                [panelClass]="'imx-calander'"
+              ></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </section>
+  <section fxLayout="row wrap" fxLayoutGap="1rem" class="width-100p">
+
+    <div class="agency-form__field" fxFlex="21.25rem" *ngIf="!isAgencyDetailView">
+        <mat-form-field fxFlex="100"  class="imx-input" [ngClass]=" showEditor ?'editorLabel':'notesTextAreaLabel'">
+          <mat-label>{{ showEditor ? 'Entering Notes' : 'Please enter Notes here' }}</mat-label>
+          <ckeditor  *ngIf="showEditor" class="imx-input" formControlName="note"
+          [config]="editorConfig"
+          [data]="agencyForm.controls['note']?.value">
+          </ckeditor>
+          <textarea formControlName="note" matInput autocomplete="off" [hidden]="showEditor" (focus)="showEditorFunc()"></textarea>
+          <mat-error *ngIf="agencyForm.controls['note'].errors?.minlength">Notes must be atleast 1 character long.</mat-error>
+          <mat-error *ngIf="agencyForm.controls['note'].errors?.maxlength">Notes can be max 2000 characters long.</mat-error>
+          <mat-error *ngIf="agencyForm.controls['note']?.errors?.whitespace">
+            <span>Invalid Notes.</span>
+          </mat-error>
+        </mat-form-field>
+    </div>
+    <div *ngIf="isAgencyDetailView">
+        <app-notes moduleName="agency" [noteParentId$]="agencyNoteId$" [disableEdit]="!userPermission?.edit"></app-notes>
+    </div>
+
+  </section>
+
+  <!-- Agency Revenue Fields section start-->
+  <div class="agency-revenue" [ngClass]="{'agency-oi-error' : (agencyForm['controls'].OIRev?.errors?.min || agencyForm['controls'].OIRev?.errors?.max)}">
+    <div class="agency-revenue--bg"></div>
+    <section fxLayout="row wrap" fxLayoutGap="1rem">
+    <div class="agency-form__field mb-1" fxFlex="20"  fxLayoutAlign="start center">
+      <mat-checkbox class="imx-checkbok" formControlName="intercompanyRcv" disableRipple>Intercompany Rcv</mat-checkbox>
+    </div>
+  </section>
+  <section fxLayout="row wrap" fxLayoutGap="1rem">
+    <div class="agency-form__field">
+      <mat-form-field  class="imx-input imx-dropdown" fxFlex="7.25rem">
+        <mat-label>PRD Scheme</mat-label>
+        <mat-select formControlName="prdScheme" [panelClass]="'imx-select'" [class.placeholder-default]="agencyForm['controls'].prdScheme.value==''">
+          <mat-option [value]="null">Select PRD Scheme</mat-option>
+          <mat-option *ngFor="let scheme of prodScheme" [value]="scheme?._id">{{scheme.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="agency-form__field">
+      <mat-form-field  class="imx-input imx-dropdown" fxFlex="7.25rem">
+        <mat-label>EST Scheme</mat-label>
+        <mat-select formControlName="estScheme" [panelClass]="'imx-select'" [class.placeholder-default]="agencyForm['controls'].estScheme.value==''">
+          <mat-option [value]="null">Select EST Scheme</mat-option>
+          <mat-option *ngFor="let scheme of estScheme" [value]="scheme?._id">{{scheme.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="agency-form__field">
+      <mat-form-field  class="imx-input imx-dropdown" fxFlex="7.75rem">
+        <mat-label>EST Timing</mat-label>
+        <mat-select formControlName="estTiming" [panelClass]="'imx-select'" [class.placeholder-default]="agencyForm['controls'].estTiming.value==''">
+          <mat-option [value]="null">Select EST Timing</mat-option>
+          <mat-option *ngFor="let timing of estTimings" [value]="timing?._id">{{timing.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </section>
+
+  <mat-label class="label-heading mt-1">Billing</mat-label>
+
+  <section formGroupName="billing" fxLayout="row wrap" fxLayoutGap="1rem">
+    <div class="agency-form__field">
+      <mat-form-field  class="imx-input imx-dropdown" fxFlex="7.25rem">
+        <mat-label>Fee Basis</mat-label>
+        <mat-select formControlName="feeBasis" [panelClass]="'imx-select'" [class.placeholder-default]="agencyForm['controls']['billing']['controls'].feeBasis.value==''">
+          <mat-option [value]="null">Select Fee Basis</mat-option>
+          <mat-option *ngFor="let basis of billingFeeBasis" [value]="basis?._id">{{basis.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="agency-form__field" >
+        <mat-form-field fxFlex="5rem"  class="imx-input error-field-width spacemargin-2" [ngClass] = "{'error-relative-width' : ((agencyForm['controls']['billing']['controls']?.media?.errors?.min || agencyForm['controls']['billing']['controls']?.media?.errors?.max) && agencyForm['controls']['billing']['controls'].commissionBasis?.invalid)}">
+          <mat-label>Media %</mat-label>
+          <input matInput appNumberOnly autocomplete="off" formControlName="media">
+          <mat-error *ngIf="agencyForm['controls']['billing']['controls']?.media?.errors?.min">Media % should be a numeric value and must be greater than or equal to 1</mat-error>
+          <mat-error *ngIf="agencyForm['controls']['billing']['controls']?.media?.errors?.max">Media % must be in between 1 and 100</mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="agency-form__field">
+      <mat-form-field  class="imx-input imx-dropdown" fxFlex="8.938rem">
+        <mat-label>Commission Basis</mat-label>
+        <mat-select formControlName="commissionBasis" [panelClass]="'imx-select'" [class.placeholder-default]="agencyForm['controls']['billing']['controls'].commissionBasis.value==''">
+          <mat-option [value]="null">Select Commission Basis</mat-option>
+          <mat-option *ngFor="let basis of billingCommissionBasis" [value]="basis?._id">{{basis.name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="agencyForm['controls']['billing']['controls'].commissionBasis?.invalid">Commission basis is required</mat-error>
+      </mat-form-field>
+    </div>
+  </section>
+
+  <mat-label class="label-heading mt-1">OOH Revenue</mat-label>
+
+  <section formGroupName="oohRevenue" fxLayout="row wrap" fxLayoutGap="1rem">
+  <div class="agency-form__field">
+    <mat-form-field  class="imx-input imx-dropdown" fxFlex="7.25rem">
+      <mat-label>Fee Basis</mat-label>
+      <mat-select formControlName="feeBasis" [panelClass]="'imx-select'" [class.placeholder-default]="agencyForm['controls']['oohRevenue']['controls'].feeBasis.value==''">
+        <mat-option [value]="null">Select Fee Basis</mat-option>
+        <mat-option *ngFor="let basis of billingFeeBasis" [value]="basis?._id">{{basis.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="agency-form__field" >
+        <mat-form-field fxFlex="5rem"  class="imx-input error-field-width spacemargin-2" [ngClass] = "{'error-relative-width' : ((agencyForm['controls']['oohRevenue']['controls']?.media?.errors?.min || agencyForm['controls']['oohRevenue']['controls']?.media?.errors?.max) && agencyForm['controls']['oohRevenue']['controls'].commissionBasis?.invalid)}">
+          <mat-label>Media %</mat-label>
+          <input appNumberOnly formControlName="media" matInput autocomplete="off">
+          <mat-error *ngIf="agencyForm['controls']['oohRevenue']['controls']?.media?.errors?.min">Media % should be a numeric value and must be greater than or equal to 1</mat-error>
+          <mat-error *ngIf="agencyForm['controls']['oohRevenue']['controls']?.media?.errors?.max">Media % must be in between 1 and 100</mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="agency-form__field">
+      <mat-form-field  class="imx-input imx-dropdown" fxFlex="8.938rem">
+        <mat-label>Commission Basis</mat-label>
+        <mat-select formControlName="commissionBasis" [panelClass]="'imx-select'" [class.placeholder-default]="agencyForm['controls']['oohRevenue']['controls'].commissionBasis.value==''">
+          <mat-option [value]="null">Select Commission Basis</mat-option>
+          <mat-option *ngFor="let basis of ohhRevenueCommissionBasis" [value]="basis?._id">{{basis.name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="agencyForm['controls']['oohRevenue']['controls'].commissionBasis?.invalid">Commission basis is required</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="agency-form__field sameAsBilling" fxFlex="7.5rem" fxLayoutAlign="start start">
+      <mat-checkbox formControlName="sameAsBilling" class="imx-checkbok " disableRipple>Same as Billing</mat-checkbox>
+    </div>
+  </section>
+  <!-- sameAsBillingCheckBox -->
+
+  <section fxLayout="row wrap" fxLayoutGap="1rem">
+     <div class="agency-form__field">
+        <mat-form-field  fxFlex="6rem" class="imx-input prod-install-error-field-width spacemargin-2">
+          <mat-label>Prod/Install %</mat-label>
+          <input appNumberOnly matInput autocomplete="off" formControlName="install" >
+          <mat-error *ngIf="agencyForm['controls'].install?.errors?.min">Prod/Install % should be a numeric value and must be greater than or equal to 1</mat-error>
+          <mat-error *ngIf="agencyForm['controls'].install?.errors?.max">Prod/Install % must be in between 1 and 100</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="agency-form__field">
+      <mat-form-field  class="imx-input imx-dropdown" fxFlex="8.2rem">
+        <mat-label>Prod/Install Basis</mat-label>
+        <mat-select formControlName="installBasis" [panelClass]="'imx-select'" [class.placeholder-default]="agencyForm['controls'].installBasis.value==''">
+          <mat-option [value]="null">Select Prod/Install Basis</mat-option>
+          <mat-option *ngFor="let basis of prodInstallBasis" [value]="basis?._id">{{basis.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </section>
+
+  <section fxLayout="row wrap" fxLayoutGap="1rem">
+
+    <div class="agency-form__field">
+        <mat-form-field  fxFlex="5rem" class="imx-input  error-field-width  error-field-width-100">
+          <mat-label>OI Rev %</mat-label>
+          <input appNumberOnly matInput autocomplete="off" formControlName="OIRev" >
+          <mat-error *ngIf="agencyForm['controls'].OIRev?.errors?.min">OI Rev % should be a numeric value and must be greater than or equal to 1</mat-error>
+          <mat-error *ngIf="agencyForm['controls'].OIRev?.errors?.max">OI Rev % must be in between 1 and 100</mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="agency-form__field">
+        <mat-form-field  fxFlex="6rem" class="imx-input error-field-width">
+          <mat-label>OI Client Code</mat-label>
+          <input matInput autocomplete="off" formControlName="OIClientCode">
+          <mat-error *ngIf="agencyForm.controls['OIClientCode'].errors?.minlength">OI Client Code must be at least 3 characters long.</mat-error>
+            <mat-error *ngIf="agencyForm.controls['OIClientCode'].errors?.maxlength">OI Client Code can be max 5 characters long.</mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="agency-form__field" fxFlex="9.125rem" fxLayoutAlign="start center">
+      <mat-checkbox formControlName="OIClientApproved" class="imx-checkbok" disableRipple>OI Client Approved</mat-checkbox>
+    </div>
+
+  </section>
+  </div><!--  close agency-revenue -->
+</form>
+</div>

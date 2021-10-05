@@ -1,0 +1,93 @@
+<div fxLayout="row" fxLayoutAlign="start stretch" class="parent-side-panel">
+  <div class="summary-panel-sidebar">
+    <div>
+      <app-scenario-summary-panel
+        [selectedAudiences]="selectedAudienceList"
+        [selectedMarkets]="selectedMarkets"
+        [operators] = "operatorFilters"
+        [mediaTypeFilters] = "mediaTypeFilters"
+        [selectedPackages] = "selectedPackages"
+        [locations] = "locationFilters"
+        [measureRangeFilters] = "measureRangeFilters"
+        [mediaAttributes] = "selectedMediaAttributes"
+        [selectedPlanTab]="selectedPlanTab"
+        [planPeriodData] = "planPeriodData"
+        [spotFilter]="spotFilter"
+        (deleteSelectedMarkets)="deleteSelectedMarkets($event)"
+        (deleteSelectedAudience)="deleteSelectedAudience($event)"
+      [defineGoalData]="defineGoalData"></app-scenario-summary-panel>
+    </div>
+  </div>
+  <div  class="intermx-theme-new filter-panel-sidebar" [ngClass]="{'enable-marketplan-tab':selectedPlanTab == 'marketPlan'}">
+    <header class="header-block" fxLayout fxLayoutAlign="space-between center">
+      <h5>DEFINE PARAMETERS</h5>
+      <!-- Hide based on https://intermx.atlassian.net/browse/IMXUIPRD-2682 -->
+      <!-- <span (click)="closeSideNav()" class="primary cursor-pointer">CLOSE</span> -->
+    </header>
+    <main [ngClass]="{'open-inventory-tab': selectedTab === 1, 'errorMessage': errorMessages.length > 0, 'single-error':errorMessages.length == 1 && mandatoriesErrorLength<2, 'two-more-error': errorMessages.length>1 && mandatoriesErrorLength>1, 'single-mandatories':mandatoriesErrorLength == 1 && errorMessages.length == 1 }" [ngStyle]="{'height.px': mainContentHeight, 'overflow' : 'hidden'}"
+      (window:resize)="reSize()">
+      <mat-tab-group mat-align-tabs="start" class="imx-tab-capital imx-tab-small main-tab-group" [(selectedIndex)]="selectedTab" (selectedTabChange) = "onTabChange($event)">
+        <mat-tab label="TARGET">
+          <div class="define-target-tab">
+            <app-define-target (selectAudience)="selectAudience($event)"
+                              (selectMarket)="selectMarket($event)"
+                              [scheduleFormSubmit$]="scheduleFormSubmit$"
+                              [audienceSelectionType]="audienceSelectionType"
+                              [selectedAudienceList]="selectedAudienceList"
+                              [selectedMarkets]="selectedMarkets"
+                              [scheduleFormGroup]="scheduleFormGroup"
+                              [selectedPlanFormCtrl]="selectedPlanFormCtrl"
+                              [selectedPlanTab]="selectedPlanTab"
+                              [deleteMarket] = 'deleteMarket$'
+                              [deleteAudience] = 'deleteAudience$'
+                              (updateDeleteMarket)="selectMarket($event, true)"
+                              [defineGoleFormGroup]="defineGoleFormGroup"
+                              [defineGoalFormSubmit$]="defineGoalFormSubmit$">
+            </app-define-target>
+
+            <div class="include-outside-inventory" fxLayout="row" fxLayoutAlign="start center" *ngIf="selectedPlanTab === planTabLabels.INVENTORY_PLAN">
+              <mat-checkbox [formControl]="includeOutsideMarketInventoryCtrl" class="imx-checkbok" >Include Inventory Outside
+              of Markets within Market Summaries</mat-checkbox>
+            </div>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="INVENTORY">
+            <section class="c-define-target dt-mt-3">
+            <mat-accordion>
+              <mat-expansion-panel  #inventoryPanelRef class="side-nav-main-panel" hideToggle [expanded]="'true'" >
+                <!-- TODO: Remove  disabled-pointer if more then one panel added-->
+                <!-- <mat-expansion-panel-header class="disabled-pointer"> -->
+                  <!-- <mat-panel-title class="primary">
+                    Inventory
+                  </mat-panel-title> -->
+                  <!-- TODO: Will enable more then one panel -->
+                  <!-- <mat-panel-description fxLayout="row-reverse" class="main-block">
+                    <mat-icon *ngIf="inventoryPanelRef.expanded; else audienceExpandDownIcon" svgIcon="IMX-accordion-up" aria-hidden="false"
+                              aria-label="up"></mat-icon>
+                    <ng-template #audienceExpandDownIcon>
+                      <mat-icon svgIcon="IMX-accordion-down" aria-hidden="false" aria-label="down"></mat-icon>
+                    </ng-template>
+                  </mat-panel-description> -->
+                <!-- </mat-expansion-panel-header> -->
+                <app-add-inventory [scenario]= "scenario" [operators]="operators" [inventoryPlanIDs] = "inventoryPlanIDs" [selectedPlanTab]="selectedPlanTab" (addInventoryFilter)="addInventoryFilter($event)" (applyFilter)="applyFilter($event)" [type]="'edit'" [includeType]="includeType" (closeFilter)="closeSideNav()" (onOpenMediaAndPlacement)="onOpenMediaAndPlacement($event)"  (onSelectInventorySet)="onSelectInventorySet($event)"  (onSpotFilterChange)="onSpotFilterChange($event)">
+                </app-add-inventory>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </section>
+        </mat-tab>
+      </mat-tab-group>
+    </main>
+    <div fxLayout="column" fxLayoutAlign="space-between start" [class.mediaErrorBlock--inventory]='selectedTab == 1' class="mediaErrorBlock " *ngIf="errorMessages.length > 0">
+      <span *ngFor="let error of errorMessages;">{{ error }} <br> </span>
+    </div>
+    <footer class="footer" *ngIf="selectedTab!==1">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <!-- Hide based on closeSideNav https://intermx.atlassian.net/browse/IMXUIPRD-2682 -->
+        <!-- <button (click)="clearAll()" class="footer__btn footer__btn--primary" mat-button>RESET TO DEFAULT</button> -->
+        <button (click)="closeSideNav()" class="imx-button-basic" mat-button>CANCEL</button>
+        <button (click)="reGenerate()" [disabled]='isInvalidMediaAttribFrom' type="button" class="imx-button-primary" mat-button>RE-GENERATE</button>
+      </div>
+    </footer>
+  </div>
+</div>

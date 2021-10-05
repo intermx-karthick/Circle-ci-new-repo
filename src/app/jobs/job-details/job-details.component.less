@@ -1,0 +1,60 @@
+
+.job-details {
+       
+    &__header{
+        margin-top: 1rem;
+            
+        h4 {
+            word-break: break-all;
+        }
+    }
+        
+    &__tabs-scroll {
+        padding-right: 20px;
+        overflow-y: auto;
+    }
+          
+    &__core-tab {
+        overflow: hidden;
+        margin-top: 16px;
+    
+        mat-tab-group {
+            width: 100%;
+        }
+    
+    }
+    
+    &__back-to {
+        font-size: 12px;
+        color: var(--primary-bg-800);
+    
+        mat-icon {
+            margin-right: 8px;
+            height: 11px;
+            width: 11px;
+            font-size: 11px;
+            line-height: 11px;
+        }
+    }
+         
+    &__footer {
+        padding: 1rem 0rem;
+    }
+}
+
+::ng-deep {
+
+    app-job-details {
+    
+        // .mat-tab-body.mat-tab-body-active {
+        //     overflow-y: hidden;
+        // }
+    
+        // .mat-tab-body-content {
+        //     overflow: hidden;
+        // }
+    
+    }
+}
+  
+  

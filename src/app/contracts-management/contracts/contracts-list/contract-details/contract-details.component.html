@@ -1,0 +1,87 @@
+<div fxLayout="row" fxLayoutAlign="start center">
+    <a class="back-to-link" fxLayout="row" fxLayoutAlign="start center" [routerLink]="['/contracts-management/contracts']">
+      <mat-icon>arrow_back</mat-icon>Back to Contracts List
+    </a>
+  </div>
+  <section fxLayout="row" fxLayoutAlign="space-between center" class="header">
+    <div>
+      <h4> <ng-container>{{contract?.contractName}}/{{contract?.contractId}} details</ng-container></h4>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="end end">
+      <div fxLayout="row" fxLayoutAlign="end center">
+        <button type="button" mat-button class="imx-button-basic add-contact-btn" [mat-menu-trigger-for]="actionMenu"
+         [isAccessDenied]="(!userPermission?.delete && !userPermission?.create)" visiblityType="menu" module="contract" appUserAccessPermission >
+          <span>ACTIONS</span>
+          <mat-icon>expand_more</mat-icon>
+        </button>
+        <mat-menu #actionMenu="matMenu" class="mat-elevation-z0 action-dropdown-imx action-menu-less-width">
+          <button mat-menu-item  [isAccessDenied]="!userPermission?.delete" visiblityType="delete" module="contract" appUserAccessPermission  type="button" (click)="deleteContract()">
+            Delete
+          </button>
+          <button mat-menu-item  [isAccessDenied]="!userPermission?.create" visiblityType="create" module="contract" appUserAccessPermission  type="button" (click)="duplicateContract()">
+            Duplicate
+          </button>
+        </mat-menu>
+        <button type="button" mat-button class="imx-button-basic add-contact-btn"  [mat-menu-trigger-for]="exportMenu" module="contract" visiblityType="export" appUserAccessPermission >
+          <span>EXPORT</span>
+          <mat-icon>expand_more</mat-icon>
+        </button>
+        <mat-menu #exportMenu="matMenu" class="mat-elevation-z0 action-dropdown-imx action-menu-less-width">
+          <button mat-menu-item  type="button" (click)="lineItemsExport()">
+            Line Items Export
+          </button>
+          <button mat-menu-item  type="button" (click)="insertionOrdersExport()">
+            Insertion Orders Export
+          </button>
+        </mat-menu>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+        <button type="button" mat-button  class="imx-button-basic" [routerLink]="['/contracts-management/contracts']" visiblityType="edit" module="contract" appUserAccessPermission >
+            {{"Cancel" | uppercase}}
+          </button>
+        <button mat-raised-button class="imx-button-primary search-btn" cdkFocusInitial (click)="saveDetails()" visiblityType="edit" module="contract" appUserAccessPermission>{{"Save" | uppercase}}</button>
+    </div>
+  </div>
+  </section>
+  <div fxLayout="row" fxLayoutAlign="start center"  class="vendor-tabs">
+    <mat-tab-group
+    animationDuration="150ms"
+    mat-align-tabs="start"
+    class="imx-tab-capital"
+    [selectedIndex]='selectedTabIndex'
+    (selectedTabChange) = "onSelectedTabChange($event)"
+    #contractsTabs>
+      <mat-tab label="CORE DETAILS" aria-label="general_Tab">
+        <div [ngStyle]="{'height.px':scrollContent}" class="contract-tabs-scroll" cdkScrollable id="vendor-tabs-scroll_GENERAL">
+        <!-- <cdk-virtual-scroll-viewport itemSize="500" class="example-viewport"> -->
+
+          <app-contract-core-details [contractItem]="contract"
+          [contractId]="contractItemId"
+          (valueChanged)="onValueChanged($event)"
+           (eventsSelectionChanged)="onEventsSelectionChanged($event)"
+           (statusSelectionChanged)="onStatusChanged($event)"
+           (lineItemModified)="onIineItemModified($event)"
+            [save$]='save$'
+            [userPermission]="userPermission"
+          ></app-contract-core-details>
+        <!-- </cdk-virtual-scroll-viewport> -->
+        </div>
+      </mat-tab>
+      <mat-tab label="ATTACHMENTS" aria-label="contacts_tab" *ngIf="!!attachment">
+        <div [ngStyle]="{'height.px':scrollContent}" class="contract-tabs-scroll intermx-theme-new">
+          <app-contract-attachments [contractItemId]="contractItemId"></app-contract-attachments>
+          <!-- <app-contacts-list-v2 [enableCustomizeHeader]="false" moduleName="vendor" [organizationId$]="organizationId$" [defaultColumns]="defaultColumns" [contactRefresh$]="contactRefresh$" (openContactEmit)="openContactEmit($event)" (openDuplicateContactEmit)="openDuplicateContactEmit($event)"></app-contacts-list-v2> -->
+        </div>
+      </mat-tab>
+      <mat-tab label="VENDOR CONTRACTS" aria-label="shipping_address_tab">
+        <div>
+          <app-vendor-contract-list [contractId]="contractItemId" [onOpenTab$]="onOpenTab$" [userPermission]="userPermission"
+            [loadVendorContract]="loadVendorContract" [preload]="false" [initiator$]="vendorContractLazyLoader.initiator$">
+          </app-vendor-contract-list>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="footer">
+    <app-time-stamp [timeStampData]="timeStamp" *ngIf="selectedTabIndex !== 2"></app-time-stamp>
+  </div>

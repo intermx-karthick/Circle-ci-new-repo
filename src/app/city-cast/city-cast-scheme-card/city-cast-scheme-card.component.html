@@ -1,0 +1,63 @@
+<div
+  
+  class="edited-changes"
+  fxLayout="row"
+  fxLayoutAlign="start start"
+>
+  <div
+    fxFlex="10"
+    class="icon-btn"
+    fxLayout="column"
+    fxLayoutAlign="start center"
+  >
+    <i class="icon-custom icon-custom-cc-{{ data['featureType'] }}"></i>
+  </div>
+  <div fxFlex="80" class="changes-block" (click)="triggerSchemeAction(data, 'navigate')">
+    <div>
+      <div fxLayout="column" fxLayoutAlign="start start">
+        <div class="title-block">
+          {{ data['featureType'] | titlecase }}
+          <strong>{{ data['featureId'] }}</strong>
+        </div>
+        <div>
+          <ul class="cast-scheme-item-parameters">
+            <ng-container
+              *ngFor="let item of data['parameter'] | keyvalue: originalOrder"
+            >
+              <li *ngIf = "item.key !== 'lastIndex'">
+                <dt class="title">{{ item.key | underscoreToTitle }}</dt>
+                <dd
+                  class="value"
+                  *ngIf="item.key !== 'schedules'; else scheduleBlock"
+                >
+                  {{ item.value }}
+                </dd>
+                <ng-template #scheduleBlock>
+                  <dd>
+                    <span *ngFor="let schedule of item.value | keyvalue: originalOrder">
+                      <span *ngFor="let val of schedule.value">
+                        {{ val || '-' }}
+                      </span>
+                    </span>
+                  </dd>
+                </ng-template>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    fxFlex="10"
+    class="action-btn"
+    *ngIf="cast.status === castStatuses.DRAFT"
+  >
+    <button mat-icon-button *ngIf="type === 'unsaved'" (click)="triggerSchemeAction(data, 'save')">
+        <mat-icon>save</mat-icon>
+    </button>
+    <button mat-icon-button (click)="triggerSchemeAction(data, 'delete')">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div 
+  id="customLogoElement_{{layerType}}" 
+  class="custom-logo"
+  [ngClass]="{'moreInfo':((venuesClicked && selectedPlaceData['properties'] !== 'undefined') ||
+  zoomLevel > 7), 'white-bg': logoInfo && logoInfo['backgroundWhite'],'resizing': resizingInProcess == 'logo'}"
+  *ngIf="logoInfo && logoInfo['url'] && showCustomLogo && showDraggedLogo"
+  [ngDraggable]="enableDraggable" [bounds]="mapDivBlock" [inBounds]="inBounds" (endOffset)="onDragStop($event)" (movingOffset)="onDragging($event)" 
+  ngResizable  rzContainment="#map-div-block" [rzAspectRatio]='aspectRatio'
+  [preventDefaultEvent]="true" [ngStyle]="logoStyle" (rzStop)="onResizeStop($event, 'logo')" (rzResizing)="onResizing($event)"> 
+  <div class="displayLogoInfo" fxFill fxLayoutAlign="center center" >
+    <img src="{{ logoInfo && logoInfo['url']}}" alt="logo" id="customLogoElementImg" crossorigin="anonymous">
+  </div>
+  <mat-icon class="edit-img" (click)="$event.preventDefault();editLogo();" (mouseenter)= "enableDraggable = false" (mouseout)= "enableDraggable = true">edit circle outline</mat-icon>
+  <mat-icon (click)="removeLogo();" class="close-img"  (mouseenter)= "enableDraggable = false" (mouseout)= "enableDraggable = true">close</mat-icon>
+  <!-- <svg style="width:24px;height:24px" viewBox="0 0 24 24" class="extand-img">
+    <path fill="#000000" d="M10,21V19H6.41L10.91,14.5L9.5,13.09L5,17.59V14H3V21H10M14.5,10.91L19,6.41V10H21V3H14V5H17.59L13.09,9.5L14.5,10.91Z" />
+  </svg> -->
+</div>

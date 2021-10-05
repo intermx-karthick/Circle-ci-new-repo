@@ -1,0 +1,155 @@
+@import "../../../../assets/css/variables.less";
+
+.mapPopUpBlk.detailed {
+  width: 1030px;
+}
+.z-depth-2.portrait-view {
+  width: 670px;
+  .logo-img {
+    margin-top: 65px !important;
+  }
+
+  #inventoryInfoOverviewPdf {
+    .left-content, .right-content {
+      width: 300px !important;
+    }
+  }
+
+}
+// .z-depth-2 :not(.portrait-view) {
+//   width: 785px;
+// }
+.title-text {
+  float: left;
+}
+
+#inventoryInfoOverviewPdf {
+  // padding: 20px;
+  background: var(--text-whites);
+  .open_inventory_card {
+    position: absolute;
+    right: 70px;
+    top: 10px;
+    color: var(--g-color);
+  }
+  .download_us_pdf {
+    position: absolute;
+    right: 40px;
+    top: 10px;
+    color: var(--g-color);
+  }
+  .info-popup-header {
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    margin-bottom: -17px;
+  }
+  .logo-img {
+    width: 180px;
+    margin-top: 39px;
+  }
+  .title-content {
+    padding: 15px 20px;
+    .title-text {
+      float: left;
+    }
+  }
+  h3 {
+    font-size: 14px;
+    color: var(--dg-color);
+    font-weight: bold;
+    line-height: 18px;
+  }
+  p {
+    font-size: 10px;
+    line-height: 13px;
+    span {
+      font-weight: normal !important;
+    }
+  }
+  hr {
+    border: 1px solid #D8D8D8;
+  }
+  .info-content-div {
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    margin-bottom: -10px;
+  }
+  .info-content-div1 {
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    margin-bottom: -5px;
+  }
+  .content-heading {
+    padding-left: 10px;
+    font-size: 15px;
+    color: var(--theme-secondary-color);
+    line-height: 0px !important;
+  }
+  .side-headings {
+    padding-left: 10px;
+    font-size: 12px;
+    line-height: 0px !important;
+  }
+  .left-content, .right-content {
+    width: 505px;
+  }
+  .left-content p {
+    padding-right: 10px;
+  }
+  .info-popup-footer {
+    margin-bottom: -10px;
+    margin-top: 15px;
+    margin-left: 11px;
+  }
+  p.contact-info {
+    font-size: 12px;
+    margin-bottom: 0px;
+    a {
+      color: #1BADA8;
+    }
+  }
+  .side-heading-with-hr {
+    padding-left: 10px;
+    font-size: 12px;
+    line-height: 0px !important;
+    display: flex;
+    flex-direction: row;
+  }
+  .side-heading-with-hr:after {
+    content: "";
+    flex: 1 1;
+    border: 1px solid #D8D8D8;;
+    margin: auto;
+    margin-left: 10px;
+  }
+}
+
+#inventoryInfoOverviewPdf.detailedPdf {
+  margin-top: 10px;
+  .left-content, .right-content {
+    width: 350px;
+  }
+  p {
+    font-size: 12px;
+  }
+  h3 {
+    font-size: 16px;
+  }
+}
+
+.info-popup-header {
+  padding: 0px 15px 0px 15px;
+  .pull-left {
+    // display: none;
+    float: none !important;
+  }
+  .pull-right {
+    float: none !important;
+    h3 {
+      font-size: 15px;
+    }
+  }
+}

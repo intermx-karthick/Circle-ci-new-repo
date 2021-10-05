@@ -1,0 +1,851 @@
+<div
+  [ngClass]="{ 'sidebar-col-hidden': mobileView }"
+  (window:keydown.delete)="removePolygon()"
+  fxLayout="column"
+>
+  <!-- Header section -->
+  <section class="header-section">
+    <app-explore-header
+      (onPopulationIntelClick)="ShowPopulationIntelMenu();"
+      [isPopIntelMenuOpen] = showPopIntelMenu
+    ></app-explore-header>
+  </section>
+  <!-- contant section -->
+  <div
+    fxLayout="row"
+    class="contant-section"
+    [ngClass]="{
+      'filter-open': isFilterOpen,
+      'tabular-view-open': mapViewPostionState == 'tabularView',
+      'dual-map-open': mapViewPostionState === 'secondaryMapView'
+    }"
+  >
+    <div
+      class="find-inventory-btn-icon close-filter"
+      (click)="onCloseFilterTab()"
+      *ngIf="isFilterOpen"
+    >
+      <mat-icon>arrow_left</mat-icon>
+    </div>
+    <div
+      class="find-inventory-btn-icon-open close-filter"
+      (click)="onOpenFilterTab()"
+      *ngIf="!isFilterOpen && tempOpen"
+    >
+      <mat-icon>arrow_right</mat-icon>
+    </div>
+    <mat-sidenav
+      [(opened)]="openFilter"
+      mode="side"
+      position="start"
+      class="explore-filter-main"
+      [ngStyle]="{ 'top.px': headerHeight }"
+      [disableClose]="true"
+    >
+      <app-explore-filters
+        [inventoryGroupIds]="inventoryGroupIds"
+        [placeLayerVisibility]="placeLayerVisibility"
+        [mapLayers]="mapLayers"
+        (exploreDrawGeopolygon)="onDrawGeopolygon($event)"
+        (exploreLoadMapView)="loadMapView()"
+        (exploreDrawPolygon)="drawPolygon()"
+        (exploreDrawCircle)="drawCircle()"
+        (exploreRemovePolygon)="removePolygon($event)"
+        (editInventoryPackage)="editInventoryPackage($event)"
+        (drawPolygons)="drawMapViewPolygon($event)"
+        (drawCustomPolygon)="updateFiltersFromPolygon($event)"
+        (filterByPlaceSets)="filterByPlaceSets($event)"
+        (toggleLocationFilterLayer)="toggleLocationFilterLayer($event)"
+        (loadDynamicMapView)="loadDynamicMapView($event)"
+        (removeDynamicMapView)="removeDynamicMapView()"
+      >
+      </app-explore-filters>
+    </mat-sidenav>
+
+    <ng-template [ngIf]="mobileView && mapFeature['properties']">
+      <div
+        [hidden]="hideMapViewPopup"
+        class="mobile-map-popup mobile-visible"
+        [ngClass]="{
+          checkpop: checkPopupSource !== 'mapView',
+          'landscape-view': dimensionsDetails.orientation !== 'portrait'
+        }"
+        [ngStyle]="{ 'height.px': mobilepopupHeight }"
+      >
+        <ng-template [ngIf]="staticMapURL && checkPopupSource === 'mapView'">
+          <!-- <img crossorigin="anonymous" class="img-responsive mobile-img static-map-image" src="{{
+          staticMapURL }}"> -->
+        </ng-template>
+        <div class="text-center inventory-nav-row">
+          <a
+            *ngIf="checkPopupSource === 'map'"
+            href="javascript:void(0);"
+            class="btn geo-button waves-effect waves-light pull-right inventory-nav"
+            (click)="hideMobileMapViewPopup()"
+            ><span><i class="material-icons">close</i>Close</span></a
+          >
+          <a
+            *ngIf="checkPopupSource !== 'map'"
+            href="javascript:void(0);"
+            class="btn geo-button waves-effect waves-light pull-right inventory-nav"
+            (click)="hideMobileMapViewPopup()"
+            ><span
+              ><i class="material-icons">undo</i>Return to Inventory List</span
+            ></a
+          >
+        </div>
+        <!-- <img crossorigin="anonymous" class="img-responsive mobile-img" src="{{
+          mobileImageSrc }}" (error)="getNoImage()"> -->
+        <div class="mobile-map-popup-content row mobile_loader">
+          <img
+            crossorigin="anonymous"
+            class="img-responsive mobile-img"
+            src="{{ mobileImageSrc }}"
+            (error)="getNoImage()"
+          />
+          <div>
+            <div class="mobile-pop-content">
+              <h4
+                class="mobile-operator-heading"
+                title="{{ mapFeature.properties.opp }}"
+              >
+                <b>{{
+                  mapFeature.properties.opp | truncate: "middle":15:15
+                }}</b>
+                <div
+                  class="mobile-panel-nav"
+                  *ngIf="checkPopupSource === 'map' && features.length > 0"
+                >
+                  <a href="javascript:void(0);" class="prev"
+                    ><i class="material-icons">navigate_before</i></a
+                  >
+                  <p class="panel-nav-text">
+                    {{ current_page + 1 }}/{{ features.length }}
+                  </p>
+                  <a href="javascript:void(0);" class="next"
+                    ><i class="material-icons">navigate_next</i></a
+                  >
+                </div>
+              </h4>
+              <ul>
+                <li
+                  id="mobile-popup-impressions"
+                  *ngIf="allowInventoryAudience !== 'hidden'"
+                ></li>
+                <li title="{{ mapFeature.properties | boardType }}">
+                  {{
+                    mapFeature.properties | boardType | truncate: "middle":15:15
+                  }}
+                </li>
+                <li title="{{ mapFeature.properties.st }}">
+                  {{ mapFeature.properties.st | truncate: "middle":15:15 }}
+                </li>
+                <li title="{{ mapFeature.properties.pid }}">
+                  Operator Spot ID:
+                  {{ mapFeature.properties.pid | truncate: "middle":15:15 }}
+                </li>
+                <li>Geopath Spot ID: {{ mapFeature.properties.fid }}</li>
+                <li>
+                  H: {{ mapFeature.properties.h | inchesToFeet }} / W:
+                  {{ mapFeature.properties.w | inchesToFeet }}
+                </li>
+                <li>Orientation: {{ mapFeature.properties.o | direction }}</li>
+              </ul>
+              <div *ngIf="mobile_loader" id="loader"></div>
+            </div>
+            <div class="mobile-map-popup-action">
+              <div class="text-center">
+                <div
+                  *ngIf="
+                    allowInventoryAudience !== 'hidden' &&
+                    selectedFidsArray.length > 0
+                  "
+                  class="select_btn_panel action-buttons"
+                >
+                  <a href="javascript:void(0)" class="fselectbtn selected"
+                    ><span>{{ checkSelected(mapFeature) }}</span></a
+                  >
+                </div>
+                <a
+                  *ngIf="!mobileView"
+                  href="javascript:void(0);"
+                  class="download_us_pdf action-buttons"
+                  ><i class="material-icons">picture_as_pdf</i></a
+                >
+              </div>
+            </div>
+          </div>
+          <div
+            class="detailPopupDescription"
+            [innerHTML]="detailPopupDescription"
+          ></div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template [ngIf]="mobileView">
+      <div
+        [hidden]="hideplaceMapViewPopup"
+        class="mobile-map-popup mobile-visible"
+        [ngClass]="{ checkpop: checkPopupSource !== 'mapView' }"
+      >
+        <a
+          href="javascript:void(0);"
+          class="btn geo-button waves-effect waves-light pull-right inventory-nav"
+          (click)="hidePlaceMobileMapViewPopup()"
+          ><span><i class="material-icons">close</i>Close</span></a
+        >
+        <div
+          class="detailPopupDescription-place col-xs-12 no-padding"
+          [innerHTML]="detailPlacePopupDescription"
+        ></div>
+      </div>
+    </ng-template>
+    <div class="map-vanue-floor-controls mobile-hide">
+      <!-- TODO: Commented because geopath API not supporting filter by polygons  -->
+      <!-- <div class="dynamic-map-view-div" *ngIf="zoomLevel > 7">
+        <input type="checkbox" id="location-search" (click)="toggleMapView()" name="location" checked="{{ dynamicMapView > 0 ? 'checked' : ''}}"/>
+        <label for="location-search">Filter as I move the map</label>
+      </div> -->
+
+      <div
+        class="moreInfoForPlaces"
+        *ngIf="
+          selectedPlaceData['properties'] !== 'undefined' &&
+          placeLayerVisibility
+        "
+      >
+        <a
+          class=""
+          (click)="togglePlaceMoreInfo()"
+          *ngIf="showPlaceMoreInfo"
+          title="{{
+            format.checkAndPopulate(
+              selectedPlaceData['properties']['name'],
+              false,
+              true
+            )
+          }}"
+          >Hide info <br />
+          <span
+            ><b>{{
+              format.checkAndPopulate(
+                selectedPlaceData["properties"]["name"],
+                false,
+                true
+              )
+            }}</b></span
+          ></a
+        >
+        <a
+          class=""
+          (click)="togglePlaceMoreInfo()"
+          *ngIf="!showPlaceMoreInfo"
+          title="{{
+            format.checkAndPopulate(
+              selectedPlaceData['properties']['name'],
+              false,
+              true
+            )
+          }}"
+          >More info <br />
+          <span>{{
+            format.checkAndPopulate(
+              selectedPlaceData["properties"]["name"],
+              false,
+              true
+            )
+          }}</span></a
+        >
+        <div class="moreInfoForPlaceBlk1" *ngIf="showPlaceMoreInfo">
+          <div class="address">
+            <span>{{
+              format.checkAndPopulate(
+                selectedPlaceData["properties"]["address"],
+                false,
+                true
+              )
+            }}</span
+            ><br />
+            <span
+              >{{
+                format.checkAndPopulate(
+                  selectedPlaceData["properties"]["city"],
+                  false,
+                  true
+                )
+              }},
+              {{
+                format.checkAndPopulate(
+                  selectedPlaceData["properties"]["state"],
+                  false,
+                  true
+                )
+              }}
+              {{
+                format.checkAndPopulate(
+                  selectedPlaceData["properties"]["zip"],
+                  false,
+                  true
+                )
+              }}</span
+            >
+          </div>
+          <div class="dataAnalytics">
+            <span
+              ><b>Total inventory:</b>
+              {{
+                format.checkAndPopulate(
+                  selectedPlaceData["properties"]["frameCount"],
+                  false
+                )
+              }}</span
+            ><br />
+            <span
+              title="{{ selectedPlaceData['properties']['classification'] }}"
+              ><b>Category:</b>
+              {{
+                selectedPlaceData["properties"]["classification"]
+                  | truncate: "end":18
+              }} </span
+            ><br />
+            <span title="{{ selectedPlaceData['properties']['dma'] }}"
+              ><b>DMA:</b>
+              {{
+                selectedPlaceData["properties"]["dma"] | truncate: "end":20
+              }} </span
+            ><br />
+          </div>
+          <a class="clsPlaceDetailCloseIcon" (click)="togglePlaceMoreInfo()"
+            ><i class="material-icons cls">keyboard_arrow_up</i></a
+          >
+        </div>
+      </div>
+    </div>
+    <div
+      class="inventory-toggle mobile-hide"
+      [ngClass]="{ closed: !sidebarState, opened: sidebarState }"
+      *ngIf="
+        allowInventory == 'active' &&
+        mapViewPostionState !== 'secondaryMapView' &&
+        isRightPanelenabled && isRightPanelenabled.status === 'active'
+      "
+      title="{{ sidebarState === false ? 'SHOW' : 'HIDE' }} LIST"
+      [ngStyle]="{ 'top.px': headerHeight + 15 }"
+    >
+      <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+        <button (click)="toggleSideBarState()">
+          <i class="material-icons">chevron_left</i>
+        </button>
+      </div>
+    </div>
+    <section
+      id="printContent"
+      class="body-content print-content"
+      fxLayout="column"
+      [ngClass]="{
+        'filter-open': isFilterOpen,
+        'hide-inventory': allowInventory === 'hidden',
+        'dual-map-open': mapViewPostionState === 'secondaryMapView'
+      }"
+    >
+      <div class="map-div-block primary" fxLayout="row">
+        <div
+          class="map-div primary"
+          [ngClass]="{
+            'module-disable': allowInventory == 'disabled',
+            tabularView: mapViewPostionState == 'tabularView',
+            notShowMapControls: !showMapControls,
+            issafari: this.isSafariBrowser && mobileView
+          }"
+          [ngStyle]="{ 'height.px': mapHeight, 'width.px': mapWidth }"
+          id="map-div-block-primary"
+          #mapDivBlock
+        >
+        <div class="library-navigation">
+          <app-library-navigation activeRoute="inventory"></app-library-navigation>
+        </div>
+          <div
+            id="customLogoElement-primary"
+            class="custom-logo"
+            [ngClass]="{
+              moreInfo:
+                (
+                  selectedPlaceData['properties'] !== 'undefined' &&
+                  placeLayerVisibility) ||
+                zoomLevel > 7,
+              'white-bg': logoInfo['backgroundWhite'],
+              resizing: resizingInProcess == 'logo'
+            }"
+            *ngIf="logoInfo['url'] && showCustomLogo && showDragLogo"
+            [ngDraggable]="enableDraggable"
+            [bounds]="mapDivBlock"
+            [inBounds]="inBounds"
+            (endOffset)="onDragStop($event, 'logo')"
+            (movingOffset)="onDragging($event, 'logo')"
+            ngResizable
+            rzContainment="#map-div-block-primary"
+            [rzAspectRatio]="aspectRatio"
+            [preventDefaultEvent]="true"
+            [ngStyle]="logoStyle"
+            (rzStop)="onResizeStop($event, 'logo')"
+            (rzResizing)="onResizing($event, 'logo')"
+          >
+            <div class="displayLogoInfo" fxFill fxLayoutAlign="center center">
+              <img
+                src="{{ logoInfo['url'] }}"
+                alt="logo"
+                id="customLogoElementImg"
+                crossorigin="anonymous"
+              />
+            </div>
+            <mat-icon
+              class="edit-img"
+              (click)="$event.preventDefault(); editLogoAndText()"
+              (mouseenter)="enableDraggable = false"
+              (mouseout)="enableDraggable = true"
+              >edit circle outline</mat-icon
+            >
+            <mat-icon
+              (click)="removeLogo()"
+              class="close-img"
+              (mouseenter)="enableDraggable = false"
+              (mouseout)="enableDraggable = true"
+              >close</mat-icon
+            >
+            <!-- <svg style="width:24px;height:24px" viewBox="0 0 24 24" class="extand-img">
+              <path fill="#000000" d="M10,21V19H6.41L10.91,14.5L9.5,13.09L5,17.59V14H3V21H10M14.5,10.91L19,6.41V10H21V3H14V5H17.59L13.09,9.5L14.5,10.91Z" />
+            </svg> -->
+          </div>
+          <div
+            id="customTextElement-primary"
+            class="custom-text"
+            *ngIf="
+              displayTextInfo['text'] && showCustomText && showDragTextLogo
+            "
+            [ngClass]="{
+              'white-bg': displayTextInfo['backgroundWhite'],
+              resizing: resizingInProcess == 'text'
+            }"
+            [ngStyle]="customTextStyle"
+            [ngDraggable]="enableDraggable"
+            [bounds]="mapDivBlock"
+            [inBounds]="inBounds"
+            (endOffset)="onDragStop($event, 'text')"
+            (movingOffset)="onDragging($event, 'text')"
+            ngResizable
+            rzContainment="#map-div-block-primary"
+            (rzStop)="onResizeStop($event, 'text')"
+            (rzResizing)="onResizing($event, 'text')"
+          >
+            <div class="dragOverlay"></div>
+            <div class="displayTextInfo">{{ displayTextInfo["text"] }}</div>
+            <mat-icon
+              class="edit-img"
+              (click)="$event.preventDefault(); editLogoAndText()"
+              (mouseenter)="enableDraggable = false"
+              (mouseout)="enableDraggable = true"
+              >edit</mat-icon
+            >
+            <mat-icon
+              (click)="removeText()"
+              class="close-img"
+              (mouseenter)="enableDraggable = false"
+              (mouseout)="enableDraggable = true"
+              >close</mat-icon
+            >
+          </div>
+
+          <div class id="mapbox"></div>
+          <div
+            class="map-zoom-out"
+            *ngIf="allowInventory == 'active' && showMapControls"
+            fxHide.sm
+            fxHide.xs
+          >
+            <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+              <button (click)="zoomOutMap()" title="ZOOM OUT MAP">
+                <span><i class="material-icons">zoom_out_map</i></span>
+              </button>
+            </div>
+          </div>
+          <div class="key-legend-map-control test-key-legend-map">
+            <!-- <app-explore-legends *ngIf="allowInventory == 'active' && showMapLegend"></app-explore-legends> -->
+            <app-map-legends
+              *ngIf="allowInventory == 'active' && showMapLegend"
+              [layerType]="'primary'"
+            ></app-map-legends>
+          </div>
+          <div
+            class="explore-filter-pills"
+            [ngStyle]="{ 'width.px': isKeylegend ? mapWidth - 170 : mapWidth }"
+          >
+            <app-explore-filter-pills></app-explore-filter-pills>
+          </div>
+          <div
+          class="single-inventory-key-legend"
+          *ngIf="isKeylegend"
+          [ngClass]="{ 'open-side-bar': sidebarState }"
+        >
+          <p *ngIf="currentSingleInventory['replevel'] == 'dma'">
+            Spot ID {{ currentSingleInventory["fid"] }} - Top Contributing DMAs by Percentage
+          </p>
+          <p *ngIf="currentSingleInventory['replevel'] == 'zip_code'">
+            Spot ID {{ currentSingleInventory["fid"] }} - Top Contributing Zip Code by Percentage
+          </p>
+          <ul>
+            <li *ngFor="let color of keyLegendColors; let i = index">
+              <mat-icon [ngStyle]="{ color: color, 'background-color': color }"
+                >stop</mat-icon
+              >
+              <span *ngIf="i == '0'" title="Highest {{ currentSingleInventory['maxValue'] && currentSingleInventory['maxValue'] + '%'}}">Highest {{ currentSingleInventory["maxValue"] && currentSingleInventory["maxValue"] + ' %'}}</span>
+              <span *ngIf="i == '5'" title="Lowest - {{ currentSingleInventory['minValue'] && currentSingleInventory['minValue'] + '%'}}">Lowest {{ currentSingleInventory["minValue"] && currentSingleInventory["minValue"] + ' %'}}</span>
+              <!-- <span *ngIf="i == '5'" title="No Impressions">No Impressions</span> -->
+            </li>
+          </ul>
+        </div>
+
+        </div>
+
+          <mat-sidenav
+          class="right-sidebar"
+          [(opened)]="!mobileView ? sidebarState : mobileView"
+          mode="side"
+          position="end"
+          [fixedInViewport]="true"
+          [fixedTopGap]="headerHeight"
+          [ngClass]="{
+            'open-side-bar': sidebarState,
+            'landscape-view': dimensionsDetails.orientation !== 'portrait'
+          }"
+          [hidden]="
+            mapViewPostionState === 'secondaryMapView'
+          "
+          [disableClose]="true"
+        >
+          <div
+            class="no-padding mobile-card-100"
+            ngClass="{'hidden':!(sidebarState || mobileView)}"
+          >
+            <div
+              class="mobileMetricsBlock"
+              (click)="toggleSideBarState()"
+              *ngIf="mobileView"
+            >
+              <app-explore-metrics
+                [places]="places"
+                [selectQuery]="selectQuery"
+                [sortQuery]="sortQuery"
+                [selectedFidsArray]="selectedFidsArray"
+                [permission]="mod_permission"
+                [filters]="commonFilter"
+                (changeTotalPage)="changeTotalPage($event)"
+                [filterApiCallLoaded]="filterApiCallLoaded"
+                [totalInventory]="totalInventory"
+              ></app-explore-metrics>
+            </div>
+            <div *ngIf="!mobileView">
+              <app-explore-metrics
+                [places]="places"
+                [selectQuery]="selectQuery"
+                [sortQuery]="sortQuery"
+                [selectedFidsArray]="selectedFidsArray"
+                [permission]="mod_permission"
+                [filters]="commonFilter"
+                (changeTotalPage)="changeTotalPage($event)"
+                [filterApiCallLoaded]="filterApiCallLoaded"
+                [totalInventory]="totalInventory"
+              ></app-explore-metrics>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start" class="subtitle-1 inventory-list-count">
+              <div *ngIf="(totalInventory && !filterApiCallLoaded) && !disableInventoryList" class="e2e-inventory-count">
+                {{selectedInventoryCount | convert:'THOUSAND' }} {{' selected of '}}{{totalInventory | convert:'THOUSAND'}}{{' Spots in filter'}}
+              </div>
+              <div *ngIf="disableInventoryList && !filterApiCallLoaded" class="e2e-inventory-count text-center">{{totalInventory | convert:'THOUSAND'}}{{' Spots in filter'}}
+              </div>
+              <div *ngIf="totalInventory === 0 && !filterApiCallLoaded && allowInventory == 'active'" fxFlexLayout="row"
+              fxLayoutAlign="center center">
+                No Spots to display. Please try with different filters.
+              </div>
+              <div *ngIf="measuresLicense !== 'active'" class="measure-table">
+                <h6>SPOT LIST</h6>
+                <span fxFlex="1 1 auto"></span>
+                <a *ngIf="isTabularViewEnabled && isTabularViewEnabled.status ==='active'" class="button-primary-link" (click) = "expandTable()">View as Table</a>
+              </div>
+            </div>
+            <div *ngIf="isLoader" class="export-csv-loader">
+              <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+            </div>
+            <div
+              *ngIf="filterApiCallLoaded"
+              class="filter-actions filter-border-top margin-top"
+              fxFlexLayout="row"
+              fxLayoutAlign="center center"
+            >
+              <h6
+                fxFlexAlign="center"
+                *ngIf="
+                  allowInventory == 'active' || allowInventory == 'disabled'
+                "
+              >
+                Discovering Spots...
+              </h6>
+            </div>
+            <div
+              *ngIf="
+                (!filterApiCallLoaded &&
+                (places.length <= 0 ||
+                  (totalInventory))) || disableInventoryList"
+              class="filter-actions filter-border-top margin-top"
+              fxFlexLayout="row"
+              fxLayoutAlign="center center">
+              <h6
+                fxFlexAlign="center"
+                *ngIf="!(allowInventory == 'active' || allowInventory == 'disabled') && !disableInventoryList">
+                You don't have permission to explore spots.
+              </h6>
+              <h6
+                fxFlexAlign="center"
+                *ngIf="disableInventoryList  && !filterApiCallLoaded">
+                Filter more to see spots.
+              </h6>
+            </div>
+              <div
+              fxFelxFill
+              fxLayout="row"
+              fxLayoutAlign="space-between center"
+              class="mat-sidebar-filter e2e-sort-filters"
+              *ngIf="allowInventory === 'active' && places && places.length > 0 && totalInventory && !disableInventoryList">
+              <div fxLayout="column" *appLicense="'gpAudience'">
+                <span class="overlay-caption">SORT BY</span>
+                <button
+                  mat-button
+                  [matMenuTriggerFor]="sort_menu"
+                  class="sort-button"
+                  title="{{ sortQuery.name }}">
+                  {{ sortQuery.name | truncate: "middle":6:6 }}
+                  <span class="fill-space"></span>
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </button>
+                <mat-menu
+                  #sort_menu="matMenu"
+                  class="side-filter side-filter-menu-item"
+                  xPosition="after"
+                  [overlapTrigger]="false">
+                  <a
+                    mat-menu-item
+                    *ngFor="let item of sortables"
+                    (click)="sortBy(item)"
+                    [ngClass]="{ active: item.value === sortQuery.value }"
+                    title="{{ item.name }}">
+                    {{ item.name | truncate: "middle":30:6 }}
+                  </a>
+                </mat-menu>
+              </div>
+              <div fxLayout="column" *ngIf="isSelectEnabled">
+                <span class="overlay-caption">SELECT</span>
+                <button
+                  mat-button
+                  [matMenuTriggerFor]="list_menu"
+                  class="top-sort-button"
+                  [class.two]="!isMeasureEnabled"
+                  title="{{ selectQuery }}"
+                >
+                  {{ selectQuery | truncate: "middle":12:12 }}
+                  <span class="fill-space"></span>
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </button>
+                <mat-menu
+                  #list_menu="matMenu"
+                  class="side-filter e2e-sort-options"
+                  xPosition="after"
+                  [overlapTrigger]="false"
+                >
+                  <a
+                    mat-menu-item
+                    *ngFor="let item of selectOptions"
+                    [ngClass]="{ active: item === selectQuery }"
+                    (click)="select(item)"
+                    title="{{ item }}"
+                    >{{ item | truncate: "middle":12:12 }}</a
+                  >
+                </mat-menu>
+              </div>
+              <div
+                fxLayout="column"
+                *ngIf="
+                  pdfExportEnabled === 'active' ||
+                  csvExportEnabled === 'active' ||
+                  isScenarioEnabled ||
+                  inventorySetEnabled === 'active'
+                "
+              >
+                <span class="overlay-caption">SAVE AS</span>
+                <button
+                  mat-button
+                  [matMenuTriggerFor]="action_menu"
+                  #saveAsTrigger
+                  class="action-menu-button e2e-saveas-inventory"
+                  [class.two]="!isMeasureEnabled"
+                >
+                  Select
+                  <span class="fill-space"></span>
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </button>
+                <mat-menu
+                  #action_menu="matMenu"
+                  class="side-filter e2e-saved-options"
+                  xPosition="after"
+                  [overlapTrigger]="false"
+                >
+                  <a
+                    mat-menu-item
+                    data-toggle="modal"
+                    *ngIf="inventorySetEnabled !== 'hidden'"
+                    (click)="openPackage()"
+                    class="e2e-saveas-inv"
+                    [ngClass]="{
+                      'module-disable': inventorySetEnabled === 'disabled'
+                    }"
+                    >Save as New Inventory Set</a
+                  >
+                  <a
+                    mat-menu-item
+                    *ngIf="
+                      packages &&
+                      packages.length > 0 &&
+                      inventorySetEnabled !== 'hidden'
+                    "
+                    data-toggle="modal"
+                    (click)="openPackage('exist')"
+                    [ngClass]="{
+                      'module-disable': inventorySetEnabled === 'disabled'
+                    }"
+                    >Add to Existing Inventory Set</a
+                  >
+                  <a
+                    mat-menu-item
+                    *ngIf="
+                      selectedPackage &&
+                      selectedPackage.name &&
+                      packages.length > 0 &&
+                      inventorySetEnabled !== 'hidden'
+                    "
+                    data-toggle="modal"
+                    (click)="openPackage('edit')"
+                    [ngClass]="{
+                      'module-disable': inventorySetEnabled === 'disabled'
+                    }"
+                    >Save Current Inventory Set</a
+                  >
+                  <a
+                    mat-menu-item
+                    *ngIf="
+                      !mobileView &&
+                      this.workFlowLabels &&
+                      this.workFlowLabels.scenario &&
+                      isScenarioLicense !== 'hidden'"
+                    data-toggle="modal"
+                    (click)="openSaveScenario()"
+                    [ngClass]="{
+                      'module-disable': isScenarioLicense === 'disabled'
+                    }"
+                    >Save as {{ this.workFlowLabels.scenario[0] }}</a
+                  >
+                  <a
+                    mat-menu-item
+                    *ngIf="pdfExportEnabled !== 'hidden'"
+                    (click)="exportPDF()"
+                    [ngClass]="{
+                      'module-disable': pdfExportEnabled === 'disabled'
+                    }"
+                    >Download as PDF</a
+                  >
+                  <a
+                    mat-menu-item
+                    *ngIf="csvExportEnabled !== 'hidden'"
+                    (click)="exportCSV()"
+                    [ngClass]="{
+                      'module-disable': csvExportEnabled === 'disabled'
+                    }"
+                    >Download CSV</a
+                  >
+                </mat-menu>
+              </div>
+            </div>
+            <div
+              class="panels-container inventory-panels"
+              infiniteScroll
+              [infiniteScrollDistance]="1"
+              [infiniteScrollThrottle]="0"
+              (scrolled)="loadMorePanels()"
+              [scrollWindow]="false"
+              [infiniteScrollDisabled]="totalPage < page"
+              [ngClass]="{ single: sidebarState }"
+              *ngIf="allowInventory === 'active' && places && places.length > 0"
+              fxLayout="column"
+              [ngStyle]="{ 'max-height.px': inventoryPanelHeight }"
+            >
+              <app-explore-side-panel
+                *ngFor="let place of places; let i = index"
+                [place]="place"
+                [index]="i"
+                [sortQuery]="sortQuery"
+                [defaultIcon]="defaultIcon"
+                (touchstart)="hoverOnCard(place.frame_id)"
+                (mouseenter)="hoverOnCard(place.frame_id)"
+                (mouseleave)="hoverOutOnCard()"
+                (placeSelect)="togglePlaceSelection($event)"
+                (mapViewOpen)="openPanelPopup($event)"
+                [isSelectEnabled]="isSelectEnabled"
+              ></app-explore-side-panel>
+            </div>
+          </div>
+        </mat-sidenav>
+        <ng-template [ngIf]="mapViewPostionState === 'secondaryMapView'">
+          <app-explore-secondary-map
+            [dimensionsDetails]="dimensionsDetails"
+            (exploreTopZipMarketWidth)="calculateMapWidth($event)"
+          >
+          </app-explore-secondary-map>
+        </ng-template>
+        <!-- Print the date & time in print page -->
+        <app-datetime-print></app-datetime-print>
+      </div>
+      <div
+        class="tabular-view-new"
+        *ngIf="isTabularViewEnabled && isTabularViewEnabled.status === 'active'">
+        <explore-tabular-panels
+          (placeClick)="hoverOnCard($event)"
+          [defaultSortQuery]="sortQuery"
+          [defaultSelectQuery]="selectQuery"
+          [sortOrder]="sortOrder"
+          [totalInventoryCount]="totalInventory"
+          [selectedInventoryCount]="selectedInventoryCount"
+          [selectedPackage]="selectedPackage"
+          [packages]="packages"
+          [formattedPlaces]="places"
+          [updateTabularView]="updateTabularView"
+          [disableInventoryList]="disableInventoryList"
+          [csvExportLoder]="isLoader"
+          (placeSelect)="placeSelected($event)"
+          (paginateCall)="loadMorePanels()"
+          (select)="select($event)"
+          (tablurMapHeight)="calculateMapHeight($event)"
+          (pdfExport)="exportPDF()"
+          (csvExport)="exportCSV($event)"
+          (saveInventorySet)="openPackage($event)"
+          (saveScenario)="openSaveScenario()"
+          (sortData)="onTableSorting($event)"
+        ></explore-tabular-panels>
+      </div>
+    </section>
+  </div>
+  <div class="population-intelligence-container mat-elevation-z1" [hidden]="!showPopIntelMenu" *ngIf="this.populationIntelligenceAccess?.status === 'active'">
+    <div class="population-close_button" role="button" (click)="hidePopulationIntelMenu()">
+      <mat-icon class="population-close_icon">close</mat-icon>
+    </div>
+    <app-population-intelligence
+      [populationModuleAccess]="this.populationIntelligenceAccess?.features"
+    ></app-population-intelligence>
+  </div>
+</div>

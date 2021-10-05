@@ -1,0 +1,6 @@
+<div class="map-time-stamp">
+  <p>
+    {{ today | date: "MM/dd/yyyy" }} at {{ today | date: "hh:mm aa" }}
+    {{ (dateTimeZoneName && dateTimeZoneName) || "" }}
+  </p>
+</div>

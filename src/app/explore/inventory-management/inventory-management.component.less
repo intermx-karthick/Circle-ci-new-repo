@@ -1,0 +1,89 @@
+//** InventoryManagementComponent:
+// == Designed for
+//## Header
+//## Tabs
+//> code style: BEM
+::ng-deep {
+  .invent-mgnt {
+
+    &-header {
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: var(--primary-bg) !important;
+      color: var(--white-color);
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: 0.14px;
+      line-height: 25px;
+      box-sizing: border-box;
+
+      &__title {
+        margin: 0;
+        color: inherit;
+        font-size: 20px;
+      }
+
+      &__create-new-btn {
+
+        background: rgba(0, 0, 0, 0);
+        border: 1px solid rgb(255, 255, 255);
+        border-radius: 22px;
+        display: flex;
+        align-items: center;
+        outline: none;
+        cursor: pointer;
+        color: inherit;
+
+        &:active {
+          outline: none;
+        }
+
+        &:focus {
+          outline: none;
+        }
+
+        span {
+          margin-left: 8px;
+        }
+
+        .mat-icon {
+          height: 35px;
+        }
+
+      }
+
+    }
+
+    .mat-tab-label-container {
+      height: initial !important;
+    }
+
+    .mat-tab-header {
+      height: 37px;
+    }
+
+    .mat-tab-label {
+      color: var(--medium-emphasis);
+      height: 36px !important;
+    }
+
+    .mat-tab-label-active {
+      color: var(--primary-bg);
+    }
+
+    .mat-ink-bar {
+      background: var(--primary-bg) !important;
+    }
+
+    &-tabs .mat-icon {
+      margin-right: 8px;
+      height: 18px;
+      width: 18px;
+      font-size: 18px;
+    }
+
+  }
+}

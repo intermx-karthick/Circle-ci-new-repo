@@ -1,0 +1,149 @@
+
+<form [formGroup]="hoursForm">
+
+<div class="imx-field" fxLayout="column" fxLayoutAlign="start start" >
+  
+  <div div fxLayout="row" fxLayoutAlign="end center" class='action-link-div'>
+    <a class="link imx-mlr-20" title="Copy to weekdays" (click)="copyValues(duration.WEEKDAYS)">Apply to
+      weekdays</a>
+    <a class="link imx-mlr-20" title="Copy to all days" (click)="copyValues(duration.ALL)">Apply to all</a>
+    <a class="link imx-mlr-20" title="Clear all feilds" (click)="clearAllTimeData();">Clear all</a>
+  </div>
+
+  <div class="imx-time-field">
+    <div fxLayout="row" fxLayoutAlign="start center" formGroupName="mo">
+      <div class="imx-time-label custom-labels"><label>Monday</label></div>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('mo', 'from')">
+        <mat-label>Open at</mat-label>
+        <input matInput placeholder="Open" formControlName="from" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('mo', 'to')">
+        <mat-label>Close at</mat-label>
+        <input matInput placeholder="Close at" formControlName="to" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('mo', 'next')">
+        <mat-label>Next day</mat-label>
+        <input matInput placeholder="Next day" formControlName="next" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" formGroupName="tu">
+      <div class="imx-time-label custom-labels"><label>Tuesday</label></div>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('tu', 'from')">
+        <mat-label>Open at</mat-label>
+        <input matInput placeholder="Open" formControlName="from" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('tu', 'to')">
+        <mat-label>Close at</mat-label>
+        <input matInput placeholder="Close at" formControlName="to" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('tu', 'next')">
+        <mat-label>Next day</mat-label>
+        <input matInput placeholder="Next day" formControlName="next" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" formGroupName="we">
+      <div class="imx-time-label custom-labels"><label>Wednesday</label></div>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('we', 'from')">
+        <mat-label>Open at</mat-label>
+        <input matInput placeholder="Open" formControlName="from"
+               readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('we', 'to')">
+        <mat-label>Close at</mat-label>
+        <input matInput placeholder="Close at" formControlName="to" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('we', 'next')">
+        <mat-label>Next day</mat-label>
+        <input matInput placeholder="Next day" formControlName="next" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" formGroupName="th">
+      <div class="imx-time-label custom-labels"><label>Thursday</label></div>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('th', 'from')">
+        <mat-label>Open at</mat-label>
+        <input matInput placeholder="Open" formControlName="from" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('th', 'to')">
+        <mat-label>Close at</mat-label>
+        <input matInput placeholder="Close at" formControlName="to" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('th', 'next')">
+        <mat-label>Next day</mat-label>
+        <input matInput placeholder="Next day" formControlName="next" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" formGroupName="fr">
+      <div class="imx-time-label custom-labels"><label>Friday</label></div>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('fr', 'from')">
+        <mat-label>Open at</mat-label>
+        <input matInput placeholder="Open" formControlName="from" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('fr', 'to')">
+        <mat-label>Close at</mat-label>
+        <input matInput placeholder="Close at" formControlName="to" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('fr', 'next')">
+        <mat-label>Next day</mat-label>
+        <input matInput placeholder="Next day" formControlName="next" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" formGroupName="sa">
+      <div class="imx-time-label custom-labels"><label>Saturday</label></div>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('sa', 'from')">
+        <mat-label>Open at</mat-label>
+        <input matInput placeholder="Open" formControlName="from" readonly/>
+        <mat-icon matSuffix (click)="openTimePicker('sa', 'from')">alarm_add</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('sa', 'to')">
+        <mat-label>Close at</mat-label>
+        <input matInput placeholder="Close at" formControlName="to" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('sa', 'next')">
+        <mat-label>Next day</mat-label>
+        <input matInput placeholder="Next day" formControlName="next" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" formGroupName="su">
+      <div class="imx-time-label custom-labels"><label>Sunday</label></div>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('su', 'from')">
+        <mat-label>Open at</mat-label>
+        <input matInput placeholder="Open" formControlName="from" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('su', 'to')">
+        <mat-label>Close at</mat-label>
+        <input matInput placeholder="Close at" formControlName="to" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="time-field mr-10" (click)="openTimePicker('su', 'next')">
+        <mat-label>Next day</mat-label>
+        <input matInput placeholder="Next day" formControlName="next" readonly/>
+        <mat-icon matSuffix>alarm_add</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+</form>

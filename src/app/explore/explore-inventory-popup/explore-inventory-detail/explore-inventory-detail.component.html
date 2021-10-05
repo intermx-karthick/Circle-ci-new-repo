@@ -1,0 +1,54 @@
+<div class='z-depth-2 mapPopUpBlk' id="inventoryShortOverview" *ngIf="inventory" [ngClass]="{'data-underreview':!haveImpressions }">
+  <div class='select_btn_panel' *ngIf="selectButton && isEnabled">
+      <a href='javascript:void(0)' class='fselectbtn'><span>{{selectButton}}</span></a>
+  </div>
+  <div class='mapPopUpBlk2'>
+    <div class='mapPopUpBlk2-content'>
+      <div class='mapPopupLeftPanel flex-center flex-column'>
+          <img src='{{ feature.photos | getImageUrl:imageType.HEIGHT_180 }}' crossorigin="anonymous" onerror="this.src='../../../assets/images/no_photo_popup.png'; this.classList.add('no-image-placeholder')">
+      </div>
+      <div class='mapPopupRightPanel'>
+        <div *ngIf="!isFeatures" class='panel_nav no_panel_nav'></div>
+        <div class='panel_nav' *ngIf="isFeatures">
+          <div class=''>
+            <a href="javascript:void(0);" class="prev {{layerType}}"><i class="material-icons">navigate_before</i></a>
+          </div>
+          <div class='panel_nav_text'> {{inventory.currentPage}}/{{inventory.features.length}}</div>
+          <div class=''>
+            <a href="javascript:void(0);" class="next {{layerType}}"><i class="material-icons">navigate_next</i></a>
+          </div>
+        </div>
+        <!-- <span id="under-review-flag" class='data-under-review'>DATA UNDER REVIEW</span> -->
+        <div class='panel_content'>
+          <!-- Heading Start -->
+          <div class='panel_header' *ngIf="feature && feature.media_status" [ngClass]="{ 'empty-flag':(feature.representations | operatorName) === null , 'primary-flag':feature.media_status.name ==='Published - Inactive', 'underreview-flag': feature.media_status.name ==='Published - Under Review'}" >
+            <span class="oppTitle"> <span class="operator-name" title="{{feature.representations | operatorName}}">{{feature.representations | operatorName | truncate:'middle':7:6}}</span></span>
+          </div>
+          <!-- Heading End -->
+          <div class="status-dots">
+          <div class="icon icon-circle inventory-status-dots {{colorClass}} {{layerType}}"></div>
+          </div>
+          <ul>
+            <li *ngIf="inventory.isMeasureAllowed && haveImpressions && !(feature.media_status.name ==='Published - Suppressed')" id="popup-impressions" [ngClass]="{'impression':!haveImpressions }">
+              <span *ngIf="haveImpressions && inventory.isMeasureAllowed" title="{{impression}}">Weekly Impressions: {{impression | convert:'ABBREVIATE':0 }}</span>
+              <span *ngIf="!haveImpressions">Weekly Spot Impressions: Under review</span>
+            </li>
+            <li><span title="{{boardDetail.boardTitle}}"></span> {{boardDetail.boardTitle | truncate:'middle':15:15}}</li>
+            <li><span title="{{feature.location.primary_artery}}"> {{feature.location.primary_artery | truncate:'middle':7:7}}</span></li>
+            <li><span>Operator Spot ID: {{ (operatorSpotID === '' ?feature.plant_frame_id : operatorSpotID) | truncate:'middle':6:6}}</span></li>
+            <li><span>Geopath Spot ID: {{feature.id}}</span></li>
+            <li><span>H: {{boardDetail.height}} / W: {{boardDetail.width}}</span></li>
+            <li><span>Material: {{ feature.digital === true ? 'Digital': 'Printed/Mesh' }}</span></li>
+            <li><span>Orientation: {{boardDetail.orientation}}</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="inventory.isMeasureAllowed && haveImpressions && !(feature['media_status']['name'] ==='Published - Suppressed')" id="popup-see-more">
+    <!-- <div id="loader"></div> -->
+    <button type="button" class="open_inventory_card_btn {{layerType}}" (click)="moreDetails()">
+      <div>CLICK HERE FOR MORE DETAILS</div>
+    </button>
+  </div>
+</div>

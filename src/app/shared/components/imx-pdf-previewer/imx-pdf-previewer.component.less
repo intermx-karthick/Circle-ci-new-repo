@@ -1,0 +1,172 @@
+@import '../../../../assets/css/variables.less';
+
+.c-imx-pdf-previewer {
+  height: 100%;
+  .c-imx-pdf-previewer__body {
+    height: calc(~'100% - 60px');
+  }
+  &__header {
+    padding: 10px 1rem;
+    background: var(--grays-bg-900);
+    color: white;
+    div {
+      font-size: 1.12rem;
+    }
+    span {
+      font-size: .5rem;
+      color: #D8D8D8;
+      line-height: 150%;
+      letter-spacing: 0.1em;
+    }
+    .close-dialog {
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 18px;
+      letter-spacing: 1.55px;
+      text-transform: uppercase;
+    }
+  }
+}
+
+::ng-deep {
+  .imx-pdf-previewer-dialog {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 1400px !important;
+    max-height: 1000px !important;
+
+    .mat-dialog-container {
+      padding: 0 !important;
+      border-radius: 0 !important;
+      overflow-y: auto !important;
+    }
+  }
+
+  app-imx-pdf-previewer {
+    ngx-extended-pdf-viewer {
+      // .toolbar{
+      //   border-bottom: none !important;
+      // }
+
+      #toolbarViewer {
+        max-height: 32px;
+      }
+
+     #toolbarViewerLeft{
+       float: left;
+     }
+    #toolbarViewerRight{
+      float: right;
+    }
+      #loadingBar {
+        height: 2px !important;
+        background-color: #fff !important;
+        border-bottom: none !important;
+      }
+
+      #loadingBar .progress {
+        background-color: #28489D !important;
+      }
+
+      // .zoom {
+      //   height: 643px !important;
+      // }
+      #toolbarContainer {
+        background-color: #fff;
+      }
+      .findbar  {
+        background-color: #fff;
+        .toolbarLabel {
+          margin: 4px 2px 4px 0;
+        }
+      }
+
+      .dropdownToolbarButton, .overlayButton, .secondaryToolbarButton, .findbar, .secondaryToolbar {
+        color: #E5E5E5;
+      }
+
+      .toolbarLabel {
+        font: bold;
+      }
+
+      .toolbarField.pageNumber {
+        height: auto;
+      }
+
+      .secondaryToolbar {
+        overflow: hidden auto;
+      }
+
+      #secondaryToolbarButtonContainer {
+        overflow: hidden auto;
+      }
+
+      #passwordOverlay, #printServiceOverlay {
+        z-index: 40000;
+      }
+
+      .secondaryToolbarButton {
+        #download::before {
+          content: url('/assets/custom-icons/imx-pdf-download.svg');
+        }
+      }
+
+      .toolbarField.pageNumber {
+        height: 17px;
+        border: 1px solid #616161;
+        border-radius: 3px;
+        background: #FFFFFF;
+        font-family: 'LL Circular Pro Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 18px;
+        letter-spacing: 0px;
+        text-align: right;
+        color: #424242;
+      }
+
+      .toolbarLabel {
+        font-family: 'LL Circular Pro Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 18px;
+        letter-spacing: 0px;
+        color: #424242;
+
+      }
+
+      mat-icon.transparent {
+        svg, svg path {
+          fill: transparent !important;
+        }
+      }
+
+      .mat-icon.imx-icon-black {
+        color: #616161;
+      }
+
+      pdf-zoom-dropdown {
+        height: 24px;
+        width: 115px;
+        border-radius: 2px;
+      }
+
+      #scaleSelectContainer {
+        //styleName: Yoda/Body/Body2;
+        font-family: 'LL Circular Pro Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 18px;
+        letter-spacing: 0px;
+        text-align: left;
+
+      }
+      .toolbarButton  {
+        color:#616161;
+      }
+    }
+  }
+}

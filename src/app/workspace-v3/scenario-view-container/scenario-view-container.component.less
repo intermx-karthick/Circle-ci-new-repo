@@ -1,0 +1,250 @@
+@import '../../../assets/css/variables.less';
+
+::ng-deep {
+  app-scenario-view-container {
+    .action-height-imx{
+      height:36px;
+    }
+    .right-margin-1rem{
+      margin-right:1rem;
+    }
+    .map-inventory{
+      mat-icon{
+        width:24px !important
+      }
+    }
+    .imx-ml-10{
+      margin-left:10px;
+    }
+    .inventory-tab-label {
+      cursor: pointer;
+    }
+    & .caption.back-to-project {
+      color: var(--primary-bg);
+      display:flex;
+      align-item:center;
+      & > mat-icon {
+        font-size: 14px;
+        vertical-align: middle;
+        line-height: 14px;
+        height: 14px;
+        width: 10px;
+        margin-right: 0.4rem;
+      }
+    }
+
+    .market-background{
+      margin-top: 0.5rem;
+      margin-bottom: 2rem;
+      padding: 0.313rem;
+      position: relative;
+      width: fit-content;
+      font-size: 14px;
+      .market-background-child{
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background: var(--primary-bg-800);
+        opacity: 0.16;
+        border-radius: 10px;
+      }
+    }
+    .disabledOption > button {
+      cursor: not-allowed !important;
+    }
+    .scenario-export-btn{
+      margin-left: 1rem;
+    }
+    .action-btn-marign-right{
+      margin-right:0.5rem;
+    }
+    .scenario-title  mat-icon, .scenario-actions > button {
+      margin-left: 1rem;
+      cursor: pointer;
+    }
+    .scenario-title-edit {
+      form {
+        width: 100%;
+        .mat-form-field {
+          width: 100%;
+        }
+        .imx-input-description {
+          &.mat-form-field-appearance-legacy {
+            .mat-form-field-wrapper {
+              height: 100% !important;
+            }
+            .mat-form-field-flex, .mat-form-field-infix {
+              height: 100% !important;
+              textarea {
+                // height: 100% !important;
+              }
+            }
+          }
+
+        }
+        .scenario-tags {
+          > mat-label {
+            text-transform: uppercase;
+            font-size: 0.625rem;
+            color: var(--grays-bg-600);
+          }
+          &.active {
+            > mat-label {
+              color: var(--primary-bg);
+            }
+          }
+          .chipListBlock {
+            max-height: 70px;
+            overflow: auto;
+          }
+          .mat-chip-list-wrapper {
+            margin:0px !important;
+          }
+          .mat-form-field-infix {
+            padding: 0px !important;
+            input.mat-input-element {
+                width: 100% !important;
+            }
+          }
+        }
+
+      }
+    }
+    .scenario-title {
+      mat-icon {
+        cursor: pointer;
+        margin-top : 5px;
+      }
+    }
+    .mat-tab-body-wrapper {
+      margin-top: 20px;
+    }
+
+    .mat-expansion-panel-header {
+      font-size: 12px;
+      line-height: 15px;
+      letter-spacing: 0.4px;
+      height: 15px !important;
+      padding: 17px 4px 17px 0px !important;
+      color: var(--primary-bg)
+    }
+
+
+    .mat-expansion-panel:not([class*=mat-elevation-z]) {
+      box-shadow: none !important;
+    }
+
+    /* .mat-drawer.mat-drawer-end {
+      right: 8px !important;
+    }
+
+    .mat-drawer {
+      bottom: 24px !important;
+    } */
+    .side-nav-filter {
+      background-color: transparent !important;
+      z-index: 999 !important;
+      width: 860px  !important;
+      overflow: hidden;
+      box-shadow: none !important;
+      border-radius: 0;
+      border: 0 !important;
+      bottom: 0px !important;
+      right: 0px !important;
+     /*  box-shadow: 0 2px 4px 2px rgba(31, 115, 183, 0.2) !important;
+      border-radius: 0 0 10px 10px; */
+      .mat-drawer-inner-container {
+        overflow: hidden;
+      }
+    }
+
+    .side-nav-main-panel{
+      background: rgb(255 255 255);
+    }
+
+    .side-nav-main-panel > .mat-expansion-panel-content > .mat-expansion-panel-body {
+      padding: 0 !important;
+    }
+
+    .side-nav-main-panel .mat-expansion-panel{
+      background: rgb(249 249 249);
+      border-bottom: 0 !important;
+    }
+
+    .side-nav-main-panel > .mat-tab-body-content > .mat-tab-content{
+      background: rgb(255 255 255) !important;
+    }
+
+    // .side-nav-main-panel  .mat-tab-body-content  .mat-tab-content{
+    //   background: rgb(249 249 249) !important;
+    // }
+
+    .side-nav-main-panel mat-expansion-panel-header {
+      border-bottom: 0 !important;
+    }
+
+    .mat-expansion-panel-spacing {
+      margin: 0 !important;
+    }
+
+    .app-audience-filter .saved-audiences-content .mat-expansion-panel{
+      border-bottom: 0 !important;
+    }
+
+    .side-nav-filter__main-panel-block{
+      background: #f9f9f9;
+      border-radius: 4px;
+      padding: 0 8px;
+    }
+
+    .cursor-pointer{
+       cursor: pointer;
+    }
+    .plan-in-progress {
+      background: #fff;
+      min-height: 400px;
+      .mat-icon {
+        margin-right: 10px;
+      }
+    }
+    .scenario-view__filter-backdrop {
+      z-index: 998;
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      background: rgba(0,0,0,0);
+      bottom: 0;
+      cursor: not-allowed;
+
+      .mat-sidenav.mat-drawer.mat-sidenav {
+        cursor: auto;
+      }
+    }
+  }
+
+  .multiline-tooltip{
+    white-space: pre-line !important;
+    height: auto;
+    justify-content: flex-start;
+  }
+  .map-inventory-confirm-dialog{
+    h3{
+      font-size: 1.25rem !important;
+    }
+    .continue-btn{
+      background: var(--primary-bg-800) !important;
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.16);
+      color: #FFFFFF;
+    }
+    .cancel-btn{
+      background: #FCFCFC;
+      box-shadow: unset !important;
+      line-height: 18px;
+      text-transform: uppercase;
+      color: var(--primary-bg-800) !important;
+    }
+  }
+}

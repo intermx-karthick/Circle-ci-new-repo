@@ -1,0 +1,175 @@
+<!-- Material Digital -->
+<form *ngIf="enableForDigitalForm.isValid; else nonDigitalFormRef" [formGroup]="digitalForm" class="inventory-form__form">
+
+  <section fxLayout fxLayoutGap="24px">
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-label>Full Motion</mat-label>
+        <mat-select formControlName="full_motion">
+          <mat-option [value]="false">
+            No
+          </mat-option>
+          <mat-option [value]="true">
+            Yes
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-label>Partial Motion</mat-label>
+        <mat-select formControlName="partial_motion">
+          <mat-option [value]="false">
+            No
+          </mat-option>
+          <mat-option [value]="true">
+            Yes
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-label>Audio Enabled</mat-label>
+        <mat-select formControlName="interative">
+          <mat-option [value]="false">
+            No
+          </mat-option>
+          <mat-option [value]="true">
+            Yes
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-label>Interactive</mat-label>
+        <mat-select formControlName="audio_enabled">
+          <mat-option [value]="false">
+            No
+          </mat-option>
+          <mat-option [value]="true">
+            Yes
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </section>
+
+  <section fxLayout fxLayoutGap="24px">
+    <div class="inventory-form__field" fxFlex="20">
+      <mat-form-field>
+        <mat-label>Pixel Height</mat-label>
+        <input type="text" formControlName="pixel_height" matInput autocomplete="off" appNumberOnly>
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field" fxFlex="20">
+      <mat-form-field>
+        <mat-label>Pixel Width</mat-label>
+        <input type="text" formControlName="pixel_width" matInput autocomplete="off" appNumberOnly>
+      </mat-form-field>
+    </div>
+  </section>
+
+<!--
+  <section fxLayout fxLayoutGap="24px">
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-label>Ad Share of Voice</mat-label>
+        <input type="text" formControlName="ad_share_of_voice" matInput autocomplete="off" appNumberOnly>
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-label>Spot Share of Voice</mat-label>
+        <input type="text" formControlName="spot_share_of_voice" matInput autocomplete="off" appNumberOnly>
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-label>Avgs.spot Length</mat-label>
+        <input type="text" formControlName="avg_spot_length" matInput autocomplete="off" appNumberOnly>
+        <mat-hint>Seconds</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-label>Avgs.spot Loop</mat-label>
+        <input type="text" formControlName="avg_spots_in_loop" matInput autocomplete="off">
+      </mat-form-field>
+    </div>
+  </section>
+
+  <section fxLayout fxLayoutGap="24px">
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-label>Other Content</mat-label>
+        <input type="text" formControlName="other_content" matInput autocomplete="off">
+        <mat-icon matSuffix>info</mat-icon>
+      </mat-form-field>
+    </div>
+  </section>
+-->
+
+</form>
+<!-- End Material Digital -->
+
+<ng-template #nonDigitalFormRef>
+  <form [formGroup]="nonDigitalForm" class="inventory-form__form">
+<!--    <section fxLayout fxLayoutGap="24px">
+      <div class="inventory-form__field">
+        <mat-form-field>
+          <mat-label>Material Requirement</mat-label>
+          <mat-select formControlName="materail_requirement">
+            <mat-option *ngFor="let option of ['Measured', 'under review']" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="inventory-form__field">
+        <mat-form-field>
+          <mat-label>Substrate Type</mat-label>
+          <mat-select formControlName="substrate_type">
+            <mat-option *ngFor="let option of ['Measured', 'under review']" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </section>-->
+
+    <section fxLayout fxLayoutGap="24px">
+      <div class="inventory-form__field">
+        <mat-form-field>
+          <mat-label>Mechanical Rotation</mat-label>
+          <mat-select formControlName="mechanical_rotation">
+            <mat-option [value]="false">No</mat-option>
+            <mat-option [value]="true">Yes</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="inventory-form__field">
+        <mat-form-field>
+          <mat-label>Type of illumination</mat-label>
+          <mat-select formControlName="type_of_illumination">
+            <mat-option *ngFor="let option of illumnationType$ | async; trackBy: trackById" [value]="option">
+              {{option.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </section>
+
+  </form>
+
+</ng-template>

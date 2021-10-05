@@ -1,0 +1,27 @@
+.imx-expansion-panel{
+  &.enableHeaderBorder{
+    mat-expansion-panel-header{
+      border-bottom: 1px solid;
+      color: var(--grays-bg-300);
+      &.mat-expanded {
+        border-bottom: none;
+      }
+    }
+  }
+  mat-expansion-panel-header{
+    mat-panel-title{
+      align-items: center;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 0.813rem;
+      line-height: 16px;
+      letter-spacing: 0.5px;
+      /* Grays/600 */
+      color: var(--grays-bg-600);
+    }
+  }
+  .mat-expansion-panel-body{
+    overflow-x: hidden;
+    padding: 16px;
+  }
+}

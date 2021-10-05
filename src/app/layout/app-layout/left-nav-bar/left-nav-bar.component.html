@@ -1,0 +1,118 @@
+<div class="initial-side-view" fxLayout="column">
+  <mat-nav-list [ngClass]="{'collapse-menu':showFiller}">
+
+    <a (click)="onshowFiller()" class="mobile-hide navoutclick">
+      <mat-icon class="collapse-arrow">{{!showFiller?'arrow_forward_ios':'arrow_back_ios'}} </mat-icon> <span
+        *ngIf="showFiller">Collapse Menu</span>
+    </a>
+   
+    <a [routerLinkActive]="['active']" routerLink="/home" matTooltip="Home" matTooltipPosition="right"
+      class="mobile-hide" navModule="home" appAccessModule module="home" authenticate>
+      <mat-icon>home</mat-icon> <span *ngIf="showFiller">Home</span>
+    </a>
+
+    <a [routerLinkActive]="['active']" routerLink="/explore" authenticate module="explore" matTooltip="Explore"
+      matTooltipPosition="right" class="explore-link">
+      <mat-icon>explore</mat-icon> <span *ngIf="showFiller">Explore</span>
+    </a>
+
+    <a [routerLinkActive]="['active']" [routerLink]="homeUrl" authenticate module="projects" matTooltip="Workspace"
+      matTooltipPosition="right" class="workspace-link" *ngIf="defaultWorkspace == 'workspace'; else newworkspace">
+      <mat-icon>apps</mat-icon> <span *ngIf="showFiller">Workspace</span>
+    </a>
+    <ng-template #newworkspace>
+      <a [routerLinkActive]="['active']" routerLink="/workspace-v3/projects/list" authenticate module="v3workspace"
+        matTooltip="Workspace" matTooltipPosition="right" class="workspace-link">
+        <mat-icon>apps</mat-icon> <span *ngIf="showFiller">Workspace</span>
+      </a>
+    </ng-template>
+
+    <a [routerLinkActive]="['active']" authenticate module="networkLibrary" routerLink="/citycast" matTooltip="CityCast"
+      matTooltipPosition="right">
+      <mat-icon>home_work</mat-icon><span *ngIf="showFiller">CityCast</span>
+    </a>
+    
+    <a routerLink="/contracts-management" [routerLinkActive]="['active']" module="contractManagement"
+      authenticate matTooltip="Contracts" matTooltipPosition="right" appUserAccessPermission >
+      <mat-icon class='contracts-icon' svgIcon='IMX-contracts'></mat-icon>
+      <span *ngIf="showFiller">Contracts</span>
+    </a>
+
+    <a [routerLinkActive]="['active']" routerLink="/jobs" matTooltip="Jobs" matTooltipPosition="right" class="mobile-hide"
+      navModule="printProduction" appAccessModule module="printProduction" authenticate appUserAccessPermission>
+      <mat-icon class='jobs-icon' svgIcon='IMX-jobs'></mat-icon>
+      <span *ngIf="showFiller">Jobs</span>
+    </a>
+
+    <a matTooltip="Tasks" (click)="upCommingModuleAlert()" matTooltipPosition="right" class="mobile-hide"
+      appAccessModule navModule="tasksDashboard" authenticate module="tasksDashboard">
+      <mat-icon class='tasks-icon' svgIcon='IMX-tasks'></mat-icon>
+      <span *ngIf="showFiller">Tasks</span>
+    </a>
+
+    <a [routerLinkActive]="['active']" routerLink="/reports" authenticate module="reports" matTooltip="Reports"
+      matTooltipPosition="right" navModule="reports" appAccessModule>
+      <mat-icon>assessment</mat-icon> <span *ngIf="showFiller">Reports</span>
+    </a>
+
+    <a [routerLinkActive]="['active']" authenticate module="dailyMobility" routerLink="/daily-mobility"
+      matTooltip="Daily Mobility" matTooltipPosition="right"><i class="icon-custom icon-custom-carsharing"></i><span
+        *ngIf="showFiller" class="daily-mob">Daily Mobility</span>
+    </a>
+    
+    <a routerLink="/records-management-v2" [routerLinkActive]="['active']" module="recordsManagement" authenticate
+      matTooltip="Records Management" matTooltipPosition="right" navModule="recordsManagement" appUserAccessPermission>
+      <mat-icon [ngStyle]="{ 'margin-left' : showFiller ? '4px' : '0px' }">api</mat-icon> <span *ngIf="showFiller" class="records-mgmt">Records Management</span>
+    </a>
+    
+    <a *ngIf="notificationsEnabled" [routerLinkActive]="['active']" routerLink="/admin" matTooltip="Admin"
+      matTooltipPosition="right">
+      <mat-icon>account_circle</mat-icon> <span *ngIf="showFiller">Admin</span>
+    </a>
+
+    <a routerLink="/usermanagement" [routerLinkActive]="['active']" module="userManagement" authenticate
+      matTooltip="User Management" matTooltipPosition="right" *ngIf="showUserManagement">
+      <mat-icon matSuffix class="mgmt-img" svgIcon="IMX-left-nav-user-mgmt"></mat-icon>
+      <span *ngIf="showFiller">User Management</span>
+    </a>
+
+    <a [routerLinkActive]="['active']" authenticate module="markets" matTooltip="Markets" matTooltipPosition="right">
+      <mat-icon>map</mat-icon> <span *ngIf="showFiller">Markets</span>
+    </a>
+   
+    <a class="support-btn" *ngIf="helpMatMenu" [matMenuTriggerFor]="moreMenu" authenticate module="help" matTooltip="Support" matTooltipPosition="right">
+      <mat-icon>help</mat-icon> <ng-container *ngIf="showFiller">Support</ng-container>
+    </a>
+
+    <a class="support-btn"  *ngIf="!helpMatMenu" authenticate module="help" matTooltip="Support" matTooltipPosition="right">
+      <mat-icon>help</mat-icon> <ng-container *ngIf="showFiller">Support</ng-container>
+    </a>
+    <!-- helpModule.url -->
+    <a [routerLinkActive]="['active']" matTooltip="Share (Coming soon)" matTooltipPosition="right" class="share-color"
+      fxHide>
+      <mat-icon>share</mat-icon> <span *ngIf="showFiller">Share</span>
+    </a>
+
+    <a [routerLinkActive]="['active']" (click)="onOpenMore()" class="more-link-nav" fxHide>
+      <mat-icon>more_horiz</mat-icon> <span *ngIf="showFiller">More</span> <span class="seprate-space"></span>
+      <mat-icon *ngIf="showFiller">{{showMore?'expand_less':'expand_more'}}</mat-icon>
+    </a>
+
+    <div class="more-menu" *ngIf="showMore">
+      <a [routerLinkActive]="['active']" *ngIf="showFiller">
+        <mat-icon></mat-icon>support
+      </a>
+      <a [routerLinkActive]="['active']" *ngIf="showFiller">
+        <mat-icon></mat-icon>feedback
+      </a>
+    </div>
+
+    <mat-menu class="hover-more" #moreMenu="matMenu" [overlapTrigger]="true">
+      <a href="{{helpUrl}}" mat-menu-item target="_blank">Support Center
+        <mat-icon [ngStyle]="{'color':'white'}">launch</mat-icon>
+      </a>
+      <a mat-menu-item (click)="openFeedback()">Submit feedback</a>
+    </mat-menu>
+    
+  </mat-nav-list>
+</div>

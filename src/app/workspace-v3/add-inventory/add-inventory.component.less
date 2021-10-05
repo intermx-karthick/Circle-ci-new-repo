@@ -1,0 +1,128 @@
+::ng-deep {
+  app-add-inventory {
+    /*.min-height-inventory{
+      min-height: calc(100vh - 160px) !important;
+      max-height: calc(100vh - 160px) !important;
+      overflow: auto;
+    }*/
+    mat-tab-body {
+      margin: 20px 0 6px;
+      .mat-tab-body-content{
+        padding: 10px;
+      }
+    }
+    .set-tab-position {
+      .mat-tab-list {
+        transform: translateX(0px) !important;
+      }
+    }
+    .spot-ids {
+      .mat-expansion-panel-body {
+        max-height: 400px;
+        overflow  : auto;
+      }
+    }
+
+    .search-input {
+      input {
+        height: auto;
+        border-bottom: 0px;
+      }
+    }
+
+    .list-panel {
+      mat-selection-list {
+        max-height: 180px;
+        overflow  : auto;
+      }
+    }
+
+    .file-error-text p {
+      color: var(--error);
+    }
+
+
+    .filter-inventory{
+      // max-height: 250px;
+      max-height: 500px;
+    }
+
+    .popup-content {
+      height:  92% !important;
+      .mat-tab-group {
+        height: 100%;
+        .mat-tab-body-wrapper {
+          height: 100%;
+        }
+      }
+      .list-panel {
+        mat-selection-list {
+          max-height: calc(100vh - 234px);
+          overflow-y: auto;
+        }
+      }
+    }
+    .enable-mediaType{
+      mat-tab-body{
+        margin-bottom:100px;
+      }
+    }
+    .add-inventory-button-block {
+      margin-top: 10px;
+    }
+    .add-inventory-create-position{
+      bottom: 10px;
+      position: absolute;
+      width: 100%;
+    }
+    .apply-btn-padding{
+      padding-right: 25px;
+    }
+    .imx-badge-node {
+      margin-left: 1rem;
+      span {
+        font-size: 10px;
+        font-weight: 400;
+        line-height: 13px;
+        letter-spacing: 0.6px;
+        width: 20px !important;
+        height: 20px !important;
+        line-height: 22px !important;
+      }
+    }
+    .package__loader {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  app-side-nav-filter {
+    .enable-mediaType {
+      mat-tab-body{
+        margin-bottom: 0px;
+      }
+      /* >.mat-tab-body-wrapper{
+        .mat-tab-body-content{
+          padding-bottom:360px;
+        }
+      } */
+      .media-expanded-padding{
+        .mat-expansion-panel-content{
+          .mat-expansion-panel-body {
+            padding: 0px 16px;
+          }
+        }
+      }
+      // .filter-inventory{
+        // margin-bottom:40px;
+      // }
+    }
+  }
+  .operator-panel{
+    padding: 0px 10px 0px 10px;
+    .operator-title{
+      color: var(--primary-bg-900); 
+    }
+  }
+
+}

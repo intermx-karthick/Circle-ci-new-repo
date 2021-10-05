@@ -1,0 +1,19 @@
+<div *ngIf="themeSettings" fxLayout="row" fxLayoutAlign="center center" fxFill class="login-main-layout" [ngStyle]="{ 'background-image': 'url(' + themeSettings['background']['bg_image'] + ')'}">
+<div *ngIf="themeSettings" class="login-box-main-body register-box-main">
+  <div class="flex-center flex-column">
+    <div class="login-box-body">
+      <div class="login-form-block">
+        <div class="login-logo" *ngIf="themeSettings">
+          <img  src="{{themeSettings['logo']['full_logo']}}" onError="this.src='./assets/images/logo-placeholder.png'">
+          <div class="logo-slogan">{{themeSettings['productName']}} <span class="site-version">{{themeSettings['version']}}</span></div>
+        </div>
+        <div class="login-title-block">
+          <span class="login-title">You're Almost Ready!</span>
+          <span class="login-title-solgan" id="message-container">We've sent a message to {{user.email}}. Open it up and click Activate Account. We'll take it from there.</span>
+          <p>Thank you for registering your account!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

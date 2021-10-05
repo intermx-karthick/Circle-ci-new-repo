@@ -1,0 +1,13 @@
+{
+    "contractId": "35670",
+    "periodLengthError": "Period Length min value is 1.",
+    "Quarterly": " Quarterly ",
+    "Annual":" Annual ",
+    "formcontrolname":"formcontrolname",
+    "ShippingAddressForVendors": "Automation Business",
+    "AddressForVendors": "Automation Address",
+    "CityForVendors": "Automation City",
+    "ContactNameforVendors": "Automation Contact",
+    "PhoneNumberForVendors": "2458565487",
+    "EmailAddress": "automation@mail"
+}

@@ -1,0 +1,49 @@
+.edit-plan-sheet {
+  padding-top: 5px !important;
+  .gray-800 {
+    color: var(--grays-bg-800);
+  }
+  .gray-600 {
+    color: var(--grays-bg-600);
+  }
+  .edit-plan-sheet-heading {
+    margin-bottom: 16px;
+    p {
+      margin: 0px;
+    }
+  }
+  .mat-icon {
+    height: 18px;
+    width: 18px;
+  }
+  .action-btn {
+    margin-top:1.5rem;
+  }
+}
+
+::ng-deep{
+  app-edit-plan{
+    .error-field-width{
+      &.mat-form-field-invalid{
+        .mat-form-field-underline {
+          position: relative;
+          bottom: auto;
+        }
+        .mat-form-field-subscript-wrapper {
+          position: absolute;
+          width: 180px;
+        }
+      }
+    }
+    .mat-error{
+      text-transform: uppercase !important;
+    }
+    .imx-button-basic_icon {
+      margin-right: 1rem;
+    }
+    .actions-div {
+      margin-top: 16px;
+    }
+  }
+
+}

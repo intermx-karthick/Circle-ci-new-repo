@@ -1,0 +1,56 @@
+::ng-deep {
+  .add-contact-bottom-sheetDialog{
+    overflow:hidden !important;
+    border-radius: 5px;
+    max-height: inherit;
+  }
+  app-clients-add-contact {
+    .add-contact-scroll-content{
+      max-height: calc(100vh - 260px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      min-height: calc(100vh - 500px);
+    }
+
+    @media (min-height:1000px) {
+      .add-contact-scroll-content{
+        min-height: calc(100vh - 700px);
+      }
+    }
+    .header{
+      font-size: 1rem;
+      line-height: 1.4rem;
+      letter-spacing: 0.15px;
+      color: var(--grays-bg-700) !important;
+    }
+    .edit-plan-sheet {
+      width: 720px;
+      padding-top: 8px !important;
+      max-height: inherit !important;
+      .gray-800 {
+        color: var(--grays-bg-800);
+      }
+
+      .gray-600 {
+        color: var(--grays-bg-600);
+      }
+
+      .edit-plan-sheet-heading {
+
+        p {
+          margin: 0;
+          word-break: break-all;
+        }
+      }
+
+      .mat-icon {
+        height: 18px;
+        width: 18px;
+      }
+    }
+    .save-btn{
+      margin: 1.8rem 0 1.4rem 0;
+      width: 9.69rem;
+    }
+  }
+}

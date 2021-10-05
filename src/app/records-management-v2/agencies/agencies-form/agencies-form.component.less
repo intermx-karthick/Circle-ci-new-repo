@@ -1,0 +1,135 @@
+.width-100p{
+  width:100%;
+}
+.cursor{
+  cursor: pointer;
+}
+.address-margin{
+  margin: 20px 0;
+}
+.label-heading{
+  font-size: 0.625rem;
+  color: var(--grays-bg-800);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+.agency-revenue{
+  padding: 1rem 1rem 1.5rem 1rem;
+  width: fit-content;
+  margin-top:1rem;
+  width:34.438rem;
+  position: relative;
+
+  &.agency-oi-error {
+    padding: 1rem 1rem 5rem 1rem;
+  }
+
+  .agency-revenue--bg{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top:0;
+    background: #2392D4;
+    opacity: .1;
+  }
+}
+.mtb-1{
+margin:1rem 0;
+}
+.mb-1{
+  margin-bottom:1rem;
+}
+.mt-1{
+  margin-top:1rem;
+}
+.spacemargin-2{
+  margin-top:2px;
+}
+::ng-deep{
+  app-agencies-form{
+    
+    .cke_toolbox {
+      .cke_button__numberedlist::after {
+          border: unset !important;
+      }
+      .cke_toolbar_last {
+          float: right !important;
+      }
+    }
+
+    .placeholder-default{
+      .mat-select-value-text{
+        color: var(--low-emphasis);
+      }
+    }
+    .error-field-width {
+      &.mat-form-field-invalid {
+        .mat-form-field-subscript-wrapper {
+          width: 240px;
+        }
+      }
+    }
+    .agency-oi-error {
+      .error-field-width-100 {
+        &.mat-form-field-invalid {
+          .mat-form-field-subscript-wrapper {
+            width: 85px;
+          }
+        }
+      }
+    }
+    .prod-install-error-field-width{
+      &.mat-form-field-invalid {
+        .mat-form-field-subscript-wrapper {
+          width: 260px;
+        }
+      }
+    }
+    .parent-agency-input{
+      height: auto;
+      border-bottom: none;
+    }
+    .sameAsBillingCheckBox {
+      margin-top: -8px;
+    }
+
+    .imx-input-no-border{
+      height:auto;
+      border: none;
+    }
+
+    .details-mat-form-field {
+      margin-right: 24px !important;
+
+      .mat-link-icon {
+        position: absolute;
+        right: -24px;
+        top: 4px;
+        color: var(--primary-bg) !important;
+      }
+    }
+  }
+  .autocomplete-scroll {
+    .vendor-group-autocomplete,
+    .users-list-autocomplete{
+      max-height: 14.375rem;
+      overflow-y: auto;
+    }
+
+    &.mat-autocomplete-panel{
+      overflow-y: hidden !important;
+      padding-right: 0 !important;
+    }
+  }
+  .editorLabel {
+    .mat-form-field-label {
+      top: 0px !important;
+    }
+  }
+  .notesTextAreaLabel {
+    .mat-form-field-label-wrapper {
+      top: unset !important;
+    }
+  }
+}

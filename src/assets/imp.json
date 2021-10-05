@@ -1,0 +1,1479 @@
+{
+  "message": "Success",
+  "data" : [
+    {
+      "cbsa_name": "Philadelphia-Camden-Wilmington",
+      "cbsa_id": "37980",
+      "average": 140,
+      "ci_ninty_per" : 2.5,
+      "data": [
+        {
+          "construction_type" : "Exterior Wall",
+          "media_type" : "Murals",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 87.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 95.3,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 92.6,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 89.90              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 86.00              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 88.00              ,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Bulletin",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 87.80              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 91.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 85.30              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 101.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 93.30,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 94.1,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Panel",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 94.4,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 60.7,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 50,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 74.50              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 75.20,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 48.00,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "cbsa_name": "San Francisco-Oakland-Hayward",
+      "cbsa_id": "41860",
+      "average": 140,
+      "ci_ninty_per" : 2.5,
+      "data": [
+        {
+          "construction_type" : "Exterior Wall",
+          "media_type" : "Murals",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 87.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 95.3,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 92.6,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 89.90              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 86.00              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 88.00              ,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Bulletin",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 87.80              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 91.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 85.30              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 101.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 93.30,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 94.1,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Panel",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 94.4,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 60.7,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 50,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 74.50              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 75.20,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 48.00,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "cbsa_name": "Elko, NV",
+      "cbsa_id": "21220",
+      "average": 140,
+      "ci_ninty_per" : 2.5,
+      "data": [
+        {
+          "construction_type" : "Exterior Wall",
+          "media_type" : "Murals",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 87.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 95.3,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 92.6,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 89.90              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 86.00              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 88.00              ,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Bulletin",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 87.80              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 91.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 85.30              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 101.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 93.30,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 94.1,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Panel",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 94.4,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 60.7,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 50,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 74.50              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 75.20,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 48.00,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "cbsa_name": "Winnemucca, NV",
+      "cbsa_id": "49080",
+      "average": 45,
+      "ci_ninty_per" : 2.5,
+      "data": [
+        {
+          "construction_type" : "Exterior Wall",
+          "media_type" : "Murals",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 75.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 10.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 30.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 15.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 25.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 50.9,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Bulletin",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 80.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 7.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 70.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 60.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 65.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 90.9,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Panel",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 100.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 120.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 50.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 40.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 25.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 60.9,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "cbsa_name": "St. Louis, MO-IL Metropolitan Statistical Area",
+      "cbsa_id": "41180",
+      "average": 45,
+      "ci_ninty_per" : 2.5,
+      "data": [
+        {
+          "construction_type" : "Exterior Wall",
+          "media_type" : "Murals",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 75.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 10.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 30.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 15.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 25.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 50.9,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Bulletin",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 80.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 7.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 70.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 60.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 65.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 90.9,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Panel",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 100.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 120.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 50.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 40.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 25.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 60.9,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "cbsa_name": "Los Angeles-Long Beach-Anaheim, CA",
+      "cbsa_id": "31080",
+      "average": 60,
+      "ci_ninty_per" : 2.5,
+      "data": [
+        {
+          "construction_type" : "Exterior Wall",
+          "media_type" : "Murals",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 77.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 95.3,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 62.6,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 29.90              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 16.00              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 50.00              ,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Bulletin",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 65.80              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 35.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 80.30              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 120.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 65.30,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 80.1,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Panel",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 50.4,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 60.7,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 60,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 20,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 80.50,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 30.30,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "cbsa_name": "Portland-Vancouver-Hillsboro, OR-WA",
+      "cbsa_id": "38900",
+      "average": 60,
+      "ci_ninty_per" : 2.5,
+      "data": [
+        {
+          "construction_type" : "Exterior Wall",
+          "media_type" : "Murals",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 77.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 95.3,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 62.6,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 29.90              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 16.00              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 50.00              ,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Bulletin",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 65.80              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 35.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 80.30              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 120.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 65.30,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 80.1,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Panel",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 50.4,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 60.7,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 60,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 20,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 80.50,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 30.30,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "cbsa_name": "Houston-The Woodlands-Sugar Land, TX Metropolitan Statistical Area",
+      "cbsa_id": "26420",
+      "average": 90,
+      "ci_ninty_per" : 2.5,
+      "data" : [
+        {
+          "construction_type" : "Exterior Wall",
+          "media_type" : "Murals",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 77.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 95.3,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 62.6,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 29.90              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 16.00              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 50.00              ,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Bulletin",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 65.80              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 35.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 80.30              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 120.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 65.30,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 80.1,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Panel",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 50.4,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 60.7,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 60,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 20,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 80.50,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 30.30,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "cbsa_name": "Washington-Arlington-Alexandria",
+      "cbsa_id": "7900",
+      "average": 120,
+      "ci_ninty_per" : 2.5,
+      "data" : [
+        {
+          "construction_type" : "Exterior Wall",
+          "media_type" : "Murals",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 77.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 95.3,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 62.6,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 29.90              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 16.00              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 50.00              ,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Bulletin",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 65.80              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 35.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 80.30              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 120.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 65.30,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 80.1,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Panel",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 50.4,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 60.7,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 60,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 20,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 80.50,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 30.30,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "cbsa_name": "Champaign-Urbana, IL",
+      "cbsa_id": "16580",
+      "average": 100,
+      "ci_ninty_per" : 2.5,
+      "data" : [
+        {
+          "construction_type" : "Exterior Wall",
+          "media_type" : "Murals",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 77.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 95.3,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 62.6,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 29.90              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 16.00              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 50.00              ,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Bulletin",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 65.80              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 35.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 80.30              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 120.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 65.30,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 80.1,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Panel",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 50.4,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 60.7,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 60,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 20,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 80.50,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 30.30,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "cbsa_name": "Dallas-Fort Worth-Arling",
+      "cbsa_id": "19100",
+      "average": 50,
+      "ci_ninty_per" : 2.5,
+      "data" : [
+        {
+          "construction_type" : "Exterior Wall",
+          "media_type" : "Murals",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 77.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 95.3,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 62.6,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 29.90              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 16.00              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 50.00              ,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Bulletin",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 65.80              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 35.9,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 80.30              ,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 120.10,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 65.30,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 80.1,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        },
+        {
+          "construction_type" : "Freestanding",
+          "media_type" : "Panel",
+          "summaries" : [
+            {
+              "form_date" : "2020-03-02", 
+              "to_date" : "2020-03-08",
+              "average": 50.4,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-09", 
+              "to_date" : "2020-03-15",
+              "average": 60.7,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-16", 
+              "to_date" : "2020-03-22",
+              "average": 60,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-23", 
+              "to_date" : "2020-03-29",
+              "average": 20,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-03-30", 
+              "to_date" : "2020-04-05",
+              "average": 80.50,
+              "ci_ninty_per" : 0.5
+            },
+            {
+              "form_date" : "2020-04-06", 
+              "to_date" : "2020-04-12",
+              "average": 30.30,
+              "ci_ninty_per" : 0.5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

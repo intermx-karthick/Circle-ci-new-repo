@@ -1,0 +1,206 @@
+<header fxLayout='column' fxLayoutAlign='end' class="w100 auth-preview-dialog-action" mat-dialog-title>
+    <button class='c-preview-authorization_button primary-color' (click)="copyContract()" mat-button>Copy URL</button>
+    <button class='c-preview-authorization_button primary-color' (click)="downloadPDF()" mat-button>Download as PDF</button>
+    <button class='c-preview-authorization_button primary-color' mat-button mat-dialog-close>Close Preview</button>
+</header>
+<mat-dialog-content class="authorization-scroll-container" [ngStyle]="{'height.px': containerBodyHeight}">
+    <!-- <ng-container>
+        <div fxLayout="row" fxLayoutAlign="center center" fxFill>
+            <mat-spinner diameter="75"></mat-spinner>
+        </div>
+    </ng-container> -->
+    <ng-container>
+        <div fxLayout="column" fxLayoutAlign="start start" class="authorization-preview-main" #scrollContainer
+            (window:resize)="reSize()">
+            <ng-container>
+                <div fxLayout="row" fxLayoutAlign="space-between center" fxFill>
+                    <div>
+                        <img src="../../../assets/images/oi-preview-logo.svg" alt="" width="186px" height="101px">
+                    </div>
+                    <div class="auth-title" fxLayoutAlign="end center">PRODUCTION AUTHORIZATION</div>
+                </div>
+                <div fxLayout="row" class="auth-detail">
+                    <div>
+                        <div fxLayout="row" fxLayoutAlign="start start" class="w100 paragraph-font" fxLayoutGap="0.5rem">
+                            <div fxFlex="28rem" fxLayoutAlign="end center">Date :</div>
+                            <div fxFlex="22.5rem" fxLayoutAlign="start center">10/10/2020</div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start start" class="w100 paragraph-font" fxLayoutGap="0.5rem">
+                            <div fxFlex="28rem" fxLayoutAlign="end center">Advertiser :</div>
+                            <div fxFlex="22.5rem" fxLayoutAlign="start center">GIANT EAGLE PRODUCTION</div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start end" class="w100 paragraph-font" fxLayoutGap="0.5rem">
+                            <div fxFlex="28rem" fxLayoutAlign="end center">Client Required Coding :</div>
+                            <div fxFlex="22.5rem" fxLayoutAlign="start center" class="empty"></div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start end" class="w100 paragraph-font" fxLayoutGap="0.5rem">
+                            <div fxFlex="28rem" fxLayoutAlign="end center">Agencies :</div>
+                            <div fxFlex="22.5rem" fxLayoutAlign="start center" class="empty"></div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start end" class="w100 paragraph-font campaign-margin" fxLayoutGap="0.5rem">
+                            <div fxFlex="28rem" fxLayoutAlign="end center">Campaign Name :</div>
+                            <div fxFlex="22.5rem" fxLayoutAlign="start center" class="empty"></div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start end" class="w100 paragraph-font" fxLayoutGap="0.5rem">
+                            <div fxFlex="28rem" fxLayoutAlign="end center">Authorization Signature :</div>
+                            <div fxFlex="22.5rem" fxLayoutAlign="start center" class="empty"></div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start end" class="w100 paragraph-font company-margin" fxLayoutGap="0.5rem">
+                            <div fxFlex="28rem" fxLayoutAlign="end center">Authorizer’s Name, Title, Company :</div>
+                            <div fxFlex="22.5rem" fxLayoutAlign="start center" class="empty"></div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start end" class="w100 paragraph-font" fxLayoutGap="0.5rem">
+                            <div fxFlex="21.5rem" fxLayoutAlign="end center" class="billing-title">BILLING INSTRUCTIONS:</div>
+                            <div fxFlex="6rem" fxLayoutAlign="end center">Company</div>
+                            <div fxFlex="22.5rem" fxLayoutAlign="start center" class="empty"></div>
+                            <!-- <div fxFlex="22.938rem" fxLayoutAlign="start end" class="billing-desc">COMPLETE BILLING INSTRUCTIONS ARE REQURED FOR THE PERSON RECEIVING THE INVOICE.</div> -->
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start end" class="w100 paragraph-font" fxLayoutGap="0.5rem">
+                            <div fxFlex="28rem" fxLayoutAlign="end center">Contact</div>
+                            <div fxFlex="22.5rem" fxLayoutAlign="start center" class="empty contact-info">&lt;contact with OI email address></div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start end" class="w100 paragraph-font" fxLayoutGap="0.5rem">
+                            <div fxFlex="28rem" fxLayoutAlign="end center">Address</div>
+                            <div fxFlex="22.5rem" fxLayoutAlign="start center" class="empty"></div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start end" class="w100 paragraph-font" fxLayoutGap="0.5rem">
+                            <div fxFlex="28rem" fxLayoutAlign="end center">City, State, ZIP</div>
+                            <div fxFlex="22.5rem" fxLayoutAlign="start center" class="empty"></div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start end" class="w100 paragraph-font" fxLayoutGap="0.5rem">
+                            <div fxFlex="28rem" fxLayoutAlign="end center">Phone #</div>
+                            <div fxFlex="22.5rem" fxLayoutAlign="start center" class="empty"></div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start end" class="w100 paragraph-font" fxLayoutGap="0.5rem">
+                            <div fxFlex="28rem" fxLayoutAlign="end center">Email</div>
+                            <div fxFlex="22.5rem" fxLayoutAlign="start center" class="empty"></div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start end" class="w100 paragraph-font provider-margin" fxLayoutGap="0.5rem">
+                            <div fxFlex="28rem" fxLayoutAlign="end center">Email Address of Proof Provider</div>
+                            <div fxFlex="22.5rem" fxLayoutAlign="start center" class="empty"></div>
+                        </div>
+                    </div>
+                    <div class="billing-desc">
+                        <div fxFlex="22.938rem" fxLayoutAlign="center center" class="billing-desc">COMPLETE BILLING INSTRUCTIONS ARE REQURED FOR THE PERSON RECEIVING THE INVOICE.</div>
+                    </div>
+                </div>
+                <div fxLayout="column" class="table-section">
+                    <div class="table-row">
+                        <div fxFlex="6.625rem">Materials</div>
+                        <div fxFlex="6.313rem">$ 1,323,456.78 </div>
+                    </div>
+                    <div class="table-row">
+                        <div fxFlex="6.625rem">Install/Removal</div>
+                        <div fxFlex="6.313rem">$ 1,323,456.78 </div>
+                    </div>
+                    <div class="table-row">
+                        <div fxFlex="6.625rem">Shippping</div>
+                        <div fxFlex="6.313rem">$ 1,323,456.78 </div>
+                    </div>
+                    <div class="table-row">
+                        <div fxFlex="6.625rem">Sales Tax</div>
+                        <div fxFlex="6.313rem">$ 1,323,456.78 </div>
+                    </div>
+                    <div class="table-row">
+                        <div fxFlex="6.625rem">OI Fee</div>
+                        <div fxFlex="6.313rem">$ 1,323,456.78 </div>
+                    </div>
+                    <div class="table-row total">
+                        <div fxFlex="6.625rem">Total Due</div>
+                        <div fxFlex="6.313rem">$ 1,323,456.78 </div>
+                    </div>
+                </div>
+                <div fxLayout="column" class="cost-desc">
+                    <div>
+                        <div fxLayout="row" fxFlex="63.375">
+                            Costs are for materials, shipping, applicable taxes and OI fees for the items listed in this and attached documents only. Costs do not include media.
+                            Terms: This signed document authorizes OI to execute production services on behalf of the advertiser listed above and to bill and collect these funds accordingly.
+                            The signing entity (either Advertiser or Agency, on behalf of advertiser) is responsible for payment to OI.									
+                            For Production questions, please contact: Dustin Foretich (dforetich@oiproduction.com).									
+                            For billing questions, please contact :Rachael Riviere (rriviere@oiproduction.com)									
+                            All communication (emails, files, billings inquiries, etc) should reference the Advertiser Name and OI job #.
+                        </div>
+                    </div>
+                </div>
+                <div fxLayout="column" class="order-heading">
+                    <h2>Order Details</h2>
+                </div>
+                <div fxLayout="column" class="order-sub-head">
+                    Date : 10/10/2020
+                </div>
+                <div fxLayout="column" class="order-sub-head">
+                    Advertiser : GIANT EAGLE PRODUCTION
+                </div>
+                <div fxLayout="row" class="order-table">
+                    <div fxFlex="1.625rem">#</div>
+                    <div fxFlex="3.938rem">Media</div>
+                    <div fxFlex="3.938rem">Size</div>
+                    <div fxFlex="2.438rem">Qty</div>
+                    <div fxFlex="6rem"># of Designs</div>
+                    <div fxFlex="4.75rem">Substrate</div>
+                    <div fxFlex="5.063rem">Start Date</div>
+                    <div fxFlex="6.688rem">Markets</div>
+                    <div fxFlex="9.125rem">Printer</div>
+                    <div fxFlex="6.625rem">Shipping Type</div>
+                </div>
+                <div fxLayout="row" class="order-table-data">
+                    <div fxFlex="1.625rem">1</div>
+                    <div fxFlex="3.938rem">Various</div>
+                    <div fxFlex="3.938rem">Various</div>
+                    <div fxFlex="2.438rem">3</div>
+                    <div fxFlex="6rem"></div>
+                    <div fxFlex="4.75rem"></div>
+                    <div fxFlex="5.063rem">3/22/2021</div>
+                    <div fxFlex="6.688rem">Pittsburgh, PA</div>
+                    <div fxFlex="9.125rem">Larger Than Life Inc.</div>
+                    <div fxFlex="6.625rem" class="txt-left">2-Day</div>
+                </div>
+
+                <div fxLayout="row">
+                    <div class="notes" fxFlex="57.125rem">
+                        <div>Job Notes: See Excel Document for Order Details</div>
+                        <div>Shipping Type: 2-Day</div>
+                        <div>Art Upload Instructions : &lt;example https url embedded here to be clicked in PDF></div>
+                    </div>
+                </div>
+                <div fxLayout="column" class="order-sub-head">
+                    PLANNING SCHEDULE
+                </div>
+                <div fxLayout="row" class="order-table">
+                    <div fxFlex="1.625rem">#</div>
+                    <div fxFlex="3.938rem">Media</div>
+                    <div fxFlex="5.063rem">Start Date</div>
+                    <div fxFlex="7.938rem">Art Due @ Printer</div>
+                    <div fxFlex="7.063rem">Proofs @ Client</div>
+                    <div fxFlex="7.625rem">Proofs Approved</div>
+                    <div fxFlex="6.688rem">Materials Ship</div>
+                    <div fxFlex="7.75rem">Materials Deliver</div>
+                </div>
+                <div fxLayout="row" class="order-table-data">
+                    <div fxFlex="1.625rem">1</div>
+                    <div fxFlex="3.938rem">Various</div>
+                    <div fxFlex="5.063rem">3/22/2021</div>
+                    <div fxFlex="7.938rem" class="txt-left">Various</div>
+                    <div fxFlex="7.063rem">3</div>
+                    <div fxFlex="7.625rem">4/22/2021</div>
+                    <div fxFlex="6.688rem"></div>
+                    <div fxFlex="7.75rem">4/22/2021</div>
+                </div>
+                <div fxLayout="column" class="payment-section">
+                    REMIT PAYMENT TO
+                </div>
+                <div fxLayout="row">
+                    <div class="payment-notes" fxFlex="22.875rem">
+                        <div>Outdoor Media Group LLC</div>
+                        <div>Harborside Plaza Two</div>
+                        <div>200 Hudson Street, 3rd FL</div>
+                        <div>Jersey City, NJ 07311</div>
+                        <div>
+                            <strong>Attn: Joe Froehlich</strong>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
+</mat-dialog-content>

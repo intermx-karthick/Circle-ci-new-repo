@@ -1,0 +1,31 @@
+{
+  "name": "intermx_webapp",
+  "version": "0.0.3",
+  "description": "Intermx Website and Web Application",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "start-local": "export NODE_ENV=test || SET \"NODE_ENV=test\" && node ./bin/www",
+    "start-dev": "export NODE_ENV=development || SET \"NODE_ENV=development\" && node ./bin/www",
+    "start-prod": "export NODE_ENV=production || SET \"NODE_ENV=production\" && node ./bin/www",
+    "start-debug": "DEBUG=webapp:* npm run start-dev"
+  },
+  "dependencies": {
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "express": "~4.15.2",
+    "hbs": "~4.0.1",
+    "morgan": "~1.8.1",
+    "request": "^2.88.0",
+    "serve-favicon": "~2.4.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/InterMx/webapp.git"
+  },
+  "author": "mmartimo and ABLION",
+  "bugs": {
+    "url": "https://github.com/InterMx/webapp/issues"
+  }
+}

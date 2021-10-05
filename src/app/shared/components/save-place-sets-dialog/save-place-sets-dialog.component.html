@@ -1,0 +1,36 @@
+<div role="dialog" class="save-workspace-dialog-begin">
+	<div class="modal-dialog save-workspace-dialog" role="document">
+		<div>
+      <form  class="noAnimation" [formGroup]="placeSetForm" novalidate autocomplete="off" (ngSubmit)='onSubmit(placeSetForm)'>
+			<div class="modal-body">
+        <h4>{{dialogData.title}}</h4>
+        <p *ngIf="dialogData.isExistingPlaceSet">Please select from your saved places sets below.</p>
+				<mat-form-field fxFlexFill floatPlaceholder="always" *ngIf="!dialogData.isExistingPlaceSet">
+          <mat-label></mat-label>
+					<input matInput autocomplete="off" placeholder="Type place set name" formControlName="name" id="e2e-place-set-name">
+          <mat-error>{{errorMessage}}</mat-error>
+        </mat-form-field>
+        <mat-form-field floatLabel="always" class="full-width" *ngIf="dialogData.isExistingPlaceSet">
+          <mat-label>{{'Refine List' | uppercase}}</mat-label>
+          <input matInput placeholder="Enter keyword" [formControl]="searchFromCtl" class="e2e-my-place-search">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        <mat-selection-list *ngIf="dialogData.isExistingPlaceSet"  #selectionList formControlName="existingPlaces" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+          (scrolled)="loadMorePlaceSets()" [scrollWindow]="false" [compareWith]="compare">
+            <mat-list-option *ngFor="let placeSet of placeSets" class="e2e-saveExitingPlaceSet"  [value]="placeSet" (click)="onSelectPlaceSet(placeSetOption)" #placeSetOption>
+              {{placeSet.name}}
+            </mat-list-option>
+            <p *ngIf="!isSearching && placeSets.length<=0" class="text-center">No place set found</p>
+          </mat-selection-list>
+      </div>
+      <div *ngIf="isSearching" class="place-loader">
+        <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+      </div>
+			<div class="modal-footer">
+        <button mat-dialog-close mat-button type="button" class="button  popup-left-btn button-primary-link no-radius">CANCEL</button>
+				<button type="submit" mat-raised-button class="button button-primary uppercase no-radius" id="e2e-savePlaceSetBtn" [disabled]="!placeSetForm.valid">{{dialogData.buttonText}}</button>
+      </div>
+      </form>
+		</div>
+	</div>
+</div>

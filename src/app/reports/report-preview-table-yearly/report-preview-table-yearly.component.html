@@ -1,0 +1,38 @@
+<table class="c-yearly-report-table">
+
+  <thead>
+  <th class="c-yearly-report-table__year"></th>
+  <th>january</th>
+  <th>february</th>
+  <th>march</th>
+  <th>april</th>
+  <th>may</th>
+  <th>june</th>
+  <th>july</th>
+  <th>august</th>
+  <th>september</th>
+  <th>october</th>
+  <th>november</th>
+  <th>december</th>
+  <th>TOTAL</th>
+  </thead>
+
+  <tbody>
+  <tr *ngFor='let report of reports;'>
+    <td class="c-yearly-report-table__year">{{report.year}}</td>
+    <td>{{report.january}}</td>
+    <td>{{report.february}}</td>
+    <td>{{report.march}}</td>
+    <td>{{report.april}}</td>
+    <td>{{report.may}}</td>
+    <td>{{report.june}}</td>
+    <td>{{report.july}}</td>
+    <td>{{report.august}}</td>
+    <td>{{report.september}}</td>
+    <td>{{report.october}}</td>
+    <td>{{report.november}}</td>
+    <td>{{report.december}}</td>
+    <td>{{report.total}}</td>
+  </tr>
+  </tbody>
+</table>

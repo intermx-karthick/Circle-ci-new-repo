@@ -1,0 +1,71 @@
+<div fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <a class="back-to-link" fxLayout="row" fxLayoutAlign="start center" [routerLink]="['/records-management-v2/vendors']">
+      <mat-icon>arrow_back</mat-icon>Back to Vendors list
+    </a>
+  </div>
+  <section fxLayout="row" fxLayoutAlign="space-between start" class="header">
+    <div>
+      <h4> 
+      <ng-container *ngIf="vendorDetails['name'] as vendorName">
+      <span *ngIf="vendorName.length>vendorNameLength; else nameRef" tooltip="{{vendorName}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">{{ vendorName | truncate:"end":vendorNameLength }} Details</span>
+      <ng-template #nameRef>{{ vendorName }} Details</ng-template>
+      </ng-container></h4>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" module="vendor_general" visiblityType="create" appUserAccessPermission>
+      <button type="button" mat-button class="imx-button-basic_icon action-overlay-height-imx" [mat-menu-trigger-for]="actionMenu" *ngIf="selectedTabLabel == 'general_Tab'" [ngClass]="{'shiping-tab-action': selectedTabLabel == 'shipping_address_tab'}" [isAccessDenied]="(!userPermission?.delete && !userPermission?.create)" visiblityType="menu" module="vendor_general" appUserAccessPermission>
+        <span>ACTIONS</span>
+        <mat-icon>expand_more</mat-icon>
+      </button>
+      <mat-menu #actionMenu="matMenu" class="mat-elevation-z0 action-dropdown-imx minimun-height action-menu-less-width">
+        <button [isAccessDenied]="!userPermission?.delete" module="vendor_general" visiblityType="delete" appUserAccessPermission mat-menu-item (click)="deleteVendor()" type="button">
+          Delete
+        </button>
+        <button [isAccessDenied]="!userPermission?.create" module="vendor_general" visiblityType="create" appUserAccessPermission mat-menu-item (click)="duplicateVendor()" type="button">
+          Duplicate
+        </button>
+      </mat-menu>
+      <button type="button" mat-button class="imx-button-basic add-contact-btn" *ngIf="selectedTabLabel === 'contacts_tab'" (click)="openNewContact()"> ADD CONTACT</button>
+      <button type="button" mat-button class="imx-button-basic add-contact-btn" *ngIf="selectedTabLabel === 'shipping_address_tab'"  (click)="addNewShippingAddress()" module="vendor_shipping" visiblityType="create" appUserAccessPermission> ADD NEW ADDRESS</button>
+    </div>
+  </section>
+  <div fxLayout="row" fxLayoutAlign="start center" (window:resize)="reSize()" class="vendor-tabs" [ngClass]="{'shiping-tab-enabled': selectedTabLabel == 'shipping_address_tab'}">
+    <mat-tab-group
+    [(selectedIndex)]="selectedTab"
+    mat-align-tabs="start"
+    class="imx-tab-capital"
+    (selectedTabChange) = "onSelectedTabChange($event)"
+    >
+      <mat-tab label="GENERAL" aria-label="general_Tab" *ngIf="!!generalAccess">
+        <div [ngStyle]="{'height.px':scrollContent}" class="vendor-tabs-scroll" (scroll)="scrolling$.next()" id="vendor-tabs-scroll_GENERAL">
+          <app-general-form-v2 [vendorDetails$]="vendorDetails$" [scrolling$]="scrolling$" (generalFormChange)="updateGeneralForm($event)" scrollingContainer="vendor-tabs-scroll_GENERAL"></app-general-form-v2>
+        </div>
+      </mat-tab>
+      <mat-tab label="CONTACTS" aria-label="contacts_tab" *ngIf="!!contactsAccess">
+        <div [ngStyle]="{'height.px':scrollContent}" class="vendor-tabs-scroll contact-tab-body" [ngClass]="{'enable-tabwindow-size': tabWindowSize}">
+          <app-contacts-list-v2 [enableCustomizeHeader]="false" moduleName="vendor" [organizationId$]="organizationId$" [defaultColumns]="defaultColumns" [contactRefresh$]="contactRefresh$" (openContactEmit)="openContactEmit($event)" [reLoader$]="contactRefresher$" (openDuplicateContactEmit)="openDuplicateContactEmit($event)"></app-contacts-list-v2>
+        </div>
+      </mat-tab>
+      <mat-tab label="ATTACHMENTS" aria-label="attachments_tab" *ngIf="!!logosAccess">
+        <div [ngStyle]="{'height.px':scrollContent}" class="vendor-tabs-scroll" >
+          <app-logos [organizationId$]="organizationId$" [fileUploadConfig]="fileUploadConfig" [mainTitle]= "'Upload Related Files'" [logos]="vendorAttachments" (deleteLogoFunc)="deleteAttachment($event)" (createLogoFunc)="createAttachment($event)" [uploadInProgress$]="uploadInProgress$" [clearAttachment$]="clearAttachment$" (loadMoreLogos)="loadMoreAttachments()" [isLogosLoading$]="isvendorAttachmentsLoading$" [ngClass]="{'more-attachments':vendorAttachmentsPagination?.total>10}" [disableEdit]="disableEdit"></app-logos>
+        </div>
+      </mat-tab>
+      <mat-tab label="SHIPPING ADDRESS" aria-label="shipping_address_tab" *ngIf="!!shippingAccess">
+        <div #shipingAddressContainerRef [ngStyle]="{'height.px':scrollContent}" class="vendor-tabs-scroll contact-tab-body shipping-address-tab" id="vendor-tabs-scroll_SHIPPING_ADDRESS">
+          <app-shipping-address-list [submitForm$]="shippingAddressSubmitForm$" [shippingAddresses]="vendorDetails?.shippingAddress" [vendorId]="vendorDetails?._id" [scrollingContainer]="shipingAddressRef" [addShippingAddress$]="addShippingAddress$"></app-shipping-address-list>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="footer-block">
+    <div>
+      <app-time-stamp [timeStampData]="timeStampData"></app-time-stamp>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" *ngIf="selectedTabLabel !== 'contacts_tab' && !disableFormActions">
+      <button mat-button class="imx-button-secondary" [routerLink]="['/records-management-v2/vendors']" module="vendor_general" visiblityType="edit" appUserAccessPermission>Cancel</button>
+      <button (click)="validateAssociationAndUpdateVendor()" mat-button class="imx-button-primary" module="vendor_general" visiblityType="create" appUserAccessPermission>Save</button>
+    </div>
+  </div>
+</div>

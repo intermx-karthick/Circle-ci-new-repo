@@ -1,0 +1,37 @@
+<div>
+    <section class="header-section">
+        <app-header fxFlexFill>
+            <div class="projected-title">
+                <span class="">User Management</span>
+            </div>
+        </app-header>
+        <div fxLayout="row" class="contant-section">
+        </div>
+    </section>
+    <div fxLayout="row" fxLayoutAlign="start start" fxFill class="body-content">
+        <div class="left-nav">
+            <div class="navBarPanel">
+                <div class="records-managment-menu">
+                    <ul>
+                        <li *ngIf="isSiteAdmin"><a routerLink="sites" class="tableau-link" routerLinkActive="active">Sites</a></li>
+                        <!-- <li><a routerLink="dashboard" class="tableau-link" routerLinkActive="active">Dashboard</a></li> -->
+                        <li appUserAccessPermission  module="organizations" visiblityType="menu"><a routerLink="siteconfiguration" class="tableau-link" routerLinkActive="active">Organization</a></li>
+                        <li appUserAccessPermission  module="groups" visiblityType="menu"><a routerLink="groups" class="tableau-link" routerLinkActive="active">Groups & Roles</a></li>
+                        <li><a routerLink="users" class="tableau-link" routerLinkActive="active">Users</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+            <!-- <div class="close-nav-div">
+                <span class="close-nav-bar" (click)='toggleNavBar()'>
+                    <mat-icon *ngIf="!isClosedNavBar; else closedNavBar">arrow_left</mat-icon>
+                    <ng-template #closedNavBar>
+                        <mat-icon>arrow_right</mat-icon>
+                    </ng-template>
+                </span>
+            </div> -->
+        <div class="body-inner-content" id='user-management-body' (scroll)='userService.dispatchScrollEvent()'>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

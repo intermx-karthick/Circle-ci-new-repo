@@ -1,0 +1,162 @@
+.c-editing-contracts {
+
+  & > header {
+    margin-bottom: 1rem;
+  }
+
+  &_button {
+    font-weight: normal;
+    font-size: .875rem;
+    letter-spacing: 1.55px;
+    text-transform: uppercase;
+  }
+
+  &__one-line-item {
+    margin-right: 1.75rem;
+  }
+  &__sorting-item{
+    margin-right: 1.75rem;
+    .mat-form-field{
+      .mat-form-field-wrapper{
+        width: 84px !important;
+      }
+    }
+  }
+
+  &__title {
+    font-weight: normal;
+    font-size: 1.25rem;
+    line-height: 1.565rem;
+    letter-spacing: 0.15px;
+    color: var(--grays-bg-700);
+  }
+
+  &__drag-icon {
+    margin-right: 5px !important;
+  }
+  
+  .mat-dialog-content {
+    box-sizing: border-box;
+    border-radius: 0.3125rem;
+    margin: 1.125rem 0 1rem;
+    padding: 0rem !important;
+    overflow-y: hidden;
+
+    // overflow-y: auto;
+    // scrollbar-width: none; // firefox fix
+
+    // ::-webkit-scrollbar {
+    //   width: 0;
+    // }
+  }
+
+}
+
+::ng-deep {
+
+  .custom-drag-preview  {
+    &.cdk-drag-preview
+     {
+      width: 260px !important;
+      height: 32px !important;
+      box-sizing: border-box;
+      color: var(--grays-bg-700);
+      background: #fff;
+      border: 1px solid rgb(79 79 79);
+      box-shadow: 0 2px 4px 2px rgba(31, 115, 183, 0.2);
+      padding: 8px;
+
+      .drag-handle {
+        display: none;
+      }
+
+      .mat-ripple {
+        display: none !important;
+      }
+    }
+  }
+  
+  .c-editing-contracts {
+    // .mat-dialog-content::-webkit-scrollbar {
+    //   display: none;
+    // }
+    .contract-preview-body{
+      .single-item-scroll{
+        max-height: calc(100vh - 400px);
+        overflow: auto;
+        padding:.5rem  0rem !important ;
+      }
+    }
+    &__sorting-item{
+      .mat-form-field{
+        .mat-form-field-wrapper{
+          width: 84px !important;
+        }
+      }
+    }
+    mat-spinner{
+    position: relative;
+    top: 3px;
+    left: 6px;
+    }
+    .contract-preview-btn{
+      .mat-button-wrapper{
+        padding-right: .8rem;
+      }
+    }
+    .mat-progress-spinner:not(.notification-spinner) circle, .mat-spinner:not(.notification-spinner) circle {
+      stroke: #ffffff;
+    }
+
+    .enable-conditional-scroll{
+      overflow-y: auto !important;
+    }
+  }
+  .c-edit-contract-panel-class {
+    border-radius: 5px;
+    max-width: 1575px !important;
+    .contract-line-items-blocks{
+      .lineItem-header{
+        max-width: 1535px !important
+      }
+    }
+    & > .mat-dialog-container {
+      padding: 1rem;
+      overflow: hidden !important;
+    }
+
+    .mat-dialog-content{
+      height: calc(82vh - 12.5rem);
+      border: 3px solid var(--primary-bg-800);
+      padding-top: .6rem !important;
+      
+    }
+  }
+
+  .c-edit-contract-terms-panel-class {
+    .mat-dialog-content {
+      border: 0;
+      max-height: 80vh;
+      overflow: hidden !important;
+    }
+  }
+
+  app-editing-contract {
+    .mat-tab-label-content {
+      text-transform: none !important;
+      font-size: 1rem !important;
+      line-height: 1.25rem;
+      letter-spacing: 0.5px;
+    }
+  }
+  .mat-option-disabled{
+    color: var(--primary-bg-800) !important;
+  }
+  .default-selection{
+    color: var(--grays-bg-800) !important;
+    font-size: 0.875rem !important;
+  }
+  .disabled-view-select{
+    max-height: 100%;
+  }
+}

@@ -1,0 +1,205 @@
+<form [formGroup]="nameAndAttributesForm" class="inventory-form__form">
+
+  <section fxLayout fxLayoutGap="24px">
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-select [compareWith]="mediaClassCompareFn" formControlName="media_class" placeholder="Media Class" required>
+          <mat-option *ngFor="let mediaClass of mediaClasses;" [value]="mediaClass">
+            {{mediaClass?.name}}
+          </mat-option>
+        </mat-select>
+
+        <mat-label *ngIf="isLoading">
+          <div fxLayout fxLayoutAlign="space-between start" >
+            <span>Loading...</span>
+            <mat-spinner class="spinner" diameter="20"></mat-spinner>
+          </div>
+        </mat-label>
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-select [compareWith]="mediaTypesCompareFn" formControlName="media_type" placeholder="Media Type" required>
+          <mat-option *ngFor="let mediaType of mediaTypes" [value]="mediaType">
+            {{mediaType?.name}}
+          </mat-option>
+        </mat-select>
+
+        <mat-label *ngIf="isLoading">
+          <div fxLayout fxLayoutAlign="space-between start" >
+            <span>Loading...</span>
+            <mat-spinner class="spinner" diameter="20"></mat-spinner>
+          </div>
+        </mat-label>
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <input type="text" #placeInputRef matInput formControlName="place_type" placeholder="Place Type"
+          [matAutocomplete]="placeAuto" required>
+
+        <mat-autocomplete #placeAuto="matAutocomplete" [displayWith]="placeDisplayWithFn">
+          <mat-option *ngFor="let place of filteredPlace$ | async;trackBy: trackById" [value]="place">
+            <span [innerHTML]="(place.name)| imx_highlight: placeInputRef.value"></span>
+          </mat-option>
+        </mat-autocomplete>
+
+        <mat-label *ngIf="isLoadingPlace; else PlaceLabelRef">
+          <div fxLayout fxLayoutAlign="space-between start">
+            <span>Loading...</span>
+            <mat-spinner class="spinner" diameter="20"></mat-spinner>
+          </div>
+        </mat-label>
+
+        <ng-template #PlaceLabelRef>
+          <mat-label>Place Type</mat-label>
+        </ng-template>
+
+        <mat-error  class="small-font" *ngIf="nameAndAttributesForm['controls'].place_type.hasError('invalid')">
+          You should not enter values manually, Please select from suggested list only.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </section>
+
+  <section fxLayout fxLayoutGap="24px">
+    <div class="inventory-form__field" fxFlex="30">
+      <mat-form-field>
+        <mat-label>Vendor Media Name</mat-label>
+        <input type="text" formControlName="vendor_media_name" matInput autocomplete="off" required>
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field" fxFlex="70">
+      <mat-form-field>
+        <mat-label>Media Description</mat-label>
+        <input type="text" formControlName="media_description" matInput autocomplete="off">
+        <mat-icon matSuffix matTooltip="Marketing" [matTooltipPosition]="'above'" [matTooltipClass]="'new-inventory-tooltip'">info</mat-icon>
+      </mat-form-field>
+    </div>
+  </section>
+
+  <section fxLayout fxLayoutGap="24px">
+    <div class="inventory-form__field" fxFlex="30">
+      <mat-form-field>
+        <mat-select [compareWith]="structureTypeCompareFn" formControlName="structure_type" placeholder="Structure Type">
+          <mat-option *ngFor="let structureType of structureTypes" [value]="structureType">
+            {{structureType?.name}}
+          </mat-option>
+        </mat-select>
+
+        <mat-label *ngIf="isLoading">
+          <div fxLayout fxLayoutAlign="space-between start" >
+            <span>Loading...</span>
+            <mat-spinner class="spinner" diameter="20"></mat-spinner>
+          </div>
+        </mat-label>
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field" fxFlex="30">
+      <mat-form-field>
+        <mat-label>Digital</mat-label>
+        <mat-select formControlName="digital" required>
+          <mat-option [value]="false">No</mat-option>
+          <mat-option [value]="true">Yes</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+
+    <div class="inventory-form__field" formGroupName="unit_height">
+      <fieldset>
+        <legend>UNIT HEIGHT</legend>
+        <div>
+          <mat-form-field class="pad10">
+            <input type="text" formControlName="feet" matInput autocomplete="off" appNumberOnly>
+            <mat-hint>Feet</mat-hint>
+          </mat-form-field>
+          <mat-form-field>
+            <input type="text" formControlName="inches" matInput autocomplete="off"  min="0" max="11" appNumberOnly>
+            <mat-hint>Inches</mat-hint>
+          </mat-form-field>
+        </div>
+      </fieldset>
+    </div>
+    <div class="inventory-form__field"  formGroupName="unit_width">
+      <fieldset>
+        <legend>UNIT WIDTH</legend>
+        <mat-form-field  class="pad10">
+          <input type="text" formControlName="feet" matInput autocomplete="off" appNumberOnly>
+          <mat-hint>Feet</mat-hint>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="text" formControlName="inches" matInput autocomplete="off" min="0" max="11" appNumberOnly>
+          <mat-hint>Inches</mat-hint>
+        </mat-form-field>
+      </fieldset>
+    </div>
+  </section>
+
+<!--  <section fxLayout fxLayoutGap="24px">
+    <div class="inventory-form__field" fxFlex="30">
+      <mat-form-field>
+        <mat-label>"Impressions"</mat-label>
+        <input type="text" formControlName="impressions" matInput autocomplete="off">
+        <mat-hint>Vendor Supplied 18+ per day</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field" fxFlex="30">
+      <mat-form-field>
+        <mat-label>Impressions Source</mat-label>
+        <input type="text" formControlName="impressions_source" matInput autocomplete="off">
+        <mat-hint>Vendor Supplied</mat-hint>
+      </mat-form-field>
+    </div>
+  </section>
+
+  <section style="margin-top: 24px" fxLayout fxLayoutGap="24px">
+    <div class="inventory-form__field" fxFlex="35">
+      <mat-form-field>
+        <mat-label>Category Restrictions</mat-label>
+        <mat-select formControlName="category_restrictions">
+          <mat-option *ngFor="let option of ['Measured', 'under review']" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </section>
+
+  <section fxLayout fxLayoutGap="24px">
+
+    <div class="inventory-form__field" fxFlex="25">
+      <mat-form-field floatLabel="never">
+        <mat-label>Unit Grade</mat-label>
+        <mat-select formControlName="status_type">
+          <mat-option *ngFor="let option of ['Measured', 'under review']" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field" fxFlex="70">
+      <mat-form-field>
+        <mat-label>Unit Grade Notes</mat-label>
+        <input type="text" formControlName="unit_grade_notes" matInput autocomplete="off">
+        <mat-hint>Vendor Supplied</mat-hint>
+      </mat-form-field>
+    </div>
+  </section>-->
+
+  <section fxLayout fxLayoutGap="24px">
+    <div class="inventory-form__field" fxFlex="100">
+      <mat-form-field>
+        <mat-label>Notes</mat-label>
+        <input type="text" formControlName="note" matInput autocomplete="off">
+      </mat-form-field>
+    </div>
+  </section>
+
+</form>

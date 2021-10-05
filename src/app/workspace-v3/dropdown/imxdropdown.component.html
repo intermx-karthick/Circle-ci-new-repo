@@ -1,0 +1,9 @@
+<ng-template cdkConnectedOverlay 
+[cdkConnectedOverlayOrigin]="CdkOverlayOrigin"
+[cdkConnectedOverlayOpen]="isOpen"
+(detach)="connectedOverlayDetach()"[cdkConnectedOverlayPanelClass]="'imx-cdk-dropdown'">
+  <div #dialog role="dialog" aria-label="Dialog" class="dialog-dropdown">
+    <ng-content></ng-content>    
+  </div>
+</ng-template>
+

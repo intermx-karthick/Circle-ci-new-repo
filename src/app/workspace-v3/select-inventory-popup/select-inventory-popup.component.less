@@ -1,0 +1,77 @@
+::ng-deep {
+  app-select-inventory-popup {
+    .mat-dialog-content {
+      height: 93%;
+      > div {
+        height: 100%;
+      }
+      overflow: hidden;
+    }
+    app-operator-widget-dialog-w3 { 
+      
+      @media (min-height:0px) and (max-height:700px){
+        .operator-selection-action{
+          &.operator-type-select{       
+            bottom: 76px;
+          }
+        }
+      }
+  
+      @media (min-height:701px) and (max-height:760px){
+        .operator-selection-action{
+          &.operator-type-select{       
+            bottom: 14%;
+          }
+        }
+      }
+  
+      @media (min-height:760px) and (max-height:850px){
+        .operator-selection-action{
+          &.operator-type-select{       
+            bottom: 15%;
+          }
+        }
+      }
+  
+  
+      @media (min-height:850px) and (max-height:950px){
+        .operator-selection-action{
+          &.operator-type-select{       
+            bottom: 20%;
+          }
+        }
+      }
+  
+      @media (min-height:951px) and (max-height:1099px){
+        .operator-selection-action{
+          &.operator-type-select{       
+            bottom: 18%;
+          }
+        }
+      }
+  
+      @media (min-height:1100px) and (max-height:1200px){
+        .operator-selection-action{
+          &.operator-type-select{       
+            bottom: 25%;
+          }
+        }
+      }
+  
+      @media (min-height:1200px){
+        .operator-selection-action{
+          &.operator-type-select{       
+            bottom: 30%;
+          }
+        }
+      }
+    }
+    app-add-inventory {
+      .imx-add-inventory-spot-ids {
+        .mat-expansion-panel-header {
+          padding: 0px !important;
+        }
+      }
+    }
+  }
+}

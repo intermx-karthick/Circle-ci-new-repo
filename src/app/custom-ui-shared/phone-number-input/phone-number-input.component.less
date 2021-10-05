@@ -1,0 +1,32 @@
+::ng-deep {
+  ngx-mat-tel-input-container {
+    position: relative;
+  }
+
+  ngx-mat-intl-tel-input {
+    .mat-input-element {
+      border: 1px solid var(--button-bg-color) !important;
+      border-radius: 5px !important;
+      font-size: 13px !important;
+      line-height: 16px !important;
+      padding: 8px !important;
+      padding-left: 98px !important;
+    }
+
+    .country-selector {
+      opacity: 1 !important;
+    }
+
+    .cdk-overlay-container > * {
+      max-height: 25rem !important;
+    }
+
+    &.ng-invalid.ng-touched .mat-input-element {
+      border: 1px solid #c0392b !important;
+    }
+
+    button {
+      outline: none !important;;
+    }
+  }
+}

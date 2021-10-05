@@ -1,0 +1,266 @@
+<div class="map-div-block primary" fxLayout="row" [ngClass] = "{'sideNavOpen' : isOpenedSidenav}">
+  <div class="map-div primary">
+    <button mat-mini-fab class="remove-map-selection" (click)='removeMapSelection()' *ngIf="selectedStateId !== null">
+      <mat-icon>close</mat-icon>
+    </button>
+    <div id="networkMap"  [ngStyle]="{ 'height.px': mapHeight, 'width.px': mapWidth }"></div>
+    <div class="cast-legend"  *ngIf="selectedStateId !== null && mainmap === sidebarMenuType.NETWORK">
+      <h1>Trip-End Density (per km<sup>2</sup>)</h1><svg viewBox="0 0 250 100" width="200" height="100"><g transform="matrix(0.882,0,0,0.882,175,25)"><text transform="matrix(1,0,0,1,2,12)" style="font-family: &quot;Source Sans Pro&quot;, sans-serif; font-weight: 400; font-size: 1em; font-style: normal; fill: rgb(85, 68, 51); stroke: none;">High</text><text transform="matrix(1,0,0,1,2,28)" style="font-family: &quot;Source Sans Pro&quot;, sans-serif; font-weight: 400; font-size: 1em; font-style: normal; fill: rgb(85, 68, 51); stroke: none;">Destination</text></g><g transform="matrix(0.882,0,0,0.882,0,25)"><text transform="matrix(1,0,0,1,55,12)" style="font-family: &quot;Source Sans Pro&quot;, sans-serif; font-weight: 400; font-size: 1em; font-style: normal; fill: rgb(85, 68, 51); stroke: none;">High</text><text transform="matrix(1,0,0,1,47,28)" style="font-family: &quot;Source Sans Pro&quot;, sans-serif; font-weight: 400; font-size: 1em; font-style: normal; fill: rgb(85, 68, 51); stroke: none;">Origin</text></g><g transform="matrix(1,0,0,1,50,80)"><text transform="matrix(1,0,0,1,63,15)" style="font-family: &quot;Source Sans Pro&quot;, sans-serif; font-weight: 400; font-size: 1em; font-style: normal; fill: rgb(85, 68, 51); stroke: none;">Low</text></g><rect x="88.951" y="30.4" width="18.75" height="18.75" transform="matrix(0.707,-0.707,0.707,0.707,0.674,81.177)" fill="#5AC8C8" style="opacity: 0.75;"></rect><rect x="102.209" y="17.142" width="18.75" height="18.75" transform="matrix(0.707,-0.707,0.707,0.707,13.932,86.669)" fill="#5698B9" style="opacity: 0.75;"></rect><rect x="115.468" y="3.883" width="18.75" height="18.75" transform="matrix(0.707,-0.707,0.707,0.707,27.191,92.16)" fill="#3B4994" style="opacity: 0.75;"></rect><rect x="102.209" y="43.658" width="18.75" height="18.75" transform="matrix(0.707,-0.707,0.707,0.707,-4.818,94.435)" fill="#ACE4E4" style="opacity: 0.75;"></rect><rect x="115.468" y="30.4" width="18.75" height="18.75" transform="matrix(0.707,-0.707,0.707,0.707,8.441,99.927)" fill="#A5ADD3" style="opacity: 0.75;"></rect><rect x="128.726" y="17.142" width="18.75" height="18.75" transform="matrix(0.707,-0.707,0.707,0.707,21.699,105.419)" fill="#8C62AA" style="opacity: 0.75;"></rect><rect x="115.468" y="56.916" width="18.75" height="18.75" transform="matrix(0.707,-0.707,0.707,0.707,-10.309,107.693)" fill="#E8E8E8" style="opacity: 0.75;"></rect><rect x="128.726" y="43.658" width="18.75" height="18.75" transform="matrix(0.707,-0.707,0.707,0.707,2.949,113.185)" fill="#DFB0D6" style="opacity: 0.75;"></rect><rect x="141.984" y="30.4" width="18.75" height="18.75" transform="matrix(0.707,-0.707,0.707,0.707,16.207,118.677)" fill="#BE64AC" style="opacity: 0.75;"></rect><line x1="141.936" y1="76.498" x2="166.936" y2="52.058" stroke="rgb(85,68,51)"></line><line x1="107.49" y1="76.793" x2="83.05" y2="51.793" stroke="rgb(85,68,51)"></line><path d=" M 81.343 50 L 87 51.414 L 82.757 55.657 L 81.343 50 Z " fill="rgb(85,68,51)"></path><path d=" M 169 50 L 167.586 55.657 L 163.343 51.414 L 169 50 Z " fill="rgb(85,68,51)"></path></svg>
+    </div>
+    <div class="map-zoom-out">
+      <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+        <button (click)="zoomOutMap()" title="ZOOM OUT MAP">
+          <span><i class="material-icons">zoom_out_map</i></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <mat-sidenav [(opened)]="isOpenedSidenav" mode="side" position="start" class="citycast-side-nav"
+    [ngStyle]="{ 'top.px': dimensionsDetails['headerHeight'] }" [disableClose]="true">
+    <div class="dynamicContnet">
+      <!-- dynamic contents to be placed here -->
+      <button mat-mini-fab class="sidePanelClose" (click)='closeSidePanel()'>
+        <mat-icon>double_arrow</mat-icon>
+      </button>
+      <div class="menu-header {{castObj.status}}">
+          <ng-container *ngIf="sidePanelType === sidebarMenuType.COUNTY || sidePanelType === sidebarMenuType.BLOCKGROUP || sidePanelType === sidebarMenuType.TRACT || sidePanelType === sidebarMenuType.LINK">
+            <form [formGroup]="exploreRouteForm" (ngSubmit)='saveData(exploreRouteForm.value)'>
+            <div class="cast-feature-content">
+                <input type='hidden' formControlName="featureId">
+                <input type='hidden' formControlName="featureType">
+                <div formGroupName="parameter">
+                  <div fxLayout="row" fxLayoutAlign="start center" class="side-panel-header">
+                    <i class="icon-custom" [ngClass] = "{
+                      'icon-custom-cc-tract' : (sidePanelData['type'] === sidebarMenuType.COUNTY || sidePanelData['type'] === sidebarMenuType.BLOCKGROUP || sidePanelData['type'] === sidebarMenuType.TRACT),
+                      'icon-custom-cc-link' : sidePanelData['type'] === sidebarMenuType.LINK
+                    }"></i>
+                    <h4>{{sidePanelData['name']}} <span class="subtitle-1"  title="{{sidePanelData['name']}} ID: {{sidePanelData['data']['id']}}">{{sidePanelData['data']['id'] | truncate : 'middle': 5 : 5}}</span></h4>
+                  </div>
+                  
+                  <div class="side-panel-body" *ngIf = "sidePanelData?.data?.metadata | isObjectExists; else noDataExplorerBlock;">
+                    <div fxLayout="row" fxLayoutAlign="space-between center" class="body-3 cast-form-title" *ngIf='castObj.status === castStatuses.DRAFT || castObj.status === castStatuses.RUNNING'  fxLayoutGap = "15px">
+                      <span fxFlex = '40'></span>
+                      <span>Parent Cast</span>
+                      <span>This Cast</span>
+                    </div>
+                    <div *ngFor="let item of sidePanelData['data']['metadata'] | keyvalue : originalOrder" fxLayout="row"
+                      fxLayoutAlign="space-between center" class="body-3 cast-form-fields" fxLayoutGap = "15px">
+                      <span fxFlex = '40'>{{item.value['title'] | titlecase }}</span>
+                      <span >{{ item.value['view_value'] || item.value['view_count'] }}</span>
+                      <span *ngIf='castObj.status === castStatuses.DRAFT || castObj.status === castStatuses.RUNNING' networkLibraryAcl [access] = "'edit'" ><input type='number' formControlName ='{{item.key}}' placeholder="{{ item.value['raw_value'] ||  item.value['raw_count'] }}" [readOnly] = "castObj.status === castStatuses.RUNNING" class="text-box"  networkLibraryAcl [access] = "'edit'" ></span>
+                      <!--  [ngClass] = "{'disabled' : castObj.status !== castStatuses.DRAFT}" -->
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="end center" class='action-block' *ngIf='castObj.status === castStatuses.DRAFT' networkLibraryAcl [access] = "'edit'">
+                      <button mat-button type="button" class="btn-link" *ngIf="dataChanged" (click) = "discardChanges()">Discard Changes</button>
+                      <button mat-raised-button class="btn-primary-color" [ngClass] = "{'disabled' : !dataChanged}" type="submit">Update Cast Scheme</button>
+                    </div>
+                  </div>
+                  <ng-template #noDataExplorerBlock>
+                    <div class="side-panel-body">
+                      <h5 class="align-center">Household and job summary data are currently available for Census tracts only.</h5>
+                    </div>
+                  </ng-template>
+                </div>
+            </div>
+          </form>
+          </ng-container>
+          <ng-container *ngIf="sidePanelType === sidebarMenuType.ROUTE">
+            <form [formGroup]="exploreRouteForm" (ngSubmit)='saveData(exploreRouteForm.value)'>
+              <div class="cast-feature-content">
+                  <input type='hidden' formControlName="featureId">
+                  <input type='hidden' formControlName="featureType">
+                  <div formGroupName="parameter">
+                    <input type='hidden' formControlName="lastIndex"  *ngIf = "castObj.status === castStatuses.DRAFT || castObj.status === castStatuses.RUNNING" >
+                    <div fxLayout="row" fxLayoutAlign="start center" class="side-panel-header">
+                      <i class="icon-custom icon-custom-cc-link"></i>
+                      <h4>{{sidePanelData['name']}} <span class="subtitle-1" title="Route ID: {{sidePanelData['data']['id']}}"> <b>{{sidePanelData['data']['name']}} </b> {{sidePanelData['data']['id'] | truncate : 'middle': 5 : 5 }}</span></h4>
+                    </div>
+                    <div class="route-content-body" *ngIf="sidePanelData?.data?.metadata | isObjectExists">
+                      <div fxLayout="row" fxLayoutAlign="space-between center" class="body-3" *ngIf = "castObj.status === castStatuses.DRAFT || castObj.status === castStatuses.RUNNING" fxLayoutGap="11px">
+                        <span fxFlex = '40'></span>
+                        <span fxFlex = '30' class="align-right">Parent Cast</span>
+                        <span fxFlex = '30' class="align-right">This Cast</span>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="space-between center" class="body-3" *ngIf = "castObj.status === castStatuses.DRAFT || castObj.status === castStatuses.RUNNING"  fxLayoutGap="11px">
+                        <h5 fxFlex = '40'>Mode</h5>
+                        <span fxFlex = '30' class="align-right">{{sidePanelData['data']['metadata']['mode']['view_value']}}</span>
+                        <div fxFlex = '30' class="mode-select">
+                          <mat-form-field>
+                            <mat-select formControlName="mode" [disabled]="castObj.status === castStatuses.RUNNING">
+                              <mat-option value="rail">Rail</mat-option>
+                              <mat-option value="bus">Bus</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="route-content" *ngIf="(castObj.status !== castStatuses.DRAFT && castObj.status !== castStatuses.RUNNING) && sidePanelData['data']['metadata']['mode']" >
+                        <h5>Mode</h5>
+                        <div>
+                          {{sidePanelData['data']['metadata']['mode']['view_value']}}
+                        </div>
+                      </div>
+                      <div class="route-content" *ngIf="sidePanelData['data']['metadata']['schedule']">
+                        <h5>Schedule <span class="subtitle-1" *ngIf = "castObj.status === castStatuses.DRAFT || castObj.status === castStatuses.RUNNING">Parent Cast</span></h5>
+                        <div>
+                          <table class="datatable">
+                            <thead>
+                              <tr>
+                                <th *ngFor="let column of sidePanelData['data']['metadata']['schedule']['columns']">{{column}}</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let rows of sidePanelData['data']['metadata']['schedule']['rows']">
+                                <td *ngFor="let row of rows">{{row['view_value'] || 'N/A'}}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="route-content" *ngIf = "castObj.status === castStatuses.DRAFT || castObj.status === castStatuses.RUNNING" networkLibraryAcl [access] = "'edit'">
+                          <h5>Schedule <span class="subtitle-1">This Cast</span></h5>
+                          <div>
+                            <table class="datatable">
+                              <thead>
+                                <tr>
+                                  <th *ngFor="let column of sidePanelData['data']['metadata']['schedule']['columns']">{{column}}</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <ng-container formGroupName="schedules">
+                                  <tr class="route-schedule" *ngFor="let control of (exploreSchedules.controls | keyvalue : originalOrder); trackBy: trackByControlId; let i = index" formArrayName ='{{control.key}}' >
+                                    <td *ngFor="let data of exploreSchedules.controls[control.key]['controls']; let j = index">
+                                      <input formControlName="{{j}}" type="text" class="text-box schedule-text-box align-right" placeholder="{{sidePanelData['data']['metadata']['schedule']['rows'][control.key | number] && sidePanelData['data']['metadata']['schedule']['rows'][control.key | number][j]['view_value']}}" (blur) = "onDataChanged($event.target.value, control.key)" appNumberOnly [readOnly]="castObj.status === castStatuses.RUNNING" *ngIf="j === 0">
+
+                                      <input formControlName="{{j}}" type="text" class="text-box schedule-text-box align-right" placeholder="{{sidePanelData['data']['metadata']['schedule']['rows'][control.key | number] && sidePanelData['data']['metadata']['schedule']['rows'][control.key | number][j]['view_value']}}" (blur) = "onDataChanged($event.target.value, control.key)" timeFormatter [readOnly]="castObj.status === castStatuses.RUNNING" *ngIf="j !== 0">
+                                    </td>
+                                    <td class="action"  *ngIf="castObj.status === castStatuses.DRAFT && scheduleControlKeys.length != 1 && i < (scheduleControlKeys.length - 1)"><mat-icon (click) ="deleteSchedule(control.key)">delete</mat-icon></td>
+                                  </tr>
+                                </ng-container>
+                                <!-- <ng-container formArrayName="schedules">
+                                  <tr class="route-schedule" *ngFor="let control of exploreSchedules.controls; let i = index" formArrayName="{{i}}">
+                                    <td *ngFor="let data of exploreSchedules.controls[i]['controls']; let j = index">
+                                      <input formControlName="{{j}}" type="text" class="text-box schedule-text-box align-right" placeholder="{{sidePanelData['data']['metadata']['schedule']['rows'][i] && sidePanelData['data']['metadata']['schedule']['rows'][i][j]['view_value']}}" (blur) = "onDataChanged($event.target.value, i)" appNumberOnly [readOnly]="castObj.status === castStatuses.RUNNING" *ngIf="j === 0">
+
+                                      <input formControlName="{{j}}" type="text" class="text-box schedule-text-box align-right" placeholder="{{sidePanelData['data']['metadata']['schedule']['rows'][i] && sidePanelData['data']['metadata']['schedule']['rows'][i][j]['view_value']}}" (blur) = "onDataChanged($event.target.value, i)" timeFormatter [readOnly]="castObj.status === castStatuses.RUNNING" *ngIf="j !== 0">
+                                    </td>
+                                    <td class="action"  *ngIf="castObj.status === castStatuses.DRAFT && exploreSchedules.controls.length != 1 && i < (exploreSchedules.controls.length - 1)"><mat-icon (click) ="deleteSchedule(i)">delete</mat-icon></td>
+                                  </tr>
+                                </ng-container> -->
+                              </tbody>
+                            </table>
+                          </div>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="end center" class='action-block' *ngIf='castObj.status === castStatuses.DRAFT' networkLibraryAcl [access] = "'edit'">
+                        <button mat-button type="button" class="btn-link" *ngIf="dataChanged" (click) = 'discardChanges()'>Discard Changes</button>
+                        <button mat-raised-button class="btn-primary-color" [ngClass] = "{'disabled' : !dataChanged}" type="submit">Update Cast Scheme</button>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </form>
+          </ng-container>
+          <ng-container *ngIf="(sidePanelType === sidebarMenuType.NETWORK_LINK || sidePanelType === sidebarMenuType.NETWORK_ROUTE)">
+            <ng-container *ngIf = "sidePanelData?.data?.metadata | isObjectExists; else noDataNetworkBlock">
+              <div class="cast-feature-content">
+                <div fxLayout="row" fxLayoutAlign="start center" class="side-panel-header">
+                  <i class="icon-custom icon-custom-cc-link"></i>
+                  <h4>{{sidePanelData['name']}} <span class="subtitle-1" title="{{sidePanelData['name']}} ID: {{sidePanelData['data']['id']}}"><b>{{sidePanelData['data']['name']}} </b> {{sidePanelData['data']['id'] | truncate : 'middle': 5 : 5 }}</span></h4>
+                </div>
+                <div class="cast-network-link-content route-content-body" *ngIf="sidePanelData?.data['metadata']">
+                  <div class="route-content" >
+                    <h5>Volume: {{ sidePanelData['count'] | convert : 'THOUSAND'}}</h5>
+                    <div *ngIf="sidePanelData['data']['metadata']['age_group']">
+                      <table class="datatable">
+                        <thead>
+                          <tr>
+                            <th>Age</th>
+                            <th>Distribution</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of sidePanelData['data']['metadata']['age_group']; trackBy: trackByValue;">
+                            <td>{{row['title'] || 'N/A'}}</td>
+                            <td>{{row['view_value'] || 'N/A'}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div *ngIf="sidePanelData['data']['metadata']['household_income_group']">
+                      <table class="datatable">
+                        <thead>
+                          <tr>
+                            <th>Individual Income	</th>
+                            <th>Distribution</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr  *ngFor="let row of sidePanelData['data']['metadata']['household_income_group']; trackBy: trackByValue;">
+                            <td>{{row['title'] || 'N/A'}}</td>
+                            <td>{{row['view_value'] || 'N/A'}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div *ngIf="sidePanelData['data']['metadata']['day_part']">
+                      <table class="datatable">
+                        <thead>
+                          <tr>
+                            <th>Day Part</th>
+                            <th>Distribution</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr  *ngFor="let row of sidePanelData['data']['metadata']['day_part']; trackBy: trackByValue;">
+                            <td>{{row['title'] || 'N/A'}}</td>
+                            <td>{{row['view_value'] || 'N/A'}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #noDataNetworkBlock>
+              <div class="cast-feature-content">
+                <div fxLayout="row" fxLayoutAlign="start center" class="side-panel-header">
+                  <i class="icon-custom icon-custom-cc-link"></i>
+                  <h4>{{sidePanelData['name']}} <span class="subtitle-1" title="{{sidePanelData['name']}} ID: {{sidePanelData['feature']['id']}}"><b>{{sidePanelData['feature']['name']}} </b> {{sidePanelData['feature']['id'] | truncate : 'middle': 5 : 5 }}</span></h4>
+                </div>
+                <div class="cast-network-link-content route-content-body">
+                  <h5 class="align-center">This feature has not been computed yet.</h5>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="end center" class='action-block' networkLibraryAcl [access] = "'edit'">
+                  <span matTooltip="The feature has been already requested. Support will be in touch." [matTooltipClass]="'audience-tooltip'"  [matTooltipDisabled]="!sentComputeRequest">
+                    <button mat-raised-button class="btn-primary-color"  (click) = "sendRequestForCompute(castObj.id, sidePanelData['feature'])" [ngClass] = "{'disabled' : sentComputeRequest}"  type="button">Request</button>
+                  </span>
+                </div>
+              </div>
+            </ng-template>
+          </ng-container>
+          <ng-container *ngIf="sidePanelType === 'settings'">
+            <app-city-cast-settings [cast] = "selectedCast"></app-city-cast-settings>
+          </ng-container>
+          <ng-container *ngIf="sidePanelType === 'scheme'">
+            <app-city-cast-schemes [cast] = "castObj" (onSchemeAction) = 'onSchemeAction($event)' [savedDeltas] = "savedDeltas"  [unSavedChanges] = "unSavedChanges"></app-city-cast-schemes>
+          </ng-container>
+          <ng-container *ngIf="sidePanelType === 'metrics'">
+            <app-city-cast-metrics [scenarioId] = 'castObj.id' [castMetrics] = "castMetrics"></app-city-cast-metrics>
+          </ng-container>
+          <div [ngClass] = "{'hide' : sidePanelType !== 'search'}">
+            <app-city-cast-find-features [castIndexes]="castIndexes" [mainmap]="mainmap" [submap]="submap" [searchQuery]="searchQuery" (pushSearchQuery) ="pushSearchQuery($event)" (openDataFromMapFeature) = "openDataFromMapFeature($event)"></app-city-cast-find-features>
+          </div>
+      </div>
+    </div>
+  </mat-sidenav>
+  <div *ngIf='castObj.status === castStatuses.DRAFT' class="cast-run-button-block" networkLibraryAcl [access] = "'edit'">
+    <button mat-flat-button class="" (click) = 'runDraftScenarioChanges()'>RUN</button>
+  </div>
+  <div *ngIf='castObj.status === castStatuses.RUNNING' class="cast-run-button-block">
+    <button mat-flat-button class="ruuning">Running...</button>
+  </div>
+  <div [ngClass]="{'floating-menu': isOpenedSidenav}">
+    <app-city-cast-floating-menu [isOpenedSidenav]='isOpenedSidenav' [selectedCast]='selectedCast' [sidePanelData]='sidePanelData' (sideNavigation)="sideNavigation($event)">
+    </app-city-cast-floating-menu>
+  </div>
+</div>

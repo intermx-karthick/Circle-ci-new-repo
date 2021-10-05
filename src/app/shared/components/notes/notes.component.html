@@ -1,0 +1,62 @@
+<section fxLayout="column" fxLayoutAlign="start start">
+  <form [formGroup]="noteForm">
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1.5rem" class="note-form-main" [ngClass]="{'add-note-position': showEditor}">
+    <div>
+      <mat-form-field fxFlex="21.25rem" class="imx-input" matInput [ngClass]="showEditor ?'editorLabel':'notesTextAreaLabel'">
+        <mat-label>{{ placeholder }}</mat-label>
+        <ckeditor *ngIf="showEditor" class="imx-input" formControlName="note"
+        tagName="textarea"
+        [config]="editorConfig"
+        [data]="noteForm.controls['note']?.value">
+        </ckeditor>
+        <textarea matInput autocomplete="off" formControlName="note" [hidden]="showEditor" (focus)="showEditorFunc()"></textarea>
+        <mat-error *ngIf="noteForm.controls['note'].errors?.minlength">{{placeholder}} must be atleast 1 character long.</mat-error>
+        <mat-error *ngIf="noteForm.controls['note'].errors?.maxlength">{{placeholder}} can be max 2000 characters long.</mat-error>
+        <mat-error *ngIf="noteForm.controls['note']?.errors?.whitespace">
+          <span>Invalid {{placeholder}}.</span>
+        </mat-error>
+        <mat-error *ngIf="noteForm.controls['note']?.errors?.required">
+          <span>Please enter valid {{placeholder}}.</span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  </form>
+  <!-- Note list-->
+  <div fxLayout="column" fxLayoutAlign="start start" class="imx-notes">
+    <div *ngIf="noteList?.length>1"> <a class="primary-text-color pointer-cursor note-link" (click)="openNoteDialog()">View all Notes <span *ngIf="notePagination?.total>0"> ({{notePagination?.total}})</span></a> </div>
+
+    <div class="note-list" *ngIf="noteList?.length">
+      <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1.3rem" *ngIf="noteList[0] as note">
+         <div class="note-date"> {{note.updatedAt | date: 'MMM d y'}} </div>
+         <div class="note-details" [ngClass]="{'enable-edit-note': note?._id == enableNoteEdit}" >
+            <p>{{ note | noteName}} by {{note.updatedBy}}</p>
+            <p>
+            <span *ngIf="note?._id !== enableNoteEdit" [innerHTML]="note?.notes"></span>
+            <mat-form-field fxFlex="21.25rem" matInput class="imx-input edit-note-input" *ngIf="note?._id == enableNoteEdit"  >
+              <mat-label>{{ placeholder }}</mat-label>
+              <ckeditor class="imx-input" [formControl]="formNote[note?._id]"
+              [config]="editorConfig"
+              [data]="formNote[note?._id]?.value">
+              </ckeditor>
+              <textarea matInput autocomplete="off" [formControl]="formNote[note?._id]" hidden></textarea>
+              <mat-error *ngIf="formNote[note?._id].errors?.min">Notes must be atleast 1 character long.</mat-error>
+              <mat-error *ngIf="formNote[note?._id].errors?.max">Notes can be max 2000 characters long.</mat-error>
+              <mat-error *ngIf="formNote[note?._id].errors?.invalid">
+                <span>Invalid Notes.</span>
+              </mat-error>
+            </mat-form-field>
+            </p>
+            <div class="note-actions-main" fxLayoutGap="2rem" >
+              <div class="note-actions">
+              <button mat-button type="button" class="imx-button-basic_icon" (click)="onnote?._id == onEnableNoteEdit(note)" *ngIf="note?._id !== enableNoteEdit">EDIT</button>
+              <button mat-button type="button" class="imx-button-basic_icon" *ngIf="note?._id == enableNoteEdit" (click)="updateNote(note)">save edit</button>
+              <button mat-button type="button" class="imx-button-basic_icon" (click)="onCancelNoteEdit(note)" *ngIf="note?._id == enableNoteEdit">cancel</button>
+              <button mat-button type="button" class="imx-button-basic_icon"  (click)="deleteNote(note)">Delete</button>
+              </div>
+            </div>
+         </div>
+      </div>
+    </div>
+  </div>
+</section>

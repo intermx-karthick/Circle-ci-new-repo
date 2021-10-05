@@ -1,0 +1,55 @@
+
+<div fxLayout="column" class="note-dialog-main-container">
+<section fxLayout="row" fxLayoutAlign="space-between center" class="header">
+    <p class="title">Viewing Notes <span *ngIf="notePagination?.total>0"> ({{notePagination?.total}})</span></p>
+    <a>
+      <mat-icon class="primary-text-color" (click)='closeDialogBox()'>highlight_off</mat-icon>
+    </a>
+</section>
+
+<section fxLayout="column" fxLayoutGap="1rem" fxLayoutAlign="start start" class="note-dialog-list-main imx-notes" infiniteScroll
+          [infiniteScrollDistance]="1"
+          [infiniteScrollThrottle]="0"
+          [infiniteScrollDisabled]="noteList.length>=notePagination?.total"
+          (scrolled)="loadMoreNote()"
+          (opened)="updateContainer()"
+          [scrollWindow]="false"
+          [infiniteScrollContainer]="panelContainer"
+          [fromRoot]="true">
+  <div class="note-list" *ngIf="noteList?.length">
+      <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1.3rem" *ngFor="let note of noteList;let i=index" class="note-list-body">
+         <div class="note-date"> {{note?.updatedAt | date: 'MMM d y'}} </div>
+         <div class="note-details" [ngClass]="{'enable-edit-note': note?._id == enableNoteEdit}">
+            <p> {{ note | noteName}} by {{note?.updatedBy}}</p> 
+            <p>
+            <span *ngIf="note?._id !== enableNoteEdit" [innerHTML]="note?.notes"></span>
+            <mat-form-field fxFlex="26rem" class="imx-input edit-note-input" *ngIf="note?._id == enableNoteEdit"  >
+              <mat-label>Entering Notes</mat-label>
+              <ckeditor class="imx-input" [formControl]="formNote[note?._id]"
+              [config]="editorConfig"
+              [data]="formNote[note?._id]?.value">
+              </ckeditor>
+              <textarea matInput autocomplete="off" [formControl]="formNote[note?._id]" hidden></textarea>
+              <mat-error *ngIf="formNote[note?._id].errors?.min">Notes must be atleast 1 character long.</mat-error>
+              <mat-error *ngIf="formNote[note?._id].errors?.max">Notes can be max 2000 characters long.</mat-error>
+              <mat-error *ngIf="formNote[note?._id].errors?.invalid">
+                <span>Invalid Notes.</span>
+              </mat-error>
+            </mat-form-field>            
+            </p>
+            <div class="note-actions-main" fxLayoutGap="2rem">
+              <div class="note-actions">
+              <button mat-button type="button" class="imx-button-basic_icon" (click)="onnote?._id == onEnableNoteEdit(note)" *ngIf="note?._id !== enableNoteEdit" [module]="dialogData?.visiblityModule" visiblityType="edit" appUserAccessPermission>EDIT</button>
+              <button mat-button type="button" class="imx-button-basic_icon" *ngIf="note?._id == enableNoteEdit" (click)="updateNote(note)">save edit</button>
+              <button mat-button type="button" class="imx-button-basic_icon" (click)="onCancelNoteEdit(note)" *ngIf="note?._id == enableNoteEdit">cancel</button>
+              <button mat-button type="button" class="imx-button-basic_icon"  (click)="deleteNote(note)" [module]="dialogData?.visiblityModule" visiblityType="delete" appUserAccessPermission>Delete</button>
+              </div>            
+            </div> 
+         </div> 
+      </div>
+    </div>
+     <div *ngIf="isLoadingNote" class="place-loader" fxLayoutAlign="center center" fxFill="100"> 
+      <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+    </div>
+</section>
+</div>

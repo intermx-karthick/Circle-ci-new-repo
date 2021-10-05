@@ -1,0 +1,65 @@
+
+<div fxLayout="row wrap" class="papulation-tabular-block" mwlResizable [enableGhostResize]="true" (resizeEnd)="onResizeEnd($event)" (resizing)="onResizing($event)" fxLayoutAlign="start start">
+<div mwlResizeHandle [resizeEdges]="{bottom: false, right: false, top: true, left: false}" class="papulation-tabular-border" #tabularHeight>
+  <i class="material-icons">drag_handle</i>
+</div>
+<div class="papulation-tabular-toggle-close-button">
+  <div class="mapboxgl-ctrl mapboxgl-ctrl-group" title="COLLAPSE TABLE">
+    <button (click)="collapseTable();">
+      <i class="material-icons">keyboard_arrow_down</i>
+    </button>
+  </div>
+</div>
+
+<div fxLayout="row wrap" class="action-div-block">
+  <span fxFlex="1 1 auto"></span>
+  <div class="action-div">
+    <button mat-raised-button class="button-secondary" (click)="customizeColumn()" type="button"	id="customize-column" >
+      Customize Columns
+    </button>
+  </div>
+</div>
+<div class="papulation-tabular-body" fxLayout="row" id="papulation-view-div"  infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="500" [infiniteScrollDisabled]="isLoader" (scrolled)="loadMore()" [scrollWindow]="false" [ngStyle]="{'height.px': tableHeight}">
+  <mat-table [trackBy]="trackByFunction" [dataSource]="dataSource"  [ngStyle]="{'width.px':displaySortables.length*130}" matSort="{matSortDisableClear: true}" [matSortActive]="defaultSort['sortKey']" [matSortDirection]="defaultSort['order']">
+    <ng-container *ngFor="let column of currentSortables" [matColumnDef]="column.value" [sticky]="column.value == 'checked'" >
+      <mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortColumn(column)" [disabled]="column.value | canSort" [ngClass]="{'cursor-pointer':column['name'] == 'CHECKBOX'}">
+        <ng-template [ngIf]="column['name'] == 'CHECKBOX'" >
+          <mat-checkbox [checked]="selectedCount === totalCount || selectQuery.key === 'all'" (change)="selectAll($event)" [indeterminate]="selectedCount !== totalCount && selectedCount > 0" [disableRipple]="true" class="e2e-checked"></mat-checkbox>
+        </ng-template>
+        <ng-template [ngIf]="column['name'] != 'CHECKBOX'" >
+          <span fxLayout="column" fxLayoutAlign="start start"  >
+            <span>{{ column.displayname }}</span>
+          </span>
+        </ng-template>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element;let i = index;" [ngClass]="{'sort':sortColumnQuery===column['value'] && sortColumnQuery!=='checked'}" >
+        <ng-template [ngIf]="column['name'] == 'CHECKBOX'">
+          <mat-checkbox [checked]="element.selected" (change)="selectCheckboxToggle(element)" [disableRipple]="true"></mat-checkbox>
+        </ng-template>
+        <ng-template [ngIf]="column['name'] == 'SLNO'">
+        {{i+1}}
+        </ng-template>
+        <ng-template [ngIf]="column['value'] == 'geoName'" >
+          <span title="{{element['column1']}}">{{ (element['geoName'] || 'N/A')}}</span>
+        </ng-template>
+        <ng-template [ngIf]="column['value'] == 'comp'" >
+          <span title="{{element['column3']}}">{{ (element['comp'])}}%</span>
+        </ng-template>
+        <ng-template [ngIf]="column['value'] == 'index'" >
+          <span title="{{element['column4']}}">{{ (element['formattedIndex'])}}</span>
+        </ng-template>
+
+
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displaySortables; sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displaySortables;"></mat-row>
+  </mat-table>
+  <div *ngIf="isLoader" style="margin-top: 10px;" fxLayout="row" fxLayoutAlign="center center">
+    <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+  </div>
+  <div *ngIf="!geographies.length" style="margin-top: 10px;" fxLayout="row" fxLayoutAlign="center center">
+    <p>Define a population to see the geographies</p>
+  </div>
+</div>
+</div>

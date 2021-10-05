@@ -1,0 +1,32 @@
+<div fxLayout="column" fxFlexAlign="" class="column">
+  <div class="row" *ngIf="mode === 12">
+    <mat-button-toggle-group name="ampm" aria-label="AM or PM" (change)="periodChange($event)" [value]="timePeriod">
+      <mat-button-toggle value="AM">AM</mat-button-toggle>
+      <mat-button-toggle value="PM">PM</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  <div class="row">
+    <mat-label>Hours</mat-label>
+    <mat-button-toggle-group name="hours" aria-label="hours"  (change)="hourChange($event)" [value]="selectedHour">
+      <mat-button-toggle *ngFor="let hour of hours" [value]=hour>{{hour | padWith:2: 'start'}}</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  <div class="row">
+    <mat-label>Minutes</mat-label>
+    <mat-button-toggle-group name="minutes" aria-label="minutes" (change)="minuteChange($event)" [value]="selectedMinute">
+      <mat-button-toggle *ngFor="let minute of minutes" [value]="minute">
+        {{minute | padWith:2: 'start'}}
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  <div class="row">
+    <ng-container *ngTemplateOutlet="errorsTemplate"></ng-container>
+  </div>
+  <div class="row actions">
+    <ng-container *ngTemplateOutlet="actionButtons ? actionButtons : defaultActions"></ng-container>
+  </div>
+  <ng-template #defaultActions>
+    <button mat-raised-button class="btn-clear" type="button" (click)="action('close')">CLOSE</button>
+    <button mat-raised-button class="btn-primary-color" type="button" (click)="action('apply')">APPLY</button>
+  </ng-template>
+</div>

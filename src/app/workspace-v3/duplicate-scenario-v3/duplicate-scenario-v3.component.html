@@ -1,0 +1,27 @@
+<form
+  method="post"
+  class="noAnimation imx-project-form"
+  [formGroup]="scenarioForm"
+  novalidate
+  autocomplete="off"
+  (ngSubmit)="onSubmit(scenarioForm)"
+>
+  <h4 mat-dialog-title>Create Duplicate {{labels.scenario[0]}}</h4>
+  <button mat-icon-button mat-dialog-close class="mat-dialog-close">
+    <mat-icon>highlight_off</mat-icon>
+  </button>
+  <mat-dialog-content>
+    <mat-form-field class="imx-input">
+      <mat-label>{{labels.scenario[0]}} Name</mat-label>
+      <input matInput formControlName="name" required />
+      <mat-error *ngIf="scenarioForm.controls.name.invalid">
+        <span *ngIf="scenarioForm.controls.name['errors']['required']  == true">{{nameValidError}}</span>
+        <span *ngIf="scenarioForm.controls.name['errors']['required']  !== true && scenarioForm.controls.name['errors']['whitespace'] == true">{{nameWhiteSpaceValidError}}</span>
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close class="imx-button-basic">Cancel</button>
+    <button mat-button class="imx-button-primary">Create {{labels.scenario[0]}}</button>
+  </mat-dialog-actions>
+</form>

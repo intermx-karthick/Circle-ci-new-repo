@@ -1,0 +1,176 @@
+
+::ng-deep {
+  app-client-form {
+    .cke_toolbox {
+      .cke_button__numberedlist::after {
+          border: unset !important;
+      }
+      .cke_toolbar_last {
+          float: right !important;
+      }
+    }
+    
+    .date-picker-icon {
+      cursor: pointer;
+    }
+    app-address-card{
+      margin:10px 0px;
+    }
+    .width-65p{
+      width:65%;
+    }
+    .iscurrentFlag{
+      .circle-flag{
+        height:15px !important;
+      }
+    }
+    .is-parent-client {
+      font-size: 13px;
+
+      .mat-checkbox-inner-container {
+        width: 16px !important;
+        height: 16px !important;
+      }
+    }
+
+    .billing-details {
+      margin:10px 0;
+      padding: 1rem;
+      width: fit-content;
+      position: relative;
+      &.oi-rev-error{
+        padding:1rem 1rem 2.5rem 1rem !important;
+      }
+      .billing-details--bg{
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top:0;
+        background: #2392D4;
+        opacity: .1;
+      }
+    }
+    .label-heading {
+      font-size: 0.625rem;
+      color: var(--grays-bg-800);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin:10px 0px;
+    }
+    .placeholder-default {
+      .mat-select-value-text{
+        color: var(--low-emphasis)
+      }
+    }
+    .error-field-width {
+      &.mat-form-field-invalid {
+        .mat-form-field-subscript-wrapper {
+          width: 230px;
+        }
+      }
+    }
+
+    .prod-install-error-field-width{
+      &.mat-form-field-invalid {
+        .mat-form-field-subscript-wrapper {
+          width: 260px;
+        }
+      }
+    }
+
+    .imx-input-no-border{
+      height:auto;
+      border: none;
+    }
+
+    .error-msg__expander{
+      .mat-form-field-subscript-wrapper{
+         width: 230px;
+      }
+    }
+
+    .oi-error-field-width{
+      .mat-form-field-subscript-wrapper{
+        width: 98px;
+
+        .mat-error{
+          font-size: .58rem;
+        }
+      }
+    }
+
+    .details-mat-form-field {
+      margin-right: 24px !important;
+
+      .mat-link-icon {
+        position: absolute;
+        right: -24px;
+        top: 4px;
+        color: var(--primary-bg) !important;
+      }
+
+      .mat-link-icon.for-mat-select{
+        top: -12px;
+      }
+    }
+  }
+  .error-space {
+    margin-top: 1rem;
+  }
+  .client-form--circle-flag{
+    margin-right: 1px !important;
+  }
+
+  .client-form__drop-down{
+    margin-left: 2rem;
+  }
+  .mat-select-trigger {
+     height: auto;
+  }
+  .error-relative-width.mat-form-field {
+    .mat-form-field-wrapper {
+      padding-bottom: 3px !important;
+    }
+    .mat-form-field-underline {
+      position: relative;
+      bottom: auto;
+    }
+    .mat-form-field-subscript-wrapper {
+      position: static;
+      width: 100% !important;
+      margin-top: 3px;
+    }
+  }
+  .sameAsBilling {
+    padding-top: 1.5625rem;
+  }
+
+  .autocomplete-scroll {
+    .users-list-autocomplete,
+    .client-list-autocomplete,
+    .primary-agencies-list-autocomplete,
+    .operation-contacts-list-autocomplete,
+    .creative-agencies-list-autocomplete{
+      max-height: 14.375rem;
+      overflow-y: auto;
+    }
+
+    &.mat-autocomplete-panel{
+      overflow-y: hidden !important;
+      padding-right: 0 !important;
+    }
+  }
+
+  .editorLabel {
+    .mat-form-field-label {
+      top: 0px !important;
+    }
+  }
+
+  .notesTextAreaLabel {
+    .mat-form-field-label-wrapper {
+      top: unset !important;
+    }
+  }
+}

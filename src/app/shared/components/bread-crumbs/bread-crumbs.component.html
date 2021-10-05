@@ -1,0 +1,17 @@
+<div>
+	<ng-container *ngFor="let breadcrumb of breadcrumbs;let i=index" >
+		<span class="breadcrumb-label" *ngIf="breadcrumb.url != ''" matTooltip="{{breadcrumb.label}}" matTooltipPosition="above" matTooltipClass="breadcrum-tooltip">
+			<a routerLink="{{breadcrumb.url}}" id="tags{{i + 1}}">
+				{{breadcrumb.label | truncate: 'middle':16}}
+			</a>
+		</span>
+		<span class="breadcrumb-label" *ngIf="breadcrumb.url == ''" matTooltip="{{breadcrumb.label}}" matTooltipPosition="above" matTooltipClass="breadcrum-tooltip">
+			{{breadcrumb.label | truncate: 'middle':16}}
+		</span>
+  <span class="breadcrumb-separator" *ngIf="(breadcrumbs.length > (i+1))"></span>
+	</ng-container>
+
+  <!-- <span class="breadcrumb-label"><a routerLink="/projects/lists">MY PROJECTS</a></span>
+  <span class="breadcrumb-separator"></span>
+  <span class="breadcrumb-label">{{pageTitle}}</span> -->
+</div>

@@ -1,0 +1,9 @@
+<div mat-dialog-content>
+  <div mat-dialog-actions class="mobile-hide">
+    <!-- commented on 03/06/2019 due to consistency -->
+    <!-- <button mat-mini-fab mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button> -->
+  </div>
+  <app-audience-browser [selectedAudienceList]="selectedAudienceList" (onCompletedBrowsing)= 'closeDialogBox($event)' [isScenario]="isScenario" [openAudience]="openAudience" [isInventory]="isInventory" [selectionType]="selectionType" [includeType] = "'dialog'"></app-audience-browser>
+</div>

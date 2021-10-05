@@ -1,0 +1,16 @@
+<div class="week-container">
+  <h4>Select Number of Delivery Weeks</h4>
+  <p>Spot impressions and measures summaries will reflect this period</p>
+  <mat-button-toggle-group #group="matButtonToggleGroup" [(value)]="selectedWeek">
+    <mat-button-toggle
+      value="{{week.duration * 7}}"
+      *ngFor="let week of periodDurations"
+      [disabled] = "dataVersion === 2020 && (week.duration === 26 || week.duration === 52)"
+      >{{ week.duration }}</mat-button-toggle
+    >
+  </mat-button-toggle-group>
+  <div class="action-container">
+    <button mat-raised-button class="btn-clear" type="button" (click)="clear()">CLEAR</button>
+    <button mat-raised-button class="btn-primary-color e2e-apply-market-btn" type="button" (click)="onSubmit()">APPLY</button>
+  </div>
+</div>

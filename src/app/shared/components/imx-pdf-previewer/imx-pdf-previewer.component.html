@@ -1,0 +1,57 @@
+<div class='c-imx-pdf-previewer'>
+  <section class='c-imx-pdf-previewer__header' fxLayout='row' fxLayoutAlign='space-between center'>
+    <div>
+      <div>{{title}}</div>
+      <span>Powered by INTERMX</span>
+    </div>
+    <div class='close-dialog' mat-dialog-close *ngIf="showCloseBtn">Close</div>
+  </section>
+  <div class="c-imx-pdf-previewer__body">
+    <ngx-extended-pdf-viewer [filenameForDownload]='downloadFileName' [src]='src' [theme]="'dark'" [textLayer]='true' [customToolbar]='additionalButtons' [zoom] = "'page-width'" [printResolution]="'120'">
+      <!--  (beforePrint)="onBeforePrint()" (afterPrint)="onAfterPrint()" (progress)="onProgress($event)" (pagesLoaded)="onPagesLoaded($event)" -->
+      <!-- '../../assets/compressed.tracemonkey-pldi-09.pdf' -->
+    </ngx-extended-pdf-viewer>
+    <ng-template #additionalButtons>
+      <div id='toolbarViewer'>
+        <div id='toolbarViewerLeft'>
+          <button type='button' id='sidebarToggle' title='Toggle Sidebar' class='toolbarButton'>
+            <mat-icon svgIcon='IMX-pdf-thumbnail' class='transparent'></mat-icon>
+          </button>
+          <button type='button' id='viewFind' title='Find in Document' class='toolbarButton'>
+            <mat-icon svgIcon='IMX-pdf-search' class='transparent'></mat-icon>
+          </button>
+          <button type='button' id='previous' title='Previous Page' class='toolbarButton'>
+            <mat-icon svgIcon='IMX-pdf-uparrow'></mat-icon>
+          </button>
+          <button type='button' id='next' title='Next Page' class='toolbarButton'>
+            <mat-icon svgIcon='IMX-pdf-downarrow'></mat-icon>
+          </button>
+          <pdf-page-number></pdf-page-number>
+        </div>
+        <div id='toolbarViewerRight'>
+          <!-- <button type='button' (click)='contactSupport()' title='Email' class='toolbarButton'>
+            <mat-icon svgIcon='IMX-pdf-email' class='transparent'></mat-icon>
+          </button> -->
+          <button type='button' id='download' title='Download' class='toolbarButton'>
+            <mat-icon svgIcon='IMX-pdf-down' class='transparent'></mat-icon>
+          </button>
+          <button type='button' id='print' title='Print' class='toolbarButton'>
+            <mat-icon svgIcon='IMX-pdf-printer' class='imx-icon-black'></mat-icon>
+          </button>
+          <button type='button' (click)='copyURL()' title='Link' class='toolbarButton' *ngIf="showCopyUrlBtn">
+            <mat-icon svgIcon='IMX-pdf-url' class='transparent'></mat-icon>
+          </button>
+          <!--
+          <button type='button' (click)='embedURL()' title='Embed' class='toolbarButton'>
+            <mat-icon svgIcon='IMX-pdf-embed' class='imx-icon-black'></mat-icon>
+          </button>
+          <button type='button' (click)='sharePdf()' title='Share' class='toolbarButton'>
+            <mat-icon svgIcon='IMX-pdf-share' class='imx-icon-black'></mat-icon>
+          </button>
+          -->
+        </div>
+        <pdf-zoom-toolbar></pdf-zoom-toolbar>
+      </div>
+    </ng-template>
+  </div>
+</div>

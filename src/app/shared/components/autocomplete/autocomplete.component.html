@@ -1,0 +1,29 @@
+<mat-form-field floatPlaceholder="always" class="mat-autocomplete-panel-input">
+  <input
+    type="text"
+    placeholder="{{ placeHolder }}"
+    matInput
+    [formControl]="defaultControl"
+    [matAutocomplete]="auto"
+    class="remove-border"
+    [value] = "currentTitle | truncate:'middle':18"
+    autocomplete="off"
+  >
+  <mat-autocomplete
+    (optionSelected)="change($event)"
+    autoActiveFirstOption
+    #auto="matAutocomplete"
+    [displayWith]="displayValue"
+    >
+    <mat-option *ngIf="!isMarket" class="special-button option-font-size" (click)="browserAudience();" value="createnew">Create New Audience...</mat-option>
+
+    <mat-option *ngIf="isMarket" [value]="selectedValue" selected class="option-font-size">United States</mat-option>
+    <mat-option
+      *ngFor="let market of filteredData | async"
+      [value]="market"
+      class="option-font-size"
+    >
+      {{isMarket ? market.name : market.title | truncate:'middle':16 }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

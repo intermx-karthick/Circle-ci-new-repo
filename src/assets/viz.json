@@ -1,0 +1,26 @@
+{
+      cbsa_explore : {
+        name: 'CBSA Explorer',
+        url: 'https: //public.tableau.com/views/DailyMobility_CBSAExplorer_Page1/DailyMobility-CBSA?:display_count=y&publish=yes&:toolbar=n&:origin=viz_share_link',
+        width: 1000,
+        height: 1100
+  },
+      cbsa_report: {
+        name: 'CBSA Report',
+        url: 'https: //public.tableau.com/views/DailyMobility_CBSAReport_Page2/CBSAReport?:display_count=y&publish=yes&:toolbar=n&:origin=viz_share_link',
+        width: 1000,
+        height: 1700
+  },
+      state_explore: {
+        name: 'State Explorer',
+        url: 'https: //public.tableau.com/views/DailyMobility_StateExplorer_Page3/DailyMobility-State?:retry=yes&:display_count=y&:toolbar=n&:origin=viz_share_link',
+        width: 1000,
+        height: 1100
+  },
+      state_report: {
+        name: 'State Report',
+        url: 'https: //public.tableau.com/views/DailyMobility_StateReport_Page4/StateReport?:retry=yes&:display_count=y&:toolbar=n&:origin=viz_share_link',
+        width: 1000,
+        height: 1700
+  }
+}

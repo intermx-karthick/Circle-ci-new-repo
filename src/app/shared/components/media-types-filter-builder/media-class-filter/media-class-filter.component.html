@@ -1,0 +1,38 @@
+<ng-container *ngIf="isInitLoading">
+  <app-cl-list-with-left-check-box-right-ctnt></app-cl-list-with-left-check-box-right-ctnt>
+</ng-container>
+
+<mat-selection-list
+  class="format-group media-list classificationTypes"
+  fxFill
+  fxLayout="column"
+  fxLayoutAlign="space-evenly center"
+  fxLayout.xs="column"
+  fxLayoutAlign.xs="center space-between"
+>
+
+  <mat-list-option
+    checkboxPosition="before"
+    [selected]="option.selected"
+    [value]="option"
+    (click)="onSelectOption(option)"
+    disableRipple
+    *ngFor="let option of dataSource"
+    [class.disabled]="option.disabled"
+  >
+    <div class="width100 classificationTypesLabel">
+      {{ option.name }}
+      <span fxFlex="1 1 auto"></span>
+      <span class="count">({{ option.count }})</span>
+    </div>
+  </mat-list-option>
+</mat-selection-list>
+
+<div fxLayout="row" fxLayoutAlign="center center"
+     *ngIf="dataSource.length <= 0 && isInitiated && isInitialLoadCompleted">
+  No data found
+</div>
+
+<div fxFill class="discoveringMedia" *ngIf="!isLoadedData && moduleName === 'project'">
+  Discovering Media Classes...
+</div>

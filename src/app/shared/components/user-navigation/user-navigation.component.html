@@ -1,0 +1,76 @@
+<div  [matMenuTriggerFor]="menu" #usernav="matMenuTrigger"  >
+  <a fxLayout="row" fxHide.xs class="user-nav mobile-hide">
+    <div class="user-badge">
+      <span>{{ userData | user_label}}</span>
+    </div>
+    <!-- <span fxLayoutAlign="start">{{ userData.name ? 'Welcome back, ' + userData.name : userData.email}}</span> -->
+    <div *ngIf="isGpLoginRequired">
+      <mat-icon class="checkIcon imx-user-status-icon" *ngIf="userData.gpLoginStatus; else warningBlock">check_circle</mat-icon>
+      <ng-template #warningBlock>
+        <mat-icon class="warning imx-user-status-icon">warning</mat-icon>
+      </ng-template>
+    </div>
+  </a>
+</div>
+
+<mat-menu #menu="matMenu" yPosition="below" xPosition="before" class="user-navigation-sub-menu">
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" class="user-details-menu">
+    <div class="user-badge" fxFlex="40px">
+      <span>{{ userData | user_label}}</span>
+    </div>
+    <div>
+      <div class="user-name">{{ (userData.name ? userData.name : userData.email | titlecase) }}</div>
+      <!-- <div class="user-department">VP, Presales and Delivery</div> -->
+    </div>
+  </div>
+  <div *ngIf="isGpLoginRequired" fxLayout="row" fxLayoutAlign="start start" class="laggedUser">
+    <mat-icon class="gpstatus" [ngClass]="userData.gpLoginStatus ? 'checkIcon' : 'warningIcon'">{{userData.gpLoginStatus ? 'check_circle' : 'warning'}}</mat-icon>
+    <div>
+      <div *ngIf="userData.gpLoginStatus; else statusFail" class="statusLogin">You are logged in and authenticated.</div>
+      <ng-template #statusFail>
+        <div class="statusLogin">You are logged in but not authenticated. <br>Click <span (click)="onLogout()" class="hereText">here</span> to solve this issue.</div>
+      </ng-template>
+    </div>
+  </div>
+  <!-- <a href="javascript:void(0)" mat-menu-item *ngIf="themeSettings && !themeSettings.publicSite" authenticate module="profile"
+  >User Profile</a> -->
+  <a href="javascript:void(0)" class="settings-link" (click)="openUserSetting()" mat-menu-item *ngIf="themeSettings && !themeSettings.publicSite" authenticate module="settings">Settings</a>
+  <a href="javascript:void(0)" class="logout-link" mat-menu-item (click)="onLogout()">Log Out</a>
+</mat-menu>
+<div class="mobile-menu">
+  <div [ngClass]="(this.router.url === '/projects') || (this.router.url === '/reports') ? 'show-settings-only' : ''" class="mobile-menu-item settings"  [matMenuTriggerFor]="menu" #mobilesettings="matMenuTrigger" >
+    <i class="material-icons" [ngClass]="{'active': mobilesettings.menuOpen }" >
+      settings
+    </i>
+  </div>
+  <div *ngIf="((this.router.url != '/projects') && (this.router.url != '/reports') && (allowInventory == 'active' || allowInventory == 'disabled'))" class="menu-item-divider"></div>
+  <div *ngIf="((this.router.url != '/projects') && (this.router.url != '/reports') && (allowInventory == 'active' || allowInventory == 'disabled'))" class="mobile-menu-item filters" (click)="openFilterSidebar()">
+    <i class="material-icons" >filter_list</i>
+  </div>
+
+</div>
+
+
+<!-- <div class="pull-right" id="component-container">
+    <div class="user-navigation">
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav user-navigation-menu">
+          <li class="dropdown user user-menu">
+            <div class="mobile-menu">
+                <div [ngClass]="(this.router.url === '/projects') || (this.router.url === '/reports') ? 'show-settings-only' : ''" class="mobile-menu-item settings"  [matMenuTriggerFor]="menu" #mobilesettings="matMenuTrigger" >
+                <i class="material-icons" [ngClass]="{'active': mobilesettings.menuOpen }" >
+                settings
+                </i>
+              </div>
+                <div *ngIf="((this.router.url != '/projects') && (this.router.url != '/reports') && (allowInventory == 'active' || allowInventory == 'disabled'))" class="menu-item-divider"></div>
+              <div *ngIf="((this.router.url != '/projects') && (this.router.url != '/reports') && (allowInventory == 'active' || allowInventory == 'disabled'))" class="mobile-menu-item filters" (click)="openFilterSiderbar()">
+                <i class="material-icons" >
+                filter_list
+                </i>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div> -->

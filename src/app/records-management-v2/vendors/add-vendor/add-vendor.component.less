@@ -1,0 +1,202 @@
+@import '../../../../assets/css/variables.less';
+.pull-right {
+  float: right !important;
+}
+.address-margin{
+  margin: 20px 0;
+}
+
+.deleteIcon {
+  align-self: center;
+  color: var(--secondary-bg);
+}
+.addIcon {
+  align-self: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--primary-bg);
+  &.active,
+  &:hover {
+    color: var(--high-emphasis);
+  }
+}
+.outer-padding{
+    padding: 0 20px;
+}
+
+.optional-option{
+  color: var(--low-emphasis);
+}
+
+.circle-flag {
+  width: 16px;
+  height: 16px;
+  margin: 0 2px;
+}
+
+::ng-deep {
+  .imx-calander {
+    .mat-calendar-body-disabled  .mat-calendar-body-cell-content:not(.mat-calendar-body-selected) {
+      color: var(--grays-bg-400) !important;
+    }
+  }
+
+  app-add-edit-vendor{
+
+    .cke_toolbox {
+      .cke_button__numberedlist::after {
+          border: unset !important;
+      }
+      .cke_toolbar_last {
+          float: right !important;
+      }
+    }
+    
+    .parent-vendor .mat-form-field-subscript-wrapper {
+      width: 180px;
+    }
+
+    .add-vendor__form{
+      width: 678px;
+    }
+
+    .imx-button-secondary, .imx-button-primary{
+      height:34px;
+    }
+    .placeholder-default{
+      .mat-select-value-text{
+        color: var(--low-emphasis);
+      }
+    }
+    .error-field-width{
+      &.mat-form-field-invalid{
+        .mat-form-field-subscript-wrapper{
+          width: 180px;
+        }
+      }
+    }
+
+    .vendor-action{
+      width: 57%;
+      align-items: flex-end;
+      place-content: flex-start;
+      padding: 20px 2.5% 10px 10px;
+      button{
+        text-transform: uppercase;
+      }
+    }
+    .vendor-body {
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .circle-flag{
+      font-size: 0.813rem !important;
+      line-height: 0.813rem !important;
+    }
+
+    .details-mat-form-field {
+      margin-right: 40px !important;
+
+      .mat-link-icon {
+        position: absolute;
+        right: -24px;
+        top: 4px;
+        color: var(--primary-bg) !important;
+      }
+    }
+  }
+  .vendor-file-upload {
+    width: 50%;
+    margin-top:20px;
+  }
+  .vendor-group-input{
+    width: 210px;
+    .small-font{
+      font-size: 11px;
+    }
+    input{
+      height: auto;
+      border-bottom: unset;
+    }
+  }
+
+  .back-to-link{
+    color:var(--primary-bg);
+    font-size: 0.75rem;
+    mat-icon{
+      margin-right:5px;
+      font-size: 0.75rem;
+      height: 12px;
+      width: 12px;
+    }
+    margin-bottom:20px;
+  }
+
+  .add-vendor{
+    .header{
+      margin-bottom:20px;
+      h4{
+        word-break: break-all;
+      }
+    }
+  }
+
+  app-add-edit-vendor{
+    width:100%;
+  }
+
+  .add-vendor>mat-spinner {
+    margin: 10px auto;
+  }
+
+  .isParentVendor {
+    font-size: 13px;
+    display: block;
+
+    .mat-checkbox-inner-container {
+      width: 16px !important;
+      height: 16px !important;
+    }
+  }
+
+  .vendor-form__select {
+    .mat-select {
+      font-size: 0.813rem;
+      letter-spacing: 0.5px;
+
+      .mat-select-value-text {
+        color: var(--grays-bg-800) !important;
+      }
+    }
+  }
+
+  .autocomplete-scroll {
+    .vendor-group-autocomplete{
+      max-height: 14.375rem;
+      overflow-y: auto;
+    }
+
+    // &.mat-autocomplete-panel{
+    //   overflow-y: hidden !important;
+    //   padding-right: 0 !important;
+    // }
+  }
+  .editorLabel {
+    .mat-form-field-label {
+      top: 0px !important;
+    }
+  }
+  .notesTextAreaLabel {
+    .mat-form-field-label-wrapper {
+      top: unset !important;
+    }
+  }
+}
+
+.date-picker-icon_input.mat-icon{
+  cursor: pointer;
+}
+
+
+

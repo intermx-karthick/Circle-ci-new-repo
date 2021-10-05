@@ -1,0 +1,187 @@
+
+ <div fxLayout="row" class="plan-header-action">
+  <div fxFlex="20" class="total-record" fxLayoutAlign="start center">
+    Total : {{totalSpots ? totalSpots : 0}}
+  </div>
+  <div fxFlex="80" fxLayoutAlign="end" fxLayoutGap="18px">
+    <div>
+      <!-- <mat-icon svgIcon="IMX-columns" class="svg-primary"  (click)="customizeColumn()" tooltip="Customize Columns" placement="left" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"></mat-icon> -->
+    </div>
+  </div>
+</div>
+<div fxFlexFill class="mat-table-responsive" [ngClass]="{'Loader-padding':isDataLoading}">
+<!--   (scroll)="onTableScroll($event)" -->
+  <mat-table [dataSource]="dataSource"   [ngStyle]="{'width.px':((displayedColumns.length*140)-160)}" [trackBy]="trackByFunction" class="imx-table inventory-list-table imx-bordered-table">
+    <ng-container *ngFor="let column of columns" [matColumnDef]="column.value"  [sticky]="column.value == 'checked'">
+      <mat-header-cell *matHeaderCellDef  [disabled]="column.value | disableSort" [ngClass]="{'sort-enable':!(column.value | disableSort)}"  fxFlex="{{column['name'] == 'CHECKBOX' ? '50px' : '140px'}}">
+        <ng-template [ngIf]="column['name'] == 'CHECKBOX' && (spots && spots?.length > 0)">
+          <mat-checkbox [(ngModel)]="selectAllCheckbox" (click)="onSelectDeselectAll()" [indeterminate]="!selectAllCheckbox && selectedCount != 0" disableRipple class="imx-checkbok"></mat-checkbox>
+        </ng-template>
+        <ng-template [ngIf]="column['name'] != 'CHECKBOX'">
+          {{ column.displayname }}
+        </ng-template>
+      </mat-header-cell>
+
+      <mat-cell *matCellDef="let element"  fxFlex="{{column['name'] == 'CHECKBOX' ? '50px' : '140px'}}">
+        <ng-template [ngIf]="column['name'] == 'CHECKBOX' && element['status'] !== 'disabled'">
+          <mat-checkbox #checkboxRef [(ngModel)]="element.selected" (change)="onSelectDeselect(element, $event)" class="imx-checkbok" [disabled]="element['spot_id'] | checkInventoryAbsence: inventoryPlanIDs"></mat-checkbox>
+        </ng-template>
+        <!-- <ng-template [ngIf]="column['name'] == 'CHECKBOX' && element['status'] === 'disabled'">
+          <mat-checkbox  [(ngModel)]="element.checked"  disabled ></mat-checkbox>
+        </ng-template> -->
+        <ng-template [ngIf]="column['value'] == 'plant_operator'" >
+          <span title="{{element[column['value']]}}">{{ (element[column['value']] | uppercase) | truncate: 'middle':16 }}</span>
+        </ng-template>
+        <ng-template [ngIf]="column['value'] == 'frame_id' || column['value'] == 'operator_spot_id' || column['value'] == 'spot_id'">
+          {{ element[column['value']]}}
+        </ng-template>
+
+        <ng-template [ngIf]="column['value'] == 'media_status_name'">
+            <app-inventory-status-dots [status] = "{'name': element['media_status_name'], 'description':element['media_status_description']}" [tooltipConfig] = "{'placement': 'top', 'delay': 300 }"></app-inventory-status-dots>
+        </ng-template>
+
+        <ng-template [ngIf]="column['value'] == 'media_status_description'">
+          <span>{{element['media_status_name'] | auditStatusLabel}}</span>
+        </ng-template>
+
+        <ng-template [ngIf]="column['value'] == 'media_type' || column['value'] == 'media_name'" >
+          <span title="{{element[column['value']]}}">{{ element[column['value']] | truncate: 'middle':16}}</span>
+        </ng-template>
+        <ng-template [ngIf]="((column['value'] == 'imp' || column['value'] == 'imp_target' || column['value'] == 'imp_target_inmkt' || column['value'] == 'imp_inmkt' || column['value'] == 'market_pop' || column['value'] == 'dma_imp' || column['value'] == 'dma_imp_target' || column['value'] == 'dma_imp_target_inmkt' || column['value'] == 'dma_imp_inmkt' || column['value'] == 'dma_pop_inmkt' || column['value'] == 'cbsa_imp' || column['value'] == 'cbsa_imp_target' || column['value'] == 'cbsa_imp_target_inmkt' || column['value'] == 'cbsa_imp_inmkt' || column['value'] == 'cbsa_pop_inmkt' || column['value'] == 'county_imp' || column['value'] == 'county_imp_target' || column['value'] == 'county_imp_target_inmkt' || column['value'] == 'county_imp_inmkt' || column['value'] == 'county_pop_inmkt') && (element[column['value']] !== 'undefined' && element[column['value']] != null  && element[column['value']] > 0))">
+          {{ element[column['value']] | convert:'THOUSAND' }}
+        </ng-template>
+        <ng-template [ngIf]="((column['value'] == 'imp' || column['value'] == 'imp_target' || column['value'] == 'imp_target_inmkt' || column['value'] == 'imp_inmkt' || column['value'] == 'market_pop' || column['value'] == 'dma_imp' || column['value'] == 'dma_imp_target' || column['value'] == 'dma_imp_target_inmkt' || column['value'] == 'dma_imp_inmkt' || column['value'] == 'dma_pop_inmkt' || column['value'] == 'cbsa_imp' || column['value'] == 'cbsa_imp_target' || column['value'] == 'cbsa_imp_target_inmkt' || column['value'] == 'cbsa_imp_inmkt' || column['value'] == 'cbsa_pop_inmkt' || column['value'] == 'county_imp' || column['value'] == 'county_imp_target' || column['value'] == 'county_imp_target_inmkt' || column['value'] == 'county_imp_inmkt' || column['value'] == 'county_pop_inmkt') && !(element[column['value']] !== 'undefined' && element[column['value']] != null  && element[column['value']] > 0))">
+          {{ 'N/A' }}
+        </ng-template>
+
+        <ng-template [ngIf]="((column['value'] == 'index_comp_target' || column['value'] == 'dma_index_comp_target' || column['value'] == 'cbsa_index_comp_target' || column['value'] == 'county_index_comp_target') && (element[column['value']] !== 'undefined' && element[column['value']] != null  && element[column['value']] > 0))">
+          {{ element[column['value']] | convert:'THOUSAND' }}
+        </ng-template>
+        <ng-template [ngIf]="((column['value'] == 'index_comp_target'  || column['value'] == 'dma_index_comp_target' || column['value'] == 'cbsa_index_comp_target' || column['value'] == 'county_index_comp_target') && !(element[column['value']] !== 'undefined' && element[column['value']] != null  && element[column['value']] > 0))">
+          {{ 'N/A' }}
+        </ng-template>
+
+        <ng-template [ngIf]="(column['value'] == 'trp' || column['value'] == 'dma_trp' || column['value'] == 'cbsa_trp' || column['value'] == 'county_trp')" >
+          {{(element[column['value']] !== 'undefined' && element[column['value']] != null  && element[column['value']] >= 0 ? (element[column['value']] | convert:'DECIMAL':2) : 'N/A')}}
+        </ng-template>
+        <ng-template [ngIf]="(column['value'] == 'pct_comp_imp_target' || column['value'] == 'pct_imp_target_inmkt' || column['value'] == 'pct_comp_imp_target_inmkt' || column['value'] == 'pct_imp_inmkt' || column['value'] == 'dma_pct_comp_imp_target' || column['value'] == 'dma_pct_imp_target_inmkt' || column['value'] == 'dma_pct_comp_imp_target_inmkt' || column['value'] == 'dma_pct_imp_inmkt' || column['value'] == 'cbsa_pct_comp_imp_target' || column['value'] == 'cbsa_pct_imp_target_inmkt' || column['value'] == 'cbsa_pct_comp_imp_target_inmkt' || column['value'] == 'cbsa_pct_imp_inmkt' || column['value'] == 'county_pct_comp_imp_target' || column['value'] == 'county_pct_imp_target_inmkt' || column['value'] == 'county_pct_comp_imp_target_inmkt' || column['value'] == 'county_pct_imp_inmkt')">
+          {{(element[column['value']] !== 'undefined' && element[column['value']] != null  && element[column['value']] >= 0 ? (element[column['value']] | convert:'PERCENT') + '%' : 'N/A')}}
+        </ng-template>
+        <ng-template [ngIf]="column['value'] == 'reach_pct' || column['value'] == 'dma_reach_pct' || column['value'] == 'cbsa_reach_pct' || column['value'] == 'county_reach_pct'">
+          {{(element[column['value']] !== 'undefined' && element[column['value']] != null  && element[column['value']] >= 0 ? (element[column['value']] | convert:'DECIMAL') + '%' : 'N/A')}}
+        </ng-template>
+        <ng-template [ngIf]="column['value'] == 'freq_avg' || column['value'] == 'dma_freq_avg' || column['value'] == 'cbsa_freq_avg' || column['value'] == 'county_freq_avg'">
+          {{(element[column['value']] !== 'undefined' && element[column['value']] != null  && element[column['value']] >= 0 ? (element[column['value']] | convert:'DECIMAL':1) : 'N/A')}}
+        </ng-template>
+
+        <ng-template [ngIf]="column['value'] == 'classification' || column['value'] == 'construction' || column['value'] == 'illumination_type' || column['value'] == 'primary_artery' || column['value'] == 'zip_code' || column['value'] == 'longitude' || column['value'] == 'latitude'">
+            {{(element[column['value']] && element[column['value']] || '')}}
+        </ng-template>
+
+        <ng-template [ngIf]="column['value'] == 'orientation'">
+					{{ element[column['value']] | direction }}
+        </ng-template>
+        <ng-template [ngIf]="column['value'] == 'digital'">
+					{{ element['digital'] === true && 'Digital' || 'Printed/Mesh'}}
+        </ng-template>
+
+        <ng-template [ngIf]="column['value'] == 'height' || column['value'] == 'width'">
+            {{(element[column['value']] && (element[column['value']] | inchesToFeet) || '')}}
+        </ng-template>
+
+
+        <ng-template [ngIf]="column['value'] == 'target_aud_pop'">
+            {{(element[column['value']] > 0 ? (element[column['value']] | convert:'THOUSAND') : 'N/A') }}
+        </ng-template>
+
+        <ng-template [ngIf]="column['value'] == 'target_aud'">
+          {{ audienceName }}
+        </ng-template>
+
+        <ng-template [ngIf]="column['value'] == 'market_name' ">
+          {{ element[column['value']] || 'United States' }}
+        </ng-template>
+
+        <ng-template [ngIf]="column['value'] == 'market_type' ">
+          {{ element[column['value']] || 'National' }}
+        </ng-template>
+
+        <ng-template [ngIf]="column['value'] == 'scheduled_weeks'">
+          {{ (element[column['value']] / 7 | number:'1.0-0' ) }}
+        </ng-template>
+
+        <ng-template [ngIf]="column['value'] == 'out_market_imp' || column['value'] == 'dma_out_market_imp' || column['value'] == 'cbsa_out_market_imp' || column['value'] == 'county_out_market_imp'">
+          {{(element[column['value']] > 0 ? element[column['value']] : 0) | convert:'THOUSAND' }}
+        </ng-template>
+
+        <ng-template [ngIf]="column['value'] == 'per_out_market_imp' || column['value'] == 'dma_per_out_market_imp' || column['value'] == 'cbsa_per_out_market_imp' || column['value'] == 'county_per_out_market_imp'">
+          {{(element[column['value']] > 0 ? (element[column['value']]| convert:'PERCENT') : 0) + '%' }}
+        </ng-template>
+
+        <ng-template [ngIf]="column['value'] == 'dma_name'">
+          {{element[column['value']]}}
+        </ng-template>
+        <ng-template [ngIf]="column['value'] == 'cbsa_name'">
+          <span title="{{element[column['value']]}}">{{ (element[column['value']]) | truncate: 'middle':16 }}</span>
+        </ng-template>
+        <ng-template [ngIf]="column['value'] == 'county_name'">
+          {{element[column['value']]}}
+        </ng-template>
+
+        <ng-template [ngIf]="column['value'] == 'reach_net' || column['value'] == 'dma_reach_net' || column['value'] == 'cbsa_reach_net' || column['value'] == 'county_reach_net'">
+          {{element[column['value']] | convert:'THOUSAND'  || 'N/A'}}
+        </ng-template>
+        <ng-template [ngIf]="column['value'] == 'total_days'">
+          {{element[column['value']] || 'N/A'}}
+        </ng-template>
+        <ng-template [ngIf]="column['value'] == 'place_name'">
+          {{element[column['value']] || 'N/A'}}
+        </ng-template>
+        <ng-template [ngIf]="column['value'] == 'placement_type'">
+          {{element[column['value']] || 'N/A'}}
+        </ng-template>
+        <ng-template [ngIf]="column['value'] == 'place_type'">
+          {{element[column['value']] || 'N/A'}}
+        </ng-template>
+        <ng-container *ngIf="column['name'] === 'period_date'">
+          <a (click) = "changeSpotScheduleDate(element, 'edit')" *ngIf="element[column['value']]; else elseSchedule;">
+            {{element[column['value']] }}
+            <!-- commented below line as formatted date is coming from API -->
+            <!-- {{ element[column['value']] | date : 'mediumDate'}} -->
+            <!-- end -->
+            <!-- {{element[column['value']]['start'] | date : 'mediumDate'}} - {{element[column['value']]['end'] | date: 'mediumDate'}} -->
+          </a>
+          <ng-template #elseSchedule>
+            <a href='javascript:void(0)' (click) = "changeSpotScheduleDate(element, 'add')" >Add Date</a>
+          </ng-template>
+        </ng-container>
+      </mat-cell>
+      <mat-footer-cell *matFooterCellDef [ngClass]="{'hide':(units?.length <= 0)}">
+      </mat-footer-cell>
+
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;let element" [ngClass]="{'clsDisabled':(row['status'] == 'disabled'), 'stikeout-deleted-inv': element['spot_id'] | checkInventoryAbsence: inventoryPlanIDs}" title="{{(row['status'] == 'disabled')?'Unit cannot be included in calculations because it is under review.': null}}"></mat-row>
+    <mat-footer-row [ngClass]="{'hide':(units?.length <= 0)}"  *matFooterRowDef="displayedColumns;sticky: true"></mat-footer-row>
+  </mat-table>
+  <div class="noDataFound" *ngIf="!isDataLoading && (!spots || spots?.length <= 0)">No inventory to display.</div>
+
+<div class="imx-mat-progress" *ngIf="isDataLoading">
+  <mat-progress-spinner
+    color="primary"
+    mode="indeterminate"
+    [diameter] = "30"></mat-progress-spinner>
+</div>
+</div>
+
+  <mat-paginator
+  (page)="getPageEvent($event)"
+  [length]="totalSpots || 0"
+  [pageIndex] = "(planQueryParams?.page || 1) - 1"
+  [pageSize]="planQueryParams?.perPage"
+  [showFirstLastButtons] = "true"
+  [pageSizeOptions]="_paginationSizes"
+  *ngIf="!isDataLoading && dataSource && dataSource?.data?.length > 0"
+>
+</mat-paginator>
+

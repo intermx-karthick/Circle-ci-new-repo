@@ -1,0 +1,106 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2021-09-09T17:36:17.646Z",
+    "end": "2021-09-09T17:40:27.701Z",
+    "duration": 250055,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "2e218831-ac78-4023-b825-991eace0d0f2",
+      "title": "",
+      "fullFile": "cypress\\integration\\geopath\\1yVerifyExportMarketPlan.js",
+      "file": "cypress\\integration\\geopath\\1yVerifyExportMarketPlan.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "d1f557c6-1326-4bca-92ba-3359ff69969f",
+          "title": "VerifyExportMarketPlan",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "ExportMarketPlan",
+              "fullTitle": "VerifyExportMarketPlan ExportMarketPlan",
+              "timedOut": null,
+              "duration": 240686,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var data = [\"Market\", \"Audience\", \"Media Type\", \"Operator\", \"Spots\", \"Weeks\", \"Total Imp\"];\ncy.wait(20000); // navigate to workspace\nworkspacepage.clickOnworkspace();\nvar campName = workspacepage.generate_random_string(8);\nworkspacepage.createNewProject(campName);\ncy.wait(4000);\ncy.get('.text-tooltip').should('have.text', campName);\nworkspacepage.clickOnAddPlan();\nworkspacepage.selectAudience(this.data.persons_5plus);\nworkspacepage.selectMarket(this.data.new_york);\nworkspacepage.selectOperator(this.data.lamar);\nworkspacepage.selectMedia();\nworkspacepage.typeScenarioName(campName);\nworkspacepage.clickOnGenerateButton();\ncy.wait(20000);\nworkspacepage.clickOnExport();\ncy.wait(20000);\ncy.get('.mat-ripple > .cdk-column-audience').should('contain.text', '(202106)Persons 5+ yrs');\ncy.get('.mat-ripple > .cdk-column-market').should('contain.text', 'New York, NY');\ncy.get('.mat-ripple > .cdk-column-trp').should('contain.text', '61.908');\ncy.fixture('exportMarket').then(r => {\n  cy.log(r);\n  expect(r.Market).to.be.oneOf([this.data.New_York_NY, this.data.New_York_NY]);\n  expect(r.Audience).to.be.oneOf([\"(2021) Persons 5+ yrs\", \"(2021) Persons 5+ yrs\"]);\n  expect(r).have.property('Market', 'New York, NY');\n  expect(r).have.property('Audience', '(2021) Persons 5+ yrs');\n  expect(r).have.property('Media Type', 'Junior Poster');\n  expect(r).have.property('Operator', 'Lamar');\n  expect(r).have.property('Spots', '203');\n  expect(r).have.property('Weeks', '1');\n  expect(r).have.property('Total Imp', '11,827,704');\n  expect(r).have.property('Target Imp', '11,091,944');\n  expect(r).have.property('Target In-Mkts Imp', '10,841,431');\n  expect(r).have.property('Reach %', '20.61');\n  expect(r).have.property('Reach Net', '4,131,147');\n  expect(r).have.property('Frequency', '2.62');\n  expect(r).have.property('TRP', '54.096'); //  workspacepage.logout()\n  cy.wait(10000);\n});",
+              "err": {},
+              "uuid": "05ff71f7-f1de-4724-9392-cd952efc50bb",
+              "parentUUID": "d1f557c6-1326-4bca-92ba-3359ff69969f",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "05ff71f7-f1de-4724-9392-cd952efc50bb"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 240686,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.2.2"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/mochawesome-report",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "timestamp": "mmddyyyy_HHMMss"
+      },
+      "version": "5.2.0"
+    }
+  }
+}

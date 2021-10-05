@@ -1,0 +1,102 @@
+<div class="main-create-new-alert">
+<form [formGroup]="alertForm" (ngSubmit)="onSubmit(alertForm.value)">
+<div fxLayout="column">
+  <ng-container *ngIf="alertCategories$ | async as alertCategories; else loading;">
+    <mat-form-field>
+      <mat-select placeholder="Category" formControlName="notificationType">
+        <mat-option value="{{category.name}}" *ngFor="let category of alertCategories; trackBy: trackCategories">{{category.label}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="alertForm.controls['notificationType'].invalid">Category is required.</mat-error>
+    </mat-form-field>
+  </ng-container>
+  <ng-container *ngIf="alertTypes$ | async as alertTypes; else loading;">
+  <mat-form-field>
+    <mat-select placeholder="Type" formControlName="alertType">
+      <mat-option value="{{type.name}}" *ngFor="let type of alertTypes; trackBy: trackCategories">{{type.label}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="alertForm.controls['alertType'].invalid">Type is required.</mat-error>
+  </mat-form-field>
+  </ng-container>
+  <div formGroupName="audience" fxLayout="column">
+  <mat-form-field>
+    <mat-select placeholder="Recipient(s)" formControlName="type">
+      <mat-option value="{{audience.id}}" *ngFor="let audience of audienceTypes"> {{audience.name}} </mat-option>
+    </mat-select>
+    <mat-error *ngIf="alertForm.controls['audience']['controls']['type'].invalid">Recipient is required.</mat-error>
+  </mat-form-field>
+    <!--Waiting for the user to select site list-->
+    <ng-container *ngIf="alertForm['controls']['audience']['controls']['type'].value === 'site'">
+      <!--waiting for the sites lists to be fetched from the API-->
+      <ng-container *ngIf="sites$ | async as sites; else loading;">
+        <mat-form-field>
+          <mat-select placeholder="Site" formControlName="site">
+            <mat-option value="{{site.siteId}}" *ngFor="let site of sites; trackBy: trackCategories"> {{site.siteName + ' - ' + site.domains[0]}} </mat-option>
+          </mat-select>
+          <mat-error *ngIf="alertForm.controls['audience']['controls']['site'].invalid">Site is required.</mat-error>
+        </mat-form-field>
+      </ng-container>`
+    </ng-container>
+    <mat-form-field *ngIf="alertForm['controls']['audience']['controls']['type'].value === 'user'">
+      <input type="text" matInput formControlName="recipient" [matAutocomplete]="usersList" class="imx-input-no-border">
+      <mat-error *ngIf="alertForm.controls['audience']['controls']['recipient'].invalid">Recipient is required.</mat-error>
+      <mat-autocomplete #usersList="matAutocomplete"
+        infiniteScroll
+        (opened)="updateContainer()"
+        class="user-list-dd"
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="0"
+        (scrolled)="loadMoreUserWithSearch()"
+        [infiniteScrollContainer]="panelContainer"
+        [fromRoot]="true"
+        [displayWith]="displayUser">
+          <mat-option *ngFor="let user of filteredUserList" [value]="user">{{user.displayName | titlecase}} ({{user.email}})</mat-option>
+          <mat-option disabled *ngIf="isUserLoading">
+            <div fxLayout="row" fxLayoutAlign="space-around center" >
+              <mat-spinner diameter="35"></mat-spinner>
+            </div>
+          </mat-option>
+          <mat-option disabled *ngIf="!isUserLoading && filteredUserList?.length <= 0">
+            No User found.
+          </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <!--
+  UI only supports title or body, I am going to send both title and body as same message for now to overcome API validation
+
+  <mat-form-field>
+      <input matInput placeholder="Title" formControlName="title">
+    </mat-form-field>-->
+  <mat-form-field>
+    <textarea formControlName="message" matInput rows="5" placeholder="Message"></textarea>
+    <mat-error *ngIf="alertForm.controls['message'].invalid">Message is required.</mat-error>
+  </mat-form-field>
+    <div formGroupName="links" fxLayout="column">
+      <mat-form-field>
+        <input matInput placeholder="Call to Action Keyword or Phrase" formControlName="label">
+        <mat-error *ngIf="alertForm.controls['links']['controls']['label'].invalid">Action keyword is required.</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Call to Action Link" formControlName="url">
+        <mat-error *ngIf="alertForm.controls['links']['controls']['url']['errors'] && alertForm.controls['links']['controls']['url']['errors']['required']">Action link is required.</mat-error>
+        <mat-error *ngIf="alertForm.controls['links']['controls']['url']['errors'] && alertForm.controls['links']['controls']['url']['errors']['pattern']">Action link must be a valid URL.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="alert-action-button">
+      <button *ngIf="!editedNotification || editedNotification?.status?.name === 'draft'"
+              mat-raised-button type="submit"
+              (click)="setStatus('draft')">{{this.editedNotification ? 'Update Draft' : 'Save as Draft'}}</button>
+      <!--<button mat-raised-button type="button">Preview</button>-->
+      <button mat-raised-button
+              class="primary-btn"
+              (click)="setStatus('published')"
+              type="submit">{{editedNotification?.status?.name === 'published' ? 'Save' : 'Publish'}}</button>
+    </div>
+  </div>
+</form>
+</div>
+<ng-template #loading>
+  <mat-spinner diameter="20"></mat-spinner>
+</ng-template>

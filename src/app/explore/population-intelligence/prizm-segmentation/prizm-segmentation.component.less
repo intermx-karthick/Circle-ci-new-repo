@@ -1,0 +1,30 @@
+@import "../../../../assets/css/variables.less";
+
+::ng-deep {
+  prizm-segmentation,
+  prizm-segmentation-page {
+    .hide-bar .labeled-chart-break {
+      display: none;
+    }
+    color: var(--primary-bg);
+    // background-color: var(--secondary-bg);
+    display: flex;
+    justify-content: center;
+    height: calc(100% - 2rem);
+    width: calc(100% - 2rem);
+    padding: 1rem;
+
+    prizm-segmentation { /* if byte is within a page */
+      display: block;
+      padding: 0;
+      width: 100%;
+      height: unset;
+    }
+    .prizm-segmentation-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 1rem;
+    }
+  }
+
+}

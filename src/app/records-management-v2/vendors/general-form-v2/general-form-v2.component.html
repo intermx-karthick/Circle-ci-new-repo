@@ -1,0 +1,23 @@
+<form [formGroup]="generalForm" fxLayout="row wrap" fxLayoutAlign="space-between start"  class="vendor-form-content">
+  <div class="details-form__left-block" fxFlex="678px">
+    <app-vendor-basic-form [scrolling$]="scrolling$" formControlName="basicDetails" [disableEdit]="disableEdit" [scrollingContainer]="scrollingContainer" ></app-vendor-basic-form>
+
+    <!-- comes in future -->
+    <!--        <div class="vendor-form__field details-form__notes">-->
+    <!--          <mat-form-field fxFlex="100" class="imx-input">-->
+    <!--            <mat-label>Notes</mat-label>-->
+    <!--            <textarea formControlName="notes" matInput autocomplete="off"></textarea>-->
+    <!--          </mat-form-field>-->
+    <!--        </div>-->
+  </div>
+
+  <section class="right-side-checkbox">
+    <mat-checkbox class="imx-checkbok isParentVendor" formControlName="opsApprovedFlag" [disabled]="!isMangerPermission"> Ops Approved</mat-checkbox>
+
+    <mat-checkbox class="imx-checkbok isParentVendor" formControlName="doNotUseFlag"> Do not Use</mat-checkbox>
+
+    <mat-checkbox class="imx-checkbok isParentVendor circle-flag-main" formControlName="currentFlag">
+      <span class="circle-flag c-general-form__center-flag">C</span>urrent
+    </mat-checkbox>
+  </section>
+</form>

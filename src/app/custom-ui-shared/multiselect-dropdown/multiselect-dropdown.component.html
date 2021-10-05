@@ -1,0 +1,14 @@
+<mat-form-field class="imx-input imx-dropdown multi-select-dropdown" [tooltip]="tooltip" [placement]="placement" [delay]="delay" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+  <mat-label>{{ label }}</mat-label>
+  <mat-select panelClass="imx-select multi-select-dropdown__panel" [ngStyle]="{'max-height.px': 250}"
+                infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                (scrolled)="onScrolled()" [scrollWindow]="false" multiple [formControl]="multiselectControl"
+  >
+      <mat-option class="option" *ngFor="let option of options" [value]="option.id">
+        {{ option.name }}
+      </mat-option>
+      <div *ngIf="isLoading" class="dropdown-spinner">
+        <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+      </div>
+    </mat-select>
+</mat-form-field>

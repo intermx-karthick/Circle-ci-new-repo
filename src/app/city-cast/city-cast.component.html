@@ -1,0 +1,36 @@
+<div>
+  <section class="header-section">
+    <app-header fxFlexFill>
+      <div class="projected-title">
+        <mat-icon>home_work</mat-icon>
+        <span class="">CityCast</span>
+      </div>
+      <div class="explore-header content-breadcrumb navbar-default projected-secondary">
+        <div fxLayout="row" fxLayoutAlign="start stretch">
+          <div fxLayout="row">
+            <div class="explore-filter-btn" fxLayoutAlign="center center" [matMenuTriggerFor]="geoScopeMenu">GEOSCOPE<span *ngIf="selectedGeoscope && selectedGeoscope['id']"> ({{selectedGeoscope['title']}}) </span></div>
+            <div class="explore-filter-btn" fxLayoutAlign="center center"
+              *ngIf="selectedScenario && selectedScenario['id']" (click)="openGeoscope(selectedGeoscope)">CAST({{ selectedScenario['title'] }})<mat-icon>keyboard_arrow_down</mat-icon>
+            </div>
+          </div>
+          <mat-menu #geoScopeMenu="matMenu" class="geoScopeMenu" >
+            <div class="geoScopeMenuBlock" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+            (scrolled)="loadMoreScenario()" [scrollWindow]="false">
+            <button mat-menu-item *ngFor="let scope of geoscopes;"
+              (click)="openGeoscope(scope)">{{scope['title']}}</button>
+            </div>
+          </mat-menu>
+        </div>
+      </div>
+    </app-header>
+  </section>
+  <div class="landing-page">
+    <div>
+      <section class="content">
+        <div class="no-p-t-b no-mobile-padding">
+          <router-outlet></router-outlet>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

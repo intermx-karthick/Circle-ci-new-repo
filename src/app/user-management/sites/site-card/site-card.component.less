@@ -1,0 +1,63 @@
+:host  {
+  display: inline-block;
+  margin: 30px 30px 0 0;
+
+  mat-card {
+      height: 160px;
+      width: 160px;
+      padding: 8px;
+      overflow: hidden;
+
+      &.site-card {
+        &__body {
+          padding-top: 100%;
+          position: relative;
+        }
+
+        &__inner {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .logo-img {
+          margin: 0;
+          height: 100%;
+          width: 100%;
+      }
+
+      mat-card-content a {
+        color: var(--text-primary) !important;
+        margin-top: 4px;
+      }
+
+      .card-text-primary {
+          font-style: normal;
+          font-weight: normal;
+          font-size: 20px;
+      }
+
+      .card-text-secondary {
+          font-style: normal;
+          font-weight: normal;
+          font-size: 12px;
+      }
+
+      .mat-card-footer {
+          margin: 0;
+      }
+
+      .progress-circles svg #theme-color-circle {
+        fill: var(--text-primary);
+      }
+
+      .progress-circles, .progress-circles svg {
+        height: 24px;
+        width: 24px;
+      }
+  }
+}
+

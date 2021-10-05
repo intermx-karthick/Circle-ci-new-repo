@@ -1,0 +1,74 @@
+@import '../../../../../assets/css/variables.less';
+.pull-right {
+  float: right !important;
+}
+.btn-primary-color {
+  background: var(--button-bg-color);
+  color: #ffffff;
+  margin-left: 8px;
+}
+.deleteIcon {
+  align-self: center;
+  color: var(--secondary-bg);
+}
+.addIcon {
+  align-self: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--primary-bg);
+  &.active,
+  &:hover {
+    color: var(--high-emphasis);
+  }
+}
+.outer-padding{
+    padding: 0px 20px;
+}
+.vendor-action{
+  width: 100%;
+  align-items: flex-end;
+  place-content: flex-start;
+  padding: 10px;
+  padding-right: 40px;
+  padding-top: 20px;
+  button{
+      text-transform: uppercase;
+  }
+}
+.vendor-body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.optional-option{
+  color: var(--low-emphasis);
+}
+
+::ng-deep {
+  app-create-edit-vendor{
+    .placeholder-default{
+      .mat-select-value-text{
+        color: var(--low-emphasis);
+      }
+    }
+  }
+  .vendor-file-upload {
+    width: 50%;
+    margin-top:20px;
+  }
+  .vendor-group-input{
+    width: 210px;
+    .small-font{
+      font-size: 11px;
+    }
+    input{
+      height: auto;
+      border-bottom: unset;
+    }
+  }
+
+
+  .create-vendor>mat-spinner {
+    margin: 10px auto;
+  }
+}

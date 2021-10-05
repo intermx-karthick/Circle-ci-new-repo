@@ -1,0 +1,40 @@
+
+mat-tab-group{
+  &.imx-tab{
+    &-capital{
+      .mat-tab-header{
+        .mat-tab-label{
+          height: 28px;
+          padding: 0px;
+          min-width: auto;
+          margin-right: 16px;
+          opacity: 1;
+          .mat-tab-label-content{
+            font-style: normal;
+            font-weight: normal;
+            font-size: 0.875rem;
+            line-height: 20px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--grays-bg-800);;
+          }
+          &.mat-tab-label-active{
+            opacity: 1;
+            .mat-tab-label-content{
+              color: var(--primary-bg-900);
+            }
+          } 
+        }
+        .mat-ink-bar{
+          background-color: var(--primary-bg-900);
+        }
+        border-bottom: 0;
+      } 
+      .mat-tab-content{
+        padding: 16px;
+        margin-top: 16px;
+
+      }       
+    }
+  }
+}

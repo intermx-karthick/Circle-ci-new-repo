@@ -1,0 +1,25 @@
+<div class="upload-section">
+  <div class='file-error-text'>
+    <p *ngIf="formateValidationMessage" [innerHTML]="formateValidationMessage"></p>
+    <p *ngIf="sizeValidationMessage" [innerHTML]="sizeValidationMessage"></p>
+  </div>
+  <div class="drop-files" (click)="fileInputDrop.click()" appDragDrop (OnFileDropped)="uploadFile($event)">
+    <input hidden type="file" #fileInputDrop (change)="uploadFile($event)" [multiple]="this.fileUploadConfig?.acceptMulitpleFiles">
+    <div>
+      <p>{{label}}</p>
+      <p class="caption">Drag and Drop or Click here</p>
+    </div>
+  </div>
+  <div class="file-upload-hint" *ngIf="fileUploadConfig.displayFileHint">
+    <p class="upload-caption">Accepted formats: {{fileUploadConfig.acceptedFormats | imxFileExtFormat}}</p>
+    <p class="upload-caption">Maximum file size: {{fileUploadConfig.sizeLimit || 100}}MB</p>
+  </div>
+  <div class="upload-file-list">
+    <div class="files-list" *ngFor="let file of files;let i= index">
+      <p> {{ file }} </p>
+      <button class="delete-file" mat-icon-button title="Remove"  (click)="deleteAttachment(i)">
+        <mat-icon class="delete-logo-icon">delete_forever</mat-icon>
+      </button>
+   </div>
+  </div>
+</div>

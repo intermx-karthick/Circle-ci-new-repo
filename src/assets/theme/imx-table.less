@@ -1,0 +1,545 @@
+/** table style  **/
+/**
+example : <table class="imx-table" ></table>
+*/
+table , mat-table{
+  width: 100%;
+  &.imx-table {
+    // box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+    .mat-header-row {
+      .mat-header-cell {
+        opacity: 1;
+        color: var(--grays-bg-700);
+        font-size: 14px;
+        font-weight:400;
+        background: var(--white-color);
+        z-index: 2 !important;
+        &.mat-column-checked{
+          z-index: 4 !important;
+        }
+        .mat-sort-header-content {
+          margin-left: 0px;
+         
+        }
+        &.text-left {
+          text-align: left;
+        }
+        &.text-right {
+          text-align: right;
+        }
+        &.text-left {
+          .mat-sort-header-content {
+            text-align: left;
+          }
+        }
+        &.text-right {
+          .mat-sort-header-content {
+            text-align: right;
+          }
+        }
+        .mat-sort-header-arrow {
+          color: var(--text-primary);
+          margin-left: 5px;
+        }
+        .mat-sort-header-sorted {
+          button {
+            color: var(--text-primary);
+          }
+          /*.mat-sort-header-arrow {
+            opacity: 0.50 !important;
+          }*/
+        }
+
+        &.mat-column-action {
+          width: 160px;
+        }
+        mat-icon{
+          font-size: 0.875rem;
+          width: 14px;
+          height: 14px;
+          margin-left: 10px;
+        }
+        .mat-sort-header-content{
+          text-transform: capitalize;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 0.875rem;
+          line-height: 18px;
+          /* Grays/700 */
+          color: var(--grays-bg-700);
+        }
+        &.mat-sort-header-disabled{
+          .mat-sort-header-arrow{
+            display: none;
+          }
+          .mat-sort-header-content{
+            color: var(--grays-bg-700) !important;
+          }
+        }
+      }
+      .mat-header-cell:first-child {
+        padding-left: 35px !important;
+        .mat-sort-header-content {
+          margin-left: 0px;
+        }
+        .mat-sort-header-arrow {
+          margin-left: 5px;
+        }        
+      }
+      .mat-header-cell.table-head-padding-1 {
+        padding-left: 1rem !important;
+        &.mat-column-MediaType{
+          padding-left: 6px !important;
+          margin-right: 6px !important;
+        }
+      }
+      .mat-header-cell.report-name{
+        padding-left: 0 !important;
+      }
+      .mat-header-cell.report-line-item{
+        padding-left: 0 !important;
+      }
+    }
+    &.header-th-space{
+      padding-left: 10px;
+      .mat-header-cell:first-child{
+        .mat-sort-header-arrow{
+          margin-left: 5px !important;
+        }
+        padding-left: 20px !important
+      }
+    }
+    &.even-cell-space{
+      padding-left:0px;
+      .mat-header-row .mat-header-cell:first-child, mat-row .mat-cell:first-child{
+        padding-left:20px !important;
+      }
+    }
+    .expandedDetail-table{
+      .mat-header-cell:first-child {
+        padding-left: 20px !important
+      }
+    }
+    .mat-row {
+     
+      .mat-cell {
+        padding-left: 0px;
+        font-size: 14px;
+        &.text-center {
+          text-align: center;
+          justify-content:center;
+        }
+        &.text-left {
+          text-align: left;
+        }
+        &.text-right {
+          text-align: right;
+        }
+        &.mat-column-action {
+          width: 160px;
+        }
+      }
+      &:hover {
+        .mat-cell {
+          &.mat-column-action {
+            button {
+              display: block;
+            }
+          }
+        }
+      }
+      .mat-cell:first-child {
+        padding-left: 35px;
+      }
+    }
+    &.inventory-list-table{
+      .mat-row{
+        &:nth-of-type(even){
+          background: inherit !important;
+          .mat-cell{
+            border-right: 1px solid !important;
+            border-color: var(--grays-bg-700) !important;
+          }
+        }
+      }
+      &.imx-bordered-table {
+        .mat-row{
+          .mat-cell:last-child{
+            border: none !important;
+          }
+        }
+      }
+    }
+    &.mat-sorting{
+      .mat-row {
+        .mat-cell {
+          padding-left: 25px;
+          &:first-child{
+            padding-left: 35px;
+          }
+        }
+      }
+      .mat-header-row {
+        .mat-header-cell {
+          padding-left: 20px;
+        }
+      }
+    }
+    &.accordion-imx-table {
+      .mat-header-row {
+        .mat-header-cell:first-child {
+          padding-left: 20px !important;
+          margin-left: 20px;
+        }
+      }
+      .mat-row .mat-cell:first-child {
+        padding-left: 20px !important;
+        .expanted-icon {
+          font-size: 20px;
+          height: 20px;
+          width: 20px;
+        }
+      }
+    }
+    // min with 320px -20rem 
+    // without truncate the text
+    .text-wrap-column{      
+      word-break: break-word;
+      span{
+        word-break: break-word;
+      }
+    }
+    .min-max-width-column-320{
+      min-width: 20rem;
+      max-width: 20rem;
+      span{
+        max-width: 20rem;
+      }
+    }
+    .max-width-column-320{
+      max-width: 20rem;
+      span{
+        max-width: 20rem;
+      }
+    }
+    // 160px  - 10rem
+    .min-max-width-column-160{
+      min-width: 10rem;
+      max-width: 10rem;
+      span{
+        max-width: 10rem;
+      }
+    }
+    .max-width-column-160{
+      max-width: 10rem;
+      span{
+        max-width: 10rem;
+      }
+    }
+  }
+  &.imx-bordered-table {
+    .mat-header-row {
+      /* border-bottom: 1px solid var(--grays-bg-700) !important; */
+      .mat-header-cell {
+        font-size: 13px !important;
+        align-self: stretch;
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+        &:first-child {
+          padding-left: 8px !important;
+          padding-right: 8px !important;
+        }
+      }
+    }
+    .mat-row {
+      border: none !important;
+      border-top: 1px solid var(--grays-bg-700) !important;
+      align-self: stretch;
+      .mat-cell {
+        border-right: 1px solid var(--grays-bg-700);
+        align-self: stretch;
+
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+        &:first-child {
+          /* border-left: 1px solid var(--grays-bg-700); */
+          padding-left: 8px !important;
+          padding-right: 8px !important;
+        }
+        &:last-child {
+          border: none !important;
+        }
+      }
+      &:nth-last-child(2) {
+        border-bottom: 1px solid var(--grays-bg-700) !important;
+      }
+    }
+    .mat-column-media_status_name {
+      max-width: 70px !important;
+      min-width: 70px !important;
+    }
+  }
+}
+/** Plan table style apply */
+.goal-tab-body-main{
+  th{
+    padding-left: 5px !important;
+  }
+}
+
+/** Table striped design **/
+table{
+  &.imx-table-striped{
+    border-collapse: separate; /* Don't collapse */
+    border-spacing: 0;
+  }
+}
+
+.imx-table-striped{
+  .imx-poiner{
+    cursor: pointer;
+  }
+  
+  .primary-color-text{
+    color: var(--primary-bg-800) !important;
+  }
+  // Child table mat-row
+  .bg-collapsed{
+    &:not(.bg-expanded){
+      background-color: #ECECEC;
+    }
+  }
+  mat-row, tr {
+    &:not(.detail-row):nth-of-type(even){
+      background-color: #ECECEC;
+    }
+    & > .mat-cell {
+      border: none;
+    }
+  }
+  .is-not-expanded{
+    .expandedDetail, &>.mat-cell{
+      padding: 0px;
+    }
+  }
+  .mat-sort-header-content{
+  margin-left: 0px !important;
+  }
+  
+  .action-icon{
+    cursor: pointer;
+    color: var(--primary-bg-800);
+  }
+
+  // Header row
+  &>.mat-header-row, tr.mat-header-row .mat-header-cell{
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    border-color: var(--grays-bg-900);
+    padding-bottom: 1px;
+  }
+
+  // Header style
+  .mat-header-cell{
+    &:last-child {
+      border-right: 0px;
+    }
+    opacity: 1;
+      .mat-sort-header-sorted{
+        .mat-sort-header-content, .mat-sort-header-arrow{
+        color: var(--primary-bg-800);
+        opacity: 1;
+      }
+    }
+    &.mat-table-sticky{
+      //left: 0px !important;
+      z-index: 2 !important;
+      &:first-child, &:nth-child(2){
+        z-index: 3 !important;
+      }
+    } 
+    mat-icon {
+      font-size: .875rem;
+      width: 14px;
+      height: 14px;
+      margin-left: 10px;
+    }
+    .mat-sort-header-container .mat-sort-header-content{
+      text-align: left;
+    } 
+  }
+  // row style equal height
+  .mat-row{
+    align-items: stretch;
+  }
+  // table body cell 
+
+  .mat-cell{
+    padding: .5rem 0rem;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 18px;
+    /* Grays/700 */
+    color: var(--grays-bg-700);
+  }
+  // Table when scroll style
+  &.enable-table-scroll{
+    &:not(.level-two-sticky){
+      .mat-header-cell:nth-child(2), .mat-cell:nth-child(2){
+        filter: drop-shadow(16px 0px 16px rgba(117, 117, 117, 0.08));
+      }
+    }
+    &.level-two-sticky{
+      .mat-header-cell:nth-child(3), .mat-cell:nth-child(3){
+        filter: drop-shadow(16px 0px 16px rgba(117, 117, 117, 0.08));
+      }
+    }
+    
+  }
+  
+  //center column style
+  .imx-column-center{
+    text-align: center;
+    justify-content: center;
+    &:not(.mat-sort-header),&.no-sorting {
+      place-content: center;
+    }
+
+    .mat-sort-header-container {
+      place-content: center;
+      &.mat-sort-header-sorted{
+          display: flex;
+        .mat-sort-header-content{
+            order:2;
+          }
+          .mat-sort-header-arrow{
+            display:flex;
+            order:1;
+            position:relative;
+            margin-left: 0 !important;
+            margin-right: 5px !important;
+          }
+      }
+      /*.mat-sort-header-arrow{
+        left: inherit !important;
+        margin-left: -50px !important;
+      }*/
+    }
+  }
+  
+
+  // Header & cell style
+  .mat-header-cell, .mat-cell{
+    padding-left: 1rem !important;
+    &.remove-left-padding{
+      padding-left: 0 !important;
+    }
+    &:first-child{
+      padding-left: 1.5rem !important;
+      padding-right: 1.5rem !important;
+      mat-icon.expanted-icon{
+        margin-left: -5px;
+      }
+      .mat-sort-header-arrow{
+        margin-left: 0.5rem;
+      }
+    }
+    .mat-table{
+      .mat-header-cell, .mat-cell{
+        padding-left: inherit !important        
+      }
+      &.inventory-list-table{
+        .mat-header-cell, .mat-cell{
+          padding-left: 8px !important        
+        }
+      }
+    }
+    
+    &.action-menu-column{
+      padding-left: 0rem;
+      width: 40px; // Default action width
+    }
+    &.left-325{
+      left: 325px !important;
+      &.no-table-data{
+        left:208px !important;
+      }
+    }
+    &.left-323{
+      left: 323px !important;
+      &.no-table-data{
+        left:192px !important;
+      }
+    }
+    
+  }
+  .mat-header-cell,.mat-sort-header-content{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 18px;
+    /* Grays/700 */
+    color: var(--grays-bg-700);
+  }
+  &.table-header-auto{
+    text-transform: inherit !important;
+    .mat-sort-header-content{
+      text-transform: inherit !important;
+    }
+  }
+}
+/**
+  The below style is added as part of IMXMAINT-7. After upgrading to Angular 11, the table styles are broken and this negative margin is used somewhere for few column headers that worked.
+
+  I copied those here to make them work for all columns. This is the only solution that works for now. We'll need to address this when we're creating our table component.
+   */
+.imx-table, .imx-table-striped {
+  .mat-header-cell {
+    & .mat-sort-header-arrow {
+      margin-left: -15px !important;
+    }
+  }
+}
+
+  // min with 320px -20rem 
+  // without truncate the text
+  .text-wrap-column{      
+    word-break: break-word;
+    span{
+      word-break: break-word;
+    }
+  }
+  .min-max-width-column-320{
+    min-width: 20rem;
+    max-width: 20rem;
+    span{
+      max-width: 20rem;
+    }
+  }
+  .min-width-column-320{
+    min-width: 20rem;
+    span{
+      min-width: 20rem;
+    }
+  }
+  .max-width-column-320{
+    max-width: 20rem;
+    span{
+      max-width: 20rem;
+    }
+  }
+  // 160px  - 10rem
+  .min-max-width-column-160{
+    min-width: 10rem;
+    max-width: 10rem;
+    span{
+      max-width: 10rem;
+    }
+  }
+  .max-width-column-160{
+    max-width: 10rem;
+    span{
+      max-width: 10rem;
+    }
+  }

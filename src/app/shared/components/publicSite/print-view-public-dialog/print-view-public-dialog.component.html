@@ -1,0 +1,27 @@
+
+<div class="matContent">
+    <div mat-dialog-title class="title">
+        <span class="title">
+           Print your view
+        </span>
+       
+    </div>
+    <p class="cardMsg">You are just one step away from completing your account setup and printing this inventory list!</p>
+    <form mat-dialog-content [formGroup]="printViewForm" (ngSubmit)="signin(printViewForm.value)">
+       
+        <div>
+            <mat-form-field floatLabel="always">
+                    <mat-label>PASSWORD</mat-label>
+                <input matInput placeholder="Create a password" type="password" id="defaultForm-pass" formControlName="password"
+                    autocomplete="off">
+                <mat-error *ngIf="printViewForm['controls'].password.hasError('required')">Password can't be blank
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-actions class="action-container">
+            <button mat-raised-button (click)="closeDialog()" class="btn-close" type="button">CLOSE</button>
+            <button mat-raised-button class="btn-primary-color"  [disabled]="!printViewForm.valid" type="submit">PRINT</button>
+        </div>
+    </form>
+</div>

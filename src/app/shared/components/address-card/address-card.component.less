@@ -1,0 +1,78 @@
+::ng-deep {
+  app-shared-address-card {
+    &.c-address-card {
+      padding: 4px 8px 8px;
+      border: 1px solid var(--primary-bg);
+      border-radius: 5px;
+      display: block;
+      min-width: 430px;
+      width: 430px;
+
+      input {
+        height: auto;
+        border-bottom: unset;
+      }
+
+      mat-form-field {
+        width: 100%;
+      }
+
+      .mat-form-field-infix {
+        min-width: 0;
+        width: auto !important;
+        border-top: .44375em solid rgba(0, 0, 0, 0);
+      }
+
+      .mat-form-field-appearance-legacy .mat-form-field-wrapper,
+      .mat-form-field-wrapper {
+        padding-bottom: 0 !important;
+        margin-bottom: .89rem;
+      }
+
+      .mat-form-field-appearance-legacy .mat-form-field-underline {
+        bottom: 0.25rem !important;
+        background-image: none;
+      }
+
+      .mat-form-field-subscript-wrapper {
+        margin-top: 1.5rem !important;
+        width: 180px;
+      }
+
+      .error-field-width {
+        &.mat-form-field-invalid {
+          .mat-form-field-subscript-wrapper {
+            width: 245px;
+          }
+        }
+      }
+
+      .zip-code-error-field-width {
+        &.mat-form-field-invalid {
+          .mat-form-field-subscript-wrapper {
+            width: 115px;
+          }
+        }
+      }
+      .zip-state-error-field-width {
+        &.mat-form-field-invalid {
+          .mat-form-field-subscript-wrapper {
+            width: 139px;
+          }
+        }
+      }
+
+    }
+  }
+  .autocomplete-scroll {
+    .zipcode-list-autocomplete {
+      max-height: 14.375rem;
+      overflow-y: auto;
+    }
+
+    &.mat-autocomplete-panel {
+      overflow-y: hidden !important;
+      padding-right: 0 !important;
+    }
+  }
+}

@@ -1,0 +1,151 @@
+<header fxLayout='column' fxLayoutAlign='end' class="w100 invoice-preview-dialog-action" mat-dialog-title>
+    <button class='c-preview-invoice_button primary-color' (click)="copyContract()" mat-button>Copy URL</button>
+    <button class='c-preview-invoice_button primary-color' (click)="downloadPDF()" mat-button>Download as PDF</button>
+    <button class='c-preview-invoice_button primary-color' mat-button mat-dialog-close>Close Preview</button>
+</header>
+<mat-dialog-content class="invoice-scroll-container" [ngStyle]="{'height.px': containerBodyHeight}">
+    <!-- <ng-container *ngIf="isLoadingPreviewAPI">
+        <div fxLayout="column" fxLayoutAlign="center center" fxFill>
+            <mat-spinner diameter="75"></mat-spinner>
+        </div>
+    </ng-container> -->
+    <ng-container *ngIf="!isLoadingPreviewAPI">
+        <div fxLayout="column" fxLayoutAlign="start start" class="invoice-preview-main" #scrollContainer
+            (window:resize)="reSize()">
+            <ng-container>
+                <div fxLayout="row" fxLayoutAlign="space-between center" fxFill>
+                    <div>
+                        <img src="../../../assets/images/oi-preview-logo.svg" alt="" width="187px" height="119px">
+                    </div>
+                    <div class="auth-title" fxLayoutAlign="end center">PRODUCTION INVOICE</div>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between start" fxFill class="bill-and-invoice inner-block-pad">
+                    <div fxLayout="row" fxLayoutAlign="start start" fxFlex="17.188rem">
+                        <span class="bill-label">BILL TO:</span>
+                        <span class="bill-value">
+                            {{invoiceData?.billingCompany?.name}}<br>
+                            <!-- 1999 Bryan Street <br>
+                            Dallas TX 75201 USA  <br> 
+                            MediaAP@tracylocke.com -->
+                        </span>
+                    </div>
+                    <div fxFlex="360px" class="bill-note">{{invoiceData?.billingNote}}</div>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between start" class="invoice-report-info inner-block-pad" fxFill>
+                    <div fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="8px">
+                        <div fxLayout="row" fxLayoutAlign="start center">
+                            <span class="bill-label" fxFlex="7.875rem">Client</span>
+                            <span class="bill-value" fxFlex>{{invoiceData?.client?.clientName}}</span>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center">
+                            <span class="bill-label" fxFlex="7.875rem">PO/Billing Ref.</span>
+                            <span class="bill-value" fxFlex>{{invoiceData?.poNumber}}</span>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center">
+                            <span class="bill-label" fxFlex="7.875rem">Job Name/ #</span>
+                            <span class="bill-value" fxFlex>{{invoiceData?.jobId}} - {{invoiceData?.name}}</span>
+                        </div>
+                    </div>
+                    <div fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="8px">
+                        <div fxLayout="row" fxLayoutAlign="start center">
+                            <span class="bill-label imx-align-right" fxFlex="8.313rem">Invoice Date</span>
+                            <span class="bill-value" fxFlex>{{invoiceData?.invoiceDate | date: 'MM/dd/yyyy'}}</span>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center">
+                            <span class="bill-label imx-align-right" fxFlex="8.313rem">Due Date</span>
+                            <span class="bill-value" fxFlex>{{invoiceData?.dueDate | date: 'MM/dd/yyyy'}}</span>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center">
+                            <span class="bill-label imx-align-right" fxFlex="8.313rem">Invoice Number</span>
+                            <span class="bill-value" fxFlex>{{invoiceData?.invoiceId}}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                
+
+                <div fxLayout="row" class="order-table inner-block-pad">
+                    <div fxFlex="11.313rem">Media</div>
+                    <div fxFlex="4.438rem">Size</div>
+                    <div fxFlex="2.688rem">Qty.</div>
+                    <div fxFlex="5.063rem">Start Date</div>
+                    <div fxFlex="12.313rem">Markets</div>
+                    <div fxFlex="8.938rem">Net Materials Cost</div>
+                    <div fxFlex="6rem">OI Fee</div>
+                    <div fxFlex="8.313rem"><strong>Materials Total</strong></div>
+                </div>
+                <ng-container *ngFor="let item of invoiceData?.lineItems">
+                    <div fxLayout="row" class="order-table-data inner-block-pad">
+                        <div fxFlex="11.313rem" class="txt-left">{{item?.mediaType?.name}}</div>
+                        <div fxFlex="4.438rem">{{item?.unitWidth}} x {{item?.unitHeight}}</div>
+                        <div fxFlex="2.688rem">{{item?.unitQty}}</div>
+                        <div fxFlex="5.063rem">{{item?.startDate | date: 'MM/dd/yyyy'}}</div>
+                        <div fxFlex="12.313rem" class="txt-left">{{item?.dma?.name}}</div>
+                        <div fxFlex="8.938rem" class="txt-right">{{item.materials ? '$ ' + (item.materials | convert:'THOUSAND':2:true) : ''}}</div>
+                        <div fxFlex="6rem">{{item.oiCommissionAmt ? '$ ' + (item.oiCommissionAmt | convert:'THOUSAND':2:true) : ''}}</div>
+                        <div fxFlex="8.313rem" class="txt-right"><strong>$ {{calcTotal(item.materials, item.oiCommissionAmt) | convert:'THOUSAND':2:true}}</strong></div>
+                    </div>
+                    <div fxLayout="row" class="inner-block-pad">
+                        <div fxFlex="59.063rem" class="table-note">
+                            Contract Notes: {{item?.productionNotes}}<br>
+                            Shipping Type: {{item?.shippingType?.name}}
+                        </div>
+                    </div>
+                </ng-container>
+                <div fxLayout="row" class="total-table inner-block-pad" *ngIf="invoiceData?.displayCostOption === 'Full disclosure'">
+                    <div fxFlex="4.625rem"><strong>TOTALS</strong></div>
+                    <div fxFlex="8.938rem" class="txt-right">{{invoiceData?.materialsTotal ? '$ ' + (invoiceData?.materialsTotal | convert:'THOUSAND':2:true) : ''}}</div>
+                    <div fxFlex="6rem" class="txt-center">{{invoiceData?.totalFee ? '$ ' + (invoiceData?.totalFee | convert:'THOUSAND':2:true) : ''}}</div>
+                    <div fxFlex="8.313rem" class="txt-right"><strong>$ {{calcTotal(invoiceData?.materialsTotal, invoiceData?.totalFee) | convert:'THOUSAND':2:true}}</strong></div>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="space-between start" fxFill class="inner-block-pad bottom-block" [ngClass]="{'empty_space' : invoiceData?.displayCostOption !== 'Full disclosure'}">
+                    <div>
+                        <div fxLayout="row" class="payment-section">
+                            REMIT PAYMENT TO
+                        </div>
+                        <div fxLayout="row">
+                            <div class="payment-notes" fxFlex="22.875rem">
+                                <!-- <div>{{invoiceData?.receivableAddress}}</div> -->
+                                <div *ngFor="let line of invoiceData?.splitedAddress">{{line}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div fxLayout="column" class="material-table-section">
+                            <div class="table-row" *ngIf="invoiceData?.displayCostOption === 'Full disclosure' || invoiceData?.displayCostOption === 'Broken out'">
+                                <div fxFlex="8.375rem">Materials</div>
+                                <div fxFlex="8.313rem" class="txt-right">{{invoiceData?.materialsTotal ? '$ ' + (invoiceData?.materialsTotal | convert:'THOUSAND':2:true) : ''}}</div>
+                            </div>
+                            <div class="table-row" *ngIf="invoiceData?.displayCostOption === 'Full disclosure' || invoiceData?.displayCostOption === 'Broken out'">
+                                <div fxFlex="8.375rem">Install/Removal</div>
+                                <div fxFlex="8.313rem" class="txt-right">{{invoiceData?.installationTotal ? '$ ' + (invoiceData?.installationTotal | convert:'THOUSAND':2:true) : ''}}</div>
+                            </div>
+                            <div class="table-row" *ngIf="invoiceData?.displayCostOption === 'Full disclosure' || invoiceData?.displayCostOption === 'Broken out'">
+                                <div fxFlex="8.375rem">Shippping</div>
+                                <div fxFlex="8.313rem" class="txt-right">{{invoiceData?.shippingTotal ? '$ ' + (invoiceData?.shippingTotal | convert:'THOUSAND':2:true) : ''}}</div>
+                            </div>
+                            <div class="table-row" *ngIf="invoiceData?.displayCostOption === 'Full disclosure' || invoiceData?.displayCostOption === 'Broken out'">
+                                <div fxFlex="8.375rem">Sales Tax</div>
+                                <div fxFlex="8.313rem" class="txt-right">{{invoiceData?.totalTax ? '$ ' + (invoiceData?.totalTax | convert:'THOUSAND':2:true) : ''}}</div>
+                            </div>
+                            <div class="table-row" *ngIf="invoiceData?.displayCostOption === 'Full disclosure'">
+                                <div fxFlex="8.375rem">OI Fee</div>
+                                <div fxFlex="8.313rem" class="txt-right">{{invoiceData?.totalFee ? '$ ' + (invoiceData?.totalFee | convert:'THOUSAND':2:true) : ''}}</div>
+                            </div>
+                            <div class="table-row total">
+                                <div fxFlex="8.375rem">Total Due</div>
+                                <div fxFlex="8.313rem" class="txt-right">{{invoiceData?.jobTotal ? '$ ' + (invoiceData?.jobTotal | convert:'THOUSAND':2:true) : ''}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div fxLayout="row" class="contact-info">
+                    For Production questions, please contact: Dustin Foretich (dforetich@oiproduction.com).<br>
+                    For billing questions, please contact: Kelly Foster (kelly.foster@omd.com).<br>
+                    All communication (emails, files, billings inquiries, etc) should reference at least Advertiser Name and JR# from “OI Job Name #”	
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
+</mat-dialog-content>

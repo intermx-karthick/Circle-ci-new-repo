@@ -1,0 +1,373 @@
+<div class="imx-plan-summary-panel" id="imx-plan-summary-panel" >
+  <h6 class="imx-ps-title">{{labels.scenario[0]}} Summary</h6>
+  <div>
+    <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="2rem" class="tip-scroll-conetnt tip-scroll-conetnt-summary">
+      
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display">
+          <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+            1. Targeted Audience
+          </div>
+          <div fxLayout="row" fxLayoutAlign="start start" class="filter-info" *ngIf="selectedAudiences?.length > 0; else noDataDiv">
+            <div  fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem">
+              <ul class="market-list-tip">
+                <li *ngFor="let market of selectedAudiences | metrics:2 ">
+                  <div fxLayout="row" fxLayoutAlign="start center" *ngFor="let value of market">
+                    <div class="market-name-display">
+                      ({{value?.measuresRelease || 2020}})<br>{{value['name']}}
+                    </div>
+                    <span fxFlex="1 1 auto"></span>
+                    <mat-icon class="delete-icon market-delete" (click)="removeSelectedAudience(value)">delete_forever</mat-icon>
+                  </div>
+                <li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display">
+          <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+            2. Targeted Markets
+          </div>
+          <div fxLayout="row" fxLayoutAlign="start start" class="filter-info" *ngIf="selectedMarkets?.length > 0; else noDataDiv">
+            <div  fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem">
+              <ul class="market-list-tip">
+                <li *ngFor="let market of (selectedMarkets | marketFilter) | metrics:2 ">
+                  <div fxLayout="row" fxLayoutAlign="start center" *ngFor="let value of market">
+                    <div class="market-name-display">
+                      {{value['name']}}
+                    </div>
+                    <span fxFlex="1 1 auto"></span>
+                    <mat-icon class="delete-icon market-delete" (click)="removeSelectedMarkets(value)">delete_forever</mat-icon>
+                  </div>
+                <li>
+              </ul>
+            </div>
+            <div  fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="width70">
+              <ul class="market-list-tip">
+                <li *ngFor="let market of (selectedMarkets | marketFilter:true) | metrics:2 ">
+                  <div fxLayout="row" fxLayoutAlign="start center"  *ngFor="let value of market">
+                    <div class="market-name-display">
+                      {{value['name']}}
+                    </div>
+                    <span fxFlex="1 1 auto"></span>
+                    <mat-icon class="delete-icon market-delete" (click)="removeSelectedMarkets(value)">delete_forever</mat-icon>
+                  </div>
+                <li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display">
+          <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+            3. Operators
+          </div>
+          <ng-container *ngIf="isAllOperator || operators?.length > 0; else noDataDiv">
+            <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="1rem" class="filter-info"
+            *ngIf="isAllOperator">
+              <div fxLayout="row" fxLayoutAlign="start center">
+                <div class="market-name-display">
+                  All Operators
+                </div>
+                <span fxFlex="1 1 auto"></span>
+                <mat-icon class="delete-icon market-delete" (click)="removeOperators('all')">delete_forever</mat-icon>
+              </div>
+            </div>
+            <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="1rem" class="filter-info"
+              *ngIf="!isAllOperator && operators?.length > 0;">
+              <ul class="market-list-tip">
+                <li *ngFor="let operator of operators | metrics:2">
+                  <div fxLayout="row" fxLayoutAlign="start center" *ngFor="let value of operator">
+                    <div class="market-name-display">
+                      {{value}}
+                    </div>
+                    <span fxFlex="1 1 auto"></span>
+                    <mat-icon class="delete-icon market-delete"(click)="removeOperators(value)">delete_forever</mat-icon>
+                  </div>
+                <li>
+              </ul>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display">
+          <div fxLayout="row" fxLayoutAlign="start center" class="tip-title" *ngIf="selectedPlanTab === tabLabel.INVENTORY_PLAN else marketSection">
+            4. Inventory
+          </div>
+          <ng-template #marketSection>
+            <div fxLayout="row" fxLayoutAlign="start center" class="tip-title" *ngIf="selectedPlanTab !== tabLabel.INVENTORY_PLAN">
+              4. Media
+            </div>
+          </ng-template>
+          
+          <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem" class="filter-info" *ngIf="((selectedPlanTab === tabLabel.INVENTORY_PLAN && selectedPackages?.length > 0) || (selectedPlanTab === tabLabel.INVENTORY_PLAN && locations?.length > 0) || mediaTypeFilters?.length > 0 || ((measureRangeFilters !== null && measureRangeFilters | isObjectExists) || (mediaAttributes && mediaAttributes | isObjectExists) )); else noDataDiv">
+            <div fxLayout="column" fxLayoutAlign="start" *ngIf="selectedPlanTab === tabLabel.INVENTORY_PLAN && selectedPackages?.length > 0" >
+              <div class="tip-title">
+                Inventory Set
+              </div>
+              <div class="filter-info">
+                <ul class="inventory-aligin package-name-list" >
+                  <li  fxLayout="row" fxLayoutAlign="start center" *ngFor="
+                  let package of selectedPackages;
+                  let i = index;
+                ">
+                <div class="package-name">{{ package['name'] }}</div>
+                <mat-icon class="delete-icon market-delete" (click)="removePackage(package)">delete_forever</mat-icon></li>
+                </ul>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start" *ngIf="selectedPlanTab === tabLabel.INVENTORY_PLAN && locations?.length > 0" >
+              <div class="tip-title">
+                Location
+              </div>
+              <div class="filter-info">
+                <ul class="inventory-aligin">
+                  <li  fxLayout="row" fxLayoutAlign="start center" *ngFor="let location of locations; let i = index;">
+                    <div>{{location['label']}}</div>
+                    <mat-icon class="delete-icon market-delete" (click)="removeLocation(location)">delete_forever</mat-icon></li>
+                </ul>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start" *ngIf="mediaTypeFilters?.length > 0">
+              <div class="tip-title">
+                Media Types
+              </div>
+              <div class="filter-info">
+                <ul>
+                  <li  fxLayout="row" fxLayoutAlign="start center"
+                    *ngFor="let media of mediaTypeFilters; let i = index;">
+                      <div>{{media['data']}}</div>
+                      <mat-icon class="delete-icon market-delete" (click)="removeMedia(media)">delete_forever</mat-icon>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start"
+              *ngIf="measureRangeFilters !== null && measureRangeFilters | isObjectExists">
+              <div class="tip-title">
+                Thresholds
+              </div>
+              <div class="filter-info">
+                <ul class="inventory-aligin">
+                  <li
+                    *ngFor="let measureRange of measureRangeFilters | keyvalue">
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem"
+                      *ngIf="measureRange['key'] === 'targetImp'">
+                      <div>
+                        In-Market Target Impressions:<br>{{ measureRange.value[0] | convert :'ABBREVIATE' }} - {{
+                          measureRange.value[1] | convert :'ABBREVIATE'}}
+                      </div>
+                      <span fxFlex="1 1 auto"></span>
+                      <mat-icon class="delete-icon market-delete"(click)="removeThresholds('targetImp')">delete_forever</mat-icon>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem"
+                      *ngIf="measureRange['key'] === 'inMarketCompIndex'">
+                      <div>
+                        In-Market Target Comp Index:<br>{{ targetAudienceMinMax(measureRange.value[0]) | convert
+                        :'ABBREVIATE' }} - {{ targetAudienceMinMax(measureRange.value[1]) | convert :'ABBREVIATE' }}
+                      </div>
+                      <span fxFlex="1 1 auto"></span>
+                      <mat-icon class="delete-icon market-delete"(click)="removeThresholds('inMarketCompIndex')">delete_forever</mat-icon>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start"
+              *ngIf="mediaAttributes && mediaAttributes | isObjectExists">
+              <div class="tip-title">
+                Media Attributes
+              </div>
+              <div class="filter-info">
+                <ul class="inventory-aligin" fxLayout="column" fxLayoutAlign="start"  fxLayoutGap="1rem">
+                  <li
+                    *ngIf="mediaAttributes?.orientationList">
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                      <div>
+                        Orientation : {{ orientationObj.degreeToDirection(mediaAttributes['orientationList']) }}
+                      </div>
+                      <mat-icon class="delete-icon market-delete"(click)="removeMediaAttributes('orientationList')">delete_forever</mat-icon>
+                    </div>
+                  </li>
+                  <li
+                    *ngIf="mediaAttributes?.rotating !== undefined && mediaAttributes?.rotating !== null">
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                      <div>
+                        Rotating: {{ mediaAttributes.rotating ? (mediaAttributes.rotating === 'all' ?
+                        'All' : 'Yes') : 'No' }}
+                      </div>
+                      <mat-icon class="delete-icon market-delete"(click)="removeMediaAttributes('rotating')">delete_forever</mat-icon>
+                    </div>
+                  </li>
+                  <li
+                    *ngIf="mediaAttributes?.panelSizeHeightRange">
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                      <div>
+                        Spot Dimensions Height: {{ mediaAttributes?.panelSizeHeightRange[0] || 0 }}
+                        {{mediaAttributes?.panelSizeHeightRange[1] && ' - ' +
+                        mediaAttributes?.panelSizeHeightRange[1] }}
+                      </div>
+                      <mat-icon class="delete-icon market-delete"(click)="removeMediaAttributes('panelSizeHeightRange')">delete_forever</mat-icon>
+                    </div>
+                  </li>
+                  <li
+                    *ngIf="mediaAttributes?.panelSizeWidthRange">
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                      <div>
+                        Spot Dimensions Width: {{ mediaAttributes?.panelSizeWidthRange[0] || 0 }} {{
+                        mediaAttributes?.panelSizeWidthRange[1] && ' - ' +
+                        mediaAttributes?.panelSizeWidthRange[1]
+                        }}
+                      </div>
+                      <mat-icon class="delete-icon market-delete"(click)="removeMediaAttributes('panelSizeWidthRange')">delete_forever</mat-icon>
+                    </div>
+                  </li>
+                  <li
+                    *ngIf="mediaAttributes?.spotLength">
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                      <div>
+                        Spot Length: {{ mediaAttributes?.spotLength?.min || 0 }} {{
+                        mediaAttributes?.spotLength?.max && ' - ' + mediaAttributes?.spotLength?.max
+                        }}
+                      </div>
+                      <mat-icon class="delete-icon market-delete"(click)="removeMediaAttributes('spotLength')">delete_forever</mat-icon>
+                    </div>
+                  </li>
+                  <li
+                    *ngIf="mediaAttributes?.illuminationHrsRange">
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                      <div>
+                        Illumination Hours: {{ formatTimeLabel(mediaAttributes?.illuminationHrsRange[0] )}} - {{
+                        formatTimeLabel(mediaAttributes?.illuminationHrsRange[1]) }}
+                      </div>
+                      <mat-icon class="delete-icon market-delete" (click)="removeMediaAttributes('illuminationHrsRange')">delete_forever</mat-icon>
+                    </div>
+                  </li>
+                  <li *ngIf="mediaAttributes?.auditStatusList">
+                    <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem">
+                      <div class="tip-title">
+                        Audit Status:
+                      </div>
+                      <div class="filter-info">
+                        <ul class="inventory-aligin" fxLayout="column" fxLayoutAlign="start"   fxLayoutGap="1rem">
+                          <li
+                            *ngFor="let status of mediaAttributes?.auditStatusList;let i = index">
+                            {{status['displayName']}} <mat-icon class="delete-icon market-delete" (click)="removeMediaAttributes('auditStatusList', i)">delete_forever</mat-icon> </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                  <li *ngIf="
+                    mediaAttributes?.spotAudio !== undefined ||
+                    mediaAttributes?.spotFullMotion !== undefined ||
+                    mediaAttributes?.spotInteractive !== undefined ||
+                    mediaAttributes?.spotPartialMotion !== undefined
+                    ">
+                    <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem">
+                      <div class="tip-title">
+                        Digital Attributes:
+                      </div>
+                      <div class="filter-info" fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem">
+                        <ng-container *ngIf="mediaAttributes?.spotAudio !== undefined">
+                          <div class="digital-attributes" fxLayout="row"
+                            fxLayoutAlign="start center" fxLayoutGap="1rem">
+                            <div>
+                              Audio Enabled: {{ mediaAttributes.spotAudio ? (mediaAttributes.spotAudio
+                              ===
+                              'all' ? 'All' : 'Yes') : 'No' }}
+                            </div>
+                            <mat-icon class="delete-icon market-delete" (click)="removeMediaAttributes('spotAudio')">delete_forever</mat-icon>
+                          </div>
+                        </ng-container>
+                        <ng-container *ngIf="mediaAttributes?.spotFullMotion !== undefined">
+                          <div class="digital-attributes" fxLayout="row"
+                            fxLayoutAlign="start center" fxLayoutGap="1rem">
+                            <div>
+                              Full Motion/Full Screen: {{ mediaAttributes.spotFullMotion ?
+                              (mediaAttributes.spotFullMotion === 'all' ? 'All' : 'Yes') : 'No' }}
+                            </div>
+                            <mat-icon class="delete-icon market-delete" (click)="removeMediaAttributes('spotFullMotion')">delete_forever</mat-icon>
+                          </div>
+                        </ng-container>
+                        <ng-container *ngIf="mediaAttributes?.spotInteractive !== undefined">
+                          <div class="digital-attributes" fxLayout="row"
+                            fxLayoutAlign="start center" fxLayoutGap="1rem">
+                            <div>
+                              Interactive: {{ mediaAttributes.spotInteractive ?
+                              (mediaAttributes.spotInteractive === 'all' ? 'All' : 'Yes') : 'No' }}
+                            </div>
+                            <mat-icon class="delete-icon market-delete" (click)="removeMediaAttributes('spotInteractive')">delete_forever</mat-icon>
+                          </div>
+                        </ng-container>
+                        <ng-container *ngIf="mediaAttributes?.spotPartialMotion !== undefined">
+                          <div class="digital-attributes" fxLayout="row"
+                            fxLayoutAlign="start center" fxLayoutGap="1rem">
+                            <div>
+                              Partial Motion: {{ mediaAttributes.spotPartialMotion ?
+                              (mediaAttributes.spotPartialMotion === 'all' ? 'All' : 'Yes') : 'No' }}
+                            </div>
+                            <mat-icon class="delete-icon market-delete" (click)="removeMediaAttributes('spotPartialMotion')">delete_forever</mat-icon>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start" *ngIf="spotFilter && spotFilter?.ids?.length > 0">
+              <div class="tip-title" >
+                {{spotFilter?.ids?.length}} {{spotFilter['type'] === 'operator'? 'Operator Spot ID(s)' : 'Spot ID(s)'}}<mat-icon class="delete-icon market-delete"(click)="removeSpotFilter()">delete_forever</mat-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display">
+          <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+            5. Plan Period
+          </div>
+          <div fxLayout="row wrap" fxLayoutAlign="start center" class="filter-info" fxLayoutGap="1rem"
+            *ngIf="selectedPlanTab === tabLabel.MARKET_PLAN || planPeriodData?.delivery_period_weeks !== null; else spotSchedule">
+            {{planPeriodData?.delivery_period_weeks !== null ? planPeriodData?.delivery_period_weeks : 1}} {{planPeriodData?.delivery_period_weeks > 1 ? 'weeks': 'week'}}
+          </div>
+          <ng-template #spotSchedule>
+            <div *ngIf="planPeriodData?.spot_schedule | isObjectExists" class="filter-info">
+              {{planPeriodData?.spot_schedule.start | date:'MM.dd.yyyy'}} to {{planPeriodData?.spot_schedule.end |
+              date:'MM.dd.yyyy'}}
+            </div>
+          </ng-template>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center" *ngIf="selectedPlanTab === tabLabel.MARKET_PLAN">
+        <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display">
+          <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+            6. Define Goals
+          </div>
+
+          <div fxLayout="row wrap" fxLayoutAlign="start center" class="filter-info" fxLayoutGap="1rem"
+            *ngIf="defineGoalData?.type !== null">
+            {{defineGoalData?.type !== null ? deliveryGoals[defineGoalData?.type] : ''}} {{defineGoalData[defineGoalData?.type] ? ' - ' + (defineGoalData?.type === 'reach' ? defineGoalData[defineGoalData?.type] : (defineGoalData[defineGoalData?.type] | convert : 'THOUSAND'))  : ''}} 
+          </div>
+
+          <div fxLayout="row wrap" fxLayoutAlign="start center" class="filter-info" fxLayoutGap="1rem"
+            *ngIf="defineGoalData?.effectiveReach !== null">
+            Effective Reach -  {{defineGoalData?.effectiveReach}} 
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <ng-template #noDataDiv>
+      <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="1rem" class="filter-info">
+        -
+      </div>
+    </ng-template>
+
+  </div>
+</div>

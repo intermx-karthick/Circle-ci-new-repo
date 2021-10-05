@@ -1,0 +1,49 @@
+.subtitle-block {
+  margin: 20px 0px 30px 0;
+}
+.previewing-sub-title {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.25rem;
+  line-height: 25px;
+  color: var(--grays-bg-700);
+}
+.last-generated {
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--grays-bg-800);
+}
+.separator {
+  color: var(--grays-bg-400);
+  height: 1px !important;
+  margin-top: 1.563rem;
+
+  &.mt-1{
+    margin-top: 1rem;
+  }
+}
+
+.c-recap-container {
+
+  &__report-block {
+    height: calc(100vh - 27rem);
+    overflow-y: auto;
+    scrollbar-width: none; // for firefox
+    padding-top: 1.375rem;
+  }
+
+  &__line-item{
+   margin-top: 0.25rem;
+   padding-left: 2.313rem;
+
+  }
+
+  &__yearly-table{
+    margin-top: 0.375rem;
+    margin-left: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+}

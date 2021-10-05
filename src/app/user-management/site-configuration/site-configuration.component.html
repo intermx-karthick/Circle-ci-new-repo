@@ -1,0 +1,274 @@
+<div class="page-body" *ngIf="selectedSite">
+    <mat-form-field class="imx-dropdown imx-input" *ngIf="isSiteAdmin">
+      <mat-label>Select site</mat-label>
+      <mat-select panelClass="imx-select" [(value)]="selectedSite._id" (selectionChange)="onSelectSiteChange($event.value)">
+        <div class="mat-select-panel__wrapper" infiniteScroll
+             (scrolled)="getSitesList(true, true)"
+             [scrollWindow]="false"
+             [infiniteScrollDistance]="1"
+             [infiniteScrollThrottle]="0"
+             [infiniteScrollDisabled]="isSitesListLoading"
+             [fromRoot]="true">
+          <mat-option [value]="null">Select Site</mat-option>
+          <mat-option *ngFor="let site of sites" [value]="site._id">
+            {{ site.siteName }}
+          </mat-option>
+          <mat-option disabled *ngIf="isSitesListLoading">
+            <div fxLayout="row" fxLayoutAlign="space-around center" >
+              <mat-spinner diameter="20"></mat-spinner>
+            </div>
+          </mat-option>
+        </div>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-tab-group class="imx-tab-capital" (selectedIndexChange)="tabChange($event)" *ngIf="moduleAccesses?.userManagement?.features.division.status === 'active' || moduleAccesses?.userManagement?.features.office.status === 'active'">
+      <mat-tab [label]="'General' | uppercase">
+        <mat-card class="site-card">
+          <mat-card-content>
+            <div class="site-info">
+              <div fxLayout="row" fxLayoutAlign="start center">
+                  <div fxLayout="column" fxLayoutAlign="space-around start">
+                      <span class="site-text-primary primary-color">{{ selectedSite.siteName }}</span>
+                      <p class="site-text-secondary primary-color">
+                          {{ accessControlSiteUrl || selectedSite.siteUrl }}
+                      </p>
+                  </div>
+                  <div class="condition-level" [ngClass]="statusClass">
+                      <span>
+                          {{ statusClass === 'expire-status' ? 'EXPIRING' : selectedSite.status | uppercase }}
+                      </span>
+                  </div>
+                  <div>
+                      <img [src]="selectedSite.logo.mini_logo" class="logo-img" onError="this.src='./assets/images/logo-placeholder-mini.png'">
+                  </div>
+              </div>
+          </div>
+              <form [formGroup]="createSiteForm" mat-dialog-content fxLayout="column" fxLayoutAlign="space-between start" style="overflow: hidden;">
+
+                  <div dir="ltr" fxLayoutGap="16px" class="row-container">
+                      <mat-form-field fxFlex="35" class="imx-input">
+                          <mat-label>{{"Site Owner"}}</mat-label>
+                          <input formControlName="accountOwner" matInput>
+                      </mat-form-field>
+                      <mat-form-field fxFlex="35" class="imx-input">
+                          <mat-label>{{"Email"}}</mat-label>
+                          <input formControlName="ownerEmail" matInput>
+                      </mat-form-field>
+                  </div>
+
+                  <div dir="ltr" fxLayoutGap="16px" class="row-container">
+                    <mat-form-field fxFlex="35" class="imx-input addresses-field">
+                        <mat-label>{{"Site Address"}}</mat-label>
+                        <input formControlName="siteUrl" matInput [value]="accessControlSiteUrl || selectedSite.url">
+                        <mat-icon class="addres-link-svg">
+                          <a [href]="accessControlSiteUrl || selectedSite.url" target="_blank">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M10.1481 10.1482H1.85184V1.85193H5.99999V0.666748H1.85184C1.53751 0.666748 1.23605 0.791615 1.01379 1.01388C0.791524 1.23615 0.666656 1.5376 0.666656 1.85193V10.1482C0.666656 10.4626 0.791524 10.764 1.01379 10.9863C1.23605 11.2085 1.53751 11.3334 1.85184 11.3334H10.1481C10.8 11.3334 11.3333 10.8001 11.3333 10.1482V6.00008H10.1481V10.1482ZM7.18517 0.666748V1.85193H9.31258L3.4874 7.67712L4.32295 8.51267L10.1481 2.68749V4.8149H11.3333V0.666748H7.18517Z" fill="#711F84"/>
+                            </svg>
+                          </a>
+                        </mat-icon>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="35" class="imx-input">
+                        <mat-label>{{"Custom URL"}}</mat-label>
+                        <input matInput [disabled]="true">
+                    </mat-form-field>
+                </div>
+
+                  <div dir="ltr" fxLayoutGap="16px" class="row-container">
+                      <mat-form-field fxFlex="35" class="imx-input">
+                          <mat-label>{{"Site admin"}}</mat-label>
+                          <input formControlName="acAdministrator" matInput>
+                      </mat-form-field>
+                      <mat-form-field fxFlex="35" class="imx-input">
+                          <mat-label>{{"Admin email"}}</mat-label>
+                          <input formControlName="administratorEmail" matInput>
+                      </mat-form-field>
+                  </div>
+
+                  <div fxLayout="row" fxLayoutAlign="start" class="row-container status-container">
+                      <div fxFlex="20" style="margin-right: 16px;">
+                        <div class="info-row-label">
+                          <div class="info-row-label">
+                            {{"authenticator connection" | uppercase}}
+                          </div>
+                          <div class="info-row-content">
+                              {{ selectedSite?.auth0Connections }}
+                          </div>
+                        </div>
+                      </div>
+                      <div fxFlex="20">
+                          <div class="info-row-label">
+                              <a href="javascript:void(0);" (click)="openModules()" class="modules-link">
+                                  {{"Modules" | uppercase}}
+                              </a>
+                          </div>
+                      </div>
+                      <div fxFlex="20">
+                          <div class="info-row-label">
+                              {{"Site created" | uppercase}}
+                          </div>
+                          <div class="info-row-content">
+                              {{ selectedSite.createdAt | date:'MM.dd.yyyy' }}
+                          </div>
+                      </div>
+                      <div fxFlex="20" *ngIf="selectedSite.retiredDate">
+                          <div class="info-row-label">
+                              {{ "License expired" | uppercase }}
+                          </div>
+                          <div class="info-row-content retired-date">
+                              {{ selectedSite.retiredDate | date:'MM.dd.yyyy' }}
+                          </div>
+                      </div>
+                  </div>
+
+                  <div fxLayout="row" fxLayoutAlign="start" class="row-container upload-section" appUserAccessPermission  module="organizations" visiblityType="edit">
+                    <app-shared-file-upload-v2 mainTitle="Upload Site Logo" [fileUploadConfig]="fileUploadConfig" [disableDirectFileEmit]="true" [uploadInProgress$]="uploadInProgress$" [clearAttachment$]="clearAttachment$" (emitUploadFile)="uploadedFile($event)">
+                    </app-shared-file-upload-v2>
+                    <div class="card-logo-img-container">
+                      <img [src]="selectedSite.logo.full_logo" class="card-logo-img" onError="this.src='./assets/images/logo-placeholder-mini.png'">
+                    </div>
+                  </div>
+
+                  <div fxLayout="row" fxLayoutAlign="end" class="row-container">
+                      <div fxLayout="row" appUserAccessPermission  module="organizations" visiblityType="delete" fxLayoutAlign="start" class="row-container" *ngIf="selectedSite.status !== siteStatuses.retired">
+                          <button mat-button fxFlex="60" class="imx-button button-secondary-bordered delete-button" (click)="onDeleteClick(selectedSite._id)">{{"Delete site" | uppercase}}</button>
+                      </div>
+                      <button mat-button fxFlex="20" class="imx-button button-tertiary" routerLink="/usermanagement/sites">{{"Cancel" | uppercase}}</button>
+                      <button mat-button appUserAccessPermission  module="organizations" visiblityType="edit" fxFlex="20" type="submit" class="imx-button button-primary" (click)="onSubmit(selectedSite._id, createSiteForm.value)" cdkFocusInitial>{{"Save" | uppercase}}</button>
+                  </div>
+              </form>
+          </mat-card-content>
+        </mat-card>
+      </mat-tab>
+      <mat-tab [label]="'DIVISION' | uppercase" *ngIf="moduleAccesses?.userManagement?.features.division.status === 'active'">
+        <ng-container *ngIf="divisionTabShow">
+          <app-division-table></app-division-table>
+        </ng-container>
+      </mat-tab>
+      <mat-tab [label]="'OFFICE' | uppercase" *ngIf="moduleAccesses?.userManagement?.features.office.status === 'active'">
+        <ng-container *ngIf="officesTabShow">
+          <app-offices-table></app-offices-table>
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
+
+
+    <div class="site-info" *ngIf="moduleAccesses?.userManagement?.features.division.status !== 'active' && moduleAccesses?.userManagement?.features.office.status !== 'active'">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="column" fxLayoutAlign="space-around start">
+                <span class="site-text-primary primary-color">{{ selectedSite.siteName }}</span>
+                <p class="site-text-secondary primary-color">
+                    {{ accessControlSiteUrl || selectedSite.siteUrl }}
+                </p>
+            </div>
+            <div class="condition-level" [ngClass]="statusClass">
+                <span>
+                    {{ statusClass === 'expire-status' ? 'EXPIRING' : selectedSite.status | uppercase }}
+                </span>
+            </div>
+            <div>
+                <img [src]="selectedSite.logo.mini_logo" class="logo-img" onError="this.src='./assets/images/logo-placeholder-mini.png'">
+            </div>
+        </div>
+    </div>
+    <mat-card class="site-card" *ngIf="moduleAccesses?.userManagement?.features.division.status !== 'active' && moduleAccesses?.userManagement?.features.office.status !== 'active'">
+        <mat-card-content>
+            <form [formGroup]="createSiteForm" mat-dialog-content fxLayout="column" fxLayoutAlign="space-between start" style="overflow: hidden;">
+
+                <div dir="ltr" fxLayoutGap="16px" class="row-container">
+                    <mat-form-field fxFlex="35" class="imx-input">
+                        <mat-label>{{"Site Owner"}}</mat-label>
+                        <input formControlName="accountOwner" matInput>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="35" class="imx-input">
+                        <mat-label>{{"Email"}}</mat-label>
+                        <input formControlName="ownerEmail" matInput>
+                    </mat-form-field>
+                </div>
+
+                <div dir="ltr" fxLayoutGap="16px" class="row-container">
+                  <mat-form-field fxFlex="35" class="imx-input addresses-field">
+                      <mat-label>{{"Site Address"}}</mat-label>
+                      <input formControlName="siteUrl" matInput [value]="accessControlSiteUrl || selectedSite.url">
+                      <mat-icon class="addres-link-svg">
+                        <a [href]="accessControlSiteUrl || selectedSite.url" target="_blank">
+                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10.1481 10.1482H1.85184V1.85193H5.99999V0.666748H1.85184C1.53751 0.666748 1.23605 0.791615 1.01379 1.01388C0.791524 1.23615 0.666656 1.5376 0.666656 1.85193V10.1482C0.666656 10.4626 0.791524 10.764 1.01379 10.9863C1.23605 11.2085 1.53751 11.3334 1.85184 11.3334H10.1481C10.8 11.3334 11.3333 10.8001 11.3333 10.1482V6.00008H10.1481V10.1482ZM7.18517 0.666748V1.85193H9.31258L3.4874 7.67712L4.32295 8.51267L10.1481 2.68749V4.8149H11.3333V0.666748H7.18517Z" fill="#711F84"/>
+                          </svg>
+                        </a>
+                      </mat-icon>
+                  </mat-form-field>
+                  <mat-form-field fxFlex="35" class="imx-input">
+                      <mat-label>{{"Custom URL"}}</mat-label>
+                      <input matInput [disabled]="true">
+                  </mat-form-field>
+              </div>
+
+                <div dir="ltr" fxLayoutGap="16px" class="row-container">
+                    <mat-form-field fxFlex="35" class="imx-input">
+                        <mat-label>{{"Site admin"}}</mat-label>
+                        <input formControlName="acAdministrator" matInput>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="35" class="imx-input">
+                        <mat-label>{{"Admin email"}}</mat-label>
+                        <input formControlName="administratorEmail" matInput>
+                    </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start" class="row-container status-container">
+                    <div fxFlex="20" style="margin-right: 16px;">
+                      <div class="info-row-label">
+                        <div class="info-row-label">
+                          {{"Authenticator Connection" | uppercase}}
+                        </div>
+                        <div class="info-row-content">
+                            {{ selectedSite?.auth0Connections }}
+                        </div>
+                      </div>
+                    </div>
+                    <div fxFlex="20">
+                        <div class="info-row-label">
+                            <a href="javascript:void(0);" (click)="openModules()" class="modules-link">
+                                {{"Modules" | uppercase}}
+                            </a>
+                        </div>
+                    </div>
+                    <div fxFlex="20">
+                        <div class="info-row-label">
+                            {{"Site created" | uppercase}}
+                        </div>
+                        <div class="info-row-content">
+                            {{ selectedSite.createdAt | date:'MM.dd.yyyy' }}
+                        </div>
+                    </div>
+                    <div fxFlex="20" *ngIf="selectedSite.retiredDate">
+                        <div class="info-row-label">
+                            {{ "License expired" | uppercase}}
+                        </div>
+                        <div class="info-row-content retired-date">
+                            {{ selectedSite.retiredDate | date:'MM.dd.yyyy' }}
+                        </div>
+                    </div>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start" class="row-container upload-section" appUserAccessPermission  module="organizations" visiblityType="edit">
+                  <app-shared-file-upload-v2 mainTitle="Upload Site Logo" [fileUploadConfig]="fileUploadConfig" [disableDirectFileEmit]="true" [uploadInProgress$]="uploadInProgress$" [clearAttachment$]="clearAttachment$" (emitUploadFile)="uploadedFile($event)">
+                  </app-shared-file-upload-v2>
+
+                  <div class="card-logo-img-container">
+                    <img [src]="selectedSite.logo.full_logo" class="card-logo-img" onError="this.src='./assets/images/logo-placeholder-mini.png'">
+                  </div>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="end" class="row-container">
+                    <div fxLayout="row" fxLayoutAlign="start" class="row-container" *ngIf="selectedSite.status !== siteStatuses.retired" appUserAccessPermission  module="organizations" visiblityType="delete">
+                        <button mat-button fxFlex="60" class="imx-button button-secondary-bordered delete-button" (click)="onDeleteClick(selectedSite._id)">{{"Delete site" | uppercase}}</button>
+                    </div>
+                    <button mat-button fxFlex="20" class="imx-button button-tertiary" routerLink="/usermanagement/sites">{{"Cancel" | uppercase}}</button>
+                    <button mat-button appUserAccessPermission  module="organizations" visiblityType="edit" fxFlex="20" type="submit" class="imx-button button-primary" (click)="onSubmit(selectedSite._id, createSiteForm.value)" cdkFocusInitial>{{"Save" | uppercase}}</button>
+                </div>
+            </form>
+        </mat-card-content>
+      </mat-card>
+</div>

@@ -1,0 +1,249 @@
+  <!-- Vendor List table -->
+  <div class="elist-body" fxLayout="column" fxLayoutAlign="start start" fxFill >
+    <div fxLayout="row" class="elist-header-action">
+      <div fxFlex="20" class="total-record" fxLayoutAlign="start center" *ngIf="estimatePagination">
+        <ng-container  *ngIf="estimatePagination.found < estimatePagination.total;else totalRecordFound">
+          Found : {{estimatePagination?.found}}
+        </ng-container>
+        <ng-template #totalRecordFound>
+          Total : {{estimatePagination?.total}}
+        </ng-template>
+      </div>
+      <div fxLayoutAlign="end" fxLayoutGap="1.2rem" fxFlex="80">
+        <div tooltip="Customize Columns" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" *ngIf="!isDialogOpenend">
+          <mat-icon svgIcon="IMX-columns" class="svg-primary" (click)="customizeColumn()"></mat-icon>
+        </div>
+        <div *ngIf="!isDialogOpenend; else closeDialog" tooltip="Expand Table" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          <mat-icon (click)="openEstimateDialog()">zoom_out_map</mat-icon>
+        </div>
+        <ng-template #closeDialog>
+          <mat-icon tooltip="Collapse Table" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" svgIcon="IMX-fullscreen-exit" class="full-screen-exit-icon" (click)="closeDialogBox()"></mat-icon>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="etable-container" fxFill>
+    <div class="elist-table-parent" [ngStyle]="{'max-height.px':scrollContent, 'min-height.px': scrollContent}" id="{{ isDialogOpenend ? 'estimate-fullscreen-scroll' : 'estimate-table-scroll'}}" (window:resize)="reSize()" #tableScrollRef>
+    <mat-table #scrollBar
+                 [dataSource]="dataSource"
+                 matSort (matSortChange)="onSorting($event)"
+                 matSortActive="{{sortName}}"
+                 matSortDirection="{{sortDirection}}"
+                 matSortDisableClear
+                 class="margin-top-20 imx-table-striped table-header-auto level-two-sticky"
+                  [matSortDisabled]="!estimateList?.length"
+                  [ngClass]="{'enable-table-scroll': hasHorizontalScrollbar}">
+        <ng-container matColumnDef="estimateName" sticky>
+        <mat-header-cell *matHeaderCellDef class="" fxFlex="21.25rem" mat-sort-header [disabled] = "disableSort" >
+
+          <div class="header-search">
+            <ng-container  *ngIf="isNameSearchActive; else nameSearchLabel" #searchBar>
+              <div class="header-search__block">
+                <mat-form-field floatLabel="never" (click)="$event.stopPropagation()">
+                  <mat-label>Search</mat-label>
+                  <input [formControl]="estimateNameformControl" (click)="$event.stopPropagation()" class="header-search__input" matInput type="text" #estimateInput (focus)="onFocusSearchBox()"  (blur)="onBlurSearchBox()">
+                  <button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="disableNameSearch($event)" class="search-close" >
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+            </ng-container>
+
+
+            <ng-template #nameSearchLabel>
+              <div  class="header-search__label mouse-pointer" fxLayout fxLayoutAlign="center center">
+                <span>Estimate Name</span>
+                <mat-icon (click)="enableNameSearch($event)"  matRipple>search</mat-icon>
+              </div>
+            </ng-template>
+          </div>
+
+
+
+        </mat-header-cell>
+        <mat-cell  *matCellDef="let element"  fxFlex="21.25rem" class="imx-link-cursor" (click)="isDialogOpenend ? detailsEstimateFormDialod(element): openEstimateDetails(element)">
+          <a class="primary-color-text font-weight-normal imx-name-wrap">
+            {{ element?.estimateName }}
+          </a>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="estimate" sticky>
+        <mat-header-cell *matHeaderCellDef fxFlex="6.5rem" mat-sort-header class="left339"> Estimate # </mat-header-cell>
+        <mat-cell  *matCellDef="let element" title="{{element.city}}" fxFlex="6.5rem" class="primary-color-text imx-link-cursor left339" (click)="isDialogOpenend ? detailsEstimateFormDialod(element): openEstimateDetails(element)">
+          <a class="primary-color-text font-weight-normal imx-name-wrap">
+            {{element?.estimate?.etimateId }}
+          </a>
+        </mat-cell>
+      </ng-container>
+        <ng-container matColumnDef="productName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="21.25rem" #CdkOverlayOrigin="cdkOverlayOrigin" cdkOverlayOrigin>
+            <span>Product Name</span>
+            <mat-icon class="filter-action" svgIcon="IMX-filter" (click)="$event.stopPropagation();productNameOverlayOrigin = CdkOverlayOrigin; isproductNameFilterOpen = !isproductNameFilterOpen; closeSearchFilter();"></mat-icon>
+
+            <!-- <mat-icon class="filter-action" svgIcon="IMX-filter" (click)="$event.stopPropagation();productNameOverlayOrigin = CdkOverlayOrigin; isproductNameFilterOpen = !isproductNameFilterOpen; closeSearchFilter();"></mat-icon> -->
+          </mat-header-cell>
+          <mat-cell  *matCellDef="let element" fxFlex="21.25rem" class="imx-name-wrap ">
+            {{element?.product?.name}}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="productCode" >
+          <mat-header-cell *matHeaderCellDef fxFlex="7.8rem" mat-sort-header> Product Code </mat-header-cell>
+          <mat-cell  *matCellDef="let element" fxFlex="7.8rem"> {{ element?.productCode }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="feeBasis" >
+          <mat-header-cell *matHeaderCellDef fxFlex="6.5rem" mat-sort-header> Fee Basis </mat-header-cell>
+          <mat-cell  *matCellDef="let element" fxFlex="6.5rem"> {{element?.billing?.feeBasis?.name}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="commission" >
+          <mat-header-cell *matHeaderCellDef  fxFlex="7.8rem" mat-sort-header> Commission %</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="7.8rem">
+            {{element?.billing?.media && element?.billing?.media + '%' || ''}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="commissionBasis" >
+          <mat-header-cell *matHeaderCellDef fxFlex="9.125rem" mat-sort-header>Commission Basis</mat-header-cell>
+          <mat-cell *matCellDef="let element"  fxFlex="9.125rem">
+            {{element?.billing?.commissionBasis?.name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="startDate" >
+          <mat-header-cell *matHeaderCellDef fxFlex="6rem" mat-sort-header>Start Date</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="6rem">
+            {{element?.estimate?.startDate | date:'MM/dd/yyyy' }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="endDate" >
+          <mat-header-cell *matHeaderCellDef fxFlex="6rem" mat-sort-header>End Date</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="6rem">
+            {{element?.estimate?.endDate | date:'MM/dd/yyyy' }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="clientRequirementCode" >
+          <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="9rem">Client Required Reference</mat-header-cell>
+          <mat-cell  *matCellDef="let element" fxFlex="9rem">  {{element?.estimate?.clientRequirementCode }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TBD" >
+          <mat-header-cell *matHeaderCellDef fxFlex="5rem">TBD</mat-header-cell>
+          <mat-cell  *matCellDef="let element" fxFlex="5rem">
+          <mat-icon class="check-icon"  svgIcon="IMX-check" *ngIf="element?.estimate?.tbd"></mat-icon>
+          <!-- <mat-checkbox class="imx-checkbok gray-tick" [checked]="element?.tbd" disabled></mat-checkbox> -->
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="updatedAt" >
+          <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="7.5rem">Last Modified Date</mat-header-cell>
+          <mat-cell  *matCellDef="let element" fxFlex="7.5rem">
+            <span class="lowercase" [innerHTML]="element.updatedAt | dateAgo :'new'"></span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="updatedBy" >
+          <mat-header-cell *matHeaderCellDef fxFlex="8.5rem">Last Modified By</mat-header-cell>
+          <mat-cell  *matCellDef="let element" fxFlex="8.5rem">  {{element?.updatedBy }} </mat-cell>
+        </ng-container>
+
+
+          <ng-container matColumnDef="action" [sticky]="true">
+          <mat-header-cell *matHeaderCellDef fxFlex="2.5rem" class="action-menu-column" [ngStyle]="{'left.px': 443.99}"></mat-header-cell>
+          <mat-cell  *matCellDef="let element;let i = index" fxFlex="2.5rem" class="action-menu-column" [ngStyle]="{'left.px': 443.99}" >
+            <mat-icon [matMenuTriggerFor]="actionMenu" class="action-icon" [isAccessDenied]="(!userPermission?.delete && !userPermission?.create)" visiblityType="menu" module="client_estimate" appUserAccessPermission>more_vert</mat-icon>
+            <mat-menu #actionMenu="matMenu" xPosition="before" class="action-dropdown-imx minimun-height action-menu-position action-dropdown-width table-action-position">
+              <button [isAccessDenied]="!userPermission?.create" module="client_estimate" visiblityType="create" appUserAccessPermission mat-menu-item (click)="isDialogOpenend ? duplicateEstimateFormDialod(element) : duplicateEstimate(element)">Duplicate</button>
+              <button [isAccessDenied]="!userPermission?.delete" module="client_estimate" visiblityType="delete" appUserAccessPermission mat-menu-item (click)="deleteEstimateWithAssociation(element)">Delete</button>
+            </mat-menu>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="customizeColumnService.displayedColumns;sticky: true"></mat-header-row>
+        <mat-row  *matRowDef="let row; let i = index; columns: customizeColumnService.displayedColumns;" ></mat-row >
+      </mat-table>
+      <div fxLayout="row" fxLayoutAlign="center center" fxFill *ngIf="estimateList.length === 0 && !isLoadingEstimate" class="noDataFound">
+        <div>
+          <p>No Estimate found with that Criteria.</p>
+          <div [ngStyle]="{'height.px':scrollContent -190}">
+          <img src="../../../assets/images/cuate.svg" alt="" >
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div class="elist-pagination">
+        <div class="spiner-div" *ngIf="isLoadingEstimate">
+            <mat-spinner diameter="30" ></mat-spinner>
+        </div>
+        <div>
+          <mat-paginator
+          [disabled]="!estimateList?.length"
+          (page)="getPageEvent($event)"
+          [length]="estimatePagination?.total || 0"
+          [pageIndex] = "(estimatePagination?.page || 1) - 1"
+          [pageSize]="estimatePagination?.perPage"
+          [pageSizeOptions]="paginationSizes"
+          [showFirstLastButtons] = "true"
+          >
+          </mat-paginator>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+  <!-- Vendor List table end-->
+
+  <!-- ProductName Overlay -->
+  <!-- <app-filter-overlay *ngIf="productNameOverlayOrigin" [CdkOverlayOrigin]="productNameOverlayOrigin" (close)="isproductNameFilterOpen = false"
+      (open)="isproductNameFilterOpen = true" [isOpen]="isproductNameFilterOpen" cdkClassName="product-name-overlay-position">
+        <div fxFlexFill fxLayout="column" fxLayoutAlign="start start"  class="product-name-overlay">
+          <div class="full-width">
+          <mat-form-field class="imx-input">
+            <mat-label>Search</mat-label>
+            <input type="text" [formControl]="searchProductCtrl" matInput autocomplete="off">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+          </div>
+
+          <mat-selection-list  
+          [formControl]="selectedProductCtrl" 
+          [compareWith]="compareProductsFilters" 
+          [ngClass]="{'no-data-available':!productsAutoComplete.data.length}"
+          infiniteScroll 
+          [infiniteScrollDistance]="1" 
+          [infiniteScrollThrottle]="0"
+          [infiniteScrollDisabled]="productsAutoComplete.data?.length >= productsAutoComplete?.pagination?.total" 
+          (scrolled)="productsAutoComplete.loadMoreData()" 
+          [scrollWindow]="false"
+          >
+            <mat-list-option checkboxPosition="before" *ngFor="let product of productsAutoComplete.data; trackBy: trackproductsFilters"
+            [value]="product" role="listitem">
+              <span class="primary-text-color">{{product.productName}}</span>
+            </mat-list-option>
+            <mat-list-option disabled *ngIf="productsAutoComplete.isSearching || productsAutoComplete.isLoading" class="mat-list-spiner-div">
+              <div fxLayout="row" fxLayoutAlign="space-around center" >
+                <mat-spinner diameter="20"></mat-spinner>
+              </div>
+            </mat-list-option>
+          </mat-selection-list>
+          <button mat-button (click)="filterProduct()" class="imx-button-basic_icon">APPLY</button>
+        </div>
+      </app-filter-overlay>
+      </app-filter-overlay> -->
+      
+       <!-- table filter overlay for product name column -->
+  <imx-overlay-list
+    *ngIf="productObserver" 
+    [CdkOverlayOrigin]="productNameOverlayOrigin" 
+    (close)="isproductNameFilterOpen = false"  
+    (onApply)="onApplyProductFilter($event)"
+    (open)="isproductNameFilterOpen = true;" 
+    [isOpen]="isproductNameFilterOpen"
+    (onLoadMoreItems)="onSearchProductFilter($event)"
+    [searchLabel]="'Search Products'"
+    [items]="productObserver"
+    >
+  </imx-overlay-list>

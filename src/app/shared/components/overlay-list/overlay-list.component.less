@@ -1,0 +1,130 @@
+// note: Loading this component as overlay, So the component selector styles could not be used here..!
+::ng-deep {
+  .search-filter-overlay {
+    background: #FFFFFF;
+    border-color: var(--primary-bg);
+    color: var(--primary-bg);
+    width: 212px !important;
+    max-height: 337px !important;
+    border: 1px solid;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 0px 8px 0px 8px;
+    letter-spacing: 0.5px;
+    font-size: 13px;
+    
+    .mat-form-field-underline {
+      display: none;
+    }
+  
+    .input-field {
+      border-bottom: none;
+      height: 1.0rem !important;
+      font-size: 13px;
+    }
+  
+    .label-cls{
+      color: var(--primary-bg);
+    }
+  
+    .full-width{
+      width:100%;
+      min-width: 202px !important;
+      max-height: 235px;
+      overflow: auto;
+    }
+  
+    .option-list {
+      width:100%; 
+      min-height: 260px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  
+    .select-all-btn {
+      width: 120px;
+      align-items: center;
+      line-height: 24px;
+      padding: 0px;
+    }
+  
+    .apply-btn {
+      border: 1px solid;
+      border-radius: 5px;
+      border-color: var(--primary-bg);
+      color: var(--primary-bg);
+      width: 50px;
+      line-height: 24px;
+      padding-left: 5px;
+      margin-left: 10px;
+    }
+  
+    .btn-div {
+      padding-bottom: 5px;
+    }
+    .mat-button-focus-overlay {
+      background-color: transparent!important;
+    }
+
+    button:focus {
+      outline: none !important;
+    }
+  
+    .hide-list-option {
+      display: none;
+    }
+
+    // .no-wrap {
+    //   overflow: hidden;
+    //   text-overflow: ellipsis;
+    //   white-space: nowrap;
+    // }
+
+    .spinner-div {
+      padding-top: 30px;
+      position: absolute;
+      width: 200px;
+    }
+
+    .search-div {
+      border-bottom: 1px solid var(--primary-bg);
+    }
+
+    .search-text-field{
+      height: 20x;
+      max-height: 20px;
+      width: 196px !important;
+      letter-spacing: 0.5px;
+        .mat-form-field-label {
+          .placeholder-text {
+            text-transform: none !important;
+          }
+        }
+    }
+
+    .mat-selection-list{
+      margin: 10px 0;
+      .mat-list-option {
+        border-bottom: none;
+        height: 30px;
+        min-height: 24px !important;
+        border-radius: 5px;
+        background: transparent !important;
+        .mat-list-item-content {
+          padding: 0px 0px 0px 0px !important;
+        }
+        .mat-pseudo-checkbox {
+          border: 1px solid var(--primary-bg);
+        }
+      }
+    }
+
+    scrollbar-color: transparent transparent;
+    scrollbar-width: none; /* Firefox 64 */
+    -ms-overflow-style: none; /* Internet Explorer 11 */
+    ::-webkit-scrollbar {
+      width: 0;  /* Remove scrollbar space */
+      background: transparent;  /* Optional: just make scrollbar invisible */
+    }
+  }
+}

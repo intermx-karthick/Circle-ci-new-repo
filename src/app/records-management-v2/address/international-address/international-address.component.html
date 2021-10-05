@@ -1,0 +1,34 @@
+<form [formGroup]="formGroup" class="international-address">
+
+  <mat-form-field class="international-address__country-field imx-dropdown imx-input">
+    <mat-label>Select Country</mat-label>
+    <mat-select panelClass="imx-select" formControlName="country">
+      <mat-option *ngFor="let country of countries" [value]="country"> {{country}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="imx-input">
+    <mat-label>Address</mat-label>
+    <input type="text" formControlName="address" matInput>
+  </mat-form-field>
+
+  <div fxLayout="row" fxLayoutGap="32px" fxLayoutAlign="space-evenly center">
+    <mat-form-field class="imx-input">
+      <mat-label>Postal code</mat-label>
+      <input type="text" formControlName="postalCode" matInput>
+      <mat-error> Should be maximum length of 6 </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="imx-dropdown imx-input">
+      <mat-label>State</mat-label>
+      <mat-select panelClass="imx-select" formControlName="state">
+        <mat-option *ngFor="let state of states" [value]="state"> {{state}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="imx-input">
+      <mat-label>City</mat-label>
+      <input type="text" formControlName="city" matInput>
+    </mat-form-field>
+  </div>
+</form>

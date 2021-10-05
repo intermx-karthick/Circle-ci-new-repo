@@ -1,0 +1,52 @@
+<mat-card class="site-card">
+    <div class="site-card__body">
+      <div class="site-card__inner">
+        <mat-card-header fxLayout="row" fxLayoutAlign="space-between start">
+            <div mat-card-avatar>
+                <img src="{{model.logo.mini_logo}}" class="logo-img" alt="image of logo" onError="this.src='./assets/images/logo-placeholder-mini.png'">
+            </div>
+            <div *ngIf="model.status !== siteStatuses.creating">
+                <img [src]="pathToStatusImage" class="logo-img" alt="image of status">
+            </div>
+            <div *ngIf="model.status === siteStatuses.creating" class="progress-circles">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="187px" height="187px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                <circle cx="84" cy="50" r="10" fill="#424242">
+                    <animate attributeName="r" repeatCount="indefinite" dur="0.9259259259259258s" calcMode="spline" keyTimes="0;1" values="10;0" keySplines="0 0.5 0.5 1" begin="0s"></animate>
+                    <animate attributeName="fill" repeatCount="indefinite" dur="3.7037037037037033s" calcMode="discrete" keyTimes="0;0.25;0.5;0.75;1" values="#424242;#424242;#81248d;#616161;#424242" begin="0s"></animate>
+                </circle>
+                <circle cx="16" cy="50" r="10" fill="#424242">
+                  <animate attributeName="r" repeatCount="indefinite" dur="3.7037037037037033s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
+                  <animate attributeName="cx" repeatCount="indefinite" dur="3.7037037037037033s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
+                </circle>
+                <circle cx="50" cy="50" r="10" fill="#616161">
+                  <animate attributeName="r" repeatCount="indefinite" dur="3.7037037037037033s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.9259259259259258s"></animate>
+                  <animate attributeName="cx" repeatCount="indefinite" dur="3.7037037037037033s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.9259259259259258s"></animate>
+                </circle>
+                <circle cx="84" cy="50" r="10" fill="#81248d" id="theme-color-circle">
+                  <animate attributeName="r" repeatCount="indefinite" dur="3.7037037037037033s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-1.8518518518518516s"></animate>
+                  <animate attributeName="cx" repeatCount="indefinite" dur="3.7037037037037033s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-1.8518518518518516s"></animate>
+                </circle>
+                <circle cx="16" cy="50" r="10" fill="#424242">
+                  <animate attributeName="r" repeatCount="indefinite" dur="3.7037037037037033s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-2.7777777777777777s"></animate>
+                  <animate attributeName="cx" repeatCount="indefinite" dur="3.7037037037037033s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-2.7777777777777777s"></animate>
+                </circle>
+              </svg>
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <a fxLayout="column" fxLayoutAlign="space-around start" [routerLink]="['/usermanagement/siteconfiguration', model._id]">
+                <span class="card-text-primary trancuate" title="{{model.site}}">{{model.site}}</span>
+                <p class="card-text-secondary trancuate" title="{{siteUrl || model.siteUrl}}">
+                    {{siteUrl || model.siteUrl}}
+                </p>
+            </a>
+        </mat-card-content>
+        <mat-card-footer>
+            <div class="card-text-secondary trancuate" title="{{model.accountOwner}}">{{model.accountOwner}}</div>
+            <div class="card-text-secondary trancuate" title="{{model.ownerEmail}}">
+                {{model.ownerEmail}}
+            </div>
+        </mat-card-footer>
+      </div>
+    </div>
+  </mat-card>

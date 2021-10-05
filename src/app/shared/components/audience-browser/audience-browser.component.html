@@ -1,0 +1,335 @@
+<mat-tab-group [(selectedIndex)]="selectedAudienceTab" class="z-depth-1-half" (selectedTabChange)="tabSwitch($event);"  *ngIf="openAudience">
+  <mat-tab  *ngIf="dataVersion === 2020">
+    <ng-template mat-tab-label>
+      <p>Saved Audiences</p>
+    </ng-template>
+    <div class="audiences-tab">
+
+      <ng-container *ngIf="isInitLoading">
+        <br />
+        <app-cl-inventory-sets></app-cl-inventory-sets>
+      </ng-container>
+
+      <ng-container *ngIf="filteredSavedAudience$ | async as savedAudiences">
+      <div class="audience-selector-body">
+        <div class="saved-audiences">
+          <div class="saved-audience-header saved-audience-spacing" fxFlexFill fxLayout="row"
+               fxLayoutAlign="space-between center">
+            <mat-form-field floatLabel="never">
+              <mat-icon matPrefix>search</mat-icon>
+              <input matInput placeholder="Search saved audiences" [formControl]="searchSavedQuery">
+            </mat-form-field>
+            <span class="seprater"></span>
+            <!-- <button type="button" mat-raised-button class="mat-button-primary" (click)="clearAll('new')" fxFlexAlign="center">
+              <mat-icon matPrefix class="mat-button-icon">add</mat-icon>
+              New Audience
+            </button> -->
+          </div>
+          <div fxFlexFill class="saved-audience-expansion saved-audience-spacing" [ngClass]="{'no-saved-audiance':savedAudiences.length === 0}">
+              <mat-accordion [@.disabled]="true" *ngIf="savedAudiences.length > 0; else emptyAudience;">
+                <mat-expansion-panel
+                  *ngFor="let audience of savedAudiences; trackBy: trackBySavedAudience; let i = index" [expanded]="step === i"
+                  [disabled]="true">
+                  <mat-expansion-panel-header>
+                    <div class="title">
+                      <mat-checkbox name="radio_n" [id]="i" (click)="selectTarget(audience,checkBoxRef)" [value]="audience"  disableRipple *ngIf="selectionType === 'multiple'; else singleSelectionType" #checkBoxRef> <!-- [checked] ="audience === selectedTarget" -->
+                        <mat-panel-title><h6 title="{{audience.title}}"> {{ isSmallScreen === true ? (audience.title | truncate: 'middle' : 10 ) : (audience.title | truncate : 'middle' : 45 ) }}</h6></mat-panel-title>
+                      </mat-checkbox>
+                      <ng-template #singleSelectionType>
+                        <mat-radio-button name="radio_n" [id]=i (click)="selectTarget(audience)" [value]="audience" [checked] ="audience === selectedTarget" disableRipple>
+                          <mat-panel-title><h6 title="{{audience.title}}"> {{ isSmallScreen === true ? (audience.title | truncate: 'middle' : 10 ) : (audience.title | truncate : 'middle' : 45 ) }}</h6></mat-panel-title>
+                        </mat-radio-button>
+                      </ng-template>
+
+
+                      <span class="seprater"></span>
+                      <div class="action-button" [ngClass]="{ 'module-disable':allowInventory === 'disabled'}">
+                        <mat-icon (click)="editAudience(audience)" *ngIf="selectionType !== 'multiple'">edit</mat-icon>
+                        <mat-icon (click)="deleteAudience(audience)">delete</mat-icon>
+                        <mat-icon class="down-mobile-alignment" *ngIf="step != i" (click)="setStep(i)">keyboard_arrow_down</mat-icon>
+                        <mat-icon *ngIf="step == i" (click)="setStep(null)" class="up-mobile-alignment">keyboard_arrow_up</mat-icon>
+                      </div>
+                    </div>
+                    <div class="caption">
+                      <p class="body-2">{{audience.createdOn | date:'MM/dd/yyyy'}}</p>
+                      <p class="body-2 nested-caption">{{audience.displayLabel}}</p>
+                    </div>
+                  </mat-expansion-panel-header>
+                  <div class="expansion-panel-body" fxLayout="row wrap">
+                    <p *ngFor="let character of audience.selectedAudiences" fxFlex="50%"
+                       fxFlex.xs="100%">
+                      <span class="body-2">{{character.category}}: </span>
+                      {{character.description}}
+                    </p>
+                  </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+              <ng-template #emptyAudience>
+                <div fxFill class="no-saved-list" fxLayout="row warp">
+                  You don't have any/matching saved audiences. <a href="javascript:void(0)" (click)="clearAll('new')">&nbsp; Create New </a>
+                </div>
+              </ng-template>
+          </div>
+        </div>
+      </div>
+      <div class="audience-selector-footer audience-actions" *ngIf="savedAudiences.length > 0" [ngClass]="{ 'module-disable':allowInventory === 'disabled'}">
+        <div class="action-footer" dir="rtl" fxLayoutGap="10px">
+          <button [ngClass]="{'disabled': audienceLicense['status'] === 'disabled', 'add-select-button': isScenario}" type="button"
+                  (click)="(audienceLicense['status'] !== 'disabled') && targetChange('saved');" mat-raised-button
+                  class="button button-primary uppercase">{{(isScenario) ? 'Add Selected' : 'Apply'}} <mat-icon class="mat-button-icon" *ngIf="isScenario">check</mat-icon>
+          </button>
+          <button mat-raised-button class="btn-clear" (click)="clearAll('clear');">{{(isScenario) ? 'CLOSE' : 'CLEAR'}}</button>
+          <button type="button" class="button button-secondary uppercase dialog-close-btn mobile-visible" mat-dialog-close fxHide>
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+      </ng-container>
+    </div>
+  </mat-tab>
+  <ng-container  *ngFor="let audience of audiences; let i = index">
+
+  <mat-tab class="audience-builder">
+
+    <ng-template mat-tab-label>
+      <ng-container
+        *ngIf="(audience['label'] === 'Population Facts' || audience['label'] === 'PRIZM Premier' || audience['label'] === 'Consumer Profiles'); then withTooltipTab else withoutToolTipTab">
+      </ng-container>
+    </ng-template>
+
+    <ng-template #withoutToolTipTab>
+      <p>{{audience['description']}}</p>
+    </ng-template>
+
+    <ng-template #withTooltipTab>
+      <div class="audience-tooltip-panel-tab">
+        <span>{{audience['description']}}</span>
+        <mat-icon tooltippanel [data]="tooltipPanelData[audience['label']]" svgIcon="IMX-info"></mat-icon>
+      </div>
+    </ng-template>
+
+    <!-- Multi Select Audience Search -->
+    <div class="audiences audiences-tab multi-selection" *ngIf="audience['tabType'] === 'multiple'; else singleSearch">
+
+      <div class="audience-selector-body" [ngClass]="{'edit-audience-name':isEditAudienceName}">
+        <div class="audience-title">
+          <h5 *ngIf="!isEditAudienceName" class="cursor-link h1-letterspacing margin-top-38"
+            (click)="onEditAudienceName($event,audience)" #fName title="{{audience.audienceTitleName}}">
+            {{ audience.audienceTitleName }}
+          <mat-icon matSuffix class="icon-color hide-when-edit mat-icon-position consumer-edit-icon">mode_edit</mat-icon>
+         </h5>
+          <mat-form-field class="full-width width90 name-edit-input edit-input" *ngIf="isEditAudienceName">
+            <input matInput [(ngModel)]="audienceTitle" #fName>
+            <mat-icon matSuffix class="icon-color hide-when-edit">mode_edit</mat-icon>
+          </mat-form-field>
+
+          <div fxLayout="row" *ngIf="isEditAudienceName">
+            <button type="button" mat-raised-button class="geo-button-primary btn-small capitalize save-button"
+                    (click)="onSaveAudienceName(audience)">save
+            </button>
+            <div mat-icon-button class="cancel-btn cursor-link capitalize border-radius-4"
+                 (click)="onCancelAudienceName()">
+              <mat-icon aria-label="close icon">close</mat-icon>
+            </div>
+          </div>
+        </div>
+        <mat-form-field floatLabel="never">
+          <mat-icon matPrefix>search</mat-icon>
+          <input matInput placeholder="Search demographics, behaviors, etc" [(ngModel)]="audience.searchQuery" [debounce]="500" (onDebounce)="onSearch()">
+        </mat-form-field>
+        <div class="audience-selection-list">
+        <div class="audience-search-list" *ngIf="audience.searchQuery && audience.searchQuery !== ''; else noSearch">
+          <div fxFill class="no-results" *ngIf="audience['filtered'] && audience['filtered'].length <= 0; else searchList">Your search didn't produce any results.
+          </div>
+          <ng-template #searchList>
+            <mat-selection-list>
+              <mat-list-option class="selected" (click)="selectAudience(item)"
+                               *ngFor="let item of audience.filtered">
+                <mat-icon *ngIf="isSelected(item.tag)">done</mat-icon>
+                <span class="searched-label" [innerHTML]="item.description | imx_highlight : audience.searchQuery"></span>
+                <!--<span>{{item.grandParent + ' > ' + item.parent}}</span>-->
+              </mat-list-option>
+            </mat-selection-list>
+          </ng-template>
+        </div>
+
+        <ng-template #noSearch>
+          <div class="audience-list" [ngClass]="{'no-list':audience.displayList.length===0,'list-select':audience['selectedAudience'].length > 0}">
+            <mat-accordion multi="true" *ngIf="audience.displayList.length > 0">
+              <mat-expansion-panel [expanded]="false" class="mat-elevation-z0" *ngFor="let option of audience.displayList">
+                <mat-expansion-panel-header (click)="scrollTo($event)">
+                  <mat-panel-title>
+                    {{option.label}}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-expansion-panel class="mat-elevation-z0" *ngFor="let characteristics of option.options">
+                  <mat-expansion-panel-header (click)="scrollTo($event)">
+                    <mat-panel-title> {{characteristics.label}}</mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <mat-selection-list>
+                    <mat-list-option *ngFor="let character of characteristics.options" role="listitem"
+                                     (click)="selectAudience(character)">
+                      {{character.description}}
+                    </mat-list-option>
+                  </mat-selection-list>
+                </mat-expansion-panel>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </ng-template>
+        <p class="subtitle-1" *ngIf="audience['selectedAudience'].length <= 0; else audience_available">Add target characteristics
+          above to select or save specific audience.
+        </p>
+        <ng-template #audience_available>
+          <p class="subtitle-1">Include people who match the following:</p>
+          <div class="selections-list">
+            <ul class="category " *ngFor="let audiences of audience['selectedAudience'];">
+              <ng-container *ngFor="let subAudience of audiences.options">
+                <li *ngIf="subAudience.options.length > 0">
+                  {{audiences.label+ ' > '+ subAudience.label}}
+                  <ul class="character" *ngFor="let character of subAudience.options">
+                    <li>
+                      <span>{{character.description}}</span>
+                      <span (click)="removeAudience(character)" class="close">&times;</span>
+                    </li>
+                  </ul>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+        </ng-template>
+      </div>
+      </div>
+      <div class="audience-selector-footer audience-actions" [ngClass]="{ 'module-disable':allowInventory === 'disabled'}">
+        <div class="action-footer" dir="rtl" fxLayoutGap="10px">
+          <span class="apply-btn" [matTooltipClass]="'audience-tooltip'" matTooltip="Please further refine your target audience to apply"  matTooltipPosition="above" [matTooltipDisabled]="audience['targetAudience'] !== ''">
+          <button *ngIf="!isInventory" [ngClass]="{'disabled': audienceLicense['status'] === 'disabled'}" type="button" (click)="(audienceLicense['status'] !== 'disabled') && targetChange('custom');" mat-raised-button class="button button-primary uppercase apply-btn e2e-audience-apply-btn" [disabled]="audience['targetAudience'] === ''" >
+            {{(isScenario) ? 'Add' : 'Apply'}}
+          </button>
+          <button type="button" (click)="saveAudience();" mat-raised-button class="button button-secondary uppercase save-aud-btn" [disabled]="audience['targetAudience'] === ''" *ngIf="selectionType !== 'multiple' && dataVersion === 2020">Save Audience</button>
+        </span>
+          <button type="button" (click)="clearAll('clear');" mat-raised-button class="button button-secondary uppercase clear-btn">Clear All</button>
+          <button type="button" class="button button-secondary uppercase dialog-close-btn mobile-visible" mat-dialog-close fxHide>
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Single Select Audience Search -->
+    <ng-template #singleSearch>
+      <div class="audiences audiences-tab single-selection">
+        <div class="audience-selector-body">
+          <div class="audience-title">
+            <ng-container *ngIf="!audience['enableSave']; else editSaveAudience">
+              <h5 class="cursor-link h1-letterspacing margin-top-38" title="{{audience.audienceTitleName}}" *ngIf="audience['dataVersion'] === 2020">
+                {{audience.audienceTitleName}}
+              </h5>
+            </ng-container>
+            <ng-template #editSaveAudience>
+              <h5 class="cursor-link h1-letterspacing margin-top-38" (click)="onEditBehaviorName($event,audience)" *ngIf="!isEditBehaviorName" title="{{audience.audienceTitleName}}">
+                {{audience.audienceTitleName}}
+                <mat-icon matSuffix class="icon-color hide-when-edit mat-icon-position consumer-edit-icon">mode_edit</mat-icon>
+              </h5>
+              <mat-form-field class="full-width width90 name-edit-input edit-input" *ngIf="isEditBehaviorName">
+                <input matInput [(ngModel)]="audienceTitle">
+                <mat-icon matSuffix class="icon-color hide-when-edit">mode_edit</mat-icon>
+              </mat-form-field>
+              <div fxLayout="row" *ngIf="isEditBehaviorName" >
+                <button type="button" mat-raised-button class="geo-button-primary btn-small capitalize save-button"
+                        (click)="onSaveBehaviorName(audience)">save
+                </button>
+                <div mat-icon-button class="cancel-btn cursor-link capitalize border-radius-4"
+                    (click)="onCancelBehaviorName()">
+                  <mat-icon aria-label="close icon">close</mat-icon>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+          <div class="search-container" fxLayout="row" fxLayoutGap="10px" fxLayout.xs="column" fxLayoutAlign="start center">
+            <div *ngIf="audience.categories" fxFlex="30%" fxLayout="row" fxLayoutAlign="start center" class="categorys-searcch-area">
+              <mat-label>Search:</mat-label>
+              <mat-form-field class="select-width" floatLabel="always">
+                <mat-select [(value)]="audience.selectedCategory" (selectionChange)="onCategoryChange($event);">
+                  <mat-option [value]="category"
+                              *ngFor="let category of audience.categories" class="category-select">
+                    {{category.description}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <mat-form-field floatLabel="never" class="search-width">
+              <input matInput placeholder="Search audience characteristics" (keyup)="onFlatTabSearch($event)">
+              <!-- [(ngModel)]="audience.searchQuery" [debounce]="400" (onDebounce)="flatTabSearch($event)" -->
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+          <ng-container *ngIf = "selectionType === 'multiple'; else singleSelectionSingleList">
+            <mat-selection-list class="single-selection-radio-group enableCheckbox" *ngIf="audience.searchQuery && audience.searchQuery !== ''; else normalList" fxLayout="column" [ngClass]="{'is-title-edit':isEditBehaviorName}">
+              <mat-list-option *ngFor="let character of audience.filtered;let i=index;" value="{{character.tag}}" checkboxPosition="before" [selected]="checkIsSelected(character)" (click)="onSelectMultipleOption(character)">
+                <span [innerHTML]="character.description | imx_highlight : audience.searchQuery"></span>
+              </mat-list-option>
+              <div fxFill class="no-saved-list text-center" *ngIf="audience.filtered && audience.filtered.length <= 0">Your search didn't produce any results.</div>
+            </mat-selection-list>
+            <ng-template #normalList>
+              <div class="single-selection-radio-group" [ngClass]="{'is-title-edit':isEditBehaviorName}">
+                <mat-selection-list fxLayout="column" class="enableCheckbox">
+                  <mat-list-option *ngFor="let character of audience.displayList" value="{{character.tag}}" checkboxPosition="before" (click)="onSelectMultipleOption(character)">
+                    <mat-panel-title>{{character.description}}</mat-panel-title>
+                  </mat-list-option>
+                </mat-selection-list>
+                <!-- <div fxFill class="no-saved-list text-center" *ngIf="audience.displayList && audience.displayList.length <= 0 && audienceAPILoadedFlag">Discovering audience...</div> -->
+                <div *ngIf="audience.displayList && audience.displayList.length <= 0">
+                  <app-audience-ghost [selectionType]="'multiple'"></app-audience-ghost>
+                 </div>
+              </div>
+            </ng-template>
+          </ng-container>
+          <ng-template #singleSelectionSingleList>
+            <div class="single-selection-radio-group" [ngClass]="{'is-title-edit':isEditBehaviorName}" *ngIf="audience.searchQuery && audience.searchQuery !== ''; else normalList" >
+
+              <div fxLayout="row" fxLayoutAlign="center center" class="audience-loader" *ngIf="audience.loader">
+                <mat-spinner [strokeWidth]="5" [diameter]="50"></mat-spinner>
+              </div>
+              <mat-radio-group fxLayout="column" *ngIf="!audience.loader" [ngClass]="{'is-title-edit':isEditBehaviorName}">
+                <mat-radio-button *ngFor="let character of audience.filtered" class="single-selection-radio-button" value="{{character.tag}}"  [checked]="audience['selectedAudience']['tag'] == character.tag" (change) = "onFlatOptionChange(character, i)" disableRipple>
+                    <span [innerHTML]="character.description | imx_highlight : audience.searchQuery"></span>
+                  </mat-radio-button>
+                  <div fxFill class="no-saved-list text-center" *ngIf="audience.filtered && audience.filtered.length <= 0">Your search didn't produce any results.</div>
+              </mat-radio-group>
+            </div>
+            <ng-template #normalList>
+              <div class="single-selection-radio-group" [ngClass]="{'is-title-edit':isEditBehaviorName}">
+                <mat-radio-group  fxLayout="column">
+                  <mat-radio-button *ngFor="let character of audience.displayList" class="single-selection-radio-button" value="{{character.tag}}" [checked]="audience['selectedAudience']['tag'] == character.tag" (change) = "onFlatOptionChange(character, i)" disableRipple>
+                    {{character.description}}
+                  </mat-radio-button>
+                  <!-- <div fxFill class="no-saved-list text-center" *ngIf="audience.displayList && audience.displayList.length <= 0 && audienceAPILoadedFlag">Discovering audience...</div> -->
+                <div *ngIf="audience.displayList && audience.displayList.length <= 0">
+                <app-audience-ghost [selectionType]="'single'"></app-audience-ghost>
+                </div>
+                </mat-radio-group>
+              </div>
+            </ng-template>
+          </ng-template>
+        </div>
+        <div class="audience-selector-footer audience-actions" [ngClass]="{ 'module-disable':allowInventory === 'disabled'}">
+          <div class="action-footer" dir="rtl" fxLayoutGap="10px">
+            <span class="apply-btn" [matTooltipClass]="'audience-tooltip'" matTooltip="{{!isScenario ? 'Please further refine your target audience to apply' : 'Please wait we\'re getting audience key'}}" [matTooltipDisabled]="(audience['selectedAudience']['targetAudienceKey'] && audience['selectedAudience']['targetAudienceKey'] !== '') || (isScenario && !gettingDataFromAPI)" matTooltipPosition="above" >
+            <button *ngIf="!isInventory" mat-raised-button class="e2e-audience-apply-btn button button-primary uppercase apply-btn" [ngClass]="{'disabled': audienceLicense['status'] === 'disabled', 'add-select-button': isScenario}" type="button" (click)="(audienceLicense['status'] !== 'disabled') && targetChange('single');" [disabled]="(audience['selectedAudience']['targetAudienceKey'] && audience['selectedAudience']['targetAudienceKey'] === '') || gettingDataFromAPI"> {{(isScenario) ? 'Add Selected' : 'Apply'}} <mat-icon *ngIf="isScenario">check</mat-icon>  </button>
+
+            <button type="button" mat-raised-button class="button button-primary uppercase save-aud-btn" (click)="saveAudience();" [disabled]="audience['selectedAudience']['targetAudienceKey'] && audience['selectedAudience']['targetAudienceKey'] === ''" *ngIf="selectionType !== 'multiple' && audience['enableSave'] && dataVersion === 2020">Save Audience  </button>
+            </span>
+            <button type="button"  mat-raised-button class="button button-secondary uppercase clear-btn" (click)="clearAll('clear');">
+              Clear All
+            </button>
+            <button type="button" class="button button-secondary uppercase dialog-close-btn mobile-visible" mat-dialog-close fxHide>
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </mat-tab>
+</ng-container>
+</mat-tab-group>

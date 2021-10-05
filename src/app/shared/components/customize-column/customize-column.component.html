@@ -1,0 +1,48 @@
+
+<div mat-dialog-content>
+	<div class="modal-content">
+		<div class="modal-body">
+			<h2 class="modal-title login-title">Add or Remove Data Columns</h2>
+			<div class="modal-text">Select data from the left column and click the arrow button to move it to your current view. Cntrl-click (Cmd-click on Mac) to select multiple items.</div>
+			<div class="data-container">
+				<div class="subject-info-box-1">
+					 <h5>Available Data</h5>
+					<mat-selection-list id='lstBox1' [(ngModel)]="selectedColumns" (selectionChange)="handleSelection($event)">
+						<mat-list-option class="e2e-cust-col-ava-item" *ngFor="let sort of sortables" value="{{sort.displayname}}" checkboxPosition="before">
+							{{sort.displayname}}
+						</mat-list-option>
+					</mat-selection-list>
+				</div>
+				<div class="subject-info-arrows">
+					<button id="btnRight" class="moveButton e2e-select-column" (click)="moveColumns()">
+							<i class="material-icons">trending_flat</i>
+					</button>
+				</div>
+				<div class="subject-info-box-2">
+						<h5>Your Current View</h5>
+					<div id='lstBox2' class="form-control">
+						<div id="boxContent" class="current-view-list" cdkDropList [cdkDropListLockAxis]="'y'"
+                 [cdkDropListAutoScrollDisabled]="false"  (cdkDropListDropped)="drop($event)"
+                 [cdkDropListData]="currentSortables">
+							<div class="e2e-cust-col-item current-view-list__item" *ngFor="let values of currentSortables; let i = index;" cdkDrag>
+								<div fxLayout="row" fxLayoutAlign="start center">
+									<span class="title" >{{values.displayname}}</span>
+									<span fxFlex="1 1 auto"></span>
+									<span class="action" fxFlex="20">
+                    <i class="material-icons drag-handle" title="Drag" cdkDragHandle>drag_handle</i>
+                    <i class="material-icons remove-column" title="Remove" (click)="removeFilter(i,values.displayname)">clear</i></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+ </div>
+  <div class="modal-footer">
+		<button mat-button type="button" class="button  popup-left-btn button-primary-link no-radius" data-toggle="modal" (click)="cancelCustomColumns()">CANCEL</button>
+	<span class="apply-btn" [matTooltipClass]="'audience-tooltip'" matTooltip="Please move at least one column to current view"  matTooltipPosition="above" [matTooltipDisabled]="currentSortables.length > 0">
+		<button type="submit" mat-raised-button class="button button-primary uppercase  no-radius e2e-custom-column-apply" [disabled]="currentSortables.length === 0" (click)="saveCustomColumns()">APPLY CHANGES</button>
+	</span>
+	</div>
+</div>
+</div>

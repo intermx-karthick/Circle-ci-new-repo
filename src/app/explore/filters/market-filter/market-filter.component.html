@@ -1,0 +1,95 @@
+<div class="markets-section" fxLayout="column">
+  <div class="market-type-section" fxLayout="row">
+    <div fxLayout="row" fxLayoutGap="10px" fxFlex="63" fxLayoutAlign="end" class="market-selection">
+      <mat-label>Type:</mat-label>
+      <mat-radio-group fxLayoutGap="20px" [formControl]="marketSelectionCtrl" class="market-type-selector">
+        <mat-radio-button name="Market" value="National">National</mat-radio-button>
+        <mat-radio-button name="Market" value="DMA">DMA</mat-radio-button>
+        <mat-radio-button name="Market" value="CBSA">CBSA</mat-radio-button>
+        <mat-radio-button name="Market" value="County">County</mat-radio-button>
+        <mat-radio-button name="Market" value="GEO_SET" *ngIf="isPopulationEnabled">My Saved Geography Sets</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  <div class="search-section" fxLayout="row" *ngIf="marketSelectionCtrl.value !== 'National'">
+    <div fxFlex="100">
+      <mat-form-field fxFlexFill class="search-field market-search">
+        <mat-label>Search Markets</mat-label>
+        <input type="text" [formControl]="searchCtrl" matInput autocomplete="off">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="saved-geography-sets-section" *ngIf="marketSelectionCtrl.value === 'GEO_SET'; else otherMarketFilters">
+    <mat-radio-group [formControl]="selectedGeoSetCtrl" infiniteScroll [infiniteScrollDistance]="1"
+    [infiniteScrollThrottle]="0" (scrolled)="loadMore()" [scrollWindow]="false">
+
+    <mat-radio-button *ngFor="let set of geoSetsList" [value]="set['_id']">
+        {{set['name']}}
+    </mat-radio-button>
+    <p *ngIf="geoSetsList.length === 0 && !geoSetsLoader" class="text-center">No Sets found</p>
+    </mat-radio-group>
+    <ng-container *ngIf="geoSetsLoader">
+      <app-cl-list-left-radio-btn></app-cl-list-left-radio-btn>
+    </ng-container>
+  </div>
+  <ng-template #otherMarketFilters>
+    <div class="chip-section" fxLayout="row" [ngClass]="{'selected-market-avilable': selectedPreviewOptions.length>3, 'no-selected-market-avilable': selectedPreviewOptions.length>0 && selectedPreviewOptions.length<4 }">
+      <mat-chip-list #chipList>
+        <span *ngFor="let market of selectedPreviewOptions">
+          <mat-chip *ngIf="market.id!== 'global'"  (removed)="removeMarket(market)" title="{{ market.name }}">
+            {{(market.name.length>15)? (market.name | slice:0:15)+'...':(market.name)}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <mat-chip *ngIf="market.id === 'global'" [disabled]="true" (removed)="removeMarket(market)" title="{{ market.name }}">
+            {{(market.name.length>15)? (market.name | slice:0:15)+'...':(market.name)}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </span>
+      </mat-chip-list>
+    </div>
+
+    <div class="section" fxLayout="row" *ngIf="marketSelectionCtrl.value !== 'National'">
+      <span class="add-link" (click)="addList(10)">
+        <mat-icon matPrefix class="mat-button-icon">add</mat-icon>Add Top 10
+      </span>
+      <span class="add-link" (click)="addList(20)">
+        <mat-icon matPrefix class="mat-button-icon">add</mat-icon>Add Top 20
+      </span>
+      <span *ngIf="searchCtrl?.value?.length>0" class="add-link" (click)="addList()">
+        <mat-icon matPrefix class="mat-button-icon">add</mat-icon>Add All
+      </span>
+    </div>
+    <div class="radio-group-section" [ngClass]="{'no-audience':audienceLicense['status']==='hidden', 'no-selected-market': selectedPreviewOptions.length<1 }" infiniteScroll
+      [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+      [infiniteScrollDisabled]="marketSelectionCtrl.value === 'DMA'" (scrolled)="loadMore()" [scrollWindow]="false">
+      <mat-selection-list fxLayout="column" [(ngModel)]="selectedOptions" [compareWith]="compare">
+        <app-arrow-navigation *ngFor="let market of filteredMarkets; let i=index" [option]="market"
+          [selectedOption]="selectedOptions" (setSelectedOption)="setSelectedMarket($event)"
+          (submit)="submitMarket($event)" fxLayout="column">
+          <div class="market-options">
+            <mat-list-option *ngIf="marketSelectionCtrl.value !== 'National'" class="e2e-active-market-option" [value]="market" (click)="onSelectOptions(marketOption)"
+              checkboxPosition="before" disableRipple #marketOption>
+              <span class="slno" *ngIf="marketSelectionCtrl.value === 'CBSA' || marketSelectionCtrl.value === 'DMA'">{{market['slno']}}.</span>
+              <span class="slno" *ngIf="marketSelectionCtrl.value === 'County'">{{i +1}}.</span>
+              <span [innerHTML]="market.name | truncate:'middle':60 | imx_highlight : searchCtrl.value"></span>
+          </mat-list-option>
+          <mat-list-option *ngIf="marketSelectionCtrl.value === 'National'" class="e2e-active-market-option" [disabled]="true" [value]="market"
+              checkboxPosition="before" disableRipple #marketOption>
+              <span class="slno">{{i +1}}.</span>
+              <span [innerHTML]="market.name | truncate:'middle':60 | imx_highlight : searchCtrl.value"></span>
+            </mat-list-option>
+          </div>
+
+        </app-arrow-navigation>
+      </mat-selection-list>
+      <p *ngIf="filteredMarkets.length <= 0" class="text-center" class="e2e-no-market-found">No Market Found</p>
+    </div>
+  </ng-template>
+  <div class="action-container" [ngClass]="{ 'module-disable':allowInventory === 'disabled'}">
+    <button mat-raised-button class="btn-clear" type="button" (click)="clearFilter()">CLEAR</button>
+    <button mat-raised-button class="btn-primary-color e2e-apply-market-btn" type="button"
+      (click)="submitMarket('individual')">Add as Individual</button>
+    <button *ngIf="marketSelectionCtrl.value === 'GEO_SET' || (selectedOptions.length > 1 || selectedPreviewOptions.length > 1)" mat-raised-button class="btn-primary-color e2e-apply-market-btn" type="button" (click)="submitMarket('group')">Add as Group</button>
+  </div>
+</div>

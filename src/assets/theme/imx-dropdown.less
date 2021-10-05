@@ -1,0 +1,180 @@
+.imx-cdk-dropdown{
+  background: #FFFFFF;
+  border: 1px solid ;
+  border-color: var(--primary-bg);
+  border-radius: 5px;
+  .p10{
+    padding: 20px 10px;
+  }
+  mat-icon.small {
+    color:var(--primary-bg);
+    cursor: pointer;
+    font-size: 1.125rem;
+    width: 18px;
+    height: 18px;
+  }
+  .padleft10 {
+    padding-left: 10px;
+    padding-top: 5px;
+  }
+  ul{
+    width:244px;
+    list-style: none;
+    padding-left: 0;
+    li{
+      font-style: normal;
+      font-weight: normal;
+      font-size: 0.875rem;
+      line-height: 18px;
+      /* or 129% */
+      color: #3B3B3B;
+      padding: 5px 16px;
+      display: flex;
+      align-items: center;
+      &>span{
+        width: 90%;
+        min-width: 90%;
+        max-width: 90%;
+        line-height: 18px;
+      }
+      mat-icon {
+        color:var(--primary-bg);
+        display: none;
+        cursor: pointer;
+        font-size: 1.125rem;
+        width: 18px;
+        height: 18px;
+      }
+      &:hover{
+        mat-icon{
+          display: block;
+        }
+      }
+      &:last-child{
+        margin-bottom: 0px;
+      }
+    }
+    &.two-column{
+      min-width: 500px;
+      li{
+        width:50%;
+        float:left;
+        display:inline-table;
+        mat-icon{
+          float: right;
+        }
+        &:last-child{
+          margin-bottom: 16px;
+        }
+        .content{
+          place-content: space-around !important;
+          align-items: center !important;
+        }
+        &:nth-child(odd){clear:left;}
+      }
+    }
+  }
+
+}
+.table-action-btn-imx{
+  border-radius: 5px;
+}
+.action-menu-less-width{
+  min-width: 6.25rem;
+}
+.action-dropdown-imx{
+  position: relative;
+  left: 6px;
+  &.action-dropdown-width{
+    //min-width: 92px;
+    position: relative;
+    margin-top:-25px !important;
+    left: 0px;
+  }
+  &.minimun-height{
+    button{
+      height:26px;
+    }
+  }
+  &.action-menu-position{
+    margin-right:25px !important;
+    margin-top:-30px !important;
+    &.table-action-position{
+      top:-50%; // Table action dropdown center align
+    }
+  }
+  button{
+    text-transform: inherit;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px !important;
+    line-height: 16px !important;
+    letter-spacing: 0.5px !important;
+  }
+}
+.action-overlay-height-imx{
+  height:36px;
+  line-height: 29px;
+}
+.table-action-capitalize{
+  font-size: 13px;
+  line-height: 16px;
+  /* identical to box height, or 123% */
+  letter-spacing: 0.5px;
+  border-radius:5px;
+  &.close-action-btn{
+    opacity: 0 !important;
+    display:block !important;
+  }
+}
+
+//** To Hide overlay scroll for mat-select in model dialog */
+.cdk-overlay-container{
+  .cdk-overlay-backdrop{
+    &.cdk-overlay-transparent-backdrop{
+      opacity : 1 !important;
+    }
+  }
+}
+
+/**
+ *Use this for wrapper element in mat-select.
+ *@example
+ *  <mat-select>
+ *    <div class="mat-select-panel__wrapper">
+ *       <option></option>
+ *    </div>
+ *  </mat-select>
+ */
+.mat-select-panel__wrapper {
+  max-height: 234px;
+  overflow: auto;
+}
+
+
+.add-option-autocomplete{
+  padding-right: 0;
+  .divider-option{
+    border-bottom: 1px solid;
+    border-color: var(--grays-bg-400);
+    color: var(--primary-bg-800) !important;
+    background: inherit;
+    cursor: pointer !important;
+    &:hover{
+      background: rgba(0,0,0,.04);
+    }
+    mat-icon{
+      width: 12px;
+      height: 12px;
+      font-size:14px;
+      margin-right: .5rem;
+    }
+  }
+  .mat-option{
+    padding: .5rem;
+    margin: 0;
+    &.primary-color{
+      color: var(--primary-bg-800) !important;
+    }
+  }
+}

@@ -1,0 +1,502 @@
+@import "./variables.less";
+
+@media @mobile-potrait-min-width  /* smartphones, portrait iPhone, portrait 480x320 phones (Android) */ {
+}
+@media @mobile-landscape-min-width  /* smartphones, Android phones, landscape iPhone */ {  }
+@media @tab-potrait-min-width /* portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android) */  {  }
+@media @tab-landscape-min-width /* tablet, landscape iPad, lo-res laptops ands desktops */ {  }
+@media @desktop-min-width /* big landscape tablets, laptops, and desktops */ {  }
+@media @hd-desktop-min-width /* hi-res laptops and desktops */ {  }
+
+
+/* for all devices width under 600px */
+@media @all-devices-under-768
+{
+	/* Login Page Overwrite design */
+	.login-box-main-body
+	{
+		//height: calc(~"100vh + 1px") !important;
+		// height: 100vh !important;
+	}
+	.login-box-body
+	{
+		.password-field
+		{
+			margin-bottom: 30px;
+		}
+	}
+	.login-form-block
+	{
+		margin-top: 55px;
+    padding: 10px 36px;
+	}
+	.logo-slogan
+	{
+		color: var(--black-color) !important;
+		span
+		{
+			color: var(--g-color) !important;
+			font-size: 10px;
+			display: inline-block !important;
+		}
+	}
+	/*.login-page-background
+	{
+		height: 75px;
+		position: relative;
+		background-position-y: -130px;
+		box-shadow: 0 2px 4px 0 rgba(0,0,0,1);
+	}*/
+	.login-title-block
+	{
+		margin-bottom: 20px;
+	}
+	.login-page-mobile
+	{
+		.login-button
+		{
+			margin-top: 20px;
+			.login-btn
+			{
+				width: 100%;
+    		height: 50px;
+			}
+			.password-link
+			{
+				margin-top: 20px;
+				text-align: center;
+			}
+		}
+	}
+
+	/* Reset Popup Mobile design */
+	#reset-password
+	{
+		background: none;
+		height: calc(~"100vh - 5px") !important;
+		.modal-dialog
+		{
+			width: calc(~"100vw - 5px") !important;	//calc(~"100vw - 75px") !important;
+			margin: 25% auto 0 auto;
+			border-radius: 2px;
+			background-color: rgba(254,254,254,0.98);
+			box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5), 0 0 8px 0 rgba(0,0,0,0.5);
+			.modal-footer
+			{
+				text-align: center;
+			}
+			.geo-button
+			{
+				width: 100%;
+    		height: 50px;
+			}
+		}
+
+	}
+	.login-page
+	{
+		.modal-backdrop
+	  {
+	    opacity: 0;
+	  }
+	}
+	
+	/* projects and reports font size changed in mobile desvice as per explore */
+	.landing-page-projects {
+    .landing-page-title {
+      font-size: 25px !important;
+    }
+    .landing-page-description, .landing-page-bullets li, .landing-page-disclaimer{
+      font-size: 12px !important;
+      line-height: 20px !important;
+    }
+    .landing-page-bullets li:before {
+      font-size: 20px !important;
+      margin-right: 15px !important;
+    }
+	}
+	.accordion-filter{
+		.option-header{
+			font-size: 15px;
+		}
+		.option-count{
+      float: right;
+      right: 10px;
+      position: absolute;
+      top: 1px;
+		}
+	 .partialselected label:after {
+			top: 5px;
+			left: 6px;
+			width: 8px;
+			height: 0px;
+			border-color: transparent #fff #fff transparent;
+	  }
+   .panel-title label:before {
+    top: -5px;
+		}
+		.panel-title input[type=checkbox]:checked + label:after {
+			top: -4px;
+		}
+		.place-based{
+		label{
+      padding-left: 30px !important;
+		}
+		}
+  }
+  .register-box-main{
+    .help-block {
+      bottom: -30px !important;
+    }
+    .company-email-error{
+      .help-block {
+        bottom: -8px !important;
+      }
+    }
+    .login-button {
+      margin-top: 70px;
+   }
+  }
+  .mobile-signup-link{
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+  }
+  #more-filter-parent{
+    tag-input{
+      input{
+        font-size: 16px !important;
+      }
+    }
+  }
+
+  mat-list{
+    max-width: inherit;
+    &.hight270{
+      height: 270px;
+      overflow-y: auto;
+    }
+  }
+
+ /*************************/
+ /* Project and scenarios */
+ /*************************/
+
+  /**
+  * Mobile workspace alert
+  */
+
+  .mobile-workspace h2#swal2-title {
+    text-align: left;
+    font-size: 20px;
+  }
+  .mobile-workspace div#swal2-content {
+    font-size: 14px;
+    text-align: left;
+  }
+  .mobile-workspace button.swal2-confirm.swal2-styled {
+    background: var(--text-whites) !important;
+    color: var(--button-bg-color);
+  }
+
+  /**
+  * Mobile workspace alert end
+  */
+
+  .projects-home{
+  margin-top: 20%;
+  .latest-form{
+    width: inherit !important;
+  }
+ }
+ .right-divider{
+   border-right: none;
+ }
+ .top-margin-fixed{
+   padding: 0px;
+ }
+ .name-edit-input input{
+  font-size: 21px !important;
+ }
+ .mobile-top{
+   margin-top: 0px;
+   padding:0px;
+ }
+//  .geo-button-box,.geo-button-primary{
+//   width: inherit;
+//  }
+ mat-form-field{
+   input, select, textarea{
+     font-size: 16px !important;
+   }
+ }
+ .p-text{
+   font-size: 13px;
+ }
+.no-mobile-padding{
+  padding: 0px !important;
+}
+.no-mobile-m-t{
+  margin-top: 0px;
+}
+.w-toggle{
+  position: absolute;
+  right: 0px;
+  top: 25px;
+  height: 43px;
+  width: 34px;
+  background-color: #922A95;
+  color: #fff;
+  z-index: 1;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.3);
+  i{
+    line-height: 43px;
+    left: 5px;
+    position: relative;
+  }
+}
+.n-toggle{
+  position: absolute;
+  top: 25px;
+  height: 43px;
+  width: 34px;
+  background-color: #922A95;
+  color: #fff;
+  z-index: 1;
+  left: -34px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.3);
+  i{
+    line-height: 43px;
+    left: 5px;
+    position: relative;
+  }
+}
+.width90{
+  width: 90% !important;
+}
+/*mat-sidenav{
+  width: 80% !important;
+}
+mat-sidenav{
+  &.mat-drawer{
+    overflow-y: unset !important;
+  }
+  .avather-icon{
+    i{
+      font-size: 75px;
+      color: #ccc;
+    }
+  }
+  .mobile-title{
+    font-size: 20px;
+    letter-spacing: 0.25px;
+    line-height: 25px;
+  }
+  .mobile-sub-title{
+    font-size: 13px;
+    letter-spacing: 0.22px;
+    line-height: 20px;
+    margin-top: -5px;
+  }
+}*/
+//.skin-black
+.content-header .header-block .header span{
+  font-size: 24px;
+  margin-left: 1px;
+}
+.projects-home{
+  .latest-form{
+    margin-top: 40px !important;
+  }
+}
+.mobile-scenario-nav{
+  span{
+    width: 85%;
+    position: absolute;
+  }
+  i{
+    width: 15%;
+    position: relative;
+    float: right;
+  }
+}
+.left-spacing {
+	padding: 0px 40px 15px 40px !important;
+}
+.right-spacing {
+	padding: 0px 40px 0px 40px !important;
+}
+
+	.mobile-panel-nav {
+		margin-left: 30%;
+	}
+}
+
+@media @all-devices-under-560{
+  .register-box-main{
+    .return-link{
+      font-size: 13px;
+    }
+  }
+}
+// After Angular layout change
+body{
+	&.isMobile{
+		.mapboxgl-ctrl-bottom-left,.mapboxgl-ctrl-bottom-right{
+			z-index: 0;
+		}
+		.content{
+			padding: 0px !important;
+			.sidebar{
+				&.col-md-4{
+					bottom: 0;
+				}
+			}
+			.map-div.col-md-8{
+				width: 100%;
+			}
+			.invertorylist-div{
+				z-index: 0 !important;
+			}
+		}
+		app-geo-explore{
+			width: 100%;
+		}
+		.new-header{
+			mat-toolbar{
+				background: var(--header-g-color) !important; 
+			}
+		}
+		.explore-filter #mobile-filter-menu{
+			margin-top: -5px;
+			.filter-submenu-div{
+				flex-direction: column;
+			}
+		}
+		.mobile-view-mat-sidenav{
+			top:0px !important;
+		}
+		.mobile-map-popup{
+			z-index: 1 !important;
+		}
+		.filter_blk .operators-filter{
+			display: flex;
+			flex: 1 1 100%;
+			.main-category{
+				width: 100%;
+			}
+		}
+		.collapse.in{
+			display: flex
+		}
+		.accordion-filter .panel-group .collapse.in .panel-body {
+			width: 100%;
+		}
+		.reset-filter{
+			.filter-button{
+				width: 100%;
+				&:after{
+					font-size: 0px !important;
+				}
+			}		
+		}
+		.mobile-map-popup.checkpop{
+			&:not(.landscape-view){
+				bottom: 0px !important;
+				height: 335px !important;
+			}
+		}
+		.mobile-map-popup .inventory-nav,.info-popup-header .pull-right{
+      max-width: 100%;
+		}
+		.pull-right{
+			max-width: 100%;
+		}
+		/* .mobile-map-popup-content {
+			height: 300px !important;
+		} */
+		.audienceCertificate {
+			br {
+				display: none;
+			}
+			li {
+				display: inline-block;
+				margin-right: 15px;
+				.material-icons {
+					font-size: 15px;
+    			margin-right: 5px;
+				}
+			}
+		}
+		.audienceSummaryTable {
+			font-size: 9px;
+			text-align: left;
+		}
+	}
+}
+
+
+@media @all-devices-under-768 {
+	body.intermx.theme-old {
+		.content-breadcrumb {
+			.clsTargetAudience
+			{
+				span
+				{
+					max-width: 100%;
+					display: block;
+				}
+			}
+		}
+
+		.content-breadcrumb {
+			.clsTargetAudience
+			{
+				span
+				{
+					max-width: 100%;
+					display: block;
+				}
+			}
+		}
+	
+		.inventory-detail-body {
+			height: 100% !important;
+			.inventory-det, .static-img, .static-map-url {
+				display: none;
+			}
+			.top-zip-card {
+				display: inline-block;
+				width: 50%;
+				height: 50%;
+			}
+			overflow: hidden;
+			.inventory-content {
+				margin-bottom: inherit !important;
+				border-top: 1px solid var(--g-color);
+			}
+		}
+		.map-popup-header {
+			display: none;
+		}
+		.audienceSummary-table {
+			border-top: 1px solid var(--g-color);
+			padding: 15px;
+		}
+		.detailPopupDescription {
+			margin-top: 10px;
+		}
+		app-explore-side-panel{
+			.mat-card{
+				width: 100% !important;
+				margin: 0 !important;
+				.flag-position-mobile{
+					position: relative;
+				}
+				.flag-primary{
+					position: relative;
+				}
+			}
+		}
+	}
+}

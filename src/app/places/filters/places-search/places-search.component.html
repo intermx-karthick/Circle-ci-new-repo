@@ -1,0 +1,82 @@
+<div class="div-container">
+  <h4>Search Places</h4>
+  <div class="search-filter-container">
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit(searchForm)">
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start end"
+        fxLayoutGap="15px"
+        #overlayOrigin="cdkOverlayOrigin"
+        cdkOverlayOrigin
+        id="place-suggestion"
+      >
+        <!-- (click)="dropdownStageChange(true)" -->
+        <mat-form-field fxFlex="80">
+          <input
+            matInput
+            placeholder="Company Name, Brand or Place Type"
+            id="placeSearch"
+            autocomplete="off"
+            name="autocomplete"
+            formControlName="place"
+          class="e2e-search-place"
+          />
+        </mat-form-field>
+        <div fxFlex="20">
+          <button mat-raised-button class="btn-primary-color e2e-search-btn">SEARCH</button>
+        </div>
+      </div>
+      <app-dropdown
+        [overlayOrigin]="overlayOrigin"
+        (close)="isOpenedCategory = false"
+        (open)="isOpenedCategory = true"
+        [dialogClass]="'place-autocomplete'"
+      >
+        <div class="search-place-content dropdown-list">
+          <mat-progress-spinner
+            *ngIf="fetchingSuggestion"
+            mode="indeterminate"
+            [diameter]="25"
+            [strokeWidth]="2"
+          ></mat-progress-spinner>
+          <p
+            class="placeholder-color text-center"
+            *ngIf="!fetchingSuggestion && autocompletePlaces.length <= 0"
+          >
+            No data found.
+          </p>
+          <ul *ngIf="autocompletePlaces.length > 0">
+            <li
+              *ngFor="let ap of autocompletePlaces; let i = index"
+              [ngClass]="{
+                'highlight-active':
+                  selectedSearchPlace['properties'] &&
+                  ap['properties']['zip_code'] ==
+                    selectedSearchPlace['properties']['zip_code']
+              }"
+              (click)="selectPlace(ap)"
+            >
+              <span
+                class="subtitle-1"
+                title="{{ ap['properties']['location_name'] }}"
+                >{{
+                  ap['properties']['location_name'] | truncate: 'middle':40:6
+                }}</span
+              >
+              <span
+                class="subtitle-2"
+                title="{{ ap['properties']['street_address'] }}"
+                >{{
+                  ap['properties']['street_address'] | truncate: 'middle':20:6
+                }}
+                {{ ap['properties']['city'] }},
+                {{ ap['properties']['state'] | uppercase }}
+                {{ ap['properties']['zip_code'] }}</span
+              >
+            </li>
+          </ul>
+        </div>
+      </app-dropdown>
+    </form>
+  </div>
+</div>

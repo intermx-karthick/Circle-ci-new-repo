@@ -1,0 +1,210 @@
+.c-line-items {
+    // overflow-y: auto;
+    // padding-right: 1rem;
+    height: 100%;
+  
+    &__card{
+      box-shadow: none;
+    }
+  
+    &__actions {
+      width: 32%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      flex: 1 1;
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+    }
+  
+    &__contract-status {
+      margin-left: 11rem;
+      margin-right: 18.8rem;
+    }
+  
+    .imx-input-no-border {
+      height: auto;
+      border: none;
+    }
+  
+    &__separator {
+      margin-right: 3.25rem !important;
+    }
+  
+    .sub-label {
+      position: absolute;
+      bottom: -1rem;
+      left: 0;
+      font-size: 10px;
+      line-height: 13px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--grays-bg-700);
+    }
+  
+    &__table {
+      margin-top: 2.2rem;
+    }
+  
+    &__filters{
+      .mat-card{
+        padding: .5rem 1rem 1rem !important;
+      }
+    }
+  
+    &__records-found{
+      font-size: 14px;
+      line-height: 18px;
+      color: var(--grays-bg-700);
+    }
+  }
+  
+  .padding-none {
+    padding: 0 !important;
+  }
+  .autocomplete-scroll.mat-autocomplete-panel {
+    overflow-y: auto !important;
+  }
+  
+  ::ng-deep {
+    .app-line-items__ml-2{
+      margin-left: 2rem !important;
+    }
+    .app-line-items__pr-0{
+     padding-right: 0 !important;
+    }
+    .app-line-items__buyer-panel{
+      width: 230px;
+      min-width: 230px !important;
+    }
+    .missing-checkbox .mat-checkbox-label{
+      color: var(--primary-bg-800) !important;
+    }
+    .missing-checkbox.mat-checkbox-checked .mat-checkbox-label{
+        color: var(--grays-bg-800) !important;
+    } 
+  
+    app-export-search {
+      .mat-form-field-infix {
+        border-top: inherit;
+      }
+  
+      .error {
+        label .mat-checkbox-label {
+          color: var(--error-bg-900) !important;
+        }
+  
+        .mat-checkbox-frame {
+          border-color: var(--error-bg-900) !important;
+        }
+  
+        .mat-checkbox-checkmark-path {
+          stroke: var(--error-bg-900) !important;
+        }
+  
+        .mat-checkbox-mixedmark {
+          background-color: var(--error-bg-900) !important;
+        }
+  
+      }
+  
+      .mat-chip {
+        word-break: break-word;
+      }
+  
+      mat-option{
+        .mat-selected:after{
+          content: unset;
+        }
+        &.inside-search-field{
+          padding: 0px;
+          overflow: hidden;
+          border-top-right-radius: 0px;
+          border-top-left-radius: 0px;
+          border-bottom-right-radius: 4px;
+          border-bottom-left-radius: 4px;
+          .auto-complete-search-field{
+            padding: 0.5rem 0.5rem 0rem;
+            input{
+              font-size: 0.813rem;
+              letter-spacing: 0.5px;
+              color: var(--grays-bg-800);
+            }
+          }
+          .auto-complete-list-main{
+            max-height: 215px;
+            overflow-y: auto;
+            padding: 0.5rem;
+            mat-option{
+              max-width: initial;
+            }
+          }
+          .invalid{
+            text-align: center;
+            margin-top: 0rem;
+          }
+        }
+      }
+    
+      .error {
+        font-size: 0.525rem !important; 
+      }
+    }
+  
+    .drop-maxwidth {
+      max-width: inherit !important;
+    }
+  
+    .mat-select-panel__wrapper {
+      max-height: 234px;
+      overflow: auto;
+    }
+  
+    .report-generate-form__dropdowns {
+      padding: 0 !important;
+    }
+    .imx-calander {
+      .mat-calendar-body-disabled  .mat-calendar-body-cell-content:not(.mat-calendar-body-selected) {
+        color: var(--grays-bg-400) !important;
+      }
+    }
+    .option-heading{
+      font-size: 0.813rem;
+      color: var(--grays-bg-800);
+      margin-bottom: 1rem;
+      mat-icon{
+        font-size: 1rem;
+        color: var(--grays-bg-800);
+        height: 14px;
+        width: 14px;
+      }
+    }
+    .export-autocomplete-scroll {
+      .clientName-list-autocomplete{
+        max-height: 14.375rem;
+        overflow-y: auto;
+      }
+  
+      &.mat-autocomplete-panel{
+        overflow-y: hidden !important;
+        padding-right: 0 !important;
+        padding-bottom:0 !important;
+      }
+    }
+    .drop-maxwidth {
+      max-width: inherit !important;
+    }
+    .buyer-list-autocomplete{
+      overflow-y: auto !important;
+      .mat-option{
+        padding-left: 8px !important;
+      }
+    }
+    .operation-contacts-list-autocomplete{
+      overflow-y: auto !important;
+      .mat-option{
+        padding-left: 8px !important;
+      }
+    }
+  }

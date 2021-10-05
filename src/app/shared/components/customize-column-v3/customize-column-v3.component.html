@@ -1,0 +1,81 @@
+<div class="intermx-theme-new customize-column-v3">
+  <header class="header">
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxFlex="80%" fxLayout="row" fxLayoutAlign="start center"  fxLayoutGap="16px">
+        <h5>CUSTOMIZE COLUMNS {{ columnCategories?.length > 0 ? 'FOR ' : ''}}</h5>
+        <mat-form-field class="imx-dropdown imx-input columnCategories" fxFlex="120px" floatLabel="never" *ngIf="columnCategories?.length > 0">
+          <mat-select panelClass="imx-select disabled-view-select" fxFlex="120px" value='{{columnCategory}}' (selectionChange) = "onColumnCategoryChange($event.value)">
+            <mat-option value="{{column.key}}" *ngFor="let column of columnCategories">{{ column.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <span class="primary cursor-pointer IMX-cc-close" (click)="cancelCustomColumns('close')">CLOSE</span>
+    </div>
+    <!-- <span>DRAG AND DROP</span> -->
+  </header>
+
+  <main class="body" fxLayout="row" fxLayoutAlign="space-between center">
+    <!-- AVAILABLE DATA -->
+    <section class="drag-and-drop-box">
+      <div *ngIf = "columnCategories?.length > 0; else normalList">
+        <mat-form-field class="IMX-cc-search-input">
+          <mat-icon matSuffix>search</mat-icon>
+          <input matInput placeholder="Search Available Columns" [formControl]="ccSearchQuery">
+        </mat-form-field>
+      </div>
+      <ng-template #normalList>
+        <h6 class="drag-and-drop-box__title">Available Data</h6>
+      </ng-template>
+      <div (cdkDropListDropped)="drop($event)"
+           #availableData="cdkDropList"
+           [cdkDropListData]="filteredSortables"
+           [cdkDropListConnectedTo]="[currentView]"
+           cdkDropList
+           class="drag-and-drop-box__area available-data-block"
+           id='list-block-1'>
+
+        <div class="drag-and-drop-box__item"
+             *ngFor="let item of filteredSortables; let i = index;"
+             cdkDrag>
+             <div>
+              {{item.displayname}}
+             </div>
+        </div>
+
+      </div>
+    </section>
+    <!-- END AVAILABLE DATA -->
+
+    <!-- CURRENT VIEW -->
+    <section class="drag-and-drop-box">
+      <h6 class="drag-and-drop-box__title">Columns in Current view</h6>
+
+      <div (cdkDropListDropped)="drop($event)"
+           #currentView="cdkDropList"
+           [cdkDropListData]="filterCurrentSortables"
+           [cdkDropListConnectedTo]="[availableData]"
+           cdkDropList
+           class="drag-and-drop-box__area columns-in-current-view-block"
+           id='list-block-2'>
+
+        <div class="drag-and-drop-box__item columns-in-current-view-block__item"
+             *ngFor="let item of filterCurrentSortables; let i = index;"
+             cdkDrag>
+          <div  fxLayout="row" fxLayoutAlign="space-between center">
+            <span>{{item.displayname}}</span>
+            <mat-icon svgIcon="IMX-handle-1" class="drag-handle" aria-hidden="false" aria-label="drag handle"></mat-icon>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <!--END CURRENT VIEW -->
+  </main>
+
+  <footer class="footer">
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <button (click)="resetToDefault()" class="footer__btn primary"  mat-button>RESET TO DEFAULT</button>
+      <button (click)="saveCustomColumns()" class="footer__btn primary-bg" mat-raised-button>APPLY CHANGES</button>
+    </div>
+  </footer>
+</div>

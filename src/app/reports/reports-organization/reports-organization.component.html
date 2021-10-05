@@ -1,0 +1,6 @@
+<div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="2rem" class="report-org-main" >
+
+    <app-report-generate-form (onGenerate)="onGenerateReport($event)" [reportData]="reportData"></app-report-generate-form>
+    <app-reports-list (openReport)="initGeneratePopupForList($event)" (duplicateReportEmitter)="duplicateAction($event)" [refreshTable]="refreshTable"></app-reports-list>
+
+</div>

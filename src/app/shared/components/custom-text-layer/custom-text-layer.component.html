@@ -1,0 +1,15 @@
+<div 
+  id="customTextElement_{{layerType}}"
+  class="custom-text" 
+  *ngIf="displayTextInfo['text'] && showCustomText && showDraggedText" 
+  [ngClass]="{'white-bg': displayTextInfo['backgroundWhite'], 'resizing': resizingInProcess}"
+  [ngStyle]="customTextStyle"
+  [ngDraggable]="enableDraggable" [bounds]="mapDivBlock" [inBounds]="inBounds" (endOffset)="onDragStop($event)" (movingOffset)="onDragging($event)" 
+  ngResizable  rzContainment="#map-div-block" (rzStop)="onResizeStop($event)"  (rzResizing)="onResizing($event)"
+  >
+  <div class="dragOverlay"></div>
+    <div class="displayTextInfo">{{displayTextInfo['text']}}</div>
+  <mat-icon class="edit-img" (click)="$event.preventDefault();editText();"  (mouseenter)= "enableDraggable = false" (mouseout)= "enableDraggable = true">edit</mat-icon>
+  <mat-icon (click)="removeText();" class="close-img"  (mouseenter)= "enableDraggable = false" (mouseout)= "enableDraggable = true">close</mat-icon>
+
+</div>

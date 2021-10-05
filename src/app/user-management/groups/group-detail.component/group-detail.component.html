@@ -1,0 +1,47 @@
+<div  class="row-detail-component">
+    <div class="sections details-inputs row-container" fxLayout="row" fxLayoutAlign="start">
+        <mat-form-field fxFlex="40" class="details-element">
+            <mat-label>{{"Group Name" | uppercase}}</mat-label>
+            <input [(ngModel)]="groupView.name" matInput [readonly]="!disableEdit">
+        </mat-form-field>
+        <mat-form-field fxFlex="40" class="details-element imx-dropdown imx-input">
+          <mat-label>
+            {{ "Assign roles" }}
+          </mat-label>
+          <mat-select panelClass="imx-select" multiple [(ngModel)]="groupView.roles" (selectionChange)="onRolesChanged($event)">
+            <mat-option *ngFor="let role of roles" [value]="role" [disabled]="!disableEdit">
+              {{ role.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    <div class="sections details-inputs row-container" fxLayout="row" fxLayoutAlign="start" fxFlex="40">
+      <app-multi-select-group-details class="details-element" [showSearhIcon]="true"  fxFlex="40" [isShowCount]="false" [label]="'Select Users to this Group'" [elements]="users" [hideChipList]="true" [current]="groupView.members" (selectionChanged)="groupView.members" (selectionsRemoved)="deleteUsers($event)" [disableEdit]="disableGroupSelection"></app-multi-select-group-details>
+    </div>
+    <div class="chip-list" *ngIf="groupView.members?.length">
+      <div class="chip-list__title">Users in this Group ({{groupView?.members ? groupView.members?.length : 0}})</div>
+      <mat-chip
+         *ngFor="let element of groupView.members"
+         [selectable]="true"
+         [removable]="true"
+         (removed)="remove(element)"
+         [disabled]="!disableEdit"
+         [disableRipple]="true"
+       >
+         {{element.name}}
+         <mat-icon matChipRemove>
+           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+             <path d="M10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18ZM10 0C4.47 0 0 4.47 0 10C0 15.53 4.47 20 10 20C15.53 20 20 15.53 20 10C20 4.47 15.53 0 10 0ZM12.59 6L10 8.59L7.41 6L6 7.41L8.59 10L6 12.59L7.41 14L10 11.41L12.59 14L14 12.59L11.41 10L14 7.41L12.59 6Z" fill="#922A95"/>
+           </svg>
+         </mat-icon>
+       </mat-chip>
+   </div>
+    <div class="sections row-container details-buttons" fxLayout="row" fxLayoutAlign="space-between end">
+        <div fxLayout="row" fxLayoutAlign="start" class="row-container">
+            <button mat-button class="imx-button button-secondary-bordered details-element" (click)="onDeleteClick()" module="groups" visiblityType="delete" appUserAccessPermission>{{"Delete" | uppercase}}</button>
+            <button mat-button class="imx-button button-secondary-bordered disabled" [disabled]="true">{{"duplicate" | uppercase}}</button>
+        </div>
+        <button mat-button fxFlex="20" class="imx-button button-tertiary" (click)="onCancelClick()">{{"Cancel" | uppercase}}</button>
+        <button mat-button fxFlex="20" type="submit" class="imx-button button-primary" (click)="onSubmit()" cdkFocusInitial module="groups" visiblityType="edit" appUserAccessPermission>{{"Save" | uppercase}}</button>
+    </div>
+  </div>

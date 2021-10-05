@@ -1,0 +1,57 @@
+<div class='placePopup'>
+  <div fxLayout="row" fxLayoutAlign="space-between start" class='panel_nav' *ngIf="placeDetail['type'] == 'map' && placeDetail['current']">
+    <a href="javascript:void(0);" class="prev">
+      <mat-icon class="prev">keyboard_arrow_left</mat-icon>
+    </a>
+    <div class='panel_nav_text'> {{ placeDetail['current'] }}/{{ placeDetail['length'] }}</div>
+    <a href="javascript:void(0);" class="next">
+      <mat-icon class="chevron-right next">keyboard_arrow_right</mat-icon>
+    </a>
+  </div>
+  <div class="popupHeader">
+    <h4>{{placeDetail?.place_name | truncate:'middle':35}}</h4>
+    <div class="subtitle-1" *ngIf="placeDetail?.properties?.address as address">{{address?.street_address + ", " + address?.city | titlecase}}
+      {{address?.state | uppercase}} {{address?.zip_code}}
+       <!-- | <a href="javascript:void(0);"
+        class="button-primary-link">Website</a> -->
+      </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div fxLayout="row" fxFill fxLayoutAlign="space-between start" class="placeDetailBlock">
+    <div fxFlex="30" fxLayoutGap="30px">
+      <img class="surface" src="../../../assets/images/place-no-image.png">
+    </div>
+    <div fxFlex="70" class="placeDetailList" fxLayoutAlign="start start">
+      <ul>
+        <li>
+          <div class="body-1" [title]="placeDetail?.properties?.top_category">Industry Type:
+            <b>{{placeDetail?.properties?.top_category | truncate : 'middle': 40}}</b></div>
+        </li>
+        <li>
+          <div class="body-1" [title]="placeDetail?.properties?.sub_category || placeDetail?.sub_category">Sub-Industry:
+            <b>{{placeDetail?.properties?.sub_category || placeDetail?.sub_category || '-' | truncate : 'middle': 40}}</b></div>
+        </li>
+        <li>
+          <div class="body-1" [title]="placeDetail?.naics_code">NAICS:
+            <b>{{placeDetail?.properties?.naics_code || placeDetail?.naics_code || '-' | truncate : 'middle': 40}}</b></div>
+        </li>
+        <li *ngIf="placeDetail['popupStatus'] !== 'hidden'">
+          <div class="body-1" [title]="placeDetail?.top_category">IMX ID: <b>Unaudited</b> | <a href="javascript:void(0);"
+              class="button-primary-link request-Audit-link">Request Audit</a>
+              <!-- | <a href="javascript:void(0);" class="button-primary-link">See Existing
+              Data</a> -->
+            </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <mat-divider  *ngIf="placeDetail['popupStatus'] !== 'hidden'"></mat-divider>
+  <div class="popupActionBlock" fxLayoutAlign="end center" *ngIf="placeDetail['popupStatus'] !== 'hidden'">
+    <button mat-raised-button class="btn-primary-color detailSheetBtn" id="detailSheetBtn" type="button">
+      <mat-icon>list</mat-icon>
+      <span>Detail Sheet</span>
+    </button>
+  </div>
+
+  <!--<div class="body-1">Number of Audited Inventory in Place: <b>N/A</b></div>-->
+</div>

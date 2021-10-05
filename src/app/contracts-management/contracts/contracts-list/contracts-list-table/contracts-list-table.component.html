@@ -1,0 +1,179 @@
+<div>
+    <div class="vlist-body" fxLayout="column" fxLayoutAlign="start start" fxFill >
+      <div fxLayout="row" class="vlist-header-action">
+        <div fxFlex="10" class="total-record" fxLayoutAlign="start center" *ngIf="!searchFilterApplied">
+          Total : {{contractsPagination?.total || 0}}
+        </div>
+        <div fxFlex="12" class="total-record" fxLayoutAlign="start center" *ngIf="searchFilterApplied">
+          Found : {{contractsPagination?.found || 0}}
+        </div>
+        <div fxFlex="10" class="total-record spiner-div" fxLayoutAlign="start center" *ngIf="isLoadingContracts">
+          <mat-spinner diameter="30"></mat-spinner>
+        </div>
+        <div fxFlex="90" fxLayoutAlign="end" fxLayoutGap="1.2rem">
+
+          <div *ngIf='searchFilterApplied && !isSearchInValid' tooltip='Refresh' placement='top' delay='200'
+          tooltipClass='imx-tooltip-v3' customClass='imx-field-tooltip'>
+             <mat-icon class='close-icon' svgIcon='IMX-refresh' (click)='refreshLineItems()'></mat-icon>
+          </div>
+          <div tooltip="Customize Columns" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" *ngIf="!data.fullScreenMode">
+            <mat-icon  svgIcon="IMX-columns" class="svg-primary" (click)="customizeColumn()" ></mat-icon>
+          </div>
+          <div *ngIf="!data.fullScreenMode; else closeDialog" tooltip="Expand Table" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+            <mat-icon (click)="enterFullScreen()">zoom_out_map</mat-icon>
+          </div>
+          <ng-template #closeDialog>
+            <mat-icon *ngIf="data.fullScreenMode" svgIcon="IMX-fullscreen-exit" class="full-screen-exit-icon"  tooltip="Collapse Table" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" (click)="exitFullScreen()"></mat-icon>
+          </ng-template>
+        </div>
+      </div>
+      <div class="vtable-container" fxFill>
+      <div class="vlist-table-parent" [ngStyle]="{'max-height.px':scrollContent, 'min-height.px': scrollContent}" id="{{ data.fullScreenMode ? 'vendor-fullscreen-scroll' : 'vendor-table-scroll'}}" #tableScrollRef>
+      <mat-table #scrollBar
+                   [dataSource]="dataSource"
+                   matSort (matSortChange)="onSorting($event)"
+                   matSortActive="{{sort?.active}}"
+                   matSortDirection="{{sort?.direction}}"
+                   matSortDisableClear
+                   class="margin-top-20 imx-table-striped table-header-auto" (window:resize)="reSize()"
+                    [matSortDisabled]="!tableElements?.length"
+                    [ngClass]="{'enable-table-scroll': hasHorizontalScrollbar}">
+
+          <ng-container matColumnDef="contractId" [sticky]="true">
+            <mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="10rem" >Contract  ID #</mat-header-cell>
+            <mat-cell  *matCellDef="let element" fxFlex="10rem">
+                <a class="primary-color-text font-weight-normal vendor-name-td imx-name-wrap"  (click)="openContractDetails(element.id)" >
+                 {{element.contractId}}
+                </a>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="clientName">
+            <mat-header-cell *matHeaderCellDef fxFlex="9rem"  mat-sort-header> Client </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="9rem" class="mat-cell-contract"> {{element.clientName}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="contractName">
+            <mat-header-cell  *matHeaderCellDef fxFlex="10rem" mat-sort-header> Contract Name </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="10rem"> {{element.contractName}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="totalNet">
+            <mat-header-cell *matHeaderCellDef fxFlex="10rem" mat-sort-header> Total Net </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="10rem"> $ {{(element.totalNet || '0') | convert:'NUMERICALFORMAT':2:true:'0,0.00'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="totalGross">
+            <mat-header-cell *matHeaderCellDef fxFlex="10rem" mat-sort-header> Total Gross </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="10rem"> $ {{(element.totalGross || '0') | convert:'NUMERICALFORMAT':2:true:'0,0.00'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="totalTax">
+            <mat-header-cell *matHeaderCellDef fxFlex="10rem" mat-sort-header> Total Tax </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="10rem"> $ {{(element.totalTax || '0') | convert:'NUMERICALFORMAT':2:true:'0,0.00'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="totalFee">
+            <mat-header-cell *matHeaderCellDef fxFlex="10rem" mat-sort-header> Total Fee </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="10rem"> $ {{(element.totalFee || '0') | convert:'NUMERICALFORMAT':2:true:'0,0.00'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="totalClientNet">
+            <mat-header-cell *matHeaderCellDef fxFlex="10rem" mat-sort-header> Total Client Net </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="10rem">$ {{(element.totalClientNet || '0') | convert:'NUMERICALFORMAT':2:true:'0,0.00'}} </mat-cell>
+          </ng-container>
+
+
+          <ng-container matColumnDef="startDate">
+            <mat-header-cell *matHeaderCellDef fxFlex="7rem" mat-sort-header> Start Date </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="7rem"> {{element.fromDate}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="endDate">
+            <mat-header-cell *matHeaderCellDef fxFlex="7rem" mat-sort-header> End Date </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="7rem"> {{element.endDate}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="contractStatus">
+            <mat-header-cell *matHeaderCellDef fxFlex="7rem" mat-sort-header> Contract Status </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="7rem"> {{element.contractStatus}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="office">
+            <mat-header-cell *matHeaderCellDef fxFlex="7rem" mat-sort-header> Office </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="7rem"> {{element.office}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="buyer">
+            <mat-header-cell *matHeaderCellDef fxFlex="10rem" mat-sort-header> Buyer </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="10rem"> {{element.buyer}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="dateCreated">
+            <mat-header-cell *matHeaderCellDef fxFlex="7rem" mat-sort-header> Date Created </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="7rem"> <span [innerHTML]="(element.dateCreated | dateAgo :'new') | lowercase"></span> </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="lastModified">
+            <mat-header-cell *matHeaderCellDef fxFlex="7rem" mat-sort-header> Last Modified </mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="7rem"> <span [innerHTML]="(element.lastModified | dateAgo :'new') | lowercase"></span> </mat-cell>
+          </ng-container>
+
+            <ng-container matColumnDef="action" [sticky]="true">
+            <mat-header-cell *matHeaderCellDef fxFlex="2.5rem" class="action-menu-column"></mat-header-cell>
+            <mat-cell  *matCellDef="let element;let i = index" fxFlex="2.5rem" class="action-menu-column">
+              <mat-icon [matMenuTriggerFor]="actionMenu" class="action-icon" [isAccessDenied]="(!userPermission?.delete && !userPermission?.create)" visiblityType="menu" module="contract" appUserAccessPermission>more_vert</mat-icon>
+              <mat-menu #actionMenu="matMenu" xPosition="before" class="action-dropdown-imx minimun-height action-menu-position  action-dropdown-width table-action-position">
+                <button mat-menu-item [isAccessDenied]="!userPermission?.create" appUserAccessPermission (click)="listActionDuplicate.emit(element)">Duplicate</button>
+                <button mat-menu-item [isAccessDenied]="!userPermission?.delete" appUserAccessPermission (click)="listActionDelete.emit(element)">Delete</button>
+              </mat-menu>
+
+            <!-- <div class="action-btn-main" id="{{ isDialogOpenend ? 'action-btn-main-dialog' + element['_id'] : 'action-btn-main' + element['_id']}}" [ngStyle]="{'display':(hoveredIndex === i ? 'block' :'none')}">
+              <div class="action-btn">
+                 <button *ngIf=" i === hoveredIndex" mat-button class="imx-button-stroked_icon_action table-action-capitalize" [matMenuTriggerFor]="actionMenu"
+                        (menuOpened)='onMenuOpen()' (menuClosed)='onMenuClosed()' [ngClass]="{'close-action-btn':menuOpened}">Actions
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </button>
+              </div>
+            </div> -->
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="customizeColumnService.displayedColumns;sticky: true"></mat-header-row>
+          <mat-row  *matRowDef="let row; let i = index; columns: customizeColumnService.displayedColumns;"></mat-row >
+        </mat-table>
+        <div fxLayout="row" fxLayoutAlign="center center" fxFill *ngIf="tableElements?.length === 0 && !isLoadingContracts" class="noDataFound">
+          <div>
+            <p>No Contract found with that Criteria.<br> Try searching for something else</p>
+            <div >
+            <img src="../../../assets/images/cuate.svg" alt="" >
+            </div>
+
+
+            <!-- <p>Do you want to <button mat-flat-button class="button-primary-link" type="button" (click)="openAddVendor()"><mat-icon>add</mat-icon> Add Vendor</button></p> -->
+          </div>
+        </div>
+        </div>
+
+        <div class="vlist-pagination" [class.no-top-border]="!tableElements?.length && isLoadingContracts" >
+          <!-- <div class="spiner-div" *ngIf="isLoadingContracts">
+              <mat-spinner diameter="30" ></mat-spinner>
+          </div> -->
+          <div>
+            <mat-paginator
+            [disabled]="!tableElements?.length"
+            (page)="getPageEvent($event)"
+            [length]="contractsPagination?.found || 0"
+            [pageIndex] = "(contractsPagination?.page || 1) - 1"
+            [pageSize]="contractsPagination?.perPage"
+            [pageSizeOptions]="paginationSizes"
+            [showFirstLastButtons] = "true"
+            >
+            </mat-paginator>
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+    <!-- Vendor List table end-->
+</div>

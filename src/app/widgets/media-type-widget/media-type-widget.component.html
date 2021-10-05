@@ -1,0 +1,40 @@
+<mat-card class="imx-widget-card">
+  <mat-card-header>
+    <mat-card-title>Media & Placement {{ selectedMediaTypes.length !== 0 ? "(" + selectedMediaTypes.length + ")"  : '' }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list >
+      <mat-list-item class="test-measure-item" *ngFor="let mediaType of selectedMediaTypes;let i = index"> 
+        <!-- Commented based on IMXUIPRD-1808 -->
+        <!-- <ng-container *ngIf="(mediaType['ids'] | convert:'GETMEDIALEN') > 3; else signleContent;">
+          <ul class='row mediaTypeList' (click)=" editFlag && addMediaType(mediaType, i)">
+            <ng-container *ngFor="let media of mediaType['ids'] | keyvalue">  
+              <ng-template [ngIf] = 'media.value.length > 0'>
+                <li [ngSwitch]="media.key" matTooltip="{{(media.key !== 'material'? media.value : []) | convert:'COMMASEP'}}" matTooltipClass="inventory-filter-tooltip" matTooltipPosition="above">
+                  <span *ngSwitchCase="'medias'">Operator Media Name ({{media.value.length}}) </span>
+                  <span *ngSwitchCase="'mediaTypes'">Media Type ({{media.value.length}}) </span>
+                  <span *ngSwitchCase="'construction'">Structure Type ({{media.value.length}}) </span>
+                  <span *ngSwitchCase="'environments'">Media Class ({{media.value.length}}) </span>
+                  <span *ngSwitchCase="'material'">Material ({{media.value == 'true' ? 'Digital Only' : (mediaType.value == 'false' ? 'Printed/Mesh Only' : 'Digital and Printed/Mesh')}}) </span>
+                </li>
+              </ng-template>
+            </ng-container>
+          </ul>
+        </ng-container> 
+        <ng-template>
+          <span (click)="addMediaType(mediaType, i)" class="individual-media">{{mediaType.data}}</span>
+        </ng-template>-->
+        <span (click)="addMediaType(mediaType, i)" class="individual-media">{{mediaType.data}}</span>
+        <span fxFlex="1 1 auto"></span>
+        <div class="left-select">
+        <button class="select test-forward-button" mat-icon-button (click)="removeMediaTypeCard(i)" *ngIf = "editFlag">
+          <mat-icon matListIcon>clear</mat-icon>
+        </button>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+  <mat-card-actions *ngIf = "editFlag">
+    <button mat-button type="button" class="add-link" disableRipple (click)="addMediaType()"><mat-icon>add</mat-icon> Media Type</button>
+  </mat-card-actions>
+</mat-card>

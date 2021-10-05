@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico" id="favicon">
+  <meta name="theme-color" content="#922a95">
+  <link rel="apple-touch-icon" href="./assets/images/geo_path_mini_logo.png">
+  <link rel="apple-touch-startup-image" href="./assets/images/geo_path_mini_logo.png">
+  <meta name="apple-mobile-web-app-title" content="Geopath">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
+
+  <!-- Start of intermx Zendesk Widget script -->
+  <!-- <script>/*<![CDATA[*/window.zEmbed||function(e,t){var n,o,d,i,s,a=[],r=document.createElement("iframe");r.className = "aClassName";window.zEmbed=function(){a.push(arguments)},window.zE=window.zE||window.zEmbed,r.src="javascript:false",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="display: none",d=document.getElementsByTagName("script"),d=d[d.length-1],d.parentNode.insertBefore(r,d),i=r.contentWindow,s=i.document;try{o=s}catch(e){n=document.domain,r.src='javascript:var d=document.open();d.domain="'+n+'";void(0);',o=s}o.open()._l=function(){var e=this.createElement("script");n&&(this.domain=n),e.id="js-iframe-async",e.src="https://assets.zendesk.com/embeddable_framework/main.js",this.t=+new Date,this.zendeskHost="intermx.zendesk.com",this.zEQueue=a,this.body.appendChild(e)},o.write('<body onload="document._l();">'),o.close()}();/*]]>*/</script> -->
+  <!-- End of intermx Zendesk Widget script -->
+
+<script type="text/javascript">
+  window['_fs_debug'] = false;
+  window['_fs_host'] = 'fullstory.com';
+  window['_fs_script'] = 'edge.fullstory.com/s/fs.js';
+  window['_fs_org'] = '9YZKW';
+  window['_fs_namespace'] = 'FS';
+  (function(m,n,e,t,l,o,g,y){
+    if (e in m) {
+      if(m.console && m.console.log) {
+        m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].');
+      }
+      return;
+    }
+    g=m[e]=function(a,b,s){g.q?g.q.push([a,b,s]):g._api(a,b,s);};g.q=[];
+    o=n.createElement(t);o.async=1;o.crossOrigin='anonymous';o.src='https://'+_fs_script;
+    y=n.getElementsByTagName(t)[0];y.parentNode.insertBefore(o,y);
+    g.identify=function(i,v,s){g(l,{uid:i},s);if(v)g(l,v,s)};g.setUserVars=function(v,s){g(l,v,s)};g.event=function(i,v,s){g('event',{n:i,p:v},s)};
+    g.anonymize=function(){g.identify(!!0)};
+    g.shutdown=function(){g("rec",!1)};g.restart=function(){g("rec",!0)};
+    g.log = function(a,b){g("log",[a,b])};
+    g.consent=function(a){g("consent",!arguments.length||a)};
+    g.identifyAccount=function(i,v){o='account';v=v||{};v.acctId=i;g(o,v)};
+    g.clearUserCookie=function(){};
+    g.setVars=function(n, p){g('setVars',[n,p]);};
+    g._w={};y='XMLHttpRequest';g._w[y]=m[y];y='fetch';g._w[y]=m[y];
+    if(m[y])m[y]=function(){return g._w[y].apply(this,arguments)};
+    g._v="1.3.0";
+  })(window,document,window['_fs_namespace'],'script','user');
+</script>
+<script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
+</head>
+<body hold-transition>
+<!-- IE only display message design below -->
+<div id="ie-no-support" style="display: none;">
+  <div>
+    <div class="card unsupported">
+      <h4>Supported Browsers</h4>
+      <table>
+        <tr>
+          <td><img src="https://cdnjs.cloudflare.com/ajax/libs/browser-logos/45.5.0/archive/chrome_12-48/chrome_12-48_32x32.png" alt="Google Chrome">
+          </td>
+          <td><img src="https://cdnjs.cloudflare.com/ajax/libs/browser-logos/45.5.0/edge/edge_32x32.png"
+                   alt="Microsoft Edge"></td>
+          <td><img src="https://cdnjs.cloudflare.com/ajax/libs/browser-logos/45.5.0/archive/safari_1-7/safari_1-7_32x32.png"
+                   alt="Safari"></td>
+          <td><img src="https://cdnjs.cloudflare.com/ajax/libs/browser-logos/45.5.0/archive/firefox_1.5-3/firefox_1.5-3_32x32.png"
+                   alt="Mozilla Firefoxs"></td>
+        </tr>
+      </table>
+      <p>Above is a list of browsers that offer the best Geopath experience. Unfortunately you are using a
+        browser that is unsupported by our new platform. To view this application,
+        <a href="https://support.geopath.io/hc/en-us/articles/360002535371" target="_blank">Please switch your
+          browser.</a></p>
+    </div>
+  </div>
+</div>
+<!-- IE only message ends -->
+<app-root></app-root>
+<noscript>
+  This app works with Javascript being enabled. Enable Javascript in Browser and try again!
+</noscript>
+<style type="text/css" media="print">
+  @page
+  {
+      size:  auto;   /* auto is the initial value */
+      margin: 0mm;  /* this affects the margin in the printer settings */
+  }
+  body{
+    /*margin:20px; */
+    margin:0; /* IMXUIPRD-4057 avoid printer second page have always blank*/ 
+  }
+  </style>
+</body>
+</html>

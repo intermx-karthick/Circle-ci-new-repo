@@ -1,0 +1,17 @@
+<div mat-dialog-content class="confirmation-dialog">
+  <div fxLayout="row" fxLayoutAlign="start">
+    <h3 class="modal-title">{{title}}</h3>
+    <span fxFlex="1 1 auto"></span>
+    <mat-icon mat-dialog-close class="mat-icon-close">highlight_off</mat-icon>
+  </div>
+  <div class="confirm-desc" fxLayout="row" fxLayoutAlign="center center">
+    <div class="modal-description" [innerHTML]="description"></div>
+    <div *ngIf='showIcon' class="modal-image">
+      <img src="../../../../assets/images/delete-conf-icon.png">
+    </div>
+  </div>
+</div>
+<div class="dialog-footer" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
+  <button mat-button class="continue-btn" (click)="onActionResult()">{{confirmBtnText}}</button>
+  <button mat-button mat-dialog-close class="cancel-btn">{{cancelBtnText}}</button>
+</div>

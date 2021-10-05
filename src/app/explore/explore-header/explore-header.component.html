@@ -1,0 +1,38 @@
+<app-header fxFlexFill>
+  <div class="projected-title">
+    <mat-icon class="mobile-hide">explore</mat-icon>
+    <span class="uppercase">Explore</span>
+  </div>
+  <div class="explore-header content-breadcrumb navbar-default projected-secondary"  *ngIf="!mobileView && (allowInventory == 'active' || allowInventory == 'disabled')">
+  	<div fxLayout="row" fxLayoutAlign="space-between stretch">
+      <div (mouseenter)="mouseHover($event)" (mouseleave)="mouseLeave($event)" fxLayout="row">
+          <div class="explore-filter-btn" fxLayout="column" fxLayoutAlign="space-around center" id="define-data-version" [ngClass]="{'open': isDataVersionOpen}" >
+            <a fxLayoutAlign="center center" (click) = "openDataVersion()" class="data-source-title">DATA SOURCE ({{savedDataVersion}}) <mat-icon>keyboard_arrow_down</mat-icon></a>
+            <div class="data-menu">
+              <mat-selection-list [multiple]="false" fxLayout="column" fxLayoutAlign="space-around stretch"  (selectionChange) = "onDataVersionChange($event)">
+                <mat-list-option *ngFor="let vers of dataVersions" disableRipple [value]="vers">
+                  <div fxLayout="row" fxLayoutAlign="start center" class="action-item" hover-class="hover-action" [ngClass] = "{'selected' : selectedDataVersion == vers}" >
+                    <div>{{vers | measure_release_label}}</div>
+                    <span fxFlex="1 1 auto"></span>
+                    <mat-icon class="tick-icon">check</mat-icon>
+                  </div>
+                </mat-list-option>
+              </mat-selection-list>
+              <button type="button" mat-button class="imx-button-primary" (click) = "applyDataVersionChange()">Apply</button>
+            </div>
+          </div>
+          <div *ngIf="marketLicense.status === 'active' || audienceLicense['status'] === 'active'" class="explore-filter-btn" [ngClass]="{'active':currentTab == 'target'}" fxLayoutAlign="center center" (click)="openFilterSiderbar('target')" id="define-target">DEFINE TARGET</div>
+          <div class="explore-filter-btn test-filter-inventory" [ngClass]="{'active':currentTab == 'inventory'}" fxLayoutAlign="center center" (click)="openFilterSiderbar('inventory')" (mouseenter)="mouseHover($event)" >FILTER INVENTORY <span *ngIf="inventoryApplyCount>0">({{ inventoryApplyCount }})</span></div>
+          <div class="explore-filter-btn display-layer" *ngIf="inventoryManagementEnabled" [ngClass]="{'active':currentTab == 'inventory_management'}" fxLayoutAlign="center center" (click)="openFilterSiderbar('inventory_management')" >INVENTORY MANAGEMENT</div>
+          <div class="explore-filter-btn display-layer" [ngClass]="{'active':currentTab == 'layer'}" fxLayoutAlign="center center" (click)="openFilterSiderbar('layer')" >LAYERS & DISPLAY OPTIONS</div>
+          <div class="explore-filter-btn actions-hd-tab test-action-menu" [ngClass]="{'active':currentTab == 'actions'}" fxLayoutAlign="center center" (click)="openFilterSiderbar('actions')" >ACTIONS</div>
+      </div>
+      <div fxLayout="row" class="population_intelligence_container">
+        <div class="explore-filter-btn" (click)="populationIntelligenceToggle()" fxLayout="row" fxLayoutGap="6px" [ngClass]="{'open': isPopIntelMenuOpen}" *ngIf="populationIntelligenceAccess.status === 'active'">
+          <img src="../../../assets/images/intermx-logo-2021.svg" alt="InterMX logo">
+          <h5>Population Intelligence</h5>
+        </div>
+      </div>
+  	</div>
+  </div>
+</app-header>

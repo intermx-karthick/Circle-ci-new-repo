@@ -1,0 +1,16 @@
+<app-header fxFlexFill>
+    <div class="projected-title">
+      <mat-icon class="mobile-hide">place</mat-icon>
+      <span class="uppercase">PLACES</span>
+    </div>
+    <div class="places-header content-breadcrumb navbar-default projected-secondary">
+      <div fxLayout="row" fxLayoutAlign="start stretch">
+        <div (mouseenter)="mouseHover($event)" (mouseleave)="mouseLeave($event)" fxLayout="row">
+            <div class="places-filter-btn e2e-find-define" [ngClass]="{'active':currentTab == 'findAndDefine'}" fxLayoutAlign="center center" (click)="openFilterSiderbar('findAndDefine')" id="define-target">FIND AND DEFINE</div>
+            <div class="places-filter-btn" [ngClass]="{'active':currentTab == 'myPlaces'}" fxLayoutAlign="center center" (click)="openFilterSiderbar('myPlaces')" (mouseenter)="mouseHover($event)"  id="myplace-target">MY PLACES</div>
+            <div class="places-filter-btn" [ngClass]="{'active':currentTab == 'layers'}" fxLayoutAlign="center center" (click)="openFilterSiderbar('layers')" (mouseenter)="mouseHover($event)"  id="layers-display-target">LAYERS & DISPLAY OPTIONS</div>
+            <div class="places-filter-btn" [ngClass]="{'active':currentTab == 'actions'}" fxLayoutAlign="center center" (click)="openFilterSiderbar('actions')" (mouseenter)="mouseHover($event)"  id="places-action-target">ACTIONS</div>
+        </div>
+      </div>
+    </div>
+  </app-header>

@@ -1,0 +1,147 @@
+<div fxLayout="column" fxLayoutAlign="start stretch" fxFill>
+  <div class="result-summary-block">
+    <h4 class="result-header" [title]="sidebarTitle">{{sidebarTitle  | truncate:'middle':15}}</h4>
+    <div class="result-summary">
+      <p class="result-subhead">AT A GLANCE</p>
+      <div
+        class="result-highlights"
+        fxLayout="row" fxLayoutAlign="space-evenly center">
+        <div fxLayout="column">
+          <h3 *ngIf="summary && summary.number_of_places >= 0; else notApplicable" class="e2e-summary-count">
+            {{summary.number_of_places | convert:'ABBREVIATE':0}}
+          </h3>
+          <p>PLACES RETURNED</p>
+        </div>
+        <div fxLayout="column">
+          <h3 *ngIf="summary && summary.avg_weekly_traffic >= 0; else notApplicable">
+            {{summary.avg_weekly_traffic| convert:'ABBREVIATE':0}}
+          </h3>
+          <p>AVERAGE WEEKLY TRAFFIC</p>
+        </div>
+        <div fxLayout="column">
+          <h3 *ngIf="summary && summary.avg_weekly_unique_visits >= 0; else notApplicable">
+            {{summary.avg_weekly_unique_visits | convert:'ABBREVIATE':0}}
+          </h3>
+          <p>AVERAGE WEEKLY UNIQUES</p>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf='summary && summary.number_of_places && summary.number_of_places < 10000; else filterMore'>
+      <div class="results-back" [class.hide]="(activeRoute === routes.placeResultsGrid || activeRoute === routes.placeResultsList) || selectedTab === 1" [ngClass]="{'details-grid':activeRoute=='placeDetailsGrid'}">
+      <button mat-raised-button class="apply-btn uppercase e2e-result-back-btn" (click)="backToResults()"  type="button">
+        <mat-icon>arrow_back</mat-icon>Back to all results</button>
+      </div>
+      <!-- Grouped Places Started -->
+      <app-place-result-grid *ngIf="selectedTab === 0 && activeRoute === routes.placeResultsGrid"
+                            [sortables]="sortables"
+                            [placeResults]="placeResults"
+                            [currentSort]="currentSort"
+                            [paging] = "paging"
+                            [selectedStage] = "selectedStage"
+                            (sortingChanges)="onSorting($event)"
+                            (placeSelect)="openDetails($event)"
+                            (pagination)="onPagination($event)"
+                            (selectionChange)="onSelection($event)">
+      </app-place-result-grid>
+      <app-places-tabular-view *ngIf="selectedTab === 0 && activeRoute === routes.placeResultsList"
+                              [sortables]="sortables"
+                              [currentSort]="currentSort"
+                              [page] = "placeListPage"
+                              [selectedTab] = 'selectedTab'
+                              (sortingChanges)="onSorting($event)"
+                              (pagination)="onPagination($event)"
+                              (placeSelect)="openDetails($event)"
+                              [places]="placeResults"
+                              (selectionChange)="onSelection($event)"
+                              [enableHover]="'false'"
+                              [totalCount] = "summary.number_of_places">
+      </app-places-tabular-view>
+      <!-- Grouped Places Ended -->
+      <!-- Individual POIs Started (this.selectedTab === 1 && ) && -->
+      <app-place-details-grid *ngIf="activeRoute === routes.placeDetailsGrid"
+                              [page]="reqParams.page"
+                              [sortables]="detailsSortables"
+                              [placeResults]="places"
+                              [sfids]="sfids"
+                              [selectedStage] = "selectedStage"
+                              (pagination)="onDetailsPaging($event)"
+                              (sortingChanges)="onDetailsSorting($event)"
+                              (onHoverOnCard)="hoverOnCard($event)"
+                              (onLeaveOnCard)="hoverOffCard($event)"
+                              (onClickOnCard)="clickOnCard($event)"
+                              (selectionChange)="onSelection($event)">
+      </app-place-details-grid>
+      <app-places-tabular-view class="resize-table"  *ngIf="activeRoute === routes.placeDetailsList"
+                              [sortables]="detailsSortables"
+                              [currentSort]="currentSort"
+                              [places]="places"
+                              [page]="reqParams.page"
+                              (pagination)="onDetailsPaging($event)"
+                              (sortingChanges)="onDetailsSorting($event)"
+                              (selectionChange)="onSelection($event)"
+                              (onHoverOnCard)="hoverOnCard($event)"
+                              (onLeaveOnCard)="hoverOffCard($event)"
+                              (onClickOnCard)="clickOnCard($event)"
+                              [enableHover]="'true'"
+                              [totalCount] = "summary.number_of_places"
+                              [sfids]="sfids">
+      </app-places-tabular-view>
+      <!-- Individual POIs Started -->
+      <div class="result-actions" fxLayout="row" fxLayoutAlign="space-between center">
+        <div [class.hide]="activeRoute === routes.placeResultsGrid || activeRoute === routes.placeDetailsGrid" class="result-total e2e-result-total">
+          SELECTION TOTAL: {{selectedCount}} PLACES
+        </div>
+        <div class="buttons" fxLayout="row" fxLayoutAlign="space-around center" fxFlex>
+          <a href="javascript:void(0);" *ngIf="selectedCount > 0" id="e2e-savePlaceSetIcon">
+            <!-- && (activeRoute === routes.placeDetailsGrid || activeRoute === routes.placeDetailsList)" -->
+            <mat-icon [matMenuTriggerFor]="save_menu">save</mat-icon>
+            <mat-menu #save_menu="matMenu" xPosition='before'>
+              <a mat-menu-item (click)="onOpenSavePlaseSet()" id="e2e-openSavePlaseSetDialog">Save as New Place Set</a>
+              <a mat-menu-item (click)="onOpenSaveToExistingPlaseSet()" id="e2e-openSaveToExistingPlaseSet" class="pre-line">Add Places to Another Place Set</a>
+            </mat-menu>
+          </a>
+          
+          <a
+            href="javascript:void(0);"
+            (click)="saveCurrentPlaceSet()"
+            *ngIf="selectedPlaceSet && selectedPlaceSet['_id']">
+            <mat-icon>delete</mat-icon>
+          </a>
+
+          <a
+            href="javascript:void(0);"
+            (click)="setActiveView(routes.placeDetailsList)"
+            *ngIf="activeRoute === routes.placeDetailsGrid">
+            <mat-icon>list</mat-icon>
+          </a>
+          <a
+            href="javascript:void(0);"
+            (click)="setActiveView(routes.placeResultsList)"
+            *ngIf="activeRoute === routes.placeResultsGrid" class="e2e-place-result-grid">
+            <mat-icon>list</mat-icon>
+          </a>
+          <a
+            href="javascript:void(0);"
+            (click)="setActiveView(routes.placeResultsGrid)"
+            *ngIf="activeRoute === routes.placeResultsList" class="e2e-place-result-list">
+            <mat-icon>view_list</mat-icon>
+          </a>
+          <a
+            href="javascript:void(0);"
+            (click)="setActiveView(routes.placeDetailsGrid)"
+            *ngIf="activeRoute === routes.placeDetailsList">
+            <mat-icon>view_list</mat-icon>
+          </a>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #filterMore>
+      <div fxLayout="row" fxLayoutAlign="space-around center" class="filterMoreDiv">
+        <h6>Refine more to see the top places</h6>
+      </div>
+    </ng-template>
+  </div>
+</div>
+<ng-template #notApplicable>
+  <h3>-</h3>
+</ng-template>

@@ -1,0 +1,129 @@
+table.monthly-report-table{
+  th,td {
+    font-weight: normal;
+    font-size: .625rem !important;
+    line-height: 13px;
+    align-items: center;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+  }
+
+  th.text-align-left{
+    text-align: left;
+    padding-left: .5rem;
+  }
+
+  th.lineItemIdOrType, td.lineItemIdOrType{
+    width: 8.313rem
+  }
+  th.vendor, td.vendor{
+    width: 9rem
+  }
+  th.mediaType, td.mediaType{
+    width: 5.688rem
+  }
+  th.market, td.market{
+    width: 5.188rem
+  }
+  th.unitLocationOrMediaDescription, td.unitLocationOrMediaDescription{
+    width: 13.563rem;
+  }
+  th.date, td.date{
+    width: 4.938rem
+  }
+  th.periodLength, td.periodLength{
+    width: 3.938rem
+  }
+  th.netCost, td.netCost{
+    width: 4.9375rem
+  }
+  th.salesTax, td.salesTax{
+    width: 4.5625rem
+  }
+
+  th.feeAmount, td.feeAmount{
+    width: 7.188rem
+  }
+  th.netTaxFee, td.netTaxFee{
+    width: 6rem;
+    padding: 0 !important;
+  }
+
+  th.mat-header-cell {
+    padding-left: unset !important;
+  }
+
+  th.vendor{
+    padding-left: .5rem !important;
+  }
+
+  .total-due-col{
+    text-align: right;
+    padding: 8px;
+  }
+}
+
+::ng-deep {
+  app-invoice-separate-generic-table {
+
+    .mat-table .mat-header-row .mat-header-cell {
+      border: 1px solid var(--grays-bg-600);
+      text-align: center;
+      color: var(--grays-bg-800) !important;
+    }
+
+    .mat-table .mat-row .mat-cell {
+      border: 1px solid var(--grays-bg-600);
+      color: var(--grays-bg-800) !important;
+    }
+
+    .mat-cell.text-right {
+      padding-right: 0.5rem;
+    }
+
+    td.mat-footer-cell {
+      border-bottom-width: 0;
+      border-bottom-style: none;
+      color: var(--grays-bg-800) !important;
+    }
+
+    td.mat-footer-cell.add-border {
+      border: 1px solid var(--grays-bg-600);
+      text-align: right;
+      padding-right: 0.5rem;
+    }
+
+    th.mat-header-cell:first-of-type {
+      padding-left: 0 !important;
+    }
+
+    tr.mat-header-row {
+      height: 29px;
+    }
+    .table-total{
+      font-size: 20px;
+      color: var(--grays-bg-900);
+      text-transform: initial !important;
+    }
+    .sales-description{
+      font-size: 12px;
+      text-transform: initial !important;
+    }
+    .mat-cell:first-child {
+      padding-left: 0 !important;
+    }
+    .footer-gap{
+      height: 0px !important;
+    }
+
+    table.imx-table{
+      .mat-header-row .mat-header-cell:first-child.market{
+        padding-left: .5rem !important;
+      }
+      th.market, th.vendor{
+        text-align: left;
+        padding-left: .5rem !important;
+      }
+    }
+  }
+}

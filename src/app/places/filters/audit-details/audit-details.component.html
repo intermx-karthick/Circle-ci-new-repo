@@ -1,0 +1,517 @@
+<div class="audit-jobs-details-collapse" *ngIf="isCollapseDetails" title="Expand the audit details form"
+     (click)="openPlacesDetail()">
+  <mat-icon>filter_list</mat-icon>
+</div>
+<div class="audit-jobs-details" *ngIf="!isCollapseDetails">
+  <form [formGroup]="auditDetailForm" (ngSubmit)="onSubmit(auditDetailForm.value)">
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" class="open-map-link">
+      <mat-icon class="collapse-icon" (click)="collapseDetails()" title="Collapse the audit details form">
+        keyboard_arrow_left
+      </mat-icon>
+      <span fxFlex="1 1 auto"></span>
+      <h3 *ngIf="createNewPlace" class="no-margin">Create New Place</h3>
+      <a class="link" (click)="searchInformation('search')" *ngIf="!createNewPlace">Google Search</a>
+      <a class="link" (click)="searchInformation('street')" *ngIf="!createNewPlace">Street View</a>
+      <span fxFlex="1 1 auto"></span>
+      <mat-icon (click)="closeDetails(createNewPlace && true || false)">close</mat-icon>
+    </div>
+    <div class="field-area" [ngStyle]="{'height.px': contentHeight}" (window:resize)="onResize()"
+         [ngClass]="{'overflow-hidden': isOpenedHours}">
+
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center">
+        <div class="imx-form-field" fxLayout="row" *ngIf="this.place && this.place['status'] !== 0">
+          <mat-form-field>
+            <input matInput placeholder="Place ID" readonly="readonly"
+                    value="{{this.place && this.place['place_id'] && this.place['place_id'] || ''}}">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="imx-form-field" fxLayout="row" fxLayoutAlign="start center" *ngIf="this.place && this.place['status'] !== 0">
+        <mat-form-field>
+          <input matInput placeholder="Parent Place ID" formControlName="parentPlaceID" appNumberOnly>
+        </mat-form-field>
+      </div>
+
+      <input type="hidden" placeholder="Safegraph ID" formControlName="safegraphId">
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center" *ngIf="!createNewPlace">
+        <div class="imx-form-field">
+          <mat-form-field>
+            <input matInput placeholder="Place Name" [formControl]="searchTextCtrl">
+            <button type="button" class="search-icon" mat-button matSuffix mat-icon-button title="search"
+                    aria-label="search" (click)="onSearch('placeName', searchTextCtrl.value)">
+              <mat-icon class="link">search</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center">
+        <div class="imx-form-field">
+          <mat-form-field>
+            <mat-label>name<span class="star ml-2">*</span></mat-label>
+            <input matInput formControlName="name" #fName>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center">
+        <div class="imx-form-field" fxFlex="100" *ngIf="createNewPlace">
+          <mat-form-field fxFlex="100">
+            <mat-label>Short Name</mat-label>
+            <input matInput formControlName="short_name">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center">
+        <div class="imx-form-field">
+          <mat-form-field>
+            <mat-label>Street<span class="star ml-2" *ngIf="!createNewPlace">*</span></mat-label>
+            <input matInput formControlName="street">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center">
+        <div class="imx-form-field">
+          <mat-form-field>
+            <mat-label>City<span class="star ml-2" *ngIf="!createNewPlace">*</span></mat-label>
+            <input matInput formControlName="city">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center">
+        <div class="imx-form-field">
+          <mat-form-field>
+            <mat-label>State<span class="star ml-2" *ngIf="!createNewPlace">*</span></mat-label>
+            <input matInput formControlName="state">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center">
+        <div class="imx-form-field">
+          <mat-form-field>
+            <mat-label>Zipcode<span class="star ml-2" *ngIf="!createNewPlace">*</span></mat-label>
+            <input matInput formControlName="zipcode">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center" *ngIf="createNewPlace">
+        <div class="imx-form-field" fxFlex="100">
+          <mat-form-field fxFlex="100">
+            <mat-label>Phone Number</mat-label>
+            <input matInput formControlName="phone_number">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center">
+        <div class="imx-form-field">
+          <mat-form-field>
+            <mat-label>Latitude</mat-label>
+            <input matInput formControlName="lat">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center">
+        <div class="imx-form-field">
+          <mat-form-field>
+            <mat-label>Longitude</mat-label>
+            <input matInput formControlName="long">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center">
+        <div class="imx-form-field" fxFlex="100" *ngIf="createNewPlace">
+          <mat-form-field fxFlex="100">
+            <mat-label>DMA</mat-label>
+            <input matInput formControlName="dma" readonly>
+            <span matSuffix  class="link"> <mat-icon *ngIf="selectedDMA" class="close-icon" (click)="clearMarket('DMA')" title="Clear DMA">close</mat-icon> <span (click)="openMarketDialog('DMA')" class="link">Select</span></span>
+
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center">
+        <div class="imx-form-field" fxFlex="100" *ngIf="createNewPlace">
+          <mat-form-field fxFlex="100">
+            <mat-label>County</mat-label>
+            <input matInput formControlName="county" readonly>
+            <span matSuffix  class="link"> <mat-icon *ngIf="selectedCounty" class="close-icon" (click)="clearMarket('County')" title="Clear County">close</mat-icon> <span (click)="openMarketDialog('County')" class="link">Select</span></span>
+         </mat-form-field>
+        </div>
+      </div>
+
+
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center" *ngIf="!createNewPlace">
+        <div class="imx-form-field" fxLayout="row">
+          <mat-form-field>
+            <mat-label>Place Type</mat-label>
+            <mat-select formControlName="placeType">
+              <mat-option *ngFor="let type of placeTypes$ | async"
+                          [value]="type.place_type_id">{{type.name | titlecase}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="imx-field" fxLayout="column" fxLayoutAlign="start start" formGroupName="hours">
+        <div fxLayout="row" fxLayoutAlign="start center">
+        </div>
+        <div div fxLayout="row" fxLayoutAlign="end center" class='action-link-div'>
+          <a class="link imx-mlr-20" title="Copy to weekdays" (click)="copyValues(duration.WEEKDAYS)">Apply to
+            weekdays</a>
+          <a class="link imx-mlr-20" title="Copy to all days" (click)="copyValues(duration.ALL)">Apply to all</a>
+          <a class="link imx-mlr-20" title="Clear all feilds" (click)="clearAllTimeData();">Clear all</a>
+        </div>
+
+        <div class="imx-time-field">
+          <div fxLayout="row" fxLayoutAlign="start center" formGroupName="mo">
+            <div class="imx-time-label custom-labels"><label>Monday</label></div>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('mo', 'from')">
+              <mat-label>Open at</mat-label>
+              <input matInput placeholder="Open" formControlName="from" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('mo', 'to')">
+              <mat-label>Close at</mat-label>
+              <input matInput placeholder="Close at" formControlName="to" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('mo', 'next')">
+              <mat-label>Next day</mat-label>
+              <input matInput placeholder="Next day" formControlName="next" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="start center" formGroupName="tu">
+            <div class="imx-time-label custom-labels"><label>Tuesday</label></div>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('tu', 'from')">
+              <mat-label>Open at</mat-label>
+              <input matInput placeholder="Open" formControlName="from" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('tu', 'to')">
+              <mat-label>Close at</mat-label>
+              <input matInput placeholder="Close at" formControlName="to" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('tu', 'next')">
+              <mat-label>Next day</mat-label>
+              <input matInput placeholder="Next day" formControlName="next" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="start center" formGroupName="we">
+            <div class="imx-time-label custom-labels"><label>Wednesday</label></div>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('we', 'from')">
+              <mat-label>Open at</mat-label>
+              <input matInput placeholder="Open" formControlName="from"
+                     readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('we', 'to')">
+              <mat-label>Close at</mat-label>
+              <input matInput placeholder="Close at" formControlName="to" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('we', 'next')">
+              <mat-label>Next day</mat-label>
+              <input matInput placeholder="Next day" formControlName="next" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="start center" formGroupName="th">
+            <div class="imx-time-label custom-labels"><label>Thursday</label></div>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('th', 'from')">
+              <mat-label>Open at</mat-label>
+              <input matInput placeholder="Open" formControlName="from" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('th', 'to')">
+              <mat-label>Close at</mat-label>
+              <input matInput placeholder="Close at" formControlName="to" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('th', 'next')">
+              <mat-label>Next day</mat-label>
+              <input matInput placeholder="Next day" formControlName="next" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="start center" formGroupName="fr">
+            <div class="imx-time-label custom-labels"><label>Friday</label></div>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('fr', 'from')">
+              <mat-label>Open at</mat-label>
+              <input matInput placeholder="Open" formControlName="from" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('fr', 'to')">
+              <mat-label>Close at</mat-label>
+              <input matInput placeholder="Close at" formControlName="to" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('fr', 'next')">
+              <mat-label>Next day</mat-label>
+              <input matInput placeholder="Next day" formControlName="next" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="start center" formGroupName="sa">
+            <div class="imx-time-label custom-labels"><label>Saturday</label></div>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('sa', 'from')">
+              <mat-label>Open at</mat-label>
+              <input matInput placeholder="Open" formControlName="from" readonly/>
+              <mat-icon matSuffix (click)="openTimePicker('sa', 'from')">alarm_add</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('sa', 'to')">
+              <mat-label>Close at</mat-label>
+              <input matInput placeholder="Close at" formControlName="to" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('sa', 'next')">
+              <mat-label>Next day</mat-label>
+              <input matInput placeholder="Next day" formControlName="next" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="start center" formGroupName="su">
+            <div class="imx-time-label custom-labels"><label>Sunday</label></div>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('su', 'from')">
+              <mat-label>Open at</mat-label>
+              <input matInput placeholder="Open" formControlName="from" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('su', 'to')">
+              <mat-label>Close at</mat-label>
+              <input matInput placeholder="Close at" formControlName="to" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="time-field mr-10" (click)="openTimePicker('su', 'next')">
+              <mat-label>Next day</mat-label>
+              <input matInput placeholder="Next day" formControlName="next" readonly/>
+              <mat-icon matSuffix>alarm_add</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center">
+        <div class="imx-form-field">
+          <mat-form-field>
+            <input matInput placeholder="Floors" formControlName="floors">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center">
+        <div class="imx-form-field">
+          <mat-form-field>
+            <input matInput placeholder="Entrances" formControlName="entrances">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center">
+        <div class="imx-form-field">
+          <mat-form-field>
+            <input matInput placeholder="Concourses" formControlName="concourses">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center">
+        <div class="imx-form-field">
+          <mat-form-field>
+            <input matInput placeholder="Platforms" formControlName="platforms">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="imx-field" fxLayout="row" fxLayoutAlign="start center">
+        <div class="imx-form-field">
+          <mat-form-field>
+            <input matInput placeholder="Gates" formControlName="gates">
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- building area-->
+      <div class="imx-field imx-mtb-20 area-border" fxLayout="column" fxLayoutAlign="start start">
+        <div class="imx-field-check width100" fxLayout="row" fxLayoutAlign="space-around center">
+          <div class="imx-time-label">
+            <div class="custom-labels">Building Area</div>
+          </div>
+          <span fxFlex="1 1 auto"></span>
+          <a class="link" (click)="addNewArea('building')" *ngIf="!buildingAreaPolygon['type']"> Add Building Area </a>
+          <button type="button" mat-raised-button *ngIf="isEnabledDisAssociate" (click)="disassociatePlace(place)" class="dis-associate-btn" >Disassociate Place</button>
+
+          <!-- Building Eye ball icon -->
+          <div>
+            <mat-icon *ngIf="(buildingAreaLayerToggleState$ | async).opened; else buildingAreaLayerOff"
+                      (click)="toggleBuildingAreaLayer()" matTooltip="Hide building area layer"
+                      class="layers_mat-icon">visibility</mat-icon>
+            <ng-template #buildingAreaLayerOff>
+              <mat-icon (click)="toggleBuildingAreaLayer()" matTooltip="Show building area layer"
+                        class="layers_mat-icon">visibility_off</mat-icon>
+            </ng-template>
+          </div>
+            <!-- end Building Eye ball icon -->
+
+        </div>
+        <div class="building-area-main" *ngIf="buildingAreaPolygon['type']">
+          <div class="building-area-map" (click)="onOpenFacilityMap('building')">
+            <app-display-map [properties]="buildAreaProperties"></app-display-map>
+          </div>
+        </div>
+        <div formGroupName="buildingArea" class="area-controls-div" >
+          <mat-checkbox formControlName="is_data_collection_area">Data Collection Area</mat-checkbox>
+          <mat-checkbox formControlName="is_active">Active</mat-checkbox>
+          <mat-checkbox formControlName="is_focused">Focused</mat-checkbox>
+        </div>
+      </div>
+      <!-- Property area-->
+      <div class="imx-field imx-mtb-20 area-border" fxLayout="column" fxLayoutAlign="start start">
+        <div class="imx-field-check width100" fxLayout="row" fxLayoutAlign="space-around center">
+          <div class="custom-labels">Property Area</div>
+          <span fxFlex="1 1 auto"></span>
+          <a class="link" (click)="addNewArea('property')" *ngIf="!propertyArea['type']"> Add Property Area </a>
+          <button type="button" mat-raised-button *ngIf="isEnabledDisAssociate" (click)="disassociatePlace(place)" class="dis-associate-btn" >Disassociate Place</button>
+
+          <!-- property area Eye ball icon -->
+          <div>
+            <mat-icon *ngIf="(propertyAreaLayerToggleState$ | async).opened; else propAreaLayerOff"
+                      (click)="togglePropertyAreaLayer()" matTooltip="Hide property area layer"
+                      class="layers_mat-icon">visibility</mat-icon>
+            <ng-template #propAreaLayerOff>
+              <mat-icon (click)="togglePropertyAreaLayer()" matTooltip="Show property area layer"  class="layers_mat-icon">visibility_off</mat-icon>
+            </ng-template>
+          </div>
+          <!-- end property area Eye ball icon -->
+
+        </div>
+        <div class="building-area-main" *ngIf="propertyArea['type']">
+          <div class="building-area-map" (click)="onOpenFacilityMap('property')">
+            <app-display-map [properties]="propertyAreaProperties"></app-display-map>
+          </div>
+        </div>
+        <div formGroupName="propertyArea" class="area-controls-div" >
+          <mat-checkbox formControlName="is_data_collection_area">Data Collection Area</mat-checkbox>
+          <mat-checkbox formControlName="is_active">Active</mat-checkbox>
+          <mat-checkbox formControlName="is_focused">Focused</mat-checkbox>
+        </div>
+      </div>
+      <div *ngIf="!createNewPlace">
+        <p>Last updated at: {{updatedDate | date:'MMM dd, yyyy hh:mm aaa' }}</p>
+        <p>Last updated by: {{updatedBy}}</p>
+      </div>
+
+      <!--<div class="imx-field imx-mtb-20" fxLayout="column" fxLayoutAlign="start start">
+        &lt;!&ndash; Note list &ndash;&gt;
+        <h4>Notes</h4>
+        <div *ngFor="let note of notes" fxLayout="column wrap" class="notes-area width100">
+          <p class="note-details">{{note.note}}</p>
+          <p class="link">{{note.name}}</p>
+          <mat-divider></mat-divider>
+        </div>
+        <div formGroupName="notes" class="width100">
+            <div  class="width100">
+                <mat-form-field  fxFlex="60%">
+                    <input matInput placeholder="Name" formControlName="name">
+                </mat-form-field>
+            </div>
+          <div class="width100" >
+              <mat-form-field class="width100">
+                  <textarea matInput placeholder="Note" formControlName="note"></textarea>
+                </mat-form-field>
+          </div>
+      </div>
+      <div class="width100" fxLayout="row" fxLayoutAlign="end">
+        <a class="link" (click)="onAddNoteField()">Add Note</a>
+      </div>
+      </div>
+      <div class="imx-field" fxLayout="column" fxLayoutAlign="start start">
+          <div class="imx-field-check width100" fxLayout="row" fxLayoutAlign="start">
+              <a class="link" (click)="onAddCustomField()"> Add Custom Field </a>
+          </div>
+          <div class="custom-field" formArrayName="customFields" *ngFor="let item of auditDetailForm.get('customFields')['controls']; let i = index;">
+              <div fxLayout="row" fxLayoutAlign="start center" [formGroupName]="i">
+                  <div class="imx-field" fxLayout="column" fxLayoutAlign="start">
+                      <div fxLayout="row" fxLayoutAlign="start center">
+                        <div class="fx-width-100">
+                          <label>Field Name</label>
+                        </div>
+                          <mat-form-field>
+                              <input matInput placeholder="Field Name" formControlName="name">
+                          </mat-form-field>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="start center">
+                          <div class="fx-width-100">
+                            <label>Field value</label>
+                          </div>
+                            <mat-form-field>
+                                <input matInput placeholder="Field value" formControlName="value">
+                            </mat-form-field>
+                      </div>
+                  </div>
+                  <span fxFlex="1 1 auto"></span>
+                  <div class="delete">
+                    <span><mat-icon class="delete-icon" (click)="onRemoveCustomField(i)">delete</mat-icon></span>
+                  </div>
+              </div>
+             &lt;!&ndash; dynamic field area &ndash;&gt;
+          </div>
+      </div>-->
+    </div>
+    <mat-divider></mat-divider>
+    <div class="field-action-area auditedControls" *ngIf="(this.place && this.place['status'] === 0 || createNewPlace) ; else auditedControls;" [ngClass]="{'action-create-place': createNewPlace}">
+      <div class="auditedControlButton" fxLayout="row" fxLayoutAlign="flex-end center">
+        <button mat-raised-button type="button" color="secondary" *ngIf="createNewPlace" (click)="closeDetails(true)">Cancel</button>
+        <button mat-raised-button type="submit" color="primary"> {{createNewPlace && 'Create' || 'Request Insights' }} </button>
+      </div>
+    </div>
+    <ng-template #auditedControls>
+      <div class="field-action-area auditedControls">
+        <div>
+          <mat-form-field>
+            <mat-label class="imx-primary-color">Audit Status</mat-label>
+            <mat-select formControlName="placeStatus" (selectionChange)="selectAuditStatus($event)">
+              <mat-option *ngFor="let status of statuses$ | async"
+                          [value]="status.audit_status_cd">{{status.status}} </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field *ngIf="isRequiredReview">
+            <mat-label>Audit Outcome</mat-label>
+            <mat-select formControlName="outcome">
+              <mat-option *ngFor="let outcome of outcomes$ | async"
+                          [value]="outcome.audit_outcome_id">{{outcome.outcome | titlecase}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="auditedControlButton" fxLayout="row" fxLayoutAlign="space-between center">
+          <button mat-raised-button class="saveAuditBtn" type="submit" (click)="saveChangesFlag = true">Save Changes
+          </button>
+<!-- The wrapping span is required because tooltip won't appear for disabled elements.-->
+          <span matTooltip="There are no user defined places linked with this place. Places without a UDP can't be deleted." [matTooltipDisabled]="canDelete" [matTooltipClass]="'inventory-tooltip'">
+            <button mat-raised-button
+              [disabled]="!canDelete"
+              class="saveAuditBtn"
+              color="warn"
+              type="button"
+              (click)="deleteUserDefinePlace()"
+            >Delete</button>
+          </span>
+          <button mat-raised-button color="primary" type="submit">Next Place</button>
+        </div>
+      </div>
+    </ng-template>
+  </form>
+</div>

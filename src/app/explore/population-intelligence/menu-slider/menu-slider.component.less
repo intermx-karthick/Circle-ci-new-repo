@@ -1,0 +1,98 @@
+@import "../../../../assets/css/variables.less";
+
+
+::ng-deep {
+  menu-slider {
+    .menu-slider-wrapper {
+      min-width: 72px;
+      &.storybook-slider {
+        width: 200px;
+      }
+
+      &.hide-labels .ngx-slider {
+        margin-top: 1rem;
+        .ngx-slider-limit, .ngx-slider-bubble {
+          display: none;
+        }
+      }
+
+      .ngx-slider {
+        .ngx-slider-bar {
+          border: none;
+          border-bottom: 4px dashed var(--primary-bg);
+          border-radius: 0;
+          background: transparent;
+          width: calc(100% - 1rem);
+          margin-left: 0.5rem;
+          bottom: 11px;
+        }
+        &.ranged .ngx-slider-bar {
+          border-bottom-color: gray;
+        }
+        &.ranged .ngx-slider-selection-bar {
+          background-color: var(--white-color);
+          background: var(--white-color);
+          .ngx-slider-bar {
+            border-bottom-color: var(--primary-bg);
+          }
+        }
+        .ngx-slider-pointer {
+          height: 32px;
+          width: 32px;
+          border-radius: 4px;
+          background-color: var(--white-color);
+          border: 3px solid var(--primary-bg);
+          top: -15px;
+          left: 15px;
+          &:before {
+            content: '';
+            display: inline-block;
+            background-color: var(--primary-bg);
+            mask-image: url('../../../../assets/images/ImxChicklets2021.svg');
+            width: 28px;
+            height: 28px;
+            background-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            position: relative;
+            left: 4px;
+            top: 2px;
+          }
+          &:after {
+            content: none;
+          }
+          &:focus-visible {
+            outline: none;
+          }
+        }
+        &.animated .ngx-slider-pointer:before {
+          mask-image: url('../../../../assets/images/play-button.svg');
+          height: 38px;
+          width: 38px;
+          top: -5px;
+          left: -6px;
+          ;
+        }
+
+        &.animated.animating .ngx-slider-pointer:before {
+          mask-image: url('../../../../assets/images/stop-button.svg');
+        }
+      }
+
+      .for(@colors, {
+        @name: extract(@value, 1);
+        @color: extract(@value, 2);
+        &.is-@{name} {
+          .ngx-slider-pointer {
+            border-color: @color;
+            &:before {
+              background-color: @color;
+            }
+          }
+          .ngx-slider-bar {
+            border-color: @color;
+          }
+        }
+      });
+    }
+  }
+}

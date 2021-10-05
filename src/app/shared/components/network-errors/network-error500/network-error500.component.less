@@ -1,0 +1,68 @@
+.c-network-error {
+  &__container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  &__main {
+    position: relative;
+    height: 100%;
+
+    section:first-child{
+      padding-left: 9.25rem;
+
+      > div{
+        margin-top: 2rem;
+
+        button{
+          box-shadow: none;
+        }
+      }
+
+      > div:first-child{
+        margin-top: 0;
+      }
+    }
+
+    h3{
+      font-style: normal;
+      font-weight: normal;
+      font-size: 3rem;
+      line-height: 3.813rem;
+      color: var(--grays-bg-800);
+    }
+
+    h6{
+      font-style: normal;
+      font-weight: normal;
+      font-size: 1.25rem;
+      line-height: 1.563rem;
+      letter-spacing: 0.15px;
+      color: var(--grays-bg-800);
+    }
+  }
+
+  &__img-block {
+    padding-right: 9.75rem;
+  }
+
+  &__footer {
+    position: absolute;
+    bottom: 1.625rem;
+    left: 0;
+    right: 0;
+
+    span{
+      font-style: normal;
+      font-weight: normal;
+      font-size: 0.688rem;
+      line-height: 0.875rem;
+      text-align: center;
+      letter-spacing: 3.27px;
+      color: var(--grays-bg-500);
+    }
+  }
+}

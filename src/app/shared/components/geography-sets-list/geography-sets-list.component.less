@@ -1,0 +1,128 @@
+::ng-deep {
+  app-geography-sets-list {
+    .geo-sets-container {
+      width: 97%;
+      .search-field {
+        // padding: 0px 25px 0px 20px;
+        .mat-form-field-wrapper {
+          margin-bottom: -1.25em;
+        }
+        input {
+          height: inherit;
+          border-bottom: none;
+          &:focus {
+            border-bottom: none !important;
+            box-shadow: unset !important;
+          }
+        }
+        mat-icon {
+          color: var(--medium-emphasis);
+        }
+      }
+
+
+      .action-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        & > button {
+          height: 28px;
+          width: 55px;
+          min-width: 55px;
+          font-size: 10px;
+          font-weight: bold;
+          letter-spacing: 0.83px;
+          line-height: normal;
+          border-radius: 4px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          &.btn-primary-color {
+            background: var(--button-bg-color);
+            color: #ffffff;
+            margin-left: 8px;
+          }
+          &.btn-clear {
+            background-color: var(--grays-bg-200);
+          }
+        }
+      }
+
+
+
+      .mat-radio-group {
+        display: flex;
+        flex-direction: column;
+        margin: 15px 0;
+        max-height: 150px;
+        overflow-y: auto;
+        .mat-radio-button {
+          padding: 5px 0;
+        }
+        .mat-radio-label-content {
+          color: var(--high-emphasis);
+          font-size: 14px;
+          font-weight: 400;
+          letter-spacing: 0.2px;
+          line-height: 20px;
+          text-indent: 0px;
+        }
+      }
+
+      .search-loader>mat-spinner {
+        margin: 0 auto;
+        margin-top: 10px;
+      }
+    }
+
+    .geo-sets-container-lg{
+
+      .mat-radio-group {
+        max-height: 370px;
+        min-height: 170px;
+        .mat-radio-button {
+          padding: 10px 0;
+        }
+        .mat-radio-label-content {
+          font-size: 16px;
+          font-weight: 400;
+        }
+      }
+
+      .action-container {
+
+        width: 96% !important;
+        margin-bottom: 0;
+        padding: 0 !important;
+        margin-right: -10px;
+
+        & > button {
+          padding: 0 16px;
+          width: initial;
+          height: 36px;
+          min-width: 64px;
+          font-size: 14px;
+
+          &.btn-clear {
+            color: var(--medium-emphasis);
+            background: #fff;
+          }
+
+        }
+
+      }
+
+    }
+    .geo-list__item{
+      font-size: 12px !important;
+      color: rgba(33, 33, 33, 0.6) !important;
+    }
+
+    .geo-sets-content-loader{
+      padding: 8px;
+    }
+  }
+
+
+}

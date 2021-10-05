@@ -1,0 +1,28 @@
+<div class="add-client">
+  <section fxLayout="row" fxLayoutAlign="space-between center" class="header">
+    <h4 *ngIf="!enableDuplicate; else duplicate">Add Client</h4>
+
+    <ng-template #duplicate>
+      <h4>Duplicate {{clientDetails.clientName}} Details</h4>
+    </ng-template>
+  </section>
+
+  <section>
+    <form [formGroup]="addClientForm" (ngSubmit)="submitAddClientForm()">
+      <div class="add-client__body" [ngStyle]="{'max-height.px':scrollContent}"
+           (scroll)="handleScroll()"
+           (window:resize)="reSize()" id="add-client_SCROLLABLE">
+        <div class="add-client__content">
+          <app-client-form [enableDuplicate$]="enableDuplicate$" [containerScrolling$]="scrolling$" formControlName="clientForm" [submitForm$]="submitForm$" scrollingContainer="add-client_SCROLLABLE"></app-client-form>
+        </div>
+      </div>
+
+      <div fxLayout fxLayoutAlign="end center" fxLayoutGap="20px" class="add-client__actions">
+        <button mat-button class="imx-button-secondary" (click)="navigateToClientList()">Cancel</button>
+        <button mat-button class="imx-button-primary" type="submit">Save
+          Client
+        </button>
+      </div>
+    </form>
+  </section>
+</div>

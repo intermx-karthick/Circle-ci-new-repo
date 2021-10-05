@@ -1,0 +1,53 @@
+.market-dialog-container{
+  min-height: 320px;
+  max-height: none;
+  mat-tab-group{
+    width: 100%;
+  }
+  input[type=text]{
+    border-bottom: none;
+    height: initial;
+  }
+  mat-selection-list, mat-list{
+    overflow: auto;
+    height: 210px !important;
+  }
+}
+.margin-r5{
+  margin-right:0.5rem;
+}
+.market-chip-section{
+  &.selected-market-avilable {
+    min-height: 60px;
+    max-height: 110px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  &.national-market-selected {
+    margin-top: 5px;
+  }
+ /*  &.no-selected-market-avilable{
+    min-height: 30px;
+  } */
+}
+
+::ng-deep{
+  mat-sidenav{
+    .enable-module-view{
+      display:none !important;
+    }
+    .hide-module-view{
+      display:block !important;
+    }
+  }
+  
+  mat-dialog-container{
+    .enable-module-view{
+      display:block !important;
+    }
+    .hide-module-view{
+      display:none !important;
+    } 
+  }
+}
+

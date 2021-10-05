@@ -1,0 +1,65 @@
+.content-body {
+  max-height: calc(80vh - 1rem);
+  overflow-y: auto;
+}
+
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.mat-dialog-title {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: 0.4px;
+  color: var(--grays-bg-700);
+}
+
+.mat-dialog-content {
+  background: #F9F9F9;
+  min-height: 93%;
+  max-height: initial !important;
+  margin: unset;
+  margin-top: 1rem;
+  padding: 8px 16px;
+}
+
+.close-dialog {
+  color: var(--primary-bg-800);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 1.55px;
+  text-transform: uppercase;
+}
+
+mat-dialog-actions {
+  justify-content: center;
+}
+
+mat-dialog-actions > div {
+  height: 100%;
+}
+
+.header-row {
+  font-size: 10px;
+  line-height: 14px;
+  text-transform: uppercase;
+  color: #757575;
+  padding-bottom: 1rem;
+}
+
+.body-row {
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 1px;
+  color: #616161;
+  padding: 1rem 0;
+}

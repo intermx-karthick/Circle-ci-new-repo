@@ -1,0 +1,121 @@
+<div class="min-height-inventory">
+  <div [ngClass]="{'popup-content': type !== 'edit'}">
+    <mat-tab-group mat-align-tabs="start" class="imx-tab-capital inventory-filter-main-tab" [(selectedIndex)]="selectedTab"
+    (selectedTabChange)='onSelectTab($event)' [ngClass]="{'enable-mediaType':isExpandMediaType, 'set-tab-position': disableTabPagination}" [disablePagination]="disableTabPagination">
+    <mat-tab label="SPOT IDs" aria-label="SPOT_IDs" *ngIf="showInventoryFilters" >
+      <div class="imx-add-inventory-spot-ids">
+        <mat-accordion [displayMode]="'flat'" class="imx-expansion-panel enableHeaderBorder">
+          <mat-expansion-panel [disabled]="operatorUnitIds.length > 0"
+            tooltipv2="Either Geopath Spot ID or Operator Spot ID can be used at a time." placement="bottom" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" [tooltipDisabled] = "panelGeopath.expanded"
+            class="mat-elevation-z0 spot-ids" hideToggle="true" #panelGeopath>
+            <mat-expansion-panel-header expandedHeight="48px" (click)="sportsIdType('geopathPanel')">
+              <mat-panel-title>
+                <mat-icon>{{ panelGeopath.expanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+                Geopath Spot ID
+                <span class="imx-badge-node" *ngIf="geoPanelIds && geoPanelIds.length > 0" [matBadge]="geoPanelIds.length" matBadgeOverlap="false"></span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div>
+              <app-imx-tag-input placeholder="Paste or type IDs here" [chips]="geoPanelIds" [invalidFilterChips]="invalidGeoPanelIds"  [numberOnly]='true' [hint] = "'PLEASE ADD SPOT IDS WITH NUMBERS ALONE'" (chipAdded)="onChipAdded($event)" (chipRemoved)="onChipRemoved($event)" [validChips] = 'validGeoPanelIds' (clearAllUnitIds)="clearAllGeoIds()" class="imx-tag-input"></app-imx-tag-input>
+            </div>
+          </mat-expansion-panel>
+          <mat-expansion-panel class="mat-elevation-z0 spot-ids" hideToggle="true" #panelOperator
+          [disabled]="geoPanelIds.length > 0" tooltipv2="Either Geopath Spot ID or Operator Spot ID can be used at a time." placement="bottom" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" [tooltipDisabled] = "geoPanelIds.length > 0">
+            <mat-expansion-panel-header expandedHeight="48px" (click)="sportsIdType('operatorPanel')">
+              <mat-panel-title>
+                <mat-icon>{{ panelOperator.expanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon>
+                Operator Spot ID
+                <span *ngIf="operatorUnitIds && operatorUnitIds.length > 0"
+                  [matBadge]="operatorUnitIds.length" matBadgeOverlap="false"></span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div>
+              <app-imx-tag-input placeholder="Paste or type IDs here" [chips]="operatorUnitIds" [invalidFilterChips]="invalidOperatorPanelIds"
+                [keysCodes]='operatorKeyCodes' (chipAdded)="onOperatorChipAdded($event)" (chipRemoved)="onOperatorChipRemoved($event)" [validChips] = 'validOperatorPanelIds' (clearAllUnitIds)="clearAllOperatorIds()" class="imx-tag-input"></app-imx-tag-input>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </mat-tab>
+    <mat-tab label="FROM FILE" aria-label="FILE" *ngIf="type !=='create' && showInventoryFilters" >
+        <div>
+          <p>For better mapped results you can <a class="imx-primary-link" (click)="downloadSampleCSV()">Download the csv
+              template</a></p>
+        </div>
+        <app-file-upload [fileUploadConfig]="fileUploadConfig" [clearAttachment$]="clearAttachment$" (emitUploadFile)="uploadedFile($event)">
+        </app-file-upload>
+    </mat-tab>
+    <mat-tab label="INVENTORY SET" aria-label="INVENTORY_SET" class="inventory-set" *ngIf="showInventoryFilters">
+        <div class="list-panel">
+        <mat-form-field floatLabel="never" fxFlexFill class="imx-input search-input">
+          <input type="text" [formControl]="inventorySearch" matInput placeholder="Search Saved Inventory Sets">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        <mat-selection-list
+          class="inventory-sets"
+          [compareWith]="compare"
+          [formControl]="selectedInventoryOptionsCtrl"
+          (selectionChange)="onSelectingInventorySets($event)"
+          infiniteScroll
+          [infiniteScrollDistance]="10"
+          [infiniteScrollThrottle]="500"
+          (scrolled)="loadMoreInventorySet()"
+          [scrollWindow]="false"
+          [infiniteScrollDisabled]="packagesLoading || (currentInventorySetPage > totalInventorySetPages)"
+        >
+          <ng-container *ngIf="inventories$ | async as inventories;">
+            <ng-container *ngIf="inventories.length > 0; else notFound">
+              <mat-list-option *ngFor="let package of  inventories; trackBy: trackByPackage;" [value]="package" checkboxPosition="before"
+                               title="{{package.name}}">
+                <span [innerHTML]="package.name | truncate:'middle':15 | imx_highlight: inventorySearch.value"></span>
+              </mat-list-option>
+            </ng-container>
+          </ng-container>
+          <div class="package__loader" *ngIf="packagesLoading">
+            <mat-spinner [strokeWidth]="3" [diameter]="30"></mat-spinner>
+          </div>
+          <ng-template #notFound>
+            <p class="text-center" *ngIf="!packagesLoading">No Inventory set data found</p>
+          </ng-template>
+        </mat-selection-list>
+      </div>
+    </mat-tab>
+    <mat-tab label="SELECT ATTRIBUTES" aria-label="SELECT_ATTRIBUTES" *ngIf="!isOnlyOperatorFilter">
+      <div class="filter-inventory" >
+        <app-inventory-filter [scenario]= "scenario" [operators]="operators" [showInventoryFilters]="showInventoryFilters" (applyInventoryFilter)="applyInventoryFilter($event)" (mediaPanelExpand)="onMedaiTypeExpand($event)" (removeLocationEmit)="removeLocationEmit($event)" [includeType] = "includeType" [isOnlyOperatorFilter]="isOnlyOperatorFilter" [hideOperatorFilter]="hideOperatorFilter" [closeAllExpansionPanel]="closeAllExpansionPanel"></app-inventory-filter>
+      </div>
+    </mat-tab>
+    <!-- TODO - create filter operator as a separate component/modal-->
+    <mat-tab label="FILTER OPERATOR" aria-label="FILTER_INVENTORY" *ngIf="isOnlyOperatorFilter">
+      <div class="filter-inventory-operator" >
+        <app-inventory-filter [scenario]= "scenario" [operators]="operators" [showInventoryFilters]="showInventoryFilters" (applyInventoryFilter)="applyInventoryFilter($event)" (mediaPanelExpand)="onMedaiTypeExpand($event)" (removeLocationEmit)="removeLocationEmit($event)" [includeType] = "includeType" [isOnlyOperatorFilter]="isOnlyOperatorFilter" [closeAllExpansionPanel]="closeAllExpansionPanel"></app-inventory-filter>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+  <mat-expansion-panel #operatorExpansion class="side-nav-main-panel operator-panel" hideToggle *ngIf="selectedLabel === 'SELECT_ATTRIBUTES' && !isOnlyOperatorFilter && type !== 'create'" (click)="onOperatorExpand(operatorExpansion)" [expanded]="operatorExpansionPanelOpen" (opened)="operatorExpansionPanelOpen = true">
+    <mat-expansion-panel-header>
+      <mat-panel-title  class="operator-title">
+        Operators
+      </mat-panel-title>
+      <mat-panel-description fxLayout="row-reverse">
+        <mat-icon *ngIf="operatorExpansion.expanded; else planExpandDownIcon" svgIcon="IMX-accordion-up" aria-hidden="false"
+                  aria-label="up"></mat-icon>
+        <ng-template #planExpandDownIcon>
+          <mat-icon svgIcon="IMX-accordion-down" aria-hidden="false" aria-label="down"></mat-icon>
+        </ng-template>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div>
+      <app-operator-widget-dialog-w3 [moduleName]="'project'" [operatorsData]="operatorsData" (applyOperators)="applyOperators($event)" [includeType] = "includeType"></app-operator-widget-dialog-w3>
+    </div>
+  </mat-expansion-panel>
+  </div>
+</div>
+<div [ngClass]="{'add-inventory-button-block': type === 'edit', 'add-inventory-create-position': type === 'create', 'apply-btn-padding': type === 'create' && !isOnlyOperatorFilter}">
+  <button mat-button class="imx-button-basic_icon" type="button" (click)="onClearAll()"  [ngClass]="{'hide': type === 'edit'}"> <span #clearButton fxLayout="row">CLEAR ALL</span>  </button>
+  <button *ngIf="type === 'edit'" mat-button class="imx-button-basic" type="button" (click)="onCloseFilter()" >CANCEL</button>
+
+    <span fxFlex="1 1 auto"></span>
+  <button mat-button [disabled]="isInvalidMediaAttribFrom || (!isInventoryFilterSelection && !isspotIdsChanges && !isOperatorIdsChanges && !selectedInventoryOptionsCtrl?.value?.length && !uploadFileData?.length)" [ngClass]="{'imx-button-basic_icon': type !== 'edit', 'imx-button-primary': type === 'edit'}" (click)="onApply()"> {{ type !== 'edit' ? 'APPLY SELECTIONS' : 'RE-GENERATE'}} <mat-icon *ngIf="type !== 'edit'">playlist_add_check</mat-icon> </button>
+</div>

@@ -1,0 +1,16 @@
+<div class="container line-item-import-container" [ngSwitch]="currentImportStep" [ngClass]="{'file-validate':isFileValidate}">
+    <app-upload-line-items *ngSwitchCase="importLineItemsSteps.lineItemsUpload" (statusChanged)="onStatusChanged($event)" (closeDialog)="onCloseDialog()" (uploadFileEmit)="onUploadFile($event)"></app-upload-line-items>
+    <div *ngSwitchCase="importLineItemsSteps.lineItemsServerValidation" class="progress-bar-container" fxLayout="column" fxLayoutAlign="space-around center">
+        <div class="progress-bar-header">{{validateProcessText}}</div>
+        <mat-progress-bar mode="indeterminate" ></mat-progress-bar>
+    </div>
+
+    <app-validate-imported-data *ngSwitchCase="importLineItemsSteps.lineItemsValidationFromImportedData" (closeDialog)="onCloseDialog()" (statusChanged)="onStatusChanged($event)"></app-validate-imported-data>
+    <app-validating-data-from-imports *ngSwitchCase="importLineItemsSteps.lineItemsValidationFromImports"
+                                      [mappingDecisionsRes]='mappingDecisionsRes'
+                                      [type]= 'lineItemDataImportType'
+                                      [contractId]='contract?._id'
+                                      (closeDialog)="onCloseDialog()"
+                                      (statusChanged)="onStatusChanged($event)">
+    </app-validating-data-from-imports>
+</div>

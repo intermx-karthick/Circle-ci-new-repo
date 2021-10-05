@@ -1,0 +1,50 @@
+<div class="imx-common-margin">
+  <form [formGroup]="defineGoleFormGroup">
+    <div fxLayout="row wrap" fxLayoutGap="16px">
+      <ng-container formGroupName="goals">
+        <div fxLayout="row" fxLayoutAlign="start start">
+          <mat-form-field class="imx-dropdown imx-input" fxFlex="13.75rem">
+            <mat-label>Delivery Goals</mat-label>
+            <mat-select [panelClass]="'imx-select'" formControlName="type">
+              <mat-option [value]="deliveryGoal.name" *ngFor="let deliveryGoal of deliveryGoals">{{ deliveryGoal.value
+                }}</mat-option>
+
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutGap="16px">
+          <div fxLayout="row wrap" fxLayoutGap="16px">
+            <mat-form-field class="imx-input error-field-width"
+              *ngIf="defineGoleFormGroup['controls']['goals']['controls'].type.value === 'trp'" fxFlex="5.625rem">
+              <input matInput appNumeral [regex]="numericPatternRegEx" format="0,0" [min]="1" [length]="9"
+                formControlName="trp" placeholder="Value" required />
+              <mat-error>Goal Value must be number greater than or equal to 1</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="imx-input error-field-width"
+              *ngIf="defineGoleFormGroup['controls']['goals']['controls'].type.value === 'imp'" fxFlex="5.625rem">
+              <input matInput appNumeral [regex]="numericPatternRegEx" format="0,0" [min]="1" [length]="9"
+                formControlName="imp" placeholder="Value" required />
+              <mat-error>Goal Value must be number greater than or equal to 1</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="imx-input error-field-width"
+              *ngIf="defineGoleFormGroup['controls']['goals']['controls'].type.value === 'reach'" fxFlex="5.625rem">
+              <input matInput appNumberOnly [regex]="AppRegularExp.DECIMAL" [canAllowMinus]="false" [min]="0"
+                [length]="10" formControlName="reach" placeholder="Value" required />
+              <mat-error>GOAL VALUE MUST BE NUMBER BETWEEN 1 AND 100</mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="imx-dropdown imx-input" fxFlex="7.125rem">
+              <mat-label>Effective Reach</mat-label>
+              <mat-select [panelClass]="'imx-select'" formControlName="effectiveReach">
+                <mat-option *ngFor="let e of effectReaches;" [value]="e">{{e}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,35 @@
+<div fxLayout="column" fxLayoutAlign="start start" >
+  <!-- Header-->
+  <app-header fxFlexFill>
+    <!--Pass the title, note the class name.-->
+    <div class="projected-title">
+      <mat-icon class="mobile-hide">settings</mat-icon>
+      <span class="uppercase">Settings</span>
+    </div>
+  </app-header>
+  <!-- content body -->
+  <div class="setting-body" fxLayout="row" fxLayoutAlign="start start">
+      <router-outlet></router-outlet>
+  </div>
+</div>
+
+<!-- <div class="content-wrapper ">
+  <section class="content-header">
+    <div class="clearfix header-block col-md-12 col-sm-12 col-xs-8">
+      <div class="header clearfix">
+        <div class="pull-left">
+          <i class="material-icons">settings</i>
+          <span>Settings</span>
+        </div>
+      </div>
+    </div>
+    <div class="explore-filter content-breadcrumb navbar-default clearfix">
+      <user-navigation></user-navigation>
+    </div>
+  </section>
+  <section class="content">
+    <div class="content-block">
+      <router-outlet></router-outlet>
+    </div>
+  </section>
+</div> -->

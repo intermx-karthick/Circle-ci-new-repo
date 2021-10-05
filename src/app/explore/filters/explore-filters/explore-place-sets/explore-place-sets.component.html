@@ -1,0 +1,33 @@
+<mat-form-field floatLabel="never" fxFlexFill class="search-field">
+  <input type="text" [formControl]="searchFromCtl" matInput id="place-search"
+         placeholder="Search Saved Place Sets">
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
+
+<ng-container *ngIf="isInitLoading" >
+  <app-cl-list-with-left-check-box></app-cl-list-with-left-check-box>
+</ng-container>
+
+<div class="explore-location-places-list" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+     (scrolled)="loadMorePlaceSets()" [scrollWindow]="false">
+  <mat-selection-list #placeSelectionList
+                      [formControl]="selectedPlacesCtrl">
+
+    <div *ngIf="isSearching" class="place-loader">
+      <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+    </div>
+
+    <mat-list-option *ngFor="let place of placeSets"
+                     [value]="place" checkboxPosition="before">
+      <span [innerHTML]="place.name | imx_highlight: searchFromCtl?.value"></span>
+    </mat-list-option>
+
+    <div *ngIf="isLoading" class="place-loader">
+      <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+    </div>
+
+    <p *ngIf="canShowPlaceSetsNotFound() && isInitiated && isInitialLoadCompleted" class="text-center">
+      No Place set data found
+    </p>
+  </mat-selection-list>
+</div>

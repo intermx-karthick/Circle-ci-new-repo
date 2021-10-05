@@ -1,0 +1,9 @@
+<h4 mat-dialog-title>Select Inventory</h4>
+<button mat-icon-button mat-dialog-close class="mat-dialog-close">
+  <mat-icon>highlight_off</mat-icon>
+</button>
+<mat-dialog-content>
+  <div>
+    <app-add-inventory [operators]="operators" [scenario]="scenario" [selectedPlanTab]="selectedPlanTab" (applyFilter)="applyFilter($event)" [type]="type"></app-add-inventory>
+  </div>
+</mat-dialog-content>

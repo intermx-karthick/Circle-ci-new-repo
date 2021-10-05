@@ -1,0 +1,118 @@
+<div fxLayout="column" fxLayoutAlign="start stretch" class="imx-project-block" (window:resize)="reSize()">
+  <div
+    class="imx-project-title"
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+  >
+    <mat-tab-group
+        mat-align-tabs="start"
+        class="imx-tab-capital imx-mat-tab-scenario"
+        [(selectedIndex)]="selectedTab"
+        (selectedTabChange) = "onSelectedTabChange($event)"
+      >
+        <mat-tab label="SANDBOX" aria-label="sandbox">
+        </mat-tab>
+        <mat-tab label="{{labels['project'][1]}}" aria-label="{{labels['project'][1]}}">
+
+        </mat-tab>
+      </mat-tab-group>
+      <!-- <div class="title">{{labels['project'][1]}} ({{pagination?.total || 0}})</div> -->
+      <div
+        fxLayout="row"
+        fxLayoutAlign="end center"
+        fxLayoutGap="1.5rem"
+        class="imx-project-action-button"
+      >
+        <button mat-button class="imx-button-primary_icon btn-icon-margin" [routerLink]="['/workspace-v3/plan/create']"  *ngIf="projectPermission?.scenarios?.package?.status !== 'hidden' && selectedTab === 1">
+          Add {{labels['scenario'][0]}} <mat-icon>add_circle_outline</mat-icon>
+        </button>
+        <button [disabled]="!sandboxId" mat-button *ngIf="projectPermission?.scenarios?.package?.status !== 'hidden' && selectedTab === 0" class="imx-button-primary_icon" [routerLink]="['/workspace-v3/plan/create']" [state]="sandboxProject"  [queryParams] ="{projectId: sandboxId}">
+          Add {{labels['scenario'][0]}} <mat-icon>add_circle_outline</mat-icon>
+        </button>
+        <button mat-button class="imx-button-stroked" (click) = "openAddProjectDialog()" *ngIf="selectedTab === 1">Add {{labels['project'][0]}}</button>
+      </div>
+  </div>
+  <div *ngIf="!sandboxId && selectedTab === 0">Loading...</div>
+  <div *ngIf="sandboxId" [style.display]="selectedTab === 0?'block':'none'">
+    <app-project-view-v3 [sandboxProjectId]="sandboxId" [loadedFromSelector]="true" [onOpenTab$]="onOpenTab$" ></app-project-view-v3>
+  </div>
+
+  <div class="imx-project-list" [style.display]="selectedTab === 1?'block':'none'">
+    <div fxLayout="row" class="plan-header-action">
+      <div class="total-record" fxLayoutAlign="start center">
+        Total : {{pagination?.total}}
+      </div>
+    </div>
+    <div class="imx-table-container" #tableScrollRef >
+      <table mat-table [dataSource]="dataSource" class="imx-table-striped table-header-auto" matSort (matSortChange)="onSortData($event)" (mouseleave)="onHoverOut()" matSortActive="{{sortName}}"
+                 matSortDirection="{{sortDirection}}" matSortDisableClear [ngClass]="{'enable-table-scroll': hasHorizontalScrollbar}">
+        <ng-container *ngFor="let column of columns | keyvalue" [matColumnDef]="column.key" [sticky]="column.key == 'name' ||  column.key == 'action'" >
+          <ng-template [ngIf] ="column.key !== 'action'" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="{'imx-column-center': column.key === 'scenarios' || column.key === 'createdAt' || column.key === 'updatedAt' }" > {{column.value}} </th>
+            <ng-template [ngIf] ="column.key === 'name'">
+              <td routerLink="/workspace-v3/projects/{{element._id }}" mat-cell *matCellDef="let element" class="status-cell text-wrap-column min-max-width-column-320 imx-poiner">
+                <span fxLayout="row" fxLayoutAlign="start center">
+                <div class="status ">
+                  <mat-icon class="unread" *ngIf="element | projectJobStatus" svgIcon="IMX-dot"></mat-icon>
+                </div>
+                <span class="imx-ml-10 primary-color-text">{{ (element[column.key] || '-') }}</span>
+              </span>
+              </td>
+            </ng-template>
+            <ng-template [ngIf] ="column.key === 'description'">
+              <td mat-cell *matCellDef="let element"class="text-wrap-column min-max-width-column-320">
+                <span class="imx-ml-10 "> {{ (element[column.key] || '-') }}</span>
+              </td>
+            </ng-template>
+            <ng-template [ngIf] ="column.key === 'createdAt' || column.key === 'updatedAt'">
+              <td mat-cell *matCellDef="let element" class="imx-column-center">{{ element[column.key] | date : 'MM.dd.yyyy' }}</td>
+            </ng-template>
+            <ng-template [ngIf] ="column.key === 'scenarios'" >
+              <td mat-cell *matCellDef="let element" class="imx-column-center">{{ element[column.key]?.length }}</td>
+            </ng-template>
+            <ng-template [ngIf] ="column.key === 'ownerName' || column.key === 'updatedBy' || column.key === 'shared_with'">
+              <td mat-cell *matCellDef="let element">{{ element[column.key] }}</td>
+            </ng-template>
+          </ng-template>
+          <ng-template [ngIf] ="column.key === 'action'">
+            <th mat-header-cell *matHeaderCellDef class="action-menu-column" [ngClass]="{'no-table-data': !isDataLoading && dataSource && dataSource?.data?.length === 0}"></th>
+            <td mat-cell *matCellDef="let element; let i = index;" class="action-menu-column">
+              <mat-icon *ngIf="userEmail === element.ownerEmail && !element['isDraft'] && !actionMenu.menuOpen"  [matMenuTriggerFor]="actionMenu" class="action-icon">more_vert</mat-icon>
+              <!-- <button mat-button class="imx-button-stroked_icon_action table-action-btn-imx" *ngIf="userEmail === element.ownerEmail && !element['isDraft'] && !actionMenu.menuOpen" (menuOpened) = 'onMenuOpen()' (menuClosed) = 'onMenuClosed()'>Actions <mat-icon>keyboard_arrow_down</mat-icon></button> -->
+              <mat-menu #actionMenu="matMenu"xPosition="before" class="action-dropdown-imx minimun-height action-menu-position table-action-position">
+                <button mat-menu-item (click) = "openAddProjectDialog(element)">Duplicate</button>
+                <button mat-menu-item (click) = "deleteProject(element)">Delete</button>
+                <!-- <button mat-menu-item (click) = "openMoveProjectDialog(element)">Move to</button> -->
+              </mat-menu>
+            </td>
+          </ng-template>
+        </ng-container>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns; sticky: true"
+        ></tr>
+
+        <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" class="imx-data-row"></tr>
+      </table>
+      <div fxLayout="row" fxLayoutAlign="center center" *ngIf="!isDataLoading && dataSource && dataSource?.data?.length === 0" class="noDataFound">No records found.</div>
+    </div>
+    <mat-paginator
+      (page)="getPageEvent($event)"
+      [length]="pagination?.total || 0"
+      [pageIndex] = "(projectQueryParams?.page || 1) - 1"
+      [pageSize]="projectQueryParams?.perPage"
+      [showFirstLastButtons] = "true"
+      [pageSizeOptions]="paginationSizes"
+      *ngIf="!isDataLoading && dataSource && dataSource?.data?.length > 0"
+    >
+    </mat-paginator>
+    <div class="imx-mat-progress" *ngIf="isDataLoading">
+      <mat-progress-spinner
+        color="primary"
+        mode="indeterminate"
+        [diameter] = "30"
+      >
+      </mat-progress-spinner>
+    </div>
+  </div>
+</div>

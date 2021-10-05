@@ -1,0 +1,8 @@
+<mat-chip-list fxLayout="row" fxLayoutAlign="center center">
+  <ng-container *ngIf="pills | async as pillsValue">
+    <mat-chip fxLayout="row" fxLayoutAlign="center center"
+              *ngFor="let pill of pillsValue | keyvalue " title="{{pill['value']}}">
+          {{pill['value']}}
+    </mat-chip>
+  </ng-container>
+</mat-chip-list>

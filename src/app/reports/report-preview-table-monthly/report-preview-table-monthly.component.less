@@ -1,0 +1,108 @@
+@import '../../../assets/css/variables.less';
+
+table.monthly-report-table{
+  th,td {
+    font-weight: normal;
+    font-size: .625rem !important;
+    line-height: 13px;
+    align-items: center;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+  }
+
+  th.text-align-left{
+    text-align: left;
+    padding-left: .5rem;
+  }
+
+  th.lineItemIdOrType, td.lineItemIdOrType{
+    width: 7.5rem
+  }
+  th.vendor, td.vendor{
+    width: 10rem
+  }
+  th.mediaType, td.mediaType{
+    width: 4.75rem
+  }
+  th.market, td.market{
+    width: 7.75rem
+  }
+  th.unitLocationOrMediaDescription, td.unitLocationOrMediaDescription{
+    width: 13.875rem
+  }
+  th.date, td.date{
+    width: 5.625rem
+  }
+  th.periodLength, td.periodLength{
+    width: 6.125rem
+  }
+  th.netCost, td.netCost{
+    width: 4.9375rem
+  }
+  th.salesTax, td.salesTax{
+    width: 4.5625rem
+  }
+
+  th.feeAmount, td.feeAmount{
+    width: 5.5rem
+  }
+  th.netTaxFee, td.netTaxFee{
+    width: 6rem;
+    padding: 0 !important;
+  }
+}
+
+::ng-deep {
+  app-report-preview-table-monthly {
+
+    .mat-table .mat-header-row .mat-header-cell {
+      border: 1px solid var(--grays-bg-600);
+      text-align: center;
+      color: var(--grays-bg-800) !important;
+    }
+
+    .mat-table .mat-row .mat-cell {
+      border: 1px solid var(--grays-bg-600);
+      color: var(--grays-bg-800) !important;
+    }
+
+    .mat-cell.text-right {
+      padding-right: 0.5rem;
+    }
+
+    td.mat-footer-cell {
+      border-bottom-width: 0;
+      border-bottom-style: none;
+      color: var(--grays-bg-800) !important;
+    }
+
+    td.mat-footer-cell.add-border {
+      border: 1px solid var(--grays-bg-600);
+      text-align: right;
+      padding-right: 0.5rem;
+    }
+
+    th.mat-header-cell:first-of-type {
+      padding-left: 0 !important;
+    }
+
+    tr.mat-header-row {
+      height: 29px;
+    }
+    .table-total{
+      font-size: 20px;
+      color: var(--grays-bg-900);
+      text-transform: initial !important;
+    }
+    .sales-description{
+      font-size: 12px;
+      text-transform: initial !important;
+    }
+    .mat-cell:first-child {
+      padding-left: 0 !important;
+    }
+    .footer-gap{
+      height: 3px !important;
+    }
+  }
+}

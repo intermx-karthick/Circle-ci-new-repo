@@ -1,0 +1,123 @@
+<div class='{{informationClasses}}' id='inventoryInfoOverviewPdf' *ngIf="inventoryInformation || infoContent" [class.portrait-view]="!infoContent && inventoryInformation.isLandscape" [ngStyle]="{'height.px': contentHeight}" (window:resize)="onResize()" [class.no-scroll-view]="infoContent">
+  <div *ngIf="!infoContent">
+    <div class="title-text">
+      <a href="javascript:void(0);" class="open_inventory_card {{inventoryInformation.layerType}}"><i class="material-icons">undo</i></a>
+      <a href="javascript:void(0);" class="download_us_pdf {{inventoryInformation.layerType}}"><i class="material-icons">picture_as_pdf</i></a>
+    </div>
+  </div>
+  <div class="info-popup-header">
+    <div class="pull-left">
+      <img class='logo-img' src='../../../assets/images/geopath_black_logo.png'>
+    </div>
+    <div class="pull-right">
+      <h3><b>A GUIDE TO GEOPATH MEASUREMENT</b></h3>
+      <p><b>Geopath is a not-for-profit tripartite
+        measurement body for Out of Home
+        advertising</b><span>. This industry body has been providing audience and circulation measurement for over 85 years.</span></p>
+      <p><span>Geopath Impressions are the fundamental
+      currency for buying and selling Out of
+      Home advertising today. Impressions are
+      not only an opportunity to see but also
+      a likelihood to see. Many years of
+      research went into this methodology to ensure an accurate measure of audience is provided to the marketplace.</span></p>
+    </div>
+  </div>
+  <hr>
+  <h3 class='content-heading'>Definitions</h3>
+  <h3 class='side-headings'>Inventory Specifications</h3>
+  <div>
+    <div class='info-content-div1'>
+      <div class="pull-left left-content">
+        <p><b>Media Class -</b><span> There are 4 media classes: bulletins, posters, walls & murals, and street furniture.</span></p>
+      </div>
+      <div class="pull-right right-content">
+        <p><b>Media Type -</b><span> There are over 50
+        different media types, ranging from Spectaculars, to Junior Posters, to Digital Kiosks.</span></p>
+      </div>
+    </div>
+    <div class='info-content-div1'>
+      <div class="pull-left left-content">
+        <p><b>Spot Dimensions -</b><span> Describes the dimensions or size of the specific panel in either feet and/or inches.</span></p>
+      </div>
+      <div class="pull-right right-content">
+        <p><b>Orientation -</b><span> This describes
+          the direction the media is facing. For instance, N is facing Southbound traffic.</span></p>
+      </div>
+    </div>
+    <div class='info-content-div1'>
+      <div class="pull-left left-content">
+        <p><b>Plant Unit ID -</b><span> This identification
+        comes specifically from the operator and can also be referred to as the Plant Panel ID.</span></p>
+      </div>
+      <div class="pull-right right-content">
+        <p><b>Illumination -</b><span> Written as any
+        number between 0-24, this metric describes the number of hours/day that the media is visible.</span></p>
+      </div>
+    </div>
+  </div>
+  <h3 class='side-heading-with-hr'>Inventory&nbsp;Audience&nbsp;Insights
+    </h3>
+  <div class='info-content-div'>
+    <div class="pull-left left-content">
+      <p><b>Top Contributing Zip Code (Persons: 0+) -</b><span> Here we have ordered the top 5 impression-producing home geographies, by zip code.</span></p>
+      <p><b>Top Contributing DMA (Persons: 0+) -</b><span> Similar to Top
+      Zip Codes, here you will find the markets that produce the most impressions for that specific unit of inventory.</span></p>
+    </div>
+    <div class="pull-right right-content">
+      <p><b>Opportunity Overview -</b><span> This metric
+      provides info as to the highest indexing Prizm Premier market segments, provided by Claritas.</span></p>
+      <p><b>Primary Attributes -</b><span> These attributes
+        including income, age, education, household
+        composition, technology use, and ethnicity are used to personify the “typical” audience for a specific inventory.</span></p>
+    </div>
+  </div>
+  <h3 class='content-heading'>Calculations</h3>
+  <h3 class='side-headings'>In-Market&nbsp;Total&nbsp;Audience Calculations</h3>
+  <div class='info-content-div'>
+    <div class="pull-left left-content">
+      <p><b>Weekly Impressions -</b><span> This is the
+      number of times a message or content are
+      displayed and seen by a defined group of people within a viewable zone of Out of Home Media for a specific week.</span></p>
+      <p><b>Market Population -</b><span> This is the
+        population of a defined area used to
+        contextualize buying and selling media. It can be custom-defined, or a standard geography such as DMA.</span></p>
+    </div>
+    <div class="pull-right right-content">
+      <p><b>In-Market Percentage -</b><span> The percentage
+        of the total audience impressions for an
+        out of home media location that is from all people whose home location is within a defined market geography.</span></p>
+      <p><b>In-Market Impressions -</b><span> The audience
+        impressions for an out of home media location
+        that are from a target audience whose home location is within a defined market geography.</span></p>
+    </div>
+  </div>
+  <h3 class='side-heading-with-hr'>In-Market&nbsp;Target&nbsp;Audience&nbsp;Calculations</h3>
+  <div class='info-content-div'>
+    <div class="pull-left left-content">
+      <p><b>Reach -</b><span> The approximate percentage
+        of a target audience’s population who notice an advertising message at least once during an Out of Home campaign.</span></p>
+      <p><b>Frequency -</b><span> The average number of
+        times an individual notices an Out of Home advertising message during a defined period of time.</span></p>
+    </div>
+    <div class="pull-right right-content">
+      <p><b>TRP -</b><span> The total number of in-market
+        impressions, to a target audience, delivered
+        as a percentage of a market population. One rating point represents impressions equal to 1% of the market population.</span></p>
+      <p><b>Comp Index -</b><span> A measure of how the
+        in-market target audience impression
+        composition percentage relates to the target audience composition of the market population.</span></p>
+    </div>
+  </div>
+  <div class='info-popup-footer text-center'>
+    <p class='contact-info'><b>FOR MORE INFORMATION,
+      PLEASE VISIT <a href='http://geopath.org/' target='_blank'>WWW.GEOPATH.ORG.</a></b></p>
+    <p>geekout@geopath.org  |  561 7th Avenue, 12th Floor, New York, NY 10018   |  212-972-8075</p>
+  </div>
+  <div class='copyright-info text-center'>
+    <p>GEOPATH AUDIENCE LOCATION MEASUREMENT<sup>TM</sup>
+      data is proprietary intellectual property owned by
+      Geopath, Inc., and is to be used only by the recipient
+        solely and exclusively for its planning and/or buying
+        of out of home media advertisements. Copyright {{copyrightYear}} Geopath. All Rights Reserved. <span class="mobile-visible"> Audience data powered by Streetlytics<sup>TM</sup> </span> </p>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<form
+  method="post"
+  class="noAnimation imx-project-form"
+  [formGroup]="scenarioForm"
+  novalidate
+  autocomplete="off"
+  (ngSubmit)="onSubmit(scenarioForm)"
+>
+  <h4 mat-dialog-title>Move {{pageTitle}}</h4>
+  <button mat-icon-button mat-dialog-close class="mat-dialog-close">
+    <mat-icon>highlight_off</mat-icon>
+  </button>
+  <mat-dialog-content>
+    <mat-form-field floatLabel="always">
+      <mat-label>{{labels['project'][0]}}</mat-label>
+      <input type="text"
+             matInput
+             formControlName="project"
+             [matAutocomplete]="auto"
+             class="no-border" required>
+      <mat-autocomplete 
+        autoActiveFirstOption
+        #auto="matAutocomplete"
+        (opened)="updateContainer()"
+        class="cast-list-dd"
+        infiniteScroll
+        [infiniteScrollDistance]="1"
+        [infiniteScrollThrottle]="0"
+        (scrolled)="loadMorePublishedScenario()"
+        [infiniteScrollContainer]="panelContainer"
+        [fromRoot]="true"
+        [displayWith]="displayTitle"
+      >
+        <mat-option *ngFor="let option of projects;trackBy: trackByProjectID;" [value]="option"  >
+          <!-- tooltip="{{option['name']}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" -->
+          {{option['name']}}
+        </mat-option>
+        <mat-option disabled *ngIf="dataLoading">
+          <div fxLayout="row" fxLayoutAlign="space-around center" >
+            <mat-spinner diameter="35"></mat-spinner>
+          </div>
+        </mat-option>
+        <mat-option disabled *ngIf="!dataLoading && projects.length <= 0">
+          No {{labels['project'][0]}} found.
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="scenarioForm.controls.project.invalid && ((scenarioForm.controls.project?.errors?.type || '') !== 'projectNotSelcted')">
+        <span >{{nameValidError}}</span>
+      </mat-error>
+      <mat-error *ngIf="((scenarioForm.controls.project?.errors?.type || '') === 'projectNotSelcted')">
+        <span >{{scenarioForm.controls?.project?.errors?.message}}</span>
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close class="imx-button-basic">Cancel</button>
+    <button mat-button class="imx-button-primary">Move</button>
+  </mat-dialog-actions>
+</form>

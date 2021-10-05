@@ -1,0 +1,39 @@
+<mat-chip-list #chipList [ngClass]="class" *ngIf="!form">
+  <mat-label class="overline" *ngIf="exploreFilters">{{placeholder}}</mat-label>
+  <div class="chipListBlock">
+    <mat-chip *ngFor="let chip of chips;let i = index" (removed)="remove(chip)"
+        [ngClass]="(checkingInvalidChips(chip)) ? 'chip-invalid-color' : ''">
+        <mat-icon class="imx-check-icon" *ngIf="checkingValidChips(chip)">check</mat-icon>
+        <span>{{chip}}</span>
+        <mat-icon matChipRemove>highlight_off</mat-icon>
+    </mat-chip>
+  </div>
+  <div class="clear-all-chips" *ngIf="chips.length > 2">
+    <button mat-button class="imx-button-basic_icon" (click)="clearAll('clear');">CLEAR ALL SPOT IDS <mat-icon>format_clear</mat-icon></button>
+  </div>
+  <div class="chipListBlock">
+    <input matInput [placeholder]="!exploreFilters ? placeholder : ''" [matChipInputFor]="chipList"
+    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" matChipInputAddOnBlur="true"
+    (matChipInputTokenEnd)="add($event)" (paste)="paste($event)" [ngClass]="chips.length <=0 ? 'empty': 'filled'"
+    (focus)="onFocus(type)">
+  </div>
+</mat-chip-list>
+<mat-chip-list #chipList [ngClass]="class" *ngIf="form" fxFlexFill>
+  <div class="chipListBlock">
+    <mat-chip *ngFor="let chip of chips" [removable]="editable" (removed)="remove(chip)"
+      (click)="!editable && onEnableEdit()" [ngClass]="{'cursor-link': !editable}">
+      <mat-icon class="imx-check-icon" *ngIf="checkingValidChips(chip)">check</mat-icon>
+      <span>{{chip}}</span>
+      <mat-icon matChipRemove *ngIf="editable">highlight_off</mat-icon>
+    </mat-chip>
+  </div>
+  <mat-form-field floatLabel="{{matFormConfig['float']}}" floatPlaceholder="never" fxFlexFill class="chip-input"
+    *ngIf="editable">
+    <input matInput [placeholder]="placeholder" [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" matChipInputAddOnBlur="true"
+      (matChipInputTokenEnd)="add($event)" (paste)="paste($event)" [ngClass]="chips.length <=0 ? 'empty': 'filled'"
+      (focus)="triggerFocus()" (blur)="triggerBlur()">
+  </mat-form-field>
+
+</mat-chip-list>
+<mat-hint *ngIf="hint !== ''" class="matHintBlock">{{hint}}</mat-hint>

@@ -1,0 +1,41 @@
+node {
+    def service = "intermx-insights-ui"
+    def environment = "staging"
+
+    try {
+        stage('Clone Deployment Repo') {
+            git url: 'git@github.com:InterMx/intermx-deployments.git', credentialsId: 'impinger-cicd-github'
+        }
+        stage('Update Version and Rollback') {
+            sh "echo \$(expr \"\$(cat helm/revision/${ORGANIZATION}/${environment}/${service})\" - 1) > version"
+            sh "helm list --namespace ${environment}"
+            sh "helm rollback --namespace ${environment} ${service} \"\$(cat version)\""
+            sh "helm list --namespace ${environment}"
+            sh "/usr/local/bin/helm history ${service} --namespace ${environment} --max=1"
+            sh "cat version > helm/revision/${ORGANIZATION}/${environment}/${service}"
+        }
+        stage('Push Rollback Version to Repo') {
+            sshagent (credentials: ['impinger-cicd-github']) {
+                sh '''
+                    git config --local user.name imx-svc && \
+                    git config --local user.email insights-service@intermx.com && \
+                    git diff && \
+                    git add helm/revision/${ORGANIZATION}/${environment}/${service} && \
+                    git diff --quiet && git diff --staged --quiet || git commit -am 'Roll backed revision' && \
+                    git pull origin master --rebase && \
+                    git push -u origin master
+                '''
+            }
+        }
+    }
+
+    catch(exception) {
+        echo "${exception}"
+    }
+
+    finally {
+
+        // Clean up the workspace after finish the job.
+        deleteDir()
+    }
+}

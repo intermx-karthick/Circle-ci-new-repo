@@ -1,0 +1,22 @@
+<div class="c-recap-container">
+  <app-reports-preview-header (triggerAction)='reportHeaderAction($event)'></app-reports-preview-header>
+
+  <hr class='separator'>
+
+  <app-detailed-contract-recap></app-detailed-contract-recap>
+
+  <hr class='separator mt-1' />
+
+  <section class="c-recap-container__report-block">
+    <div *ngFor="let item of [1,2,3.4]">
+      <div class='c-recap-container__line-item'>
+        <app-report-line-item-description></app-report-line-item-description>
+      </div>
+      <div class='c-recap-container__yearly-table'>
+        <app-report-preview-table-yearly></app-report-preview-table-yearly>
+      </div>
+    </div>
+  </section>
+
+</div>
+

@@ -1,0 +1,634 @@
+<div *ngIf="inventoryDetails" class="map-detail-view" [class.portrait-view]="isPortrait" fxLayout="column"
+  fxLayoutAlign="start start">
+  <div class="map-popup-header" fxFill>
+    <div class="width100" *ngIf="!isVisibleInfo">
+        <div fxLayout="row" fxLayoutAlign="center" class="title-header title-align">
+          {{ feature?.media_type?.name | truncate:'middle':15:15}} - {{feature?.plant_frame_id}} : {{feature?.location?.primary_artery}}
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center" class="title-slogan">Facing: {{orientationValue}}</div>
+    </div>
+    <span fxFlex="1 1 auto"></span>
+    <div class="header-action" *ngIf="displayMeasures">
+      <a href="javascript:void(0);" class="close_detailed_popup {{inventoryDetails.layerType}}" (click)="openInventoryPopup()">
+        <mat-icon>undo</mat-icon>
+      </a>
+      <a *ngIf="!isVisibleInfo" href="javascript:void(0);" class="detailed_info_popup {{inventoryDetails.layerType}}" (click)="showInfoPage()">
+        <mat-icon>info</mat-icon>
+      </a>
+      <!-- <mat-icon [ngClass]="{'change_landscape':isPortrait ,'change_portrait': !isPortrait}">
+        {{isPortrait && 'crop_landscape' || 'crop_portrait' }}</mat-icon> -->
+        <mat-spinner diameter="20" strokeWidth="2" *ngIf="isDownloadingPDF"></mat-spinner>
+        <a class="download_us_pdf {{inventoryDetails.layerType}}" (click)="downloadPDF()" *ngIf="!isDownloadingPDF">
+          <mat-icon>picture_as_pdf</mat-icon>
+        </a>
+    </div>
+    <div class="close-request">
+      <button mat-mini-fab (click)="closeDetailPopup()"><mat-icon>close</mat-icon></button>
+    </div>
+   </div>
+  <div class="inventory-detail-body" [ngStyle]="{'height.px': contentHeight}" (window:resize)="onResize()">
+    <div class="inventory-content" fxLayout="row wrap" fxLayoutAlign="space-around start" *ngIf="!isVisibleInfo">
+      <div class="inventory-details inv-card-55">
+        <!-- start static-map-url lanscape view-->
+        <!-- <div class="static-map-url" *ngIf="!isPortrait">
+          <div>
+            <div class="map-image">
+                <div class="latlong" *ngIf="feature.location && feature.location.geometry">LAT/LONG:
+                    {{feature.location.geometry.coordinates[1] | number : '1.4-4'}}/{{feature.location.geometry.coordinates[0] | number : '1.4-4'}}
+                  </div>
+                  
+              <img src="{{viewDetails.staticMapURL}}">
+            </div>
+            <div class="streetcard-card cards">
+              <div>{{feature.location.primary_artery | truncate:'middle':15:15}}</div>
+            </div>
+          </div>
+        </div> -->
+        <!-- close static-map-url-->
+        <div class="inventory-det">
+          <!-- <h5>Inventory at a glance</h5> -->
+          <div>
+            <div class="inventory-det-left">
+              <ul>
+                <li *ngIf = "selectedMarket!== ''"><span class="titleOfLeft">Market</span>
+                   <span [matTooltipClass]="'inventory-tooltip'" 
+                   matTooltip="{{selectedMarketToolTip}}"  
+                   matTooltipPosition="above">{{selectedMarket | truncate:'middle':25:6 }}</span></li>
+                <li><span class="titleOfLeft">Vendor</span>{{ vendor }}</li>
+                <li *ngIf="displayMeasures"><span class="titleOfLeft" >Weekly 18+ Impressions</span>{{propertieDetail.total_market_impressions}}</li>
+                <li><span class="titleOfLeft">Unit Size (H x W)</span>{{ (viewDetails.height && viewDetails.height && viewDetails.height != 'undefined') ?  viewDetails.height: ''}} X {{ ( viewDetails.width && viewDetails.width && viewDetails.width != 'undefined') ? viewDetails.width : ''}}</li>
+                <li><span class="titleOfLeft">Display Type</span> {{feature?.digital ? 'Digital' : 'Printed'}} </li>
+                <li><span class="titleOfLeft">Media Type</span> {{feature?.media_type?.name ? feature.media_type.name : '-'}} </li>
+                <li><span class="titleOfLeft">Media Class</span> {{feature?.classification_type?.name? feature.classification_type.name : '-'}} </li>
+                <li><span class="titleOfLeft">Construction</span> {{feature?.construction?.construction_type?.name? feature.construction.construction_type.name : '-'}} </li>
+                <li *ngIf="feature?.classification_type?.name === 'Place Based'"><span class="titleOfLeft">Placement Type</span> {{  feature?.placement_type?.name? feature.placement_type.name : '-'}} </li>
+                <li *ngIf="feature.digital"> <span  class="digitalTitleLabel">For Digital OOH:</span></li>
+                <li *ngIf="feature.digital"> <span  class="titleOfLeft digital">Full Motion:</span>{{feature?.full_motion ? 'Yes' : 'No'}}</li>
+                <li *ngIf="feature.digital"> <span  class="titleOfLeft digital">Partial Motion:</span>{{feature?.partial_motion ? 'Yes' : 'No'}}</li>
+                <li *ngIf="feature.digital"> <span  class="titleOfLeft digital">Audio Enabled:</span>{{feature?.audio ? 'Yes' : 'No'}}</li>
+                <li *ngIf="feature.digital"> <span  class="titleOfLeft digital">Is Interactive:</span>{{feature?.interactive ? 'Yes' : 'No'}}</li>
+                <li *ngIf="feature.digital"> <span  class="titleOfLeft digital">Pixel Height:</span>{{feature?.max_height ?  feature.max_height: '-'}}</li>
+                <li *ngIf="feature.digital"> <span  class="titleOfLeft digital">Pixel Width:</span>{{feature?.max_width ?  feature.max_width: '-'}}</li>
+                <li *ngIf="feature.digital"><span class="titleOfLeft digital">Ad Length</span> - </li>
+                <li *ngIf="feature.digital"><span class="titleOfLeft digital">Ad in Rotation</span> - </li>
+                <li *ngIf="!feature.digital"> <span  class="digitalTitleLabel">For Non Digital OOH:</span></li>
+                <li *ngIf="!feature.digital"><span class="titleOfLeft digital">Mechanical Rotation</span>{{feature?.rotating ?  feature.rotating: 'No'}} </li>
+                <li *ngIf="!feature.digital"><span class="titleOfLeft digital">Type of Illumnation</span>{{feature?.illumination_type?.name?   feature.illumination_type.name : '-'}}</li>
+                 <!--  commented on 27/09/2019 because of data absense -->
+                <!-- <li><span class="titleOfLeft">Illumination</span>{{ feature.illumination_duration }} </li> -->
+                <li><span class="titleOfLeft">Available Timing</span> - </li>
+                <li><span class="titleOfLeft">Net Cost/Period</span> - </li>
+              </ul>
+            </div>
+            <!-- TODO: below commented lines we have to check and modify in future, and currently we are not getting bellow scenario data -->
+            <!-- <div class="inventory-det-right" *ngIf="feature.digital">
+              <ul>
+                <li><b>Digital AdLength:</b> {{properties.ad_length}{</li>
+                <li><b>Spots in Rotation:</b> {{properties.ads_in_rotation}}</li>
+              </ul>
+            </div> -->
+          </div>
+          <!-- start opportunity Over view-->
+          <!-- <div class="opportunityOverview  {{inventoryDetails.layerType}}">
+            <h5>Opportunity overview</h5>
+            <mat-spinner *ngIf="!inventoryDetails.apiTopSegmentCall" diameter="25"></mat-spinner>
+            <div *ngIf="response.segments && response.segments.length > 0">
+              <ul *ngIf="summary['pop_inmkt'] > 0;else else_market_content">
+                <li class="">
+                  <div class="score-header">Index</div>
+                </li>
+                <li *ngFor="let segment of response.segments; let i=index">
+                  <span class="score" title="Opportunity Index">
+                    {{segment['index_comp_target'] | number : '1.0-0'}}</span>
+                  <span class="score-text" title="{{segment['segment']['name']}}">{{ segment['segment']['name'] | truncate:'middle':15:15 }}</span>
+                </li>
+              </ul>
+            </div>
+            <ng-template #else_market_content>
+              <div class="under-review">Under Review</div>
+            </ng-template>
+          </div>  -->
+          <!-- close opportunity Over view-->
+        </div>
+        <!-- static-img start Portrait-->
+        <!-- <div class="static-img" *ngIf="isPortrait">
+            <img src='{{viewDetails.staticImage}}' onerror="this.src='../assets/images/no_photo.png'" crossorigin='anonymous'>
+        </div> --> 
+        <!-- static-img End-->
+        <!-- start static-map-url Portrait-->
+        <div class="static-map-url" *ngIf="isPortrait">
+          <div>
+            <div class="map-image">
+              <div class="latlong" *ngIf="feature.location && feature.location.geometry">LAT/LONG:
+                {{feature.location.geometry.coordinates[1] | number : '1.4-4'}}/{{feature.location.geometry.coordinates[0] | number : '1.4-4'}}
+              </div>
+              <img src="{{viewDetails.staticMapURL}}">
+            </div>
+            <div class="streetcard-card cards">
+              <div [matTooltipClass]="'inventory-tooltip'" matTooltip="{{feature.location.primary_artery && feature.location.primary_artery}}"  matTooltipPosition="below">{{feature.location.primary_artery | truncate:'middle':15:15}}</div>
+               <div  title="{{feature.location.dma_name}}">Location: <b>{{feature.location.dma_name | truncate:'middle':10:10}}</b></div>
+            </div>
+          </div>
+        </div> <!-- close static-map-url-->
+
+        <div class="static-img" *ngIf="!isPortrait">
+            <div class="pannel-id-title" fxLayout="row" fxLayoutAlign="end" >
+                <span><strong>Geopath Spot ID: </strong>{{feature.id}}</span>
+              </div>
+            <img src='{{ feature.photos | getImageUrl:imageType.FULL_IMAGE }}' onerror="this.src='../assets/images/no_photo.png'" crossorigin='anonymous'>
+        </div>
+
+      </div>
+
+      <!-- topzip details card start -->
+      <div class="mapit-card-main inv-card-40">
+        <!-- static-img start lanscape view-->
+        <!-- <div class="static-img" *ngIf="!isPortrait">
+            <div class="pannel-id-title" fxLayout="row" fxLayoutAlign="end" >
+                <span><strong>Geopath ID: </strong>{{feature.id}}</span>
+              </div>
+            <img src='{{viewDetails.staticImage}}' onerror="this.src='../assets/images/no_photo.png'" crossorigin='anonymous'>
+        </div>
+        <!-- start static-map-url Portrait-->
+
+        <!-- start static-map-url lanscape view-->
+        <div class="static-map-url" *ngIf="!isPortrait">
+          <div>
+            <div class="map-image">
+                <div class="latlong" *ngIf="feature.location && feature.location.geometry">LAT/LONG:
+                    {{feature.location.geometry.coordinates[1] | number : '1.4-4'}}/{{feature.location.geometry.coordinates[0] | number : '1.4-4'}}
+                  </div>
+              <img src="{{viewDetails.staticMapURL}}">
+            </div>
+            <div class="streetcard-card cards">
+              <div [matTooltipClass]="'inventory-tooltip'" matTooltip="{{feature.location.primary_artery && feature.location.primary_artery}}"  matTooltipPosition="below">{{feature.location.primary_artery | truncate:'middle':15:15}}</div>
+              <div  title="{{feature.location.dma_name}}">Location: <b>{{feature.location.dma_name | truncate:'middle':10:10}}</b></div>
+            </div>
+          </div>
+        </div>
+        <!-- close static-map-url-->
+        <!--<div class="static-map-url" *ngIf="isPortrait">
+          <div>
+            <div class="map-image">
+              <div class="latlong" *ngIf="feature.location && feature.location.geometry">LAT/LONG:
+                {{feature.location.geometry.coordinates[1] | number : '1.4-4'}}/{{feature.location.geometry.coordinates[0] | number : '1.4-4'}}
+              </div>
+              <img src="{{viewDetails.staticMapURL}}">
+            </div>
+            <div class="streetcard-card cards">
+              <div>{{feature.location.primary_artery | truncate:'middle':15:15}}</div>
+            </div>
+          </div>
+        </div> --> 
+        <!-- close static-map-url-->
+        <!-- static-img start Portrait-->
+         <div class="static-img" *ngIf="isPortrait">
+            <div class="pannel-id-title" fxLayout="row" fxLayoutAlign="end" >
+                <span><strong>Geopath Spot ID: </strong>{{feature.id}}</span>
+              </div>
+            <img src='{{viewDetails.staticImage}}' onerror="this.src='../assets/images/no_photo.png'" crossorigin='anonymous'>
+        </div> 
+        <!-- static-img End-->
+        <!-- <div class="topzip-card top-zip-card">
+          <h5>Top Zip Codes</h5>
+          <mat-spinner *ngIf="!inventoryDetails.apiZipCall" diameter="25"></mat-spinner>
+          <div class="topzip"
+               *ngIf="viewDetails.topZipDetails.length > 0 && inventoryDetails.apiZipCall;else topZip_div">
+            <div *ngIf="summary['pop_inmkt'] > 0;else under_review">
+              <ul>
+                <li *ngFor="let topzip of viewDetails.topZipDetails;let i=index">
+                  <span class="steps">{{i + 1}}</span>
+                  <span>{{topzip['zip']}}</span>
+                  <span class="percent top-percent-position">{{ topzip['pct'] | convert: 'PERCENT'}}%</span>
+                </li>
+              </ul>
+              <button id="map-it-zip" type="button" mat-raised-button color="primary"><i class="material-icons">map</i>
+                <span>Map It</span></button>
+            </div>
+            <ng-template #under_review>
+              <div class="under-review" >Under Review</div>
+            </ng-template>
+          </div>
+          <ng-template #topZip_div>
+            <div class="coming_soon_div" *ngIf="inventoryDetails.apiZipCall"> <i class="material-icons">tag_faces</i>
+              <h4>COMING SOON!</h4>
+            </div>
+          </ng-template>
+        </div> -->
+        <!-- <div class="topmarket-card top-zip-card">
+          <h5>Top out-of-market areas</h5>
+          <mat-spinner *ngIf="!inventoryDetails.apiDmaCall" diameter="25"></mat-spinner>
+          <div class="topzip"
+            *ngIf="viewDetails.topMarketDetails.length  > 0 && inventoryDetails.apiDmaCall;else topmarket_div">
+            <div *ngIf="summary['pop_inmkt'] > 0;else under_review">
+              <ul>
+                <li *ngFor="let topmarket of viewDetails.topMarketDetails;let i=index">
+                  <span class="steps">{{ i + 1 }}</span><span title="{{topmarket['name']}}"><span class="desc-topmarket" [class.landscape-view]="!isPortrait">{{isPortrait ? (topmarket['name'] | truncate:'middle':16:5) : (topmarket['name'] | truncate:'middle':26:6)}}</span>
+                    <i class="percent top-percent-position">{{topmarket['pct'] | convert: 'PERCENT' }}%</i></span>
+                </li>
+              </ul>
+              <button id="map-it-dma" type="button" mat-raised-button color="primary"><i class="material-icons">map</i>
+                <span>Map It</span></button>
+            </div>
+            <ng-template #under_review>
+              <div class="under-review">Under Review</div>
+            </ng-template>
+          </div>
+          <ng-template #topmarket_div>
+            <div class="coming_soon_div" *ngIf="inventoryDetails.apiDmaCall"> <i class="material-icons">tag_faces</i>
+              <h4>COMING SOON!</h4>
+            </div>
+          </ng-template>
+        </div> -->
+        <div class="audienceSummary-table" *ngIf="!isPortrait">
+            <div class="clearfloat mobile-hide"></div>
+            <!-- Audience Summary started -->
+            <div class="audienceSummary cards">
+              <div class="audienceSummary-title">
+                <h5>Weekly Audience Summary</h5>
+                <!-- <img src='../../assets/images/sl_poweredby-dark.png'  class='clsPowerByLogo'> -->
+              </div>
+
+              <div class="audienceSummaryTable"
+                *ngIf="summary['pop_inmkt'] > 0">
+                <div class="audienceSummaryLeft">
+                  <table>
+                    <!-- table header -->
+                    <tr class="header">
+                      <th></th>
+                      <th>Market <br> Population</th>
+                      <th>Impressions</th>
+                      <th>
+                        <div class="percentageHeader">In-Market Percentage </div>
+                      </th>
+                      <th>
+                        <div class="lastHeader">In-Market <br> Impressions</div>
+                      </th>
+                      <th class="audienceStaticsHeader"></th>
+                    </tr>
+                    <!-- data row -->
+                    <tr>
+                      <td [matTooltipClass]="'inventory-tooltip'" matTooltip="{{inventoryDetails?.defaultAudience?.description}}"  matTooltipPosition="above">{{inventoryDetails?.defaultAudience?.description | truncate:'middle':3:4}}</td>
+                      <!-- <td>Total (18+)</td> -->
+                      <td>{{propertieDetail.total_market_population}}</td>
+                      <td>{{propertieDetail.total_market_impressions}}</td>
+                      <td>{{propertieDetail.total_market_percentage}}</td>
+                      <td>{{propertieDetail.total_in_market_impressions}}</td>
+                      <td></td>
+                    </tr>
+                    <tr *ngIf="displayMeasures && inventoryDetails?.targetAudience?.id !== defaultAudience['audienceKey']">
+                      <td>
+                        TARGET
+                      </td>
+      
+                      <td>
+                        {{propertieDetail.target_market_population}}
+                      </td>
+      
+                      <td>
+                        {{propertieDetail.target_market_impressions}}
+                      </td>
+      
+                      <td>
+                        {{propertieDetail.target_market_percentage}}
+                      </td>
+      
+                      <td>
+                        {{propertieDetail.target_in_market_impressions}}
+                      </td>
+                      <!-- <td>
+                        <div class="audienceStaticsRow1">
+                          <div class="pull-left">
+                            <span>TRP</span><span>{{propertieDetail.trp}}</span>
+                          </div>
+                          <div class="pull-left">
+                            <span>REACH</span><span>{{propertieDetail.reach}}</span>
+                          </div>
+                          <div class="pull-left">
+                            <span>FREQUENCY</span><span>{{propertieDetail.frq}}</span>
+                          </div>
+                        </div>
+                      </td> -->
+                    </tr>
+                    <!-- data row end -->
+                    <!-- data row -->
+                    <tr *ngIf="displayMeasures && inventoryDetails?.targetAudience?.id !== defaultAudience['audienceKey']">
+                      <td>
+                        COMP
+                      </td>
+      
+                      <td>
+                        {{propertieDetail.composition_market_population}}
+                      </td>
+      
+                      <td>
+                        {{propertieDetail.composition_market_impressions}}
+                      </td>
+                      <td>
+                        N/A
+                      </td>
+      
+                      <td>
+                        {{propertieDetail.composition_in_market_impressions}}
+                      </td>
+                      <!-- <td>
+                        <div class="audienceStaticsRow2">
+                          <span>COMPOSITION INDEX</span><span>{{propertieDetail.comp}}</span>
+                        </div>
+                      </td> -->
+                    </tr>
+                    <tr *ngIf="displayMeasures && inventoryDetails?.targetAudience?.id === defaultAudience['audienceKey']">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                          <div class="audienceStaticsRow2">
+                            <span>COMPOSITION INDEX</span><span>{{propertieDetail.comp}}</span>
+                          </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="displayMeasures && inventoryDetails?.targetAudience?.id !== defaultAudience['audienceKey']">
+                      <td>Target Summary</td>
+                      <td>TRP</td>
+                      <td>REACH</td>
+                      <td>FREQUENCY</td>
+                      <td>COMP INDEX</td>
+                    </tr>
+                    <tr class="audienceStatisticsMobile  mobile-visible"
+                    *ngIf="displayMeasures && inventoryDetails.type !== 'pdf' && inventoryDetails?.targetAudience?.id !== defaultAudience['audienceKey']">
+                      <td>Target Summary</td>  
+                     <td>TRP</td>
+                      <td>REACH</td>
+                      <td>FREQUENCY</td>
+                      <td>COMP INDEX</td>
+                    </tr>
+                    <tr class="audienceStatisticsMobile  mobile-visible"
+                      *ngIf="displayMeasures && inventoryDetails.type !== 'pdf' && inventoryDetails?.targetAudience?.id !== defaultAudience['audienceKey']">
+                      <td></td>
+                      <td>{{propertieDetail.trp}}</td>
+                      
+                      <td>{{propertieDetail.reach}}</td>
+                      
+                      <td>{{propertieDetail.frq}}</td>
+                      
+                      <td>{{propertieDetail.comp}}</td>
+                      
+                    </tr>
+                    <tr *ngIf=" displayMeasures && inventoryDetails?.targetAudience?.id !== defaultAudience['audienceKey']">
+                     <td></td>
+                      <td>{{propertieDetail.trp}}</td>
+                      
+                      <td>{{propertieDetail.reach}}</td>
+                      
+                      <td>{{propertieDetail.frq}}</td>
+                      
+                      <td>{{propertieDetail.comp}}</td>
+                     
+                    </tr>
+                    <!-- <tr class="audienceStatisticsMobile  mobile-visible"
+                      *ngIf="inventoryDetails.type !== 'pdf' && inventoryDetails.targetAudience.id !== 'pf_pop'">
+                      <th>REACH</th>
+                      <td></td>
+                      <td></td>
+                      <td>{{propertieDetail.reach}}</td>
+                      <td></td>
+                    </tr>
+                    <tr class="audienceStatisticsMobile  mobile-visible"
+                      *ngIf="inventoryDetails.type !== 'pdf' && inventoryDetails.targetAudience.id !== 'pf_pop'">
+                      <th>FREQUENCY</th>
+                      <td></td>
+                      <td></td>
+                      <td>{{propertieDetail.frq}}</td>
+                      <td></td>
+                    </tr>
+                    <tr class="audienceStatisticsMobile  mobile-visible"
+                      *ngIf="inventoryDetails.type !== 'pdf' && inventoryDetails.targetAudience.id !== 'pf_pop'">
+                      <th>COMP INDEX</th>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>{{propertieDetail.comp}}</td>
+                    </tr> -->
+                  </table>
+                </div>
+              </div>
+              <div class="under-review-div"
+                *ngIf="summary['pop_inmkt'] === 0">Under
+                Review
+              </div>
+            </div>
+            <div class='copyright-info text-center'>
+              <p>GEOPATH AUDIENCE LOCATION MEASUREMENT<sup>TM</sup>
+                data is proprietary intellectual property owned by
+                Geopath, Inc., and is to be used only by the recipient
+                solely and exclusively for its planning and/or buying
+                of out of home media advertisements. Copyright
+                {{copyrightYear}} Geopath. All Rights Reserved. Audience data powered by Streetlytics<sup>TM</sup>.</p>
+            </div>
+          </div>
+          <div class="audienceCertificate" *ngIf="!isPortrait">
+              <ul>
+                <li *ngIf="selectedMarket!==''"><span [matTooltipClass]="'inventory-tooltip'"
+                    matTooltip="{{selectedMarketToolTip}}"
+                    matTooltipPosition="above">{{selectedMarket && selectedMarketType &&  selectedMarketType || 'DMA'}} :
+                    {{selectedMarket | truncate:'middle':25:6 }}</span></li>
+                <br *ngIf="isPortrait">
+                <li><span [matTooltipClass]="'inventory-tooltip'" matTooltip="({{inventoryDetails?.measures_release}}) {{inventoryDetails?.targetAudience?.name}}"
+                    matTooltipPosition="above">TARGET: ({{inventoryDetails?.measures_release}}) {{inventoryDetails?.targetAudience?.name | truncate:'middle':10:10}}</span>
+                </li>
+              </ul>
+              <div class="recommendation-notes" *ngIf="notesAccess==='active'">
+                <p class="title">Recommendation & Unit Notes:</p>
+                <div class="inventory-notes-div" *ngIf="!isNoteEdit">
+                  <p class="inventory-notes-value" *ngIf="noteText !== ''">{{noteText}}</p>
+                  <p class="icon" title="edit" (click)="editNote()"><mat-icon class="inventory-notes-edit">edit</mat-icon></p>
+                </div>
+                <div *ngIf="isNoteEdit">
+                  <mat-form-field >
+                    <textarea matInput [(ngModel)]="noteText" [autofocus]="true" #refNode></textarea>
+                  </mat-form-field>
+                </div>
+                <div class="note-button-section" *ngIf="isNoteEdit">
+                  <button mat-raised-button class="btn-primary-color inventory-notes-submit" (click)="onSaveNote()"><mat-spinner diameter="20" strokeWidth="2" *ngIf="isSavingNote"></mat-spinner> <span>SAVE</span> </button>
+                  <button mat-raised-button class="btn-primary-color inventory-notes-cancel" (click)="nodeCancel()">CANCEL</button>
+                </div> 
+              </div>
+            </div>
+      </div><!-- closetopzip details card start -->
+    </div><!-- inventory-detail-body close -->
+
+
+    <div class="audienceSummary-table" *ngIf="isPortrait && !isVisibleInfo">
+      <div class="clearfloat mobile-hide"></div>
+      <!-- Audience Summary started -->
+      <div class="audienceSummary cards">
+        <div class="audienceSummary-title">
+          <h5>Weekly Audience Summary</h5>
+          <!-- <img src='../../assets/images/sl_poweredby-dark.png'  class='clsPowerByLogo'> -->
+          <div class="audienceCertificate">
+            <ul>
+              <li *ngIf="selectedMarket!==''">
+                <span [matTooltipClass]="'inventory-tooltip'" matTooltip="{{selectedMarketToolTip }}"  matTooltipPosition="above">
+                  - : {{selectedMarket | truncate:'middle':25:6 }}</span></li>
+              <br *ngIf="isPortrait">
+              <li><span [matTooltipClass]="'inventory-tooltip'" matTooltip="{{inventoryDetails?.targetAudience?.name}}"  matTooltipPosition="above">TARGET: {{inventoryDetails?.targetAudience?.name | truncate:'middle':12:12}}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- <div class="recommendation-notes">
+            <p>Recommendation & Unit Notes:</p>
+            <p>Above indexing unit with solid pedestrian & 
+              vehicular visibility day & night, due to commercial and nightlife destinations 
+              in the neighborhood.</p>
+        </div> -->
+
+        <div class="audienceSummaryTable"
+          *ngIf="summary['pop_inmkt'] > 0">
+          <div class="audienceSummaryLeft">
+            <table>
+              <!-- table header -->
+              <tr class="header">
+                <th></th>
+                <th>Market Population</th>
+                <th>Impressions</th>
+                <th>
+                  <div class="percentageHeader">In-Market Percentage </div>
+                </th>
+                <th>
+                  <div class="lastHeader">In-Market Impressions</div>
+                </th>
+                <th class="audienceStaticsHeader"></th>
+              </tr>
+              <!-- data row -->
+              <tr>
+                <td>Total (18+)</td>
+                <td>{{propertieDetail.total_market_population}}</td>
+                <td>{{propertieDetail.total_market_impressions}}</td>
+                <td>{{propertieDetail.total_market_percentage}}</td>
+                <td>{{propertieDetail.total_in_market_impressions}}</td>
+                <td></td>
+              </tr>
+              <tr *ngIf="displayMeasures && inventoryDetails?.targetAudience?.id !== defaultAudience['audienceKey']">
+                <td>
+                  TARGET
+                </td>
+
+                <td>
+                  {{propertieDetail.target_market_population}}
+                </td>
+
+                <td>
+                  {{propertieDetail.target_market_impressions}}
+                </td>
+
+                <td>
+                  {{propertieDetail.target_market_percentage}}
+                </td>
+
+                <td>
+                  {{propertieDetail.target_in_market_impressions}}
+                </td>
+                <td>
+                  <div class="audienceStaticsRow1">
+                    <div class="pull-left">
+                      <span>TRP</span><span>{{propertieDetail.trp}}</span>
+                    </div>
+                    <div class="pull-left">
+                      <span>REACH</span><span>{{propertieDetail.reach}}</span>
+                    </div>
+                    <div class="pull-left">
+                      <span>FREQUENCY</span><span>{{propertieDetail.frq}}</span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <!-- data row end -->
+              <!-- data row -->
+              <tr *ngIf="displayMeasures && inventoryDetails?.targetAudience?.id !== defaultAudience['audienceKey']">
+                <td>
+                  COMP
+                </td>
+
+                <td>
+                  {{propertieDetail.composition_market_population}}
+                </td>
+
+                <td>
+                  {{propertieDetail.composition_market_impressions}}
+                </td>
+                <td>
+                  N/A
+                </td>
+
+                <td>
+                  {{propertieDetail.composition_in_market_impressions}}
+                </td>
+                <td>
+                  <div class="audienceStaticsRow2">
+                    <span>COMPOSITION INDEX</span><span>{{propertieDetail.comp}}</span>
+                  </div>
+                </td>
+              </tr>
+              <tr class="audienceStatisticsMobile  mobile-visible"
+                *ngIf="displayMeasures && inventoryDetails.type !== 'pdf' && inventoryDetails?.targetAudience?.id !== defaultAudience['audienceKey']">
+                <td>TRP</td>
+                      <td>{{propertieDetail.trp}}</td>
+                      <td>REACH</td>
+                      <td>{{propertieDetail.reach}}</td>
+                      <td>FREQUENCY</td>
+                      <td>{{propertieDetail.frq}}</td>
+                      <td>COMP INDEX</td>
+                      <td>{{propertieDetail.comp}}</td>
+                  <td></td>
+              </tr>
+              <!-- <tr class="audienceStatisticsMobile  mobile-visible"
+                *ngIf="inventoryDetails.type !== 'pdf' && inventoryDetails.targetAudience.id !== 'pf_pop'">
+                <th>REACH</th>
+                <td></td>
+                <td></td>
+                <td>{{propertieDetail.reach}}</td>
+                <td></td>
+              </tr>
+              <tr class="audienceStatisticsMobile  mobile-visible"
+                *ngIf="inventoryDetails.type !== 'pdf' && inventoryDetails.targetAudience.id !== 'pf_pop'">
+                <th>FREQUENCY</th>
+                <td></td>
+                <td></td>
+                <td>{{propertieDetail.frq}}</td>
+                <td></td>
+              </tr>
+              <tr class="audienceStatisticsMobile  mobile-visible"
+                *ngIf="inventoryDetails.type !== 'pdf' && inventoryDetails.targetAudience.id !== 'pf_pop'">
+                <th>COMP INDEX</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{propertieDetail.comp}}</td>
+              </tr> -->
+            </table>
+          </div>
+        </div>
+        <div class="under-review-div"
+          *ngIf="summary['pop_inmkt'] === 0">Under
+          Review
+        </div>
+      </div>
+      <div class='copyright-info text-center'>
+        <p>GEOPATH AUDIENCE LOCATION MEASUREMENT<sup>TM</sup>
+          data is proprietary intellectual property owned by
+          Geopath, Inc., and is to be used only by the recipient
+          solely and exclusively for its planning and/or buying
+          of out of home media advertisements. Copyright
+          {{copyrightYear}} Geopath. All Rights Reserved. Audience data powered by Streetlytics<sup>TM</sup>.</p>
+      </div>
+    </div>
+    <app-explore-inventory-information [infoContent]="'true'" *ngIf="isVisibleInfo"></app-explore-inventory-information>
+
+  </div>
+
+</div>
+
+

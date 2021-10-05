@@ -1,0 +1,199 @@
+@import "../../../assets/css/variables.less";
+
+::ng-deep {
+  app-reports-impression-variation {
+    .report-body{
+      height: calc(~"100vh - 120px") ;
+      overflow: auto;
+    }
+    .title-div {
+      h4 {
+        text-align: center;
+        margin: 10px;
+        color: var(--primary-bg);
+      }
+    }
+    .row-one {
+      margin-left: 10px;
+    }
+    .map-div-block {
+      
+    }
+    .map-div {
+      position: relative;
+      height: 100% !important;
+      #reportMap {
+        width: 100% !important;
+        border: 1px solid var(--grays-bg-500);
+      }
+      .mapboxgl-ctrl-top-left {
+        position: absolute;
+        top: inherit;
+        bottom: 80px;
+        z-index: 2;
+      }
+      .mapboxgl-ctrl-bottom-left {
+        .mapboxgl-ctrl-locate-me {
+          position: relative;
+          bottom: 42px;
+          margin-bottom: 0;
+        }
+      }
+      .map-zoom-out {
+        bottom: 120px;
+        left: 11px;
+        z-index: 2;
+        position: absolute;
+        i {
+          color: var(--g-color);
+        }
+      }
+      .map-selection-tools {
+        bottom: 120px;
+        left: 11px;
+        z-index: 2;
+        position: absolute;
+        .action-btn {
+          width: 30px;
+          float: left;
+        }
+        .selection-controls {
+          display: block;
+          float: left;
+          height: 30px;
+          margin-left: 5px;
+        }
+        i {
+          color: var(--g-color);
+          font-size: 30px;
+        }
+        &:hover {
+          .selection-controls {
+            display: block;
+          }
+        }
+      }
+      .map-legends {
+        padding: 5px;
+        margin: 10px 5px;
+        div {
+          padding: 2px;
+        }
+        .color-block {
+          border: 1px solid var(--grays-bg-500);
+          margin: 5px;
+          padding: 0;
+          div.color {
+            width: 15px;
+            height: 10px;
+            border-left: 1px solid var(--grays-bg-500);
+            background: #cccccc;
+          }
+        }
+      }
+    }
+    .charts-div {
+     // border: 1px solid var(--grays-bg-500);
+    }
+    .variation-mat-table {
+      width: 100%;
+      .mat-header-row {
+        height: 30px;
+        .mat-header-cell {
+          &.align-center {
+            text-align: center;
+            .mat-sort-header-content {
+              margin: auto;
+            }
+          }
+          padding: 0px !important;
+        }
+      }
+      .mat-row {
+        height: 30px;
+        .mat-cell {
+
+        }
+      }
+    }
+    .chartTableToggleBtn {
+      max-width: 100%;
+      margin: 0px !important;
+      padding: 0 10px !important;
+      height: 50px !important;
+      line-height: 20px  !important;
+      .mat-button-wrapper {
+        white-space: normal;
+      }
+    }
+    .filterBlock {
+      > div {
+        // border: 1px solid var(--grays-bg-500);
+        margin-left: 10px;
+        mat-form-field {
+          padding: 15px;
+          width: 100%;
+        }
+      }
+      > div:last-child {
+        border: none;
+        margin-right: 10px;
+      }
+    }
+    .dateRangeFilter {
+      padding: 15px;
+      .dateRangeFilterSilder {
+        margin: 10px 0;
+        > div:nth-child(0) {
+          text-align: left;
+        }
+        > div:last-child {
+          text-align: right;
+        }
+      }
+    }
+    .ngx-slider {
+      margin: 0;
+    }
+    .ngx-slider .ngx-slider-bar-wrapper {
+      margin-top: 0;
+      padding-top: 0;
+      height: 0;
+    }
+    .ngx-slider .ngx-slider-pointer {
+      width: 16px;
+      height: 16px;
+      top: -5.5px;
+      background-color: var(--button-bg-color);
+    }
+    .ngx-slider .ngx-slider-pointer:after {
+      width: 0px;
+      height: 0px;
+    }
+    .ngx-slider .ngx-slider-selection {
+      background: var(--button-bg-color);
+    }
+    .ngx-slider .ngx-slider-bar {
+      height: 4px;
+    }
+    .ngx-slider-bubble {
+      display: none !important;
+    }
+    .ngx-slider .ngx-slider-model-value .label-value {
+      margin-left: -2px;
+    }
+    .ngx-slider .ngx-slider-model-high .label-value {
+      margin-left: -2px;
+    }
+    .ngx-slider .ngx-slider-bar {
+      background: var(--button-bg-color);
+      opacity: 0.38;
+    }
+    .cbsaMapPopup {
+      padding: 10px;
+      & div {
+        display: block;
+      }
+    }
+  }
+}

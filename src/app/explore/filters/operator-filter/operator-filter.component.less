@@ -1,0 +1,80 @@
+::ng-deep {
+    app-operator-filter {
+        .operator-container {
+            width: 97%;
+        .search-field {
+            // padding: 0px 25px 0px 20px;
+            .mat-form-field-wrapper {
+                margin-bottom: -1.25em
+              }
+              input {
+                height: inherit;
+                border-bottom: none;
+                &:focus {
+                  border-bottom: none !important;
+                  box-shadow: unset !important;
+                }
+              }
+              mat-icon {
+                color: var(--medium-emphasis);
+              }
+        }
+        .action-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            & > button {
+              height: 28px;
+              width: 55px;
+              min-width: 55px;
+              font-size: 10px;
+              font-weight: bold;
+              letter-spacing: 0.83px;
+              line-height: normal;
+              border-radius: 4px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              &.btn-primary-color {
+                background: var(--button-bg-color);
+                color: #ffffff;
+                margin-left: 8px;
+              }
+              &.btn-clear {
+                background-color: var(--grays-bg-200);
+              }
+            }
+        }
+        .mat-selection-list {
+            max-height: 150px;
+            overflow-y: auto;
+            .mat-list-option {
+                width: 100%;
+                .mat-list-item-content {
+                  padding: 0px;
+                    .mat-list-text {
+                        display: inline-block !important;
+                        padding-left: 10px !important;
+                        font-size: 14px;
+                        color: var(--high-emphasis) !important;
+                        .pull-right {
+                            float: right !important;
+                            font-size: 14px;
+                            color: var(--high-emphasis) !important;
+                        }
+                    }
+                    .mat-pseudo-checkbox {
+                        /* width: 17px !important;
+                        height: 17px !important; */
+                        color: var(--low-emphasis) !important;
+                    }
+                    .mat-accent .mat-pseudo-checkbox-checked, .mat-accent .mat-pseudo-checkbox-indeterminate, .mat-pseudo-checkbox-checked, .mat-pseudo-checkbox-indeterminate {
+                        background: var(--button-bg-color) !important;
+                      }
+                }
+            }
+        }
+        }
+    }
+}

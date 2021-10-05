@@ -1,0 +1,180 @@
+<div class="market-plan" [ngClass]="{'IMX-fullscreen':isFullScreen}">
+  <div fxLayout="row" class="plan-header-action">
+    <div fxFlex="20" class="total-record" fxLayoutAlign="start center" *ngIf="!searchFilterApplied">
+      Total : {{fDatas?.length}}
+    </div>
+    <div fxFlex="20" class="total-record" fxLayoutAlign="start center" *ngIf="searchFilterApplied">
+      Found : {{dataSource?.data?.length}} / {{fDatas?.length}}
+    </div>
+    <div fxFlex="80" fxLayoutAlign="end" fxLayoutGap="18px">
+      <ng-container *ngIf="!isDialogOpened">
+        <div>
+          <mat-icon class="tune-icon" *ngIf="projectOwnerEmail === userEmail" (click)="openFilter()"  tooltip="Parameters" placement="left" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">tune</mat-icon>
+        </div>
+        <div>
+          <mat-icon svgIcon="IMX-columns" class="svg-primary" (click)="customizeColumn()" tooltip="Customize Columns" placement="left" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"></mat-icon>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!isDialogOpened; else closeDialog">
+        <mat-icon (click)="openMarketSummaryInDialog()"
+                  tooltip="Expand Table" placement="top" delay="200"
+                  tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+          zoom_out_map
+        </mat-icon>
+      </ng-container>
+
+      <ng-template #closeDialog>
+        <mat-icon tooltip="Collapse Table" placement="top" delay="200"
+                  tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" svgIcon="IMX-fullscreen-exit"
+                  class="full-screen-exit-icon" (click)="closeDialogBox()"></mat-icon>
+      </ng-template>
+    </div>
+
+    <!--<div>
+      <mat-icon>zoom_out_map</mat-icon>
+    </div>-->
+  </div>
+  <div class="plan-table-list" id="{{ isDialogOpened ? 'inventory-plan-dialog-fullscreen' : ''}}">
+  <mat-table #table [dataSource]="dataSource" class="imx-table-striped table-header-auto plan-table"  multiTemplateDataRows matSort [matSortActive]="defaultSort" [matSortDirection]="activeSort.start" (mouseleave)="onHoverOut()" >
+    <ng-container matColumnDef="accordion">
+      <mat-header-cell *matHeaderCellDef fxFlex="40px"></mat-header-cell>
+      <mat-cell *matCellDef="let element" fxFlex="40px">
+        <mat-icon class="expanted-icon" (click)="toggleExpandAndCollapseRow(element?.id)">
+          {{ isRowExpanded(element?.id) ? 'keyboard_arrow_up':'keyboard_arrow_down' }}
+        </mat-icon>
+      </mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="{{(isOMG) ? 'package': 'planId'}}">
+      <mat-header-cell *matHeaderCellDef  mat-sort-header fxFlex="8%" #PlanOverlayOrigin="cdkOverlayOrigin" cdkOverlayOrigin> {{(isOMG) ? 'Package' : 'Plan'}} <mat-icon class="filter-action" (click)="$event.stopPropagation();plansFilterOverlayOrigin = PlanOverlayOrigin; isPlanFilterOpen = !isPlanFilterOpen; isAudienceFilterOpen = false" #PlanOverlayOrigin="cdkOverlayOrigin"
+        cdkOverlayOrigin>search</mat-icon></mat-header-cell>
+      <mat-cell *matCellDef="let element" fxFlex="8%"><a
+          class="primary-tex-color expanded-name" (click)="toggleExpandAndCollapseRow(element?.id)"><span tooltip="{{element?.planId }}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">{{element?.planId}}</span></a> </mat-cell>
+    </ng-container>
+
+    <!-- Audience name -->
+    <ng-container matColumnDef="audience">
+      <mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="13%" class="text-left"  #CdkOverlayOrigin="cdkOverlayOrigin" cdkOverlayOrigin> Audience <mat-icon class="filter-action" svgIcon="IMX-filter" (click)="$event.stopPropagation();audienceOverlayOrigin = CdkOverlayOrigin; isAudienceFilterOpen = !isAudienceFilterOpen; isPlanFilterOpen = false" ></mat-icon> </mat-header-cell>
+      <!-- <mat-cell *matCellDef="let element" fxFlex="13%" class="text-left">
+      <span tooltip="({{element.measuresRelease}}) {{element?.audience }}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">({{element.measuresRelease}})<br>{{element.audience | truncate:'middle':18:6}}</span> </mat-cell> -->
+      <mat-cell *matCellDef="let element" fxFlex="13%" class="text-left text-wrap-colum">
+        <span>({{element.measuresRelease}})<br>{{element.audience}}</span> </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="market">
+      <mat-header-cell *matHeaderCellDef  mat-sort-header fxFlex="13%" class="text-left"> Market </mat-header-cell>
+      <!-- <mat-cell *matCellDef="let element" fxFlex="13%" class="text-left"> <span tooltip="{{element?.market }}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">{{element.market | truncate:'middle':30:6}}</span> </mat-cell> -->
+      <mat-cell *matCellDef="let element" fxFlex="13%" class="text-left text-wrap-colum">
+        <!-- <span>{{element.market }}</span> -->
+        <app-imx-market-table-section [value] = "element.markets" [length] = "5"></app-imx-market-table-section>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="trp">
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10%" class="width10per text-left"> TRP
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element" fxFlex="10%" class="width10per text-left">
+        {{ (element.trp && element.trp.toFixed(3)  || '-') }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="reach">
+      <mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="10%"  class="width10per text-left"> Reach %
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element"  fxFlex="10%" class="width10per text-left">
+        {{ (element.reach && (element.reach | convert:'DECIMAL':2) + '%' || '-') }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="reachNet">
+      <mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="10%" class="width10per text-left"> Reach Net
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element" fxFlex="10%" class="width10per text-left">
+        {{ (element.reachNet && (element.reachNet | convert:'THOUSAND') || '-') }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="frequency">
+      <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10%" class="width10per text-left"> Frequency </mat-header-cell>
+      <mat-cell *matCellDef="let element" fxFlex="10%" class="width10per text-left">
+            {{(element.frequency && (element.frequency | convert:'DECIMAL':2 ) || '-')}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="targetInMarketImp">
+      <mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="10%" class="width10per text-left"> Target In-Mkts Imp.
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element"  fxFlex="10%"  class="width10per text-left">
+        {{ (element.targetInMarketImp && (element.targetInMarketImp | convert:'THOUSAND') || '-') }} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="targetImp">
+      <mat-header-cell *matHeaderCellDef mat-sort-header   fxFlex="10%"  class="width10per text-left"> Target Imp.
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element"  fxFlex="10%"  class="width10per text-left">
+        {{ (element.targetImp && (element.targetImp | convert:'THOUSAND') || '-') }} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="totalImp">
+      <mat-header-cell *matHeaderCellDef mat-sort-header  fxFlex="10%" class="width10per text-left"> Total Imp.
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element"  fxFlex="10%"  class="width10per text-left">
+        {{ (element.totalImp && (element.totalImp | convert:'THOUSAND') || '-') }} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="isLoader" >
+      <mat-header-cell *matHeaderCellDef  fxFlex="10%"  class="width10per" style="width: 30px" fxFlex="5%"></mat-header-cell>
+      <mat-cell *matCellDef="let element"  fxFlex="10%"  class="width10per" style="width: 30px" fxFlex="5%" [ngClass]="{'loader-padding':element['isLoader']}">
+        <mat-spinner *ngIf="element['isLoader']" [strokeWidth]="2" [diameter]="25"></mat-spinner>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef fxFlex="80px"></mat-header-cell>
+      <mat-cell *matCellDef="let element; let i = dataIndex;" fxFlex="80px">
+
+        <ng-container  *ngIf="(isRowExpanded(element?.id) || element['id'] === hoveredRowId) && (projectOwnerEmail === userEmail)">
+          <div class= "plan-edit-icon" (click)="editPlan(element, i)">
+            <mat-icon  svgIcon="IMX-edit"  tooltip="Edit Package" placement="left" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"></mat-icon>
+          </div>
+
+          <div class= "plan-edit-icon" (click)="updatePlan(element, i)">
+            <mat-icon svgIcon="IMX-update" tooltip="Update Package" placement="left" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"></mat-icon>
+          </div>
+        </ng-container>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <mat-cell *matCellDef="let element;" class='market-plan-list'>
+        <div [ngClass]="isRowExpanded(element?.id) ? 'market-plan-list--expanded' : 'market-plan-list--collapsed'" class="element-detail">
+          <app-market-plans-list
+            [refresh$]="refreshMarketList$"
+            [isLoader] = "isLoader"
+            [goalFormData]="element.query['goals']"
+            [planData]="element"
+            [isCalculatingData]="element['isLoader']"
+            [editPlan$]="editPlan$"
+            [updatePlan$]="updatePlan$"
+            [plansViewState]="plansViewState"
+            [scenarioId]="scenarioId"
+            (updateParentPlanTotal) = "updateParentPlanTotal($event,element)"
+            (updatePlansViewState) = "updatePlansViewState($event)"
+            (loaderStatus) = "initLoader($event)"
+          [projectOwnerEmail]="projectOwnerEmail" [userEmail]="userEmail"></app-market-plans-list>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let row; let i = dataIndex; columns: displayedColumns;" class="element-row" matRipple
+      [ngClass]="{'bg-collapsed': ((i+1)%2) == 0}" [class.expanded]="isRowExpanded(row?.id)" (mouseover)="onHoverRow(row['id'])">
+    </mat-row>
+    <mat-row *matRowDef="let row;let i = dataIndex; columns: ['expandedDetail']" class="detail-row" [ngClass]="{'is-not-expanded':!isRowExpanded(row?.id) }">
+    </mat-row>
+  </mat-table>
+  </div>
+  <imx-overlay-list *ngIf="audienceOverlayOrigin" [CdkOverlayOrigin]="audienceOverlayOrigin"
+    (close)="isAudienceFilterOpen = false" (open)="isAudienceFilterOpen = true" [isOpen]="isAudienceFilterOpen"
+    (onApply)="onApplyAudience($event)" [searchLabel]="'Search Audience'" [items]="audiencesForFilter">
+  </imx-overlay-list>
+  <imx-overlay-list *ngIf="plansFilterOverlayOrigin" [CdkOverlayOrigin]="plansFilterOverlayOrigin"
+    (close)="isPlanFilterOpen = false" (open)="isPlanFilterOpen = true" [isOpen]="isPlanFilterOpen"
+    (onApply)="onApplyPlans($event)" [searchLabel]="searchPlanLabel" [items]="overlayPlanList">
+  </imx-overlay-list>
+</div>

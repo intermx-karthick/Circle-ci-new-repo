@@ -1,0 +1,470 @@
+<div class="basic-info" fxLayout="row" fxLayoutAlign="space-between start">
+    <div fxFlex="65" class="basic-info-small-view">
+        <form [formGroup]="contractDetailsForm">
+            <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="10px" class="form-row">
+                <div fxFlex="20" class="static-form-value">
+                    <div class="info-row-label">
+                        {{"Contract ID #"}}
+                    </div>
+                    <div class="info-row-content">
+                       {{contractDetails?.contractId}}
+                    </div>
+                </div>
+
+                <mat-form-field fxFlex="30" class="imx-input">
+                    <mat-label>Contract Name *</mat-label>
+                    <input matInput formControlName="contractName">
+                    <mat-error *ngIf="contractDetailsForm.controls['contractName']?.errors?.required">Contract Name is required.</mat-error>
+                    <mat-error *ngIf="contractDetailsForm.controls['contractName']?.errors?.maxlength">Contract Name can be max 64 characters long.</mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="30" class="imx-dropdown imx-input new-tab-link"
+                      tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                      [tooltip]="(selectedCampaign.value?.length > 20 ) ? selectedCampaign.value : ''"
+                      [placement]="'top'" [delay]="'200'">
+                    <mat-label>
+                        Campaign
+                    </mat-label>
+                  <mat-icon svgIcon='IMX-new-tab-link' class="mat-link-icon for-mat-select"
+                            [class.disabled]="!contractUpdate?.project"
+                            (click)="$event.stopPropagation();tabLinkHandler.open(TabLinkType.CAMPAIGN, contractUpdate?.project)"
+                            matSuffix></mat-icon>
+                    <mat-select panelClass="imx-select disabled-view-select" formControlName="campaign">
+                      <mat-option [value]="null" (onSelectionChange)="onCampaignChanged($event, {})">Select Campaign</mat-option>
+                      <mat-option [tooltip]="campaign.value?.length > 15 ? campaign.value :''" placement="top" delay="200"
+                        tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" *ngFor="let campaign of campaignsAutocompleteItems"
+                        [value]="campaign.id" (onSelectionChange)="onCampaignChanged($event, campaign)">
+                        {{ campaign.value }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                <mat-form-field fxFlex="10" class="imx-input disabled-date-picker">
+                    <mat-label>Start Date</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="startDatePicker"
+                      appDateFormat
+                      formControlName="startDate" disabled />
+                    <mat-error>Start Date should be valid(MM/DD/YYYY).</mat-error>
+                    <mat-icon
+                      (click)="startDatePicker.open()"
+                      matSuffix
+                      class="date-picker-icon date-picker-icon_input"
+                      svgIcon="IMX-calender"
+                    ></mat-icon>
+                    <mat-datepicker
+                      #startDatePicker="matDatepicker"
+                      [panelClass]="'imx-calander'"
+                    ></mat-datepicker>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex="10" class="imx-input disabled-date-picker">
+                    <mat-label>End Date</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="endDatePicker"
+                      appDateFormat
+                      formControlName="endDate"
+                      disabled
+                    />
+                    <mat-error>End Date should be valid(MM/DD/YYYY).</mat-error>
+                    <mat-icon
+                      (click)="endDatePicker.open()"
+                      matSuffix
+                      class="date-picker-icon date-picker-icon_input"
+                      svgIcon="IMX-calender"
+                    ></mat-icon>
+                    <mat-datepicker
+                      #endDatePicker="matDatepicker"
+                      [panelClass]="'imx-calander'"
+                    ></mat-datepicker>
+                  </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="10px" class="form-row">
+                  <mat-form-field class="imx-dropdown imx-input client-selection" fxFlex="20"
+                    [tooltip]="contractDetailsForm?.controls?.buyer?.value?.firstName?.length + contractDetailsForm?.controls?.buyer?.value?.lastName?.length > 10 
+                                                ? contractDetailsForm.controls.buyer.value.firstName +' '+ contractDetailsForm.controls.buyer.value.lastName : ''" placement="top" delay="200"
+                    tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+                  
+                    <mat-label>{{buyerAutoComplete?.isLoading ? 'Loading...' : 'Buyer *'}}</mat-label>
+                  
+                    <input type="text" #buyerInputRef matInput [matAutocomplete]="buyerMatAuto" formControlName="buyer"
+                      class="imx-input-no-border" #triggerBuyer="matAutocompleteTrigger" [autocompletePosition]="triggerBuyer"
+                      scrollContainer="report-form-card_SCROLLABLE" (click)="triggerBuyer.openPanel()" />
+                    <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                  
+                  
+                    <mat-autocomplete #buyerMatAuto="matAutocomplete" (opened)="updateBuyerContainer()"
+                      class="buyer-list-autocomplete imx-autocomplete-dropdown" [displayWith]="buyerDisplayWithFn" infiniteScroll
+                      [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0" [scrollWindow]="false" [fromRoot]="true"
+                      [immediateCheck]="false" [alwaysCallback]="false"
+                      [infiniteScrollDisabled]="buyerAutoComplete.data?.length >= buyerAutoComplete?.pagination?.found"
+                      [infiniteScrollContainer]="panelBuyerContainer" (scrolled)="buyerAutoComplete.loadMoreData(null,null)">
+                      <mat-option [value]="null" class="hide-selected-tick">Select Buyer</mat-option>
+                      <mat-option *ngFor="let buyer of buyerAutoComplete.data;trackBy: buyerTrackByFn" [value]="buyer"
+                        [tooltip]="buyer.firstName?.length + buyer.lastName?.length > 10 ? buyer.firstName +' '+ buyer.lastName : ''"
+                        [class.mat-selected]="contractDetailsForm && contractDetailsForm?.controls?.buyer?.value?._id == buyer?._id"
+                        placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" class="drop-maxwidth">
+                        <span [innerHTML]="(buyer.firstName +' '+ buyer.lastName) | imx_highlight: buyerInputRef.value"></span>
+                      </mat-option>
+                  
+                      <mat-option disabled *ngIf="buyerAutoComplete.isLoading">
+                        <div fxLayout="row" fxLayoutAlign="space-around center">
+                          <mat-spinner diameter="20"></mat-spinner>
+                        </div>
+                      </mat-option>
+                  
+                      <mat-option disabled *ngIf="!buyerAutoComplete.isLoading  && !buyerAutoComplete.data?.length && buyerInputRef.value">
+                        Invalid Entry.
+                      </mat-option>
+                      <mat-option disabled *ngIf="!buyerAutoComplete.isLoading && !buyerAutoComplete.data?.length && !buyerInputRef.value ">
+                        No Records.
+                      </mat-option>
+                    </mat-autocomplete>
+                    <mat-error class="small-font" *ngIf="contractDetailsForm?.controls?.buyer?.hasError('required')">
+                      Buyer is required.
+                    </mat-error>
+                    <mat-error *ngIf="contractDetailsForm?.controls?.buyer?.hasError('invalid')" class="error">
+                      Please select from the drop down list.
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field class="imx-input new-tab-link client-selection" fxFlex="30" tooltip="{{contractDetailsForm['controls'].client?.value?.value?.length>15 ? contractDetailsForm['controls'].client?.value.value : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+                    <mat-label *ngIf="isClientsListLoading; else parentClientGroupLableRef">
+                        <div fxLayout fxLayoutAlign="space-between start">
+                          <span fxFlex="90">Loading...</span>
+                          <mat-spinner class="spinner" diameter="20"></mat-spinner>
+                        </div>
+                      </mat-label>
+
+                      <ng-template #parentClientGroupLableRef>
+                        <mat-label>Client</mat-label>
+                      </ng-template>
+                    <input type="text" #clientGroupInputRef matInput formControlName="client" [matAutocomplete]="parentClientAuto"
+                      class="imx-input-no-border" [autocompletePosition]="triggerClientName" #triggerClientName="matAutocompleteTrigger"
+                      (click)="triggerClientName.openPanel()">
+                    <mat-icon svgIcon='IMX-new-tab-link' class="mat-link-icon" [class.disabled]="!contractUpdate?.client"
+                      (click)="$event.stopPropagation();tabLinkHandler.open(TabLinkType.CLIENT, contractUpdate?.client)" matSuffix></mat-icon>
+                    <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+
+                    <mat-autocomplete #parentClientAuto="matAutocomplete"
+                      [displayWith]="parentClientDisplayWithFn"
+                      (opened)="updateContainer()"
+                      (optionSelected)='onClientSelectChanged($event.option.value)'
+                      class="autocomplete-scroll  pr-0">
+                      <div class="parent-client-autocomplete scroll-section-autocomplete"
+                      infiniteScroll
+                      [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                      (scrolled)="getClientsList(clientFilters?.search,true)" [scrollWindow]="false"
+                      [infiniteScrollContainer]="panelContainer" [fromRoot]="true"
+                      [immediateCheck]="false"
+                      [alwaysCallback]="false"
+                      [infiniteScrollDisabled]="clientsAutocompleteItems?.length >= parentClientPagination?.found"
+                      >
+                        <mat-option (click)="openNewClientWindow();clientAutoCompleteTrigger.closePanel()" class="add-client-option hide-selected-tick" disabled>
+                        <mat-icon>add</mat-icon>Create Client
+                        </mat-option>
+                        <mat-divider></mat-divider>
+                        <mat-option [value]="null" class="hide-selected-tick">Select Client</mat-option>
+                        <mat-option *ngFor="let vGroup of clientsAutocompleteItems;trackBy: parentClientTrackByFn" [value]="vGroup"
+                          [class.mat-selected]="contractDetailsForm['controls'].client?.value?.id === vGroup?.id"
+                          tooltip="{{vGroup.value?.length >15 ? vGroup.value : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+                          <span [innerHTML]="(vGroup.value)| imx_highlight: clientGroupInputRef.value"></span>
+                        </mat-option>
+
+                        <mat-option disabled *ngIf="isClientsListLoading">
+                          <div fxLayout="row" fxLayoutAlign="space-around center" >
+                            <mat-spinner diameter="20"></mat-spinner>
+                          </div>
+                        </mat-option>
+
+                        <mat-option disabled *ngIf="!isClientsListLoading && !clientsAutocompleteItems?.length && !clientGroupInputRef.value">
+                          No Records Found.
+                        </mat-option>
+
+                        <mat-option disabled *ngIf="!isClientsListLoading  && !clientsAutocompleteItems?.length && clientGroupInputRef.value">
+                          Invalid Entry.
+                        </mat-option>
+
+                      </div>
+                    </mat-autocomplete>
+                    <mat-error class="small-font" *ngIf="contractDetailsForm['controls'].client.hasError('required')">
+                        Client is required.
+                     </mat-error>
+                     <mat-error *ngIf="contractDetailsForm['controls'].client.hasError('invalid')">
+                      Please select from the drop down list.
+                  </mat-error>
+                  </mat-form-field>
+
+                <div fxFlex="20" class="static-form-value">
+                    <div class="info-row-label">
+                        {{"Media Client Code"}}
+                    </div>
+                    <div class="info-row-content"
+                          tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                          [tooltip]="(contractDetails?.mediaClientCode?.length > 23 ) ? contractDetails?.mediaClientCode : ''"
+                          [placement]="'top'" [delay]="'200'">
+                       {{contractDetails?.mediaClientCode}}
+                    </div>
+                </div>
+
+                <mat-form-field fxFlex="20" class="imx-dropdown imx-input"
+                    tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                    [tooltip]="(selectedClientContact.value?.length > 20 ) ? selectedClientContact.value : ''"
+                    [placement]="'top'" [delay]="'200'">
+                    <mat-label>{{isClientContactLoading ? 'Loading...' : 'Client Contact'}}</mat-label>
+                    <mat-select panelClass="imx-select disabled-view-select" formControlName="clientContact" #cliContactSelect>
+                      <mat-option (click)="openNewContactWindow();cliContactSelect.close();" class="add-client-option hide-selected-tick" disabled>
+                        <mat-icon>add</mat-icon> Create Contact
+                      </mat-option>
+                      <mat-divider></mat-divider>
+                      <mat-option [value]="null" *ngIf="clientContactAutocompleteItems?.length"
+                        (onSelectionChange)="onClientContactChanged($event, {})">Select Client Contact</mat-option>
+                      <mat-option [tooltip]="clientContact.value?.length > 15 ? clientContact.value :''" placement="top" delay="200"
+                        tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                        *ngFor="let clientContact of clientContactAutocompleteItems | appSortBy: false: 'string': true:'value';"
+                        [value]="clientContact.id" (onSelectionChange)="onClientContactChanged($event, clientContact)">
+                        {{ clientContact.value }}
+                      </mat-option>
+
+                      <mat-option disabled *ngIf="isClientContactLoading">
+                        <div fxLayout="row" fxLayoutAlign="space-around center" >
+                          <mat-spinner diameter="20"></mat-spinner>
+                        </div>
+                      </mat-option>
+                      <mat-option disabled *ngIf="!isClientContactLoading && !clientContactAutocompleteItems?.length && contractDetailsForm?.controls?.client?.value?.id">
+                        No Records Found.
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                <mat-form-field fxFlex="10" class="imx-input">
+                    <mat-label>PO Number</mat-label>
+                    <input matInput formControlName="poNumber">
+                <mat-error *ngIf="contractDetailsForm.controls['poNumber']?.errors?.maxlength">PO Number can be max 64 characters long.</mat-error>
+
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="10px" class="form-row">
+                <mat-form-field fxFlex="185px" class="imx-input imx-total-auth-amt">
+                    <mat-label>Total Authorized Amount</mat-label>
+                    <span matPrefix class="mat-prefix-symbol">$</span>
+                    <input matInput placeholder="" (focus)="formatNumericValue('totalAuthorizedAmount')" formControlName="totalAuthorizedAmount" appNumeral [regex]="deliveryNumericPatternRegEx" isDecimal="true" format="0,0.00" class="currency-amount">
+                <mat-error *ngIf="contractDetailsForm.controls['totalAuthorizedAmount']?.errors?.maxlength">Total Authorized Amount can be max 15 characters long.</mat-error>
+
+                </mat-form-field>
+
+            </div>
+        </form>
+
+    <div *ngIf="contractCostsDisplay">
+        <div class="costs-header" fxLayout="row" fxLayoutAlign="start center">
+            <div class="costs-header-label">
+                {{"CONTRACT COST SUMMARY" | uppercase}}
+            </div>
+            <div>
+              <button (click)='copyTheCostSummary()' [cdkCopyToClipboard]="contactCostSummaryText" mat-button  class="button-secondary-bordered copy" >
+                {{"Copy to clipboard" | uppercase}}
+                <mat-icon class="copy-icon" svgIcon='IMX-copy-to-clipboard'></mat-icon>
+              </button>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" class="costs-section">
+
+            <table class="contract-cost-table" cellspacing="0" cellpadding="0">
+                <tr>
+                    <th class="th-cost-header"></th>
+                    <th>{{"Gross" | uppercase}}</th>
+                    <th>{{"Net" | uppercase}}</th>
+                    <th>{{"Tax" | uppercase}}</th>
+                    <th>{{"Fee" | uppercase}}</th>
+                    <th>{{"Client Net" | uppercase}}</th>
+                </tr>
+                <tr *ngIf="contractCostsDisplay?.first">
+                    <td class="th-cost-header remove-lr-border remove-right-boder">{{contractCostsDisplay?.first?.fieldName}}</td>
+                    <td class="remove-lr-border">
+                      <div fxLayout="row" fxLayoutAlign="space-between center" class="cost-formatter">
+                        <div>$</div>
+                        <div class="bordered">{{(contractCostsDisplay?.first?.costs?.gross | convert:'THOUSAND':2:true) }}</div>
+                      </div>
+                    </td>
+                    <td class="remove-top-boder">
+                      <div fxLayout="row" fxLayoutAlign="space-between center" class="cost-formatter">
+                        <div>$</div>
+                        <div class="bordered">{{(contractCostsDisplay?.first?.costs?.net | convert:'THOUSAND':2:true )}}</div>
+                      </div>
+                    </td>
+                    <td class="remove-top-boder">
+                      <div fxLayout="row" fxLayoutAlign="space-between center" class="cost-formatter">
+                        <div>$</div>
+                        <div class="bordered">{{(contractCostsDisplay?.first?.costs?.tax | convert:'THOUSAND':2:true) }}</div>
+                      </div>
+                    </td>
+                    <td class="remove-top-boder">
+                      <div fxLayout="row" fxLayoutAlign="space-between center" class="cost-formatter">
+                        <div>$</div>
+                        <div class="bordered">{{(contractCostsDisplay?.first?.costs?.fee | convert:'THOUSAND':2:true)}}</div>
+                      </div>
+                    </td>
+                    <td class="remove-top-boder">
+                      <div fxLayout="row" fxLayoutAlign="space-between center" class="cost-formatter">
+                        <div>$</div>
+                        <div class="bordered">{{(contractCostsDisplay?.first?.costs?.clientNet | convert:'THOUSAND':2:true) }}</div>
+                      </div>
+                    </td>
+                </tr>
+
+                <ng-container  *ngIf="contractCostsDisplay?.middle">
+                    <tr *ngFor="let middle of contractCostsDisplay?.middle">
+                        <td class="th-cost-header remove-lr-border remove-right-boder">{{middle?.fieldName}}</td>
+                        <td class="remove-lr-border">
+                          <div fxLayout="row" fxLayoutAlign="space-between center" class="cost-formatter">
+                            <div>$</div>
+                            <div class="bordered">{{(middle?.costs?.gross| convert:'THOUSAND':2:true)}}</div>
+                          </div>
+                        </td>
+                        <td class="remove-top-boder">
+                          <div fxLayout="row" fxLayoutAlign="space-between center" class="cost-formatter">
+                            <div>$</div>
+                            <div class="bordered">{{(middle?.costs?.net| convert:'THOUSAND':2:true)}}</div>
+                          </div>
+                        </td>
+                        <td class="remove-top-boder">
+                          <div fxLayout="row" fxLayoutAlign="space-between center" class="cost-formatter">
+                            <div>$</div>
+                            <div class="bordered">{{(middle?.costs?.tax| convert:'THOUSAND':2:true)}}</div>
+                          </div>
+                        </td>
+                        <td class="remove-top-boder">
+                          <div fxLayout="row" fxLayoutAlign="space-between center" class="cost-formatter">
+                            <div>$</div>
+                            <div class="bordered">{{(middle?.costs?.fee| convert:'THOUSAND':2:true)}}</div>
+                          </div>
+                        </td>
+                        <td class="remove-top-boder">
+                          <div fxLayout="row" fxLayoutAlign="space-between center" class="cost-formatter">
+                            <div>$</div>
+                            <div class="bordered">{{(middle?.costs?.clientNet| convert:'THOUSAND':2:true)}}</div>
+                          </div>
+                        </td>
+                    </tr>
+                </ng-container>
+                <tr>
+                    <td class="th-cost-header remove-lr-border remove-right-boder"> <b>{{contractCostsDisplay?.last?.fieldName | uppercase}}</b></td>
+                    <td class="remove-lr-border">
+                      <div fxLayout="row" fxLayoutAlign="space-between center" class="cost-formatter">
+                        <div>$</div>
+                        <div class="bordered">{{(contractCostsDisplay?.last?.costs?.gross | convert:'THOUSAND':2:true)}}</div>
+                      </div>
+                    </td>
+                    <td class="remove-top-boder">
+                      <div fxLayout="row" fxLayoutAlign="space-between center" class="cost-formatter">
+                        <div>$</div>
+                        <div class="bordered">{{(contractCostsDisplay?.last?.costs?.net | convert:'THOUSAND':2:true)}}</div>
+                      </div>
+                    </td>
+                    <td class="remove-top-boder">
+                      <div fxLayout="row" fxLayoutAlign="space-between center" class="cost-formatter">
+                        <div>$</div>
+                        <div class="bordered">{{(contractCostsDisplay?.last?.costs?.tax | convert:'THOUSAND':2:true)}}</div>
+                      </div>
+                    </td>
+                    <td class="remove-top-boder">
+                      <div fxLayout="row" fxLayoutAlign="space-between center" class="cost-formatter">
+                        <div>$</div>
+                        <div class="bordered">{{(contractCostsDisplay?.last?.costs?.fee | convert:'THOUSAND':2:true )}}</div>
+                      </div>
+                    </td>
+                    <td class="remove-top-boder">
+                      <div fxLayout="row" fxLayoutAlign="space-between center" class="cost-formatter">
+                        <div>$</div>
+                        <div class="bordered">{{(contractCostsDisplay?.last?.costs?.clientNet | convert:'THOUSAND':2:true)}}</div>
+                      </div>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    </div>
+    <div fxFlex="21">
+        <div fxLayout="column" fxLayoutAlign="space-between start">
+            <div class="checkbox-group">
+                <div class="info-row-label">
+                    {{"Contract Checkpoints" | uppercase}}
+                </div>
+                <div fxLayout="column" fxLayoutAlign="space-between start">
+                    <mat-checkbox class="imx-checkbok contract-checkbox" [disabled]="!userPermission?.edit" (change)="onCheckboxCanged($event)" [(ngModel)]="contractCheckpoints.clientSignedAuthorizationUploaded" disableRipple>Client-signed Authorization Uploaded</mat-checkbox>
+                    <mat-checkbox class="imx-checkbok contract-checkbox" [disabled]="!userPermission?.edit" (change)="onCheckboxCanged($event)" [(ngModel)]="contractCheckpoints.contractsSubmittedForReview" disableRipple>Contract Submitted for Review</mat-checkbox>
+                    <mat-checkbox class="imx-checkbok contract-checkbox" [disabled]="!userPermission?.edit" (change)="onCheckboxCanged($event)" [(ngModel)]="contractCheckpoints.vendorContractsApproved" disableRipple>Vendor Contracts Approved</mat-checkbox>
+                    <mat-checkbox class="imx-checkbok contract-checkbox" [disabled]="!userPermission?.edit || disableVCDAndApprovedForBilling" (change)="onCheckboxCanged($event)" [(ngModel)]="contractCheckpoints.vendorContractsDistributed" disableRipple>Vendor Contracts Distributed</mat-checkbox>
+                    <mat-checkbox class="imx-checkbok" [disabled]="!userPermission?.edit || disableVCDAndApprovedForBilling" (change)="onCheckboxCanged($event)" [(ngModel)]="contractCheckpoints.approvedForBillingExport" disableRipple>Approved for Billing Export</mat-checkbox>
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <div class="info-row-label">
+                    {{"Status Options" | uppercase}}
+                </div>
+                <!-- <div fxLayout="column" fxLayoutAlign="space-between start">
+                    <mat-checkbox class="imx-checkbok" [ngModel]="CONTRACT_STATUSES.New === contractDetails?.status?.code" disableRipple>New</mat-checkbox>
+                    <mat-checkbox class="imx-checkbok" [ngModel]="CONTRACT_STATUSES.Revised === contractDetails?.status?.code" disableRipple>Revised</mat-checkbox>
+                    <mat-checkbox class="imx-checkbok" [ngModel]="CONTRACT_STATUSES.Cancelled === contractDetails?.status?.code" disableRipple>Cancelled</mat-checkbox>
+                </div> -->
+                <mat-radio-group [(ngModel)]="currentContractStatus" (change)="onStatusChanged($event)" [disabled]="!userPermission?.edit">
+                    <mat-radio-button class="example-radio-button  contract-checkbox" *ngFor="let status of CONTRACT_STATUSES" [value]="status">
+                        {{status}}
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="line-items-header">
+    <div fxFlex="30">
+        <div module="contract" visiblityType="create" appUserAccessPermission fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+            <button mat-button  class="button-secondary-bordered" (click)="onAddLineItemsDialog()">{{"Add Line Item" | uppercase}}</button>
+            <button mat-button  class="button-secondary-bordered" (click)="onImportLineItemsDialog()">{{"Import Line Item(s)" | uppercase}}</button>
+        </div>
+    </div>
+    <div fxFlex="40" *ngIf='tableData?.lastImportedDetails?.importedLines > 0'>
+        <!-- TODO -- change real date with API responses value -- hided now respect to requirement -->
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+            <div fxFlex="20" class="static">
+                <div class="info-row-content imported-total">
+                   {{tableData?.lastImportedDetails?.importedLines || 0}} Imported
+                </div>
+            </div>
+
+            <div fxFlex="20" class="static">
+                <div class="info-row-content successful">
+                  {{tableData?.lastImportedDetails?.successLines || 0}} successful
+                </div>
+            </div>
+
+            <div (click)="!!userPermission?.edit && openDeleteImportValidationDialog()" [style.cursor]="!userPermission?.edit ? 'default !important' : 'pointer'" fxFlex="15" class="error-box mouse-pointer">
+              {{tableData?.lastImportedDetails?.errorLines || 0}} Errors
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Added I/O's events based on elastic search  -->
+<app-contracts-line-items-table [contractId]="_contractId"
+          [isLoadingLineItems]="isLoadingLineItems"
+          [searchFilterApplied]="true"
+          [isSearchInValid]="isSearchInValid"
+          [tableRecords]="tableData"
+          [sorting]="sort"
+          [userPermission]="userPermission"
+          (paginationChanged)="onPaginationChanged($event)"
+          (sortingChanged)="onSortingChanged($event)"
+          (deleteLineItem)="deleteLineItem($event)"
+          (lineItemEdit)="onEditLineItem($event.data, $event.isForDuplicate)"
+          (refresh)="refreshLineItems()">
+</app-contracts-line-items-table>
+

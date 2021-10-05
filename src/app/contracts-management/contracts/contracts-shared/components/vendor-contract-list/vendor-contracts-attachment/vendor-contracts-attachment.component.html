@@ -1,0 +1,28 @@
+<div class='vc-attachment'>
+  <section fxLayout='row' fxLayoutAlign='space-between center'>
+    <h3 class='vc-attachment__title'>{{mainTitle}}</h3>
+    <mat-icon class='vc-attachment__close' mat-dialog-close>highlight_off</mat-icon>
+  </section>
+
+  <section class='vc-attachment__upload-section'>
+    <app-logos
+      [organizationId$]='organizationId$'
+      [fileUploadConfig]='fileUploadConfig'
+      [mainTitle]="isUploadSignedContract && 'Upload Signed Contract' || 'Upload Related Files'"
+      [logos]='attachments'
+      (deleteLogoFunc)='deleteAttachment($event)'
+      (createLogoFunc)='createAttachment($event)'
+      [uploadInProgress$]='uploadInProgress$'
+      [clearAttachment$]='clearAttachment$'
+      (loadMoreLogos)='loadMoreAttachments()'
+      [isLogosLoading$]='isLoading$'
+      [updateCaptionAPIFunc]='updateCaptionAPIFunc'
+      [isSticky] = 'true'
+      [uploadButtonPrimary] = 'true'
+      [ngClass]="{
+        'more-attachments': pagination?.total > 10
+      }"
+    >
+    </app-logos>
+  </section>
+</div>

@@ -1,0 +1,240 @@
+@import "../../../../assets/css/variables.less";
+::ng-deep {
+  app-thresholds-filter-gp {
+    .outer-gap {
+      padding: 20px 1px;
+    }
+    .thresholds-filter {
+      * {
+        margin: 0px;
+      }
+      .sliders {
+        width: 100%;
+      }
+      .body-1 {
+        color: var(--medium-emphasis);
+        margin: 14px 0;
+      }
+      .subtitle-1 {
+        color: var(--high-emphasis);
+      }
+      .ngx-slider {
+        margin: 0;
+      }
+      .ngx-slider .ngx-slider-bar-wrapper {
+        margin-top: 0;
+        padding-top: 0;
+        height: 0;
+      }
+      .ngx-slider .ngx-slider-pointer {
+        width: 12px;
+        height: 12px;
+        top: -6px;
+        background-color: var(--button-bg-color);
+      }
+      .ngx-slider .ngx-slider-pointer:after {
+        width: 0px;
+        height: 0px;
+      }
+      .ngx-slider .ngx-slider-selection {
+        background: var(--button-bg-color);
+      }
+      .ngx-slider .ngx-slider-bar {
+        height: 2px;
+      }
+      .ngx-slider .ngx-slider-model-value .label-value {
+        margin-left: -2px;
+      }
+      .ngx-slider .ngx-slider-model-high .label-value {
+        margin-left: -2px;
+      }
+  /*    ngx-slider:not([ng-reflect-high-value='100']) {
+        .ngx-slider-model-high:after {
+          background: var(--button-bg-color);
+          color: #fff;
+          border-radius: 50% 50% 0;
+          width: 32px;
+          height: 32px;
+          text-align: center;
+          content: '';
+          display: inline-block;
+          transform: rotate(40deg);
+        }
+      }
+      ngx-slider:not([ng-reflect-value='0']) {
+        .ngx-slider-model-value:after {
+          background: var(--button-bg-color);
+          color: #fff;
+          border-radius: 50% 50% 0;
+          width: 32px;
+          height: 32px;
+          text-align: center;
+          content: '';
+          display: inline-block;
+          transform: rotate(40deg);
+        }
+      }
+      .ngx-slider .ngx-slider-model-value:after {
+        left: -12px;
+        top: -12px;
+        position: absolute;
+      }
+      .ngx-slider .ngx-slider-model-high:after {
+        left: -10px;
+        top: -12px;
+        position: absolute;
+      }
+      ngx-slider[ng-reflect-high-value='100'] .ngx-slider-model-high:after {
+        left: -5px;
+      }
+      */
+      .ngx-slider .ngx-slider-bar {
+        background: var(--button-bg-color);
+        opacity: 0.38;
+      }
+     /* .ngx-slider .ngx-slider-model-value .label-value,
+      .ngx-slider .ngx-slider-model-high .label-value {
+        display: inline-block;
+        position: relative;
+        top: -9px;
+        font-size: 11px;
+        color: #ffffff;
+        z-index: 1;
+        left: -4px;
+      }
+      ngx-slider[ng-reflect-high-value='100'] .label-value {
+        left: 2px;
+      }*/
+      .grid-column {
+        position: relative;
+        bottom: -5px;
+        margin-left: 4px;
+        height: 15px;
+        margin-top: 10px;
+      }
+      .btn-primary-color {
+        background: var(--button-bg-color) !important;
+        border-radius: 4px !important;
+        color: #ffffff;
+      }
+      .btn-clear {
+        background-color: #FAFAFA !important;
+      }
+      .action-area {
+        margin-top: 40px;
+      }
+      .sliders {
+        &.disabled {
+          p {
+            color: var(--low-emphasis);
+          }
+          .grid-column {
+            margin-top: 30px;
+            .column-bar {
+              display: none !important;
+            }
+          }
+        }
+      }
+      .ngx-slider[disabled] .ngx-slider-selection, .ngx-slider[disabled] .ngx-slider-pointer {
+        background: #E0E0E0 !important;
+        opacity: 1;
+      }
+    }
+    .market-selection {
+      margin-top: 10px;
+    }
+    .slider-grp-1 {
+      margin-bottom: 15px;
+    } 
+    .slider-grp-2 {
+      margin-top: 15px;
+    }
+    .caption.black-text {
+      color: var(--high-emphasis);
+    }
+    
+    .action-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      & > button {
+        height: 28px;
+        width: 55px;
+        min-width: 55px;
+        font-size: 10px;
+        font-weight: bold;
+        letter-spacing: 0.83px;
+        line-height: normal;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.btn-primary-color {
+          background: var(--button-bg-color);
+          color: #ffffff;
+          margin-left: 8px;
+        }
+        &.btn-clear {
+          background-color: var(--grays-bg-200);
+        }
+      }
+    }
+    .ngx-slider-bubble{
+      bottom: -24px !important;
+    }
+    .ngx-slider-model-high{
+      .label-value{
+        display: none;
+      }
+    }
+    .ngx-slider-ceil{
+      visibility: visible !important;
+    }
+    .ngx-slider-floor{
+      visibility: visible !important;
+    }
+    .ngx-slider-model-value{
+      visibility: hidden !important;
+    }
+    .ngx-slider-combined{
+      visibility: hidden !important;
+    }
+    .ngx-slider-model-high{
+      visibility: hidden !important;
+    }
+    .ngx-slider-bubble{
+      color: var(--medium-emphasis) !important;	
+      font-size: 12px !important;	
+      font-weight: 300;
+    }
+    .threshold-legend{
+      margin-top: 25px;
+      color: var(--high-emphasis);	
+      font-size: 13px;	
+      font-weight: bold;	
+      letter-spacing: 1.08px;	
+      line-height: 16px;
+    }
+    .ngx-slider-tick-legend{
+      top: 6px !important;
+      color: var(--medium-emphasis) !important;	
+      font-size: 12px !important;	
+      font-weight: 300;
+    }
+    .ngx-slider .ngx-slider-tick {
+      text-align: center;
+      cursor: pointer;
+      width: 2px;
+      height: 6px;
+      left: 5px !important;
+      background: var(--button-bg-color) !important;
+      border-radius: 50%;
+      position: absolute;
+      top: 0;
+      margin-left: 0px;
+      margin-top: 4px;
+    }
+  }
+}

@@ -1,0 +1,113 @@
+::ng-deep {
+  app-product-form {
+
+    .label-heading {
+      font-size: 0.625rem;
+      color: var(--grays-bg-800);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .placeholder-default {
+      .mat-select-value-text {
+        color: var(--low-emphasis)
+      }
+    }
+
+    .error-field-width {
+      &.mat-form-field-invalid {
+        .mat-form-field-subscript-wrapper {
+          width: 230px;
+        }
+      }
+    }
+
+    .imx-input-no-border {
+      height: auto;
+      border: none;
+    }
+
+    .organisation-info-block {
+      margin-top: 12px;
+      padding: 8px 16px;
+      border: 1px solid var(--primary-bg);
+      border-radius: 5px;
+      display: block;
+      width: 24.18rem;
+      min-height: 138px;
+      margin-bottom:0.5rem;
+      p {
+        font-size: 14px;
+        line-height: 18px;
+        color: var(--grays-bg-800);
+        margin: 0;
+        font-weight: normal;
+        min-height: 24px;
+        word-break: break-word;
+        display: flex;
+
+        label{
+          margin-right: .8rem;
+          color: var(--grays-bg-500);
+        }
+      }
+
+      &__name{
+        label{
+          display: inline-block;
+          min-width: 7.8rem;
+        }
+      }
+
+      &__email{
+        label{
+          display: inline-block;
+          min-width: 5.8rem;
+        }
+      }
+
+      &__phone-number{
+        width: 58%;
+      }
+
+      .mt2-rem {
+        margin-top: 2rem;
+      }
+
+      .width-50 {
+        width: 50%;
+      }
+    }
+
+    .product-form__billing-block{
+      margin-top: .5rem;
+    }
+
+    .details-mat-form-field {
+      margin-right: 40px !important;
+
+      .mat-link-icon {
+        position: absolute;
+        right: -24px;
+        top: 4px;
+        color: var(--primary-bg) !important;
+      }
+
+      .mat-link-icon.for-mat-select{
+        top: -12px;
+      }
+    }
+  }
+
+  .autocomplete-scroll {
+    .billing-company-list-autocomplete {
+      max-height: 14.375rem;
+      overflow-y: auto;
+    }
+
+    &.mat-autocomplete-panel {
+      overflow-y: hidden !important;
+      padding-right: 0 !important;
+    }
+  }
+}

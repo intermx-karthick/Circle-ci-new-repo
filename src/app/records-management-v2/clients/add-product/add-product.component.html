@@ -1,0 +1,32 @@
+<div class="edit-plan-sheet" fxLayout="column" fxLayoutAlign="start">
+  <section fxLayout="row" fxLayoutAlign="space-between center" class="edit-plan-sheet-heading">
+    <p class="header">{{title}}</p>
+    <a (click)="close()">
+      <mat-icon class="primary-text-color">highlight_off</mat-icon>
+    </a>
+  </section>
+
+  <section class="add-product__form" [ngStyle]="{'max-height.px':scrollContent}" (window:resize)="reSize()" (scroll)="handleScroll()" cdkScrollable>
+    <app-product-form [containerScrolling$]="scrolling$" [formControl]="formControl" [submitForm$]="submitForm$" [organizationId] = 'organizationId' [disableEdit]="dialogData?.disableEdit">
+    </app-product-form>
+  </section>
+
+  <section class="add-product__action" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
+
+    <ng-container *ngIf="isForUpdate">
+
+      <!-- Visible only Update details -->
+      <button type="button" mat-button class="imx-button-basic" (click)="delete()" module="client_product" visiblityType="delete" appUserAccessPermission>
+        DELETE
+      </button>
+      <button type="button" mat-button class="imx-button-basic" (click)="duplicate()" module="client_product" visiblityType="create" appUserAccessPermission>
+        DUPLICATE
+      </button>
+
+      <span fxFlex="1 1 auto"></span>
+    </ng-container>
+
+    <button (click)="submit()" mat-button class="save-btn imx-button-primary" module="client_product" visiblityType="create" appUserAccessPermission>SAVE PRODUCT
+    </button>
+  </section>
+</div>

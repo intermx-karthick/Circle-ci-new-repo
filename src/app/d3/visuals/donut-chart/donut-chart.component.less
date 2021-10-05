@@ -1,0 +1,48 @@
+@import "../../../../assets/css/variables.less";
+
+::ng-deep {
+  app-donut-chart {
+    .donut-chart {
+      display: block;
+    }
+    .arc {
+      &:hover {
+        opacity: .85;
+      }
+      text {
+        font-weight: 300;
+        font-size: 13px;
+        color: var(--high-emphasis-white);
+        letter-spacing: -0.08px;
+        line-height: 16px;
+        text-align: center;
+      }
+    }
+    .d3ChartToolTip
+    {
+      .colorPill
+      {
+        width: 10px;
+        height: 10px;
+        background: var(--button-bg-color);
+        float: left;
+        margin-top: 6px;
+      }
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .legend-name {
+        font-size: 11px;
+        font-weight: 300;
+        letter-spacing: 0.33px;
+        line-height: 16px;
+        margin-left: 6px;
+      }
+      .highlight {
+        font-size: 13px !important;
+      }
+    }
+  }
+}

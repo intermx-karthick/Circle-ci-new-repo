@@ -1,0 +1,169 @@
+<mat-accordion>
+  <ng-container *ngFor="let option of displayOptionsList">
+    <ng-template  [ngIf]="option === 'Map Legends'"> 
+      <mat-expansion-panel hideToggle="true" class="mat-expand-false">
+        <mat-expansion-panel-header expandedHeight="48px">
+          <mat-panel-title>Map Legend</mat-panel-title>
+          <mat-panel-description fxLayoutAlign="end center">
+            <mat-checkbox disableRipple class="rounded-checkbox test-map-legend"
+              (change)="changeMapOptions('mapLegend',$event)" [checked]="layerDisplayOptions['mapLegend']"></mat-checkbox>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+    </ng-template>
+    <ng-template  [ngIf]="option === 'Map Controls'">
+      <mat-expansion-panel hideToggle="true" class="mat-expand-false">
+        <mat-expansion-panel-header expandedHeight="48px">
+          <mat-panel-title>Zoom and Other Map Controls</mat-panel-title>
+          <mat-panel-description fxLayoutAlign="end center">
+            <mat-checkbox disableRipple class="rounded-checkbox test-map-controls"
+              (change)="changeMapOptions('mapControls',$event)" [checked]="layerDisplayOptions['mapControls']">
+            </mat-checkbox>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+    </ng-template>
+    <ng-template  [ngIf]="option === 'Sync Zoom and Paning'">
+      <mat-expansion-panel hideToggle="true" class="mat-expand-false" *ngIf="layerType === 'secondary'">
+        <mat-expansion-panel-header expandedHeight="48px">
+          <mat-panel-title>Sync Zoom and Paning</mat-panel-title>
+          <mat-panel-description fxLayoutAlign="end center">
+            <mat-checkbox disableRipple class="rounded-checkbox test-map-controls"
+              (change)="changeMapOptions('syncZoomPan',$event)" [checked]="layerDisplayOptions['syncZoomPan']">
+            </mat-checkbox>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+    </ng-template>
+    <ng-template  [ngIf]="option === 'Show Unselected Inventory'">
+      <mat-expansion-panel hideToggle="true" class="mat-expand-false" *ngIf="layerType === 'primary'">
+        <mat-expansion-panel-header expandedHeight="48px">
+          <mat-panel-title  class="test-pills">Show Unselected Inventory</mat-panel-title>
+          <mat-panel-description fxLayoutAlign="end center">
+            <mat-checkbox (change)="changeMapOptions('showUnselectedInventory',$event)" [checked]="layerDisplayOptions['showUnselectedInventory']" disableRipple class="rounded-checkbox"></mat-checkbox>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+    </ng-template>
+    <ng-template  [ngIf]="option === 'Show Map Labels'">
+      <mat-expansion-panel class="map-pills" *ngIf="layerType === 'primary'">
+        <mat-expansion-panel-header expandedHeight="48px">
+          <mat-panel-title class="test-pills">Show Labels on the Map</mat-panel-title>
+          <mat-panel-description fxLayoutAlign="end center">
+            <mat-checkbox disableRipple class="rounded-checkbox" (change)="changeMapOptions('mapLabel',$event)"
+              [checked]="layerDisplayOptions['mapLabel']"></mat-checkbox>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="expansion-panel-body pills-body">
+          <mat-checkbox fxLayout="row" (change)="mapLabelsToggle($event, label.key)" disableRipple [checked]="label.value"
+            *ngFor="let label of layerDisplayOptions['mapLabels'] | keyvalue">
+            {{label.key}}
+          </mat-checkbox>
+        </div>
+      </mat-expansion-panel>
+    </ng-template>
+    <ng-template  [ngIf]="option === 'Pills'">
+      <mat-expansion-panel class="map-pills" *ngIf="layerType === 'primary'">
+        <mat-expansion-panel-header expandedHeight="48px">
+          <mat-panel-title class="test-pills">Pills</mat-panel-title>
+          <mat-panel-description fxLayoutAlign="end center">
+            <mat-checkbox disableRipple class="rounded-checkbox" (change)="changeMapOptions('filterPills',$event)"
+              [checked]="layerDisplayOptions['filterPills']"></mat-checkbox>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="expansion-panel-body pills-body">
+          <mat-checkbox fxLayout="row" (change)="pillsToggle($event, pill.key)" disableRipple [checked]="pill.value"
+            *ngFor="let pill of layerDisplayOptions['labels'] | keyvalue">
+            {{pill.key}}
+          </mat-checkbox>
+        </div>
+      </mat-expansion-panel>
+    </ng-template>
+    <ng-template  [ngIf]="option === 'Custom Logo'">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header expandedHeight="48px">
+          <mat-panel-title class="test-custom-logo-title">Custom Logo</mat-panel-title>
+          <mat-panel-description fxLayoutAlign="end center">
+            <mat-checkbox disableRipple class="rounded-checkbox test-custom-logo-checkbox"
+              (change)="changeMapOptions('isLogoEnabled',$event)" [checked]="layerDisplayOptions['isLogoEnabled']">
+            </mat-checkbox>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="expansion-panel-body">
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px" class="upload-logo-section">
+            <mat-form-field floatLabel="always">
+              <input matInput [value]="fileName" placeholder="Custom Logo or Overlay Image">
+            </mat-form-field>
+            <input type="file" id="customLogoTextbox" class="fileInput test-custom-logo-textbox" #fileInput
+              (change)="updateLogo($event)" accept=".jpg,.jpeg,.png">
+            <button mat-icon-button class="close-btn" (click)="clearFile()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <button mat-raised-button class="primary-btn" (click)="fileInput.click()">BROWSE...</button>
+          </div>
+          <div *ngIf="fileValidationText" class='file-error-text'>
+            {{fileValidationText}}
+          </div>
+          <mat-checkbox disableRipple class="upload-checkbox body-1 test-custom-logo-bg-radio"
+            [formControl]="logoBackgroundCtrl"> Add White Background</mat-checkbox>
+        </div>
+      </mat-expansion-panel>
+    </ng-template>
+    <ng-template  [ngIf]="option === 'Custom Text'">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header expandedHeight="48px">
+          <mat-panel-title class="test-custom-text-title">Custom Text</mat-panel-title>
+          <mat-panel-description fxLayoutAlign="end center">
+            <mat-checkbox disableRipple class="rounded-checkbox test-custom-text-checkbox"
+              (change)="changeMapOptions('isTextEnabled',$event)" [checked]="layerDisplayOptions['isTextEnabled']">
+            </mat-checkbox>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="expansion-panel-body">
+          <mat-form-field floatLabel="always">
+            <input matInput [formControl]="logoTextCtrl" class="test-custom-text-textbox"
+              placeholder="Custom Text, Description or Notes" (input)="updateCustomText($event.target.value)">
+          </mat-form-field>
+          <mat-checkbox disableRipple class="upload-checkbox body-1 test-custom-text-bg-radio"
+            [formControl]="textBackgroundCtrl"> Add White Background</mat-checkbox>
+        </div>
+      </mat-expansion-panel>
+    </ng-template>
+    <ng-template  [ngIf]="option === 'Base Maps'">
+      <mat-expansion-panel [expanded]="step === 4">
+        <mat-expansion-panel-header expandedHeight="48px">
+          <mat-panel-title class="test-base-map">Base Map</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="expansion-panel-body">
+          <div fxLayout="row wrap" fxLayoutAlign="start center" >
+            <div class="base-map-area" *ngFor="let map of baseMaps" [ngClass]="{'active-map':selectedMapStyle == map.label,
+                          'map-antique' : map.label == 'antique',
+                          'map-light': map.label == 'light',
+                          'map-dark' : map.label == 'dark',
+                          'map-satellite test-map-satellite': map.label == 'satellite',
+                          'map-pop-art' : map.label == 'Pop Art',
+                          'map-blueprint' : map.label == 'Blueprint',
+                          'map-decimal' : map.label == 'Decimal',
+                          'map-minimal' : map.label == 'Minimal',
+                          'map-valentine' : map.label == 'Valentine\'s'}"
+              (click)="changeMapStyle(map.label)">
+              <div class="rectangle"> {{map.label | titlecase}} </div>
+            </div>
+            <!-- <div class="base-map-area map-antique" *ngIf="isAntiquePresent"
+              [ngClass]="{'active-map':selectedMapStyle == 'antique'}" (click)="changeMapStyle('antique')">
+              <div class="rectangle"> Antique </div>
+            </div>
+            <div class="base-map-area map-light" [ngClass]="{'active-map':selectedMapStyle == 'light'}"
+              (click)="changeMapStyle('light')">
+              <div class="rectangle"> Light </div>
+            </div>
+            <div class="base-map-area map-satellite test-map-satellite"
+              [ngClass]="{'active-map':selectedMapStyle == 'satellite'}" (click)="changeMapStyle('satellite')">
+              <div class="rectangle"> Satellite </div>
+            </div> -->
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </ng-template>
+  </ng-container>
+</mat-accordion>

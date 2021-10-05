@@ -1,0 +1,248 @@
+<div [hidden]="hideFilters" class="div-container places-details-block">
+  <div class="action-buttons">
+    <mat-icon (click)=goBack()>arrow_back</mat-icon>
+    <mat-icon (click)="disableFilters()" class="e2e-search-hide" title="Collapse the filters">close</mat-icon>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="places-details-container">
+    <h4 *ngIf="summary" class="e2e-searched-title">{{summary['number_of_places'] | convert:'THOUSAND'}} Results for "{{filterData['place']}}"</h4>
+    <!-- <div>
+      <form [formGroup]="searchKeyForm" (ngSubmit)="onSubmit(searchKeyForm)">
+          <div fxLayout="row" fxLayoutAlign="start baseline" fxLayoutGap="5px">
+              <mat-form-field [floatLabel]="'always'" class="keyword-input">
+                <mat-label></mat-label>
+                <input matInput placeholder="Search within results by keyword" id="searchKeyword" autocomplete="off" formControlName="keyword" class="e2e-find-refine-search">
+              </mat-form-field>
+              <button mat-icon-button class="close-btn e2e-refine-close" type="reset" (click)="resetKeyForm()">
+                <mat-icon>close</mat-icon>
+              </button>
+              <button mat-raised-button class="apply-btn uppercase e2e-refine-apply" type="submit">Refine</button>
+          </div>
+      </form>
+    </div> -->
+
+    <h5>Refine by Location</h5>
+    <h6>Limit Around a Place</h6>
+    <form [formGroup]="searchLocationForm" (ngSubmit)="onSubmit(searchLocationForm)">
+      <div fxLayout="row" fxLayoutAlign="start baseline" fxLayoutGap="5px">
+        <div class="default-margin-top">Within</div>
+        <div>
+          <mat-form-field style="width: 40px;">
+            <input formControlName="distance" matInput autocomplete="off">
+          </mat-form-field>
+        </div>
+        <div class="default-margin-top">mi. of</div>
+        <div #overlayOrigin="cdkOverlayOrigin" cdkOverlayOrigin> 
+          <mat-form-field >
+            <input matInput formControlName="location" placeholder="Place or Business Name" autocomplete="off">
+          </mat-form-field>
+        </div>
+        <button type="button" mat-icon-button class="close-btn" (click)="resetForm()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <button mat-raised-button class="apply-btn uppercase" type="submit">Refine</button>
+      </div>
+      <app-dropdown
+        [overlayOrigin]="overlayOrigin"
+        (close)="isOpenedCategory = false"
+        (open)="isOpenedCategory = true"
+        [dialogClass]="'place-autocomplete-list'"
+      >
+        <div class="search-place-content places-dropdown-list">
+          <mat-progress-spinner
+            *ngIf="fetchingSuggestion"
+            mode="indeterminate"
+            [diameter]="25"
+            [strokeWidth]="2"
+          ></mat-progress-spinner>
+          <p
+            class="placeholder-color text-center"
+            *ngIf="!fetchingSuggestion && autocompletePlaces.length <= 0"
+          >
+            No data found.
+          </p>
+          <ul *ngIf="autocompletePlaces.length > 0">
+            <li
+              *ngFor="let ap of autocompletePlaces; let i = index"
+              [ngClass]="{
+                'highlight-active':
+                  selectedSearchPlace['properties'] && ap['properties']['address'] && 
+                  ap['properties']['address']['zip_code'] ==
+                    selectedSearchPlace['properties']['address']['zip_code']
+              }"
+              (click)="selectPlace(ap)"
+            >
+              <span
+                class="subtitle-1"
+                title="{{ ap['place_name'] }}"
+                >{{
+                  ap['place_name'] | truncate: 'middle':40:6
+                }}</span
+              >
+              <span
+                class="subtitle-2"
+                title="{{ ap['properties']['address']['street_address'] }}"
+                >{{
+                  ap['properties']['address']['street_address'] | truncate: 'middle':20:6
+                }}
+                {{ ap['properties']['address']['city'] }},
+                {{ ap['properties']['address']['state'] | uppercase }}
+                {{ ap['properties']['address']['zip_code'] }}</span
+              >
+            </li>
+          </ul>
+        </div>
+      </app-dropdown>
+    </form>
+    <div *ngIf="locationFiltercollapsed">
+      <h6>Draw Limits</h6>
+      <div fxLayout="row" fxLayoutAlign="start baseline" fxLayoutGap="5px">
+        <button mat-raised-button class=" draw-btn btn-primary-color" [ngClass]="{'highlight-active-btn':appliedLocationFilterType == 'normalPolygon'}" (click)="drawPolygonFunc()" type="button">
+          <mat-icon>mode_edit</mat-icon>
+          <span class="no-wrap">DRAW MAP POLYGON</span>
+          </button>
+        <button mat-raised-button class="draw-btn btn-primary-color" [ngClass]="{'highlight-active-btn':appliedLocationFilterType == 'circularPolygon'}" (click)="drawCircularPolygonFunc()" type="button">
+            <img
+            src="../../../../assets/images/radius_icon.svg"
+            class="radius_img">
+          <span>DRAW MAP RADIUS</span></button>
+
+        <button mat-icon-button type="button" (click)="removePolygonFunc()" class="close-btn remove-polygon">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <form [formGroup]="searchMarketForm" (ngSubmit)="marketSearch(searchMarketForm)">
+        <h6>Filter By Market</h6>
+        <div fxLayout="row" fxLayoutAlign="start baseline" fxLayoutGap="5px">
+          <mat-form-field >
+            <input matInput formControlName="market" placeholder="Search Markets" autocomplete="off">
+          </mat-form-field>
+          <button type="button" mat-icon-button class="close-btn" (click)="resetMarketSearch()">
+              <mat-icon>close</mat-icon>
+          </button>
+          <button mat-raised-button class="apply-btn uppercase" type="submit">Refine</button>
+        </div>
+        <p class="radius-search">(Full Radius Search by Address(es) To Come Soon!)</p>
+        <mat-spinner *ngIf="fetchingMarkets" diameter="25"></mat-spinner>
+        <mat-list class="list-group borderless location-geography-group"
+                  *ngIf="marketsData.length != 0">
+
+          <div class="group-keys"
+               *ngFor="let market of marketsData | geokeys:true:true;">
+            {{l}}
+            <p class="nav-header">{{market.key | uppercase}}</p>
+            <mat-list>
+              <mat-list-item class="pointer"
+                             *ngFor="let geolocation of market.value"
+                             (click)="selectMarket(geolocation,market.key)"
+                             [ngClass]="{'highlight-active':geolocation.id==selectedMarket.id}">
+                {{
+                geolocation.name }}
+              </mat-list-item>
+            </mat-list>
+          </div>
+          <p class="placeholder-color text-center"
+             *ngIf="!isMarketlocationAvailable && marketsData.length!=0">
+            No data found.</p>
+        </mat-list>
+      </form>
+    </div>
+    <button mat-button *ngIf="!locationFiltercollapsed" class="show-btn" (click)="locationFiltercollapsed=true">
+        <mat-icon class="mat-icon-rtl-mirror">
+          keyboard_arrow_down
+        </mat-icon>
+        More Location Tools
+    </button>
+    <button mat-button *ngIf="locationFiltercollapsed" class="show-btn" (click)="locationFiltercollapsed=false">
+      <mat-icon class="mat-icon-rtl-mirror">
+        keyboard_arrow_up
+      </mat-icon>
+      Fewer Location Tools
+    </button>
+    <mat-divider></mat-divider>
+
+    <mat-accordion>
+      <mat-expansion-panel class="e2e-place-type">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h5 id="placeTypes">Place Types</h5>
+            <div>
+              <a *ngIf="!showSearchField" id="searchFieldToggle" class="parent-search-icon" (click)="$event.stopPropagation();showSearch()"><i class="material-icons">search</i></a>
+              <mat-form-field id="searchFieldContainer" *ngIf="showSearchField" floatLabel="always" class="mat-filter-input search-place" (click)="$event.stopPropagation();" (keydown)="$event.stopPropagation()">
+              <i class="material-icons search-icon" matSuffix>search</i>
+              <mat-label></mat-label>
+              <input matInput [(ngModel)]="placeTypesQuery" [debounce]="300" (onDebounce)="filterPlaceTypes($event)" placeholder="Search Place Types" >
+            </mat-form-field>
+            <a *ngIf="showSearchField" (click)="$event.stopPropagation();showSearch()"><i class="material-icons close-project-field">highlight_off</i></a>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="e2e-searched-place-list">
+          <mat-tree-node
+            fxLayout="row"
+            fxFill
+            fxLayoutAlign="space-between center"
+            *matTreeNodeDef="let node"
+            matTreeNodePadding
+          >
+            <mat-checkbox
+              class="checklist-leaf-node"
+              [checked]="isSelected(node)"
+              (change)="toggleSelection(node)"
+              fxFlex="80"
+              disableRipple
+              ><span title="{{ node.name }}">{{ node.name | truncate: 'middle' : 30 }} {{ '(' + node.count + ')' }}</span>
+            </mat-checkbox>
+          </mat-tree-node>
+          <mat-nested-tree-node
+            *matTreeNodeDef="let node; when: hasChild"
+            matTreeNodePadding
+          >
+            <div
+              fxLayout="row"
+              fxLayoutAlign="space-between center"
+              class="cursor-link"
+            >
+              <div class="width100">
+                <mat-checkbox
+                  [checked]="isSelected(node) && isAllChildSelected(node)"
+                  [indeterminate]="isPartiallySelected(node)"
+                  (change)="toggleSelection(node)"
+                  class="e2e-place-type-chk-box"
+                  disableRipple
+                >
+                </mat-checkbox>
+                <span title="{{ node.name }}" matTreeNodeToggle class="left-space link-open e2e-place-type-count"><b>{{ node.name | truncate: 'middle' : 35}} {{ '(' + node.count + ')' }}</b></span>
+              </div>
+            </div>
+            <ul class="show-more-filter">
+              <ng-container matTreeNodeOutlet >
+              </ng-container>
+              <button mat-button *ngIf="node.loadMoreChild" class="show-btn show-more-btn" (click)="loadMore($event)">
+                <mat-icon class="mat-icon-rtl-mirror">
+                  keyboard_arrow_down
+                </mat-icon>
+                More
+              </button>
+              <button mat-button *ngIf="node.loadMoreChild" class="show-btn show-less-btn" (click)="showLess($event)">
+                <mat-icon class="mat-icon-rtl-mirror">
+                  keyboard_arrow_up
+                </mat-icon>
+                Less
+              </button>
+            </ul>
+          </mat-nested-tree-node>
+        </mat-tree>
+        <p *ngIf="placeTypes && placeTypes.length <=0" class="text-center">
+          No data found
+        </p>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-divider></mat-divider>
+    <app-places-single-level-filter [options] = "industries" (onSingleSearch) = "onSingleSearch($event, 'industry')" [title]="'Industries'" [filterKey] = "'industriesList'"></app-places-single-level-filter>
+    <app-places-single-level-filter [options] = "brands" (onSingleSearch) = "onSingleSearch($event, 'brand')" [filterKey] = "'brandList'" [title]="'Brands'"></app-places-single-level-filter> 
+  </div>
+</div>
+<div *ngIf ="hideFilters" class="show-filter-icon" (click)="showFilters()" title="Expand the filters">
+  <mat-icon>filter_list</mat-icon>
+</div>

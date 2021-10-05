@@ -1,0 +1,18 @@
+<div fxLayout="column" fxLayoutGap="1rem" class="jobs-organization-view">
+
+    <div fxLayout="row" fxLayoutAlign="start center">
+        <label>Organization Name</label> <span class="content">{{companyDetails?.companyId?.name || 'N.A.'}} </span>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center">
+        <label>Email Address</label> <span class="content">{{companyDetails?.email || 'N.A.'}} </span>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+        <label fxLayout="row" fxLayoutAlign="start center">Phone Number <span
+                class="content">{{(companyDetails?.mobile | phoneFormat) || 'N.A.'}}</span> </label>
+        <label fxLayout="row" fxLayoutAlign="start center">FAX <span class="content"> {{(companyDetails?.fax |
+                phoneFormat) || 'N.A.'}} </span> </label>
+    </div>
+
+</div>

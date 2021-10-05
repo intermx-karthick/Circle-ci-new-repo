@@ -1,0 +1,231 @@
+<form [formGroup]="tsForm" (ngSubmit)="onSubmit(tsForm)" novalidate >
+<mat-toolbar-row>
+  <span fxFlex="1 1 auto"></span>
+  <button type="button" mat-raised-button (click)="cancel()">CANCEL</button>
+  <button mat-raised-button color="primary" class="button-primary">APPLY CHANGES</button>
+</mat-toolbar-row>
+
+<div fxLayout="row" fxLayoutAlign="space-between center"  class="setting-scroll">
+  <!-- Theme change area-->
+  <div  fxLayout="row wrap" fxLayoutAlign="start start" class="card-block">
+    <!--colors update section-->
+    <div class="colors-block p-25" fxFlex="50" fxFlex.xs="100">
+      <h2 class="m-t-0">Colors</h2>
+    <mat-card formGroupName ="color">     
+      <div class="colors primary pr-2 pl-2 colors-blk">
+          <div id="primary-color" class="color-div" color-picker defaultColor="{{themeSetting['color_sets']['primary']['base']}}" textBoxId="primary" (onColorChange)="onColorChange($event,'primary')"></div>
+          <span class="label">Primary</span>
+          <input type="text" id="primary" formControlName="primary">
+      </div>
+      <div class="colors secondary pr-2 pl-2 colors-blk">
+          <div id="secondary-color"  class="color-div"  color-picker defaultColor="{{themeSetting['color_sets']['secondary']['base']}}" textBoxId="secondary" (onColorChange)="onColorChange($event,'secondary')"></div>
+          <span class="label">Secondary</span>
+          <input type="text" name="secondary"  id="secondary" formControlName="secondary" >
+      </div>
+      <div class="colors highlight pr-2 pl-2 colors-blk">
+          <div id="highlight-color"  class="color-div"  color-picker defaultColor="{{themeSetting['color_sets']['highlight']['base']}}" textBoxId="highlight" (onColorChange)="onColorChange($event,'highlight')"></div>
+          <span class="label">Highlight</span>
+          <input type="text" name="highlight"  id="highlight"  formControlName="highlight" >
+      </div>
+      <div class="colors button m-0 pr-2 pl-2 colors-blk">
+          <div id="button-color"  class="color-div"  color-picker defaultColor="{{themeSetting['color_sets']['primary']['base']}}" textBoxId="button" (onColorChange)="onColorChange($event,'button')"></div >
+            <span class="label">Button</span>
+          <input type="text" name="button"  id="button" formControlName="button" >
+      </div>
+    </mat-card>
+    </div>
+
+    <!-- logo update section-->
+    <div class="logos-block p-25" fxFlex="50" fxFlex.xs="100" formGroupName ="logo">
+      <h2 class="m-t-0"> Logos </h2>
+      <mat-card>
+        <p>Full Logo</p>
+        <div fxLayout="row" fxLayoutAlign="space-between center">         
+            <div>
+              <img src="{{themeSetting['logo']['full_logo']}}" class="logo">
+            </div>
+            <div class="fl-upload-btn">
+              <input id="full_logo" name="full_logo" type="file" accept=".png, .jpg, .jpeg"  class="upload_logo_input" (change)="onImageChange($event,'full_logo','logo')" >
+              <button mat-raised-button type="button" class="button-primary" (click)="openFileBrowser('full_logo')">Upload</button>
+            </div>
+        </div>
+        <div class="m-t-20">
+          <p>Mini-logo</p>
+          <div fxLayout="row" fxLayoutAlign="space-between center" >
+            <div>
+              <img src="{{themeSetting['logo']['mini_logo']}}" class="mini-logo">
+            </div>
+            <div class="ml-upload-btn">
+              <input id="mini_logo" name="mini_logo" type="file" accept=".png, .jpg, .jpeg"  class="upload_logo_input" (change)="onImageChange($event,'mini_logo','logo')" >
+              <button mat-raised-button type="button" class="button-primary" (click)="openFileBrowser('mini_logo')">Upload</button>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+    <!-- background update section-->
+    <div class="home-background-css p-25" fxFlex="50" fxFlex.xs="100" formGroupName ="background">
+      <h2 class="m-t-0">Background image</h2>
+      <mat-card class="home-background-block">
+        <div class=" home-page-bg-div">
+          <img src="{{themeSetting['background']['bg_image']}}" class="home-page-bg-img">
+        </div>
+        <mat-card-actions>
+          <div fxLayout="column">
+            <div>
+              <input id="bg_image" name="bg_image" type="file" accept=".png, .jpg, .jpeg"  class="upload_logo_input" (change)="onImageChange($event,'bg_image','background')" >
+              <button mat-raised-button type="button" class="button-primary" (click)="openFileBrowser('bg_image')">Upload</button>
+              <span fxFlex="1 1 auto"></span>
+              <button mat-raised-button type="button" class="" (click)="removeBackground()">Remove</button>
+            </div>
+            <div class="colors-block m-t-10 p-l-20">
+              <div class="colors homepadge-bg">
+                  <div id="homepadge-bg-color"  (onColorChange)="onBgColorChange($event)" class="color-div" color-picker defaultColor="{{themeSetting['background']['bg_color']}}"></div>
+                  <span class="label flex-label">Background color <br>(no image)</span> 
+                  <input type="text" name="bg_color" formControlName="bg_color" class="hidden">
+                </div>
+              </div>
+          </div>            
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <!-- Customize Favicon section-->
+    <div class="p-25" fxFlex="50" fxFlex.xs="100" formGroupName="customize">
+        <h2 class="m-t-0">Customize</h2>
+        <mat-card class="card-block">
+          <div class="logos-block customize-block">
+            <div class="">
+              <p>Favicon</p>
+              <div fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="p-0 pr-1">
+                  <img src="{{themeSetting['customize']['favicon_logo']}}" class="mini-logo">
+                </div>
+                <div>
+                  <input id="favicon_logo" name="favicon_logo" type="file" accept=".png, .jpg, .jpeg"  class="upload_logo_input" (change)="onImageChange($event,'favicon_logo','customize')" >
+                  <button mat-raised-button type="button" class="button-primary" (click)="openFileBrowser('favicon_logo')">Upload</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>  
+    </div>
+
+  </div>
+</div>
+</form>
+
+<!-- <div class="row">
+  <form [formGroup]="tsForm" (ngSubmit)="onSubmit(tsForm)" novalidate >
+  <div class="col-md-5 col-sm-5 col-xs-12">
+    <div class="col-md-6 col-sm-12 col-xs-12 card-div">
+      <div class="clearfix card-block" formGroupName ="color">
+        <h5 class="card-title">Colors</h5>
+        <div class="card-content  colors-block">
+          <div class="p-0 color-content clearfix">
+            <div class="clearfix colors primary col-md-12 col-sm-12 col-xs-6 pr-2 pl-2 colors-blk">
+              <div id="primary-color" class="color-div" color-picker defaultColor="{{themeSetting['color_sets']['primary']['base']}}" textBoxId="primary" (onColorChange)="onColorChange($event,'primary')"></div>
+              <label>Primary</label>
+              <input type="text" id="primary" formControlName="primary">
+            </div>
+            <div class="clearfix colors secondary col-md-12 col-sm-12 col-xs-6 pr-2 pl-2 colors-blk">
+              <div id="secondary-color"  class="color-div"  color-picker defaultColor="{{themeSetting['color_sets']['secondary']['base']}}" textBoxId="secondary" (onColorChange)="onColorChange($event,'secondary')"></div>
+              <label>Secondary</label>
+              <input type="text" name="secondary"  id="secondary" formControlName="secondary" >
+            </div> 
+            <div class="clearfix colors highlight col-md-12 col-sm-12 col-xs-6 pr-2 pl-2 colors-blk">
+              <div id="highlight-color"  class="color-div"  color-picker defaultColor="{{themeSetting['color_sets']['highlight']['base']}}" textBoxId="highlight" (onColorChange)="onColorChange($event,'highlight')"></div>
+              <label>Highlight</label>
+              <input type="text" name="highlight"  id="highlight" formControlName="highlight" >
+            </div>
+            <div class="clearfix colors button col-md-12 col-sm-12 col-xs-6 m-0 pr-2 pl-2 colors-blk">
+              <div id="button-color"  class="color-div"  color-picker defaultColor="{{themeSetting['color_sets']['primary']['base']}}" textBoxId="button" (onColorChange)="onColorChange($event,'button')"></div >
+              <label>Button</label>
+              <input type="text" name="button"  id="button" formControlName="button" >
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-sm-12 col-xs-12 card-div" formGroupName ="logo">
+      <div class="clearfix card-block">
+        <h5 class="card-title">Logos</h5>
+        <div class="card-content logos-block clearfix">
+          <div class="clearfix logo-inner-blk">
+            <span class="header">Full Logo</span>
+            <div class="clearfix">
+              <div class="col-md-7 col-sm-7 col-xs-12 p-0 pr-1 mt-3">
+                <img src="{{themeSetting['logo']['full_logo']}}" class="logo">
+              </div>
+              <div class="col-md-5 col-sm-5 col-xs-12 fl-upload-btn">
+                <input id="full_logo" name="full_logo" type="file" accept=".png, .jpg, .jpeg"  class="upload_logo_input" (change)="onImageChange($event,'full_logo','logo')" >
+                <button type="button" class="btn geo-button-small geo-button waves-effect waves-light" (click)="openFileBrowser('full_logo')">Upload</button>
+              </div>
+            </div>
+          </div> 
+          <div class="clearfix minilogo-inner-blk mt-3">
+            <span class="header">Mini-logo</span>
+            <div class="clearfix  mt-3">
+              <div class="col-md-7 col-sm-7 col-xs-12 p-0 pr-1">
+                <img src="{{themeSetting['logo']['mini_logo']}}" class="mini-logo">
+              </div>
+              <div class="col-md-5 col-sm-5 col-xs-12 ml-upload-btn">
+                <input id="mini_logo" name="mini_logo" type="file" accept=".png, .jpg, .jpeg"  class="upload_logo_input" (change)="onImageChange($event,'mini_logo','logo')" >
+                <button type="button" class="btn geo-button-small geo-button waves-effect waves-light " (click)="openFileBrowser('mini_logo')">Upload</button>
+              </div>
+            </div>
+          </div> 
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-sm-12 col-xs-12 card-div  mt-4" formGroupName ="background">
+      <div class="clearfix card-block">
+        <h5 class="card-title">Background image</h5>
+        <div class="card-content  home-background-block">
+          <div class="clearfix">
+            <div class=" home-page-bg-div">
+              <img src="{{themeSetting['background']['bg_image']}}" class="home-page-bg-img">
+            </div>
+          </div>
+          <div class="clearfix mt-3 mb-3">
+            <input id="bg_image" name="bg_image" type="file" accept=".png, .jpg, .jpeg"  class="upload_logo_input" (change)="onImageChange($event,'bg_image','background')" >
+            <button type="button" class="btn geo-button-small geo-button waves-effect waves-light pull-left" (click)="openFileBrowser('bg_image')">Upload</button>
+            <button type="button" class="btn geo-button-small geo-button waves-effect waves-light geo-secondary-button  pull-right" (click)="removeBackground()">Remove</button>
+          </div>
+          <div class="colors-block">
+            <div class="clearfix colors homepadge-bg">
+              <div id="homepadge-bg-color"  (onColorChange)="onBgColorChange($event)" class="color-div" color-picker defaultColor="{{themeSetting['background']['bg_color']}}"></div>
+              <label>Background color <br>(no image)</label>
+              <input type="text" name="bg_color" formControlName="bg_color" class="hidden">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-sm-12 col-xs-12 card-div  mt-4" formGroupName="customize">
+      <div class="clearfix card-block">
+        <h5 class="card-title">Customize</h5>
+        <div class="card-content  logos-block customize-block">
+          <div class="clearfix">
+            <span class="header">Favicon</span>
+            <div class="clearfix  mt-3">
+              <div class="col-md-7 col-sm-7 col-xs-7 p-0 pr-1">
+                <img src="{{themeSetting['customize']['favicon_logo']}}" class="mini-logo">
+              </div>
+              <div class="col-md-5 col-sm-5 col-xs-5 fi-upload-btn">
+                <input id="favicon_logo" name="favicon_logo" type="file" accept=".png, .jpg, .jpeg"  class="upload_logo_input" (change)="onImageChange($event,'favicon_logo','customize')" >
+                <button type="button" class="btn geo-button-small geo-button waves-effect waves-light" (click)="openFileBrowser('favicon_logo')">Upload</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+    </div>
+  </div>
+  <div class="col-md-3 col-sm-6 col-xs-12 mt-2">
+    <button type="submit" class="btn geo-button waves-effect waves-light geo-setting-btn">Apply Changes</button>
+    <br>
+    <button type="button" class="btn geo-secondary-button geo-button waves-effect waves-light geo-setting-btn" (click)="cancel()">Cancel</button>
+  </div>
+  </form>
+</div> -->

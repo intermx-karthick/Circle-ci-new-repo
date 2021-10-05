@@ -1,0 +1,92 @@
+language: node_js
+
+node_js:
+ - node # will use latest node
+
+sudo: true
+dist: trusty
+
+# services:
+  # - docker # required, but travis uses older version of docker
+
+addons:
+  chrome: stable
+  #browserstack:
+   #username: "jagadeeshrampati2"
+   #access_key: "umh86payoMbgkDy8gXWC"
+   #orcelocal: true
+
+### Caching node modules to speed up builds, remove if its causing issues
+cache:
+  directories:
+    - node_modules
+    - travis/node_modules
+
+branches:
+  only:
+    - master
+
+before_script: # commands to run before the build step
+  - npm install -g --silent @angular/cli
+  - npm install -g --silent forever
+  # - npm i -g @compodoc/compodoc
+  #- unzip /tmp/BrowserStackLocal-linux-x64.zip
+  - npm run test-headless
+  #- ./BrowserStackLocal --key umh86payoMbgkDy8gXWC --daemon start
+  #- cd travis/ && npm install
+  #- cd ../
+  # running node server in backend for e2e test cases
+  #- forever start travis/bin/www
+  #- ng e2e
+  #- forever  stopall
+  #- rm -rf travis/node_modules
+  #- ./BrowserStackLocal --key umh86payoMbgkDy8gXWC --daemon stop
+  # - compodoc -p src/tsconfig.app.json --disableSourceCode --disableGraph
+  # - docker images
+  # - docker pull intermx-ui-tech-docs || true
+  - ~/build/InterMx/widgetworld/build-scripts/version.sh
+
+script: # the build step
+  - node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --prod
+after_success:
+ - ~/build/InterMx/widgetworld/build-scripts/push-version.sh
+#  - docker --version  # document the version travis is using
+#  - pip install --user awscli # install aws cli w/o sudo
+#  - export PATH=$PATH:$HOME/.local/bin # put aws in the path
+#  - eval $(aws ecr get-login --no-include-email --region us-east-1) #needs AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY envvars
+#  - docker build --pull --cache-from intermx-ui-tech-docs -t intermx-ui-tech-docs . #build the image
+#  - docker tag intermx-ui-tech-docs:latest 350689650442.dkr.ecr.us-east-1.amazonaws.com/intermx-ui-tech-docs:latest
+#  - docker push 350689650442.dkr.ecr.us-east-1.amazonaws.com/intermx-ui-tech-docs:latest
+
+notifications:
+  slack: agiraintermx:SNzBoZW9MX5oUdzL2DZqn71q
+  email: # only receive email when the build status changes (someone broke the build!)
+    on_failure: change
+    on_success: change
+
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: $BEANSTALK_ACCESS_KEY_ID
+  secret_access_key: $BEANSTALK_SECRET_ACCESS_KEY
+  region: "us-east-1"
+  app: "Widget World"
+  env: "widgetWorld-development"
+  skip_cleanup: true
+  bucket_name: "imx-deployments"
+  zip_file: "/home/travis/build/InterMx/widgetworld/travis/travis.zip"
+  #only_create_app_version: "true"
+  on:
+    repo: InterMx/widgetworld
+    branches:
+      only:
+        - master
+    #provider: s3
+    #access_key_id: $S3_ACCESS_KEY_ID
+    #secret_access_key: $S3_SECRET_ACCESS_KEY
+    #region: "us-west-2"
+    #bucket: "intermx-codedoc"
+    #skip_cleanup: true
+    #local_dir: documentation
+
+before_deploy:
+  - ~/build/InterMx/widgetworld/build-scripts/before_deploy.sh

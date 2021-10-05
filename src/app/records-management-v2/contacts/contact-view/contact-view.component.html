@@ -1,0 +1,44 @@
+<div class="view-contact">
+  <div fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <a class="back-to-link" fxLayout="row" fxLayoutAlign="start center" [routerLink]="['/records-management-v2/contacts']">
+        <mat-icon>arrow_back</mat-icon>Back to Contacts list
+      </a>
+    </div>
+    <section fxLayout="row" fxLayoutAlign="space-between start" class="header">
+      <div #titleContent>
+        <h4><ng-container>{{contactDetails['firstName']}} {{contactDetails['lastName']}} Details</ng-container></h4>
+      </div>
+      <div [isAccessDenied]="(!userPermission?.delete && !userPermission?.create)" visiblityType="menu" module="contacts" appUserAccessPermission class="actions-btn" >
+        <button mat-button class="imx-button-basic_icon action-overlay-height-imx" [mat-menu-trigger-for]="actionMenu" >
+          <span>ACTIONS</span>
+          <mat-icon>expand_more</mat-icon>
+        </button>
+        <mat-menu #actionMenu="matMenu" class="mat-elevation-z0 action-dropdown-imx minimun-height action-menu-less-width">
+          <button mat-menu-item (click)="deleteContact()" type="button" [isAccessDenied]="!userPermission?.delete" module="contacts" visiblityType="delete" appUserAccessPermission>
+            Delete
+          </button>
+          <button [isAccessDenied]="!userPermission?.create" module="contacts" visiblityType="create" appUserAccessPermission mat-menu-item (click)="duplicateContact()" type="button">
+            Duplicate
+          </button>
+        </mat-menu>
+      </div>
+    </section>
+  </div>
+  <div class="view-contact__body" [ngStyle]="{'height.px':scrollContent}" (scroll)="handleScroll()"
+  (window:resize)="reSize()" id="view_contact_SCROLLABLE">
+    <div class="view-contact__content">
+      <app-contact-form [containerScrolling$]="scrolling$"  [formControl]="contactFormControl" [submitForm$]="submitForm$" [isEditForm]="'true'" [userPermission]="userPermission" scrollingContainer="view_contact_SCROLLABLE"></app-contact-form>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px" class="footer-block">
+    <div>
+      <app-time-stamp [timeStampData]="timeStampData"></app-time-stamp>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+      <button mat-button class="imx-button-secondary" (click)="handleCancel()">Cancel</button>
+      <button module="contacts" visiblityType="edit" appUserAccessPermission (click)="validateAssociationAndUpdateContact()" mat-button class="imx-button-primary">Save</button>
+    </div>
+  </div>
+</div>

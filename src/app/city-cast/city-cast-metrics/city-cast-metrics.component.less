@@ -1,0 +1,46 @@
+.cast-metrics-title {
+  padding: 15px;
+  h4 {
+    margin: 0px;
+  }
+}
+.cast-metrics-content {
+  padding: 10px 20px 20px 20px;
+  h5 {
+    margin: 0px 0px 10px 0;
+  }
+  .body {
+    & div.cast-metrics-item {
+      font-size: 15px;
+      padding: 10px 5px;
+      cursor: pointer;
+        &:hover {
+          background: var(--grays-bg-200);
+        }
+      .file-type {
+        font-weight: bold;
+        font-size: 13px;
+        padding: 0px 10px;
+        color: var(--white-color);
+      }
+
+      .file-type.json, .file-type.gz {
+        background-color: rgb(206, 138, 126);
+      }
+
+      .file-type.csv {
+        background-color: #B294C4;
+      }
+      .file-size {
+        font-size: 12px;
+        color: var(--mg-color);
+        text-align: right;
+      }
+
+      a {
+        color: var(--secondary-bg-900);
+        text-decoration: underline;
+      }
+    }
+  }
+}

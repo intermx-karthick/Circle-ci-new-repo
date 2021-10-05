@@ -1,0 +1,234 @@
+::ng-deep {
+  app-market-filter {
+    .width100{
+      width: 100%;
+    }
+    .mat-list-option{
+      width: auto !important;
+    }
+
+    .market-options{
+      width: 100%;
+      .slno{
+        position: absolute;
+        left: 0;
+        width: 40px;
+        padding-left: 5px !important;
+      }
+      .mat-list-option {
+        color: rgba(0,0,0,.87) !important;
+        justify-content: flex-end;
+        height: 44px !important;
+        .mat-list-item-content {
+          padding: 0 40px;
+        }
+      }
+    }
+    & .markets-section {
+      overflow-y: scroll;
+      max-height: calc(100vh - 305px);
+      min-height: calc(100vh - 305px);
+      position: relative;
+      .search-section {
+        padding: 0 30px 0px 20px !important;
+        /*margin-top: 10px;
+        margin-bottom: 10px;*/
+      }
+      .chip-section{
+        padding: 0 30px 0px 20px !important;
+        margin-top: 20px;
+        margin-bottom: 5px;
+      }
+      .section {
+        padding: 0 30px 0px 20px !important;
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        .add-link {
+          font-size: 12px;
+          color: var(--button-bg-color);
+          padding-left: 4px;
+          font-weight: 600;
+          cursor: pointer;
+
+          .mat-button-icon {
+            position: relative;
+            top: 2px;
+            left: 9px;
+            font-size: 12px;
+          }
+        }
+      }
+      .market-type-section {
+        padding: 0 20px 0px 20px !important;
+        margin-bottom: 10px;
+      }
+      .market-selection {
+        margin-top: 20px;
+        max-width: 100% !important;
+      }
+      .market-type-selector{
+        .mat-radio-label-content {
+          font-weight: normal;
+        }
+      }
+      .chip-section{
+        &.selected-market-avilable{
+          min-height: 60px;
+          max-height: calc(100vh - 575px);
+        }
+        &.no-selected-market-avilable{
+          min-height: 30px;
+        }
+        overflow: auto;
+      }
+      .saved-geography-sets-section {
+        padding: 0 20px !important;
+        max-height: calc(100vh - 560px);
+        .mat-radio-group {
+          display: flex;
+          flex-direction: column;
+          margin: 15px 0;
+          max-height: 150px;
+          overflow-y: auto;
+          .mat-radio-button {
+            padding: 5px 0;
+          }
+          .mat-radio-label-content {
+            color: var(--high-emphasis);
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+            line-height: 20px;
+            text-indent: 0px;
+          }
+        }
+      }
+
+      .radio-group-section{
+        padding: 0 20px !important;
+        max-height: calc(100vh - 560px);
+        margin-bottom: 56px;
+        // min-height: calc(100vh - 545px);
+        &.no-selected-market{
+          max-height: calc(100vh - 545px);
+          min-height: calc(100vh - 545px);
+        }
+        &.no-audience{
+          max-height: calc(100vh - 290px);
+          min-height: calc(100vh - 290px);
+        }
+        overflow: auto;
+        app-arrow-navigation{
+          /* padding: 10px 0px; */
+          border-bottom: 1px solid #E0E0E0;
+          &:hover,&.arrow-active-position{
+            background-color: var(--dropdown-hover-bg);
+          }
+        }
+        p{
+          margin-top: 20px;
+        }
+      }
+      /* .action-container{
+        padding: 10px;
+        margin-bottom: 10px;
+        text-align: right;
+        .btn-clear{
+          margin-right: 10px;
+        }
+        .btn-primary-color{
+          background: var(--button-bg-color);
+            color: #ffffff;
+        }
+      } */
+      .action-container {
+        display: flex;
+        justify-content: flex-end;
+        padding: 10px 0px;
+        // margin: 0 15px;
+        border-top: 1px solid ~"rgba(var(--color-gray), 0.1)";
+        min-height: 56px;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 0 10px;
+        align-items: center;
+        background: #fff;
+        & > button {
+          border-radius: 4px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-weight: bold;
+          height: 36px;
+          &.btn-primary-color {
+            background: var(--button-bg-color);
+            color: #ffffff;
+            margin-left: 8px;
+          }
+          &.btn-clear {
+            color: var(--medium-emphasis);
+          }
+        }
+      }
+      .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+        border-color: var(--button-bg-color);
+      }
+      .mat-radio-button.mat-accent .mat-radio-inner-circle {
+        background-color: var(--button-bg-color);
+      }
+      // & .radio-group-section{
+      //   overflow: auto;
+      //   display: flex;
+      //   flex-direction: column;
+      //   flex-grow: 5;
+      //   max-height: 150px;
+      //   & .market-set{
+      //     margin-bottom: 5px !important;
+      //     border-bottom: 1px solid #E0E0E0;
+      //   }
+      // }
+    }
+    // .search-field.market-search{
+    //   .mat-form-field-wrapper{
+    //     margin-bottom: 0px !important;
+    //   }
+    //   input{
+    //     height: inherit;
+    //     border-bottom:none;
+    //     &:focus{
+    //       border-bottom:none !important;
+    //       box-shadow:unset !important;
+    //     }
+    //   }
+    //   mat-icon{
+    //     color: var(--medium-emphasis);
+    //   }
+    // }
+ 
+    // .mat-radio-group{
+    //   width: 100%;
+    //   .mat-radio-button {
+    //     display: flex;
+    //     flex-direction: column;
+    //     .mat-radio-label{
+    //       display: flex;
+    //       margin-bottom: 0px;
+    //       .mat-radio-label-content{
+    //         width: 100%;
+    //       }
+    //     }
+    //   }
+    //   mat-icon{
+    //     font-size: 18px;
+    //     width: 18px;
+    //     height: 18px;
+    //     color: var(--medium-emphasis);
+    //   }
+    // }
+  }
+}
+.test-market-name{
+  margin-top: 6px;
+}

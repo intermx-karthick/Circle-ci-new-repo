@@ -1,0 +1,103 @@
+::ng-deep{
+  app-explore-scenarios{
+    .saved-scenarios-section{
+      width: 97%;
+      display: flex;
+      flex-direction: column;
+      & .radio-group-section{
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 5;
+        max-height: 150px;
+        & .scenario-set{
+          margin: 3px 0px !important;
+          overflow: hidden;
+        }
+      } & .action-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        & > button {
+          height: 28px;
+          width: 55px;
+          min-width: 55px;
+          font-size: 10px;
+          font-weight: bold;
+          letter-spacing: 0.83px;
+          line-height: normal;
+          border-radius: 4px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          &.btn-primary-color {
+            background: var(--button-bg-color);
+            color: #ffffff;
+            margin-left: 8px;
+          }
+          &.btn-clear {
+            background-color: var(--grays-bg-200);
+          }
+        }
+      }
+    }
+    .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+      border-color: var(--button-bg-color);
+    }
+    .mat-radio-button.mat-accent .mat-radio-inner-circle {
+      background-color: var(--button-bg-color);
+    }
+    .search-field.scenario-search{
+      .mat-form-field-wrapper{
+        margin-bottom: 0px !important;
+      }
+      input{
+        height: inherit;
+        border-bottom:none;
+        &:focus{
+          border-bottom:none !important;
+          box-shadow:unset !important;
+        }
+      }
+      mat-icon{
+        color: var(--medium-emphasis);
+      }
+    }
+    .mat-radio-group{
+      width: 100%;
+      .mat-radio-button {
+        display: flex;
+        flex-direction: column;
+        .mat-radio-label{
+          display: flex;
+          margin-bottom: 0px;
+          .mat-radio-label-content{
+            width: 100%;
+          }
+        }
+      }
+      mat-icon{
+        font-size: 18px;
+        height: 18px;
+        color: var(--medium-emphasis);
+      }
+    }
+    .search-field {
+      .mat-form-field-wrapper {
+        margin-bottom: -1.25em
+      }
+      input {
+        height: inherit;
+        border-bottom: none;
+        &:focus {
+          border-bottom: none !important;
+          box-shadow: unset !important;
+        }
+      }
+      mat-icon {
+        color: var(--medium-emphasis);
+      }
+    }
+  }
+}

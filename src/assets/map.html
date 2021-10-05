@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Create and style clusters</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <script src="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .mapboxgl-ctrl-compass {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script>
+    const MAPBOX = window.mapboxgl; // eslint-disable-next-line
+    MAPBOX.accessToken = 'pk.eyJ1IjoiaW50ZXJteCIsImEiOiJjajJqOWM4eW4wMDRwMndteDZqZ2tzaGoxIn0.xD-vjv6mH8eYZkb_luz8ag';
+    // pk.eyJ1IjoiaW50ZXJteCIsImEiOiJjazFqZHpycGwwYXZ1M2RvMjVrcXo1NzhxIn0.6SiGsPZuFxl5cG4cmqibRw
+    const map = new MAPBOX.Map({
+      container: "map",
+      style: 'mapbox://styles/mapbox/light-v9',
+      center: [ 33.753746, -84.38633 ], // starting position
+      zoom: 10 // starting zoom
+    });
+    map.on('load', () => {
+
+      map.addSource('fromVector', {
+        type: 'vector',
+        "tiles": [
+          'https://d1ypwspvyiy404.cloudfront.net/v0-0-1/f3b73eaf-10a0-4f50-a59f-5140b5d0c5d8/casts/89cb6b64-8006-4f8d-84fc-73aab48c29c5/jobs/ede1e58_1589329548/ui/tiles/{z}/{x}/{y}.pdf'
+        ],
+        minzoom: 9,
+        maxzoom: 14
+      });
+
+      map.addLayer({
+        id: 'fromVectorLayer',
+        type: 'fill',
+        source: 'fromVector',
+        'source-layer' : 'counties',
+        paint: {
+          'fill-opacity': 1,
+          'fill-color': '#B95846'
+        }
+      });
+
+      // map.addSource('routesData', {
+      //   type: 'geojson',
+      //   data: "./routes.enriched.geojson.json"
+      // });
+
+      /* map.addSource('countiesData', {
+        type: 'geojson',
+        data: "./counties.enriched.geojson.json"
+      });
+      map.addSource('tractsData', {
+        type: 'geojson',
+        data: "./tracts.enriched.geojson.json"
+      });
+      map.addSource('blockgroupsData', {
+        type: 'geojson',
+        data: "./blockgroups.enriched.geojson.json"
+      });
+      map.addSource('linksData', {
+        type: 'geojson',
+        data: "./links.enriched.geojson.json"
+      });
+
+
+      map.addLayer({
+        id: 'countiesLayer',
+        type: 'fill',
+        source: 'countiesData',
+        minzoom: 0,
+        maxzoom: 8,
+        paint: {
+          'fill-opacity': .5,
+          'fill-color': '#B95846'
+        }
+      });
+      
+      map.addLayer({
+        id: 'countiesStrokeLayer',
+        type: 'line',
+        source: 'countiesData',
+        minzoom: 0,
+        maxzoom: 8,
+        paint: {
+          'line-opacity': .8,
+          'line-color': '#B95846',
+          'line-width': 2
+        }
+      });
+
+      map.addLayer({
+        id: 'tractsLayer',
+        type: 'fill',
+        source: 'tractsData',
+        minzoom: 8,
+        maxzoom: 10,
+        paint: {
+          'fill-opacity': .5,
+          'fill-color': '#28A597'
+        }
+      });
+      map.addLayer({
+        id: 'tractsStrokeLayer',
+        type: 'line',
+        source: 'tractsData',
+        minzoom: 8,
+        maxzoom: 10,
+        paint: {
+          'line-opacity': .8,
+          'line-color': '#28A597',
+          'line-width': 2
+        }
+      });
+
+      map.addLayer({
+        id: 'blockgroupsLayer',
+        type: 'fill',
+        source: 'blockgroupsData',
+        minzoom: 10,
+        maxzoom: 12,
+        paint: {
+          'fill-opacity': .5,
+          'fill-color': '#669824'
+        }
+      });
+      map.addLayer({
+        id: 'blockgroupsStrokeLayer',
+        type: 'line',
+        source: 'blockgroupsData',
+        minzoom: 10,
+        maxzoom: 12,
+        paint: {
+          'line-opacity': .8,
+          'line-color': '#669824',
+          'line-width': 2
+        }
+      });
+
+      map.addLayer({
+        id: 'roadLayer',
+        type: 'line',
+        source: 'linksData',
+        minzoom: 12,
+        'layout': {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        'paint': {
+          'line-color': '#9166AB',
+          'line-width': 4
+        }
+      }); */
+
+      /* map.addLayer({
+        id: 'routesLayer',
+        type: 'line',
+        source: 'routesData',
+        minzoom: 0,
+        'layout': {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        'line-color': [
+            'case',
+            [ 'boolean', [ 'feature-state', 'selected' ], false ],
+            '#000000',
+            [ 'boolean', [ 'feature-state', 'hover' ], false ],
+            '#9680A4',
+            '#9680A4',
+        ],
+        'line-width': [
+            'case',
+            [ 'boolean', [ 'feature-state', 'selected' ], false ],
+            15,
+            [ 'boolean', [ 'feature-state', 'hover' ], false ],
+            10,
+            5,
+        ],
+
+        'paint': {
+          'line-color': '#9680A4',
+          'line-width': 4
+        }
+      }); */
+
+      // map.addSource('countiesSocure', {
+      //   type: 'vector',
+      //   url: 'mapbox://intermx.9m6fzz7m'
+      // });
+
+      // map.addSource('zipSocure', {
+      //   type: 'vector',
+      //   url: 'mapbox://intermx.79fxfd9t'
+      // });
+
+      // map.addSource('fc1Socure', {
+      //   type: 'vector',
+      //   url: 'mapbox://intermx.9iuiiqpt'
+      // });
+      // map.addSource('fc2Socure', {
+      //   type: 'vector',
+      //   url: 'mapbox://intermx.2uf087es'
+      // });
+      // map.addSource('fc3Socure', {
+      //   type: 'vector',
+      //   url: 'mapbox://intermx.90ofadui'
+      // });
+      // map.addSource('fc4Socure', {
+      //   type: 'vector',
+      //   url: 'mapbox://intermx.atlg22fi'
+      // });
+      // map.addSource('fc5Socure', {
+      //   type: 'vector',
+      //   url: 'mapbox://intermx.cpyu8zsn'
+      // });
+
+      // map.addLayer({
+      //   id: 'counties',
+      //   type: 'fill',
+      //   source: 'countiesSocure',
+      //   'source-layer': 'counties',
+      //   minzoom: 0,
+      //   maxzoom: 7,
+      //   paint: {
+      //     'fill-opacity': .5,
+      //     'fill-color': '#922A95'
+      //   }
+      // });
+      // map.addLayer({
+      //   id: 'countiesStroke',
+      //   type: 'line',
+      //   source: 'countiesSocure',
+      //   'source-layer': 'counties',
+      //   minzoom: 0,
+      //   maxzoom: 7,
+      //   paint: {
+      //     'line-opacity': .8,
+      //     'line-color': '#922A95',
+      //     'line-width': 2
+      //   }
+      // });
+
+      // map.addLayer({
+      //   id: 'zipcode',
+      //   type: 'fill',
+      //   source: 'zipSocure',
+      //   'source-layer': 'zips_20190123',
+      //   minzoom: 7,
+      //   paint: {
+      //     'fill-opacity': .5,
+      //     'fill-color': '#FCBD32'
+      //   }
+      // });
+      // map.addLayer({
+      //   id: 'zipcodeStroke',
+      //   type: 'line',
+      //   source: 'zipSocure',
+      //   'source-layer': 'zips_20190123',
+      //   minzoom: 7,
+      //   paint: {
+      //     'line-opacity': .8,
+      //     'line-color': '#FCBD32',
+      //     'line-width': 2
+      //   }
+      // });
+
+      // map.addLayer({
+      //   id: 'fc1',
+      //   type: 'line',
+      //   source: 'fc1Socure',
+      //   'source-layer': 'fc1',
+      //   minzoom: 0,
+      //   'layout': {
+      //     'line-join': 'round',
+      //     'line-cap': 'round'
+      //   },
+      //   'paint': {
+      //     'line-color': '#888',
+      //     'line-width': 2
+      //   }
+      // });
+      // map.addLayer({
+      //   id: 'fc2',
+      //   type: 'line',
+      //   source: 'fc2Socure',
+      //   'source-layer': 'fc2',
+      //   minzoom: 0,
+      //   'layout': {
+      //     'line-join': 'round',
+      //     'line-cap': 'round'
+      //   },
+      //   'paint': {
+      //     'line-color': '#888',
+      //     'line-width': 2
+      //   }
+      // });
+      // map.addLayer({
+      //   id: 'fc3',
+      //   type: 'line',
+      //   source: 'fc3Socure',
+      //   'source-layer': 'fc3',
+      //   minzoom: 0,
+      //   'layout': {
+      //     'line-join': 'round',
+      //     'line-cap': 'round'
+      //   },
+      //   'paint': {
+      //     'line-color': '#888',
+      //     'line-width': 2
+      //   }
+      // });
+      // map.addLayer({
+      //   id: 'fc4',
+      //   type: 'line',
+      //   source: 'fc4Socure',
+      //   'source-layer': 'fc4',
+      //   minzoom: 0,
+      //   'layout': {
+      //     'line-join': 'round',
+      //     'line-cap': 'round'
+      //   },
+      //   'paint': {
+      //     'line-color': '#888',
+      //     'line-width': 2
+      //   }
+      // });
+      // map.addLayer({
+      //   id: 'fc5',
+      //   type: 'line',
+      //   source: 'fc5Socure',
+      //   'source-layer': 'fc5',
+      //   minzoom: 0,
+      //   'layout': {
+      //     'line-join': 'round',
+      //     'line-cap': 'round'
+      //   },
+      //   'paint': {
+      //     'line-color': '#888',
+      //     'line-width': 2
+      //   }
+      // });
+
+      // map.on('mouseenter', 'fc1', () => {
+      //   map.getCanvas().style.cursor = 'pointer';
+      // });
+      // map.on('mouseleave', 'fc1', () => {
+      //   map.getCanvas().style.cursor = '';
+      // });
+
+      // map.on('click', 'routesLayer', (e) => {
+      //   const features = map.queryRenderedFeatures(e.point, { layers: ['routesLayer'] });
+      //   console.log('features', features);
+      // });
+      
+      // map.on('zoom', (e) => {
+      //   console.log('zoom', map.getZoom());
+      // });
+    });
+
+  </script>
+</body>
+
+</html>

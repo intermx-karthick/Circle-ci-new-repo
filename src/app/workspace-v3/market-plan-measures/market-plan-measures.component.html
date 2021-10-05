@@ -1,0 +1,112 @@
+<div class="market-plan-measures-table">
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mediatype-inner-list">
+  
+    <ng-container matColumnDef="MediaType">
+      <th mat-header-cell *matHeaderCellDef fxFlex="9.375rem"> Media Type </th>
+      <td mat-cell *matCellDef="let element" fxFlex="9.375rem">
+        <span tooltip="{{element['mediaTypeLable']}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"> {{element['mediaTypeLable'] | truncate:'middle':20}} </span></td>
+    </ng-container>
+  
+    <ng-container matColumnDef="Required/Total In Market">
+      <th mat-header-cell *matHeaderCellDef fxFlex="9.375rem"> Required/ Total In Market</th>
+      <td mat-cell *matCellDef="let element" fxFlex="9.375rem" [ngClass] = "{'editable-text' : element.editable && (projectOwnerEmail && projectOwnerEmail === userEmail)}">
+        <ng-container
+          *ngIf="element.editable && (projectOwnerEmail && projectOwnerEmail === userEmail);else nonEditableSpot">
+          <input *ngIf="(element.isSpotsEdit)" type="text"
+            [value]="((element.spots === '' || element.spots === null) && '' || (element.spots <= 0 && '0' || element.spots))"
+            (blur)="onEditFieldValue($event.target.value, element,'spots')" appNumberOnly autofocus tabindex="-1">
+          <span *ngIf="(!element.isSpotsEdit)" class="cell-data editable-value"
+            (click)="rowEditId = element.mediaType;element.isSpotsEdit=true;element.isTrpEdit=false">
+            {{ ( ( element.spots === 0 ||  element.spots === '' || element.spots === null) &&  '-' || element.spots ) }}
+          </span>
+        </ng-container>
+        <ng-template #nonEditableSpot>
+          <span>
+            {{ ( (element.spots === 0 || element.spots === '' || element.spots === null) &&  '0' || element.spots ) }}
+          </span>
+        </ng-template>
+        <span matTooltip="Total Quantities based on Audited Inventory only" [matTooltipDisabled]="!customInventoryAllowed"
+          matTooltipClass="audited-tooltip"> / {{ element.totalInMarket }}</span>
+        <br>
+        <span class="saving"
+          *ngIf="element===isSaveingPlan && savingPlanInput === 'spots'">Saving<span>.</span><span>.</span><span>.</span></span>
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="Trp">
+      <th mat-header-cell *matHeaderCellDef fxFlex="10%"> TRP </th>
+      <td mat-cell *matCellDef="let element" fxFlex="10%" [ngClass] = "{'editable-text' : element.editable && (projectOwnerEmail && projectOwnerEmail === userEmail)}">
+        <ng-container
+          *ngIf="element.editable && (projectOwnerEmail && projectOwnerEmail === userEmail);else nonEditableSpot">
+          <input *ngIf="(element.isTrpEdit)" type="text"
+            [value]="((element.trp === 0 || element.trp === '' || element.trp === null) &&  '0' || element.trp.toFixed(3) )"
+            appNumberOnly (blur)="onEditFieldValue($event.target.value, element,'trp')" autofocus tabindex="-1">
+          <span *ngIf="(!element.isTrpEdit)" class="cell-data editable-value"
+            (click)="trbEditId=element.mediaType;element.isTrpEdit=true;element.isSpotsEdit=false">
+            {{ (element.trp !== null && element.trp && element.trp.toFixed(3)  || '-') }}</span>
+          <br>
+          <span class="saving"
+            *ngIf="element===isSaveingPlan && savingPlanInput === 'trp'">Saving<span>.</span><span>.</span><span>.</span></span>
+        </ng-container>
+        <ng-template #nonEditableSpot>
+          <span>{{ (element.trp !== null && element.trp && element.trp.toFixed(3)  || '-') }}</span>
+        </ng-template>
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="Reach">
+      <th mat-header-cell *matHeaderCellDef fxFlex="10%"> Reach % </th>
+      <td mat-cell *matCellDef="let element" fxFlex="10%"> <input *ngIf="(element.mediaType == reachEditId)" type="text"
+          [value]="(element.reach && (element.reach | convert:'DECIMAL'))" appNumberOnly
+          (blur)="onEditFieldValue($event.target.value, element,'reach');rowEditId = null;trbEditId=null;frequencyEditId=null;reachEditId=null">
+        <span *ngIf="(element.mediaType !== reachEditId)" class="cell-data">
+          <!-- (dblclick)="reachEditId= element.mediaType;rowEditId=null;trbEditId=null;frequencyEditId=null;frequencyEditId=null" -->
+          {{ (element.reach && (element.reach | convert:'DECIMAL':2) + '%' || '-') }}</span> </td>
+    </ng-container>
+    <ng-container matColumnDef="Reach Net">
+      <th mat-header-cell *matHeaderCellDef  fxFlex="10%"> Reach Net</th>
+      <td mat-cell *matCellDef="let element"  fxFlex="10%">
+        <span class="cell-data">
+          {{ (element.reachNet && (element.reachNet | convert:'THOUSAND') || '-') }}</span> </td>
+    </ng-container>
+    <ng-container matColumnDef="Frequency">
+      <th mat-header-cell *matHeaderCellDef  fxFlex="10%"> Frequency </th>
+      <td mat-cell *matCellDef="let element"  fxFlex="10%"> <input *ngIf="(element.mediaType == frequencyEditId)" type="text"
+          [value]="(element.frequency && (element.frequency | convert:'DECIMAL':1 ))" appNumberOnly
+          (blur)="onEditFieldValue($event.target.value, element,'frequency')">
+        <span *ngIf="(element.mediaType !== frequencyEditId)" class="cell-data">
+          <!-- (dblclick)="frequencyEditId= element.mediaType;rowEditId=null;trbEditId=null;reachEditId=null" -->
+          {{ (element.frequency && (element.frequency | convert:'DECIMAL':2 ) || '-') }} </span></td>
+    </ng-container>
+  
+    <ng-container matColumnDef="Target In-Market Imp">
+      <th mat-header-cell *matHeaderCellDef  fxFlex="15%"> Target In-Market Imp </th>
+      <td mat-cell *matCellDef="let element"  fxFlex="15%">
+        <span
+          class="cell-data">{{ (element.targetInMarketImp && (element.targetInMarketImp | convert:'THOUSAND') || '-') }}
+        </span></td>
+    </ng-container>
+  
+    <ng-container matColumnDef="Target Imp">
+      <th mat-header-cell *matHeaderCellDef fxFlex="15%"> Target Imp </th>
+      <td mat-cell *matCellDef="let element" fxFlex="15%">
+        <span class="cell-data"> {{ (element.targetImp && (element.targetImp | convert:'THOUSAND') || '-') }} </span>
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="Total Imp">
+      <th mat-header-cell *matHeaderCellDef fxFlex="15%"> Total Imp</th>
+      <td mat-cell *matCellDef="let element" fxFlex="15%">
+        <span class="cell-data"> {{ (element.totalImp && (element.totalImp | convert:'THOUSAND') || '-') }} </span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef class="width100px" > Filter </th>
+      <td mat-cell *matCellDef="let element" class="width100px"></td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="media-element-row">
+    </tr>
+  </table>
+</div>

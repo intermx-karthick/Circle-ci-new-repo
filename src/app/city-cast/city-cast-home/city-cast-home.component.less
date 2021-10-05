@@ -1,0 +1,379 @@
+@import "../../../assets/css/variables.less";
+
+::ng-deep {
+  .confirm-text-icon {
+    text-align: center;
+  }
+  app-city-cast-home {
+    .map-div-block {
+      position: relative;
+
+      .map-div {
+        position: relative;
+
+        .mapboxgl-ctrl-top-left {
+          position: absolute;
+          top: inherit;
+          bottom: 80px;
+          z-index: 2;
+        }
+
+        .mapboxgl-ctrl-bottom-right {
+          .mapboxgl-ctrl-group {
+            position: absolute;
+            top: inherit;
+            bottom: 80px;
+            z-index: 2;
+            right: 10px;
+            margin: 0;
+          }
+        }
+
+        .mapboxgl-ctrl-bottom-left {
+          .mapboxgl-ctrl-locate-me {
+            position: relative;
+            bottom: 42px;
+            margin-bottom: 0;
+          }
+        }
+
+        .map-zoom-out {
+          position: absolute;
+          bottom: 55px;
+          right: 10px;
+          z-index: 2;
+        }
+
+        .remove-map-selection.mat-mini-fab {
+          box-shadow: none;
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          background-color: var(--grays-bg-300);
+          opacity: 1;
+          z-index: 1;
+          border: 1px solid var(--g-color);
+
+          .mat-button-wrapper {
+            padding: 6px 0;
+
+            .mat-icon {
+              color: var(--grays-bg-600)
+            }
+          }
+        }
+      }
+      .citycast-side-nav {
+        background-color: #ffffff !important;
+        z-index: 4 !important;
+        width: 350px;
+        border: 1px solid var(--grays-bg-200);
+
+        .dynamicContnet {
+          position: relative;
+          width: 100%;
+
+          .sidePanelClose.mat-mini-fab {
+            box-shadow: none;
+            position: absolute;
+            right: 10px;
+            top: 15px;
+            transform: rotate(180deg);
+            background-color: var(--grays-bg-300);
+            opacity: 0.5;
+            z-index: 5;
+            .mat-button-wrapper {
+              padding: 6px 0;
+
+              .mat-icon {
+                color: var(--grays-bg-600)
+              }
+            }
+          }
+
+          .menu-header {
+            position: relative;
+
+            mat-form-field {
+              width: 100%;
+            }
+
+            .btn-primary-color {
+              background: var(--button-bg-color);
+              color: var(--white-color);
+              margin-left: 8px;
+              float: right;
+              padding: 0px 10px;
+            }
+
+            .btn-link {
+              text-decoration: underline;
+              color: var(--button-bg-color);
+            }
+
+            .cast-feature-content {
+              padding: 0 20px 20px 20px;
+              h5 {
+                margin: 0px;
+                &.align-center {
+                  font-size: 16px;
+                  margin: 20px 0px;
+                }
+              }
+              .side-panel-header {
+                padding: 15px 0px;
+                h4 {
+                  margin: 0px;
+                }
+              }
+            }
+            .cast-find-feature {
+              padding: 0 20px 20px 20px;
+
+              h5 {
+                margin: 0px;
+              }
+            }
+
+            &.published {
+              .cast-form-title,
+              .cast-form-fields {
+                span:nth-child(1) {
+                  flex: 1 1 100%;
+                  box-sizing: border-box;
+                  max-width: 60%;
+                  margin-right: 0px !important;
+                }
+
+                span:nth-child(2),
+                span:nth-child(3) {
+                  flex: 1 1 100%;
+                  box-sizing: border-box;
+                  max-width: 30%;
+                  text-align: right;
+                  // margin-right: 15px;
+                  input {
+                    text-align: right;
+                  }
+                }
+              }
+            }
+
+            &.draft,
+            &.running {
+
+              .cast-form-title,
+              .cast-form-fields {
+                span:nth-child(1) {
+                  flex: 1 1 100%;
+                  box-sizing: border-box;
+                  max-width: 40%;
+                  margin-right: 0px !important;
+                }
+
+                span:nth-child(2),
+                span:nth-child(3) {
+                  flex: 1 1 100%;
+                  box-sizing: border-box;
+                  max-width: 30%;
+                  text-align: right;
+                  // margin-right: 15px;
+
+                  input {
+                    text-align: right;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .cast-run-button-block {
+        position: absolute;
+        left: 8px;
+        bottom: 20px;
+        z-index: 5;
+
+        button {
+          background-color: var(--red-color);
+          color: var(--white-color);
+          min-width: 80px;
+          height: 40px;
+
+          &.ruuning {
+            background-color: var(--blue-color);
+          }
+        }
+      }
+
+      .floating-menu {
+        position: absolute;
+        left: 350px;
+      }
+    }
+
+    .sideNavOpen {
+      .cast-run-button-block {
+        left: 358px;
+      }
+    }
+
+    .map-zoom-out {
+      position: relative;
+      z-index: 0;
+      width: 30px;
+      border-radius: 4px;
+      color: var(--g-color);
+      font-size: 12px;
+
+      i {
+        position: relative;
+        top: 2px;
+      }
+
+      button {
+        height: 28px !important;
+      }
+    }
+
+    .side-panel-body {
+      margin-top: 15px;
+      > div {
+        border-top: 1px solid var(--grays-bg-300);
+        padding: 5px 0;
+      }
+
+      .action-block {
+        padding-top: 15px;
+      }
+    }
+
+    .route-content-body {
+      margin-top: 15px;
+      .route-content {
+        border-bottom: 1px solid var(--grays-bg-300);
+        margin-bottom: 10px;
+        padding: 0 0 10px 0;
+
+        & h5 {
+          margin: 0 0 5px 0;
+        }
+
+        table {
+          width: 100%;
+
+          th {
+            border-bottom: 1px solid var(--grays-bg-300);
+          }
+
+          th,
+          td {
+            color: var(--grays-bg-500);
+            font-size: 13px;
+            text-align: right;
+            padding: 5px 0 5px 0;
+          }
+
+          th {
+            font-weight: normal;
+            color: var(--grays-bg-700);
+          }
+
+          th:nth-child(1),
+          td:nth-child(1) {
+            text-align: left;
+          }
+        }
+
+        .route-schedule {
+          .action {
+            width: 20px;
+
+            mat-icon {
+              font-size: 20px;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+
+
+    .cast-legend {
+      position: fixed;
+      bottom: 40px;
+      right: 50px;
+      padding: 0;
+      border: 1px solid white;
+      border-radius: 5px;
+      background-color: rgba(255, 255, 255, 0.95);
+
+      h1 {
+        margin: 0 0 1em;
+        font-size: 1em;
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+
+    .mapboxgl-popup .mapboxgl-popup-content {
+      background: rgba(255, 255, 255, 0.85);
+      width: 200px !important;
+      text-align: center;
+      height: auto !important;
+      padding: 10px !important;
+      font-size: 20px;
+      -webkit-box-shadow: 0 -6px 18px rgba(204, 214, 221, 0.8);
+      -moz-box-shadow: 0 -6px 18px rgba(204, 214, 221, 0.8);
+      -ms-box-shadow: 0 -6px 18px rgba(204, 214, 221, 0.8);
+      box-shadow: 0 -6px 18px rgba(204, 214, 221, 0.8);
+
+      .mapboxgl-popup-close-button {
+        display: none;
+      }
+    }
+
+    .schedule-text-box {
+      width: 85%;
+      &.align-right {
+        text-align: right;
+      }
+    }
+  }
+  input.text-box {
+    margin: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    &:focus {
+      border: 2px solid #000;
+      padding: 4px;
+    }
+  }
+  .mode-select {
+    .mat-form-field {
+      .mat-form-field-wrapper {
+        margin-top: 10px;
+        .mat-form-field-flex {
+          margin-top: 5px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          padding: 8px 5px;
+          &:focus {
+            border: 2px solid #000;
+            padding: 5px 9px;
+          }
+          .mat-form-field-infix {
+            padding: 0;
+            margin: 0px;
+            border: 0;
+          }
+        }
+        .mat-form-field-underline {
+          display: none;
+        }
+      }
+    }
+  }
+}

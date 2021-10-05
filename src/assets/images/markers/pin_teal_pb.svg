@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="18px" viewBox="0 0 14 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Winks" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-2" transform="translate(-11.000000, 0.000000)" fill="#008D97" fill-rule="nonzero">
+            <path d="M18,0 C14.4064286,0 11.5,2.817 11.5,6.3 C11.5,11.025 18,18 18,18 C18,18 24.5,11.025 24.5,6.3 C24.5,2.817 21.5935714,0 18,0 Z M18,9 C16.62,9 15.5,7.88 15.5,6.5 C15.5,5.12 16.62,4 18,4 C19.38,4 20.5,5.12 20.5,6.5 C20.5,7.88 19.38,9 18,9 Z" id="Shape"></path>
+        </g>
+    </g>
+</svg>

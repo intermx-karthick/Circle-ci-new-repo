@@ -1,0 +1,100 @@
+.mat-accordion .mat-expansion-panel:first-of-type {
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+}
+.mat-accordion .mat-expansion-panel:last-of-type {
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.menu-body-list{
+  .menu-list{
+    margin-bottom: 10px;
+    h5{
+      padding-left: 25px;
+      font-size: 15.5px !important;
+      font-weight: 400;
+      padding-right: 5px;
+      cursor: pointer;
+      line-height: normal;
+      &:active, &:focus {
+        box-shadow: unset;
+        border: none;
+        outline: none !important;
+      }
+      &.active, &:hover {
+        span {
+          color: var(--primary-bg-900);
+          border-bottom: 1px solid var(--primary-bg-900);
+          // display: block;
+          max-width: 80px;
+          width: fit-content;
+          // padding-bottom: 5px;
+        }
+      }
+    }
+    .mat-list{
+      max-width: inherit;
+    }
+    .tableau-link {
+      color: var(--high-emphasis);
+    }
+  }
+}
+h5{
+  margin: 2px 0;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+
+::ng-deep{
+  app-reports-nav-left{
+    .mat-expansion-panel{
+      background: var(--grays-bg-100);
+    }
+    mat-expansion-panel-header{
+      // border-bottom: 1px solid;
+      // border-color: var(--grays-bg-300);
+      .mat-expansion-indicator::after{
+        color: var(--high-emphasis);
+      }
+      .mat-expansion-panel-header-title {
+        font-size: 15.5px !important;
+      }
+    }
+    .mat-expansion-panel-body{
+      padding: 0px;
+      margin: 0;
+      .mat-list-item {
+        .mat-list-item-content {
+          display: block;
+        }
+        height: initial !important;
+        cursor: pointer;
+        border-bottom: 0;
+        padding: 5px 10px 5px 30px;
+        font-size: 15px;
+        &.active , &:active{
+          box-shadow: unset;
+          border: none;
+          outline: none !important;
+          // background: var(--grays-bg-300);
+        }
+        // &.selected{
+        //   background: var(--grays-bg-300);
+        // }
+        &.active, &:hover {
+          span {
+            color: var(--primary-bg-900);
+            border-bottom: 1px solid var(--primary-bg-900);
+            // display: block;
+            width: fit-content;
+            // padding-bottom: 5px;
+          }
+        }
+      }
+    }
+  }
+}

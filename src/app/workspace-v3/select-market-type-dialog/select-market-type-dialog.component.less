@@ -1,0 +1,75 @@
+@import "../../../assets/css/variables.less";
+
+::ng-deep {
+  .inventory-market-select-dialog{
+    mat-dialog-container{
+      padding:1rem !important;
+      mat-dialog-content{
+        margin:0rem !important;
+        padding:0rem !important;
+      }
+    }
+  }
+  app-select-market-type-dialog {
+    .market-type-div {
+      width: 100%;
+      // min-width: 500px;
+    }
+    .header{
+      h4{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 0.875rem;
+        line-height: 18px;
+        letter-spacing: 1px;
+        /* Grays/700 */
+        color: var(--grays-bg-700);
+      }
+      button{
+        &.close-icon{
+          line-height: 20px;
+          height: 24px;
+          width: 24px !important;
+          mat-icon{
+            color: var(--primary-bg);
+          }
+        }
+      }
+    }
+    .marketTypeBlock {
+      margin-bottom: 15px;
+      display: flex;
+      margin: 2.5rem 0 3rem 0;
+      .mat-radio-button {
+        margin-right: 1rem;
+        .mat-radio-label {
+          font-style: normal;
+          font-weight: normal;
+          font-size: 0.813rem;
+          line-height: 16px;
+          /* identical to box height, or 123% */
+          letter-spacing: 0.5px;
+          /* Grays/800 */
+          color: var(--grays-bg-800);
+        }
+        &.mat-radio-checked{
+          .mat-radio-label {
+            /* Primary/800 */
+          color: var(--primary-bg-800);
+          }
+        }
+      }
+    }
+    .alignbutton{
+      button{
+        mat-icon{
+          width: 20px;
+          height: 20px;
+          line-height: 19px;
+          position: relative;
+          top: -1px;
+        }
+      }
+    }
+  }
+}

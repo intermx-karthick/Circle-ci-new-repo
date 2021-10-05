@@ -1,0 +1,68 @@
+::ng-deep {
+  app-add-product {
+
+    .header {
+      font-size: 1rem;
+      line-height: 1.4rem;
+      letter-spacing: 0.15px;
+      color: var(--grays-bg-700) !important;
+    }
+
+    .edit-plan-sheet {
+      padding-top: 8px !important;
+
+      .gray-800 {
+        color: var(--grays-bg-800);
+      }
+
+      .gray-600 {
+        color: var(--grays-bg-600);
+      }
+
+      .edit-plan-sheet-heading {
+        padding-bottom: 4px;
+
+        p {
+          margin: 0;
+          word-break: break-all;
+        }
+      }
+
+      .mat-icon {
+        height: 18px;
+        width: 18px;
+      }
+    }
+
+    .save-btn {
+      margin: 1.8rem 0 1.4rem 0;
+      width: 9.69rem;
+    }
+
+    .add-product__form {
+      overflow-y: auto;
+      overflow-x: hidden;
+      width: 100%;
+      max-height: 338px;
+    }
+  }
+
+  .add-product__panel.mat-bottom-sheet-container {
+    overflow: hidden;
+    margin-bottom: 5px;
+    border-radius: 5px;
+  }
+
+  .add-product__panel .mat-dialog-container, .mat-bottom-sheet-container {
+    padding: 8px 0 0 16px !important;
+    overflow-x: hidden;
+
+    .edit-plan-sheet-heading {
+      padding: 8px 18px 8px 0  !important;
+    }
+
+    .add-product__action{
+      padding-right: 32px;
+    }
+  }
+}

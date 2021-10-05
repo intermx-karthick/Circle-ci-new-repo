@@ -1,0 +1,139 @@
+<div [ngClass]="{'opened-menu': isOpenedSidenav}" class="{{selectedCast?.status +' '+ mainmap}}" [ngClass] ="{'noCast': !selectedCast}">
+  <div class="minimized-nav-icon settings-icon"  [ngClass] ="{'selected': selectedMenu === sidebarMenuType.SETTING}" (click)="openSidePanel(sidebarMenuType.SETTING)">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <i class="icon-custom icon-custom-cc-settings"></i>
+      <span>Settings</span>
+    </div>
+  </div>
+  <div class="minimized-nav-icon scheme-icon"  [ngClass] ="{'selected': selectedMenu === sidebarMenuType.SCHEME}"  (click)="openSidePanel(sidebarMenuType.SCHEME)">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <i class="icon-custom icon-custom-cc-scheme"></i>
+      <span>Scheme</span>
+    </div>
+  </div>
+  <div class="minimized-nav-icon metrics-icon" *ngIf="selectedCast && selectedCast['status'] === castStatuses.PUBLISHED" [ngClass] ="{'selected': selectedMenu === sidebarMenuType.METRICS}"  (click)="openSidePanel(sidebarMenuType.METRICS)">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <i class="icon-custom icon-custom-cc-metrics"></i>
+      <span>Metrics</span>
+    </div>
+  </div>
+  <div class="minimized-nav-icon search-icon" [ngClass] ="{'selected': selectedMenu === sidebarMenuType.SEARCH}"  (click)="openSidePanel(sidebarMenuType.SEARCH)">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <i class="icon-custom icon-custom-cc-search"></i>
+      <span>Find Map Feature</span>
+    </div>
+  </div>
+  <div class="dual-minimized-nav-icon explorer-icon">
+    <div fxLayout="row" fxLayoutAlign="start center" class='nav-icon-menu' [ngClass] ="{'selected': mainmap === sidebarMenuType.EXPLORER}" (click)="openSidePanel(sidebarMenuType.EXPLORER, 'mainmap')">
+      <i class="icon-custom icon-custom-cc-explorer"></i>
+      <span>Explorer</span>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" class='nav-icon-menu' [ngClass] ="{'selected': mainmap === sidebarMenuType.NETWORK, 'disabled' : (selectedCast && selectedCast['status'] !== castStatuses.PUBLISHED)}" (click)="openSidePanel(sidebarMenuType.NETWORK, 'mainmap')">
+      <i class="icon-custom icon-custom-cc-network"></i>
+      <span>Network Analyzer</span>
+    </div>
+  </div>
+  <div class="dual-minimized-nav-icon road-icon">
+    <div fxLayout="row" fxLayoutAlign="start center" *ngIf = "mainmap === sidebarMenuType.EXPLORER" class='nav-icon-menu' [ngClass] ="{'selected': submap === sidebarMenuType.COUNTY_NETWORK}" (click)="openSidePanel(sidebarMenuType.COUNTY_NETWORK, 'submap')">
+      <div class="symbol-alphabet symbol-alphabet-c"></div>
+      <span >County</span>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" *ngIf = "mainmap === sidebarMenuType.EXPLORER" class='nav-icon-menu' [ngClass] ="{'selected': submap === sidebarMenuType.TRACT_NETWORK}" (click)="openSidePanel(sidebarMenuType.TRACT_NETWORK, 'submap')">
+      <div class="symbol-alphabet symbol-alphabet-t"></div>
+      <span >Tract</span>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" *ngIf = "mainmap === sidebarMenuType.EXPLORER" class='nav-icon-menu' [ngClass] ="{'selected': submap === sidebarMenuType.BLOCKGROUP_NETWORK}" (click)="openSidePanel(sidebarMenuType.BLOCKGROUP_NETWORK, 'submap')">
+      <div class="symbol-alphabet symbol-alphabet-b"></div>
+      <span >Block Group</span>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center"  class='nav-icon-menu' [ngClass] ="{'selected': submap === sidebarMenuType.ROAD_NETWORK}" (click)="openSidePanel(sidebarMenuType.ROAD_NETWORK, 'submap')">
+      <i class="icon-custom icon-custom-cc-road"></i>
+      <span>Road Network</span>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center"  class='nav-icon-menu' [ngClass] ="{'selected': submap === sidebarMenuType.TRANSIT_NETWORK}" (click)="openSidePanel(sidebarMenuType.TRANSIT_NETWORK, 'submap')">
+      <i class="icon-custom icon-custom-cc-transit"></i>
+      <span >Transit Network</span>
+    </div>
+    <!-- <div fxLayout="row" fxLayoutAlign="start center" *ngIf = "mainmap === sidebarMenuType.EXPLORER" class='nav-icon-menu' [ngClass] ="{'selected': submap === sidebarMenuType.EXPLORER_COMMON_MAP}" (click)="openSidePanel(sidebarMenuType.EXPLORER_COMMON_MAP, 'submap')">
+      <mat-icon>layers</mat-icon>
+      <span>All Layers</span>
+    </div> -->
+  </div>
+  <div class="minimized-nav-icon explore-submenu-icon" *ngIf = "mainmap === sidebarMenuType.EXPLORER">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon>layers</mat-icon>
+    </div>
+    <div class="sub-menu dual-minimized-nav-icon">
+      <div fxLayout="row" fxLayoutAlign="start center"  class='nav-icon-menu' [ngClass] ="{'selected': submap === sidebarMenuType.COUNTY_NETWORK}" (click)="openSidePanel(sidebarMenuType.COUNTY_NETWORK, 'submap')">
+        <div class="symbol-alphabet symbol-alphabet-c"></div>
+        <span >County</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center"  class='nav-icon-menu' [ngClass] ="{'selected': submap === sidebarMenuType.TRACT_NETWORK}"  (click)="openSidePanel(sidebarMenuType.TRACT_NETWORK, 'submap')">
+        <div class="symbol-alphabet symbol-alphabet-t"></div>
+        <span >Tract</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center"  class='nav-icon-menu' [ngClass] ="{'selected': submap === sidebarMenuType.BLOCKGROUP_NETWORK}" (click)="openSidePanel(sidebarMenuType.BLOCKGROUP_NETWORK, 'submap')">
+        <div class="symbol-alphabet symbol-alphabet-b"></div>
+        <span >Block Group</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center"  class='nav-icon-menu' [ngClass] ="{'selected': submap === sidebarMenuType.ROAD_NETWORK}" (click)="openSidePanel(sidebarMenuType.ROAD_NETWORK, 'submap')">
+        <i class="icon-custom icon-custom-cc-road"></i>
+        <span>Road Network</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center"  class='nav-icon-menu' [ngClass] ="{'selected': submap === sidebarMenuType.TRANSIT_NETWORK}" (click)="openSidePanel(sidebarMenuType.TRANSIT_NETWORK, 'submap')">
+        <i class="icon-custom icon-custom-cc-transit"></i>
+        <span >Transit Network</span>
+      </div>
+      <!-- <div fxLayout="row" fxLayoutAlign="start center"  class='nav-icon-menu' [ngClass] ="{'selected': submap === sidebarMenuType.EXPLORER_COMMON_MAP}" (click)="openSidePanel(sidebarMenuType.EXPLORER_COMMON_MAP, 'submap')">
+        <mat-icon>layers</mat-icon>
+        <span>Default</span>
+      </div> -->
+    </div>
+  </div> 
+
+  <div class="minimized-nav-icon tract-icon"  [ngClass] ="{'selected': selectedMenu === sidebarMenuType.COUNTY}"  *ngIf="sidePanelData && sidePanelData['type'] && sidePanelData['type'] === sidebarMenuType.COUNTY" (click)="openSidePanel(sidebarMenuType.COUNTY)">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <i class="icon-custom icon-custom-cc-tract"></i>
+      <span>Edit County</span>
+    </div>
+  </div>
+  <div class="minimized-nav-icon tract-icon"  [ngClass] ="{'selected': selectedMenu === sidebarMenuType.BLOCKGROUP}"  *ngIf="sidePanelData && sidePanelData['type'] && sidePanelData['type'] === sidebarMenuType.BLOCKGROUP" (click)="openSidePanel(sidebarMenuType.BLOCKGROUP)">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <i class="icon-custom icon-custom-cc-tract"></i>
+      <span>Edit Block Group</span>
+    </div>
+  </div>
+  <div class="minimized-nav-icon tract-icon"  [ngClass] ="{'selected': selectedMenu === sidebarMenuType.TRACT}"  *ngIf="sidePanelData && sidePanelData['type'] && sidePanelData['type'] === sidebarMenuType.TRACT" (click)="openSidePanel(sidebarMenuType.TRACT)">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <i class="icon-custom icon-custom-cc-tract"></i>
+      <span>Edit Tract</span>
+    </div>
+  </div>
+  <div class="minimized-nav-icon tract-icon" [ngClass] ="{'selected': selectedMenu === sidebarMenuType.LINK}" *ngIf="sidePanelData && sidePanelData['type'] && sidePanelData['type'] === sidebarMenuType.LINK" (click)="openSidePanel(sidebarMenuType.LINK)">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <i class="icon-custom icon-custom-cc-link"></i>
+      <span>Edit Link</span>
+    </div>
+  </div>
+
+  <div class="minimized-nav-icon tract-icon" [ngClass] ="{'selected': selectedMenu === sidebarMenuType.NETWORK_LINK}" *ngIf="sidePanelData && sidePanelData['type'] && sidePanelData['type'] === sidebarMenuType.NETWORK_LINK" (click)="openSidePanel(sidebarMenuType.NETWORK_LINK)">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <i class="icon-custom icon-custom-cc-link"></i>
+      <span>Edit Link</span>
+    </div>
+  </div>
+
+  <div class="minimized-nav-icon tract-icon" [ngClass] ="{'selected': selectedMenu === sidebarMenuType.NETWORK_ROUTE}" *ngIf="sidePanelData && sidePanelData['type'] && sidePanelData['type'] === sidebarMenuType.NETWORK_ROUTE" (click)="openSidePanel(sidebarMenuType.NETWORK_ROUTE)">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <i class="icon-custom icon-custom-cc-link"></i>
+      <span>Edit Route</span>
+    </div>
+  </div>
+
+  <div class="minimized-nav-icon tract-icon" [ngClass] ="{'selected': selectedMenu === sidebarMenuType.ROUTE}" *ngIf="sidePanelData && sidePanelData['type'] && sidePanelData['type'] === sidebarMenuType.ROUTE" (click)="openSidePanel(sidebarMenuType.ROUTE)">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <i class="icon-custom icon-custom-cc-link"></i>
+      <span>Edit Route</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<ng-container *ngIf="isInitLoading;else loaded">
+  <app-cl-list-with-left-radio-right-ctnt></app-cl-list-with-left-radio-right-ctnt>
+</ng-container>
+
+<ng-template #loaded>
+  <mat-radio-group
+    (change)="changeMaterial($event.value)"
+    [(ngModel)]="selectedMaterial"
+  >
+    <div class="left-side-list material-filter">
+      <mat-radio-button [value]="'true'"
+      >Digital
+        <span fxFlex="1 1 auto"></span>
+        <span class="count">({{ digitalCount }})</span></mat-radio-button
+      >
+      <mat-radio-button [value]="'false'"
+      >Printed/Mesh
+        <span fxFlex="1 1 auto"></span>
+        <span class="count">({{ nonDigitalCount }})</span></mat-radio-button
+      >
+      <mat-radio-button [value]="'both'">Both</mat-radio-button>
+    </div>
+  </mat-radio-group>
+</ng-template>

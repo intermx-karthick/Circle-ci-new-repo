@@ -1,0 +1,46 @@
+<mat-card  #refNode class="imx-widget-card" [ngClass] = "{'disabled-ele' : !editFlag}">
+  <mat-card-content [ngClass]="{'specific-date':planPeroid === 'specific'}" >
+    <div *ngIf="planPeroid !== 'specific'"  fxLayout="row" fxLayoutAlign="center center" class="plan-period-card-content">
+      <div class="plan-period-toggle">
+        <mat-button-toggle-group #group="matButtonToggleGroup" value="{{selectedDuration}}" (change)="changeDuration($event)">
+          <mat-button-toggle value="{{week.duration}}" aria-label="Text align left" *ngFor="let week of periodDurations">{{week.duration}}</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+    <div *ngIf="planPeroid === 'specific'" class="plan-date" fxLayout="column" >
+      <mat-form-field floatPlaceholder="always" class="" >
+        <label class="placeholder-text">Start Date
+          <mat-icon class="date-picker-icon">date_range</mat-icon>
+        </label>
+        <input matInput [matDatepicker]="start_date_picker"
+            [formControl]="startDate"  (ngModelChange)="changeDate($event, 'start')">
+        <mat-icon (click)="start_date_picker.open()" matSuffix matTooltip="select start date"
+                  class="date-picker-icon date-picker-icon_input">date_range</mat-icon>
+        <mat-datepicker #start_date_picker="matDatepicker"></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field floatPlaceholder="always" class="">
+        <label class="placeholder-text">End Date
+          <mat-icon class="date-picker-icon">date_range</mat-icon>
+        </label>
+        <input matInput [matDatepicker]="end_date_picker"
+           [formControl]="endDate" (ngModelChange)="changeDate($event, 'end')">
+        <mat-icon (click)="end_date_picker.open()" matSuffix matTooltip="select end date"
+                  class="date-picker-icon date-picker-icon_input">date_range</mat-icon>
+        <mat-datepicker #end_date_picker="matDatepicker"></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <div>
+      <h5>Plan Period</h5>
+      <p>{{labels['scenario'][0]}} {{ planPeroid !== 'specific' && 'Flight Weeks' || 'Flight Dates'}}</p>
+    </div>
+
+    <div>
+      <mat-radio-group aria-label="Select an plan period"  [(ngModel)]="planPeroid" (change)="changePlanPeroid($event)">
+        <mat-radio-button value="generic">Generic</mat-radio-button>
+        <mat-radio-button value="specific" [disabled]="disableSpecific" >Specific</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </mat-card-actions>
+</mat-card>

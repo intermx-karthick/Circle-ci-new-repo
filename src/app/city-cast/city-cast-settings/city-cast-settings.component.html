@@ -1,0 +1,40 @@
+<div class="cast-settings">
+  <div fxLayout="row" fxLayoutAlign="start center" class="cast-settings-title">
+    <i class="icon-custom icon-custom-cc-settings"></i>
+    <h4>Settings</h4>
+  </div>
+  <form [formGroup]="settingForm" (ngSubmit)='onSubmit(settingForm)'>
+    <div class="">
+      <input formControlName="id" type="hidden">
+      <mat-form-field floatLabel="always" appearance='standard' >
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" class="text-box" required/>
+        <mat-error *ngIf="settingForm.controls.title.invalid">Required</mat-error>
+      </mat-form-field>
+      <div class="tag-container">
+        <label>TAGS</label>
+        <app-tags-input
+         [chips]="tags"
+         [form] = 'true'
+         [editable] = 'true'
+         [matFormConfig] = "{float : 'always'}"
+         (chipAdded) = "onChipChanged($event)"
+        ></app-tags-input>
+      </div>
+      <mat-form-field floatLabel="always"  appearance='standard'>
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" class="text-box"></textarea>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="end center" class='action-block' networkLibraryAcl [access] = "'edit'">
+      <button mat-button type="button" class="btn-link" *ngIf="dataChanged" (click) = "discardChanges()">Discard Changes</button>
+      <button mat-raised-button class="btn-primary-color" [ngClass] = "{'disabled' : !dataChanged}" type="submit">Update Cast Settings</button>
+    </div>
+
+    <div>
+      <button mat-raised-button class="btn-primary-color" type="submit">
+        
+      </button>
+    </div>
+  </form>
+</div>

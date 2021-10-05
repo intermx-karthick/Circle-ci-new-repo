@@ -1,0 +1,32 @@
+<mat-card class="example-card" class="mat-elevation-z2">
+  <mat-card-content >
+    <div fxLayout="row">
+      <circle-progress
+        [percent]="geoGraphy.comp"
+        [radius]="40"
+        [outerStrokeWidth]="12"
+        [innerStrokeWidth]="12"
+        [outerStrokeColor]="activeStrokeColor"
+        [innerStrokeColor]="baseStrokeColor"
+        [showSubtitle]="showSubtitle"
+        [showTitle]="showTitle"
+        [showUnits]="showUnits"
+        subtitle="Less than 1%"
+        space="-12"
+        outerStrokeLinecap="square"
+
+        [animation]="false"></circle-progress>
+      <div class="content">
+        <div fxLayout="column">
+          <mat-card-title [matTooltip]="geoGraphy.geoName"><mat-checkbox [checked]="geoGraphy.selected" (change)="toggleSelection()" labelPosition="before">{{geoGraphy.geoName || 'N/A'}}</mat-checkbox></mat-card-title>
+          <mat-card-subtitle>{{geoGraphy.state}}</mat-card-subtitle>
+          <p>{{geoGraphy.formattedIndex}}</p>
+          <p>&nbsp;</p>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="flex-end center" >
+          <button mat-button type="button" (click)="clickMapView()"><mat-icon aria-label="map view">location_on</mat-icon>MAP VIEW</button>
+      </div>
+    </div>
+       </div>
+  </mat-card-content>
+</mat-card>

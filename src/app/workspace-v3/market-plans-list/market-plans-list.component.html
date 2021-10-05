@@ -1,0 +1,194 @@
+<div class="market-types-list">
+  <div class="goal-tab-body-main  m-t-2 market-plan-list-table ">
+    <!-- Media type table start-->
+    <!-- <div class="customize-column-container">
+      <button mat-raised-button (click)="customizeColumn()" type="button" id="customize-column">
+        Customize Columns
+      </button>
+    </div> -->
+    <table mat-table [dataSource]="dataSource" multiTemplateDataRows (mouseleave)="onHoverOut()">
+
+      <ng-container matColumnDef="MediaType">
+        <th mat-header-cell *matHeaderCellDef fxFlex="9.375rem" (click)="$event.stopPropagation();viewByOverlayOrigin = ViewByOverlayOrigin; isViewByOptionsOpen = !isViewByOptionsOpen;" #ViewByOverlayOrigin="cdkOverlayOrigin" cdkOverlayOrigin class="table-head-padding-1 viewBy-column-header">
+          {{selectedViewByType === viewByTypes.MEDIA ? 'Media Type' : 'Operators' }}
+          <mat-icon class="filter-action arrowSize" (click)="$event.stopPropagation();viewByOverlayOrigin = ViewByOverlayOrigin; isViewByOptionsOpen = !isViewByOptionsOpen;" #ViewByOverlayOrigin="cdkOverlayOrigin"
+            cdkOverlayOrigin>keyboard_arrow_down</mat-icon>
+          <!-- <mat-form-field class="imx-dropdown" fxFlex="5rem">
+            <mat-select [panelClass]="'imx-select'" (selectionChange)="onViewTypeChange()" [(ngModel)]="selectedViewByType">
+              <mat-option disabled>Select View <span><mat-icon matSuffix>keyboard_arrow_up</mat-icon></span></mat-option>
+              <mat-option [value]="viewByTypes.MEDIA">Media Type</mat-option>
+              <mat-option [value]="viewByTypes.OPERATOR">Operators</mat-option>
+            </mat-select>
+          </mat-form-field> -->
+        </th>
+        <td mat-cell *matCellDef="let element" fxFlex="9.375rem" class="marginRight6px">
+          <span tooltip="{{element['mediaTypeLable']}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">{{element['mediaTypeLable'] | truncate:'middle':20}}</span></td>
+      </ng-container>
+
+      <ng-container matColumnDef="Required/Total In Market">
+          <th mat-header-cell *matHeaderCellDef  class="required-total-th" fxFlex="9.375rem"> Required Spots /<br> Total Spots In Market</th>
+          <td mat-cell *matCellDef="let element" class="required-total-td"  fxFlex="9.375rem" [ngClass] = "{'editable-text' : element.editable && (projectOwnerEmail && projectOwnerEmail === userEmail)}">
+            <ng-container *ngIf="element.editable && (projectOwnerEmail && projectOwnerEmail === userEmail);else nonEditableSpot">
+              <input *ngIf="(element.isSpotsEdit)" class="edit-total" type="text" [value]="((element.spots === '' || element.spots === null) && '' || (element.spots <= 0 && '0' || element.spots))" (blur)="onEditFieldValue($event.target.value, element,'spots')" appNumberOnly autofocus tabindex="-1">
+              <span *ngIf="(!element.isSpotsEdit)" class="cell-data editable-value"  (click)="rowEditId = element.mediaType;element.isSpotsEdit=true;element.isTrpEdit=false">
+                  {{ ( (element.spots === 0 ||  element.spots === '' || element.spots === null) &&  '-' || element.spots ) }} </span>
+            </ng-container>
+            <ng-template #nonEditableSpot>
+                <span >
+                    {{ ( (element.spots === 0 || element.spots === '' || element.spots === null) &&  '-' || element.spots ) }}  </span>
+            </ng-template>
+
+            <span matTooltip="Total Quantities based on Audited Inventory only" [matTooltipDisabled]="!customInventoryAllowed" matTooltipClass="audited-tooltip"> / {{ element.totalInMarket }}</span>
+            <br>
+            <span class="saving" *ngIf="element===isSaveingPlan && savingPlanInput === 'spots'">Saving<span>.</span><span>.</span><span>.</span></span>
+              </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Trp">
+          <th mat-header-cell *matHeaderCellDef fxFlex="10%"> TRP </th>
+          <td mat-cell *matCellDef="let element" fxFlex="10%" [ngClass] = "{'editable-text' : element.editable && (projectOwnerEmail && projectOwnerEmail === userEmail)}">
+            <ng-container *ngIf="element.editable && (projectOwnerEmail && projectOwnerEmail === userEmail);else nonEditableSpot">
+                <input *ngIf="(element.isTrpEdit)" type="text" class="edit-trp" [value]="((element.trp === 0 || element.trp === '' || element.trp === null) &&  '0' || element.trp.toFixed(3) )" appNumberOnly
+                (blur)="onEditFieldValue($event.target.value, element,'trp')" autofocus tabindex="-1">
+              <span *ngIf="(!element.isTrpEdit)"class="cell-data editable-value"
+              (click)="trbEditId=element.mediaType;element.isTrpEdit=true;element.isSpotsEdit=false">
+                {{ (element.trp !== null && element.trp && element.trp.toFixed(3)  || '-') }} </span>
+              <br>
+              <span class="saving"
+                *ngIf="element===isSaveingPlan && savingPlanInput === 'trp'">Saving<span>.</span><span>.</span><span>.</span></span>
+            </ng-container>
+            <ng-template #nonEditableSpot>
+              <span>{{ (element.trp !== null && element.trp && element.trp.toFixed(3)  || '-') }}</span>
+            </ng-template>
+           </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Reach">
+        <th mat-header-cell *matHeaderCellDef fxFlex="10%"> Reach %</th>
+        <td mat-cell *matCellDef="let element" fxFlex="10%">
+          <!-- <input *ngIf="(element.mediaType == reachEditId)" type="text"
+            [value]="(element.reach && (element.reach | convert:'DECIMAL'))" appNumberOnly
+            (input)="onEditFieldValue($event.target.value, element,'reach')">
+          <span *ngIf="(element.mediaType !== reachEditId)" class="cell-data">
+            {{ (element.reach && (element.reach | convert:'DECIMAL') || '-') }} </span> -->
+            <!-- *ngIf="element.editable;else nonEditableReach"  -->
+          <span class="cell-data"> {{ (element.reach && (element.reach | convert:'DECIMAL':2) + '%' || '-') }} </span>
+          <!-- <ng-template #nonEditableReach>
+            <span class="cell-data">-</span>
+          </ng-template> -->
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Reach Net">
+        <th mat-header-cell *matHeaderCellDef  fxFlex="10%"> Reach Net</th>
+        <td mat-cell *matCellDef="let element"  fxFlex="10%">
+          <span class="cell-data"> {{ (element.reachNet && (element.reachNet | convert:'THOUSAND') || '-') }} </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Frequency">
+        <th mat-header-cell *matHeaderCellDef  fxFlex="10%"> Frequency </th>
+        <td mat-cell *matCellDef="let element"  fxFlex="10%">
+          <!-- <input *ngIf="(element.mediaType == frequencyEditId)" type="text"
+            [value]="(element.frequency && (element.frequency | convert:'DECIMAL':1 ))" appNumberOnly
+            (input)="onEditFieldValue($event.target.value, element,'frequency')">
+            <span *ngIf="(element.mediaType !== frequencyEditId)" class="cell-data"> {{ (element.frequency && (element.frequency | convert:'DECIMAL':1 ) || '-') }} </span>
+           -->
+           <!-- *ngIf="element.editable;else nonEditableFrq"  -->
+           <span class="cell-data"> {{ (element.frequency && (element.frequency | convert:'DECIMAL':2 ) || '-') }} </span>
+          <!-- <ng-template #nonEditableFrq>
+            <span class="cell-data">-</span>
+          </ng-template> -->
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Target In-Market Imp">
+        <th mat-header-cell *matHeaderCellDef  fxFlex="15%"> Target In-Mkts Imp. </th>
+        <td mat-cell *matCellDef="let element"  fxFlex="15%">
+           <span class="cell-data"> {{ (element.targetInMarketImp && (element.targetInMarketImp | convert:'THOUSAND') || '-') }} </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Target Imp">
+        <th mat-header-cell *matHeaderCellDef  fxFlex="15%"> Target Imp. </th>
+        <td mat-cell *matCellDef="let element"  fxFlex="15%">
+           <span class="cell-data"> {{ (element.targetImp && (element.targetImp | convert:'THOUSAND') || '-') }} </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Total Imp">
+        <th mat-header-cell *matHeaderCellDef class="common-th-width" fxFlex="15%">Total Imp.</th>
+        <td mat-cell *matCellDef="let element" fxFlex="15%">
+           <span class="cell-data"> {{ (element.totalImp && (element.totalImp | convert:'THOUSAND') || '-') }} </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="width100px" >
+          <mat-spinner [strokeWidth]="2" [diameter]="30" *ngIf="isLoader"></mat-spinner>
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index;" class="width100px" >
+          <div class="action-alignment">
+            <button *ngIf="selectedViewByType !== viewByFilter.OPERATOR && (projectOwnerEmail && projectOwnerEmail === userEmail) &&  i === hoveredIndex" type="button" [hidden]="" (click)="$event.stopPropagation();removeMedia(element)" mat-icon-button
+                class="primary-text-color">
+                <mat-icon>delete_forever</mat-icon>
+            </button>
+            <!-- <div class="imx-pt-3">
+              <span class="count-value"> {{element['count']}}
+                {{selectedViewByType === viewByFilter.OPERATOR ? 'Media Types' :'Operators'}}</span>
+              <mat-icon class="expanted-icon">
+                {{ element.collapsed ? 'keyboard_arrow_down':'keyboard_arrow_up' }}
+              </mat-icon>
+            </div>
+            <div fxFlex="40px" class="remove-btn-main">
+              <button *ngIf="selectedViewByType !== viewByFilter.OPERATOR && (projectOwnerEmail && projectOwnerEmail === userEmail) &&  i === hoveredIndex" type="button" [hidden]="" (click)="$event.stopPropagation();removeMedia(element)" mat-icon-button
+                class="primary-text-color">
+                <mat-icon>delete_forever</mat-icon>
+              </button>
+            </div> -->
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" colspan="10" class="media-details-inner">
+          <div class="media-element-detail" [@detailExpand]="!element.collapsed ? 'expanded' : 'collapsed'">
+            <app-market-plan-measures [plans]="element.data" [planData]="planData" [scenarioId]="scenarioId"
+              (updatePlanTotal)="updatePlanTotal($event)" [displayedColumns]="displayedColumns" [selectedMediaType]="selectedViewByType" [projectOwnerEmail]="projectOwnerEmail" [userEmail]="userEmail"></app-market-plan-measures>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true" class="market-plan-list-header-row"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns; let i = index;" class="media-element-row  media-element-row-data"
+        [class.media-expanded-row]="!element.collapsed" (mouseover)="onHoverRow(i)" (click)="expandMarketPlanData(element)" >
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="media-detail-row"></tr>
+    </table>
+    <div *ngIf="planData?.marketId && planData?.query?.goals?.type === 'reach' && isNoDataFound && !isCalculatingData;else calculatingSection" fxLayout="row" fxLayoutAlign="center">
+      <p>Plan cannot be generated </p>
+    </div>
+
+    <ng-template #calculatingSection>
+      <div *ngIf="isCalculatingData" fxLayout="row" fxLayoutAlign="center">
+        <p>Calculating data</p>
+      </div>
+      <div *ngIf="!isCalculatingData && isNoDataFound" fxLayout="row" fxLayoutAlign="center">
+        <p>No data found</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <app-filter-overlay *ngIf="viewByOverlayOrigin" [CdkOverlayOrigin]="viewByOverlayOrigin" (close)="isViewByOptionsOpen = false"
+  (open)="isViewByOptionsOpen = true" [isOpen]="isViewByOptionsOpen" cdkClassName="viewBy-overlay-position">
+    <div fxFlexFill fxLayout="column" fxFlex="7.688rem" fxLayoutAlign="start center"  class="viewBy-overlay-div">
+      <mat-selection-list [multiple]="false" (selectionChange)="onViewTypeChange($event)">
+        <mat-list-option (click)="isViewByOptionsOpen = false" [value]="" class="alignCenter-item">Select View <span fxFlex="1 1 auto"></span><mat-icon>keyboard_arrow_up</mat-icon></mat-list-option>
+        <mat-list-option [value]="viewByTypes.MEDIA" class="primary-option-color" [ngClass]="{'selected':selectedViewByType == viewByTypes.MEDIA}">Media Type</mat-list-option>
+        <mat-list-option [value]="viewByTypes.OPERATOR" class="primary-option-color" [ngClass]="{'selected':selectedViewByType == viewByTypes.OPERATOR}">Operators</mat-list-option>
+      </mat-selection-list>
+    </div>
+  </app-filter-overlay>
+</div>
+

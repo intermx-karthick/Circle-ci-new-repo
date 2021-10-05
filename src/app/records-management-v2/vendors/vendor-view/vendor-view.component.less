@@ -1,0 +1,74 @@
+::ng-deep {
+  app-vendor-view {
+    width: 100%;
+    padding-right: 30px;
+    .header{
+      h4{
+        word-break: break-all;
+      }
+    }
+    .imx-button-secondary, .imx-button-primary{
+      height:34px;
+    }
+    .contact-tab-body{
+      padding: 2rem 0;
+    }
+
+    .add-contact-btn{
+      margin-right: 2rem;
+    }
+    .vendor-tabs {
+      overflow: hidden;
+      margin-top: 16px;
+
+      mat-tab-group {
+        width: 100%;
+      }
+
+      .vendor-tabs-scroll{
+        padding-right: 20px;
+        overflow-y: auto;
+      }
+    }
+
+    .back-to-link{
+      font-size: 12px;
+      color:var(--primary-bg);
+
+      mat-icon{
+        margin-right: 8px;
+        height: 11px;
+        width: 11px;
+        font-size: 11px;
+        line-height: 11px;
+      }
+    }
+    .footer-block{
+      padding:1rem 0rem;
+    }
+    .enable-tabwindow-size{
+      .clist-table-parent{
+        max-height: 265px !important;
+        min-height: 195px !important;
+      }
+    }
+    .shipping-address-tab{
+      width: calc(100vw - 215px);
+    }
+    .shiping-tab-action{
+      margin-right:1rem;
+    }
+    .shiping-tab-enabled{
+      .mat-tab-body-content{
+        overflow-x:hidden !important;
+      }
+    }
+
+    .mat-tab-body-content, .mat-tab-body{
+      overflow-y: hidden;
+    }
+    app-contacts-list-v2 .imx-table{
+      min-width: fit-content !important;
+    }
+  }
+}

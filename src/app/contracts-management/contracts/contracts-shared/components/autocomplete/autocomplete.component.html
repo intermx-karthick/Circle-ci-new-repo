@@ -1,0 +1,43 @@
+
+      <mat-form-field class="vendor-group-input imx-dropdown imx-input" fxFlex="159px"  placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+        <mat-label>Parent Company</mat-label>
+        <input type="text" #vGroupInputRef matInput formControlName="parentCompany"
+            [matAutocomplete]="vendorsGroupAuto" autocomplete="off" >
+        <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+
+      <mat-autocomplete #vendorsGroupAuto="matAutocomplete"
+                        [displayWith]="vendorDisplayWithFn"
+                        (opened)="updateContainer()"
+                        class="autocomplete-scroll imx-autocomplete-dropdown"
+                        [panelWidth]="'160'">
+
+        <div  class="vendor-group-autocomplete"
+              infiniteScroll
+              [infiniteScrollDistance]="1"
+              [infiniteScrollThrottle]="0"
+              [scrollWindow]="false"
+              [fromRoot]="true"
+              [immediateCheck]="false"
+              [alwaysCallback]="false"
+              [infiniteScrollContainer]="panelContainer"
+              (scrolled)="loadMoreWithSearch()">
+        <mat-option *ngFor="let vGroup of filteredParentVendors ;trackBy: vGroupTrackByFn"
+                    [value]="vGroup"
+                    [class.mat-selected]="vendorSearchForm && vendorSearchForm['controls']['parentCompany'].value?._id == vGroup?._id"
+        >
+          <span [innerHTML]="(vGroup.name)| imx_highlight: vGroupInputRef.value" tooltip="{{vGroup.name?.length >21 ? vGroup.name : ''}}" placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"></span>
+        </mat-option>
+        <mat-option disabled *ngIf="isLoadingVendorsGroup">
+          <div fxLayout="row" fxLayoutAlign="space-around center" >
+            <mat-spinner diameter="20"></mat-spinner>
+          </div>
+        </mat-option>
+          <mat-option disabled *ngIf="!isLoadingVendorsGroup && filteredParentVendors.length <= 0">
+            Invalid Entry
+          </mat-option>
+        </div>
+      </mat-autocomplete>
+      <mat-error *ngIf="vendorSearchForm['controls'].parentCompany.hasError('invalid')">
+        Please select from the drop down list.
+       </mat-error>
+    </mat-form-field>

@@ -1,0 +1,59 @@
+<div fxLayoutAlign="space-between start" class="row-container">
+  <h4 mat-dialog-title>SPOT ID Results</h4>
+  <div class="close-dialog" (click)="onClose()">Close</div>
+</div>
+<mat-dialog-content>
+<div class="content-body">
+  <div fxLayout="row" class="row-container header-row">
+    <div fxFlex="12">
+      {{'operator idS' | uppercase}}
+    </div>
+    <div fxFlex="8"></div>
+    <div fxFlex="20">
+      {{'OPERATOR NAME' | uppercase}}
+    </div>
+    <div fxFlex="15">
+      {{'geopath spot id' | uppercase}}
+    </div>
+    <div fxFlex="20">
+      {{'dma' | uppercase}}
+    </div>
+    <div fxFlex="25">
+      {{'location description' | uppercase}}
+    </div>
+  </div>
+  <mat-radio-group
+    *ngIf="resultsList.length"
+    [(ngModel)]="selectedSpotId"
+  >
+    <div fxLayout="row" class="row-container body-row" *ngFor="let item of resultsList; let i = index">
+      <div fxFlex="12">
+        {{ item.spot_references[0].plant_spot_id }}
+      </div>
+      <div fxFlex="8">
+        <mat-radio-button class="example-radio-button" [value]="item">
+        </mat-radio-button>
+      </div>
+      <div fxFlex="20">
+        {{ findRespresentationWithNameOwn(item).account.parent_account_name }}-{{findRespresentationWithNameOwn(item).account.name}}
+      </div>
+      <div fxFlex="15">
+        {{ item.spot_references[0].spot_id }}
+      </div>
+      <div fxFlex="20">
+        {{ item.location.dma_name }}
+      </div>
+      <div fxFlex="25">
+        {{ item.location.primary_artery }}
+      </div>
+    </div>
+  </mat-radio-group>
+
+  <div class="spacer"></div>
+</div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="row-container footer" fxLayout="row" fxLayoutAlign="center center">
+    <button mat-raised-button class="imx-button-primary save-line-item" [disabled]="!selectedSpotId" (click)="addSelected()">{{"add selected" | uppercase}}</button>
+  </div>
+</mat-dialog-actions>

@@ -1,0 +1,148 @@
+<!-- DEPRECATED THIS BLOCK -->
+<div *ngIf="themeSettings && !themeSettings['publicSite']" class="{{themeSettings['site']}}">
+  <div *ngIf="themeSettings" fxLayout="row" fxLayoutAlign="center center" fxFill class="login-main-layout"
+    [ngStyle]="{ 'background-image': 'url(' + themeSettings['background']['bg_image'] + ')'}">
+    <div class="login-main-block">
+      <div class="login-box-body" fxLayout="column">
+        <div class="login-logo">
+          <img src="{{themeSettings['logo']['full_logo']}}" onError="this.src='./assets/images/logo-placeholder.png'">
+          <div class="logo-slogan">{{themeSettings['productName']}} <span
+              class="site-version">{{themeSettings['version']}}</span></div>
+        </div>
+        <div class="login-form">
+          <form method="post" class="loginForm noAnimation" [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)"
+            novalidate autocomplete="off">
+            <div class="login-title-block">
+              <!-- <span class="login-title">Log In</span> -->
+              <span class="login-title-solgan">{{themeSettings['welcome']}}</span>
+              <!-- <a (click)="forgetPasswordDialog()" class="login-page-link mobile-hide">Forgot Password?</a> -->
+            </div>
+            <div id="error-message" [style.display]="loginFail?'block':'none'">
+              <div class="error-block error-block-second p10"  fxLayout="row" fxLayoutGap="10px"
+                 fxLayoutAlign="space-between center">
+                <div>
+                  <mat-icon>info_outline</mat-icon>
+                </div>
+                <div><span id="login-error-message">Sorry, the information you entered isn't right. Please try
+                    again.</span></div>
+              </div>
+            </div>
+            <div fxLayout="column">
+              <mat-form-field floatLabel="always">
+                <label>Email</label>
+                <input matInput id="defaultForm-email" formControlName="email" autocomplete="off">
+                <mat-error *ngIf="loginForm['controls'].email.hasError('required')">Email can't be blank</mat-error>
+                <mat-error *ngIf="loginForm['controls'].email.hasError('email')">Should be valid email.</mat-error>
+              </mat-form-field>
+              <mat-form-field floatLabel="always">
+                <label>Password</label>
+                <input matInput type="password" id="defaultForm-pass" formControlName="password" autocomplete="off">
+                <mat-error *ngIf="loginForm['controls'].password.hasError('required')">Password can't be blank
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="login-footer-block">
+              By clicking the button to sign in, you agree to the <a
+                href="http://www.intermx.com/usage-and-privacy-policy/" target="_blank" class="login-page-link">Usage
+                Policy</a>.
+            </div>
+            <div class="footer-login-action" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+              <!-- <a class="return-link register-link" [routerLink]="['/user/signup']" >REGISTER</a> -->
+              <button mat-raised-button type="submit" class="login-btn button-primary uppercase"
+                id="sign-in-button">Sign in</button>
+              <a class="login-page-link mobile-visible forget-link" (click)="forgetPasswordDialog()">Forgot
+                Password?</a>
+            </div>
+            <div class="password-help">
+              <p *ngIf="themeSettings['site'] !== 'citycast'">Please email <a href="mailto:geekout@geopath.org" id="login-title-link" class="login-page-link forgot-link">geekout@geopath.org</a> to reset your password.</p>
+
+              <p *ngIf="themeSettings['site'] === 'citycast'">Please email <a href="mailto:support@transportfoundry.com" id="login-title-link" class="login-page-link forgot-link">support@transportfoundry.com</a> to reset your password.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END DEPRECATED THIS BLOCK -->
+
+<div *ngIf="themeSettings && themeSettings['publicSite']">
+  <app-header fxFlexFill>
+    <div class="projected-title" *ngIf = "themeSettings['site'] !== 'travel-public'; else tarvelPublic">
+      <mat-icon class="mobile-hide">explore</mat-icon>
+      <span class="uppercase">Explore</span>
+    </div>
+    <ng-template #tarvelPublic>
+      <div class="projected-title">
+        <i class="icon-custom icon-custom-carsharing"></i>
+        <span class="uppercase">Daily Mobility</span>
+      </div>
+    </ng-template>
+  </app-header>
+
+  <section class="public-body">
+    <div fxLayout="row">
+      <div fxFlex="60%" class="img-pink-bg" fxLayout="row">
+        <div class="img-logo-position">
+          <img src="../../../assets/images/Combined_Shape.png" alt="">
+        </div>
+        <div class="imx-leftcontent" *ngIf = "themeSettings['site'] !== 'travel-public'; else tarvelPublicContent">
+          <p>The Geopath brand is a powerful symbol of innovation and change. We are more than an out of home ratings
+            bureau. We are an agile, integrated, passionate, forward-looking organization. We are the OOH industry
+            standard that is powering a smarter OOH marketplace through state-of-the-art audience location measurement,
+            insights and market research innovation.
+          </p>
+          <p class="top40">And you can start exploring these media and insights now!</p>
+          <button class="media-button button-pading" mat-raised-button color="primary" *ngIf="userData.email!=''"
+            (click)="exploreredirect()"> EXPLORE MEDIA </button>
+          <button class="media-button button-pading" mat-raised-button color="primary" *ngIf="userData.email==''"
+            (click)="login()"> EXPLORE MEDIA </button>
+        </div>
+        <ng-template #tarvelPublicContent>
+          <div class="imx-leftcontent">
+            <p>
+              Historically, Geopath impressions were used as forecasting metric in order to predict the audience delivery of an out-of-home (OOH) campaign. They were not intended to provide insights into a campaign’s performance mid-campaign, nor did they signal the final goal and subsequent end of an OOH campaign, as often occurs in other media.
+            </p>
+            <p class="top40">
+              OOH advertising has been planned and bought on a variety of factors, including location, format type, and number of units over a specific contract term. Geopath impressions are another point of differentiation that provide guidance of inventory selection – but impressions are only part of the equation.
+            </p>
+            <p class="top40">
+              We recognize that unprecedented times require unprecedented solutions.
+            </p>
+            <button class="media-button button-pading" mat-raised-button color="primary" *ngIf="userData.email!=''"
+              (click)="exploreredirect()"> EXPLORE INSIGHTS
+            </button>
+            <button class="media-button button-pading" mat-raised-button color="primary" *ngIf="userData.email==''"
+              (click)="login()"> EXPLORE INSIGHTS
+            </button>
+          </div>
+        </ng-template>
+      </div>
+      <div fxFlex="40%" class="explore-map" *ngIf = "themeSettings['site'] !== 'travel-public'; else tarvelPublicImg">
+        <img src="../../../assets/images/explore-map.png" alt="">
+      </div>
+      <ng-template #tarvelPublicImg>
+        <img src="../../../assets/images/tableau-map.png" alt="">
+      </ng-template>
+    </div>
+    <div fxLayout="row" class="common-space" *ngIf = "themeSettings['site'] !== 'travel-public'">
+      <div fxFlex="12%"></div>
+      <div fxLayout="row">
+        <div>
+          <img src="../../../assets/images/BestPractices_Cover.png" alt="" class="img-shadow">
+        </div>
+        <div fxFlex="65%" class="left-space">
+          <p class="public-title">Want to keep up with the best practices, standards and protocols?</p>
+          <p class="font-20 between-space">Download the Geopath insights, best practices, standards, and protocols
+            document now!</p>
+          <button class="button-pading pdf-download-btn" mat-raised-button color="primary" (click)="download()">
+            DOWNLOAD <mat-spinner diameter="20" strokeWidth="2" *ngIf="isPdfDownload"></mat-spinner>
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+</div>

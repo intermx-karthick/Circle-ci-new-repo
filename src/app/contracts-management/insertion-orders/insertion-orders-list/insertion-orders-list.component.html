@@ -1,0 +1,242 @@
+<div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="2rem">
+    <div fxLayout="column" fxLayoutAlign="start start" fxFill *ngIf="!isDialogOpenend">
+        <app-insertion-orders-search (searchActionEvent)="searchActionEvent($event)">
+        </app-insertion-orders-search>
+    </div>
+    <section class="insertion-orders-list"  id="insertion-orders-list"  *ngIf="searchFilterApplied">
+        <div fxLayout="column" fxLayoutAlign="start start" fxFill>
+            <div class="imx-report-list" #titleContent>
+            <section fxLayout="row" class="insertion-orders-list-table-headers">
+                <div fxFlex="10" class="insertion-orders-list-table-headers__total-record"
+                     fxLayoutAlign="start center"
+                     *ngIf="!searchFilterApplied">
+                    Total : {{pagination?.total || 0}}
+                </div>
+                <div fxFlex="12" class="insertion-orders-list-table-headers__total-record" 
+                     fxLayoutAlign="start center"
+                     *ngIf="searchFilterApplied">
+                    Found : {{pagination?.found || 0}}
+                </div>
+                <div fxFlex="10" class="insertion-orders-list-table-headers__total-record spiner-div" fxLayoutAlign="start center" *ngIf="isLoadingData">
+                    <mat-spinner diameter="30"></mat-spinner>
+                </div>
+                <div fxFlex="90" fxLayoutAlign="end" fxLayoutGap="1.2rem">
+                    <div fxLayoutAlign="start center" *ngIf="!isDialogOpenend">
+                        <button mat-button class="imx-button-basic_icon action-overlay-height-imx" [matMenuTriggerFor]="exportMenu"  [ngClass]="{'disabled' : (!pagination?.found || pagination?.found <= 0)}" module="contract" visiblityType="export" appUserAccessPermission>
+                            <span>EXPORT</span>
+                            <mat-icon>expand_more</mat-icon>
+                        </button>
+
+                        <mat-menu #exportMenu="matMenu" class="mat-elevation-z0 action-menu-less-width">
+                            <button mat-menu-item type="button" (click)="exportCSV()">
+                            <span>CSV</span>
+                            </button>
+                        </mat-menu>
+                    </div>
+                    <div class="action-group-by" fxLayoutAlign="start center" fxLayoutGap="1.2rem">
+                        <div tooltip="Customize Columns" placement="top" delay="200" tooltipClass="imx-tooltip-v3"
+                            customClass="imx-field-tooltip" *ngIf="!isDialogOpenend">
+                            <mat-icon (click)="customizeColumn()" svgIcon="IMX-columns" class="svg-primary"></mat-icon>
+                        </div>
+                        <div *ngIf="!isDialogOpenend; else closeDialog" tooltip="Expand Table" placement="top" delay="200"
+                            tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip">
+                            <mat-icon (click)="enterFullScreen()">zoom_out_map</mat-icon>
+                        </div>
+                        <ng-template #closeDialog>
+                            <mat-icon tooltip="Collapse Table" placement="top" delay="200" tooltipClass="imx-tooltip-v3"
+                                customClass="imx-field-tooltip" svgIcon="IMX-fullscreen-exit" class="full-screen-exit-icon"
+                                (click)="exitFullScreen()"></mat-icon>
+                        </ng-template>
+                    </div>
+                </div>
+            </section>
+
+            <section class="imx-table-container" fxFill>
+                <div fxFill 
+                    [ngClass]="{
+                            'insertion-orders-full-screen-table': isDialogOpenend,
+                            'insertion-orders-list-table': !isDialogOpenend }"
+                    [ngStyle]="{'max-height.px':scrollContent, 'min-height.px': scrollContent}"
+                    id="{{ isDialogOpenend ? 'io-fullscreen-scroll' : 'io-table-scroll'}}"
+                    #tableScrollRef>
+            
+                    <mat-table [dataSource]="insertionOrdersList?.data" matSort (matSortChange)="sortChange($event)"  matSortDisableClear 
+                        [matSortDisabled]="!insertionOrdersList?.data?.length"
+                        matSortActive="{{selectedSort?.active}}"
+                        matSortDirection="{{selectedSort?.direction}}"
+                        class="margin-top-20 imx-table-striped level-two-sticky" (window:resize)="reSize()"
+                        [ngClass]="{'enable-table-scroll': hasHorizontalScrollbar}">
+                        
+                        <ng-container matColumnDef="lineItemCheckbox" [sticky]="true">
+                            <mat-header-cell *matHeaderCellDef fxFlex="1rem">
+                                <mat-checkbox class="imx-checkbok" disableRipple
+                                            [indeterminate]="!!excludedItemsIds?.length || (!isAllCheckboxSelected && selection?.hasValue())"
+                                            (change)="$event ? masterToggle() : null"
+                                            [checked]="isAllCheckboxSelected && !excludedItemsIds?.length" [disabled]="!userPermission?.edit">
+                                </mat-checkbox>
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element" class="imx-link-cursor" fxFlex="1rem">
+                                <mat-checkbox class="imx-checkbok" disableRipple
+                                            (click)="$event.stopPropagation()"
+                                            (change)="$event ? toggleCheckbox(element?._id) : null"
+                                            [checked]="selection?.isSelected(element?._id)" [disabled]="!userPermission?.edit">
+                                </mat-checkbox>
+                            </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="lineItemId" [sticky]="true">
+                            <mat-header-cell *matHeaderCellDef fxFlex="11.25rem" class="insert-order-td-lineitemid" mat-sort-header>
+                                Line Item ID
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="11.25rem" class="imx-link-cursor insert-order-td-lineitemid" (click)="initLineItemView(element)">
+                                <a class="primary-color-text font-weight-normal line-item-td imx-name-wrap" placement="right"
+                                    delay="200" customClass="imx-field-tooltip">
+                                    {{element?.lineItemId}}
+                                </a>
+                            </mat-cell>
+                        </ng-container>
+            
+                        <ng-container matColumnDef="clientCode">
+                            <mat-header-cell *matHeaderCellDef fxFlex="7rem" mat-sort-header>Client Code</mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="7rem" class="imx-name-wrap">
+                                {{element?.clientCode}}</mat-cell>
+                        </ng-container>
+            
+            
+                        <ng-container matColumnDef="productCode">
+                            <mat-header-cell *matHeaderCellDef fxFlex="10rem" mat-sort-header>Product Code</mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="10rem" class="imx-name-wrap">
+                                {{element?.productCode}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="estimateId">
+                            <mat-header-cell *matHeaderCellDef fxFlex="7rem" mat-sort-header>Estimate #</mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="7rem" class="imx-name-wrap">
+                                {{element?.estimateNumber}}</mat-cell>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="pubId">
+                            <mat-header-cell *matHeaderCellDef fxFlex="7rem">PUB ID</mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="7rem" class="imx-name-wrap">
+                                {{element?.vendor?.pubA?.id}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="clientName">
+                            <mat-header-cell *matHeaderCellDef fxFlex="7rem" mat-sort-header>Client Name</mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="7rem" class="imx-name-wrap">
+                                {{element?.clientName}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="productName">
+                            <mat-header-cell *matHeaderCellDef fxFlex="10rem" mat-sort-header>Product Name</mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="10rem" class="imx-name-wrap">
+                                {{element?.productName}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="estimateName">
+                            <mat-header-cell *matHeaderCellDef fxFlex="10rem" mat-sort-header>Estimate Name</mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="10rem" class="imx-name-wrap">
+                                {{element?.estimateName}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="vendorName">
+                            <mat-header-cell *matHeaderCellDef fxFlex="10rem">Vendor Name</mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="10rem" class="imx-name-wrap">
+                                {{element?.vendor?.name}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="mediaDescription">
+                            <mat-header-cell *matHeaderCellDef fxFlex="17rem" mat-sort-header>Media Description</mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="17rem" class="imx-name-wrap">
+                                {{element?.mediaDescription}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="insertionDate">
+                            <mat-header-cell *matHeaderCellDef fxFlex="10rem" mat-sort-header>Insertion Date</mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="10rem" class="imx-name-wrap">
+                                {{element?.insertionDate | date: 'MM/dd/yyyy'}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="netCost">
+                            <mat-header-cell *matHeaderCellDef fxFlex="7rem" mat-sort-header>Net Cost</mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="7rem" class="imx-name-wrap">
+                                $ {{element?.netCost | convert:'NUMERICALFORMAT':2:true:'0,0.00'}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="doNotExport">
+                            <mat-header-cell *matHeaderCellDef fxFlex="10rem" mat-sort-header>Do not Export</mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="10rem" class="imx-name-wrap">
+                                {{element?.doNotExport ? 'Yes' : 'No'}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="deletedStatus">
+                            <mat-header-cell *matHeaderCellDef fxFlex="7rem" mat-sort-header>Delete File</mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="7rem" class="imx-name-wrap">
+                                {{element?.deletedStatus ? 'Yes' : 'No'}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="exportedStatus">
+                            <mat-header-cell *matHeaderCellDef fxFlex="7rem" mat-sort-header>Exported</mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="7rem" class="imx-name-wrap">
+                                {{element?.exportedStatus ? 'Yes' : 'No'}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="exportedAt">
+                            <mat-header-cell *matHeaderCellDef fxFlex="10rem" mat-sort-header>Exported Date</mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="10rem" class="imx-name-wrap">
+                                {{element?.exportedAt | date: 'MM/dd/yyyy'}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="revisedAt">
+                            <mat-header-cell *matHeaderCellDef fxFlex="7rem" mat-sort-header>Revised Date</mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="7rem" class="imx-name-wrap">
+                                {{element?.revisedAt | date: 'MM/dd/yyyy'}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="accountingDept">
+                            <mat-header-cell *matHeaderCellDef fxFlex="10rem" mat-sort-header>Acct Dept</mat-header-cell>
+                            <mat-cell *matCellDef="let element" fxFlex="10rem" class="imx-name-wrap">
+                                {{element?.accountingDept}}</mat-cell>
+                        </ng-container>
+            
+                        <ng-container matColumnDef="action" [sticky]="true">
+                            <mat-header-cell *matHeaderCellDef class="action-menu-column" fxFlex="2.5rem"></mat-header-cell>
+                            <mat-cell *matCellDef="let element;let i = index" class="action-menu-column" fxFlex="2.5rem">
+                              <!-- <mat-icon [matMenuTriggerFor]="actionMenu" class="action-icon">more_vert</mat-icon> -->
+                              <!-- <mat-menu #actionMenu="matMenu" xPosition="before" class="action-dropdown-imx minimun-height action-menu-position action-dropdown-width table-action-position">
+                                <button mat-menu-item (click)="deleteInsertionOrder(element)">Delete</button>
+                              </mat-menu> -->
+                              <mat-icon (click)="initLineItemView(element, true)" svgIcon="IMX-new-tab" class="mat-link-icon"></mat-icon>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="customizeColumnService.displayedColumns;sticky: true"></mat-header-row>
+                        <mat-row *matRowDef="let row; let i = index; columns: customizeColumnService.displayedColumns;" class="clist-row">
+                        </mat-row>
+                    </mat-table>
+            
+                    <section *ngIf="insertionOrdersList?.data?.length === 0 && !isLoadingData" class="empty-result" fxLayout="row"
+                        fxLayoutAlign="center center" fxFill>
+                        <div>
+                            <p *ngIf="searchFilterApplied">No Insertion Orders found with that Criteria.<br> Try searching for something else</p>
+                            <img src="../../../assets/images/cuate.svg" alt="">
+                        </div>
+                    </section>
+                </div>
+            
+                <section class="insertion-orders-list__pagination">
+                    <mat-paginator [disabled]="!insertionOrdersList?.data?.length || isLoadingData"
+                        [length]="pagination?.found || 0"
+                        [pageIndex]="(pagination?.page || 1) - 1"
+                        [pageSize] = "pagination?.pageSize || 10"
+                        [pageSizeOptions]="paginationSizes"
+                        [showFirstLastButtons] = "true"
+                        (page)="pageChangeEvent($event)"
+                        >
+                    </mat-paginator>
+                </section>
+            </section>
+        </div>
+    </div>
+    </section>
+</div>

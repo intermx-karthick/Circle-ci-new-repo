@@ -1,0 +1,48 @@
+<div fxLayout="column" fxLayoutGap="2rem" (window:resize)="reSize()">
+  <!-- <div fxLayout="row" fxLayoutAlign="start center"> -->
+    <app-file-upload-v2 [mainTitle]="mainTitle" [fileUploadConfig]="fileUploadConfig" [disableDirectFileEmit] = "disableDirectFileEmit" (emitUploadFile)="uploadedFile($event)" [uploadInProgress$]="uploadInProgress$" [clearAttachment$]="clearAttachment$" [uploadButtonPrimary]="uploadButtonPrimary"  module="attachment" visiblityType="create" appUserAccessPermission>
+    </app-file-upload-v2>
+    <!-- <button mat-button class="imx-button-stroked">Upload</button>
+  </div> -->
+  <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="2rem" class="file-container-main" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0" (scrolled)="loadMore()"  [scrollWindow]="false"  [ngStyle]="{'height.px':scrollContent}" [class.attachment_margin] = "disableEdit">
+
+    <form [formGroup]="filesForm" class="file-container-form"  >
+    <div class="file-container">
+        <div formArrayName="filesList" *ngFor="let logo of logos; let i = index;" class="file-main" (mouseleave) = "onHoverOut()" (mouseover)="onHoverCard(i)">
+          <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="1rem">
+            <div  fxLayout="column" >
+              {{i+1}}.
+            </div>
+            <div fxLayout="column" class="logo-content">
+              <div fxLayout="row" fxLayoutGap="0.5rem">
+                <p class="title-content" (click)="enableInput(i)" [hidden]="activeInputIndex === i">{{logo['caption']}}</p>
+                <span *ngIf="captionUpdateStatus[logo['_id']]">
+                  <mat-spinner diameter="20"></mat-spinner>
+                </span>
+              </div>
+              <div [formGroupName]="i" [ngClass]="{'error-case': filesGroup.controls[i]?.controls?.fileCaption?.errors?.maxlength, 'caption-edit': activeInputIndex === i}">
+                <mat-form-field class="imx-input error-field-width" *ngIf="activeInputIndex === i">
+                  <mat-label>Enter File Caption</mat-label>
+                  <input appAutoFocus matInput autocomplete="off" formControlName="fileCaption" (focusout)="updateLogoCaption(logo, $event, i)" disabled>
+                  <mat-error *ngIf="filesGroup.controls[i]?.controls?.fileCaption?.errors?.maxlength">File Caption can be max 100 characters long.</mat-error>
+                </mat-form-field>
+              </div>
+              <span fxFlex="1 1 auto"></span>
+              <p class="caption file-name">{{logo['name']}} </p>
+              <p class="caption">Uploaded on {{logo['createdAt'] | date:'MM/dd/yyyy'}}</p>
+            </div>
+            <div class="logo-delete-container" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="1rem">
+              <ng-container *ngIf="hoveredIndex === i || isSticky">
+                <mat-icon class="download-icon" svgIcon="IMX-download" (click)="openURL(logo)" module="attachment" visiblityType="view" appUserAccessPermission></mat-icon>
+                <mat-icon class="delete-logo-icon" (click)="deleteLogo(logo)" module="attachment" visiblityType="delete" appUserAccessPermission>delete_forever</mat-icon>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div fxLayout="row" fxLayoutAlign="center center" *ngIf="isLogosLoading">
+      <mat-spinner diameter="20"></mat-spinner>
+    </div>
+  </div>
+</div>

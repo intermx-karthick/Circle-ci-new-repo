@@ -1,0 +1,97 @@
+
+  .archived-exports {
+ 
+    .imx-input-no-border {
+      height:auto;
+      border: none;
+    }
+}
+  
+  ::ng-deep {
+
+    app-archived-exports {
+
+        .archived-exports {
+
+            .mat-form-field-infix {
+                border-top : inherit;
+            }
+
+            .form-search-field {
+                .mat-form-field-wrapper{
+                  padding-bottom: 0 !important;
+                }
+                input {
+                  font-size: 0.813rem;
+                  letter-spacing: 0.031rem;
+                  color: var(--grays-bg-800);
+                }
+                .mat-form-field-suffix {
+                    color: var(--grays-bg-600);
+                    top: 0.5rem;
+                    .mat-icon {
+                        height: 1.188rem !important;
+                        width: 1.188rem !important;
+                        font-size: 1.35rem !important;
+                    }
+                }
+            }
+
+            .export-list-body {
+                max-height: 70vh;
+                overflow: auto;
+            }
+
+            mat-list {
+                padding-top: 0 !important;
+        
+                mat-list-item {
+                  padding: 0 0.938rem;
+                  height : 2.5rem !important;
+        
+                  &.single-paces-item {
+                    height: 3rem !important;
+                  }
+        
+                  .mat-list-item-content {
+                    .mat-list-text {
+                      color         : var(--primary-bg-800);
+                      font-size     : 0.875rem !important;
+                      font-weight   : 300 !important;
+                      letter-spacing: 0.013rem !important;
+                      line-height   : 1.125rem;
+                      padding       : 0 0 0 0.938rem !important;
+        
+                      .mat-line {
+                        cursor: pointer;
+                      }
+
+                      .caption {
+                        opacity: 0.63 !important;
+                      }
+                    }
+                  }
+        
+                  &:hover {
+                    box-shadow: none;
+                  }
+                }
+            }
+
+            .spiner-div {
+                align-items: center;
+                display: flex;
+                place-content: center;
+                width: 100%;
+                top: 0.75rem;
+            }
+
+            .content-width {
+                width: calc(25vw - 3rem) !important;
+                background-color: #fff;
+            }
+        }
+
+    }
+
+}

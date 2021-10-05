@@ -1,0 +1,10 @@
+/**
+To override any inline fills that the SVG has.
+The currentColor is dervied from the parent's color property, so if you're using this icon in a context, just change the text color, this icon will catch up.
+**/
+mat-icon svg {
+  fill: currentColor;
+  & path {
+    fill: currentColor;
+  }
+}

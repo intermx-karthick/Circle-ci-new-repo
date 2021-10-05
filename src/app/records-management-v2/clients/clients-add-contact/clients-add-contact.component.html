@@ -1,0 +1,19 @@
+<div class="edit-plan-sheet" mat-dialog-content fxLayout="column" fxLayoutAlign="start">
+  <section fxLayout="row" fxLayoutAlign="space-between center" class="edit-plan-sheet-heading">
+    <p class="header">ADDING NEW CONTACT</p>
+    <a (click)="closeSheet()">
+      <mat-icon class="primary-text-color">highlight_off</mat-icon>
+    </a>
+  </section>
+
+  <section>
+    <div class="add-contact-scroll-content">
+      <app-contact-form [containerScrolling$]="scrolling$" [formControl]="contactFormControl" [organization]="data?.company"  [submitForm$]="submitForm$">></app-contact-form>
+    </div>
+    
+
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
+      <button (click)="save()" mat-button class="save-btn imx-button-primary">SAVE CONTACT</button>
+    </div>
+  </section>
+</div>

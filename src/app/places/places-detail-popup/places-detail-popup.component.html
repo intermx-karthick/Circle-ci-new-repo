@@ -1,0 +1,406 @@
+<div class='placeDetailSheetPopup'>
+  <div fxLayout="row" fxLayoutAlign="space-between start" class='panel_nav' *ngIf="placeDetail['type'] == 'map'">
+    <a href="javascript:void(0);" class="prev">
+      <mat-icon class="prev">keyboard_arrow_left</mat-icon>
+    </a>
+    <div class='panel_nav_text'> {{ placeDetail['current'] }}/{{ placeDetail['length'] }}</div>
+    <a href="javascript:void(0);" class="next">
+      <mat-icon class="chevron-right next">keyboard_arrow_right</mat-icon>
+    </a>
+  </div>
+  <div class="popupHeader" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxFlex="50">
+      <div class="body-1" [title]="placeDetail?.top_category">IMX ID: <b>Unaudited</b> | <a
+          class="button-primary-link request-Audit-link" *ngIf="!isAudit">Request Audit</a> <a
+          class="button-primary-link request-Audit-link" *ngIf="isAudit">Request Audit</a>
+      </div>
+      <h4>{{placeDetail?.place_name | truncate:'middle':35}}</h4>
+      <div class="subtitle-1" *ngIf="placeDetail?.properties?.address as address">
+        {{address?.street_address + ", " + address?.city | titlecase}}
+        {{address?.state | uppercase}}
+        {{address?.zip_code}}
+      </div>
+    </div>
+    <div fxFlex="50">
+      <div fxLayout="row" fxLayoutAlign="end center">
+        <!-- <button mat-raised-button class="btn-primary-color" type="button">
+          <mat-icon>vertical_align_bottom</mat-icon>
+          <span>Export PDF</span>
+        </button> -->
+        <div id = "show_menu" class="mat-menu-panel ng-trigger ng-trigger-transformMenu ng-tns-c18-29 mat-menu-before mat-menu-above mat-elevation-z4 ng-star-inserted" role="menu" tabindex="-1">
+          <div class="mat-menu-content">
+            <a _ngcontent-c26="" class="mat-menu-item" id="e2e-openSavePlaseSetDialogNew" mat-menu-item="" role="menuitem" tabindex="0" aria-disabled="false">Save as New Place Set</a>
+            <a _ngcontent-c26="" class="pre-line mat-menu-item" id="e2e-openSaveToExistingPlaseSetNew" mat-menu-item="" role="menuitem" tabindex="0" aria-disabled="false">Add Places to Another Place Set</a>
+          </div>
+        </div>
+        <button mat-raised-button class="btn-primary-color primaryBtn" type="button" id="place_list">
+          <mat-icon>add</mat-icon>
+          <span>Add to Place List</span>
+        </button>
+        <div class="selectYearDD">
+          <mat-form-field>
+            <mat-label>SELECT PERIOD</mat-label>
+            <select matNativeControl id="selectPeriod">
+              <option value="Last Month">Last Month</option>
+              <option value="Last Quarter">Last Quarter</option>
+              <option value="Year-to-Month">Year-to-Month</option>
+              <option value="Last Year">Last Year</option>
+              <option value="Last Year, Last Month">Last Year, Last Month</option>
+              <option value="Last Year, Last Quarter">Last Year, Last Quarter</option>
+            </select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="imx-divider">
+    <mat-divider></mat-divider>
+  </div>
+  <div fxLayout="column" fxFill fxLayoutAlign="start stretch" class="placeDetailBlock"
+    [ngStyle]="{'height.px': contentHeight}" (window:resize)="onResize()">
+    <div>
+      <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="30px">
+        <div class="body-1 box-view">Brands:
+          <b>{{placeDetail['properties']['brands'] && placeDetail['properties']['brands'] || '-' | truncate : 'middle': 20}}</b>
+          <div>
+            <a class="alink request-Audit-link" >Request Audit</a>
+          </div>
+        </div>
+        <div class="box-view" fxLayout="column" fxLayoutAlign="start">
+          <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="40px">
+              <div class="body-1">Industry: <b>{{placeDetail['properties']['top_category'] | truncate : 'middle': 20}}</b>
+              </div>
+              <div class="body-1">Sub-Industry: <b>{{placeDetail['properties']['sub_category'] | truncate : 'middle': 20}}</b>
+              </div>
+              <div class="body-1">NAICS: <b>{{placeDetail['properties']['naics_code'] | truncate : 'middle': 20}}</b></div>
+          </div>
+          <div>
+              <a class="alink request-Audit-link" >Request Audit</a>
+          </div>
+          </div>
+
+        <!-- <div class="body-1">IMX ID: <b>XXXXXX</b></div> -->
+      </div>
+    </div>
+    <div>
+      <div fxLayout="row" fxLayoutAlign="start stretch" class="imx-mt-20">
+        <!--
+        Commented on 04/12/2019 because of https://intermx.atlassian.net/browse/IMXUIPRD-1030
+        <div fxFlex="30" class="posRel">
+          <div [ngClass]="{'box-view-sample':isAudit, 'box-view': !isAudit }">
+            <div class="box-title">
+              <h6>Where Visitors Work</h6>
+              <span fxFlex="1 1 auto"></span>
+              <mat-icon class="heading-icon">business</mat-icon>
+            </div>
+            <div class="box-content-body">
+              <div class="no-audit-content">
+                  <div  class="sampleData" *ngIf="isAudit">
+                      <span>Sample Data</span>
+                    </div>
+                    <div fxFlexFill fxLayout="row" *ngIf="!isAudit" fxLayoutAlign="start start" >
+                        <p class="medium-emphasis">Once audited, this insights will provide the neighborhoods where visitors to this place work. </p>
+                    </div>
+                    <p class="body-1" *ngIf="isAudit">Avg. Distance Travelled from Work: <b>24mi</b></p>
+                    <div fxFlexFill fxLayout="row" fxLayoutAlign="start start" *ngIf="isAudit">
+                      <div>
+                        <table id="show-and-less-work" class="show-more-filter">
+                            <ng-container *ngFor="let x of whereVisitorsLiveAndWorkStaticData; let i = index">
+                              <tr>
+                                <td>{{i + 1}}. {{x.name}}</td>
+                                <th>{{x.value}}</th>
+                              </tr>
+                            </ng-container>
+                          </table>
+                        &lt;!&ndash; <div *ngIf="whereVisitorsLiveAndWorkStaticData.length > 4" class="show-more-action">
+                          <mat-icon class="mat-icon-rtl-mirror arrow-down-visitors-work">
+                            keyboard_arrow_down
+                          </mat-icon>
+                          <mat-icon class="mat-icon-rtl-mirror arrow-up-visitors-work display-show-and-less">
+                            keyboard_arrow_up
+                          </mat-icon>
+                          <button mat-button type="button" id="moreAndLessBtnVisitorsWork" class="show-btn">More Items</button>
+                        </div> &ndash;&gt;
+                        &lt;!&ndash; <a class="less-more-link popup-tra-work-link"> <mat-icon>{{ isTraWorkMore && 'keyboard_arrow_down' || 'keyboard_arrow_up'}}</mat-icon> {{ isTraWorkMore && 'More Items' || 'Fewer Items'}} </a> &ndash;&gt;
+                      </div>
+                      <div class="imx-ml-15">
+                        <img src="../../../assets/images/visitor_work.png" alt="">
+                      </div>
+                    </div>
+              </div>
+              <div>
+                  <a class="alink request-Audit-link" id="">Request Audit</a>
+                  <span fxFlex="1 1 auto"></span>
+                  &lt;!&ndash; <a class="alink">See Example</a> &ndash;&gt;
+              </div>
+            </div>
+          </div>
+          <div class="imx-mt-20 posRel" [ngClass]="{'box-view-sample':isAudit, 'box-view': !isAudit }">
+            <div class="box-title">
+              <h6>Where Visitors Live</h6>
+              <span fxFlex="1 1 auto"></span>
+              <mat-icon class="heading-icon">home</mat-icon>
+            </div>
+            <div class="box-content-body">
+              &lt;!&ndash; <div class="no-audit-content">
+                <div>
+                  <p class="medium-emphasis">Once audited, this insights will provide the neighborhoods where visitors to this place work. </p>
+                </div>
+              </div> &ndash;&gt;
+              <div>
+                <div class="sampleData">
+                  <span>Sample Data</span>
+                </div>
+                <p class="body-1">Avg. Distance Travelled from Home: <b>24mi</b></p>
+                <div fxFlexFill fxLayout="row" fxLayoutAlign="start start">
+                  <div>
+                    <table id="show-and-less-live" class="show-more-filter">
+                      <ng-container *ngFor="let x of whereVisitorsLiveAndWorkStaticData; let i = index">
+                        <tr>
+                          <td>{{i + 1}}. {{x.name}}</td>
+                          <th>{{x.value}}</th>
+                        </tr>
+                      </ng-container>
+                    </table>
+                    &lt;!&ndash; <div *ngIf="whereVisitorsLiveAndWorkStaticData.length > 4" class="show-more-action">
+                                              <mat-icon class="mat-icon-rtl-mirror arrow-down">
+                                                keyboard_arrow_down
+                                              </mat-icon>
+                                              <mat-icon class="mat-icon-rtl-mirror arrow-up display-show-and-less">
+                                                keyboard_arrow_up
+                                              </mat-icon>
+                                              <button mat-button type="button" id="moreAndLessBtn" class="show-btn">More Items</button>
+                                            </div> &ndash;&gt;
+                  </div>
+                  <div class="imx-ml-15">
+                    <img src="../../../assets/images/visitor_live.png" alt="">
+                  </div>
+                </div>
+              </div>
+              <div>
+                  <a class="alink request-Audit-link">Request Audit</a>
+                  <span fxFlex="1 1 auto"></span>
+                  &lt;!&ndash; <a class="alink">See Example</a> &ndash;&gt;
+              </div>
+            </div>
+          </div>
+        </div>-->
+        <div fxFlex="70" class="imx-mlr-20">
+          <div [ngClass]="{'box-view-sample':popularityByHours.length <= 0  && !isAudit, 'box-view': popularityByHours.length > 0  && isAudit }" class="imx-mb-20">
+            <div class="box-title">
+                <h6>Popularity by Hour</h6>
+                <span fxFlex="1 1 auto"></span>
+                <mat-icon class="heading-icon">access_time</mat-icon>
+            </div>
+            <div class="box-content-body posRel">
+              <div>
+                  <ng-template [ngIf]="popularityByHours.length > 0  && isAudit">
+                      <graph-line-chart [data]='popularityByHours' [options]="chartConfig"></graph-line-chart>
+                  </ng-template>
+              </div>
+              <!-- <div class="no-audit-content" *ngIf="!isAudit">
+                <div>
+                  <p class="medium-emphasis">Once audited, this insights will allow you to see the distribution of activity across the day. </p>
+                </div>
+              </div> -->
+              <div>
+                  <ng-template [ngIf]="!isAudit">
+                      <img src="../../../assets/images/by_hours.png" alt="">
+                      <div class="overlayData">
+                        <div><p class="medium-emphasis">Once audited, this insights will allow you to see the distribution of activity across the day. </p>
+                        </div>
+                      </div>
+                    </ng-template>
+              </div>
+              <div>
+                  <a class="alink request-Audit-link">Request Audit</a>
+                  <span fxFlex="1 1 auto"></span>
+                  <!-- <a class="alink">See Example</a> -->
+              </div>
+            </div>
+          </div>
+
+          <div [ngClass]="{'box-view-sample':popularityByDays.length <= 0  && !isAudit, 'box-view':popularityByDays.length  > 0 && isAudit }" class="imx-mb-20">
+            <div class="box-title">
+                <h6>Popularity by Day of Week</h6>
+                <span fxFlex="1 1 auto"></span>
+                <mat-icon class="heading-icon">today</mat-icon>
+            </div>
+            <div class="box-content-body posRel">
+              <div>
+                <ng-template [ngIf]="popularityByDays.length  > 0 && isAudit">
+                  <graph-line-chart [data]='popularityByDays' [options]="chartConfig"></graph-line-chart>
+                </ng-template>
+              </div>
+              <!-- <div class="no-audit-content" *ngIf="!isAudit">
+                <div>
+                  <p class="medium-emphasis">Once audited, this insights will allow you to see the distribution of activity across the week. </p>
+                </div>
+              </div> -->
+              <div>
+                  <ng-template [ngIf]="!isAudit">
+                      <img src="../../../assets/images/by_day_of_week.png" alt="">
+                      <div class="overlayData">
+                        <div> <p class="medium-emphasis">Once audited, this insights will allow you to see the distribution of activity across the week. </p>
+                        </div>
+                      </div>
+                    </ng-template>
+              </div>
+              <div>
+                  <a class="alink request-Audit-link">Request Audit</a>
+                  <span fxFlex="1 1 auto"></span>
+                  <!-- <a class="alink">See Example</a> -->
+              </div>
+            </div>
+          </div>
+
+          <div [ngClass]="{'box-view-sample':popularityByDays.length <= 0  && !isAudit, 'box-view':popularityByDays.length  > 0 && isAudit }">
+            <div class="box-title">
+                <h6>Popularity by Month of Year</h6>
+                <span fxFlex="1 1 auto"></span>
+                <mat-icon class="heading-icon">date_range</mat-icon>
+            </div>
+            <div class="box-content-body posRel">
+              <div>
+                  <ng-template [ngIf]="popularityByDays.length  > 0 && isAudit">
+                      <graph-line-chart [data]='popularityByMonths' [options]="chartConfig"></graph-line-chart>
+                    </ng-template>
+              </div>
+              <!-- <div class="no-audit-content" *ngIf="!isAudit">
+                  <div>
+                    <p class="medium-emphasis">Once audited, this insights will allow you to see the distribution of activity across the year. </p>
+                  </div>
+                </div> -->
+              <div>
+                  <ng-template [ngIf]="!isAudit">
+                      <img src="../../../assets/images/by_month_of_year.png" alt="">
+                      <div *ngIf="!isAudit" class="overlayData">
+                        <div> <p class="medium-emphasis">Once audited, this insights will allow you to see the distribution of activity across the year. </p>
+                        </div>
+                      </div>
+                    </ng-template>
+              </div>
+              <div>
+                  <a class="alink request-Audit-link">Request Audit</a>
+                  <span fxFlex="1 1 auto"></span>
+                  <!-- <a class="alink">See Example</a> -->
+                </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div fxFlex="30">
+          <div [ngClass]="{'box-view-sample':isAudit, 'box-view': !isAudit }" class="imx-mb-20">
+            <div class="box-title imx-mb-10">
+                <h6>Average Dwell Time</h6>
+                <span fxFlex="1 1 auto"></span>
+                <mat-icon class="heading-icon">person_pin_circle</mat-icon>
+            </div>
+            <div class="box-content-body">
+              <div *ngIf="isAudit">
+                <p class="number-h1">{{placeDetail['properties']['measures']['median_dwell'] && placeDetail['properties']['measures']['median_dwell'] || 0 | number :'1.1-1' }} min.</p>
+              </div>
+              <div class="no-audit-content" *ngIf="!isAudit">
+                  <div>
+                    <p class="medium-emphasis"> Once audited, this insights will allow you to see the average length of visits to this place</p>
+                  </div>
+              </div>
+              <div>
+                  <a class="alink request-Audit-link">Request Audit</a>
+                  <span fxFlex="1 1 auto"></span>
+                  <!-- <a class="alink">See Example</a> -->
+              </div>
+            </div>
+          </div>
+
+          <div [ngClass]="{'box-view-sample':isAudit, 'box-view': !isAudit }" class="imx-mb-20">
+            <div class="box-title imx-mb-10">
+                <h6>Same Day Visits</h6>
+                <span fxFlex="1 1 auto"></span>
+                <mat-icon class="heading-icon">today</mat-icon>
+            </div>
+            <div class="box-content-body">
+                <div
+                  *ngIf="isAudit && (placeDetail['properties']['measures'] && placeDetail['properties']['measures']['related_same_day_brand']); else noRecordFound">
+
+                  <p *ngFor="let place of placeDetail['properties']['measures']['related_same_day_brand'];let i = index"
+                    class="imx-mb-5">{{i+1}}. {{place | truncate:'middle':10 | titlecase}}</p>
+                </div>
+
+                <div class="no-audit-content" *ngIf="!isAudit">
+                    <div>
+                      <p class="medium-emphasis">Once audited, this insights will allow you to see the average length of visits to this place.</p>
+                    </div>
+                </div>
+                <div>
+                    <a class="alink request-Audit-link">Request Audit</a>
+                    <span fxFlex="1 1 auto"></span>
+                    <!-- <a class="alink">See Example</a> -->
+                </div>
+              </div>
+          </div>
+
+          <div [ngClass]="{'box-view-sample':isAudit, 'box-view': !isAudit }" class="imx-mb-20">
+            <div class="box-title imx-mb-10">
+                <h6>Same Month Visits</h6>
+                <span fxFlex="1 1 auto"></span>
+                <mat-icon class="heading-icon">date_range</mat-icon>
+            </div>
+            <div class="box-content-body">
+                <div
+                *ngIf="isAudit && (placeDetail['properties']['measures'] && placeDetail['properties']['measures']['related_same_month_brand']); else noRecordFound">
+                <p *ngFor="let place of placeDetail['properties']['measures']['related_same_month_brand']; let i = index"
+                  class="imx-mb-5">{{i+1}}. {{place | truncate:'middle':10 | titlecase}}</p>
+              </div>
+
+              <div class="no-audit-content" *ngIf="!isAudit">
+                <div>
+                  <p class="medium-emphasis">Once audited, this insights will allow you to see the average length of visits to this place.</p>
+                </div>
+              </div>
+              <div>
+                  <a class="alink request-Audit-link" >Request Audit</a>
+                  <span fxFlex="1 1 auto"></span>
+                  <!-- <a class="alink">See Example</a> -->
+              </div>
+            </div>
+          </div>
+
+          <!--  <div class="day-visitor-img" fxLayout="row" fxLayoutAlign="start start" *ngIf="isAudit">
+            <img src="../../../assets/images/avatar_default.png" alt="">
+            <img src="../../../assets/images/avatar_default.png" alt="">
+          </div> -->
+          <ng-template #noRecordFound>
+            <div *ngIf="isAudit">
+              No Records
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="imx-divider">
+    <mat-divider></mat-divider>
+  </div>
+  <div class="popupActionBlock" fxLayoutAlign="end center">
+    <button mat-raised-button class="btn-primary-color" id="overviewBtn" type="button">
+      <mat-icon>undo</mat-icon>
+      <span>Back to Overview</span>
+    </button>
+    <button mat-raised-button class="btn-primary-color" id="sampleStatisticsBtn" type="button" *ngIf="isAudit">
+      <mat-icon>redo</mat-icon>
+      <span>Sampling Statistics and More Details</span>
+    </button>
+    <button mat-raised-button class="btn-primary-color primaryBtn request-Audit-link" type="button" *ngIf="!isAudit">
+      <mat-icon>check</mat-icon>
+      <span>REQUEST AUDIT</span>
+    </button>
+    <!-- <button mat-raised-button  class="btn-primary-color primaryBtn detailSheetBtn" type="button" *ngIf="isAudit">
+        <mat-icon>check</mat-icon>
+        <span>REQUEST AUDIT</span>
+      </button> -->
+  </div>
+
+  <!--<div class="body-1">Number of Audited Inventory in Place: <b>N/A</b></div>-->
+</div>

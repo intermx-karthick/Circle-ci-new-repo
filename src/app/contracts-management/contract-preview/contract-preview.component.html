@@ -1,0 +1,246 @@
+<!-- <ng-container *ngIf="isLoadingPreviewAPI; else loadedPreviews">
+  <mat-dialog-content class="contract-scroll-container" [ngStyle]="{'height.px': containerBodyHeight}">
+  </mat-dialog-content>
+</ng-container> -->
+  <header fxLayout='column' fxLayoutAlign='end' class="w100 preview-dialog-action" mat-dialog-title *ngIf="!isLoadingPreviewAPI">
+    <button class='c-preview-contracts_button primary-color' (click)="copyContract()" mat-button>Copy URL</button>
+    <button class='c-preview-contracts_button primary-color' (click)="downloadPDF()" mat-button>Download as PDF</button>
+    <button class='c-preview-contracts_button primary-color' mat-button mat-dialog-close>Close Preview</button>
+  </header>
+  <mat-dialog-content class="contract-scroll-container" [ngStyle]="{'height.px': containerBodyHeight}">
+    <ng-container  *ngIf="isLoadingPreviewAPI">
+      <div fxLayout="row" fxLayoutAlign="center center" fxFill>
+        <mat-spinner diameter="75" ></mat-spinner>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!isLoadingPreviewAPI">
+  <div fxLayout="column" fxLayoutAlign="start start" class="contact-preview-main" #scrollContainer (window:resize)="reSize()" > 
+    <ng-container *ngIf="!singleItemPerPage;else singleLineItemContainer">  
+    <!-- Header start -->
+    <div fxLayout="column" fxLayoutAlign="space-between start" fxFlex="grow" class="contract-preview-header w100">
+      <div fxLayout="row" fxLayoutAlign="space-between start" class="w100" [innerHTML]="layout?.header"></div>
+      <!-- For now commnented because of Header Data comming API end -->
+      <!-- <div fxLayout="row" fxLayoutAlign="space-between start" class="w100">
+        <div class="contract-logo " fxLayoutAlign="start center" >
+          <img src="../../../assets/images/omg-preview-logo.svg" alt="" width="135px" height="135px">
+        </div>
+        <div class="header-address" fxLayoutAlign="center center" fxLayout="column">
+          <h6>OUT-OF-HOME MEDIA/SERVICES CONTRACT</h6>
+          <div class="address-block paragraph-font">
+            <p>Outdoor Media Group Buyer : Cindy Manson</p>
+            <p>Phone: 404 -443-6809</p>
+            <p>FAX: 646-278-5842</p>
+            <p>Email: cmanson@outdoormediagroup.net</p>
+            <p>Address: 3500 Lenox Rd, Suite 1200, Atlanta GA 30326</p>         
+            </div>
+        </div>
+        <div class="contract-date" fxLayoutAlign="end start">
+          <div class="header-right-block paragraph-font">
+            <p>Outdoor Media Group</p>
+            <p>Contract Type: <strong>NEW</strong></p>
+            <p>Date: 10/10/2020</p>
+          </div>
+        </div>
+      </div> 
+
+      <div fxLayout="row" fxLayoutAlign="space-between start" class="w100">
+        <div class="header-left-block paragraph-font">
+          <p>Advertiser: <strong>PUBLIX</strong> </p>
+          <p>Media/Creative Agency: <strong>22 Acres</strong> </p>
+          <p>Product/Campagin : Greenwise Lakeland (Nov-Dec 2020)</p>
+        </div>
+        <div class="header-right-block paragraph-font">
+          <p>Vendor: <strong>LAMAR</strong> </p>
+          <p>Vendor Rep(s): <strong> Scott Shafrenk</strong></p>
+          <p>Email(s): sshafranek@lamar.com; Krome@lamar.com</p>
+        </div>
+      </div>
+
+      <div class="header-captions w100">
+        <p>Outdoor Media Group, on behalf of and as Authorized Agent for ADVERTISER, hereby contracts with the above named VENDOR for the out-of-home media space and/or services (“Services”) lsited below, on properties owned or controlled by the Vendor in accordance with all the terms and conditions set forh on the face and any attachments hereof.</p>
+      </div> -->
+    </div>
+    <!-- Header End -->
+    <section class="contract-preview-body" fxLayout="column">
+        <div class="single-item-scroll" [ngStyle]="{'max-width.px': lineItemScroll}" 
+        infiniteScroll
+        [infiniteScrollDistance]="1"
+        [infiniteScrollThrottle]="0"
+        [scrollWindow]="false"
+        [fromRoot]="true"
+        [immediateCheck]="false"
+        [alwaysCallback]="false"
+        [infiniteScrollDisabled]="lineItems.length>=lineItemPagination?.found"
+        (scrolled)="loadMoreLineItems()">
+          <app-contracts-line-item *ngFor="let _lineItem of lineItems;let i=index" [lineItem]="_lineItem" [headingVisible]="i==0 ? true : false"></app-contracts-line-item>
+          <div class="single-line-item" fxLayout="column" fxLayoutAlign="start start">
+            <div fxLayout="row" fxLayoutAlign="start start" class="lineItem-header">
+              <div class="head txt-center" fxFlex="5.875rem"></div>
+              <div class="head" fxFlex="6.75rem"></div>
+              <div class="head" fxFlex="4.563rem"></div>
+              <div class="head txt-center" fxFlex="4.563rem"></div>
+              <div class="head txt-center" fxFlex="5.563rem"></div>
+              <div class="head txt-center" fxFlex="3.625rem"></div>
+              <div class="head" fxFlex="9.125rem"></div>
+              <div class="head txt-center" fxFlex="3.25rem"></div>
+              <div class="head txt-center" fxFlex="5.5rem"></div>
+              <div class="head txt-center" fxFlex="5.5rem"></div>
+              <div class="head txt-center" fxFlex="5rem"></div>
+              <div class="head txt-center" fxFlex="6.25rem"></div>
+              <div class="head txt-center" fxFlex="5.5rem"></div>
+              <div class="head txt-center" fxFlex="4rem"></div>
+              <div class="head txt-center" fxFlex="4.5rem">TOTALS</div>
+              <div class="head" fxFlex="5.5rem"></div>
+              <div class="head" fxFlex="4.5rem">{{salesTaxTotal ? '$' + (salesTaxTotal | convert:'THOUSAND':2:true) : ''}}</div>
+              <div class="head" fxFlex="6.5rem">{{totalNetTotal ? '$' + (totalNetTotal | convert:'THOUSAND':2:true) : ''}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="spiner-div" *ngIf="isLoading" fxLayout="row" fxLayoutAlign="center center" fxFlex="grow" class="contract-preview-header w100">
+          <mat-spinner diameter="30" ></mat-spinner>
+        </div>
+        
+    </section>
+
+    <section class="front-trems-imx"> 
+      <div [innerHTML]="terms?.frontTerm"></div>
+      <!-- <p class="front-trems">*Single Invoices must be generated PER Line Item, PER Bill Date,for each NET COST / PERIOD.Line Item ID and Bill Date must appear on all invoices,and must be addressed as described below (lower, left-hand corner). </p>
+      
+      <p class="front-trems"><Strong>CONTRACT TERMS:</Strong>1)Locations are subject to the approval of AdvertiserandAgency. 2) Contract is subject to first right of renewal 60 days prior to contract expiration. 3) Contract may be cancelled, in full or in part, at any time by <Strong>Division</Strong> for any reason by giving sixty (60) days advance written notice without penalty or short rate. 4) In the event that advertising material is rejected by the company or third party which controls thedisplay location covered under this contract, the Advertiserwill have no obligation to pay for the service for which the rejected material was intended and has the right to immediately terminate this contract without penalty or short rate. 5) No direct competitors will be placed on Vendor-controlled mediainline of sight of media units contracted here-in. 6) Execution and/or provision of the media space and services detailed on the face of this Contract explicitly provides agreement by Vendor to all terms herein and in the full, attached Contract Terms & Conditions, issued by Agency. 7)Contract is subject to the attached Terms and Conditions. If any of the above or attached "Terms and Conditions" are in conflict with the terms under "Special Instructions" above, the "Special Instructions" supersede all other terms</p> -->
+    </section>
+
+    <section class="contract-footer w100">
+      
+      <div fxLayout="row" fxLayoutAlign="start start" [innerHTML]="layout?.footer"></div>
+      
+      <!-- For now commnented because of Footer Data comming API end -->
+      <!-- <div fxLayout="row" fxLayoutAlign="start start">
+        <div class="footer-left"> 
+          <p class="foot-font"><strong>FOR PAYMENT TO BE AUTHORIZED:</strong></p>
+          <p class="foot-font">-- Signed Original Contract returned prior to <span class="bold-font">1st Start Date</span>  to:<br><span class="bold-font">Angie Assa, Angie.Assa@hearts-science.com</span> , F: 646-278-8031 or OVERNIGHT to: Attn: Angie Assa, , ,Portland,OR,</p>
+          <p class="foot-font">-- Email or Overnight Completion Reports to Buyer (Name/Address on top of Contract) within 10 days of any installation, incl. approach and close-up photos. (unless otherwise noted in Line Item Special Instructions).</p>
+          <p class="foot-font">-- All invoices (for each LineItem Bill Date, incl LineItemID) must be addressed and sent to:
+          </p>
+          <p class="foot-font">Hearts & Science Media Reconciliation<br>Attn: Vendor Payables, Outdoor@hearts-science.com 195 Broadway, 5th Floor , New York, NY, 10007</p>
+        </div>
+        <div fxFlex="1 1 auto"></div>
+        <div class="footer-rigth">
+          <p class="foot-font"><span class="bold-font">APPROVALS:</span><br>
+          Outdoor Media Group, on  behalf of and as Authorized Agent for
+            <br><span class="bold-font">PUBLIX</span></p>
+
+          <div class="signature-div" fxLayout="row">
+            <p class="foot-font sign-margin" fxFlex="10rem">Ryan Laul, President of
+              Outdoor Media Group</p>
+              <p fxFlex="1 1 auto"></p>
+              <p class="foot-font sign-margin">Date: 10/10/2020</p>
+          </div>
+          
+          <div class="signature-div" fxLayout="row">
+            <p class="foot-font sign-margin" fxFlex="10rem">Approval by <br><span class="bold-font">LAMAR</span></p>
+            <p fxFlex="1 1 auto"></p>
+            <p class="foot-font sign-margin date-width">Date: </p>
+          </div> 
+          
+        </div>
+      </div> -->
+    
+    </section> 
+  
+
+  </ng-container>
+
+  <!-- DO display single item page by page code here -->
+  <ng-template #singleLineItemContainer>
+
+      <div  *ngFor="let _lineItem of lineItems;let i=index" fxLayout="column" fxLayoutAlign="start start" infiniteScroll
+          [infiniteScrollDistance]="1"
+          [infiniteScrollThrottle]="0"
+          [scrollWindow]="false"
+          [fromRoot]="true"
+          [immediateCheck]="false"
+          [alwaysCallback]="false"
+          [infiniteScrollContainer]="'.contract-scroll-container'"
+          [infiniteScrollDisabled]="lineItems.length>=lineItemPagination?.found"
+          (scrolled)="loadMoreLineItems()">
+        <!-- Header -->
+        <div fxLayout="column" fxLayoutAlign="space-between start" fxFlex="grow" class="contract-preview-header w100">
+          <div fxLayout="row" fxLayoutAlign="space-between start" class="w100" [innerHTML]="layout?.header"></div>
+        </div>
+        <!-- End Header -->
+
+        <!-- Line item section -->
+        <section class="contract-preview-body" fxLayout="column">
+          <div class="single-item-scroll page-per-item"  [ngStyle]="{'max-width.px': lineItemScroll}">
+            <app-contracts-line-item [lineItem]="_lineItem" headingVisible="false"></app-contracts-line-item>
+          </div>
+      </section>
+        <!-- End Line item section -->
+
+        <!-- Front terms section -->
+        <section class="front-trems-imx"> 
+          <div [innerHTML]="terms?.frontTerm" class="word-break"></div>
+        </section>
+        <!-- End Front terms section -->
+        
+        <!-- Footer -->
+        <section class="contract-footer w100">    
+          <div fxLayout="row" fxLayoutAlign="start start" [innerHTML]="layout?.footer"></div>
+        </section>  
+        <!-- End Footer -->
+        <hr class="page-break-contract" *ngIf="i<(lineItems.length-1)">
+        <div class="spiner-div" *ngIf="isLoading" fxLayout="row" fxLayoutAlign="center center" fxFlex="grow" class="contract-preview-header w100">
+          <mat-spinner diameter="30" ></mat-spinner>
+        </div> 
+      </div>
+      
+  </ng-template>
+
+    
+  </div>
+
+  <div class="contract-terms-conditions" *ngIf="((singleItemPerPage && lineItems.length==lineItemPagination?.found) || !singleItemPerPage )">
+    <section >
+      <hr class="page-break-contract">
+        <div fxLayout="column" class="contract-terms-conditions-content">
+          <div [innerHTML]="terms?.backTerm" class="word-break">
+
+          </div>
+              <!-- <div class="terms-conditions">
+                <p class="txt-center">Outdoor Media Alliance str <strong>CONTRACT TERMS & CONDITIONS</strong></p>
+                <p>As defined on the top/face of the attached OUT-OF-HOME MEDIA/SERVICES CONTRACT, the advertising agency (hereinafter called "the Agency") placing advertising on behalf of the Advertiser named on the face of this contract (hereinafter called "the Advertiser") and the Out-of-Home Media or Services Company (hereinafter called "the Vendor") accepting this contract hereby agree that this contract shall be governed by the following conditions:</p> 
+              </div>
+              <div class="terms-conditions-body">
+                <p><u>1.0 DELIVERY OF MATERIALS BY THE AGENCY</u></p>
+                <p>1.1 The agency or advertiser will deliver acceptable materials to the Vendor in sufficient quantity and timing for proper execution of display(s), all as provided hereinbelow</p>
+                <p>1.2 If the material has not been received by the Vendor on the date agreed upon by Vendor and Agency, the Vendor will immediately notify the Agency. If materials are timely delivered, the Vendor will complete the execution of the display on or before the estimated completion date and commence billing on the date copy is fully displayed. 1.2(a) Hand painted - materials to be received no less than 30 days prior to contract date. 1.2(b) Vinyl or paper - materials to be received no less than 5 calendar days prior to contract date. 1.3 The Agency/Advertiser will not be charged for retro-fitting space to accommodate computer painted vinyl materials. 1.4 Extensions, embellishments, and vinyl materials are the property of the Advertiser. If Advertiser desires to retain materials by storage at the Vendor's facility or by shipment to a different location, Advertiser must provide written instruction to the Agency and Vendor. Fees may apply for storage and/or shipment that are payable by the Advertiser.</p>
+                <p><u>2.0 OBLIGATIONS OF VENDOR</u></p>
+                <p>2.1 All designs are to be faithfully reproduced and all displays are to be maintained in accordance with standards of the industry, as outlined by the Outdoor Advertising Association of America (OAAA) in its current publication, Recommended Operating Principles, or their equal.</p>
+                <p>2.2 After completion of each copy change hereunder, the Agency will be notified and the Vendor will furnish proof of performance photographs as instructed by the Agency.</p>
+                <p>2.3 If the advertising space hereunder is part of a package plan (i.e., if specific locations and/or unit IDs have not been provided), the Vendor will notify the Agency of locations at least thirty (30) days in advance of each rotation.</p>
+                <p>2.4 The Vendor will provide illumination necessary for full visibility during 6:00 A.M.-to-Midnight period unless otherwise specified in this contract.</p>
+                <p>2.5 The Vendor hereby represents and warrants to Agency/Advertiser that the performance of its obligations hereunder will not violate any applicable laws or regulations or require any permits or other governmental authorizations which the Vendor does not hold.</p>
+                <p><u>3.0 GENERAL</u></p>
+                <p>3.1 All locations are subject to prior approval by the Advertiser and/or the Agency</p>
+                <p>3.2 Relationship of Parties. The Agency represents and warrants that it is authorized to place advertising on behalf of the Advertiser named on the face hereof. The Advertiser may, upon notice to the Vendor, change its Agency</p>
+                <p>3.3 Rates. All rates and adjustments shall be computed on a basis of thirty (30) days to the month, unless otherwise defined by the period term specified on the front of the contract under "Term of Period."</p>
+                <p>3.4 Termination and Loss of Service. (a) The acceptance of this order shall constitute a contract that shall not be subject to cancellation by either party, except as provided in paragraphs 2.5 and 3.4.</p>
+                <p>3.4 (b) Advertiser has the right to cancel this contract with 60 days written notice, unless otherwise specified on the face of the contract.</p>
+                <p>3.4 (c) Any delay or failure by either party to perform hereunder as the result of force majeure, labor dispute, law, governmental action or order, or similar cause
+                  beyond such non-performing party's reasonable control, shall not constitute a breach of contract, but the other party shall be notified immediately and shall be entitled, if such other party is the Agency, at its election, to either immediate termination of this contract, an extension of service, additional service, or credit, all on a pro rata basis, except that in the event of a failure to provide illumination as required herein, the loss shall be compensated by a cash credit to the Agency of 25% of the media value.</p>
+                <p>3.4(d) When any media space or location specified in this contract is no longer available due to a loss of the structure for any reason, the Vendor shall offer the Agency a location of at least equal advertising value for the remaining term of the contract; the Agency shall have the right to approve the replacement unit or to terminate this contract on the date the structure is no longer available and no short-rate charge shall be payable for such termination. 3.4(e) If the advertising or sale of the product or service to be advertised under this contract is prohibited by law or government regulation, this contract shall terminate as of the effective date of such law or regulation without short-rate charge. 3.4(f) The Vendor may, upon notice to the Agency, cancel this contract at any time if any of the following conditions is not cured within 10 days after written notice thereof from Vendor to Agency: (i) upon material breach by the Agency, (ii) if the Vendor does not receive timely payment on billings, or (iii) if the Advertiser's credit is, in the Vendor's reasonable opinion, impaired.</p>
+                <p>3.5 Terms of Payment</p>
+                <p>(a) Agency is acting as an agent on behalf of Advertiser, a disclosed principal. Agency will only be liable for the cost of the advertising purchased and other obligations to Vendor to the extent Agency has been paid by Advertiser for any such amount payable to the Vendor. For amounts not paid to Agency, Vendor will look solely to Advertiser for payment. If pursuant to a court order issued as a result of any preference claim or action under the United States Bankruptcy Code or other avoidance claim or action asserted under the United States Bankruptcy Code, Agency returns to Advertiser or Advertiser's estate any such amount paid to Agency, Vendor will  similarly repay such amount to Agency. Agency agrees that it will defend any such Preference Claim or action or other avoidance action in good faith. Any terms in your invoices, documents or rate cards to the contrary are of no force or effect. Any modifications to this form made by media company are of no force or effect. 3.5(b) Vendor must submit appropriate proof of performance materials (photographs, location lists and signed affidavits) to the Agency in order for payment to be made.</p>
+                <p>3.5(c) Advertiser and Vendor must mutually agree upon the use of barter credits (media space/equipment/products) if used as payment for this contract. Vendor must obtain Advertiser's approval for use of such credits.</p>
+                <p>3.5(d) The Advertiser is solely responsible for payment of all taxes (other than taxes imposed on vendor or agencies' income) and other levies imposed by any governmental or self-regulatory authority (and the filing of related tax returns) in connection with the purchase by Agency of the above media, including, if applicable, the New York City Commercial Rent Tax ("NYC CRT").</p>
+                <p>3.6 Indemnification.</p>
+                <p>The Vendor shall hold the Agency and the Advertiser harmless against all claims, demands, debts, obligations, or charges, together with reasonable attorneys' fees and disbursements (all hereinafter referred to as "liability"), arising out of: (A) the installation, maintenance, or removal of advertising copy, including all such liability arising out of the Vendor's failure to remove advertising copy within thirty (30) days after the expiration of this contract provided such removal is requested by the Agency, (B) the installation, maintenance, and operation of the physical advertising structure (e.g. bus shelter, billboard), including without limitation any injury caused by the physical advertising structure or any advertising substrate (e.g. vinyl) installed on the physical advertising structure and (C) the breach of any representation, warranty or covenant of Vendor contained in this contract. Advertiser similarly agrees to hold the Vendor harmless against all liability arising out of
+                  the content of the advertising copy furnished by the Advertiser.</p>
+                <p>3.7 Entire Agreement.</p>
+                <p>This contract (and applicable attachments issued by Agency) contains the entire understanding between the parties and cannot be changed or terminated orally. When there is any inconsistency between these standard conditions and a provision on the face hereof, the latter shall govern. Failure of either party to enforce any of the provisions hereof shall not be construed as a general relinquishment or waiver of that or any other provision. All notices hereunder (except for notices under Paragraph 3.4(c) shall be in writing, given only by prepaid telegram or mail, addressed to the other party at the address on the face hereof, and shall be deemed given on the date of first possible receipt. This Agreement and any amendments thereto shall be governed by the laws of the State of New York applicable to contracts to be  fully performed therein, without regard to the principles of conflicts of law thereof.</p>
+              </div> -->
+        </div>
+    </section>
+  </div>
+</ng-container>
+</mat-dialog-content>

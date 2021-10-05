@@ -1,0 +1,137 @@
+<div class="popup-dialog" role="document">
+  <div class="popup-header text-center" mat-dialog-title>
+    <h3 class="home-popup-header">WELCOME!</h3>
+    <div mat-dialog-actions>
+      <button mat-mini-fab mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="popup-body" mat-dialog-content>
+      <div id="welcome-carousel" class="carousel" data-interval="false" data-ride="carousel">
+        <div  class="indicators">
+          <!-- Indicators -->
+          <ol class="carousel-indicators text-center">
+            <li data-target="#welcome-carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#welcome-carousel" data-slide-to="1"></li>
+            <li data-target="#welcome-carousel" data-slide-to="2"></li>
+            <li data-target="#welcome-carousel" data-slide-to="3"></li>
+            <li data-target="#welcome-carousel" data-slide-to="4"></li>
+          </ol>
+        </div>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+          <div class="item active">
+            <h2>We’re so glad you’re here!</h2>
+            <p class="popup-content">You have been granted access to the Geopath Insights Suite. Lucky you! It’s very important to us that you <b>get the most out of your early access period</b>, and take part in shaping the future of the product so that you can have the best user experience possible.</p>
+            <p>Now, let’s set this up!  Tell us a bit about yourself.</p>
+            <form method="post" class="userForm noAnimation" [formGroup]="upForm" (ngSubmit)="onSubmit(upForm)" novalidate autocomplete="off">
+              <div class="form-container">
+              <div  class="md-form">
+                <input class="form-control"type="text" id="defaultForm-given_name" formControlName="given_name">
+                <label class="" for="defaultForm-given_name">Name</label>
+                <show-errors [control]="upForm.controls.given_name"></show-errors>
+              </div>
+              <div  class="md-form">
+                <input class="form-control" id="defaultForm-family_namee" type="text"  formControlName="family_name">
+                <label class="" for="defaultForm-family_name">Family Name</label>
+                <show-errors [control]="upForm.controls.family_name"></show-errors>
+              </div>
+              <div  class="md-form">
+                <input class="form-control" id="defaultForm-company" type="text"  formControlName="company">
+                <label class="" for="defaultForm-company">Company</label>
+                <show-errors [control]="upForm.controls.company"></show-errors>
+              </div>
+              <div  class="md-form">
+                <input class="form-control" id="defaultForm-title" type="text"  formControlName="title">
+                <label class="" for="defaultForm-title">Title</label>
+                <show-errors [control]="upForm.controls.title"></show-errors>
+              </div>
+              </div>
+              <div class="carousel-control-group">
+                <button type="submit" class="btn geo-button waves-effect waves-light carosusel-ctn-btn">CONTINUE</button>
+                <button type="button" class="skip-step-btn" (click)="goToExplore()" >Skip this step</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="item">
+            <div class="content-div">
+              <h2>There are so many incredible things to explore.</h2>
+              <div class="explore-help-div">
+                <!-- <img src="../../../assets/images/explore-image.png"> -->
+                <div class="popup-screen explore-image-screen"></div>
+                <p>Hello!  We wanted to take a brief moment to explain what is available in the early release, and what’s coming next. <br><span class="info-text-1">The Audience & Inventory Explorer section is active</span>, and you can start using it right away by clicking on the “Explore” button on the left toolbar.</p>
+              </div>
+              <p>While Explore is active today, the <span class="info-text-2">Projects, Markets, Reports & Share </span>functionalities are still in progress and under construction. But the Explorer should keep you busy, as this is where you will find inventory, create packages, view audience impressions, and more.</p>
+            </div>
+            <div class="carousel-control-group">
+              <button type="button" class="go-back-btn" href="#welcome-carousel" data-slide="prev">GO BACK</button>
+              <button type="button" class="btn geo-button waves-effect waves-light carosusel-ctn-btn" href="#welcome-carousel" data-slide="next">CONTINUE</button>
+              <button type="button" class="skip-step-btn" (click)="goToExplore()">Skip this step</button>
+            </div>
+          </div>
+
+          <div class="item">
+            <div class="content-div">
+              <h2>You’re the expert, and we want to hear from you.</h2>
+              <p class="popup-content">As we continue building and improving the features of your product, we want your help!</p>
+              <div class="feedback-div">
+                <div>
+                  <p class="image-side-text">As you explore the Geopath Insights Suite, you may realize that you have some questions about the software, the data itself, or usability. You might have some ideas for improvement, or come up with features that will make your job easier and more enjoyable.</p>
+                  <p>To collect your <span class="info-text-1">thoughts, feedback, and ideas</span>, we’ve placed a purple Feedback button at the bottom of every screen.</p>
+                </div>
+                <div class="popup-screen feedback-image-screen"></div>
+                <!-- <img class="feedback-image" src="../../../assets/images/feedback.png"> -->
+              </div>
+            </div>
+            <div class="carousel-control-group">
+              <button type="button" class="go-back-btn" href="#welcome-carousel" data-slide="prev">GO BACK</button>
+              <button type="button" class="btn geo-button waves-effect waves-light carosusel-ctn-btn" href="#welcome-carousel" data-slide="next">CONTINUE</button>
+              <button type="button" class="skip-step-btn" (click)="goToExplore()" >Skip this step</button>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content-div">
+              <h2>What does the purple Feedback button do?</h2>
+              <p class="popup-content">By using this purple Feedback button (located on the bottom of every screen), you have the ability to ask questions directly, such as “What is an impression?” or “How do I add a user?”</p>
+              <p class="popup-content">If you run into any issues, bugs, or barriers to insight, those queries will <b>automatically be sent to our support desk!</b> From there, our support team and client mentors (yes, real humans!) are standing by to resolve your issues.</p>
+              <p class="popup-content">Not only will you be able to report bugs and ask questions, you can even submit new ideas for product features directly through this button.  Simply type <b>“I have an idea!”</b> or <b>“Idea”</b> and you’ll be invited to share your idea with our team.</p>
+              <p class="popup-content">Automagically, your ideas arrive with our strategy division to vote on, prioritize, and deliver on your vision with upcoming product updates.</p>
+            </div>
+            <div class="carousel-control-group">
+              <button type="button" class="go-back-btn" href="#welcome-carousel" data-slide="prev">GO BACK</button>
+              <button type="button" class="btn geo-button waves-effect waves-light carosusel-ctn-btn" href="#welcome-carousel" data-slide="next">CONTINUE</button>
+              <button type="button" class="skip-step-btn" (click)="goToExplore()" >Skip this step</button>
+            </div>
+          </div>
+          <div class="item">
+            <div class="content-div">
+              <h2>Now you’re ready to discover what’s in your data.</h2>
+              <p class="popup-content">
+                If you need to revisit this welcome message, you may do so at any time by clicking the little house icon in the top left corner. From now on you can find special announcements, software update information, and industry bulletins here.
+              </p>
+              <p class="popup-content">
+                And please don’t hesitate to contact us at any time and submit your ideas by using the purple Feedback button. Your input is incredibly valuable to us.
+              </p>
+              <p class="popup-content">
+                <b>Thanks for being a pioneer</b>, and for participating in the early access program. Happy exploring!
+              </p>
+              <br/>
+              <br/>
+              <br/>
+              <p class="popup-content">
+                To begin, click “let’s go!” below, and then launch The Audience & Inventory Explorer on the left side bar with the “Explore” button.
+              </p>
+            </div>
+            <div class="carousel-control-group">
+              <button type="button" class="go-back-btn" href="#welcome-carousel" data-slide="prev">GO BACK</button>
+              <button type="button" class="btn geo-button waves-effect waves-light carosusel-ctn-btn" (click)="goToExplore()">LET'S GO</button>
+              <button type="button" class="skip-step-btn" (click)="goToExplore()" >Skip this step</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

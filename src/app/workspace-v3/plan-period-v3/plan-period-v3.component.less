@@ -1,0 +1,28 @@
+::ng-deep{
+  app-plan-period-v3{
+    .error-field-width{
+      &.mat-form-field-invalid{
+        .mat-form-field-underline {
+          position: relative;
+          bottom: auto;
+        }
+        .mat-form-field-subscript-wrapper {
+          position: static;
+          width: 180px;
+        }
+      }
+    }
+    .mat-error{
+      text-transform: uppercase !important;
+    }
+    .remove-required-mark{
+      .mat-placeholder-required{
+        display:none;
+      }
+    }
+  }
+
+  .mat-option-disabled{
+    cursor: not-allowed  !important;
+  }
+}

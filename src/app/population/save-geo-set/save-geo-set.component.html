@@ -1,0 +1,21 @@
+<div>
+  <div mat-dialog-content class="save-workspace-dialog">
+    <form  method="post"  class="workspaceForm noAnimation Test" [formGroup]="geoSetForm" novalidate autocomplete="off" (ngSubmit)="onSubmit(geoSetForm)">
+      <div class="modal-body">
+        <h5 class="modal-title login-title test-package-title">Save a Geography Set</h5>
+
+        <div class="md-form">
+          <input type="text" id="defaultForm-name" class="form-control test-package-name" formControlName="name" autocomplete="off" placeholder="Type Geography Set Name">
+           <show-errors [control]="geoSetForm.controls.name"></show-errors>
+        </div>
+        <div class="md-form">
+            <textarea id="defaultForm-description" class="form-control rounded-0 test-package-description" id="exampleFormControlTextarea1" formControlName="description" rows="3" placeholder="Add Description"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button mat-button type="button" class="button popup-left-btn button-primary-link no-radius" mat-dialog-close>CANCEL</button>
+        <button type="submit" mat-raised-button class="button button-primary uppercase no-radius test-inv-submit-btn">SAVE</button>
+      </div>
+    </form>
+  </div>
+</div>

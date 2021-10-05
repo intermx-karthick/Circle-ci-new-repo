@@ -1,0 +1,33 @@
+<div class="upload-area-block" fxLayout="row" fxLayoutAlign="start start">
+  <div class="upload-section" [ngClass] = "{'upload-section-error' : (formateValidationMessage || sizeValidationMessage || noFileValidationMessage)}">
+    <div class="drop-files" (click)="fileInputDrop.click()" appDragDrop (OnFileDropped)="uploadFile($event)">
+      <input hidden type="file" #fileInputDrop (change)="uploadFile($event)" [multiple]="this.fileUploadConfig?.acceptMulitpleFiles">
+      <div>
+        <p class="upload-main-title">{{mainTitle}}</p>
+        <p class="upload-caption">Click here to Browse File(s)</p>
+      </div>
+    </div>
+    <div class="file-upload-hint" *ngIf="fileUploadConfig.displayFileHint">
+      <p class="upload-caption">Accepted formats: {{fileUploadConfig.acceptedFormats | imxFileExtFormat}}</p>
+      <p class="upload-caption">Maximum file size: {{fileUploadConfig.sizeLimit}}MB</p>
+    </div>
+    <div class='file-error-text'>
+      <mat-error *ngIf="formateValidationMessage" [innerHTML]="formateValidationMessage"></mat-error>
+      <mat-error *ngIf="sizeValidationMessage" [innerHTML]="sizeValidationMessage"></mat-error>
+      <mat-error *ngIf="noFileValidationMessage">No files are selected.</mat-error>
+      
+    </div>
+  </div>
+  <div class="file-upload-btn">
+    <button mat-button (click)="uploadFiles()" class="" [ngClass]="{'imx-button-stroked': !uploadButtonPrimary, 'imx-button-primary':uploadButtonPrimary}" >Upload</button>
+  </div>
+</div>
+<div class="upload-file-list" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="1rem">
+  <div class="files-list" *ngFor="let file of files;let i= index" fxLayout="row"  fxLayoutAlign="start center" fxLayoutGap="1rem">
+    <p> {{ file }} </p>
+    <mat-icon (click)="deleteAttachment(i)" *ngIf="!fileUploadStatus[file]?.inProgress; else inProgress;" class="delete-file-icon">delete_forever</mat-icon>
+    <ng-template #inProgress>
+      <mat-spinner diameter="15"></mat-spinner>
+    </ng-template>
+  </div>
+</div>

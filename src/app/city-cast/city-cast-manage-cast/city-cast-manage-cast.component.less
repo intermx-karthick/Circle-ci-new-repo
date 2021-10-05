@@ -1,0 +1,108 @@
+::ng-deep{
+  .manage-cast {
+    .mat-dialog-container{
+      padding: 0px;
+      overflow: hidden;
+    }
+  }
+  .mat-progress-spinner circle,
+  .mat-spinner circle {
+    stroke: var(--theme-secondary-color) !important;
+  }
+  // .mat-select{
+  //   border-bottom: 1px solid;
+  //   border-color: var(--grays-bg-300);
+  // }
+  /* .cast-list-dd {
+    height: 100px;
+    overflow: auto;
+  } */
+  .no-border {
+    border: none !important;
+  }
+  .cast-management-block {
+    color: var(--g-color);
+    height: 100%;
+    .selection-cast-block {
+      height: 100%;
+      overflow: auto;
+    }
+    ul {
+      list-style: none;
+      padding: 0px;
+      margin: 0;
+      li {
+        padding: 15px;
+        font-size: 20px;
+        font-weight: normal;
+        color: var(--g-color);
+        cursor: pointer;
+        margin: 0px 10px;
+        border-top: 1px solid var(--grays-bg-400);
+        &:hover {
+          background: var(--grays-bg-100);
+        }
+        .tag-div {
+          max-height: 75px;
+          overflow: auto;
+        }
+        .tag {
+          font-size: 11px;
+          background: var(--white-color);
+          padding: 5px;
+          border: 1px solid var(--grays-bg-300);
+          border-radius: 15px;
+          color: var(--black-color);
+          display: inline-block;
+        }
+        .tag-status {
+          width: 100%;
+          display: block;
+          text-align: center;
+        }
+        .tags {
+
+        }
+      }
+      li:last-child {
+        border-bottom: 1px solid var(--grays-bg-400);
+      }
+    }
+    .archived-cast {
+      padding: 15px;
+      font-size: 15px;
+    }
+    .create-cast-block {
+      .back-cast-list {
+        margin: 10px;
+        display: block;
+        cursor: pointer;
+        mat-icon {
+          font-size: 35px;
+        }
+      }
+      .create-cast-form {
+        padding: 0px 60px 60px 60px;
+        h4 {
+          margin: 15px 0;
+        }
+        mat-form-field {
+          width: 100%;
+        }
+        .btn-primary-color {
+          background: var(--button-bg-color);
+          color: #ffffff;
+          margin-left: 8px;
+          float: right;
+        }
+        .mat-form-field {
+          margin-bottom: 10px;
+        }
+      }
+    }
+   
+  }
+  .title-input {
+    height: 2.1rem;
+  }
+}

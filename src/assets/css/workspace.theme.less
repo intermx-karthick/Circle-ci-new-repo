@@ -1,0 +1,57 @@
+@import "./variables.less";
+
+
+app-projects,
+app-project-list,
+app-project-home,
+app-project-create,
+app-project-view,
+app-scenarios,
+app-scenario-list,
+app-scenario-home,
+app-scenario-create,
+app-scenario-view,
+app-scenarios-inner-list {
+
+.mat-table {
+  font-family: 'LL Circular Pro Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.color-medium{
+  color:var(--medium-emphasis) !important;
+}
+.valign-middle{
+  vertical-align: middle;
+}
+.btn-small{
+  height: 26px;
+  line-height: 26px;
+}
+
+mat-toolbar{
+  background:~"rgba(var(--color-gray), 0.05) !important";
+  max-height: 60px;
+}
+.tool-bar-spacer{
+flex: 1 1 auto;
+}
+
+.mat-form-field-can-float .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label, .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label{
+  top: -3px;
+  position: relative;
+}
+.cancel-button{
+  background-color: rgba(255,255,255,0.1);
+}
+
+} // Closing component tag
+.modal-backdrop.in,
+.modal-backdrop.fade{
+opacity:0 !important;
+z-index: -1;
+}
+//.skin-black
+.modal-open{
+  mat-sidenav-container{
+    z-index: 999;
+  }
+}

@@ -1,0 +1,18 @@
+<div mat-dialog-content class="confirmation-dialog" id="confirmation-dialog">
+  <div fxLayout="row" fxLayoutAlign="start">
+    <h3 class="modal-title">{{modalTitle}}</h3>
+    <span fxFlex="1 1 auto"></span>
+    <mat-icon mat-dialog-close class="mat-icon-close">highlight_off</mat-icon>
+  </div>
+  <div class="confirm-desc" fxLayout="row" fxLayoutAlign="center center">
+    <div class="modal-description" [innerHTML]="description"></div>
+    <div class="modal-image">
+      <mat-icon svgIcon='IMX-alert' *ngIf="displayIcon"></mat-icon>
+      <!-- <img src="../../../../assets/images/delete-conf-icon.png"> -->
+    </div>
+  </div>
+</div>
+<div class="dialog-footer" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px" [ngStyle]="{ 'width.px': footerWidth }">
+  <button mat-button class="continue-btn" (click)="onActionResult()">{{confirmBtnText}}</button>
+  <button mat-button class="cancel-btn" (click)="onCloseDialog()" *ngIf="displayCancelBtn">{{cancelBtnText}}</button>
+</div>

@@ -1,0 +1,103 @@
+<div>
+    <section class="header-section">
+        <app-header fxFlexFill="">
+            <div class="projected-title">
+                <mat-icon class="mobile-hide">home</mat-icon>
+                <span class="uppercase">home</span>
+            </div>
+        </app-header>
+    </section>
+    <div class="home-div">
+        <section class="content">
+            <!-- Modal -->
+            <div class="content-container" fxLayout="row" fxLayout.xs="column" fxFlexFill>
+                <div class="left-panel" fxLayout="column" fxFlex="28" fxLayoutAlign="start" class="sec1 home-tiles"
+                     fxFlex.xs="55">
+                    <div *ngFor="let module of moduleDetails;" class="left-panel-element" fxLayout="column"
+                         fxFlex.xs="55"  (click)="selectPanel(module.moduleName)" [ngClass]="{'active-left-menu' : (module.isSpotListeDisplay || module.isWorkspaceDisplay || module.isExploreDisplay || module.isPlacesDisplay  || module.isPopulationLibDisplay)}">
+                        <div class="left-panel-title" fxLayout="row">
+                            <mat-icon *ngIf="module.moduleName !== 'spotlights' && module.moduleName !== 'population'" class="module-icon">
+                                {{module.icon}}
+                            </mat-icon>
+                            <mat-icon svgIcon="IMX-population-lib" class="module-icon population-lib-icon" *ngIf="module.moduleName === 'population';"></mat-icon>
+                            <mat-icon class="spotlight-icon" *ngIf="module.moduleName === 'spotlights';"></mat-icon>
+                            <h5 title="{{module.name}}">{{module.name | truncate:'middle':18:6 }}</h5>
+                            <!-- <mat-icon svgIcon="IMX-new-badge" class="new-badge" *ngIf="module.moduleName === 'workspace'"></mat-icon> -->
+                        </div>
+                        <div class="left-panel-desc"
+                             fxFlex.xs="55"
+                             [innerHTML]="module.description | truncate:'end':144" title="{{module.description}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="right-panel" fxFlex="72">
+                    <div id="home-highlights" class="right-panel-element" fxLayout="column" fxFlexFill *ngIf="isSpotListeDisplay">
+                        <div class="right-panel-title" fxLayout="row"><h2>Workspace with 2021 Measures</h2></div>
+                        <div class="right-panel-desc">
+                            <h4>
+                                Thanks to your feedback, we've revamped the Workspace experience with new streamlined workflows and parallel processing features. Use this new experience to access planning tools for new 2021 Measures. 
+                            </h4>
+                        </div>
+                        <div class="button-container" fxLayout="row" fxLayoutAlign="start center">
+                            <button type="button" mat-raised-button
+                                    class="button button-primary uppercase pull-right no-radius"
+                                    (click)="redirectModule('newworkspace')">TRY IT NOW
+                            </button>
+                        </div>
+                        <mat-icon svgIcon="IMX-spot-ws-banner-1" class="spot-ws-banner pull-right"></mat-icon>
+                        
+                    </div>
+                    <div id="home-workspace" class="right-panel-element" fxLayout="column" fxFlexFill *ngIf="isWorkspaceDisplay">
+                        <div class="right-panel-title" fxLayout="row"><h2>All Your Assets Together in One Place</h2></div>
+                        <div class="button-container" fxLayout="row" fxLayoutAlign="start center">
+                            <button type="button" mat-raised-button
+                                    class="button button-primary uppercase pull-right no-radius"
+                                    (click)="redirectModule('newworkspace')">Go to Workspace
+                            </button>
+                        </div>
+                    </div>
+                    <div id="home-explore" class="right-panel-element" fxLayout="column" fxFlexFill *ngIf="isExploreDisplay">
+                        <div class="right-panel-title" fxLayout="row"><h2>An Audience-First Inventory Experience in a
+                            Visual Space</h2></div>
+                        <div class="button-container" fxLayout="row" fxLayoutAlign="start center">
+                            <button type="button" mat-raised-button
+                                    class="button button-primary uppercase pull-right no-radius"
+                                    (click)="redirectModule('explore')">Go to Explore
+                            </button>
+                        </div>
+                    </div>
+                    <div id="home-places" class="right-panel-element" fxLayout="column" fxFlexFill *ngIf="isPlacesDisplay">
+                        <div class="right-panel-title" fxLayout="row"><h2>Find, Build, and Analyze Groups of Places, or Points of Interest</h2></div>
+                        <div class="button-container" fxLayout="row" fxLayoutAlign="start center">
+                            <button type="button" mat-raised-button
+                                    class="button button-primary uppercase pull-right no-radius"
+                                    (click)="redirectModule('places')">Go to Places
+                            </button>
+                        </div>
+                    </div>
+                    <div id="home-highlights" class="right-panel-element" fxLayout="column" fxFlexFill *ngIf="isPopulationLibDisplay">
+                        <div class="right-panel-title" fxLayout="row"><h2>Population Library</h2></div>
+                        <div class="right-panel-desc">
+                            <h4>
+                                Analyze thousands of consumer profiles by home geographies, like DMAs, CBSAs or counties. Save relevant geographies into Geography Sets.
+                            </h4>
+                        </div>
+                        <div class="button-container" fxLayout="row" fxLayoutAlign="start center">
+                            <button type="button" mat-raised-button
+                                    class="button button-primary uppercase pull-right no-radius"
+                                    (click)="redirectModule('population')">TRY IT NOW
+                            </button>
+                        </div>
+                        <mat-icon svgIcon="IMX-spot-ws-banner-1" class="spot-ws-banner pull-right"></mat-icon>
+                    </div>
+                    <!-- <div id="home-reports" class="right-panel-element" fxLayout="column" fxFlexFill *ngIf="isReportsDisplay">
+                        <div class="right-panel-title" fxLayout="row"><h2>Actionable Insights on Audience and Delivery. Customized by You.</h2></div>
+                        <div class="right-panel-desc">
+                            <h4>Coming Soon</h4>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

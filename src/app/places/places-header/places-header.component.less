@@ -1,0 +1,32 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+::ng-deep {
+	app-places-header
+	{
+		.places-header {
+			margin-left: 20px;
+			margin-right: 0px;
+			text-transform: none;
+			margin-top: 16px;
+			div
+			{
+				min-height: 40px;
+			}
+			.places-filter-btn
+			{
+				cursor: pointer;
+				font-size: 11px;	
+				font-weight: bold;	
+				letter-spacing: 0.91px;	
+				line-height: 12px;	
+				text-align: center;
+				color: var(--medium-emphasis);
+				padding: 0px 10px;
+			}
+			.places-filter-btn.active
+			{
+				background-color:var(--button-bg-color);
+				color:var(--white-color);
+			}
+		}
+	}
+}

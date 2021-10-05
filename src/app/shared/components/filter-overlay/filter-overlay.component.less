@@ -1,0 +1,45 @@
+.dialog-dropdown {
+  width     : 100%;
+  max-height: 300px;
+  overflow  : auto;
+}
+
+::ng-deep{
+  .imx-cdk-dropdown{
+    .header{
+      padding: 13px 8px;
+    }
+    mat-form-field{
+      width: 100%;
+      input{
+        height: inherit !important;
+        border-bottom: 0px !important;
+      }
+      padding: 1px 8px 0px;
+      .mat-form-field-underline{
+        background-color: var(--primary-bg) !important;
+      }
+      .mat-label, mat-icon, .mat-form-field-label {
+        color: var(--primary-bg) !important;
+      }
+    }
+    .mat-selection-list{
+      padding-top: 0px;
+      width: 100%;
+      min-height: 20px;
+      max-height: calc(~"100vh - 525px");
+      overflow-y: auto;
+      overflow-x: hidden;
+      mat-list-text{
+        color: var(--primary-bg-700) !important; 
+      }
+      .mat-list-option{
+        border-bottom: 0px;
+      }
+      &.no-data-available{
+        min-height: auto;
+        max-height: auto;
+      }
+    }
+  }
+}

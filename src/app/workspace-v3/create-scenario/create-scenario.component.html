@@ -1,0 +1,1803 @@
+<div fxLayout="column" fxLayoutAlign="start">
+  <div fxLayout="row" fxLayoutAlign="start center" class="project-breadcrumb" (window:resize)="onResize()">
+    <!-- <a class="link_icon"  *ngIf="!activatedRoute.snapshot.queryParams['projectId']; else backToProject" routerLink="/workspace-v3/projects/list"> -->
+    <a class="link_icon"  *ngIf="!activatedRoute.snapshot.queryParams['projectId']; else backToProject" [routerLink]="['/workspace-v3/projects/list']" [queryParams]="{type: labels.project[1]}">
+     <div class="backto-link"><mat-icon>arrow_back</mat-icon> <span>Back to {{labels.project[1]}}</span></div>
+    </a>
+    <ng-template #backToProject>
+      <a class="link_icon" [routerLink]="projectLink" [queryParams]="projectParams">
+          <mat-icon>arrow_back</mat-icon> Back to {{project?.name}}
+      </a>
+    </ng-template>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start">
+    <div class="">
+      <mat-tab-group
+        mat-align-tabs="start"
+        class="imx-tab-capital"
+        [(selectedIndex)]="selectedTabIndex"
+        (selectedTabChange) = "onSelectedTabChange($event)"
+      >
+        <mat-tab label="MARKET PLAN" aria-label="marketPlan" *ngIf="isVisibleMarketPlanTab && (isGenerateFromType !== 'MP')">
+          <div class="mat-tab-content img-bg-card">
+            <form
+              method="post"
+              class="noAnimation"
+              [formGroup]="scenarioForm"
+              (submit)="onMarketPlanSubmit(scenarioForm)"
+              novalidate
+              autocomplete="off"
+            >
+              <div class="imx-common-margin buttom-common">
+                <div fxLayout="row" fxLayoutGap="16px" class="imx-aligin-base mxWdth70"
+                tooltip="{{errorList? errorList: null}}" placement="right" tooltipClass="{{errorClass}}">
+                  <div  *ngIf="audienceLicense['status'] !== 'hidden'">
+                    <button
+                      mat-button
+                      class="imx-button-stroked_icon"
+                      [ngClass]="{isReq: isAudienceSelected === false}"
+                      (mouseenter)="$event.stopPropagation()"
+                      (mousemove)="$event.stopPropagation()"
+                      type="button"
+                      (click)="openAudienceDialog(); isOpenAudience = false"
+                    >
+                      <span
+                        #CdkOverlayOrigin="cdkOverlayOrigin"
+                        cdkOverlayOrigin
+                        >AUDIENCE ({{ selectedAudiences?.length }})</span
+                      >
+                      <mat-icon [ngClass]="{isReqIcon: isAudienceSelected === false}"
+
+                        >add_circle_outline</mat-icon
+                      >
+                    </button>
+                    <!-- <app-imx-dropdown
+                      [CdkOverlayOrigin]="CdkOverlayOrigin"
+                      (close)="isOpenAudience = false"
+                      (open)="isOpenAudience = true"
+                    >
+                      <ul class="imx-ul-list">
+                        <li
+                          *ngFor="
+                            let audience of selectedAudiences;
+                            let i = index;
+                            trackBy: trackAudiences
+                          "
+                        >
+                          <div
+                            fxLayout="row"
+                            fxLayoutAlign="space-between center"
+                          fxFlex="100%">
+                            <span fxFlex="80%">{{ audience.name }}</span>
+                            <mat-icon (click)="removeFilterFormInventory('audience', i)"
+                              >delete_forever</mat-icon
+                            >
+                          </div>
+                        </li>
+                        <li *ngIf="!selectedAudiences.length" e>
+                          No Audience Selected
+                        </li>
+                      </ul>
+                    </app-imx-dropdown> -->
+                  </div>
+                  <div *ngIf="allowInventory !== 'hidden'" >
+                    <button
+                      mat-button
+                      class="imx-button-stroked_icon"
+                      (mouseenter)="$event.stopPropagation()"
+                      (mousemove)="$event.stopPropagation()"
+                      type="button"
+                      (click)="openMarketDialog()"
+                      [ngClass]="{isReq: isMarketSelected === false}"
+                    >
+                      <span
+                        #CdkOverlayOriginMarket="cdkOverlayOrigin"
+                        cdkOverlayOrigin
+                        >MARKETS ({{ selectedMarket.length }})</span
+                      >
+                      <mat-icon [ngClass]="{isReqIcon: isMarketSelected === false}"
+                        >add_circle_outline</mat-icon
+                      >
+                    </button>
+                    <!-- <app-imx-dropdown
+                      [CdkOverlayOrigin]="CdkOverlayOriginMarket"
+                      (close)="isOpenMarket = false"
+                      (open)="isOpenMarket = true"
+                    >
+                      <ul class="imx-ul-list two-column">
+                        <li
+                          *ngFor="
+                            let market of selectedMarket;
+                            let i = index;
+                            trackBy: trackById
+                          "
+                        >
+                          <div
+                            fxLayout="row"
+                            fxLayoutAlign="space-between center"
+                          >
+                            <span fxFlex="80%">{{ market?.name }}</span>
+                            <span fxFlex="1 1 auto"></span>
+                            <mat-icon
+                              (click)="removeFilterFormInventory('market', i)"
+                              >delete_forever</mat-icon
+                            >
+                          </div>
+                        </li>
+                        <li *ngIf="!selectedMarket.length">
+                          No Market Selected
+                        </li>
+                      </ul>
+                    </app-imx-dropdown> -->
+                  </div>
+                  <div *ngIf="operatorModulePermission">
+                    <button mat-button class="imx-button-stroked_icon" type="button"
+                      (mouseenter)="$event.stopPropagation()"
+                      (mousemove)="$event.stopPropagation()"
+                      type="button"
+                      (click)="openSelectOperatorDialog()"
+                      >
+                      <span
+                        #CdkOverlayOriginInventoriesIP="cdkOverlayOrigin"
+                        cdkOverlayOrigin
+                        >OPERATORS ({{ operatorCount }})</span
+                      >
+                      <mat-icon
+                        >add_circle_outline</mat-icon
+                      >
+                    </button>
+                  </div>
+                  <div>
+                    <button mat-button class="imx-button-stroked_icon" type="button"
+                      (mouseenter)="$event.stopPropagation()"
+                      (mousemove)="$event.stopPropagation()"
+                      [ngClass]="{isReq: ismediaTypeSelected === false}"
+                      type="button" (click)="openSelectInvnetoryDialog()">
+                      <span
+                        #CdkOverlayOriginInventories="cdkOverlayOrigin"
+                        cdkOverlayOrigin
+                        >MEDIA ({{ inventoryCount }})</span>
+                      <mat-icon [ngClass]="{isReqIcon: ismediaTypeSelected === false}"
+                        >add_circle_outline</mat-icon
+                      >
+                    </button>
+                    <!-- <app-imx-dropdown
+                      [CdkOverlayOrigin]="CdkOverlayOriginInventories"
+                      (close)="isOpenInventories = false"
+                      (open)="isOpenInventories = true"
+                    >
+                    <div fxLayout="column" fxLayoutAlign="space-between stretch">
+                      <div *ngIf="mediaTypeFilters?.length > 0" class="p10">
+                        <div>Media Types</div>
+                        <ul class="imx-ul-list two-column">
+                          <li
+                            *ngFor="
+                              let mediaType of mediaTypeFilters;
+                              let i = index;
+                              trackBy: trackMediaType
+                            "
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="80%">{{ mediaType?.data }}</span>
+                              <span fxFlex="1 1 auto"></span>
+                              <mat-icon
+                                (click)="removeFilterFormInventory('media', i)"
+                                >delete_forever</mat-icon
+                              >
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                      <div *ngIf="operatorFilters?.length" class="p10">
+                        <div>Operators</div>
+                        <ul class="imx-ul-list two-column">
+                          <li
+                            *ngFor="
+                              let operator of operatorFilters;
+                              let i = index;
+                            "
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="80%">{{ operator }}</span>
+                              <span fxFlex="1 1 auto"></span>
+                              <mat-icon
+                                (click)="removeFilterFormInventory('operator', i)"
+                                >delete_forever</mat-icon
+                              >
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                      <div *ngIf="measureRangeFilters !== null && measureRangeFilters | isObjectExists" class="p10">
+                        <div>
+                          <span fxFlex="80%">Thresholds</span>
+                          <span fxFlex="1 1 auto"></span>
+                          <mat-icon
+                            class="cursor-link small"
+                            (click)="removeFilterFormInventory('Threshold')"
+                            >delete_forever</mat-icon
+                          >
+                        </div>
+                        <ul class="imx-ul-list two-column">
+                          <li
+                            *ngFor="
+                              let measureRange of measureRangeFilters | keyvalue : originalOrder;
+                              let i = index;
+                            "
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                              *ngIf="measureRange['key'] === 'targetImp'"
+                            >
+                              In-Market Target Impressions:<br>{{ measureRange['value'][0] | convert :'ABBREVIATE' }} - {{ measureRange['value'][1]  | convert :'ABBREVIATE'}}
+                            </div>
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                              *ngIf="measureRange['key'] === 'inMarketCompIndex'"
+                            >
+                              In-Market Target Comp Index:<br>{{ targetAudienceMinMax(measureRange['value'][0])  | convert :'ABBREVIATE' }} - {{ targetAudienceMinMax(measureRange['value'][1]) | convert :'ABBREVIATE' }}
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                      <div *ngIf="selectedMediaAttributes !== null && selectedMediaAttributes | isObjectExists" class="p10">
+                        <div>
+                          <span fxFlex="80%">Media Attributes</span>
+                          <span fxFlex="1 1 auto"></span>
+                          <mat-icon
+                            class="cursor-link small"
+                            (click)="removeFilterFormInventory('MediaAttribute')"
+                            >delete_forever</mat-icon
+                          >
+                        </div>
+                        <ul class="imx-ul-list two-column">
+                          <li *ngIf="selectedMediaAttributes?.orientationList"
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="100%">Orientation : {{ orientation.degreeToDirection(selectedMediaAttributes['orientationList']) }}</span>
+                            </div>
+                          </li>
+                          <li *ngIf="selectedMediaAttributes?.rotating !== undefined"
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="100%">Rotating: {{ selectedMediaAttributes.rotating ? (selectedMediaAttributes.rotating === 'all' ? 'All' : 'Yes') : 'No' }}</span>
+                            </div>
+                          </li>
+                          <li *ngIf="selectedMediaAttributes?.panelSizeHeightRange"
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="100%">Spot Dimensions Height: {{ selectedMediaAttributes?.panelSizeHeightRange[0] || 0 }}  - {{ selectedMediaAttributes?.panelSizeHeightRange[1] || 0 }} </span>
+                            </div>
+                          </li>
+                          <li *ngIf="selectedMediaAttributes?.panelSizeWidthRange"
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="100%">Spot Dimensions Width: {{ selectedMediaAttributes?.panelSizeWidthRange[0] || 0 }}  - {{ selectedMediaAttributes?.panelSizeWidthRange[1] || 0 }} </span>
+                            </div>
+                          </li>
+                          <li *ngIf="selectedMediaAttributes?.spotLength"
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="100%">Spot Length: {{ selectedMediaAttributes?.spotLength?.min || 0 }}  - {{ selectedMediaAttributes?.spotLength?.max || 0 }} </span>
+                            </div>
+                          </li>
+                          <li *ngIf="selectedMediaAttributes?.illuminationHrsRange"
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="100%">Illumination Hours: {{ formatTimeLabel(selectedMediaAttributes?.illuminationHrsRange[0] )}}  - {{ formatTimeLabel(selectedMediaAttributes?.illuminationHrsRange[1]) }} </span>
+                            </div>
+                          </li>
+                          <li *ngIf="selectedMediaAttributes?.auditStatusList"
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                            <span fxFlex="100%">
+                              Audit Status:  <ng-container *ngFor = "let status of selectedMediaAttributes?.auditStatusList;let inx = index">{{status['displayName']}} {{ inx < (selectedMediaAttributes.auditStatusList.length - 1) ? (inx < (selectedMediaAttributes.auditStatusList.length - 2) ? ', ' : ' and ') : ''}}</ng-container>
+                            </span>
+                            </div>
+                          </li>
+                          <li *ngIf="
+                            selectedMediaAttributes?.spotAudio !== undefined ||
+                            selectedMediaAttributes?.spotFullMotion !== undefined ||
+                            selectedMediaAttributes?.spotInteractive !== undefined ||
+                            selectedMediaAttributes?.spotPartialMotion !== undefined
+                            "
+                          >
+                          <div fxLayout="row"
+                            fxLayoutAlign="space-between center">Digital Attributes:</div>
+                          <div fxLayout="row"
+                        fxLayoutAlign="space-between center" class="padleft10">
+                            <ng-container
+                              *ngIf="selectedMediaAttributes?.spotAudio !== undefined"
+                            >
+                              Audio Enabled: {{ selectedMediaAttributes.spotAudio ? (selectedMediaAttributes.spotAudio === 'all' ? 'All' : 'Yes') : 'No' }}
+                              <br>
+                            </ng-container>
+                            <ng-container
+                              *ngIf="selectedMediaAttributes?.spotFullMotion !== undefined"
+                            >
+                              Full Motion/Full Screen: {{ selectedMediaAttributes.spotFullMotion ? (selectedMediaAttributes.spotFullMotion === 'all' ? 'All' : 'Yes') : 'No' }}
+                              <br>
+                            </ng-container>
+                            <ng-container
+                              *ngIf="selectedMediaAttributes?.spotInteractive !== undefined"
+                            >
+                              Interactive: {{ selectedMediaAttributes.spotInteractive ? (selectedMediaAttributes.spotInteractive === 'all' ? 'All' : 'Yes') : 'No' }}
+                              <br>
+                            </ng-container>
+                            <ng-container
+                              *ngIf="selectedMediaAttributes?.spotPartialMotion !== undefined"
+                            >
+                              Partial Motion: {{ selectedMediaAttributes.spotPartialMotion ? (selectedMediaAttributes.spotPartialMotion === 'all' ? 'All' : 'Yes') : 'No' }}
+                            </ng-container>
+                          </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    </app-imx-dropdown> -->
+                  </div>
+                </div>
+              </div>
+
+              <div fxLayout="row wrap" fxLayoutGap="16px" class="imx-common-margin">
+                <mat-form-field class="imx-dropdown imx-input error-field-width-200" fxFlex="6.375rem">
+                  <mat-label>Plan period</mat-label>
+                  <mat-select
+                    [panelClass]="'imx-select'"
+                    formControlName="delivery_period_weeks"
+                  >
+                    <mat-option
+                      [value]="week.duration"
+                      *ngFor="let week of periodDurations"
+                      [disabled] = "checkMeasureRelease() && (week.duration === 26 || week.duration === 52)"
+                      >{{ week.duration + ' ' + week.unit }}</mat-option
+                    >
+                  </mat-select>
+                  <mat-error *ngIf="scenarioForm?.controls?.delivery_period_weeks?.errors?.type === 'planPeriodConflict'" >
+                    <span>Plan period is conflict with selected Audiences</span>
+                  </mat-error>
+                </mat-form-field>
+                <ng-container formGroupName="goals">
+                  <mat-form-field class="imx-dropdown imx-input" fxFlex="6.875rem">
+                    <mat-label>Delivery Goals</mat-label>
+                    <mat-select
+                      [panelClass]="'imx-select'"
+                      formControlName="type"
+                      (selectionChange) = "onDeliveryGoalChange($event)"
+                      tooltip="{{deliveryGoalTooltip?.value}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                    >
+                      <mat-option
+                        [value]="deliveryGoal.name"
+                        *ngFor="let deliveryGoal of deliveryGoals"
+                      >{{ deliveryGoal.value }}</mat-option>
+
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="imx-input small-input error-field-width" *ngIf="scenarioForm['controls']['goals']['controls'].type.value === 'trp'">
+                    <mat-label>Value</mat-label>
+                    <input matInput appNumeral [regex]="deliveryNumericPatternRegEx" format="0,0" [min]="1" [length]="9" formControlName="trp" required/>
+                    <mat-error>Goal Value must be number greater than or equal to 1</mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="imx-input small-input error-field-width" *ngIf="scenarioForm['controls']['goals']['controls'].type.value === 'imp'">
+                    <mat-label>Value</mat-label>
+                    <input matInput appNumeral [regex]="deliveryNumericPatternRegEx" format="0,0" [min]="1" [length]="9" formControlName="imp" required/>
+                    <mat-error>Goal Value must be number greater than or equal to 1</mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="imx-input small-input error-field-width" *ngIf="scenarioForm['controls']['goals']['controls'].type.value === 'reach'">
+                    <mat-label>Value</mat-label>
+                    <input matInput appNumberOnly [regex]="AppRegularExp.DECIMAL" [canAllowMinus]="false" [min]="0" [length]="10" formControlName="reach" required/>
+                    <mat-error>GOAL VALUE MUST BE NUMBER BETWEEN 1 AND 100</mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="imx-dropdown imx-input" fxFlex="6.0rem">
+                    <mat-label>Effective Reach</mat-label>
+                    <mat-select
+                      [panelClass]="'imx-select'"
+                      formControlName="effectiveReach"
+                    >
+                      <mat-option value="1">1</mat-option>
+                      <mat-option value="3">3</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+<!--
+                  <div class="allocation-method">
+                    <mat-label class="overline">Allocation Method</mat-label>
+                    <div>
+                      <p class="body-2">Equal</p>
+                      <input type="hidden" formControlName="allocationMethod" />
+                    </div>
+                  </div> -->
+                </ng-container>
+              </div>
+              <div fxLayout="row" fxLayoutGap="16px" class="imx-common-margin">
+                <mat-form-field class="imx-dropdown imx-input" fxFlex="8.875rem">
+                  <mat-label>{{labels.project[0]}} (Optional)</mat-label>
+                  <input
+                    type="text"
+                    #mpProjectInputRef
+                    matInput
+                    placeholder="{{labels.project[0]}}"
+                    [matAutocomplete]="projectList"
+                    formControlName="project"
+                    class="imx-input-no-border"
+                  />
+                  <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+
+                  <mat-autocomplete
+                    #projectList="matAutocomplete"
+                    (opened)="updateContainer()"
+                    class="autocomplete-scroll"
+                    [displayWith]="displayTitle"
+                  >
+                  <div  class="project-list-autocomplete"
+                    infiniteScroll
+                    [infiniteScrollDistance]="1"
+                    [infiniteScrollThrottle]="0"
+                    [infiniteScrollDisabled]="disableProjectPagination"
+                    (scrolled)="loadMoreWithSearch()"
+                    [scrollWindow]="false"
+                    [infiniteScrollContainer]="panelContainer"
+                    [fromRoot]="true"
+                    [immediateCheck]="false"
+                    [alwaysCallback]="false"
+                  >
+                  <mat-option class="special-button" (click)="createNewProject();">
+                    <mat-icon>add</mat-icon>New {{labels.project[0]}}
+                  </mat-option>
+                  <span *ngFor="
+                  let project of filteredProjects;let i = index;
+                  trackBy: projectTrackByFn
+                ">
+                    <mat-option [ngClass]="{sandboxHighlight: i===0 && project['isDraft']}"
+                      [value]="project" [class.mat-selected]="scenarioForm && scenarioForm['controls']['project'].value?._id == project?._id"
+                    >
+                    <!-- tooltip="{{project.name}}" placement="right" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" -->
+                    <span
+                    [innerHTML]="
+                    project.name | imx_highlight: mpProjectInputRef.value
+                    "
+                    ></span>
+                    </mat-option>
+                  <mat-divider class="marginLftRit" *ngIf="i===0 && project['isDraft']"></mat-divider>
+                  </span>
+                    <mat-option disabled *ngIf="projectListLoading">
+                      <div fxLayout="row" fxLayoutAlign="space-around center" >
+                        <mat-spinner diameter="35"></mat-spinner>
+                      </div>
+                    </mat-option>
+                    <mat-option disabled *ngIf="!projectListLoading && filteredProjects.length <= 0">
+                      No {{labels.project[0]}} found.
+                    </mat-option>
+                  </div>
+
+                  </mat-autocomplete>
+                  <mat-error *ngIf="((scenarioForm.controls.project?.errors?.type || '') === 'projectNotSelcted')">
+                    <span >{{scenarioForm.controls?.project?.errors?.message}}</span>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="imx-input" fxFlex="10.438rem">
+                  <mat-label>{{labels.scenario[0]}} Name (Optional)</mat-label>
+                  <input matInput formControlName="name" maxlength='140'/>
+                  <mat-error *ngIf="scenarioForm?.controls?.name?.errors?.name_exists" >
+                    <span>{{labels.scenario[0]}} name already exists in this {{labels.project[0]}}.</span>
+                  </mat-error>
+                  <mat-error *ngIf="!scenarioForm.controls.name?.errors?.required && scenarioForm?.controls?.name?.errors?.whitespace">
+                    <span>Invalid {{labels.scenario[0]}} name.</span>
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="imx-input" fxFlex="14.5rem">
+                  <mat-label>{{labels.scenario[0]}} Description (Optional)</mat-label>
+                  <input matInput formControlName="description" maxlength='320'/>
+                  <mat-error *ngIf="scenarioForm.controls.description.invalid">
+                    <span>Invalid description</span>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div>
+                <div fxLayout="row" fxLayoutAlign="end start">
+                  <button mat-button class="imx-button-primary" type="submit"  [disabled] = "generatingBtn">
+                    {{ generatingBtn ? 'Generating' : 'Generate'}}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </mat-tab>
+        <mat-tab label="INVENTORY PLAN" aria-label="inventoryPlan" *ngIf="isVisibleInventoryTab && (isGenerateFromType !== 'IP')">
+          <div class="mat-tab-content img-bg-card">
+            <form
+              method="post"
+              class="noAnimation"
+              [formGroup]="inventoryForm"
+              novalidate
+              autocomplete="off"
+              (ngSubmit)="onMarketPlanSubmit(inventoryForm, 'inventory')"
+            >
+              <div class="imx-common-margin buttom-common">
+                <div fxLayout="row" fxLayoutGap="16px" class="imx-aligin-base inventoryPlanFirstRow" tooltip="{{errorListIP? errorListIP: null}}" placement="right" tooltipClass="{{errorClass}}">
+                  <div *ngIf="audienceLicense['status'] !== 'hidden'">
+                    <button
+                      mat-button
+                      class="imx-button-stroked_icon"
+                      [ngClass]="{isReq: isIPAudienceSelected === false}"
+                      (mouseenter)="$event.stopPropagation()"
+                      (mousemove)="$event.stopPropagation()"
+                      type="button"
+                      (click)="openAudienceDialog(); isOpenAudience = false"
+                    >
+                      <span
+                        #CdkOverlayOriginInvAudience="cdkOverlayOrigin"
+                        cdkOverlayOrigin
+                        >AUDIENCE ({{ selectedAudiences?.length ? selectedAudiences?.length : !deleteDefaultAudience ? 1 : 0}})</span
+                      >
+                      <mat-icon [ngClass]="{isReqIcon: isIPAudienceSelected === false}"
+                        >add_circle_outline</mat-icon
+                      >
+                    </button>
+                    <!-- <app-imx-dropdown
+                      [CdkOverlayOrigin]="CdkOverlayOriginInvAudience"
+                      (close)="isOpenAudience = false"
+                      (open)="isOpenAudience = true"
+                    >
+                      <ul class="imx-ul-list">
+                        <li
+                          *ngFor="
+                            let audience of selectedAudiences;
+                            let i = index;
+                            trackBy: trackAudiences
+                          "
+                        >
+                          <div
+                            fxLayout="row"
+                            fxLayoutAlign="space-between center"
+                          fxFlex="100%">
+                            <span fxFlex="80%">{{ audience.name }}</span>
+                            <mat-icon (click)="removeFilterFormInventory('audience', i)"
+                              >delete_forever</mat-icon
+                            >
+                          </div>
+                        </li>
+                        <li *ngIf="!selectedAudiences.length" e>
+                          No Audience Selected
+                        </li>
+                      </ul>
+                    </app-imx-dropdown> -->
+                  </div>
+                  <div *ngIf="allowInventory !== 'hidden'">
+                    <button
+                      mat-button
+                      class="imx-button-stroked_icon"
+                      (mouseenter)="$event.stopPropagation()"
+                      (mousemove)="$event.stopPropagation()"
+                      type="button"
+                      (click)="openMarketDialog()"
+                      [ngClass]="{isReq: isIPMarketSelected === false}"
+                    >
+                      <span
+                        #CdkOverlayOriginInvMarket="cdkOverlayOrigin"
+                        cdkOverlayOrigin
+                        >MARKETS ({{ selectedMarket.length ? selectedMarket.length : !deleteDefaultMarket ? 1 : 0}})</span
+                      >
+
+                      <mat-icon [ngClass]="{isReqIcon: isIPMarketSelected === false}"
+                        >add_circle_outline</mat-icon
+                      >
+                    </button>
+                    <!-- <app-imx-dropdown
+                      [CdkOverlayOrigin]="CdkOverlayOriginInvMarket"
+                      (close)="isOpenMarket = false"
+                      (open)="isOpenMarket = true"
+                    >
+                      <ul class="imx-ul-list two-column">
+                        <li
+                          *ngFor="
+                            let market of selectedMarket;
+                            let i = index;
+                            trackBy: trackById
+                          "
+                        >
+                          <div
+                            fxLayout="row"
+                            fxLayoutAlign="space-between center"
+                          >
+                            <span fxFlex="80%">{{ market?.name }}</span>
+                            <mat-icon (click)="removeFilterFormInventory('market', i)"
+                              >delete_forever</mat-icon
+                            >
+                          </div>
+                        </li>
+                        <li *ngIf="!selectedMarket.length">
+                          No Market Selected
+                        </li>
+                      </ul>
+                    </app-imx-dropdown> -->
+                  </div>
+                  <div *ngIf="operatorModulePermission">
+                    <button mat-button class="imx-button-stroked_icon" type="button"
+                      (mouseenter)="$event.stopPropagation()"
+                      (mousemove)="$event.stopPropagation()"
+                      type="button"
+                      (click)="openSelectOperatorDialog()"
+                      >
+                      <span
+                        #CdkOverlayOriginInventoriesIP="cdkOverlayOrigin"
+                        cdkOverlayOrigin
+                        >OPERATORS ({{ operatorCount }})</span
+                      >
+                      <mat-icon
+                        >add_circle_outline</mat-icon
+                      >
+                    </button>
+                  </div>
+                  <div>
+                    <button mat-button class="imx-button-stroked_icon" type="button"
+                      (mouseenter)="$event.stopPropagation()"
+                      (mousemove)="$event.stopPropagation()"
+                      type="button"
+                      (click)="openSelectInvnetoryDialog()"
+                      >
+                      <span
+                        #CdkOverlayOriginInventoriesIP="cdkOverlayOrigin"
+                        cdkOverlayOrigin
+                        >INVENTORY ({{ inventoryCount }})</span
+                      >
+                      <mat-icon
+                        >add_circle_outline</mat-icon
+                      >
+                    </button>
+                    <!-- <app-imx-dropdown
+                      [CdkOverlayOrigin]="CdkOverlayOriginInventoriesIP"
+                      (close)="isOpenInventories = false"
+                      (open)="isOpenInventories = true"
+                    >
+                    <div fxLayout="column" fxLayoutAlign="space-between stretch">
+                      <div *ngIf="selectedPackages?.length > 0" class="p10">
+                        <div>Inventory Set</div>
+                        <ul class="imx-ul-list two-column">
+                          <li
+                            *ngFor="
+                              let package of selectedPackages;
+                              let i = index;
+                              trackBy: trackById
+                            "
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="80%">{{ package?.name }}</span>
+                              <span fxFlex="1 1 auto"></span>
+                              <mat-icon
+                                (click)="removeFilterFormInventory('inventorySet', i)"
+                                >delete_forever</mat-icon
+                              >
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                      <div *ngIf="inventoryIDs?.length > 0" class="p10">
+                        <div>Geopath Spot ID</div>
+                        <ul class="imx-ul-list two-column">
+                          <li
+                            *ngFor="
+                              let inventoryID of inventoryIDs;
+                              let i = index;
+                              trackBy: trackById
+                            "
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="80%">{{ inventoryID?.id }}</span>
+                              <span fxFlex="1 1 auto"></span>
+                              <mat-icon
+                                (click)="removeFilterFormInventory('geopathPanel', i)"
+                                >delete_forever</mat-icon
+                              >
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                      <div *ngIf="mediaTypeFilters?.length > 0" class="p10">
+                        <div>Media Types</div>
+                        <ul class="imx-ul-list two-column">
+                          <li
+                            *ngFor="
+                              let mediaType of mediaTypeFilters;
+                              let i = index;
+                              trackBy: trackMediaType
+                            "
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="80%">{{ mediaType?.data }}</span>
+                              <span fxFlex="1 1 auto"></span>
+                              <mat-icon
+                                (click)="removeFilterFormInventory('media', i)"
+                                >delete_forever</mat-icon
+                              >
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                      <div *ngIf="operatorFilters?.length" class="p10">
+                        <div>Operators</div>
+                        <ul class="imx-ul-list two-column">
+                          <li
+                            *ngFor="
+                              let operator of operatorFilters;
+                              let i = index;
+                            "
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="80%">{{ operator }}</span>
+                              <span fxFlex="1 1 auto"></span>
+                              <mat-icon
+                                (click)="removeFilterFormInventory('operator', i)"
+                                >delete_forever</mat-icon
+                              >
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                      <div *ngIf="locationFilters?.length" class="p10">
+                        <div>Location</div>
+                        <ul class="imx-ul-list two-column">
+                          <li
+                            *ngFor="
+                              let location of locationFilters;
+                              let i = index;
+                            "
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="80%">{{ location.label }}</span>
+                              <span fxFlex="1 1 auto"></span>
+                              <mat-icon
+                                (click)="removeFilterFormInventory('location', i)"
+                                >delete_forever</mat-icon
+                              >
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                      <div *ngIf="measureRangeFilters !== null && measureRangeFilters | isObjectExists" class="p10">
+                        <div>
+                          <span fxFlex="80%">Thresholds</span>
+                          <span fxFlex="1 1 auto"></span>
+                          <mat-icon
+                            class="cursor-link small"
+                            (click)="removeFilterFormInventory('Threshold')"
+                            >delete_forever</mat-icon
+                          >
+                        </div>
+                        <ul class="imx-ul-list two-column">
+                          <li
+                            *ngFor="
+                              let measureRange of measureRangeFilters | keyvalue : originalOrder;
+                              let i = index;
+                            "
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                              *ngIf="measureRange['key'] === 'targetImp'"
+                            >
+                              In-Market Target Impressions:<br>{{ measureRange['value'][0] | convert :'ABBREVIATE' }} - {{ measureRange['value'][1]  | convert :'ABBREVIATE'}}
+                            </div>
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                              *ngIf="measureRange['key'] === 'inMarketCompIndex'"
+                            >
+                              In-Market Target Comp Index:<br>{{ targetAudienceMinMax(measureRange['value'][0])  | convert :'ABBREVIATE' }} - {{ targetAudienceMinMax(measureRange['value'][1]) | convert :'ABBREVIATE' }}
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                      <div *ngIf="selectedMediaAttributes !== null && selectedMediaAttributes | isObjectExists" class="p10">
+                        <div>
+                          <span fxFlex="80%">Media Attributes</span>
+                          <span fxFlex="1 1 auto"></span>
+                          <mat-icon
+                            class="cursor-link small"
+                            (click)="removeFilterFormInventory('MediaAttribute')"
+                            >delete_forever</mat-icon
+                          >
+                        </div>
+                        <ul class="imx-ul-list two-column">
+                          <li *ngIf="selectedMediaAttributes?.orientationList"
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="100%">Orientation : {{ orientation.degreeToDirection(selectedMediaAttributes['orientationList']) }}</span>
+                            </div>
+                          </li>
+                          <li *ngIf="selectedMediaAttributes?.rotating !== undefined"
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="100%">Rotating: {{ selectedMediaAttributes.rotating ? (selectedMediaAttributes.rotating === 'all' ? 'All' : 'Yes') : 'No' }}</span>
+                            </div>
+                          </li>
+                          <li *ngIf="selectedMediaAttributes?.panelSizeHeightRange"
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="100%">Spot Dimensions Height: {{ selectedMediaAttributes?.panelSizeHeightRange[0] || 0 }}  - {{ selectedMediaAttributes?.panelSizeHeightRange[1] || 0 }} </span>
+                            </div>
+                          </li>
+                          <li *ngIf="selectedMediaAttributes?.panelSizeWidthRange"
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="100%">Spot Dimensions Width: {{ selectedMediaAttributes?.panelSizeWidthRange[0] || 0 }}  - {{ selectedMediaAttributes?.panelSizeWidthRange[1] || 0 }} </span>
+                            </div>
+                          </li>
+                          <li *ngIf="selectedMediaAttributes?.spotLength"
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="100%">Spot Length: {{ selectedMediaAttributes?.spotLength?.min || 0 }}  - {{ selectedMediaAttributes?.spotLength?.max || 0 }} </span>
+                            </div>
+                          </li>
+                          <li *ngIf="selectedMediaAttributes?.illuminationHrsRange"
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                              <span fxFlex="100%">Illumination Hours: {{ formatTimeLabel(selectedMediaAttributes?.illuminationHrsRange[0] )}}  - {{ formatTimeLabel(selectedMediaAttributes?.illuminationHrsRange[1]) }} </span>
+                            </div>
+                          </li>
+                          <li *ngIf="selectedMediaAttributes?.auditStatusList"
+                          >
+                            <div
+                              fxLayout="row"
+                              fxLayoutAlign="space-between center"
+                            >
+                            <span fxFlex="100%">
+                              Audit Status:  <ng-container *ngFor = "let status of selectedMediaAttributes?.auditStatusList;let inx = index">{{status['displayName']}} {{ inx < (selectedMediaAttributes.auditStatusList.length - 1) ? (inx < (selectedMediaAttributes.auditStatusList.length - 2) ? ', ' : ' and ') : ''}}</ng-container>
+                            </span>
+                            </div>
+                          </li>
+                          <li *ngIf="
+                            selectedMediaAttributes?.spotAudio !== undefined ||
+                            selectedMediaAttributes?.spotFullMotion !== undefined ||
+                            selectedMediaAttributes?.spotInteractive !== undefined ||
+                            selectedMediaAttributes?.spotPartialMotion !== undefined
+                            "
+                          >
+                          <div fxLayout="row"
+                          fxLayoutAlign="space-between center">Digital Attributes:</div>
+                          <div fxLayout="row"
+                        fxLayoutAlign="space-between center" class="padleft10">
+                            <ng-container
+                              *ngIf="selectedMediaAttributes?.spotAudio !== undefined"
+                            >
+                              Audio Enabled: {{ selectedMediaAttributes.spotAudio ? (selectedMediaAttributes.spotAudio === 'all' ? 'All' : 'Yes') : 'No' }}
+                              <br>
+                            </ng-container>
+                            <ng-container
+                              *ngIf="selectedMediaAttributes?.spotFullMotion !== undefined"
+                            >
+                              Full Motion/Full Screen: {{ selectedMediaAttributes.spotFullMotion ? (selectedMediaAttributes.spotFullMotion === 'all' ? 'All' : 'Yes') : 'No' }}
+                              <br>
+                            </ng-container>
+                            <ng-container
+                              *ngIf="selectedMediaAttributes?.spotInteractive !== undefined"
+                            >
+                              Interactive: {{ selectedMediaAttributes.spotInteractive ? (selectedMediaAttributes.spotInteractive === 'all' ? 'All' : 'Yes') : 'No' }}
+                              <br>
+                            </ng-container>
+                            <ng-container
+                              *ngIf="selectedMediaAttributes?.spotPartialMotion !== undefined"
+                            >
+                              Partial Motion: {{ selectedMediaAttributes.spotPartialMotion ? (selectedMediaAttributes.spotPartialMotion === 'all' ? 'All' : 'Yes') : 'No' }}
+                            </ng-container>
+                          </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    </app-imx-dropdown> -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="imx-common-margin">
+                <div fxLayout="row" fxLayoutGap="16px">
+                  <div>
+                    <mat-form-field class="imx-dropdown imx-input" fxFlex="8rem">
+                      <mat-label>PLAN PERIOD TYPE</mat-label>
+                      <mat-select [panelClass]="'imx-select'"  (selectionChange) = "onPlanPeriodTypeChange($event)" formControlName='plan_period_type'>
+                        <mat-option value="generic">Generic</mat-option>
+                        <mat-option value="specific">Specific</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div *ngIf= 'planPeriodType === "generic"'>
+                    <mat-form-field class="imx-dropdown imx-input error-field-width-200" fxFlex="6.375rem">
+                      <mat-label>Plan period </mat-label>
+                      <mat-select
+                        [panelClass]="'imx-select'"
+                        formControlName='delivery_period_weeks'
+                      >
+                        <mat-option
+                          [value]="week.duration"
+                          *ngFor="let week of periodDurations"
+                          [disabled] = "checkMeasureRelease() && (week.duration === 26 || week.duration === 52)"
+                          >{{ week.duration + ' ' + week.unit }}</mat-option
+                        >
+                      </mat-select>
+                      <mat-error *ngIf="inventoryForm?.controls?.delivery_period_weeks?.errors?.type === 'planPeriodConflict'" >
+                        <span>Plan period is conflict with selected Audiences</span>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div *ngIf= 'planPeriodType === "specific"' formGroupName="spot_schedule">
+                    <div fxLayout="row" fxLayoutGap="16px">
+                      <mat-form-field class="imx-input" fxFlex="7.375rem">
+                        <mat-label>Start Date</mat-label>
+                        <input
+                          matInput
+                          [matDatepicker]="start_date_picker"
+                          formControlName="start"
+                          appDateFormat
+                          (ngModelChange)="changeDate($event, 'start')"
+                          [max]="maxDate"
+                          id="startDtPicker"
+                        />
+                        <mat-icon
+                          (click)="start_date_picker.open()"
+                          matSuffix
+                          matTooltip="Select Start Date"
+                          class="date-picker-icon date-picker-icon_input"
+                          svgIcon="IMX-range"
+                        ></mat-icon>
+                        <mat-datepicker
+                          #start_date_picker="matDatepicker"
+                          [panelClass]="'imx-calander'"
+                        ></mat-datepicker>
+                        <mat-error *ngIf="inventoryForm.controls.spot_schedule.controls.start.errors?.required">
+                          Start Date is required.</mat-error>
+                        <mat-error *ngIf="inventoryForm.controls.spot_schedule.controls.start.errors?.matDatepickerMax">
+                          Invalid Date.</mat-error>
+                      </mat-form-field>
+                      <mat-form-field class="imx-input" fxFlex="7.375rem">
+                        <mat-label>End Date</mat-label>
+                        <input
+                          matInput
+                          [matDatepicker]="end_date_picker"
+                          formControlName="end"
+                          appDateFormat
+                          (ngModelChange)="changeDate($event, 'end')"
+                          [max]="maxDate"
+                          id="endDtPicker"
+                        />
+                        <mat-icon
+                          (click)="end_date_picker.open()"
+                          matSuffix
+                          matTooltip="Select End Date"
+                          class="date-picker-icon date-picker-icon_input"
+                          svgIcon="IMX-range"
+                        ></mat-icon>
+                        <mat-datepicker
+                          #end_date_picker="matDatepicker"
+                          [panelClass]="'imx-calander'"
+                        ></mat-datepicker>
+                        <mat-error *ngIf="inventoryForm.controls.spot_schedule.controls.end.errors?.required">
+                          End Date is required.</mat-error>
+                        <mat-error *ngIf="inventoryForm.controls.spot_schedule.controls.end.errors?.matDatepickerMax">
+                          Invalid Date.</mat-error>
+                      </mat-form-field>
+                    </div>
+
+                    <div>
+                      <mat-error
+                        *ngIf="inventoryForm?.controls?.spot_schedule?.errors?.dates"
+                        >{{
+                          inventoryForm?.controls?.spot_schedule?.errors?.dates
+                        }}</mat-error
+                      >
+                    </div>
+                  </div>
+                  <div *ngIf="allowInventory !== 'hidden'" fxLayoutAlign="start center" class="checkbox-section">
+                    <mat-checkbox formControlName="includeOutsideMarketInvs" class="imx-checkbok" >Include Inventory Outside
+                    of Markets within Market Summaries</mat-checkbox>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="imx-common-margin" *ngIf="allowInventory !== 'hidden'">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                  <mat-checkbox formControlName="includeOutsideMarketInvs" class="imx-checkbok" >Include Inventory Outside
+                  of Markets within Market Summaries</mat-checkbox>
+                </div>
+              </div> -->
+              <div fxLayout="row" fxLayoutGap="16px" class="imx-common-margin">
+                <mat-form-field class="imx-dropdown imx-input" fxFlex="9.063rem">
+                  <mat-label>{{labels.project[0]}} (Optional)</mat-label>
+                  <input
+                    type="text"
+                    #projectInputRef
+                    matInput
+                    placeholder="{{labels.project[0]}}"
+                    [matAutocomplete]="projectList"
+                    formControlName="project"
+                    class="imx-input-no-border"
+                  />
+                  <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+
+                  <mat-autocomplete
+                    #projectList="matAutocomplete"
+                    (opened)="updateContainer()"
+                    class="autocomplete-scroll"
+                    [displayWith]="displayTitle"
+                  >
+                  <div class="project-list-autocomplete"
+                    infiniteScroll
+                    [infiniteScrollDistance]="1"
+                    [infiniteScrollThrottle]="0"
+                    [infiniteScrollDisabled]="disableProjectPagination"
+                    (scrolled)="loadMoreWithSearch()"
+                    [scrollWindow]="false"
+                    [infiniteScrollContainer]="panelContainer"
+                    [fromRoot]="true"
+                    [immediateCheck]="false"
+                    [alwaysCallback]="false"
+                  >
+                  <mat-option class="special-button" (click)="createNewProject();">
+                    <mat-icon>add</mat-icon>New {{labels.project[0]}}
+                  </mat-option>
+                  <span *ngFor="
+                  let project of filteredProjects;let i = index;
+                  trackBy: projectTrackByFn
+                    ">
+                    <mat-option [ngClass]="{sandboxHighlight: i===0}"
+                      [value]="project" [value]="project" [class.mat-selected]="inventoryForm && inventoryForm['controls']['project'].value?._id == project?._id"
+                    >
+                    <span
+                    [innerHTML]="
+                    project.name | imx_highlight: projectInputRef.value
+                    "
+                    ></span>
+                    </mat-option>
+                  <mat-divider class="marginLftRit" *ngIf="i===0"></mat-divider>
+                  </span>
+                    <mat-option disabled *ngIf="projectListLoading">
+                      <div fxLayout="row" fxLayoutAlign="space-around center" >
+                        <mat-spinner diameter="35"></mat-spinner>
+                      </div>
+                    </mat-option>
+                    <mat-option disabled *ngIf="!projectListLoading && filteredProjects.length <= 0">
+                      No {{labels.project[0]}} found.
+                    </mat-option>
+                  </div>
+
+                  </mat-autocomplete>
+                  <mat-error *ngIf="((inventoryForm.controls.project?.errors?.type || '') === 'projectNotSelcted')">
+                    <span >{{inventoryForm.controls?.project?.errors?.message}}</span>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="imx-input" fxFlex="10.438rem">
+                  <mat-label>{{labels.scenario[0]}} Name (Optional)</mat-label>
+                  <input matInput formControlName="name" maxlength='140'/>
+
+                  <mat-error *ngIf="inventoryForm?.controls?.name?.errors?.name_exists">
+                    <span>{{labels.scenario[0]}} name already exists in this {{labels.project[0]}}.</span>
+                  </mat-error>
+                  <!-- <mat-error *ngIf="inventoryForm.controls.name.invalid && (scenarioForm.controls.name.value === '' || scenarioForm.controls.name.value === null)">
+                    <span>Required</span>
+                  </mat-error> -->
+                  <mat-error *ngIf="!inventoryForm.controls.name?.errors?.required && inventoryForm.controls.name?.errors?.whitespace">
+                    <span>Invalid {{labels.scenario[0]}} name.</span></mat-error>
+                </mat-form-field>
+                <mat-form-field class="imx-input" fxFlex="14.063rem">
+                  <mat-label>{{labels.scenario[0]}} Description (Optional)</mat-label>
+                  <input matInput formControlName="description" maxlength='320'/>
+                  <mat-error *ngIf="inventoryForm.controls.description.invalid">
+                    <span>Invalid description</span>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div>
+                <div fxLayout="row" fxLayoutAlign="end start">
+                  <button mat-button class="imx-button-primary" type="submit" [disabled] = "generatingBtn">
+                    {{ generatingBtn ? 'Generating' : 'Generate'}}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </mat-tab>
+        <!-- <mat-tab label="PLACES">
+          Content 3
+        </mat-tab> -->
+      </mat-tab-group>
+    </div>
+    <!-- <div class="market-tip" *ngIf="selectedTabLabel==='marketPlan'">
+      <span>
+        <div class="marketHead">
+          <h5>MARKET PLAN TIP</h5>
+        </div>
+        <div>
+          <p>1. Select at least 1 Target Audience</p>
+          <p>2. Select at least 1 Market</p>
+          <p>3. Select at least 1 Media Type</p>
+        </div>
+      </span>
+    </div> -->
+    <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem" class="market-plan-filters market-tip" *ngIf="selectedTabLabel==='marketPlan'" >
+      <div fxLayout="column" fxLayoutAlign="start"  fxLayoutGap="1rem">
+        <div fxLayout="row" class="summary-header" fxLayoutAlign="start center">
+          SUMMARY
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" *ngIf="scenarioForm.controls.project.value !== '' || scenarioForm.controls.project.value?.name; else defaultProject" class="filter-display">
+          <div>
+            {{labels.scenario[0]}} in:
+            <div class="plan-name-p">{{scenarioForm.controls.project.value?.name || '-'}}</div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="2rem" [ngStyle]="{'max-height.px': scrollContent}" class="tip-scroll-conetnt">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display width100">
+            <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+              1. Targeted Audience
+            </div>
+            <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="1rem" class="filter-info" *ngIf="selectedAudiences?.length > 0; else noDataDiv;">
+              <ul class="audience-list-tip">
+                <li *ngFor="let audience of selectedAudiences; let i = index;">
+                  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                    <div class="audience-name-display">
+                      ({{audience.measuresRelease}})<br>{{audience.name}}
+                    </div>
+                    <span fxFlex="1 1 auto"></span>
+                    <mat-icon class="delete-icon" (click)="removeFilterFormInventory('audience', i)">delete_forever</mat-icon>
+                  </div>
+                <li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display">
+            <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+              2. Targeted Markets
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="2rem" *ngIf="selectedMarket?.length > 0; else noDataDiv">
+              <div  fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="width30">
+                <div fxLayout="row wrap" class="filter-info" fxLayoutAlign="start center" fxLayoutGap="1rem" *ngFor="let market of selectedMarket | marketFilter">
+                  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1.5rem">
+                    <div class="market-name-display">
+                      {{market['name']}}
+                    </div>
+                    <span fxFlex="1 1 auto"></span>
+                    <mat-icon class="delete-icon market-delete" (click)="removeSelectedMarkets(market['name'])">delete_forever</mat-icon>
+                  </div>
+                </div>
+              </div>
+              <div  fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="width70">
+                <div fxLayout="row wrap" fxLayoutAlign="start start" class="filter-info" fxLayoutGap="1rem"  *ngFor="let market of selectedMarket | marketFilter:true" >
+                  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1.5rem" >
+                    <div class="market-group-name-display">
+                      {{market['name']}}
+                    </div>
+                    <div class="minwidth16">
+                      <mat-icon class="delete-icon" (click)="removeSelectedMarkets(market['name'])">delete_forever</mat-icon>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display">
+            <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+              3. Operators
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem" class="filter-info" *ngIf="operatorFilters?.length; else noDataDiv">
+              <div fxLayout="column" fxLayoutAlign="start" *ngIf="operatorFilters?.length">
+                <div>
+                  <ul class="inventory-aligin">
+                    <li *ngFor="let operator of operatorFilters; let i = index;">
+                      {{operator === 'all' ? 'All Operators' : operator}}<mat-icon class="delete-icon" (click)="removeFilterFormInventory('operator', i)">delete_forever</mat-icon></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display">
+            <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+              4. Media
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem" class="filter-info" *ngIf="(mediaTypeFilters?.length || (measureRangeFilters !== null && measureRangeFilters | isObjectExists) || (selectedMediaAttributes !== null && selectedMediaAttributes | isObjectExists)); else noDataDiv">
+              <!-- <div fxLayout="column" fxLayoutAlign="start" *ngIf="operatorFilters?.length">
+                <div class="tip-title">
+                  Operators
+                </div>
+                <div>
+                  <ul class="inventory-aligin">
+                    <li class="action-item" hover-class="toggle-delete-action" *ngFor="let operator of operatorFilters; let i = index;">
+                      {{operator === 'all' ? 'All Operators' : operator}}<mat-icon class="delete-icon" (click)="removeFilterFormInventory('operator', i)">delete_forever</mat-icon></li>
+                  </ul>
+                </div>
+              </div> -->
+              <div fxLayout="column" fxLayoutAlign="start" *ngIf="mediaTypeFilters?.length">
+                <div class="tip-title">
+                  Media Types
+                </div>
+                <div>
+                  <ul class="inventory-aligin">
+                    <li *ngFor="let media of mediaTypeFilters; let i = index;">{{media['data']}} <mat-icon class="delete-icon" (click)="removeFilterFormInventory('media', i)">delete_forever</mat-icon></li>
+                  </ul>
+                </div>
+              </div>
+              <div fxLayout="column" fxLayoutAlign="start" *ngIf="measureRangeFilters !== null && measureRangeFilters | isObjectExists">
+                <div class="tip-title">
+                  Thresholds
+                </div>
+                <div>
+                  <ul class="inventory-aligin">
+                    <li *ngFor="let measureRange of measureRangeFilters | keyvalue : originalOrder">
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" *ngIf="measureRange['key'] === 'targetImp'">
+                        <div>
+                          In-Market Target Impressions:<br>{{ measureRange['value'][0] | convert :'ABBREVIATE' }} - {{ measureRange['value'][1]  | convert :'ABBREVIATE'}}
+                        </div>
+                        <mat-icon class="delete-icon" (click)="removeThresholdFilters('targetImp')">delete_forever</mat-icon>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" *ngIf="measureRange['key'] === 'inMarketCompIndex'">
+                        <div>
+                          In-Market Target Comp Index:<br>{{ targetAudienceMinMax(measureRange['value'][0])  | convert :'ABBREVIATE' }} - {{ targetAudienceMinMax(measureRange['value'][1]) | convert :'ABBREVIATE' }}
+                        </div>
+                        <mat-icon class="delete-icon" (click)="removeThresholdFilters('inMarketCompIndex')">delete_forever</mat-icon>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div fxLayout="column" fxLayoutAlign="start" *ngIf="selectedMediaAttributes !== null && selectedMediaAttributes | isObjectExists">
+                <div class="tip-title">
+                  Media Attributes
+                </div>
+                <div>
+                  <ul class="inventory-aligin">
+                    <li *ngIf="selectedMediaAttributes?.orientationList"
+                    >
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                      <div>
+                        Orientation : {{ orientation.degreeToDirection(selectedMediaAttributes['orientationList']) }}
+                      </div>
+                      <mat-icon class="delete-icon" (click)="removeMediaAttributes('orientationList')">delete_forever</mat-icon>
+                    </div>
+                    </li>
+                    <li *ngIf="selectedMediaAttributes?.rotating !== undefined"
+                    >
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                      <div>
+                        Rotating: {{ selectedMediaAttributes.rotating ? (selectedMediaAttributes.rotating === 'all' ? 'All Operators' : 'Yes') : 'No' }}
+                      </div>
+                      <mat-icon class="delete-icon" (click)="removeMediaAttributes('rotating')">delete_forever</mat-icon>
+                    </div>
+                    </li>
+                    <li *ngIf="selectedMediaAttributes?.panelSizeHeightRange"
+                    >
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                        <div>
+                          Spot Dimensions Height: {{ selectedMediaAttributes?.panelSizeHeightRange[0] || 0 }} {{selectedMediaAttributes?.panelSizeHeightRange[1] && ' - ' + selectedMediaAttributes?.panelSizeHeightRange[1] }}
+                        </div>
+                        <mat-icon class="delete-icon" (click)="removeMediaAttributes('panelSizeHeightRange')">delete_forever</mat-icon>
+                      </div>
+                    </li>
+                    <li *ngIf="selectedMediaAttributes?.panelSizeWidthRange"
+                    >
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                        <div>
+                          Spot Dimensions Width: {{ selectedMediaAttributes?.panelSizeWidthRange[0] || 0 }} {{ selectedMediaAttributes?.panelSizeWidthRange[1] && ' - ' + selectedMediaAttributes?.panelSizeWidthRange[1] }}
+                        </div>
+                        <mat-icon class="delete-icon" (click)="removeMediaAttributes('panelSizeWidthRange')">delete_forever</mat-icon>
+                      </div>
+                    </li>
+                    <li *ngIf="selectedMediaAttributes?.spotLength"
+                    >
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                        <div>
+                          Spot Length: {{ selectedMediaAttributes?.spotLength?.min || 0 }} {{ selectedMediaAttributes?.spotLength?.max && ' - ' + selectedMediaAttributes?.spotLength?.max }}
+                        </div>
+                        <mat-icon class="delete-icon" (click)="removeMediaAttributes('spotLength')">delete_forever</mat-icon>
+                      </div>
+                    </li>
+                    <li *ngIf="selectedMediaAttributes?.illuminationHrsRange"
+                    >
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                        <div>
+                          Illumination Hours: {{ formatTimeLabel(selectedMediaAttributes?.illuminationHrsRange[0] )}}  - {{ formatTimeLabel(selectedMediaAttributes?.illuminationHrsRange[1]) }}
+                        </div>
+                        <mat-icon class="delete-icon" (click)="removeMediaAttributes('illuminationHrsRange')">delete_forever</mat-icon>
+                      </div>
+                    </li>
+                    <li *ngIf="selectedMediaAttributes?.auditStatusList"
+                    >
+                      <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem">
+                        <div class="tip-title">
+                          Audit Status:
+                        </div>
+                        <div>
+                          <ul class="inventory-aligin">
+                            <li *ngFor = "let status of selectedMediaAttributes?.auditStatusList;let i = index">{{status['displayName']}} <mat-icon class="delete-icon" (click)="removeAuditStatusFilter(i)">delete_forever</mat-icon></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                    <li *ngIf="
+                    selectedMediaAttributes?.spotAudio !== undefined ||
+                    selectedMediaAttributes?.spotFullMotion !== undefined ||
+                    selectedMediaAttributes?.spotInteractive !== undefined ||
+                    selectedMediaAttributes?.spotPartialMotion !== undefined
+                    ">
+                      <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem">
+                        <div class="tip-title">
+                          Digital Attributes:
+                        </div>
+                        <ng-container
+                        *ngIf="selectedMediaAttributes?.spotAudio !== undefined"
+                        >
+                        <div class="digital-attributes" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                          <div>
+                            Audio Enabled: {{ selectedMediaAttributes.spotAudio ? (selectedMediaAttributes.spotAudio === 'all' ? 'All' : 'Yes') : 'No' }}
+                          </div>
+                          <mat-icon class="delete-icon" (click)="removeMediaAttributes('spotAudio')">delete_forever</mat-icon>
+                        </div>
+                        </ng-container>
+                        <ng-container
+                          *ngIf="selectedMediaAttributes?.spotFullMotion !== undefined"
+                          >
+                          <div class="digital-attributes" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                            <div>
+                              Full Motion/Full Screen: {{ selectedMediaAttributes.spotFullMotion ? (selectedMediaAttributes.spotFullMotion === 'all' ? 'All' : 'Yes') : 'No' }}
+                            </div>
+                            <mat-icon class="delete-icon" (click)="removeMediaAttributes('spotFullMotion')">delete_forever</mat-icon>
+                          </div>
+                        </ng-container>
+                        <ng-container
+                          *ngIf="selectedMediaAttributes?.spotInteractive !== undefined"
+                          >
+                          <div class="digital-attributes" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                            <div>
+                              Interactive: {{ selectedMediaAttributes.spotInteractive ? (selectedMediaAttributes.spotInteractive === 'all' ? 'All' : 'Yes') : 'No' }}
+                            </div>
+                            <mat-icon class="delete-icon" (click)="removeMediaAttributes('spotInteractive')">delete_forever</mat-icon>
+                          </div>
+                        </ng-container>
+                        <ng-container
+                          *ngIf="selectedMediaAttributes?.spotPartialMotion !== undefined"
+                         >
+                          <div class="digital-attributes" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                            <div>
+                              Partial Motion: {{ selectedMediaAttributes.spotPartialMotion ? (selectedMediaAttributes.spotPartialMotion === 'all' ? 'All' : 'Yes') : 'No' }}
+                            </div>
+                            <mat-icon class="delete-icon" (click)="removeMediaAttributes('spotPartialMotion')">delete_forever</mat-icon>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display">
+            <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+              5. Plan Period
+            </div>
+            <div fxLayout="row wrap" fxLayoutAlign="start center" class="filter-info" fxLayoutGap="1rem" *ngIf="scenarioForm.controls.delivery_period_weeks.value">
+              {{scenarioForm.controls.delivery_period_weeks.value}} {{scenarioForm.controls.delivery_period_weeks.value === 1 ? 'week': 'weeks'}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="start"  fxLayoutGap="1rem" class="inventory-plan-filters market-tip" *ngIf="selectedTabLabel==='inventoryPlan'">
+      <div fxLayout="column" fxLayoutAlign="start"  fxLayoutGap="1rem">
+        <div fxLayout="row" class="summary-header" fxLayoutAlign="start center">
+          SUMMARY
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" *ngIf="inventoryForm.controls.project.value !== '' || inventoryForm.controls.project.value?.name; else defaultProject;" class="filter-display">
+          <div>
+            {{labels.scenario[0]}} in:
+            <div class="plan-name-p">{{inventoryForm.controls.project.value?.name || '-'}}</div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" fxLayoutAlign="start"  fxLayoutGap="2rem" [ngStyle]="{'max-height.px': scrollContent}" class="tip-scroll-conetnt">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display width100">
+            <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+              1. Targeted Audience
+            </div>
+            <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="1rem" class="filter-info"  *ngIf="selectedAudiences?.length > 0; else noDataDiv">
+             <ul class="audience-list-tip">
+                <li *ngFor="let audience of selectedAudiences;let i = index;">
+                  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                    <div class="audience-name-display">
+                      ({{audience.measuresRelease}})<br>{{audience.name ? audience.name : audience.description }}
+                    </div>
+                    <span fxFlex="1 1 auto"></span>
+                    <mat-icon class="delete-icon" (click)="removeFilterFormInventory('audience', i)">delete_forever</mat-icon>
+                  </div>
+                <li>
+              </ul>
+              <!-- <div *ngFor="let audience of selectedAudiences" fxLayout="row"  fxLayoutAlign="start center" fxLayoutGap="1rem">
+                {{audience.name}}
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display">
+            <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+              2. Targeted Markets
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="2rem" *ngIf="selectedMarket?.length > 0; else defaultMarketDiv">
+              <div  fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="width30">
+                <div fxLayout="row wrap" class="filter-info" fxLayoutAlign="start center" fxLayoutGap="1rem" *ngFor="let market of selectedMarket | marketFilter">
+                  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1.5rem">
+                    <div class="market-name-display">
+                      {{market['name']}}
+                    </div>
+                    <span fxFlex="1 1 auto"></span>
+                    <mat-icon class="delete-icon market-delete" (click)="removeSelectedMarkets(market['name'])">delete_forever</mat-icon>
+                  </div>
+                </div>
+              </div>
+              <div  fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="width70">
+                <div fxLayout="row wrap" fxLayoutAlign="start start" class="filter-info" fxLayoutGap="1rem"  *ngFor="let market of selectedMarket | marketFilter:true" >
+                  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1.5rem" >
+                    <div class="market-group-name-display">
+                      {{market['name']}}
+                    </div>
+                    <div class="minwidth16">
+                      <mat-icon class="delete-icon" (click)="removeSelectedMarkets(market['name'])">delete_forever</mat-icon>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display">
+            <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+              3. Operators
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem" class="filter-info" *ngIf="operatorFilters?.length; else noDataDiv">
+              <div fxLayout="column" fxLayoutAlign="start" *ngIf="operatorFilters?.length">
+                <div>
+                  <ul class="inventory-aligin">
+                    <li *ngFor="let operator of operatorFilters; let i = index;">{{operator === 'all' ? 'All Operators' : operator}} <mat-icon class="delete-icon" (click)="removeFilterFormInventory('operator', i)">delete_forever</mat-icon></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display">
+            <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+              4. Inventory
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem" class="filter-info" *ngIf="(selectedPackages?.length || inventoryIDs?.length ||locationFilters?.length || mediaTypeFilters?.length || (measureRangeFilters !== null && measureRangeFilters | isObjectExists) || (selectedMediaAttributes !== null && selectedMediaAttributes | isObjectExists)); else noDataDiv">
+              <div fxLayout="column" fxLayoutAlign="start" *ngIf="selectedPackages?.length">
+                <div class="tip-title">
+                  Inventory Set
+                </div>
+                <div>
+                  <ul class="inventory-aligin">
+                    <li *ngFor="
+                    let package of selectedPackages;
+                    let i = index;
+                    trackBy: trackById
+                  ">{{ package?.name }} <mat-icon class="delete-icon" (click)="removeFilterFormInventory('inventorySet', i)">delete_forever</mat-icon></li>
+                  </ul>
+                </div>
+              </div>
+              <div fxLayout="column" fxLayoutAlign="start" *ngIf="locationFilters?.length">
+                <div class="tip-title">
+                  Location
+                </div>
+                <div>
+                  <ul class="inventory-aligin">
+                    <li *ngFor="let location of locationFilters; let i = index;">{{location['label']}} <mat-icon class="delete-icon" (click)="removeFilterFormInventory('location', i)">delete_forever</mat-icon></li>
+                  </ul>
+                </div>
+              </div>
+              <!-- <div fxLayout="column" fxLayoutAlign="start" *ngIf="operatorFilters?.length">
+                <div class="tip-title">
+                  Operators
+                </div>
+                <div>
+                  <ul class="inventory-aligin">
+                    <li class="action-item" hover-class="toggle-delete-action" *ngFor="let operator of operatorFilters; let i = index;">{{operator === 'all' ? 'All' : operator}} <mat-icon class="delete-icon" (click)="removeFilterFormInventory('operator', i)">delete_forever</mat-icon></li>
+                  </ul>
+                </div>
+              </div> -->
+              <div fxLayout="column" fxLayoutAlign="start" *ngIf="mediaTypeFilters?.length">
+                <div class="tip-title">
+                  Media Types
+                </div>
+                <div>
+                  <ul class="inventory-aligin">
+                    <li *ngFor="let media of mediaTypeFilters; let i = index;">{{media['data']}} <mat-icon class="delete-icon" (click)="removeFilterFormInventory('media', i)">delete_forever</mat-icon></li>
+                  </ul>
+                </div>
+              </div>
+              <div fxLayout="column" fxLayoutAlign="start" *ngIf="measureRangeFilters !== null && measureRangeFilters | isObjectExists">
+                <div class="tip-title">
+                  Thresholds
+                </div>
+                <div>
+                  <ul class="inventory-aligin">
+                    <li *ngFor="let measureRange of measureRangeFilters | keyvalue : originalOrder">
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" *ngIf="measureRange['key'] === 'targetImp'">
+                        <div>
+                          In-Market Target Impressions:<br>{{ measureRange['value'][0] | convert :'ABBREVIATE' }} - {{ measureRange['value'][1]  | convert :'ABBREVIATE'}}
+                        </div>
+                        <mat-icon class="delete-icon" (click)="removeThresholdFilters('targetImp')">delete_forever</mat-icon>
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" *ngIf="measureRange['key'] === 'inMarketCompIndex'">
+                        <div>
+                          In-Market Target Comp Index:<br>{{ targetAudienceMinMax(measureRange['value'][0])  | convert :'ABBREVIATE' }} - {{ targetAudienceMinMax(measureRange['value'][1]) | convert :'ABBREVIATE' }}
+                        </div>
+                        <mat-icon class="delete-icon" (click)="removeThresholdFilters('inMarketCompIndex')">delete_forever</mat-icon>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div fxLayout="column" fxLayoutAlign="start" *ngIf="selectedMediaAttributes !== null && selectedMediaAttributes | isObjectExists">
+                <div class="tip-title">
+                  Media Attributes
+                </div>
+                <div>
+                  <ul class="inventory-aligin">
+                    <li *ngIf="selectedMediaAttributes?.orientationList"
+                    >
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                      <div>
+                        Orientation : {{ orientation.degreeToDirection(selectedMediaAttributes['orientationList']) }}
+                      </div>
+                      <mat-icon class="delete-icon" (click)="removeMediaAttributes('orientationList')">delete_forever</mat-icon>
+                    </div>
+                    </li>
+                    <li *ngIf="selectedMediaAttributes?.rotating !== undefined"
+                    >
+                    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                      <div>
+                        Rotating: {{ selectedMediaAttributes.rotating ? (selectedMediaAttributes.rotating === 'all' ? 'All' : 'Yes') : 'No' }}
+                      </div>
+                      <mat-icon class="delete-icon" (click)="removeMediaAttributes('rotating')">delete_forever</mat-icon>
+                    </div>
+                    </li>
+                    <li *ngIf="selectedMediaAttributes?.panelSizeHeightRange"
+                    >
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                        <div>
+                          Spot Dimensions Height: {{ selectedMediaAttributes?.panelSizeHeightRange[0] || 0 }} {{selectedMediaAttributes?.panelSizeHeightRange[1] && ' - ' + selectedMediaAttributes?.panelSizeHeightRange[1] }}
+                        </div>
+                        <mat-icon class="delete-icon" (click)="removeMediaAttributes('panelSizeHeightRange')">delete_forever</mat-icon>
+                      </div>
+                    </li>
+                    <li *ngIf="selectedMediaAttributes?.panelSizeWidthRange"
+                    >
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                        <div>
+                          Spot Dimensions Width: {{ selectedMediaAttributes?.panelSizeWidthRange[0] || 0 }} {{ selectedMediaAttributes?.panelSizeWidthRange[1] && ' - ' + selectedMediaAttributes?.panelSizeWidthRange[1] }}
+                        </div>
+                        <mat-icon class="delete-icon" (click)="removeMediaAttributes('panelSizeWidthRange')">delete_forever</mat-icon>
+                      </div>
+                    </li>
+                    <li *ngIf="selectedMediaAttributes?.spotLength"
+                    >
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                        <div>
+                          Spot Length: {{ selectedMediaAttributes?.spotLength?.min || 0 }} {{ selectedMediaAttributes?.spotLength?.max && ' - ' + selectedMediaAttributes?.spotLength?.max }}
+                        </div>
+                        <mat-icon class="delete-icon" (click)="removeMediaAttributes('spotLength')">delete_forever</mat-icon>
+                      </div>
+                    </li>
+                    <li *ngIf="selectedMediaAttributes?.illuminationHrsRange"
+                    >
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                        <div>
+                          Illumination Hours: {{ formatTimeLabel(selectedMediaAttributes?.illuminationHrsRange[0] )}}  - {{ formatTimeLabel(selectedMediaAttributes?.illuminationHrsRange[1]) }}
+                        </div>
+                        <mat-icon class="delete-icon" (click)="removeMediaAttributes('illuminationHrsRange')">delete_forever</mat-icon>
+                      </div>
+                    </li>
+                    <li *ngIf="selectedMediaAttributes?.auditStatusList"
+                    >
+                      <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem">
+                        <div class="tip-title">
+                          Audit Status:
+                        </div>
+                        <div>
+                          <ul class="inventory-aligin">
+                            <li *ngFor = "let status of selectedMediaAttributes?.auditStatusList;let i = index">{{status['displayName']}} <mat-icon class="delete-icon" (click)="removeAuditStatusFilter(i)">delete_forever</mat-icon></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                    <li *ngIf="
+                    selectedMediaAttributes?.spotAudio !== undefined ||
+                    selectedMediaAttributes?.spotFullMotion !== undefined ||
+                    selectedMediaAttributes?.spotInteractive !== undefined ||
+                    selectedMediaAttributes?.spotPartialMotion !== undefined
+                    ">
+                      <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="1rem">
+                        <div class="tip-title">
+                          Digital Attributes:
+                        </div>
+                        <ng-container
+                        *ngIf="selectedMediaAttributes?.spotAudio !== undefined"
+                        >
+                        <div class="digital-attributes" fxLayout="row" fxLayoutAlign="start center">
+                          <div>
+                            Audio Enabled: {{ selectedMediaAttributes.spotAudio ? (selectedMediaAttributes.spotAudio === 'all' ? 'All' : 'Yes') : 'No' }}
+                          </div>
+                          <mat-icon class="delete-icon" (click)="removeMediaAttributes('spotAudio')">delete_forever</mat-icon>
+                        </div>
+                        </ng-container>
+                        <ng-container
+                          *ngIf="selectedMediaAttributes?.spotFullMotion !== undefined"
+                          >
+                          <div class="digital-attributes" fxLayout="row" fxLayoutAlign="start center">
+                            <div>
+                              Full Motion/Full Screen: {{ selectedMediaAttributes.spotFullMotion ? (selectedMediaAttributes.spotFullMotion === 'all' ? 'All' : 'Yes') : 'No' }}
+                            </div>
+                            <mat-icon class="delete-icon" (click)="removeMediaAttributes('spotFullMotion')">delete_forever</mat-icon>
+                          </div>
+                        </ng-container>
+                        <ng-container
+                          *ngIf="selectedMediaAttributes?.spotInteractive !== undefined"
+                          >
+                          <div class="digital-attributes" fxLayout="row" fxLayoutAlign="start center">
+                            <div>
+                              Interactive: {{ selectedMediaAttributes.spotInteractive ? (selectedMediaAttributes.spotInteractive === 'all' ? 'All' : 'Yes') : 'No' }}
+                            </div>
+                            <mat-icon class="delete-icon" (click)="removeMediaAttributes('spotInteractive')">delete_forever</mat-icon>
+                          </div>
+                        </ng-container>
+                        <ng-container
+                          *ngIf="selectedMediaAttributes?.spotPartialMotion !== undefined"
+                         >
+                          <div class="digital-attributes" fxLayout="row" fxLayoutAlign="start center">
+                            <div>
+                              Partial Motion: {{ selectedMediaAttributes.spotPartialMotion ? (selectedMediaAttributes.spotPartialMotion === 'all' ? 'All' : 'Yes') : 'No' }}
+                            </div>
+                            <mat-icon class="delete-icon" (click)="removeMediaAttributes('spotPartialMotion')">delete_forever</mat-icon>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div fxLayout="column" fxLayoutAlign="start" *ngIf="this.inventoryIDs?.length > 0 && !this.selectedPackages?.length">
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+                  <div>
+                    {{inventoryIDs?.length}} Spot ID(s)
+                  </div>
+                  <mat-icon class="delete-icon" (click)="removeFilterFormInventory('geopathPanel')">delete_forever</mat-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="0.5rem" class="filter-display">
+            <div fxLayout="row" fxLayoutAlign="start center" class="tip-title">
+              5. Plan Period
+            </div>
+            <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="1rem" class="filter-info">
+              <div *ngIf="inventoryForm.controls.plan_period_type.value === 'generic'; else spotSchedule">
+                {{inventoryForm.controls.delivery_period_weeks.value}} {{inventoryForm.controls.delivery_period_weeks.value === 1 ? 'week': 'weeks'}}
+              </div>
+              <ng-template #spotSchedule>
+                <div *ngIf="inventoryForm.controls.spot_schedule.controls.start.value">
+                  {{inventoryForm.controls.spot_schedule.controls.start.value | date:'MM.dd.yyyy'}} to {{inventoryForm.controls.spot_schedule.controls.end.value | date:'MM.dd.yyyy'}}
+                </div>
+              </ng-template>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <ng-template #noDataDiv>
+      <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="1rem" class="filter-info">
+        -
+      </div>
+    </ng-template>
+    <ng-template #defaultAudienceDiv>
+      <div class="filter-info" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" *ngIf="!deleteDefaultAudience; else noDataDiv;">
+        <div class="mr-1rem">
+          {{defaultAudience['description']}}
+        </div>
+        <!-- <span fxFlex="1 1 auto"></span> -->
+        <mat-icon class="delete-icon" (click)="deleteDefaultAudiencetFunc()">delete_forever</mat-icon>
+      </div>
+    </ng-template>
+    <ng-template #defaultMarketDiv>
+      <div class="filter-info" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1rem" *ngIf="!deleteDefaultMarket; else noDataDiv;">
+        <div>
+          {{defaultMarket[0]?.name}}
+        </div>
+        <span fxFlex="1 1 auto"></span>
+        <mat-icon class="delete-icon" (click)="deleteDefaultMarketFunc();">delete_forever</mat-icon>
+      </div>
+    </ng-template>
+    <ng-template #defaultProject>
+      <div fxLayout="row" fxLayoutAlign="start center" *ngIf="draftProject" class="filter-display">
+        <div>
+          {{labels.scenario[0]}} in:
+          <div class="plan-name-p">{{draftProject.name}}</div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,225 @@
+@import "../../../../assets/css/variables.less";
+
+#inventoryShortOverview {
+  .mapPopUpBlk2-content {
+    height: 175px;
+  }
+  .panel_nav {
+    display: flex;
+  }
+  .hideflag:after {
+    content: none !important;
+  }
+  .oppTitle.hideflag{
+    i{
+      display: none;
+    }
+  }
+  .data-underreview {
+    .panel_header.empty-flag{
+      height: 0px;
+    }
+    .primary-flag{
+      i{
+        color: var(--primary-bg) !important;
+      }
+    }
+    .oppTitle{
+      .operator-name{
+        min-width: 140px;
+        display: inline-block;
+      }
+      i{
+        font-size: 20px;
+        color: var(--theme-highlight-color);
+      }
+    }
+   /*.oppTitle:after {
+      -webkit-font-feature-settings: 'liga' 1;
+      -moz-font-feature-settings: 'liga' 1;
+      font-feature-settings: 'liga' 1;
+      font-family: 'Material Icons';
+      content: "flag";
+      color: var(--theme-highlight-color);
+      font-size: 20px;
+      font-weight: bold;
+      text-transform: none;
+      position: absolute;
+      display: inline;
+    }*/
+  }
+}
+
+#inventoryShortOverview.detailloaded {
+  .open_inventory_card_btn {
+    display: block;
+    cursor: pointer;
+  }
+  #loader {
+    display: none;
+  }
+}
+
+/* new popup design */
+.mapPopUpBlk {
+
+  // width: 520px;
+  width: 570px;
+  background: #fff;
+
+  .select_btn_panel {
+    position: absolute;
+    top: 14px;
+    right: 10px;
+    a {
+      float: right;
+      /*background-color: var(--button-bg-color);
+      color: var(--white-color);*/
+      color: var(--button-bg-color);
+      /*border: 1px solid var(--lg-color);*/
+      background-color: var(--text-whites);
+      border-radius: 2px;
+      text-align: center;
+      font-size: 10px;
+      padding: 0 5px;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+
+      span {
+        text-transform: uppercase;
+        float: left;
+        margin-left: 5px;
+        margin-top: 1px
+      }
+    }
+    a:before {
+      -webkit-font-feature-settings: 'liga' 1;
+      -moz-font-feature-settings: 'liga' 1;
+      font-feature-settings: 'liga' 1;
+      content: "stars";
+      font-family: 'Material Icons';
+      font-size: 10px;
+      float: left;
+    }
+    a.selected, a:hover {
+      color: var(--button-bg-color);
+      /*border: 1px solid var(--lg-color);*/
+      background-color: var(--text-whites);
+    }
+  }
+
+  .mapPopUpBlk2 {
+    padding: 10px;
+    img {
+      height: 100%;
+      align-self: center;
+      &.no-image-placeholder {
+        width: 100%;
+      }
+    }
+    .mapPopupLeftPanel {
+      text-align: center;
+      font-weight: 700;
+      font-size: 15px;
+      width: 270px;
+      float: left;
+      overflow: hidden;
+      position: relative;
+      height: 180px;
+      display: flex;
+      /*.clsInventoryNoImg
+      {
+        position: absolute;
+        z-index: 1;
+        left: -70px;
+      }*/
+
+    }
+    .mapPopupRightPanel {
+      line-height: 20px;
+      padding: 0px 0px 0px 10px;
+      float: left;
+      width: 280px;
+      ul {
+        list-style: none;
+        padding-left: 0;
+        margin-top: 0px;
+        li {
+          padding-left: 0;
+          line-height: 1.7;
+        }
+        li:not(:first-child) {
+          margin-top: -5px;
+        }
+        span {
+          margin-left: 5px;
+          margin-top: 0px;
+          position: absolute;
+          display: inline-block;
+          width: 100%;
+        }
+      }
+      .panel_nav {
+        font-size: 18px;
+        margin-left: -7px;
+        font-weight: bold;
+        i {
+          color: var(--text-primary);
+        }
+        div {
+          float: left;
+        }
+        .panel_nav_text {
+          color: var(--g-color);
+          margin-top: 2px;
+        }
+      }
+      .panel_header {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        margin-top: 5px;
+      }
+      .panel_content {
+        margin-left: 10px;
+        ul {
+          li:before {
+            -webkit-font-feature-settings: 'liga' 1;
+            -moz-font-feature-settings: 'liga' 1;
+            font-feature-settings: 'liga' 1;
+            content: "fiber_manual_record";
+            font-family: 'Material Icons';
+            color: var(--theme-secondary-color);
+          }
+        }
+      }
+
+    }
+  }
+
+  .no_panel_nav {
+    padding: 10px 0px;
+  }
+  .status-dots {
+    position: absolute;
+    right: 15px;
+    top: 40px;
+    .inventory-status-dots{
+      font-size: 20px;
+      cursor: pointer;
+      &.green {
+        color: green;
+      }
+      &.red {
+        color: red;
+      }
+      &.yellow {
+        color: #FFBD33;
+        text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;;
+      }
+      &.grey {
+        color: var(--grays-bg-700);
+      }
+    }
+  }
+}

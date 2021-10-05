@@ -1,0 +1,6 @@
+<div class="page-body">
+  <button mat-raised-button class="imx-button button-primary" (click)="openDialog()">{{'Add site' | uppercase}}  <mat-icon class="add-site-icon">add_circle_outline</mat-icon></button>
+  <div class="card-container" infiniteScroll (scrolled)="getSitesList()" [infiniteScrollDisabled]="isComplete" [infiniteScrollUpDistance]="1.5" [infiniteScrollThrottle]="50" [scrollWindow]="false">
+      <user-management-site-card *ngFor="let site of sites; let i = index" [site]="site" [siteUrl]="siteUrls[i]"></user-management-site-card>
+  </div>
+</div>

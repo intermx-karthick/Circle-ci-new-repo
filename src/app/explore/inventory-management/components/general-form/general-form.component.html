@@ -1,0 +1,141 @@
+<form [formGroup]="generalForm" class="inventory-form__form">
+  <section fxLayout fxLayoutGap="24px" >
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <input type="text" #vendorInputRef matInput formControlName="vendor" placeholder="Select Vendor"
+               [matAutocomplete]="vendorsAuto" required>
+
+        <mat-autocomplete
+          #scrollBar
+          #vendorsAuto="matAutocomplete"
+          [displayWith]="vendorDisplayWithFn"
+          class="vendor-dropdown-input"
+          (opened)="updateContainer()"
+          infiniteScroll
+          [infiniteScrollDistance]="1"
+          [infiniteScrollThrottle]="0"
+          [infiniteScrollDisabled]="disableVendorPaging"
+          (scrolled)="loadMoreVendors()"
+          [scrollWindow]="false"
+          [infiniteScrollContainer]="panelContainer"
+          [fromRoot]="true">
+          <mat-option (click)="addVendor()">
+            <div class="add-vendor-btn">
+              <span class="add-vendor-btn__label">Add new</span>
+            </div>
+          </mat-option>
+          <mat-option *ngFor="let vendor of filteredVendors; trackBy: vendorsTrackByFn" [value]="vendor">
+            <span [innerHTML]="(vendor.name)| imx_highlight: vendorInputRef.value" [matTooltipShowDelay]="200" [matTooltip]="vendor.name"></span>
+          </mat-option>
+          <mat-option *ngIf="isLoadingVendors">
+            <mat-spinner class="spinner" diameter="20"></mat-spinner>
+          </mat-option>
+        </mat-autocomplete>
+        <mat-label>Select Vendor</mat-label>
+        <mat-error class="small-font" *ngIf="generalForm['controls'].vendor.hasError('invalid')">
+          You should not enter values manually, Please select from suggested list only.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+<!--    <div class="inventory-form__field" fxFlex="30">
+      <mat-form-field fxFlex="100">
+        <mat-label>Vendor office / Market</mat-label>
+        <input type="text" formControlName="vendor_office" matInput autocomplete="off">
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-label>Shipping Address</mat-label>
+        <input type="text" formControlName="shipping_address" matInput autocomplete="off">
+      </mat-form-field>
+    </div>-->
+  </section>
+
+  <section fxLayout fxLayoutGap="24px" *ngIf="updateExisting">
+    <div class="inventory-form__field" >
+      <mat-form-field>
+        <mat-label>Geopath Frame Id</mat-label>
+        <input type="text" formControlName="geopath_frame_id" matInput autocomplete="off">
+      </mat-form-field>
+    </div>
+    <div class="inventory-form__field" >
+      <mat-form-field>
+        <mat-label>Geopath Spot Id</mat-label>
+        <input type="text" formControlName="geopath_spot_id" matInput autocomplete="off"  >
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-label>Vendor Frame Id</mat-label>
+        <input type="text" formControlName="vendor_frame_id" matInput autocomplete="off" required >
+      </mat-form-field>
+    </div>
+
+    <div class="inventory-form__field" >
+      <mat-form-field>
+        <mat-label>Vendor Spot Id</mat-label>
+        <input type="text" formControlName="vendor_spot_id" matInput autocomplete="off">
+      </mat-form-field>
+    </div>
+  </section>
+
+  <!-- <h6 class="no-margin inventory-form__list-header">"PLACEHOLDER" FOR ASSIST TEXT</h6> -->
+
+  <section style="display: block;">
+<!--    <div>
+      <div class="inventory-form__field" fxFlex="70">
+        <mat-form-field fxFlex="100">
+          <mat-label>Location Description</mat-label>
+          <input type="text" formControlName="loc_description" matInput autocomplete="off" required>
+        </mat-form-field>
+      </div>
+    </div>-->
+    <div fxLayout fxLayoutGap="24px">
+      <div class="inventory-form__field">
+        <mat-form-field>
+          <mat-label>Latitude</mat-label>
+          <input type="text" formControlName="lat" matInput autocomplete="off" [required]="latlngRequired" appNumberOnly>
+        </mat-form-field>
+      </div>
+      <div class="inventory-form__field">
+        <mat-form-field>
+          <mat-label>Longitude</mat-label>
+          <input type="text" formControlName="lng" matInput autocomplete="off" [required]="latlngRequired" appNumberOnly>
+        </mat-form-field>
+      </div>
+    </div>
+  </section>
+
+  <h6 class="no-margin inventory-form__list-header">OR</h6>
+
+  <section fxLayout fxLayoutGap="24px">
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-label>Street Address</mat-label>
+        <input type="text" formControlName="street_address" matInput autocomplete="off" [required]="addressRequired" >
+      </mat-form-field>
+    </div>
+<!--    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-label>City</mat-label>
+        <input type="text" formControlName="city" matInput autocomplete="off" [required]="addressRequired">
+      </mat-form-field>
+    </div>-->
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-label>State</mat-label>
+        <input type="text" formControlName="state" matInput autocomplete="off" [required]="addressRequired">
+      </mat-form-field>
+    </div>
+    <div class="inventory-form__field">
+      <mat-form-field>
+        <mat-label>Zip</mat-label>
+        <input type="text" formControlName="zip" matInput autocomplete="off" [required]="addressRequired">
+      </mat-form-field>
+    </div>
+  </section>
+
+</form>

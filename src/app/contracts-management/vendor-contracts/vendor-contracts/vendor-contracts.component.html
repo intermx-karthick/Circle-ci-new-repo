@@ -1,0 +1,702 @@
+<div fxLayout="column" fxLayoutAlign="start start" class="vendor-contract-main" id="vendor-contract-main">
+
+  <!-- vendor contract search area -->
+  <form [formGroup]="vendorContractSearchForm" (ngSubmit)="onSearch()">
+    <mat-card class='c-line-items__card'>
+    <div class="vendor-contract-search-main" fxLayout="row wrap" fxLayoutGap="2.125rem" fxLayoutAlign="start start">
+      <!-- form area -->
+
+      <div fxLayout="column" fxLayoutAlign="start start">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+          <div>
+            <mat-form-field class="imx-input" fxFlex="9rem">
+              <mat-label>Contract #</mat-label>
+              <input matInput appNumberOnly autocomplete="off" formControlName="contractId">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="imx-input" fxFlex="7rem">
+              <mat-label>Client Code</mat-label>
+              <input matInput autocomplete="off" formControlName="clientCode">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field fxFlex="9rem" class="imx-dropdown imx-input"
+              tooltip="{{vendorContractSearchForm['controls'].clientName.value?.name ?.length>10 ? vendorContractSearchForm['controls'].clientName.value?.name : ''}}"
+              placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+              (click)="triggerClientName.openPanel()">
+              <mat-label>Client Name</mat-label>
+              <input type="text" readonly matInput [matAutocomplete]="clientNameRef" class="imx-input-no-border"
+                #triggerClientName="matAutocompleteTrigger" [autocompletePosition]="triggerClientName"
+                scrollContainer="vendor-contract-main" (click)="triggerClientName.openPanel()"
+                [value]="selectedClient.length == 1 ?  '1  Client selected' : (selectedClient.length > 1) ? selectedClient.length + ' Clients selected' : '' " />
+              <mat-icon matSuffix (click)="triggerClientName.openPanel()">keyboard_arrow_down</mat-icon>
+              <mat-autocomplete #clientNameRef="matAutocomplete" (opened)="updateClientNameContainer()"
+                class="autocomplete-scroll  imx-autocomplete-dropdown imx-multiple inside-search-field"
+                panelWidth="9rem" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                [scrollWindow]="false" [fromRoot]="true" [immediateCheck]="false" [alwaysCallback]="false"
+                [infiniteScrollDisabled]="clientsAutoComplete.data?.length >= clientsAutoComplete?.pagination?.total"
+                [infiniteScrollContainer]="panelClientNameContainer"
+                (scrolled)="loadMoreClientName()" [displayWith]="clientNameDisplayWithFn">
+
+                <div class="auto-complete-search-field" fxLayout="row">
+                  <input type="text" placeholder="Search Clients" #clientNameInputRef matInput
+                    formControlName="clientName" autocomplete="off"/>
+                    <mat-icon>search</mat-icon>
+                </div>
+
+                <div class="auto-complete-list-main clientName-list-autocomplete">
+                  <mat-option *ngFor="let client of clientsAutoComplete.data;trackBy: clientNameTrackByFn"
+                    [value]="client" tooltip="{{client.clientName?.length >10 ? client.clientName : ''}}"
+                    placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                    class="drop-maxwidth" (click)="$event.stopPropagation()">
+                    <div (click)="clickClientName($event, client);">
+                      <mat-checkbox [checked]="client.selected" (change)="clickClientName($event,client)"
+                        (click)="$event.stopPropagation()">
+                        <span [innerHTML]="client.clientName | imx_highlight: clientNameInputRef.value"></span>
+                      </mat-checkbox>
+                    </div>
+                  </mat-option>
+                  <mat-option disabled *ngIf="clientsAutoComplete.isLoading ">
+                    <div fxLayout="row" fxLayoutAlign="space-around center">
+                      <mat-spinner diameter="20"></mat-spinner>
+                    </div>
+                  </mat-option>
+                </div>
+
+                <mat-option disabled *ngIf="!clientsAutoComplete.isLoading  && clientsAutoComplete.data?.length <= 0"
+                  class="invalid">
+                  Invalid Entry.
+                </mat-option>
+              </mat-autocomplete>
+              <!-- <mat-error *ngIf="vendorContractSearchForm['controls'].clientName.hasError('invalid')">
+                Please select from the drop down list.
+              </mat-error> -->
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field fxFlex="9rem" class="imx-dropdown imx-input" (click)="triggerClientParent.openPanel()">
+              <mat-label>Parent Client</mat-label>
+              <input type="text" readonly matInput [matAutocomplete]="clientParentRef" class="imx-input-no-border"
+                #triggerClientParent="matAutocompleteTrigger" [autocompletePosition]="triggerClientParent"
+                scrollContainer="vendor-contract-main" (click)="triggerClientParent.openPanel()"
+                [value]="selectedClientParent.length == 1 ? '1  Client selected' : (selectedClientParent.length > 1) ? selectedClientParent.length + ' Clients selected' : '' " />
+              <mat-icon matSuffix (click)="triggerClientParent.openPanel()">keyboard_arrow_down</mat-icon>
+              <mat-autocomplete #clientParentRef="matAutocomplete" (opened)="updateClientParentContainer()"
+                class="autocomplete-scroll  imx-autocomplete-dropdown imx-multiple inside-search-field"
+                panelWidth="9rem" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                [scrollWindow]="false" [fromRoot]="true" [immediateCheck]="false" [alwaysCallback]="false"
+                [infiniteScrollDisabled]="parentClientsAutoComplete.data?.length >= parentClientsAutoComplete?.pagination?.total"
+                [infiniteScrollContainer]="panelClientParentContainer"
+                (scrolled)="loadMoreClientParent()"
+                [displayWith]="clientParentDisplayWithFn">
+
+                <div class="auto-complete-search-field" fxLayout="row">
+                  <input type="text" placeholder="Search Clients" #clientparentInputRef matInput
+                    formControlName="clientParent" autocomplete="off" />
+                    <mat-icon>search</mat-icon>
+                </div>
+
+                <div class="auto-complete-list-main clientParent-list-autocomplete">
+                  <mat-option *ngFor="let client of parentClientsAutoComplete.data;trackBy: clientParentTrackByFn"
+                    [value]="client" tooltip="{{client.clientName?.length >10 ? client.clientName : ''}}"
+                    placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                    class="drop-maxwidth">
+                    <div (click)="clickClientParent($event, client);">
+                      <mat-checkbox [checked]="client.selected" (change)="clickClientParent($event,client)"
+                        (click)="$event.stopPropagation()">
+                        <span [innerHTML]="client.clientName | imx_highlight: clientparentInputRef.value"></span>
+                      </mat-checkbox>
+                    </div>
+                  </mat-option>
+                  <mat-option disabled *ngIf="parentClientsAutoComplete.isLoading ">
+                    <div fxLayout="row" fxLayoutAlign="space-around center">
+                      <mat-spinner diameter="20"></mat-spinner>
+                    </div>
+                  </mat-option>
+                </div>
+
+                <mat-option disabled
+                  *ngIf="!parentClientsAutoComplete.isLoading  && parentClientsAutoComplete.data?.length <= 0"
+                  class="invalid">
+                  Invalid Entry.
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field fxFlex="6.5rem" class="imx-input">
+              <mat-label>Start Date</mat-label>
+              <input matInput formControlName="startDate" appDateFormat [matDatepicker]="start_date_picker" [max]="maxDate" />
+              <mat-error> Invalid Date.</mat-error>
+              <mat-icon (click)="start_date_picker.open()" matSuffix class="date-picker-icon date-picker-icon_input"
+                svgIcon="IMX-calender"></mat-icon>
+              <mat-datepicker #start_date_picker="matDatepicker" [panelClass]="'imx-calander'"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field fxFlex="6.5rem" class="imx-input">
+              <mat-label>End Date</mat-label>
+              <input matInput formControlName="endDate" appDateFormat [matDatepicker]="end_date_picker" [min]="minDateForEndDate"
+              [max]="maxDate"/>
+              <mat-error *ngIf="!vendorContractSearchForm.controls?.endDate?.errors?.matDatepickerMin"> Invalid Date.</mat-error>
+              <mat-error class="error-font" *ngIf="vendorContractSearchForm.controls?.endDate?.errors?.matDatepickerMin">
+                End Date must be >= Start Date. </mat-error>
+              <mat-icon (click)="end_date_picker.open()" matSuffix class="date-picker-icon date-picker-icon_input"
+                svgIcon="IMX-calender"></mat-icon>
+              <mat-datepicker #end_date_picker="matDatepicker" [panelClass]="'imx-calander'"></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+          <!-- <div>
+            <mat-form-field fxFlex="17rem" class="imx-dropdown imx-input"
+              (click)="triggerContractCheckpoint.openPanel()">
+              <mat-label>Contract Checkpoint Status</mat-label>
+              <input type="text" readonly matInput [matAutocomplete]="contractCheckpointRef" class="imx-input-no-border"
+                #triggerContractCheckpoint="matAutocompleteTrigger" [autocompletePosition]="triggerContractCheckpoint"
+                scrollContainer="vendor-contract-main" (click)="triggerContractCheckpoint.openPanel()"
+                [value]="selectedContractCheckpoint.length == 1 ? '1  Contract Checkpoint selected' : (selectedContractCheckpoint.length > 1) ? selectedContractCheckpoint.length + ' Contract Checkpoint selected' : '' " />
+              <mat-icon matSuffix (click)="triggerContractCheckpoint.openPanel()">keyboard_arrow_down</mat-icon>
+              <mat-autocomplete #contractCheckpointRef="matAutocomplete" (opened)="updateContractCheckpointContainer()"
+                class="autocomplete-scroll  imx-autocomplete-dropdown imx-multiple inside-search-field"
+                panelWidth="17rem" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                [scrollWindow]="false" [fromRoot]="true" [immediateCheck]="false" [alwaysCallback]="false"
+                [infiniteScrollDisabled]="contractCheckpointAutoComplete.data?.length >= contractCheckpointAutoComplete?.pagination?.total"
+                [infiniteScrollContainer]="panelContractCheckpointContainer"
+                (scrolled)="loadMoreContractCheckPoint()"
+                [displayWith]="contractCheckpointDisplayWithFn">
+
+                <div  class="hide auto-complete-search-field" fxLayout="row">
+                  <input type="text" placeholder="Search Contract Checkpoint Status" #contractCheckpointInputRef
+                    matInput formControlName="contractCheckPoint" autocomplete="off" />
+                    <mat-icon>search</mat-icon>
+                </div>
+
+                <div class="auto-complete-list-main contractCheckpoint-list-autocomplete">
+                  <mat-option
+                    *ngFor="let contract of contractCheckpointAutoComplete.data;trackBy: contractCheckpointTrackByFn"
+                    [value]="contract" tooltip="{{contract.name?.length >33 ? contract.name : ''}}" placement="top"
+                    delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" class="drop-maxwidth"
+                    (click)="clickContractCheckpoint($event, contract);">
+                    <div (click)="clickContractCheckpoint($event, contract);">
+                      <mat-checkbox [checked]="contract.selected" (change)="clickContractCheckpoint($event,contract)"
+                        (click)="$event.stopPropagation()">
+                        <span [innerHTML]="contract.name | imx_highlight: contractCheckpointInputRef.value"></span>
+                      </mat-checkbox>
+                    </div>
+                  </mat-option>
+                  <mat-option disabled *ngIf="contractCheckpointAutoComplete.isLoading ">
+                    <div fxLayout="row" fxLayoutAlign="space-around center">
+                      <mat-spinner diameter="20"></mat-spinner>
+                    </div>
+                  </mat-option>
+                </div>
+
+                <mat-option disabled
+                  *ngIf="!contractCheckpointAutoComplete.isLoading  && contractCheckpointAutoComplete.data?.length <= 0"
+                  class="invalid">
+                  Invalid Entry.
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div> -->
+          <div>
+            <mat-form-field fxFlex="17rem" class="imx-dropdown imx-input">
+              <mat-label>Contract Checkpoint Status</mat-label>
+              <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple formControlName="contractCheckPoint">
+                <mat-option
+                  *ngFor="let contract of contractCheckpointStatus;trackBy: contractCheckpointTrackByFn" [value]="contract">{{contract?.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+
+          <div>
+            <mat-form-field class="imx-dropdown imx-input" fxFlex="10rem" (click)="triggerOperationsContact.openPanel()">
+              <mat-label>Operations Contact</mat-label>
+              <input type="text" readonly matInput [matAutocomplete]="operationsContactRef" class="imx-input-no-border" #triggerOperationsContact="matAutocompleteTrigger" [autocompletePosition]="triggerOperationsContact"
+                scrollContainer="vendor-contract-main" (click)="triggerOperationsContact.openPanel()" [value]="selectedOperationsContact.length == 1 ? '1  Contact selected' : (selectedOperationsContact.length > 0 ? selectedOperationsContact.length + ' Contacts selected': '')" />
+              <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+              <mat-autocomplete #operationsContactRef="matAutocomplete" [panelWidth]="'10rem'" (opened)="updateOperationsContactContainer()"
+                class="operation-contacts-list-autocomplete imx-autocomplete-dropdown imx-multiple inside-search-field" [displayWith]="buyerDisplayWithFn" infiniteScroll
+                [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0" [scrollWindow]="false" [fromRoot]="true"
+                [immediateCheck]="false" [alwaysCallback]="false"
+                [infiniteScrollDisabled]="operationsContactAutoComplete.data?.length >= operationsContactAutoComplete?.pagination?.found"
+                [infiniteScrollContainer]="panelOperationsContactContainer" (scrolled)="loadMoreOperationContacts()">
+                <div class='auto-complete-search-field' fxLayout='row'>
+                  <input type='text' placeholder='Search Contacts' #operationsContactInputRef matInput
+                         formControlName='operationsContact' autocomplete='off' />
+                  <mat-icon>search</mat-icon>
+                </div>
+                <mat-option *ngFor='let contact of operationsContactAutoComplete.data;trackBy: buyerTrackByFn'
+                                  [value]='contact' tooltip="{{contact.firstName?.length + contact.lastName?.length > 10 ? contact.firstName +' '+ contact.lastName : ''}}" placement='top'
+                                  delay='200' tooltipClass='imx-tooltip-v3' customClass='imx-field-tooltip'
+                                  class='drop-maxwidth'>
+                  <div (click)="$event.stopPropagation()">
+                    <mat-checkbox [checked]='contact.selected' (change)='clickOperationsContact($event,contact)'
+                                  (click)='$event.stopPropagation()'>
+                      <span [innerHTML]="(contact.firstName +' '+ contact.lastName) | imx_highlight: operationsContactInputRef.value"></span>
+                    </mat-checkbox>
+                  </div>
+                </mat-option>
+                <mat-option disabled *ngIf="operationsContactAutoComplete.isLoading">
+                  <div fxLayout="row" fxLayoutAlign="space-around center">
+                    <mat-spinner diameter="20"></mat-spinner>
+                  </div>
+                </mat-option>
+  
+                <mat-option disabled *ngIf="!operationsContactAutoComplete.isLoading  && !operationsContactAutoComplete.data?.length && operationsContactInputRef.value">
+                  Invalid Entry.
+                </mat-option>
+                <mat-option disabled *ngIf="!operationsContactAutoComplete.isLoading && !operationsContactAutoComplete.data?.length && !operationsContactInputRef.value ">
+                  No Records.
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field fxFlex="9rem" class="imx-dropdown imx-input" (click)="triggerVendor.openPanel()">
+              <mat-label>Vendor</mat-label>
+              <input type="text" readonly matInput [matAutocomplete]="vendorsRef" class="imx-input-no-border"
+                #triggerVendor="matAutocompleteTrigger" [autocompletePosition]="triggerVendor"
+                scrollContainer="vendor-contract-main" (click)="triggerVendor.openPanel()"
+                [value]="selectedVendors.length == 1 ? '1  Vendor selected' : (selectedVendors.length > 1) ? selectedVendors.length + ' Vendors selected' : '' " />
+              <mat-icon matSuffix (click)="triggerVendor.openPanel()">keyboard_arrow_down</mat-icon>
+              <mat-autocomplete #vendorsRef="matAutocomplete" (opened)="updateVendorsContainer()"
+                class="autocomplete-scroll  imx-autocomplete-dropdown imx-multiple inside-search-field"
+                panelWidth="9rem" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                [scrollWindow]="false" [fromRoot]="true" [immediateCheck]="false" [alwaysCallback]="false"
+                [infiniteScrollDisabled]="vendorsAutoComplete.data?.length >= vendorsAutoComplete?.pagination?.total"
+                [infiniteScrollContainer]="panelVendorsContainer"
+                (scrolled)="loadMoreVendors()" [displayWith]="secondaryContactDisplayWithFn">
+
+                <div class="auto-complete-search-field" fxLayout="row">
+                  <input type="text" placeholder="Search Vendors" #vendorsInputRef matInput formControlName="vendors"
+                    autocomplete="off" />
+                    <mat-icon>search</mat-icon>
+                </div>
+
+                <div class="auto-complete-list-main vendors-list-autocomplete">
+                  <mat-option *ngFor="let vendor of vendorsAutoComplete.data;trackBy: secondaryContactTrackByFn"
+                    [value]="contact" tooltip="{{vendor.name?.length >9 ? vendor.name : ''}}" placement="top"
+                    delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" class="drop-maxwidth">
+                    <div (click)="clickVendors($event, vendor);">
+                      <mat-checkbox [checked]="vendor.selected" (change)="clickVendors($event,vendor)"
+                        (click)="$event.stopPropagation()">
+                        <span [innerHTML]="vendor.name | imx_highlight: vendorsInputRef.value"></span>
+                      </mat-checkbox>
+                    </div>
+                  </mat-option>
+                  <mat-option disabled *ngIf="vendorsAutoComplete.isLoading ">
+                    <div fxLayout="row" fxLayoutAlign="space-around center">
+                      <mat-spinner diameter="20"></mat-spinner>
+                    </div>
+                  </mat-option>
+                </div>
+
+                <mat-option disabled *ngIf="!vendorsAutoComplete.isLoading  && vendorsAutoComplete.data?.length <= 0"
+                  class="invalid">
+                  Invalid Entry.
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field fxFlex="11.75rem" class="imx-dropdown imx-input" (click)="triggerParentVendor.openPanel()">
+              <mat-label>Parent Vendor</mat-label>
+              <input type="text" readonly matInput [matAutocomplete]="parentVendorsRef" class="imx-input-no-border"
+                #triggerParentVendor="matAutocompleteTrigger" [autocompletePosition]="triggerParentVendor"
+                scrollContainer="vendor-contract-main" (click)="triggerParentVendor.openPanel()"
+                [value]="selectedParentVendors.length == 1 ? '1  Vendor selected' : (selectedParentVendors.length > 1) ? selectedParentVendors.length + ' Vendors selected' : '' " />
+              <mat-icon matSuffix (click)="triggerParentVendor.openPanel()">keyboard_arrow_down</mat-icon>
+              <mat-autocomplete #parentVendorsRef="matAutocomplete" (opened)="updateParentVendorsContainer()"
+                class="autocomplete-scroll  imx-autocomplete-dropdown imx-multiple inside-search-field"
+                panelWidth="11.75rem" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                [scrollWindow]="false" [fromRoot]="true" [immediateCheck]="false" [alwaysCallback]="false"
+                [infiniteScrollDisabled]="parentVendorsAutoComplete.data?.length >= parentVendorsAutoComplete?.pagination?.total"
+                [infiniteScrollContainer]="panelParentVendorsContainer"
+                (scrolled)="loadMoreParentVendors()"
+                [displayWith]="parentVendorsDisplayWithFn">
+
+                <div class="auto-complete-search-field" fxLayout="row">
+                  <input type="text" placeholder="Search Vendors" #parentVendorsInputRef matInput
+                    formControlName="parentVendors" autocomplete="off" />
+                    <mat-icon>search</mat-icon>
+                </div>
+
+                <div class="auto-complete-list-main parent-vendors-list-autocomplete">
+                  <mat-option *ngFor="let vendor of parentVendorsAutoComplete.data;trackBy: parentVendorsTrackByFn"
+                    [value]="contact" tooltip="{{vendor.name?.length >9 ? vendor.name : ''}}" placement="top"
+                    delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" class="drop-maxwidth">
+                    <div (click)="clickParentVendors($event, vendor)">
+                      <mat-checkbox [checked]="vendor.selected" (change)="clickParentVendors($event,vendor)"
+                        (click)="$event.stopPropagation()">
+                        <span [innerHTML]="vendor.name | imx_highlight: parentVendorsInputRef.value"></span>
+                      </mat-checkbox>
+                    </div>
+                  </mat-option>
+                  <mat-option disabled *ngIf="parentVendorsAutoComplete.isLoading ">
+                    <div fxLayout="row" fxLayoutAlign="space-around center">
+                      <mat-spinner diameter="20"></mat-spinner>
+                    </div>
+                  </mat-option>
+                </div>
+
+                <mat-option disabled
+                  *ngIf="!parentVendorsAutoComplete.isLoading  && parentVendorsAutoComplete.data?.length <= 0"
+                  class="invalid">
+                  Invalid Entry.
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1rem">
+          <div [fxLayout]="!isAdvanceSearch && 'row' || 'column'" [fxLayoutGap]="!isAdvanceSearch && '1rem' || '.5rem'"
+            fxLayoutAlign="start start">
+            <div fxLayout="row" fxLayoutGap="1rem">
+              <div>
+                <mat-form-field [fxFlex]="!isAdvanceSearch && '9rem' || '17rem'" class="imx-dropdown imx-input"
+                  (click)="triggerPrimaryContact.openPanel()">
+                  <mat-label>Primary Sales Rep</mat-label>
+                  <input type="text" readonly matInput [matAutocomplete]="primaryContactRef" class="imx-input-no-border"
+                    #triggerPrimaryContact="matAutocompleteTrigger" [autocompletePosition]="triggerPrimaryContact"
+                    scrollContainer="vendor-contract-main" (click)="triggerPrimaryContact.openPanel()"
+                    [value]="selectedPrimarySalesRep.length == 1 ? '1  Contact selected' : (selectedPrimarySalesRep.length > 1) ? selectedPrimarySalesRep.length + ' Contacts selected' : '' " />
+                  <mat-icon matSuffix (click)="triggerPrimaryContact.openPanel()">keyboard_arrow_down</mat-icon>
+                  <mat-autocomplete #primaryContactRef="matAutocomplete" (opened)="updatePrimaryContactContainer()"
+                    class="autocomplete-scroll  imx-autocomplete-dropdown imx-multiple inside-search-field"
+                    [panelWidth]="!isAdvanceSearch && '9rem' || '17rem'" infiniteScroll [infiniteScrollDistance]="1"
+                    [infiniteScrollThrottle]="0" [scrollWindow]="false" [fromRoot]="true" [immediateCheck]="false"
+                    [alwaysCallback]="false"
+                    [infiniteScrollDisabled]="primarySalesRepAutoComplete.data?.length >= primarySalesRepAutoComplete?.pagination?.total"
+                    [infiniteScrollContainer]="panelPrimaryContactContainer"
+                    (scrolled)="loadMorePrimarySales()"
+                    [displayWith]="primaryContactDisplayWithFn">
+
+                    <div class="auto-complete-search-field" fxLayout="row">
+                      <input type="text" placeholder="Search Contact" #primaryContactInputRef matInput
+                        formControlName="primarySalesRep" autocomplete="off" />
+                        <mat-icon>search</mat-icon>
+                    </div>
+
+                    <div class="auto-complete-list-main primaryContact-list-autocomplete">
+                      <mat-option
+                        *ngFor="let contact of primarySalesRepAutoComplete.data;trackBy: primaryContactTrackByFn"
+                        [value]="contact"
+                        tooltip="{{contact.firstName?.length >9 ? contact.firstName + ' ' + contact.lastName : ''}}"
+                        placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                        class="drop-maxwidth">
+                        <div (click)="clickPrimarySalesRep($event, contact);">
+                          <mat-checkbox [checked]="contact.selected" (change)="clickPrimarySalesRep($event,contact)"
+                            (click)="$event.stopPropagation()">
+                            <span
+                              [innerHTML]="(contact.firstName + ' ' + contact.lastName) | imx_highlight: primaryContactInputRef.value"></span>
+                          </mat-checkbox>
+                        </div>
+                      </mat-option>
+                      <mat-option disabled *ngIf="primarySalesRepAutoComplete.isLoading ">
+                        <div fxLayout="row" fxLayoutAlign="space-around center">
+                          <mat-spinner diameter="20"></mat-spinner>
+                        </div>
+                      </mat-option>
+                    </div>
+
+                    <mat-option disabled
+                      *ngIf="!primarySalesRepAutoComplete.isLoading  && primarySalesRepAutoComplete.data?.length <= 0"
+                      class="invalid">
+                      Invalid Entry.
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+              <div *ngIf="isAdvanceSearch">
+                <mat-form-field fxFlex="9rem" class="imx-dropdown imx-input" (click)="triggerDivisions.openPanel()">
+                  <mat-label>Division</mat-label>
+                  <input type="text" readonly matInput [matAutocomplete]="divisionRef" class="imx-input-no-border"
+                    #triggerDivisions="matAutocompleteTrigger" [autocompletePosition]="triggerDivisions"
+                    scrollContainer="vendor-contract-main" (click)="triggerDivisions.openPanel()"
+                    [value]="selectedDivisions.length == 1 ? '1  Division selected' : (selectedDivisions.length > 1) ? selectedDivisions.length + ' Divisions selected' : '' " />
+                  <mat-icon matSuffix (click)="triggerDivisions.openPanel()">keyboard_arrow_down</mat-icon>
+                  <mat-autocomplete #divisionRef="matAutocomplete" (opened)="updateDivisionContainer()"
+                    class="autocomplete-scroll  imx-autocomplete-dropdown imx-multiple inside-search-field"
+                    panelWidth="9rem" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                    [scrollWindow]="false" [fromRoot]="true" [immediateCheck]="false" [alwaysCallback]="false"
+                    [infiniteScrollDisabled]="divisionsAutoComplete.data?.length >= divisionsAutoComplete?.pagination?.total"
+                    [infiniteScrollContainer]="panelDivisionContainer"
+                    (scrolled)="loadMoreDivisions()" [displayWith]="divisionDisplayWithFn">
+
+                    <div class="auto-complete-search-field" fxLayout="row">
+                      <input type="text" placeholder="Search Divisions" #divisionInputRef matInput
+                        formControlName="divisions" autocomplete="off" />
+                        <mat-icon>search</mat-icon>
+                    </div>
+
+                    <div class="auto-complete-list-main divisions-list-autocomplete">
+                      <mat-option *ngFor="let division of divisionsAutoComplete.data | appSortBy: false: 'string': true:'name';trackBy: divisionVendorsTrackByFn"
+                        [value]="division" tooltip="{{division.name?.length >9 ? division.name : ''}}" placement="top"
+                        delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" class="drop-maxwidth"
+                        (click)="$event.stopPropagation()">
+                        <div (click)="clickDivisions($event, division);">
+                          <mat-checkbox [checked]="division.selected" (change)="clickDivisions($event,division)"
+                            (click)="$event.stopPropagation()">
+                            <span [innerHTML]="division.name | imx_highlight: divisionInputRef.value"></span>
+                          </mat-checkbox>
+                        </div>
+                      </mat-option>
+                      <mat-option disabled *ngIf="divisionsAutoComplete.isLoading ">
+                        <div fxLayout="row" fxLayoutAlign="space-around center">
+                          <mat-spinner diameter="20"></mat-spinner>
+                        </div>
+                      </mat-option>
+                    </div>
+
+                    <mat-option disabled
+                      *ngIf="!divisionsAutoComplete.isLoading  && divisionsAutoComplete.data?.length <= 0"
+                      class="invalid">
+                      Invalid Entry.
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+
+              <div *ngIf="isAdvanceSearch">
+                <mat-form-field fxFlex="9rem" class="imx-dropdown imx-input" (click)="triggerOffice.openPanel()">
+                  <mat-label>Office</mat-label>
+                  <input type="text" readonly matInput [matAutocomplete]="officeRef" class="imx-input-no-border"
+                    #triggerOffice="matAutocompleteTrigger" [autocompletePosition]="triggerOffice"
+                    scrollContainer="vendor-contract-main" (click)="triggerOffice.openPanel()"
+                    [value]="selectedOffices.length == 1 ? '1  Office selected' : (selectedOffices.length > 1) ? selectedOffices.length + ' Offices selected' : '' " />
+                  <mat-icon matSuffix (click)="triggerOffice.openPanel()">keyboard_arrow_down</mat-icon>
+                  <mat-autocomplete #officeRef="matAutocomplete" (opened)="updateOfficeContainer()"
+                    class="autocomplete-scroll  imx-autocomplete-dropdown imx-multiple inside-search-field"
+                    panelWidth="9rem" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                    [scrollWindow]="false" [fromRoot]="true" [immediateCheck]="false" [alwaysCallback]="false"
+                    [infiniteScrollDisabled]="officersAutoComplete.data?.length >= officersAutoComplete?.pagination?.total"
+                    [infiniteScrollContainer]="panelOfficeContainer"
+                    (scrolled)="loadMoreOfficers()" [displayWith]="officeDisplayWithFn">
+
+                    <div class="auto-complete-search-field" fxLayout="row">
+                      <input type="text" placeholder="Search Office" #officeInputRef matInput formControlName="office"
+                        autocomplete="off" />
+                        <mat-icon>search</mat-icon>
+                    </div>
+
+                    <div class="auto-complete-list-main offices-list-autocomplete">
+                      <mat-option *ngFor="let office of officersAutoComplete.data | appSortBy: false: 'string': true:'name';trackBy: officeVendorsTrackByFn"
+                        [value]="office" tooltip="{{office.name?.length >9 ? office.name : ''}}" placement="top"
+                        delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" class="drop-maxwidth"
+                        (click)="$event.stopPropagation()">
+                        <div (click)="clickOfficers($event, office);">
+                          <mat-checkbox [checked]="office.selected" (change)="clickOfficers($event,office)"
+                            (click)="$event.stopPropagation()">
+                            <span [innerHTML]="office.name | imx_highlight: officeInputRef.value"></span>
+                          </mat-checkbox>
+                        </div>
+                      </mat-option>
+                      <mat-option disabled *ngIf="officersAutoComplete.isLoading ">
+                        <div fxLayout="row" fxLayoutAlign="space-around center">
+                          <mat-spinner diameter="20"></mat-spinner>
+                        </div>
+                      </mat-option>
+                    </div>
+
+                    <mat-option disabled
+                      *ngIf="!officersAutoComplete.isLoading  && officersAutoComplete.data?.length <= 0"
+                      class="invalid">
+                      Invalid Entry.
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+
+              <div *ngIf="isAdvanceSearch">
+                <mat-form-field fxFlex="11.75rem" class="imx-dropdown imx-input" (click)="triggerBuyers.openPanel()">
+                  <mat-label>Buyer</mat-label>
+                  <input type="text" readonly matInput [matAutocomplete]="divisionRef" class="imx-input-no-border"
+                    #triggerBuyers="matAutocompleteTrigger" [autocompletePosition]="triggerBuyers"
+                    scrollContainer="vendor-contract-main" (click)="triggerBuyers.openPanel()"
+                    [value]="selectedBuyers.length == 1 ? '1  Buyer selected' : (selectedBuyers.length > 1) ? selectedBuyers.length + ' Buyers selected' : '' " />
+                  <mat-icon matSuffix (click)="triggerBuyers.openPanel()">keyboard_arrow_down</mat-icon>
+                  <mat-autocomplete #divisionRef="matAutocomplete" (opened)="updateBuyerContainer()"
+                    class="autocomplete-scroll  imx-autocomplete-dropdown imx-multiple inside-search-field"
+                    panelWidth="11.75rem" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+                    [scrollWindow]="false" [fromRoot]="true" [immediateCheck]="false" [alwaysCallback]="false"
+                    [infiniteScrollDisabled]="buyerAutoComplete.data?.length >= buyerAutoComplete?.pagination?.found"
+                    [infiniteScrollContainer]="panelBuyerContainer"
+                    (scrolled)="loadMorebuyers()" [displayWith]="buyerDisplayWithFn">
+
+                    <div class="auto-complete-search-field" fxLayout="row">
+                      <input type="text" placeholder="Search Buyer" #buyerInputRef matInput formControlName="buyers"
+                        autocomplete="off" />
+                        <mat-icon>search</mat-icon>
+                    </div>
+
+                    <div class="auto-complete-list-main buyers-list-autocomplete">
+                      <mat-option *ngFor="let buyer of buyerAutoComplete.data;trackBy: buyerVendorsTrackByFn" [value]="buyer"
+                        [tooltip]="buyer.firstName?.length + buyer.lastName?.length > 10 ? buyer.firstName +' '+ buyer.lastName : ''"
+                        placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip" class="drop-maxwidth"
+                        (click)="$event.stopPropagation()">
+                        <div (click)="clickbuyers($event, buyer);">
+                          <mat-checkbox [checked]="buyer.selected" (change)="clickbuyers($event,buyer)" (click)="$event.stopPropagation()">
+                            <span [innerHTML]="(buyer.firstName +' '+ buyer.lastName) | imx_highlight: buyerInputRef.value"></span>
+                          </mat-checkbox>
+                        </div>
+                      </mat-option>
+                      <mat-option disabled *ngIf="buyerAutoComplete.isLoading ">
+                        <div fxLayout="row" fxLayoutAlign="space-around center">
+                          <mat-spinner diameter="20"></mat-spinner>
+                        </div>
+                      </mat-option>
+                    </div>
+
+                    <mat-option disabled *ngIf="!buyerAutoComplete.isLoading  && buyerAutoComplete.data?.length <= 0"
+                      class="invalid">
+                      Invalid Entry.
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div fxLayoutGap="1rem">
+              <div>
+                <mat-form-field [fxFlex]="!isAdvanceSearch && '9.5rem' || '17rem'" class="imx-dropdown imx-input"
+                  (click)="triggerSecondaryContact.openPanel()">
+                  <mat-label>Secondary Sales Rep</mat-label>
+                  <input type="text" readonly matInput [matAutocomplete]="secondaryContactRef"
+                    class="imx-input-no-border" #triggerSecondaryContact="matAutocompleteTrigger"
+                    [autocompletePosition]="triggerSecondaryContact" scrollContainer="vendor-contract-main"
+                    (click)="triggerSecondaryContact.openPanel()"
+                    [value]="selectedSecondarySalesRep.length == 1 ? '1  Contact selected' : (selectedSecondarySalesRep.length > 1) ? selectedSecondarySalesRep.length + ' Contacts selected' : '' " />
+                  <mat-icon matSuffix (click)="triggerSecondaryContact.openPanel()">keyboard_arrow_down</mat-icon>
+                  <mat-autocomplete #secondaryContactRef="matAutocomplete" (opened)="updateSecondaryContactContainer()"
+                    class="autocomplete-scroll  imx-autocomplete-dropdown imx-multiple inside-search-field"
+                    [panelWidth]="!isAdvanceSearch && '9.5rem' || '17rem'" infiniteScroll [infiniteScrollDistance]="1"
+                    [infiniteScrollThrottle]="0" [scrollWindow]="false" [fromRoot]="true" [immediateCheck]="false"
+                    [alwaysCallback]="false"
+                    [infiniteScrollDisabled]="secondarySalesRepAutoComplete.data?.length >= secondarySalesRepAutoComplete?.pagination?.total"
+                    [infiniteScrollContainer]="panelSecondaryContactContainer"
+                    (scrolled)="loadMoreSecondarySalesRep()"
+                    [displayWith]="secondaryContactDisplayWithFn">
+
+                    <div class="auto-complete-search-field" fxLayout="row">
+                      <input type="text" placeholder="Search Contact" #primaryContactInputRef matInput
+                        formControlName="secondarySalesRep" autocomplete="off" />
+                        <mat-icon>search</mat-icon>
+                    </div>
+
+                    <div class="auto-complete-list-main secondaryContact-list-autocomplete">
+                      <mat-option
+                        *ngFor="let contact of secondarySalesRepAutoComplete.data;trackBy: secondaryContactTrackByFn"
+                        [value]="contact"
+                        tooltip="{{contact.firstName?.length >9 ? contact.firstName + ' ' + contact.lastName : ''}}"
+                        placement="top" delay="200" tooltipClass="imx-tooltip-v3" customClass="imx-field-tooltip"
+                        class="drop-maxwidth" (click)="$event.stopPropagation()">
+                        <div (click)="clickSecondarySalesRep($event, contact);">
+                          <mat-checkbox [checked]="contact.selected" (change)="clickSecondarySalesRep($event,contact)"
+                            (click)="$event.stopPropagation()">
+                            <span
+                              [innerHTML]="(contact.firstName + ' ' + contact.lastName) | imx_highlight: primaryContactInputRef.value"></span>
+                          </mat-checkbox>
+                        </div>
+                      </mat-option>
+                      <mat-option disabled *ngIf="secondarySalesRepAutoComplete.isLoading ">
+                        <div fxLayout="row" fxLayoutAlign="space-around center">
+                          <mat-spinner diameter="20"></mat-spinner>
+                        </div>
+                      </mat-option>
+                    </div>
+
+                    <mat-option disabled
+                      *ngIf="!secondarySalesRepAutoComplete.isLoading  && secondarySalesRepAutoComplete.data?.length <= 0"
+                      class="invalid">
+                      Invalid Entry.
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+              <div *ngIf="isAdvanceSearch">
+                <mat-form-field fxFlex="10.848rem" class="imx-input">
+                  <mat-label>Contract Created Since</mat-label>
+                  <input matInput formControlName="contractCreatedSince" appDateFormat [matDatepicker]="createdSince_picker" />
+                  <mat-error> Invalid Date.</mat-error>
+                  <mat-icon (click)="createdSince_picker.open()" matSuffix
+                    class="date-picker-icon date-picker-icon_input" svgIcon="IMX-calender"></mat-icon>
+                  <mat-datepicker #createdSince_picker="matDatepicker" [panelClass]="'imx-calander'"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div *ngIf="isAdvanceSearch" fxFlex="7.2rem"></div>
+              <div *ngIf="isAdvanceSearch">
+                <mat-form-field fxFlex="11.75rem" class="imx-input">
+                  <mat-label>Contract Revised Since</mat-label>
+                  <input matInput formControlName="contractRevisedSince" appDateFormat [matDatepicker]="revisedSince_picker" />
+                  <mat-error> Invalid Date.</mat-error>
+                  <mat-icon (click)="revisedSince_picker.open()" matSuffix
+                    class="date-picker-icon date-picker-icon_input" svgIcon="IMX-calender"></mat-icon>
+                  <mat-datepicker #revisedSince_picker="matDatepicker" [panelClass]="'imx-calander'"></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1rem" *ngIf="isAdvanceSearch">
+          <div>
+            <mat-form-field class="imx-input" fxFlex="9rem">
+              <mat-label>Contract Name</mat-label>
+              <input matInput autocomplete="off" formControlName="contractName">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="imx-input" fxFlex="7rem">
+              <mat-label>Product Name</mat-label>
+              <input matInput autocomplete="off" formControlName="productName">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="imx-input" fxFlex="9rem">
+              <mat-label>Product code</mat-label>
+              <input matInput autocomplete="off" formControlName="productCode">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="imx-input" fxFlex="4.563rem">
+              <mat-label>Estimate #</mat-label>
+              <input matInput autocomplete="off" formControlName="estimate">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <!-- action area -->
+      <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem" class="search-action-main">
+        <button mat-button type='button' class='imx-button-basic_icon padding-none' disableRipple
+                  (click)='onResetForm()'>Reset
+        </button>
+        <button mat-button type="submit" [disabled]="vendorContractSearchForm.invalid" class="imx-button-primary">search</button>
+        <button mat-button type="button" class="imx-button-basic_icon capitalize advance-search-btn" (click)="onClickAdvanceSearch()">
+          Advanced Search <mat-icon>{{ isAdvanceSearch ? 'keyboard_arrow_up': 'keyboard_arrow_down'}}</mat-icon>
+        </button>
+      </div>
+
+    </div>
+  </mat-card>
+  </form>
+
+  <!-- vendor contract list area -->
+
+  <div fxLayout="column" fxLayoutAlign="start start" class="vcontract-list-main" id="vcontract-list-main">
+
+    <app-vcontract-list [enableAdvanceSearch$]="enableAdvanceSearch$" [clickSearch$]="clickSearch$"></app-vcontract-list>
+
+  </div>
+
+</div>

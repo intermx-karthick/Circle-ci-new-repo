@@ -1,0 +1,96 @@
+@import "../../../assets/css/variables.less";
+
+::ng-deep {
+  .cast-settings {
+    .cast-settings-title {
+      padding: 15px 0px;
+      h4 {
+        margin: 0px;
+      }
+    }
+    padding: 0 20px 20px 20px;
+    h5 {
+      margin: 0px;
+    }
+    .mat-form-field-appearance-legacy, .mat-form-field-appearance-standard {
+      .mat-form-field-underline {
+        display: none;
+      }
+    }
+    .mat-form-field-can-float.mat-form-field-should-float {
+      .mat-form-field-label {
+        font-size: 11px;
+        color: var(--primary-bg);
+      }
+    }
+    .text-box {
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 5px 10px;
+      height: 40px;
+      &:focus {
+        border: 2px solid #000;
+        padding: 5px 9px;
+      }
+    }
+    textarea.text-box {
+      height: 100px;
+    }
+    .mat-form-field-wrapper {
+      padding-bottom: 0 !important;
+    }
+    .tag-container {
+      label {
+        padding-bottom: 10px;
+        display: block;
+        font-size: 11px;
+        color: var(--primary-bg);
+      }
+      app-tags-input {
+        .mat-chip-list-wrapper  {
+          .mat-standard-chip:last-child {
+            &::after {
+              content: '\n';
+            }
+          }
+          .mat-form-field {
+            margin: 0 5px;
+          }
+          
+          .mat-form-field-appearance-legacy {
+            .mat-form-field-wrapper {
+              padding-bottom: 0 !important;
+            }
+            .mat-form-field-infix {
+              margin: 0px !important;
+              padding: 0px;
+              border: 0px;
+            }
+          }
+          input.mat-input-element {
+            display: block;
+            margin: 10px 0 !important;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px 10px;
+            height: 40px !important;
+            width: 97%;
+            &:focus {
+              border: 2px solid #000;
+              padding: 5px 9px;
+            }
+          }
+        }
+        .mat-standard-chip.mat-chip-with-trailing-icon {
+          padding-right: 25px !important;
+          padding-left: 10px !important;
+        }
+        .mat-standard-chip .mat-chip-remove.mat-icon {
+          position: absolute;
+          right: 3px;
+        }
+      }
+    }
+  }
+}

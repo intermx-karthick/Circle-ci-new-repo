@@ -1,0 +1,74 @@
+<div fxLayout="row" fxLayoutAlign="space-between start">
+  <h1 mat-dialog-title>{{ data ? 'View ' + data.name + ' Details' : 'Adding an Office' }}</h1>
+  <a href="javascript:void(0)" (click)="onNoClick()">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="modal-close-icon">
+      <path d="M10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18ZM10 0C4.47 0 0 4.47 0 10C0 15.53 4.47 20 10 20C15.53 20 20 15.53 20 10C20 4.47 15.53 0 10 0ZM12.59 6L10 8.59L7.41 6L6 7.41L8.59 10L6 12.59L7.41 14L10 11.41L12.59 14L14 12.59L11.41 10L14 7.41L12.59 6Z" fill="#922A95"/>
+    </svg>
+  </a>
+</div>
+<form [formGroup]="addOfficeForm" mat-dialog-content fxLayout="column" fxLayoutAlign="space-between start">
+    <div dir="ltr" fxLayoutGap="16px" class="row-container">
+        <mat-form-field fxFlex="70">
+            <mat-label>Office Name</mat-label>
+            <input formControlName="name" matInput>
+        </mat-form-field>
+        <mat-form-field fxFlex="30" class="imx-dropdown imx-input">
+          <mat-label>Select Division</mat-label>
+          <mat-select panelClass="imx-select" formControlName="division">
+            <div class="mat-select-panel__wrapper" infiniteScroll
+                 (scrolled)="getDivisionsList(true, true)"
+                 [scrollWindow]="false"
+                 [infiniteScrollDistance]="1"
+                 [infiniteScrollThrottle]="0"
+                 [infiniteScrollDisabled]="isDivisionsLoading"
+                 [fromRoot]="true">
+              <mat-option [value]="null">Select Division</mat-option>
+              <mat-option *ngFor="let division of divisions" [value]="division._id">
+                {{ division.name }}
+              </mat-option>
+              <mat-option disabled *ngIf="isDivisionsLoading">
+                <div fxLayout="row" fxLayoutAlign="space-around center" >
+                  <mat-spinner diameter="20"></mat-spinner>
+                </div>
+              </mat-option>
+            </div>
+          </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="user-address-container">
+      <mat-form-field fxFlex="100">
+        <mat-label>Address</mat-label>
+        <input formControlName="line" matInput maxLength="64">
+      </mat-form-field>
+      <div dir="ltr" fxLayoutGap="16px" class="row-container">
+        <mat-form-field fxFlex="20">
+          <mat-label>ZIP Code</mat-label>
+          <input formControlName="zipcode" appNumberOnly matInput maxLength="64">
+        </mat-form-field>
+        <mat-form-field fxFlex="30" class="imx-dropdown imx-input">
+          <mat-label>State</mat-label>
+          <mat-select formControlName="state" panelClass="imx-select">
+            <mat-option [value]="null">Select State</mat-option>
+            <mat-option *ngFor="let state of states" [(value)]="state.short_name">
+              {{ state.short_name }} ({{state.name}})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex="40">
+          <mat-label>City</mat-label>
+          <input formControlName="city" matInput maxLength="64">
+        </mat-form-field>
+      </div>
+    </div>
+
+</form>
+<div mat-dialog-actions>
+    <div fxLayout="row" fxLayoutAlign="space-between start" class="row-container">
+      <div>
+        <button mat-button (click)="onNoClick()" class="imx-button primary-color">{{"Cancel" | uppercase}}</button>
+        <button mat-button *ngIf="data" (click)="deleteOffice()" class="imx-button primary-color">{{"Delete" | uppercase}}
+        </button>
+      </div>
+        <button mat-button fxFlex="20" class="imx-button button-primary" (click)="onSubmit()" cdkFocusInitial>{{data ? "SAVE CHANGES" : "Add office" | uppercase}}</button>
+    </div>
+</div>

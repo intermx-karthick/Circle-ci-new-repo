@@ -1,0 +1,48 @@
+<div class="places-set-container">
+  <!-- <h4 class="heading">Saved Place Sets</h4>
+  <hr> -->
+  <!-- <div fxLayout="row wrap" fxLayoutAlign="end center" fxLayoutGap="10px">
+    <button mat-raised-button class="secondary">{{ 'Delete Selected' | uppercase }}</button>
+    <button mat-raised-button color="primary">{{ 'Merge Selected' | uppercase }}</button>
+  </div> -->
+  <div class="place-set-search" (window:resize)="culaculateHeight()">
+    <mat-form-field floatLabel="always" class="full-width">
+      <mat-label>{{'Refine List' | uppercase}}</mat-label>
+      <input matInput placeholder="Enter keyword" [formControl]="searchFromCtl" class="e2e-my-place-search">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+
+  <div class="places-set-list" [ngStyle]="{'max-height.px': placeSetHeight}"
+       infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="0"
+       (scrolled)="loadMorePlaceSets()" [scrollWindow]="false">
+    <mat-radio-group [(ngModel)]="selectedOptionId"  #selectPlaceSet class="e2e-save-place-list">
+
+      <div *ngIf="isSearching" class="place-loader">
+        <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+      </div>
+
+      <mat-radio-button *ngFor="let place of placeSets" [value]="place['_id']" (change)="onSelectPlaceSets(place)" >
+        <span title="{{place.name}}">{{place.name  | truncate:'middle':30}}</span>
+        <div fxFlex="1 1 auto"></div>
+        <mat-icon class="delete-place-set e2e-delete-place-set" matListIcon
+          (click)="$event.preventDefault();onDeletePlaceSet(place)">delete</mat-icon>
+      </mat-radio-button>
+
+  <div *ngIf="isLoading" class="place-loader">
+    <mat-spinner [strokeWidth]="2" [diameter]="30"></mat-spinner>
+  </div>
+      <p class="no-item-found" *ngIf="!isSearching && !isLoading && placeSets.length<=0">No place set found</p>
+    </mat-radio-group>
+
+  </div>
+
+
+  <div class="action-container" fxLayout="row" fxLayoutAlign="flex-end center" *ngIf="!hideClearButton">
+    <button mat-raised-button class="btn-clear uppercase" type="button" (click)= "clearPlaceSet()">
+      Clear
+    </button>
+  </div>
+
+</div>

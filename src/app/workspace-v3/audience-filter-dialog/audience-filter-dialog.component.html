@@ -1,0 +1,10 @@
+<div class="audience-dialog" mat-dialog-content fxLayout="column" fxLayoutAlign="start">
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="audience-heading">
+    <p class="gray-800">SELECT AUDIENCE(S)</p>
+    <a (click)='closeDialogBox()'>
+      <mat-icon class="primary-text-color">highlight_off</mat-icon>
+    </a>
+  </div>
+  <app-audience-filter [selectedAudienceList]="selectedAudienceList" [isScenario]="isScenario" [openAudience]="openAudience" [isInventory]="isInventory" [selectionType]="selectionType" (onCompletedBrowsing)="closeDialogBox($event)"></app-audience-filter>
+</div>
+

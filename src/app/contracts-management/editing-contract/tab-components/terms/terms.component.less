@@ -1,0 +1,57 @@
+.contract-terms {
+    overflow-y: auto;
+    overflow-x: hidden;
+    &__front-terms-title {
+        width: 6.418rem;
+        height: 1.25rem;
+        left: 1rem;
+        top: 1rem;
+        font-weight: normal;
+        font-size: 1rem;
+        line-height: 1.25rem;
+        letter-spacing: 0.031rem;
+    }
+
+    &__front-terms-body {
+        margin-top: 1rem;
+    }
+
+    &__back-terms {
+        margin-top: 2rem;
+    }
+
+    &__back-terms-title {
+        width: 6.418rem;
+        height: 1.25rem;
+        left: 1rem;
+        top: 1rem;
+        font-weight: normal;
+        font-size: 1rem;
+        line-height: 1.25rem;
+        letter-spacing: 0.031rem;
+    }
+
+    &__back-terms-body {
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+    }
+}
+
+::ng-deep {
+
+    app-terms {
+        .terms-editor-container{
+            flex: 1 1 100%;
+        }
+        .cke_chrome {
+            border-radius: 0.313rem !important;
+            border: 0.063rem solid var(--primary-bg-800) !important;
+            border-width: thin;
+        }
+                
+        .cke_inner {
+            border-radius: 0.313rem !important;
+            overflow: hidden;
+        }   
+    }
+}

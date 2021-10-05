@@ -1,0 +1,26 @@
+<div>
+  <section class="header-section">
+    <app-header fxFlexFill>
+      <div class="projected-title">
+        <span class="">Jobs</span>
+      </div>
+    </app-header>
+    <div fxLayout="row" class="contant-section">
+    </div>
+  </section>
+  <div fxLayout="row" fxLayoutAlign="start start" fxFill class="body-content">
+    <div class="left-nav">
+      <div class="navBarPanel">
+        <div class="records-managment-menu">
+          <ul>
+            <li><a routerLink="/jobs" class="tableau-link" [class.active]="isJobsActive" module="print_production" visiblityType="menu" appUserAccessPermission>Jobs</a></li>
+            <li><a routerLink="line-items" class="tableau-link" routerLinkActive="active" appAccessModule navModule="printProduction" navSubModule="jobsLineItems" module="printProduction" visiblityType="menu" appUserAccessPermission>Job Line Items</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="body-inner-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

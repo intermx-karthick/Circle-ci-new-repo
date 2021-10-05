@@ -1,0 +1,87 @@
+<div class="inventory-form">
+  <header>
+    <section fxLayout="row" fxLayoutAlign="space-between center">
+      <h4 class="inventory-form__title no-margin" mat-dialog-title>CREATE INVENTORY</h4>
+      <button (click)="canDeactivate()" matTooltip="Close" mat-icon-button>
+        <mat-icon class="mat-icon-close active">close</mat-icon>
+      </button>
+    </section>
+
+    <section class="inventory-form-nav" fxLayout="row" fxLayoutAlign="start" fxLayoutGap="24px">
+      <div (click)="selectTab(tab.GENERAL)" [class.inventory-form--active]="validateGivenTabForm(tab.GENERAL)"
+           class="inventory-form-nav__item">
+        <div class="inventory-form-nav__item_icon round">1</div>
+        <h6 class="no-margin">General</h6>
+      </div>
+
+      <div (click)="selectTab(tab.NAMES_AND_ATTR)" [class.inventory-form--active]="validateGivenTabForm(tab.NAMES_AND_ATTR)"
+           class="inventory-form-nav__item">
+        <div class="inventory-form-nav__item_icon round">2</div>
+        <h6 class="no-margin">Name & Attributes</h6>
+      </div>
+
+      <div (click)="selectTab(tab.MEDIA_CLASS)" [class.inventory-form--active]="validateGivenTabForm(tab.MEDIA_CLASS)"
+           class="inventory-form-nav__item">
+        <div class="inventory-form-nav__item_icon round">3</div>
+        <h6 class="no-margin">Media class details</h6>
+      </div>
+
+      <div (click)="selectTab(tab.MATERIAL)" [class.inventory-form--active]="validateGivenTabForm(tab.MATERIAL)"
+           class="inventory-form-nav__item">
+        <div class="inventory-form-nav__item_icon round">4</div>
+        <h6 class="no-margin">Material details</h6>
+      </div>
+    </section>
+  </header>
+
+  <mat-dialog-content class="mat-typography">
+    <mat-tab-group [(selectedIndex)]="selectedTab" mat-align-tabs="start">
+      <mat-tab>
+        <app-general-form [(form)]="generalForm">
+        </app-general-form>
+      </mat-tab>
+
+      <mat-tab>
+        <app-name-and-attributes-form (formChange)="nameAttributeFormRefChange($event)" [form]="nameAndAttrForm" >
+        </app-name-and-attributes-form>
+      </mat-tab>
+
+      <mat-tab>
+        <app-media-class-details-form [(form)]="mediaClassForm" [isForPlaceForm]="isForPlaceForm">
+        </app-media-class-details-form>
+      </mat-tab>
+
+      <mat-tab>
+        <app-material-details-form  [(form)]="materialForm" [enableForDigitalForm]="enableForDigitalForm">
+        </app-material-details-form>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="inventory-form-actions" fxLayoutAlign="space-between center"
+                      fxLayoutGap="24px">
+    <div class="inventory-form-actions__hint">
+      <i>*</i><span>Required</span>
+    </div>
+
+    <div fxLayout="row-reverse" fxLayoutGap="8px">
+      <div [matTooltipDisabled]="validateCurrentForm" matTooltip="Please fill out the mandatory (*) fields">
+        <button (click)="next()" *ngIf="selectedTab !== tab.MATERIAL"
+                [disabled]="!validateCurrentForm" class="inventory-form-actions__submit"
+                mat-raised-button>
+          NEXT
+        </button>
+      </div>
+
+      <button (click)="submitInventoryForm()" *ngIf="selectedTab == tab.MATERIAL"
+              [disabled]="!canSubmit" class="inventory-form-actions__submit"
+              mat-raised-button>SUBMIT
+      </button>
+
+      <button (click)="back()" *ngIf="selectedTab !== tab.GENERAL"
+              class="inventory-form-actions__back"
+              mat-raised-button>BACK
+      </button>
+    </div>
+  </mat-dialog-actions>
+</div>

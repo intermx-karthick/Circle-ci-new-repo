@@ -1,0 +1,106 @@
+<div fxLayout="column" fxLayoutAlign="start start" class="contract-line-items-blocks">
+
+  <div >
+    <p class="pfont p800 hide-single-page" *ngIf="headingVisible || showHeading" [class.header-margin] = "isLoadedFromEdit">Vendor/Office : {{(lineItem?.vendor?.name ? lineItem?.vendor?.name : '')}}</p>
+      
+    <!-- {{(lineItem?.vendor?.parentCompany ? lineItem?.vendor?.parentCompany : '') + '/' + (lineItem?.vendor?.name ? lineItem?.vendor?.name : '')}} -->
+    <div class="single-line-item" fxLayout="column" fxLayoutAlign="start start">
+      <div fxLayout="row" fxLayoutAlign="start start" class="lineItem-header" *ngIf="headingVisible">
+        <div class="head txt-center" fxFlex="5.875rem">Contract Line Item ID</div>
+<!--        <div class="head" fxFlex="6.75rem" *ngIf="!isLoadedFromEdit">Vendor/Office</div>-->
+        <div class="head" fxFlex="6.75rem">Market</div>
+        <div class="head" fxFlex="4.563rem">Place Type</div>
+        <div class="head" fxFlex="4.563rem">Media Type</div>
+        <div class="head" fxFlex="5.563rem">Impressions</div>
+        <div class="head" fxFlex="3.625rem">Vendor Unit #</div>
+        <div class="head txt-left" fxFlex="9.125rem">Media & Location Description</div>
+        <div class="head txt-center" fxFlex="3.25rem">Unit Size</div>
+        <div class="head txt-center" fxFlex="5.5rem">Place Qty.</div>
+        <div class="head txt-center" fxFlex="5.5rem">Unit Qty.</div>
+        <div class="head" fxFlex="5rem">Spot Size/ Placement</div>
+        <div class="head" fxFlex="6.25rem"># included Installs</div>
+        <div class="head" fxFlex="5.5rem">Activity Dates</div>
+        <div class="head" fxFlex="4rem"># of Periods</div>
+        <div class="head" fxFlex="4.5rem">Terms of Periods</div>
+        <div class="head" fxFlex="5.5rem">Net Cost/ Period</div>
+        <div class="head txt-center" fxFlex="4.5rem">Sales Tax</div>
+        <div class="head txt-center" fxFlex="6.5rem">Total Net (incl. Tax)</div>
+      </div>
+      <!-- Line item loop start here -->
+      <div class="single-item-content">
+
+        <div fxLayout="row" fxLayoutAlign="start start" class="lineItem-data">
+          <div class="line-data txt-center" fxFlex="5.875rem">{{lineItem?.lineItemId ? lineItem?.lineItemId : ''}}</div>
+<!--          <div class="line-data" fxFlex="6.75rem" *ngIf="!isLoadedFromEdit">{{( lineItem?.vendor?.parentCompany ? lineItem?.vendor?.parentCompany : '') + '/' +-->
+<!--            (lineItem?.vendor?.name ? lineItem?.vendor?.name : '')}}</div>-->
+          <div class="line-data" fxFlex="6.75rem">{{getLineMarket(lineItem?.media)}}</div>
+          <div class="line-data" fxFlex="4.563rem">{{lineItem?.media?.placementType ? lineItem?.media?.placementType : ''}}</div>
+          <div class="line-data txt-center" fxFlex="4.563rem">{{lineItem?.media?.mediaType ? lineItem?.media?.mediaType : ''}}</div>
+          <div class="line-data txt-center" fxFlex="5.563rem">{{lineItem?.media?.impressionPerPeriod ? (lineItem?.media?.impressionPerPeriod | convert:'THOUSAND':0) : ''}}</div>
+          <div class="line-data txt-center" fxFlex="3.625rem">{{lineItem?.media?.vendorSpotId ? lineItem?.media?.vendorSpotId : ''}}</div>
+          <div class="line-data" fxFlex="9.125rem">{{lineItem?.media?.mediaDescription ? lineItem?.media?.mediaDescription : ''}}</div>
+          <div class="line-data txt-center" fxFlex="3.25rem">{{(lineItem?.media?.unitWidth && lineItem?.media?.unitHeight) ? lineItem?.media?.unitWidth + ' x ' + lineItem?.media?.unitHeight : ''}}</div>
+          <div class="line-data txt-center" fxFlex="5.5rem">{{ lineItem?.media?.mediaUnitQty ? (lineItem?.media?.mediaUnitQty | convert:'THOUSAND':0) : ''}}</div>
+          <div class="line-data txt-center" fxFlex="5.5rem">{{lineItem?.media?.venueQty ? (lineItem?.media?.venueQty | convert:'THOUSAND':0) : ''}}</div>
+          <div class="line-data txt-center" fxFlex="5rem">{{ lineItem?.media?.spotDuration ? lineItem?.media?.spotDuration + ", " : ''}}{{ lineItem?.media?.spotsPerLoop ? lineItem?.media?.spotsPerLoop + " of " : '' }}  {{ lineItem?.media?.spotsInRotation ? lineItem?.media?.spotsInRotation : ''}}</div>
+          <div class="line-data txt-center" fxFlex="6.25rem">{{lineItem?.installs ? lineItem?.installs : ''}}</div>
+          <div class="line-data txt-center" fxFlex="5.5rem">{{(lineItem?.startDate ? (lineItem?.startDate | date: 'MM/dd/yyyy') : '') + '- ' + (lineItem?.endDate ? (lineItem?.endDate | date: 'MM/dd/yyyy') : '')}}</div>
+          <div class="line-data txt-center" fxFlex="4rem">{{lineItem?.noOfPeriods ? lineItem?.noOfPeriods : ''}}</div>
+          <div class="line-data txt-center" fxFlex="4.5rem">{{lineItem?.periodLength ? lineItem?.periodLength?.label : ''}}</div>
+          <div class="line-data" fxFlex="5.5rem">{{lineItem?.costSummary?.period.net ? '$' + (lineItem?.costSummary?.period?.net | convert:'THOUSAND':2:true) : ''}}</div>
+          <div class="line-data" fxFlex="4.5rem">{{lineItem?.costSummary?.period?.tax ? '$' + (lineItem?.costSummary?.period?.tax | convert:'THOUSAND':2:true) : ''}}</div>
+          <div class="line-data" fxFlex="6.5rem">{{lineItem?.costSummary?.total?.clientNet ? '$' + (lineItem?.costSummary?.total?.clientNet | convert:'THOUSAND':2:true) : ''}}</div>
+        </div>
+        <!-- line items date section -->
+        <!-- <div class="io-net-cost-hint">Vendor Net Cost per Bill Date (not incl. tax):</div> -->
+        <div class="line-item-dates" fxLayout="row" fxLayoutAlign="start center">
+            <div class="li-date-main">
+              <div class="linedate-left" fxFlex="5.938rem">
+                <p>Line Item Date</p>
+                <p>Status</p>
+                <p>Line Type</p>
+              </div>
+              <div class="linedate-right">
+                <p>{{(lineItem.revisedAt || lineItem.createdAt) | date: 'MM/dd/yyyy'}}</p>
+                <p>{{lineItem.itemStatus && lineItem.itemStatus.name ? lineItem.itemStatus.name : ''}}</p>
+                <p>{{lineItem.lineItemType && lineItem.lineItemType.name ? lineItem.lineItemType.name : ''}}</p>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start center" class="line-item-io-dates" *ngIf="!isLoadedFromEdit">
+              <div *ngFor="let dateVal of lineItem?.IODates">
+                <div class="with-border">
+                  <p class="pfont p900">{{(dateVal?.date | date: 'MM/dd/yyyy')}}</p>
+                </div>
+                <div class="with-no-border">
+                  <p class="pfont p900">{{dateVal?.net ? '$'+ (dateVal?.net | convert:'THOUSAND':2:true) : '$0.00'}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center" class="line-item-io-dates" *ngIf="isLoadedFromEdit">
+              <div *ngFor="let dateVal of lineItem?.IODates">
+                <div class="with-border">
+                  <p class="pfont p900" fxFlex="4.563rem">{{(dateVal?.date | date: 'MM/dd/yyyy')}}</p>
+                </div>
+                <div class="with-no-border">
+                  <p class="pfont p900" fxFlex="5.75rem">{{dateVal?.net ? '$'+ (dateVal?.net | convert:'THOUSAND':2:true) : '$0.00'}}</p>
+                </div>
+              </div>
+            </div>
+        </div>
+        <!-- line items date section end-->
+
+        <!-- Special Instructions -->
+          <div class="special-instraction-block">
+            <p class="pfont p800">Special Instructions</p>
+            <p class="pfont p800" [innerHTML]='lineItem?.contractNotes'></p>
+          </div>
+      </div>
+      <!-- line item loop ending here -->
+
+
+    </div>
+
+  </div>
+
+</div>

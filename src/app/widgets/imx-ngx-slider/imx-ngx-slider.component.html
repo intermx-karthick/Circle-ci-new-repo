@@ -1,0 +1,9 @@
+<div fxLayout="row" fxLayoutGap="5px" class="imx-ngx-slider" ngClass="{disabled: disabled}">
+  <div class="legend-text" [ngClass]="{'disable-content' : disabled}">{{floorText}}</div>
+  <div style="flex-grow: 1;">
+    <ngx-slider [(value)]="sliderRange.value" [(highValue)]="sliderRange.highValue"
+      [options]="sliderOptions" [manualRefresh]="manualRefresh" (userChangeEnd)="changeEndHandler($event)">
+    </ngx-slider>
+  </div>
+  <div class="legend-text" [ngClass]="{'disable-content' : disabled}">{{ceilText}}</div>
+</div>

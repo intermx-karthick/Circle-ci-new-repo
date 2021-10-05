@@ -1,0 +1,24 @@
+
+@import url(../../assets/css/variables.less);
+.setting-body{
+  padding-left: 40px;
+  width:100%;
+  max-height: calc(100vh - 120px) !important;
+  overflow: auto;
+}
+::ng-deep{
+  user-profile{
+    width:100%;
+    form{
+      width: 100%;
+    }
+  }
+}
+@media @all-devices-under-768 {
+  .setting-body{
+    padding:0px !important;
+  }
+  .outer-block{
+    padding: 5px;
+  }
+}

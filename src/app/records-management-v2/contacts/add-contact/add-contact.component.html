@@ -1,0 +1,33 @@
+<div class="add-contact" [ngClass]="{'add-contact-dialog': injectedData?.enableDialog}">
+  <section fxLayout="row" fxLayoutAlign="space-between center" id="add-contact-title" class="header" #titleContent>
+    <h4 *ngIf="!contactDetails['firstName']; else duplicateContact;"> {{injectedData?.title ? injectedData?.title : 'Add Contact' }} </h4>
+    <ng-template #duplicateContact>
+      <h4 *ngIf="!this.injectedData?.enableDetails || enableDuplicate">Duplicate {{contactDetails['firstName']}} {{contactDetails['lastName']}} Details</h4>
+      <h4 *ngIf="this.injectedData?.enableDetails && !enableDuplicate">VIEWING {{contactDetails['firstName']}} {{contactDetails['lastName']}}  Details</h4>
+    </ng-template>
+    <a (click)='closeDialogBox()' *ngIf="injectedData?.enableDialog">
+      <mat-icon class="primary-text-color">highlight_off</mat-icon>
+    </a>
+  </section>
+  <div  class="add-contact__body" [ngStyle]="{'max-height.px':scrollContent}" (scroll)="handleScroll()"
+  (window:resize)="reSize()" id="module_contact_SCROLLABLE">
+    <div class="add-contact__content">
+      <app-contact-form #contact [containerScrolling$]="scrolling$"  [formControl]="contactFormControl" [submitForm$]="submitForm$" [organization]="injectedData?.organization" [isEditForm]="isEditContact" [moduleContactId]="injectedData?.contact?._id" (contactNoteUpdateEmit)="contactNoteUpdateEmit($event)" [enableDuplicate]="enableDuplicate" scrollingContainer="module_contact_SCROLLABLE"
+       [userPermission]="this.injectedData?.permission"></app-contact-form>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start center" >
+    <section fxLayout fxLayoutAlign="center" fxLayoutGap="16px" class="add-contact__actions" fxFlex="78">
+        <!-- Visiable only dialog details -->
+        <button type="button" mat-button class="imx-button-basic" module="{{'contacts'}}" visiblityType="delete" appUserAccessPermission *ngIf="this.injectedData?.enableDetails && !enableDuplicate" (click)="onDeleteConatct()"> DELETE</button>
+        <button type="button" mat-button class="imx-button-basic" module="{{'contacts'}}" visiblityType="create" appUserAccessPermission *ngIf="this.injectedData?.enableDetails && !enableDuplicate" (click)="openCreateDuplicate()"> DUPLICATE </button>
+
+        <span fxFlex="1 1 auto" *ngIf="this.injectedData?.enableDetails && !enableDuplicate"></span>
+        <!-- Visiable only dialog details end -->
+
+        <button type="reset" mat-button (click)="handleCancel()" class="imx-button-secondary" *ngIf="!injectedData?.enableDialog">CANCEL</button>
+        <button (click)="handleSubmit()" [module]="'contacts'" [visiblityType]="this.injectedData?.enableDetails && !enableDuplicate ? 'edit' : 'create'" appUserAccessPermission mat-button class="imx-button-primary">SAVE CONTACT</button>
+    </section>
+  </div>
+
+</div>

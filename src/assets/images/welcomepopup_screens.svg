@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024px" height="1024px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Desktop</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop">
+            <g id="Group-2" transform="translate(124.000000, 129.000000)">
+                <rect id="Rectangle-3" fill="#EEEEEE" x="0" y="0" width="259" height="174"></rect>
+                <rect id="Rectangle-3" fill="#878787" x="0" y="0" width="259" height="30"></rect>
+                <rect id="Rectangle-3" fill="#212121" x="0" y="0" width="22" height="174"></rect>
+                <g id="ic_camera_white_24px" transform="translate(4.000000, 50.000000)">
+                    <polygon id="Shape" points="0 0 15 0 15 15 0 15"></polygon>
+                    <path d="M5.862,6.555 L8.8671,1.3512 C8.4261,1.2567 7.9725,1.2 7.5,1.2 C5.988,1.2 4.602,1.7355 3.5184,2.6175 L5.8242,6.618 L5.862,6.555 Z M13.5102,5.61 C12.9306,3.7704 11.5257,2.2962 9.7302,1.6158 L7.4244,5.61 L13.5102,5.61 Z M13.674,6.24 L8.9553,6.24 L9.138,6.555 L12.1368,11.7525 C13.17,10.6311 13.8,9.1443 13.8,7.5 C13.8,7.0653 13.7559,6.6495 13.674,6.24 Z M5.3202,7.5 L2.8632,3.2475 C1.8363,4.3689 1.2,5.8557 1.2,7.5 C1.2,7.9347 1.2441,8.3505 1.326,8.76 L6.0447,8.76 L5.3202,7.5 Z M1.4898,9.39 C2.0694,11.2296 3.4743,12.7038 5.2698,13.3842 L7.5756,9.39 L1.4898,9.39 Z M8.5899,9.39 L6.1329,13.6488 C6.5739,13.7433 7.0275,13.8 7.5,13.8 C9.012,13.8 10.398,13.2645 11.4816,12.3825 L9.1758,8.382 L8.5899,9.39 Z" id="Shape" fill="#FCBD32" fill-rule="nonzero"></path>
+                </g>
+            </g>
+            <path d="M423,214 L162.5,187.5" id="Line-2" stroke="#FCBD32" stroke-width="4" fill="#FCBD32" stroke-linecap="square"></path>
+            <path id="Line-2-decoration-1" d="M162.5,187.5 L172.940933,191.577612 L173.548164,185.608419 L162.5,187.5 Z" stroke="#FCBD32" stroke-width="4" fill="#FCBD32" stroke-linecap="square"></path>
+            <g id="Group-2" transform="translate(124.000000, 421.000000)">
+                <rect id="Rectangle-3" fill="#EEEEEE" x="0" y="0" width="259" height="174"></rect>
+                <rect id="Rectangle-3" fill="#878787" x="0" y="0" width="259" height="30"></rect>
+                <rect id="Rectangle-3" fill="#212121" x="0" y="0" width="22" height="174"></rect>
+            </g>
+            <path d="M70,603.240084 L330.31711,575" id="Line-2" stroke="#FCBD32" stroke-width="4" fill="#FCBD32" stroke-linecap="square"></path>
+            <path id="Line-2-decoration-1" d="M330.31711,575 L319.256553,573.182285 L319.903657,579.147288 L330.31711,575 Z" stroke="#FCBD32" stroke-width="4" fill="#FCBD32" stroke-linecap="square"></path>
+            <rect id="Rectangle-5" fill="#922A95" x="342" y="568" width="32" height="15" rx="7.5"></rect>
+        </g>
+    </g>
+</svg>

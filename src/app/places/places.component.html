@@ -1,0 +1,144 @@
+<div fxLayout="column">
+  <!-- Header section -->
+  <section class="header-section">
+    <app-places-header></app-places-header>
+  </section>
+  <!-- Header section -->
+
+  <div
+    fxLayout="row"
+    [ngClass]="{
+      'place-filter-open': openFilter,
+      'filterlevel2': filterLevel['filterLevel'] === 2,
+      'filter-expand': filterLevel['placeResultExpand'],
+      'filter-search-hide': filterLevel['searchHide'] || (navigationCollapseState && filterOpenDetails['tab'] === 'myPlaces'),
+      'layers-filter-open': filterOpenDetails['tab'] === 'layers' || filterOpenDetails['tab'] === 'actions',
+      'navigation-collapse' : navigationCollapseState
+    }"
+  class="place-map-container" id="printContent">
+  <div class="library-navigation">
+    <app-library-navigation activeRoute="places"></app-library-navigation>
+  </div>
+    <div class="map-zoom-out mobile-hide" *ngIf="showMapControls">
+      <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+        <button (click)="zoomOutMap()" title="ZOOM OUT MAP">
+          <span><i class="material-icons">zoom_out_map</i></span>
+        </button>
+      </div>
+    </div>
+    <section class="body-content" [ngClass]="{'place-filter-close': !this.openFilter}" >
+      <mat-sidenav
+        [(opened)]="openFilter"
+        mode="side"
+        position="start"
+        class="places-filter-main"
+        [ngStyle]="{ 'top.px': headerHeight }"
+        [disableClose]="true"
+      >
+
+        <div class="drawer-inner-container " >
+          <div class="places-left">
+            <app-places-filters
+              (pushNationalData)="onPushNationalData($event)"
+              (onHoverOnCard)="hoverOnCard($event)"
+              (onLeaveOnCard)="hoverOutOnCard()"
+              (onClickOnCard)="openPanelPopup($event)"
+              (onChangeTab)="onChangeTab($event)"
+              (drawPolygon)="drawPolygon()"
+              (drawCircularPolygon)="drawCircularPolygon()"
+              (geoPolygon)="geoPolygon($event)"
+              (removePolygon)="removePolygon($event)"
+              (loadPolygonFromSession)="updateFiltersFromPolygon($event)"
+              (filterLocationsByRadius)="filterLocationsByRadius($event)"
+              (selectedFilterFids) = "selectedFilterFids($event)"
+              (navigationStatus) = "onNavigationStatus($event)"
+            >
+            </app-places-filters>
+          </div>
+          <div
+            class="find-inventory-btn-icon close-filter e2e-filter-close"
+            *ngIf="openFilter"
+            (click)="onCloseFilter()"
+          title="Collapse the filters">
+            <mat-icon>arrow_left</mat-icon>
+          </div>
+        </div>
+      </mat-sidenav>
+      <div
+            class="find-inventory-btn-icon open-filter-btn e2e-filter-close"
+            *ngIf="!openFilter"
+            (click)="openFilterNav()"
+          title="Expand the filters">
+            <mat-icon>arrow_right</mat-icon>
+      </div>
+      <div class="map-div-block" id="map-div-block-primary">
+        <div
+          class="map-div"
+          [ngClass]="{'notShowMapControls':!showMapControls}"
+          [ngStyle]="{ 'height.px': mapHeight, 'width.px': mapWidth }"
+          id="map-div-block" #mapDivBlock> 
+          
+          <div class="custom-logo-layer">
+            <app-custom-logo-layer
+              [zoomLevel]="zoomLevel"
+              [logoStyle]="logoStyle"
+              [activeDraggablePosition]="activeDraggablePosition"
+              [mapWidthHeight]="mapWidthHeight"
+              [layerDisplayOptions]="layerDisplayOptions"
+              [mapDivBlock]="mapDivBlock"
+              [layerType]="layerType"
+              [module]="'places'"
+              (layerChanges)="layerChanges($event)"
+              [mapId]="'map-div-block'"
+              [applydisplay]="applyLayerObservable"
+              >
+            </app-custom-logo-layer>
+          </div>
+          <div class="custom-text-layer">
+            <app-custom-text-layer
+              [activeDraggableTextPosition]="activeDraggableTextPosition"
+              [mapWidthHeight]="mapWidthHeight"
+              [layerDisplayOptions]="layerDisplayOptions"
+              [customTextStyle]="customTextStyle"
+              [mapDivBlock]="mapDivBlock"
+              [layerType]="layerType"
+              [module]="'places'"
+              (layerChanges)="layerChanges($event)"
+              [mapId]="'map-div-block'"
+              [applydisplay]="applyLayerObservable"
+            >
+            </app-custom-text-layer>
+          </div>
+
+          <div [ngClass]="mapStyle" id="mapbox"></div>
+          <div class="key-legend-map-control" [ngClass]="{'notShowMapLegends':!showMapLegends}">
+            <app-map-legends [module]='"place"' [layerType]="'primary'" *ngIf="showMapLegends"></app-map-legends>
+          </div>
+          <div class="single-inventory-key-legend" *ngIf="isKeylegend">
+            <p *ngIf="currentSingleInventory['replevel'] == 'dma'">
+              Spot ID {{ currentSingleInventory["fid"] }} - Top Contributing DMAs by Percentage
+            </p>
+            <p *ngIf="currentSingleInventory['replevel'] == 'zip_code'">
+              Spot ID {{ currentSingleInventory["fid"] }} - Top Contributing Zip Code by Percentage
+            </p>
+            <ul>
+              <li *ngFor="let color of keyLegendColors; let i = index">
+                <mat-icon [ngStyle]="{ color: color, 'background-color': color }">stop</mat-icon>
+                <span *ngIf="i == '0'" title="Highest {{ currentSingleInventory['maxValue'] && currentSingleInventory['maxValue'] + '%'}}">Highest {{ currentSingleInventory["maxValue"] && currentSingleInventory["maxValue"] + ' %'}}</span>
+                <span *ngIf="i == '5'" title="Lowest - {{ currentSingleInventory['minValue'] && currentSingleInventory['minValue'] + '%'}}">Lowest {{ currentSingleInventory["minValue"] && currentSingleInventory["minValue"] + ' %'}}</span>
+                <!-- <span *ngIf="i == '5'" title="No Impressions">No Impressions</span> -->
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Print the date & time in print page -->
+        <app-datetime-print></app-datetime-print>
+      </div>
+
+      <div *ngIf="enableSecondaryMap">
+        <app-layer-secondary-map [dimensionsDetails]="dimensionsDetails" (secondaryMapWidth)="calculateMapWidth($event)" class="place-secondary-map" [mapIdName]="'population-seconday-map'" [module]="'places'"></app-layer-secondary-map>
+      </div>
+
+    </section>
+  </div>
+</div>

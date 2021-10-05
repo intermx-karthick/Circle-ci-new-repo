@@ -1,0 +1,30 @@
+/**
+This mixin is only required when you use flex based tables using mat-table, mat-cell, mat-header-cell with sticky columns. If the table is using HTML table, th, td, this fix is not required as Angular material is working fine for those tables.
+
+It is suggested to use HTML table and the mat-table, mat-cell as directives on the table wherever possible.
+
+This mixin is only intended to be used for mat-tables with sticky columns. When a table have more than 1 sticky columns, Angular material calculates the left
+position for the second and subsequent columns wrong.
+
+We have to manually calculate the left position of the second and subsequent columns. The left position is just the calculated width (width + padding + margins) of the first column. For the 3rd column it'll be the calculated widths of first and second columns.
+
+Users of this mixin will still have to calculate the width, but for most of our use cases, we have one table with name as first column and action button in second column. The name is also fixed width, so you can safely copy an existing table and add the action-menu-column class to the 2nd header cell and it'll just work.
+
+Some tables such as Estimates list in records management however, have more than 2 sticky columns. So this style can't be globalised because the left position can't be dynamically calculated. One can pass left position and the class name to this mixin under the table's style definitions in that component stylesheet. If you see in estimate-list.component.less, this will be used as below.
+
+----
+File: estimate-list.component.less
+In top of the file import this mixin like this
+@import "/src/assets/mixins/mixin-sticky-column-left-fix";
+
+then under .mat-cell and .mat-header-cell or any cell selector styles do this
+      .mixin-sticky-column-left-fix(339.99px, 'left339');
+      .mixin-sticky-column-left-fix(443.99px);
+----
+The second argument is the selector of the header cell and mat-cell. Pass it as a valid selector such . for class and #for id.
+**/
+.mixin-sticky-column-left-fix(@positionLeftWithUnit; @selector: ~'.action-menu-column';) {
+  &@{selector} {
+    left: @positionLeftWithUnit !important;
+  }
+}

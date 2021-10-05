@@ -1,0 +1,409 @@
+<div class="yoda-theme">
+    <section class="header-section">
+        <app-header fxFlexFill>
+            <div class="projected-title">
+                <span class="">Agency</span>
+            </div>
+        </app-header>
+        <div fxLayout="row" class="contant-section">
+        </div>
+    </section>
+    <div fxLayout="row" fxLayoutAlign="start start" fxFill class="body-content">
+        <div class="left-nav">
+            <div class="navBarPanel">
+                <div class="agency-managment-menu">
+                    <ul>
+                        <li><a routerLink="/jobs">Agencies</a></li>
+                        <li><a routerLink="line-items" class="tableau-link" routerLinkActive="active">Vendor</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div style="background: #f9f9f9; display: flex;">
+            <div class="container-fluid add-agency-container">
+                <div fxLayout="row" fxLayoutAlign="space-between center" style="margin-bottom: 1em;">
+                    <div>
+                        <h1>Save Agency</h1>
+                    </div>
+                    <div>
+                        <button class="imx-btn-primary">Add Agency</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 col-xxl-3 col-xl-3 col-lg-3 col-md-6">
+                        <div class="agency-colum-dividen">
+                            <div class="agency-colum-header">AGENCY DETAILS</div>
+                            <div>
+                                <mat-form-field class='imx-input'>
+                                    <mat-label>Job Name</mat-label>
+                                    <input matInput class='search-input'>
+                                </mat-form-field>
+
+                                <mat-form-field class='imx-input'>
+                                    <mat-label>Job Check Status</mat-label>
+                                    <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                        formControlName='checkPoints'>
+                                        <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                            {{status?.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field class='imx-input'>
+                                    <mat-label>Job Name</mat-label>
+                                    <input matInput class='search-input'>
+                                </mat-form-field>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <mat-checkbox class="imx-checkbox">
+                                            is <span class="imx-badge">p</span>arent
+                                        </mat-checkbox>
+                                    </div>
+                                    <div class="col-6">
+                                        <mat-checkbox class="imx-checkbox">
+                                            is <span class="imx-badge">C</span>urrent
+                                        </mat-checkbox>
+                                    </div>
+
+                                </div>
+
+                                <div>Testing Purpose</div>
+                                <div class="row">
+                                    <div class="col-6 row">
+                                        <mat-radio-button class="imx-radio-btn">Test</mat-radio-button>
+                                        <mat-radio-button class="imx-radio-btn">Test2</mat-radio-button>
+                                    </div>
+                                    <div class="col-6">
+                                        <mat-slide-toggle class="imx-slid-toggle" color="primary">Slide Me!
+                                        </mat-slide-toggle>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3 col-xxl-3 col-xl-3 col-lg-3 col-md-6">
+                        <div class="agency-colum-dividen">
+                            <div class="agency-colum-header">ADDITIONAL INFORMATION</div>
+                            <div class="agency-aditional-info">
+                                <mat-form-field class='imx-input'>
+                                    <mat-label>Division</mat-label>
+                                    <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                        formControlName='checkPoints'>
+                                        <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                            {{status?.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class='imx-input'>
+                                    <mat-label>Office</mat-label>
+                                    <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                        formControlName='checkPoints'>
+                                        <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                            {{status?.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class='imx-dropdown imx-input'>
+                                    <mat-label>Managed By</mat-label>
+                                    <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                        formControlName='checkPoints'>
+                                        <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                            {{status?.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <mat-form-field class='imx-input'>
+                                            <mat-label>Phone</mat-label>
+                                            <input matInput class='search-input'>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-6">
+                                        <mat-form-field class='imx-input'>
+                                            <mat-label>Fax</mat-label>
+                                            <input matInput class='search-input'>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <form>
+                                    <div class="col-12">
+                                        <mat-form-field class='imx-input'>
+                                            <mat-label>Address</mat-label>
+                                            <input matInput class='search-input'>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <mat-form-field class='imx-input'>
+                                                <mat-label>Zip code</mat-label>
+                                                <input matInput class='search-input'>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-6">
+                                            <mat-form-field class='imx-input'>
+                                                <mat-label>State</mat-label>
+                                                <input matInput class='search-input'>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <mat-form-field class='imx-input'>
+                                            <mat-label>City</mat-label>
+                                            <input matInput class='search-input'>
+                                        </mat-form-field>
+                                    </div>
+                                </form>
+                                <mat-form-field class='imx-input'>
+                                    <mat-label>Company name</mat-label>
+                                    <input matInput class='search-input'>
+                                </mat-form-field>
+                                <mat-form-field class='imx-input'>
+                                    <mat-label>Website</mat-label>
+                                    <input matInput class='search-input'>
+                                </mat-form-field>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <mat-form-field class='imx-input'>
+                                            <mat-label>Diversity ownership</mat-label>
+                                            <input matInput class='search-input'>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-6">
+                                        <mat-form-field class='imx-input'>
+                                            <mat-label>Credit Rating</mat-label>
+                                            <input matInput class='search-input'>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <mat-form-field class='imx-dropdown imx-input'>
+                                    <mat-label>Website</mat-label>
+                                    <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                        formControlName='checkPoints'>
+                                        <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                            {{status?.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3 col-xxl-4 col-xl-6 col-lg-6 col-md-7">
+                        <div class="agency-colum-dividen" style="padding-right: 1%;">
+                            <div class="agency-colum-header">MONETARY INFORMATION AND NOTES</div>
+                            <div class="agency-monetary-info">
+                                <form>
+                                    <mat-checkbox class="imx-checkbox">Intercompany Rcv</mat-checkbox>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <mat-form-field class='imx-dropdown imx-input'>
+                                                <mat-label>JPRD Scheme</mat-label>
+                                                <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                                    formControlName='checkPoints'>
+                                                    <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                                        {{status?.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-4">
+                                            <mat-form-field class='imx-dropdown imx-input'>
+                                                <mat-label>EST Scheme</mat-label>
+                                                <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                                    formControlName='checkPoints'>
+                                                    <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                                        {{status?.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-4">
+                                            <mat-form-field class='imx-dropdown imx-input'>
+                                                <mat-label>EST Timing</mat-label>
+                                                <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                                    formControlName='checkPoints'>
+                                                    <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                                        {{status?.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div>BILLING</div>
+                                        <div class="col-4">
+                                            <mat-form-field class='imx-dropdown imx-input'>
+                                                <mat-label>Fee Basis</mat-label>
+                                                <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                                    formControlName='checkPoints'>
+                                                    <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                                        {{status?.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-4">
+                                            <mat-form-field class='imx-dropdown imx-input'>
+                                                <mat-label>Media %</mat-label>
+                                                <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                                    formControlName='checkPoints'>
+                                                    <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                                        {{status?.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-4">
+                                            <mat-form-field class='imx-dropdown imx-input'>
+                                                <mat-label>Commission Basis</mat-label>
+                                                <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                                    formControlName='checkPoints'>
+                                                    <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                                        {{status?.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-4">
+                                            <mat-form-field class='imx-dropdown imx-input'>
+                                                <mat-label>Prod/Install %</mat-label>
+                                                <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                                    formControlName='checkPoints'>
+                                                    <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                                        {{status?.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-4">
+                                            <mat-form-field class='imx-dropdown imx-input'>
+                                                <mat-label>Prod/Install Basis</mat-label>
+                                                <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                                    formControlName='checkPoints'>
+                                                    <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                                        {{status?.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <div>OOH Revenue</div>
+                                            </div>
+                                            <div class="col-3">
+                                                <mat-checkbox class="imx-checkbox">Same as Billing</mat-checkbox>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <mat-form-field class='imx-dropdown imx-input'>
+                                                <mat-label>Fee Basis</mat-label>
+                                                <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                                    formControlName='checkPoints'>
+                                                    <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                                        {{status?.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-4">
+                                            <mat-form-field class='imx-dropdown imx-input'>
+                                                <mat-label>Media %</mat-label>
+                                                <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                                    formControlName='checkPoints'>
+                                                    <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                                        {{status?.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-4">
+                                            <mat-form-field class='imx-dropdown imx-input'>
+                                                <mat-label>Commission Basis</mat-label>
+                                                <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                                    formControlName='checkPoints'>
+                                                    <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                                        {{status?.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-4">
+                                            <mat-form-field class='imx-dropdown imx-input'>
+                                                <mat-label>Prod/Install %</mat-label>
+                                                <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                                    formControlName='checkPoints'>
+                                                    <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                                        {{status?.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-4">
+                                            <mat-form-field class='imx-dropdown imx-input'>
+                                                <mat-label>Prod/Install Basis</mat-label>
+                                                <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                                    formControlName='checkPoints'>
+                                                    <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                                        {{status?.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <mat-form-field class='imx-dropdown imx-input'>
+                                                <mat-label>Commission Basis</mat-label>
+                                                <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                                    formControlName='checkPoints'>
+                                                    <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                                        {{status?.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-4">
+                                            <mat-form-field class='imx-dropdown imx-input'>
+                                                <mat-label>Prod/Install %</mat-label>
+                                                <mat-select [panelClass]="'imx-select app-line-items__ml-2'" multiple
+                                                    formControlName='checkPoints'>
+                                                    <mat-option *ngFor='let status of dropdown' [value]='status?._id'>
+                                                        {{status?.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-4">
+                                            <mat-checkbox class="imx-checkbox">OI Client Approved</mat-checkbox>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3 col-xxl-2 col-xl-3 col-lg-3 col-md-5">
+                        <div class="agency-colum-header">&nbsp;</div>
+                        <div class="agency-notes">
+                            <div>
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div>AGENCY NOTES</div>
+                                    <button mat-button class="imx-btn-secondary">Save notes</button>
+                                </div>
+                                <div>
+                                    <mat-form-field class='imx-input'>
+                                        <mat-label>Enter notes in here</mat-label>
+                                        <input matInput class='search-input'>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

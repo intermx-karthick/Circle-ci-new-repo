@@ -1,0 +1,28 @@
+<mat-card class="imx-widget-card">
+
+  <mat-card-header>
+    <mat-card-title>Location {{ selectedLocations.length !== 0 ? "(" + selectedLocations.length + ")"  : '' }}</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-list >
+      <mat-list-item class="test-measure-item" *ngFor="let location of selectedLocations; let i = index;"
+                     title="{{location.label}}">
+        <span  matLine>{{ location.label | truncate:'middle':truncateMidPos():6}}</span>
+        <div class="left-select">
+        <button class="select test-forward-button" mat-icon-button (click)="removeLocation(location, i)">
+          <mat-icon matListIcon>clear</mat-icon>
+        </button>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-button type="button" class="add-link" disableRipple (click)="openLocationSelectionDialog()" *ngIf = "editFlag">
+      <mat-icon>add</mat-icon>
+      Location
+    </button>
+  </mat-card-actions>
+
+</mat-card>

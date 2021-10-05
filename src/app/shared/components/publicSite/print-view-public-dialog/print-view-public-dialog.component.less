@@ -1,0 +1,83 @@
+@import url(../../../../../assets/css/variables.less);
+
+.action-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+
+    &>button {
+        font-size: 13px;
+        font-weight: bold;
+        letter-spacing: 0.83px;
+        line-height: normal;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 36px;
+        width: 118px;
+
+        &.btn-primary-color {
+            background: var(--button-bg-color);
+            color: #ffffff;
+            margin-left: 8px;
+        }
+
+        &.btn-close {
+            background-color: var(--grays-bg-200);
+        }
+    }
+}
+
+.cardMsg {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+mat-form-field {
+    width: 336px;
+
+    input {
+        height: 30px;
+        border-bottom: none;
+        font-size: 14px;
+        font-weight: 300;
+    }
+
+    input:focus {
+        border-bottom: none;
+        box-shadow: unset;
+    }
+
+    label {
+        font-weight: normal;
+        font-size: 10px;
+    }
+
+    &.mat-focused {
+        label {
+            color: var(--button-bg-color);
+        }
+    }
+
+    mat-error {
+        font-size: 13px;
+    }
+}
+
+.title {
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 33px;
+    height: 33px;
+}
+
+.action-container {
+    padding: 10px 10px 0px 10px !important;
+}
+
+.matContent {
+    padding: 16px 16px 0px 16px !important;
+}

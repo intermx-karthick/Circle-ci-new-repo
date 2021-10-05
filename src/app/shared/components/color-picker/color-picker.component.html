@@ -1,0 +1,10 @@
+<div class="input-wrapper">
+  <span>{{inputLabel}}</span>
+  <span class="seprater"></span>
+  <div>#<input type="text"  [(ngModel)]="inputColor" (ngModelChange)="onChangeColor($event)" maxlength="6"></div>
+  <i class="material-icons palet-close-icon" (click)="onClose()" title="Close">close</i>
+</div>
+<div class=color-wrapper>
+  <app-color-palette [hue]="hue" (color)="onChange(color=$event)" ></app-color-palette>
+  <app-color-slider (color)="onChange(hue=$event)" style="margin-left:16px"></app-color-slider>
+</div>

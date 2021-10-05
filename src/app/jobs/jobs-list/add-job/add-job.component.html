@@ -1,0 +1,78 @@
+<form
+  method='post'
+  class='noAnimation imx-project-form'
+  [formGroup]='addJobForm'
+  novalidate
+  autocomplete='off'
+  (ngSubmit)='onSubmit()'
+>
+  <h4 mat-dialog-title>{{isForDuplicate? 'Duplicate a Job': 'Add a New Job'}}</h4>
+  <button mat-icon-button mat-dialog-close class='mat-dialog-close'>
+    <mat-icon>highlight_off</mat-icon>
+  </button>
+  <mat-dialog-content [class.duplicate]='isForDuplicate'>
+    <div fxLayout='row' fxLayoutGap='1rem' class="field-height">
+      <mat-form-field fxFlex='13.75rem' class='imx-input'>
+        <mat-label>Job Name</mat-label>
+        <input matInput formControlName='name' maxlength='140' autocomplete='off' required />
+        <mat-error *ngIf="addJobForm?.controls?.name?.hasError('required')">Job Name is Required</mat-error>
+        <mat-error *ngIf="addJobForm?.controls?.name?.hasError('maxlength')">
+          Job Name can be max 64 characters long.
+      </mat-error>
+      </mat-form-field>
+      <mat-form-field *ngIf='!isForDuplicate' fxFlex='13.75rem' class='imx-dropdown imx-input'
+                      tooltip="{{addJobForm['controls'].client.value?.clientName?.length>10 ? addJobForm['controls'].client.value?.clientName : ''}}"
+                      placement='top' delay='200' tooltipClass='imx-tooltip-v3' customClass='imx-field-tooltip'>
+        <mat-label>Client Name</mat-label>
+        <input type='text' #clientNameInputRef matInput [matAutocomplete]='clientNameRef'
+               class='imx-input-no-border' #triggerClientName='matAutocompleteTrigger'
+               formControlName='client'
+               [autocompletePosition]='triggerClientName' scrollContainer='report-form-card_SCROLLABLE'
+               (click)='triggerClientName.openPanel()' required />
+        <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+        <mat-autocomplete #clientNameRef='matAutocomplete' (opened)='updateClientContainer()'
+                          class='imx-autocomplete-dropdown clientName-list-autocomplete add-job-clientname'
+                          panelWidth='230px' infiniteScroll [infiniteScrollDistance]='1'
+                          [infiniteScrollThrottle]='0'
+                          [scrollWindow]='false' [fromRoot]='true' [immediateCheck]='false'
+                          [alwaysCallback]='false'
+                          [infiniteScrollDisabled]='clientsAutoComplete.data?.length >= clientsAutoComplete?.pagination?.total'
+                          [infiniteScrollContainer]='panelClientContainer'
+                          (scrolled)='clientsAutoComplete.loadMoreData(null,null)'
+                          [displayWith]='clientNameDisplayWithFn'
+        >
+
+          <mat-option (click)='clientsAutoComplete.clickOption($event, client);'
+                      *ngFor='let client of clientsAutoComplete.data;trackBy: clientNameTrackByFn'
+                      [value]='client' tooltip="{{client.clientName?.length >10 ? client.clientName : ''}}"
+                      placement='top' delay='200' tooltipClass='imx-tooltip-v3' customClass='imx-field-tooltip'
+                      [class.mat-selected]="addJobForm && addJobForm['controls']['client']?.value?._id == client?._id"
+                      class='drop-maxwidth'>
+                <span [innerHTML]='client.clientName | imx_highlight: clientNameInputRef.value'></span>
+          </mat-option>
+
+          <mat-option disabled *ngIf='clientsAutoComplete.isLoading '>
+            <div fxLayout='row' fxLayoutAlign='space-around center'>
+              <mat-spinner diameter='20'></mat-spinner>
+            </div>
+          </mat-option>
+
+          <mat-option disabled
+                      *ngIf='!clientsAutoComplete.isLoading  && clientsAutoComplete.data?.length <= 0'>
+            Invalid Entry.
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error class="small-font" *ngIf="addJobForm['controls'].client.hasError('required') || addJobForm['controls'].client.hasError('invalid')">
+          Client Name is required.
+        </mat-error>
+        <mat-error *ngIf="((addJobForm.controls.client?.errors?.type || '') === 'projectNotSelcted')">
+          <span >{{addJobForm.controls?.client?.errors?.message}}</span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align='center' [class.duplicate]='isForDuplicate'>
+    <button mat-button mat-dialog-close class='imx-button-basic cancel-btn-margin'>Cancel</button>
+    <button mat-button class='imx-button-primary'>Save</button>
+  </mat-dialog-actions>
+</form>

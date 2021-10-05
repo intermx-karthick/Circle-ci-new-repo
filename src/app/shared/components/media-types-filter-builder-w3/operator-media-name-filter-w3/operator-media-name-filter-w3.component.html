@@ -1,0 +1,21 @@
+<mat-form-field floatLabel="never" fxFlexFill class="search-field"  >
+  <input matInput type="text" [(ngModel)]="searchQuery" placeholder="Search" name="search"  class="ta-search-text operator-search" appSearch key="name" filterName="operatorMediaName" [sourceData]="dataSource" (filter)="filterOperators($event)" #operatorSearch autocomplete="off" >
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
+
+<mat-selection-list class="operatormedia-name-list">
+  <ng-container *ngIf="isInitLoading">
+    <app-cl-list-with-left-check-box-right-ctnt></app-cl-list-with-left-check-box-right-ctnt>
+  </ng-container>
+
+  <app-arrow-navigation *ngFor="let mediaName of filteredOperatorMediaName; let i=index" [option]="mediaName"  fxLayout="column">
+    <mat-list-option [value]="mediaName" checkboxPosition="before" (click)="onSelectOption(mediaName)" [selected]="mediaName.selected" disableRipple>
+      <span title="{{mediaName.name}}" [innerHTML]="mediaName.name | truncate:'middle':16:6 | imx_highlight : searchQuery"></span>
+      <span fxFlex="1 1 auto"></span>
+      <label class="pull-right label-in-filter  mobile-hide">(<span>{{ mediaName.count }}</span>)</label>
+    </mat-list-option>
+  </app-arrow-navigation>
+</mat-selection-list>
+
+<p *ngIf="showNotFound" class="text-center">No operator media name found</p>
+<div fxFill class="discoveringMedia" *ngIf="!isLoadedData && moduleName === 'project'">Discovering Operator Media Names...</div>

@@ -1,0 +1,73 @@
+::ng-deep {
+  app-agencies-view {
+    width: 100%;
+    .imx-button-secondary, .imx-button-primary{
+      height:34px;
+    }
+    .header{
+      h4{
+        word-break: break-all;
+      }
+      &.header-spacing{
+        padding-right:1rem;
+        h4{
+          margin-right:0.5rem;
+        }
+      }
+    }
+
+    .agency-tabs {
+      overflow: hidden;
+      margin-top: 16px;
+
+      mat-tab-group {
+        width: 100%;
+        .mat-tab-body{
+          padding: 1rem 0rem;
+        }
+      }
+
+      .agency-tabs-scroll{
+        padding-right: 20px;
+        padding-bottom: 10px;
+        overflow-y: auto;
+      }
+    }
+
+    .back-to-link{
+      font-size: 12px;
+      color:var(--primary-bg);
+
+      mat-icon{
+        margin-right: 8px;
+        height: 11px;
+        width: 11px;
+        font-size: 11px;
+        line-height: 11px;
+      }
+    }
+    .contact-tab-body{
+      padding: 0.5rem 0 !important;
+      padding-right: 36px !important;
+    }
+    .add-contact-btn{
+      margin-right:1.5rem;
+    }
+    .clist-table-parent{
+      .noDataFound{
+        margin: 1.2rem 0px !important;
+      }
+    }
+    .enable-tabwindow-size{
+      height: 264px !important;
+      .clist-table-parent{
+        max-height: 200px !important;
+        min-height: 200px !important;
+      }
+    }
+
+    .mat-tab-body-content, .mat-tab-body{
+      overflow-y: hidden;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+  <div>
+    <p class="title">CREATED BY</p>
+    <p class="info">{{timeStampData['createdBy']}}</p>
+  </div>
+  <div>
+    <p class="title">CREATED DATE</p>
+    <p class="info">{{timeStampData['createdAt'] | date:'MM/dd/yyyy'}}</p>
+  </div>
+  <div>
+    <p class="title">LAST MODIFIED BY</p>
+    <p class="info">{{timeStampData['updatedBy']}}</p>
+  </div>
+  <div>
+    <p class="title">LAST MODIFIED DATE</p>
+    <p class="info">{{timeStampData['updatedAt'] | date:'MM/dd/yyyy'}}</p>
+  </div>
+</div>

@@ -1,0 +1,117 @@
+<div fxLayout="column">
+
+  <div fxLayout="row " fxFill class="explore-secondary-map-block" mwlResizable [enableGhostResize]="true"
+    (resizeEnd)="onResizeEnd($event)" [ngStyle]="style" (resizing)="onResizing($event)"
+    (window:resize)="onResize($event)" #topMapReference fxLayoutAlign="start start">
+    <div mwlResizeHandle [resizeEdges]="{bottom: false, right: false, top: false, left: true}"
+      class="explore-resize-border">
+      <div [ngStyle]="dragHandleStyle"><i class="material-icons">drag_handle</i></div>
+    </div>
+    <div class="explore-secondary-map-content" >
+      <div class="map-div-block secondary" fxLayout="row" #mapDivBlock>
+        <div class="map-div secondary" [ngStyle]="mapCSS" [ngClass]="{
+          'notShowMapControls':!showMapControls}"  id="map-div-block-secondary">
+          <div id="customLogoElement-secondary" class="custom-logo" [ngClass]="{'white-bg': logoInfo['backgroundWhite'],'resizing': resizingInProcess == 'logo'}"
+            *ngIf="logoInfo['url'] && showCustomLogo && showDragLogo" [ngDraggable]="enableDraggable"
+            [bounds]="mapDivBlock" [inBounds]="inBounds" (endOffset)="onDragStop($event, 'logo')"
+            (movingOffset)="onDragging($event, 'logo')" ngResizable rzContainment="#map-div-block-secondary"
+            [rzAspectRatio]='aspectRatio' [preventDefaultEvent]="true" [ngStyle]="logoStyle"
+            (rzStop)="onResizeStop($event, 'logo')" (rzResizing)="onLogoOrTextResizing($event, 'logo')">
+            <div class="displayLogoInfo" fxFill fxLayoutAlign="center center">
+              <img src="{{logoInfo['url']}}" alt="logo" id="customLogoElementImg" crossorigin="anonymous">
+            </div>
+            <mat-icon class="edit-img" (click)="$event.preventDefault();editLogoAndText();"
+              (mouseenter)="enableDraggable = false" (mouseout)="enableDraggable = true">edit circle outline</mat-icon>
+            <mat-icon (click)="removeLogo();" class="close-img" (mouseenter)="enableDraggable = false"
+              (mouseout)="enableDraggable = true">close</mat-icon>
+            <!-- <svg style="width:24px;height:24px" viewBox="0 0 24 24" class="extand-img">
+              <path fill="#000000" d="M10,21V19H6.41L10.91,14.5L9.5,13.09L5,17.59V14H3V21H10M14.5,10.91L19,6.41V10H21V3H14V5H17.59L13.09,9.5L14.5,10.91Z" />
+            </svg> -->
+          </div>
+          <div id="customTextElement-secondary" class="custom-text"
+            *ngIf="displayTextInfo['text'] && showCustomText && showDragTextLogo"
+            [ngClass]="{'white-bg': displayTextInfo['backgroundWhite'],'resizing': resizingInProcess == 'text'}"
+            [ngStyle]="customTextStyle" [ngDraggable]="enableDraggable" [bounds]="mapDivBlock" [inBounds]="inBounds"
+            (endOffset)="onDragStop($event, 'text')" (movingOffset)="onDragging($event, 'text')" ngResizable
+            rzContainment="#map-div-block-secondary" (rzStop)="onResizeStop($event, 'text')"
+            (rzResizing)="onLogoOrTextResizing($event, 'text')">
+            <div class="dragOverlay"></div>
+            <div class="displayTextInfo">{{displayTextInfo['text']}}</div>
+            <mat-icon class="edit-img" (click)="$event.preventDefault();editLogoAndText();"
+              (mouseenter)="enableDraggable = false" (mouseout)="enableDraggable = true">edit</mat-icon>
+            <mat-icon (click)="removeText();" class="close-img" (mouseenter)="enableDraggable = false"
+              (mouseout)="enableDraggable = true">close</mat-icon>
+
+          </div>
+          <div id="mapSecondary"></div>
+          <div class="map-zoom-out map-zoom-out-secondary">
+            <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+              <button (click)="zoomOutMap()" title="ZOOM OUT MAP">
+                <span><i class="material-icons">zoom_out_map</i></span>
+              </button>
+            </div>
+          </div>
+          <div class="map-sync-btn map-sync-btn-secondary">
+            <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+              <button (click)="mapSyncOnOff(false)" title="TURN OFF MAP SYNC" *ngIf="isDualMapSyncEnabled else syncOff">
+                <span><i class="material-icons">sync</i></span>
+              </button>
+              <ng-template #syncOff>
+                <button (click)="mapSyncOnOff(true)" title="TURN ON MAP SYNC">
+                  <span><i class="material-icons">sync_disabled</i></span>
+                </button>
+              </ng-template>
+            </div>
+          </div>
+          <div class="key-legend-map-control key-legend-map-control-secondary test-key-legend-map" *ngIf="showMapLegend">
+            <app-map-legends [layerType]='"secondary"'></app-map-legends>
+          </div>
+
+          <!-- <div class="map-download-btn map-action-button" fxHide.sm fxHide.xs>
+          <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+            <button type="button" title="DOWNLOAD MAP">
+              <mat-icon>vertical_align_bottom</mat-icon>
+            </button>
+          </div>
+      </div>
+      <div class="map-print-btn map-action-button" fxHide.sm fxHide.xs>
+          <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+            <button type="button" title="PRINT MAP">
+              <mat-icon>print</mat-icon>
+            </button>
+          </div>
+      </div> -->
+          <div class="map-top-zip-market map-action-button" fxHide.sm fxHide.xs>
+            <div class="mapboxgl-ctrl mapboxgl-ctrl-group">
+              <button type="button" title="CLOSE MAP" (click)="closeTopMap()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div
+          class="single-inventory-key-legend"
+          *ngIf="isKeylegend"
+          [ngClass]="{ 'open-side-bar': sidebarState }"
+        >
+          <p *ngIf="currentSingleInventory['replevel'] == 'dma'">
+            Spot ID {{ currentSingleInventory["fid"] }} - Top Contributing DMAs by Percentage
+          </p>
+          <p *ngIf="currentSingleInventory['replevel'] == 'zip_code'">
+            Spot ID {{ currentSingleInventory["fid"] }} - Top Contributing Zip Code by Percentage
+          </p>
+          <ul>
+            <li *ngFor="let color of keyLegendColors; let i = index">
+              <mat-icon [ngStyle]="{ color: color, 'background-color': color }"
+                >stop</mat-icon
+              >
+              <span *ngIf="i == '0'" title="Highest {{ currentSingleInventory['maxValue'] && currentSingleInventory['maxValue'] + '%'}}">Highest {{ currentSingleInventory["maxValue"] && currentSingleInventory["maxValue"] + ' %'}}</span>
+              <span *ngIf="i == '5'" title="Lowest - {{ currentSingleInventory['minValue'] && currentSingleInventory['minValue'] + '%'}}">Lowest {{ currentSingleInventory["minValue"] && currentSingleInventory["minValue"] + ' %'}}</span>
+              <!-- <span *ngIf="i == '5'" title="No Impressions">No Impressions</span> -->
+            </li>
+          </ul>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
