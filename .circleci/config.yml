@@ -4,6 +4,6 @@ orbs:
 workflows:
   build:
     jobs:
-      - npx cypress run
+      - npx cypress run:
       
 
