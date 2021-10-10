@@ -175,5 +175,12 @@
     "image-version": "2021.9.1452",
     "image-rc": 1,
     "image-hotfix": false
+  },
+  "dependencies1": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "mocha": "^5.2.0",
+    "mochawesome": "^4.1.0",
+    "request": "^2.88.0"
   }
 }
